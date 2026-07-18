@@ -1,4 +1,4 @@
-<!-- BM_FE_AIV_v2226_LSB: Soft lavender Scripture support box restyle over verified v2225. -->
+<!-- BM_FE_AIV_v2228_RBU: Render backend URL repair over verified v2226. -->
 <!-- LAVENDER_SCRIPTURE_BOX_RESTYLE_V2226 -->
 <!-- Baseline: BM_FE_AIV_v2225_RTY_html.txt -->
 <!-- BM_FE_AIV_v2225_RTY: General timeout retry wording repair over verified v2224. -->
@@ -248,7 +248,7 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BM_FE_AIV_v2223_STR</title>
+<title>BM_FE_AIV_v2228_RBU</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding-bottom:52px}
@@ -534,7 +534,7 @@ body.sampleChooserOpen{overflow:hidden}
 </style>
 </head>
 <body>
-<div class="version" id="versionBadge">frontend v2223</div>
+<div class="version" id="versionBadge">frontend v2228</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div class="container"><h2>Is This Content Accurate and Trustworthy?</h2>
 <div class="box"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
@@ -557,10 +557,10 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
 <script>
 (function(){
   "use strict";
-  const API_URL="http://127.0.0.1:3000/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2226";
+  const API_URL="https://aiverify-backend.onrender.com/scan?compact=1&input=";
+  const FRONTEND_VERSION="frontend v2228";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2822_V2222";
-  const HEALTH_URL="http://127.0.0.1:3000/health";
+  const HEALTH_URL="https://aiverify-backend.onrender.com/health";
 
   function setTopRightBackendVersion(versionText){
     try{
@@ -593,7 +593,7 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
   }
   refreshTopRightBackendVersion();
 
-  const RETRY_TEST_BASE="http://127.0.0.1:3000/retry-test";
+  const RETRY_TEST_BASE="https://aiverify-backend.onrender.com/retry-test";
   const RETRY_TIMEOUT_TEST_INPUT=`Answer these 12 questions about Mars:
 1. Which planet is Mars from the Sun?
 2. How many moons does Mars have?
