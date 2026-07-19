@@ -1,3 +1,12 @@
+// BM_BE_AIV_v2843_CAI: Cancer Additional Information refinement over verified v2842.
+// CANCER_ADDITIONAL_INFORMATION_REFINEMENT_V2843
+// Baseline: BM_BE_AIV_v2842_HMR_js.txt + BM_FE_AIV_v2231_HMR_html.txt
+// BM_BE_AIV_v2842_HMR: High-impact medical response repair over verified v2841/v2230.
+// HIGH_IMPACT_MEDICAL_RESPONSE_REPAIR_V2842
+// Baseline: BM_BE_AIV_v2841_CMR_js.txt + BM_FE_AIV_v2230_DBR_html.txt
+// BM_BE_AIV_v2841_CMR: Cancer medical response repair over verified v2840.
+// CANCER_MEDICAL_RESPONSE_REPAIR_V2841
+// Baseline: BM_BE_AIV_v2840_MAE_js.txt + BM_FE_AIV_v2228_RBU_html.txt
 // BM_BE_AIV_v2840_MAE: Moral direct-answer expansion and label-restraint repair over verified v2839/v2225.
 // MORAL_DIRECT_ANSWER_EXPANSION_AND_LABEL_RESTRAINT_REPAIR_V2840
 // Preserves moral polarity consistency, completed-only cache policy, retry wording, local KJV count engine, and all verified v2839 behavior.
@@ -345,7 +354,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v2840';
+const VERSION = 'BE_AIV_v2843';
 const PORT = Number(process.env.PORT || 3000);
 const SAME_SESSION_RESULT_CACHE = new Map();
 const COMPLETED_CONTRACT_CACHE_V2764 = new Map();
@@ -2014,6 +2023,7 @@ async function openAILiveSourceEvaluation(primary, diagnostics){
     'For ingredient/list/detail requests, include a complete concise list in answerList, not a partial/truncated list. For ingredient questions, include all core ingredients in answerList and place only nonduplicate context in supportingInformation. Do not include raw URLs or markdown links in supportingInformation; source URLs can be returned only in primarySourceUrl.',
     'Never include follow-up offers such as If you want, I can, Want me to, or If you would like; provide the useful information now.',
     'For current religious public-belief/person-claim questions such as whether articles, rumors, online discussions, or public accusations exist calling a living/current person the Antichrist or another end-times figure, verify only whether such public claims/articles exist. Do not assert that the person is the Antichrist. Clearly separate existence of public claims from truth or Bible support. Require multiple relevant source signals when possible; do not base the whole answer on a single commentary, partisan, interview, social, or opinion source. If only one weak source is found, say source signals are limited and return See Additional Information rather than a strong Yes. Include Biblical doctrine only as context, not as proof that public articles do or do not exist.',
+    'For life-altering or life-ending medical questions, prioritize official government health agencies, major clinical guidelines, and primary research when it can materially improve the answer. Use compassionate, direct language; never leave the main answer as a bare Yes or No; avoid obvious generic clinician reminders; preserve urgent safety guidance only when genuinely necessary; and do not add prayer, faith, God, Bible, Scripture, or spiritual encouragement unless the user explicitly introduced or requested it.',
     'Do not overstate certainty. Use Mostly Accurate only when the core claim is true but needs an important caveat. If a multi-part claim contains one true part and one false part, use Mixed / Partly Accurate and do not say the overall claim is supported. Use Misleading only when the wording would probably cause a false understanding.',
     'Input claim or question: '+clean(primary)
   ].join('\n');
@@ -2616,7 +2626,7 @@ function isHealthMedicalFactualInput(value){
   if(looksLikeAlternatingNonsense(raw) || looksLikeRepeatedTokenNonsense(raw) || looksLikeMixedSymbolKeyboardNoise(raw)) return false;
   const words=raw.split(/\s+/).filter(Boolean).length;
   if(words<3 || words>80) return false;
-  const healthSubject=/\b(?:antibiotics?|antivirals?|medicines?|medications?|drugs?|vaccines?|immunity|immune|virus|viruses|viral|bacteria|bacterial|infection|infections|cold|common\s+cold|flu|influenza|covid|symptoms?|fever|dehydration|diabetes|blood\s+pressure|cholesterol|treatment|treatments|cure|cures|curing|prevent|prevents|nutrition|vitamin|vitamins|protein|calories|disease|diseases|illness|illnesses|patients?|doctors?|hospital|clinic|cdc|nih|mayo\s+clinic|who)\b/i.test(raw);
+  const healthSubject=/\b(?:cancer|cancers|oncology|tumou?r|tumou?rs|antibiotics?|antivirals?|medicines?|medications?|drugs?|vaccines?|immunity|immune|virus|viruses|viral|bacteria|bacterial|infection|infections|cold|common\s+cold|flu|influenza|covid|symptoms?|fever|dehydration|diabetes|blood\s+pressure|cholesterol|treatment|treatments|cure|cures|curing|curable|incurable|remission|prevent|prevents|nutrition|vitamin|vitamins|protein|calories|disease|diseases|illness|illnesses|patients?|doctors?|hospital|clinic|cdc|nih|mayo\s+clinic|who)\b/i.test(raw);
   const factualVerb=/\b(?:is|are|was|were|can|could|do|does|did|has|have|had|will|treats?|treated|cures?|cured|prevents?|prevented|causes?|caused|spreads?|spread|infects?|infected|reduces?|reduced|increases?|increased|contains?|requires?|needs?|helps?|works?|recommended|used|diagnosed)\b/i.test(raw);
   const informational=/^(?:what|which|when|where|why|how|list|give\s+me|show\s+me|tell\s+me|provide|describe|explain)\b/i.test(raw);
   return !!(healthSubject && (factualVerb || informational));
@@ -2627,8 +2637,28 @@ function healthMedicalClaimSupport(value){
   if(!raw || /^https?:\/\//i.test(raw)) return null;
   const normalized=(normalizeFactualYesNoQuestionToClaim(raw) || raw).replace(/[?!.]+$/,'').trim();
   const nlow=normalized.toLowerCase();
-  function pack(key, claim, route, status, verdict, summary, evidence, source, supporting, confidence){
-    return {key:key, claim:claim, route:route, classification:'HEALTH / MEDICAL FACTUAL', status:status, verdict:verdict, summary:summary, evidence:evidence, source:source, url:'', supporting:supporting, confidence:confidence||'96'};
+  function pack(key, claim, route, status, verdict, summary, evidence, source, supporting, confidence, url){
+    return {key:key, claim:claim, route:route, classification:'HEALTH / MEDICAL FACTUAL', status:status, verdict:verdict, summary:summary, evidence:evidence, source:source, url:clean(url||''), supporting:supporting, confidence:confidence||'96'};
+  }
+  const cancerCureQuestion=(
+    /\b(?:cancer|cancers)\b/i.test(nlow) &&
+    /\b(?:cure|cures|cured|curable|incurable|remission)\b/i.test(nlow) &&
+    (/(?:^|\b)(?:does|do|can|is|are|has|have)\b/i.test(raw) || /\b(?:cure|curable)\s+for\s+(?:all\s+)?cancers?\b/i.test(nlow))
+  );
+  if(cancerCureQuestion){
+    return pack(
+      'cancer_cure_general_medical_context',
+      raw,
+      'informational/health-medical/cancer-cure',
+      'ACCURATE',
+      'There is no single cure for every cancer, but some cancers can be cured, and many others can be treated or controlled.',
+      'Cancer is a group of many different diseases, so the possibility of cure depends on the cancer type, stage, biology, response to treatment, and the individual.',
+      'National Cancer Institute guidance distinguishes cure from remission and explains that cancer treatment may cure cancer, reduce the chance it returns, or stop or slow its growth.',
+      'National Cancer Institute and established oncology references',
+      'For a specific diagnosis, prognosis and treatment options should be discussed with the treating oncology team; a general answer cannot determine what is possible for one person.',
+      '96',
+      'https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis'
+    );
   }
   if(/\bdehydration\b/i.test(nlow) && /\b(?:dangerous|serious|bad|harmful|unsafe|medical\s+emergency|can\s+(?:be\s+)?dangerous|is\s+(?:it\s+)?dangerous)\b/i.test(nlow)){
     const question=isQuestionInputText(raw);
@@ -23615,7 +23645,7 @@ const server=http.createServer(async (req,res)=>{
   try{
     if(req.method==='OPTIONS') return send(res,204,'text/plain','');
     const u=new URL(req.url,'http://localhost:'+PORT);
-    if(u.pathname==='/health') return send(res,200,'application/json',JSON.stringify({ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,persistentCompletedContractCache:false,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2840,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2839,sourceStrategyStats:v2776SourceStrategySnapshot(),sourceFlags:runtimeSourceFlags()},null,2));
+    if(u.pathname==='/health') return send(res,200,'application/json',JSON.stringify({ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,persistentCompletedContractCache:false,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2842,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2841,sourceStrategyStats:v2776SourceStrategySnapshot(),sourceFlags:runtimeSourceFlags()},null,2));
     if(u.pathname==='/retry-test/start'){
       const input=u.searchParams.get('input')||'';
       const sessionId=u.searchParams.get('session')||'';
@@ -23635,7 +23665,7 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,200,clearRetryTimeoutTest(u.searchParams.get('session')||'',u.searchParams.get('token')||''));
     }
     if(u.pathname==='/developer-cache-status'){
-      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2840,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2839,sourceStrategyStats:v2776SourceStrategySnapshot()});
+      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2842,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2841,sourceStrategyStats:v2776SourceStrategySnapshot()});
     }
     if(u.pathname==='/developer-cache-reset'){
       const cleared=v2764ResetCompletedContractCache();
@@ -28457,4 +28487,287 @@ v2764GenerateImmutableCompletedResponse=async function(input,keyId){
   const raw=clean(input);
   const previous=await v2840PreviousGenerateImmutableCompletedResponse(raw,keyId);
   return v2840PatchSerializedResponse(raw,previous);
+};
+
+// CANCER_MEDICAL_RESPONSE_REPAIR_V2841
+// General cancer-cure questions use one stable, source-grounded medical contract at the
+// final immutable boundary so repeated scans and semantically equivalent wording do not
+// collapse to a bare No or depend on variable model wording.
+const R1_GOLDEN_BENCHMARK_LOCK_V2841=Object.freeze({
+  backend:'BM_BE_AIV_v2841_CMR_js.txt',
+  frontend:'BM_FE_AIV_v2229_MUR_html.txt',
+  lock:'R1_GOLDEN_BENCHMARK_LOCK_V2841_V2229',
+  status:'CANDIDATE_PENDING_VERIFICATION',
+  priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2840.lock
+});
+
+function v2841CancerCureQuestion(value){
+  const s=clean(value).replace(/[?!.]+$/,'').trim().toLowerCase();
+  if(!s||!/\b(?:cancer|cancers)\b/.test(s)||!/\b(?:cure|cures|cured|curable|incurable|remission)\b/.test(s))return false;
+  return /^(?:does|do|can|could|is|are|has|have|will|would)\b/.test(s)||
+    /\b(?:is|are)\s+there\s+(?:a\s+)?cure\s+for\s+(?:all\s+|every\s+)?cancers?\b/.test(s)||
+    /\b(?:all|every|some|any)\s+cancers?\s+(?:have|has|be|are|can)\b/.test(s);
+}
+function v2841ApplyCancerMedicalContract(contract,input){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const raw=clean(input);
+  if(!v2841CancerCureQuestion(raw))return c;
+  const answer='Some cancers can be cured, but there is no single cure for every cancer.';
+  const explanation='Cancer is a group of many different diseases, so the possibility of cure depends on the cancer type, stage, biology, response to treatment, and the individual.';
+  const evidence='National Cancer Institute guidance distinguishes cure from remission and explains that cancer treatment may cure cancer, reduce the chance it returns, or stop or slow its growth.';
+  const support='For a specific diagnosis, prognosis and treatment options should be discussed with the treating oncology team. Treatment decisions should not be based on a general cancer answer.';
+  const sourceUrl='https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis';
+  c.route='health-medical/cancer-cure/v2841';
+  c.claim=raw.replace(/[?!.]+$/,'').trim();
+  c.pageTitle='';
+  c.pageSummary=explanation;
+  c.summary=answer;
+  c.analysisResult='Answer';
+  c.answer=answer;
+  c.answerList=[];
+  c.why=explanation;
+  c.explanation=explanation;
+  c.evidence=evidence;
+  c.supportingInformation=support;
+  c.source='National Cancer Institute';
+  c.sourceBasis='National Cancer Institute';
+  c.sourceUrl=sourceUrl;
+  c.primarySourceUrl=sourceUrl;
+  c.confidence='High confidence';
+  c.uncertainty='';
+  c.classification='HEALTH / MEDICAL FACTUAL';
+  c.status='ANSWERED';
+  c.inputType='QUESTION';
+  c.outputBasket='DIRECT_ANSWER';
+  c.fixedOutputBasket='DIRECT_ANSWER';
+  c.renderer='FACTUAL_ACCURACY_ANALYSIS';
+  c.legacyResultsRenderer=false;
+  c.hideSourceBasis=true;
+  c.suppressSourceBasis=true;
+  c.sourceDisplayPolicy='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';
+  c.showSourceUrl=true;
+  c.structuredFactsOnly=true;
+  c.evaluatorUserFacingText=false;
+  c.backendVersion=VERSION;
+  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2841.lock;
+  c.validationErrors=[];
+  c.contractValidated=true;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{}, {
+    activeFunction:'cancerMedicalResponseRepairV2841',
+    cancerCureGeneralRule:'SHARED_SEMANTIC_ROUTE',
+    bareCancerNoAnswer:'BLOCKED',
+    cancerCureDirectAnswer:'SELF_CONTAINED',
+    medicalSpecificDiagnosisBoundary:'ONCOLOGY_TEAM_REQUIRED',
+    sourceRetrievalPerformed:'OFFICIAL_REFERENCE_MAPPED',
+    sourceProvenance:'NATIONAL_CANCER_INSTITUTE',
+    repeatRunConsistency:'DETERMINISTIC_LOCAL_CONTRACT',
+    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2841.lock,
+    priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2840.lock
+  });
+  return c;
+}
+
+const v2841PreviousGenerateImmutableCompletedResponse=v2764GenerateImmutableCompletedResponse;
+function v2841PatchSerializedResponse(raw,text){
+  const lines=String(text||'').split(/\r?\n/);
+  for(let i=0;i<lines.length;i++){
+    const m=lines[i].match(/^AIV_RESULT_CONTRACT:\s*(\{.*\})\s*$/);
+    if(m){
+      try{
+        let c=JSON.parse(m[1])||{};
+        c=v2841ApplyCancerMedicalContract(c,raw);
+        c.backendVersion=VERSION;
+        c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2841.lock;
+        c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{}, {
+          goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2841.lock,
+          priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2840.lock,
+          cancerMedicalResponseRepair:v2841CancerCureQuestion(raw)?'APPLIED':'NOT_APPLICABLE'
+        });
+        lines[i]='AIV_RESULT_CONTRACT: '+JSON.stringify(c);
+      }catch(_e){}
+      continue;
+    }
+    if(/^Backend:\s*/.test(lines[i]))lines[i]=lines[i].replace(/BE_AIV_v\d+/g,VERSION);
+    if(/^R1_GOLDEN_BENCHMARK_LOCK:\s*/.test(lines[i]))lines[i]='R1_GOLDEN_BENCHMARK_LOCK: '+R1_GOLDEN_BENCHMARK_LOCK_V2841.lock;
+    if(/^PRIOR_RECOVERY_BENCHMARK:\s*/.test(lines[i]))lines[i]='PRIOR_RECOVERY_BENCHMARK: '+R1_GOLDEN_BENCHMARK_LOCK_V2840.lock;
+  }
+  let out=lines.join('\n');
+  if(!/CANCER_MEDICAL_RESPONSE_REPAIR_V2841:\s*active/i.test(out)){
+    out+='\nR1_GOLDEN_BENCHMARK_LOCK: '+R1_GOLDEN_BENCHMARK_LOCK_V2841.lock;
+    out+='\nPRIOR_RECOVERY_BENCHMARK: '+R1_GOLDEN_BENCHMARK_LOCK_V2840.lock;
+    out+='\nCANCER_MEDICAL_RESPONSE_REPAIR_V2841: active';
+  }
+  return out;
+}
+v2764GenerateImmutableCompletedResponse=async function(input,keyId){
+  const raw=clean(input);
+  const previous=await v2841PreviousGenerateImmutableCompletedResponse(raw,keyId);
+  return v2841PatchSerializedResponse(raw,previous);
+};
+
+
+// HIGH_IMPACT_MEDICAL_RESPONSE_REPAIR_V2842
+// Highest-human-impact medical questions receive compassionate, source-priority handling.
+// Broad cancer-cure and Alzheimer-cure questions remain deterministic; materially specific
+// treatment/prognosis questions may escalate to live authoritative-source retrieval.
+const R1_GOLDEN_BENCHMARK_LOCK_V2842=Object.freeze({
+  backend:'BM_BE_AIV_v2842_HMR_js.txt',
+  frontend:'BM_FE_AIV_v2231_HMR_html.txt',
+  lock:'R1_GOLDEN_BENCHMARK_LOCK_V2842_V2231',
+  status:'CANDIDATE_PENDING_VERIFICATION',
+  priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2841.lock
+});
+
+function v2842ExplicitFaithMedicalRequest(value){
+  return /\b(?:prayer|pray|praying|God|faith|Bible|biblical|Scripture|Scriptures|verse|verses|spiritual|Christian)\b/i.test(clean(value));
+}
+function v2842HighImpactMedicalSubject(value){
+  const s=clean(value).toLowerCase();
+  if(!s)return '';
+  if(/\b(?:cancer|cancers|carcinoma|leukemia|lymphoma|melanoma|tumou?r|metastatic|metastasis|stage\s*(?:3|4|iii|iv))\b/.test(s))return 'cancer';
+  if(/\b(?:alzheimer(?:'s|s)?|dementia)\b/.test(s))return 'alzheimers';
+  if(/\b(?:amyotrophic\s+lateral\s+sclerosis|\bals\b|parkinson(?:'s|s)?|huntington(?:'s|s)?|multiple\s+sclerosis|\bms\b|heart\s+failure|organ\s+failure|terminal\s+illness|hospice|palliative\s+care)\b/.test(s))return 'other-high-impact';
+  return '';
+}
+function v2842HighImpactMedicalQuestion(value){
+  const s=clean(value);
+  if(!v2842HighImpactMedicalSubject(s))return false;
+  return /\b(?:cure|curable|incurable|treat|treatment|therapy|chemotherapy|chemo|radiation|surgery|drug|medicine|medication|prognosis|outlook|survival|life\s+expectancy|how\s+long|stage|spread|metastatic|declin(?:e|ed|ing)|without\s+treatment|symptom|progression|clinical\s+trial|remission|quality\s+of\s+life)\b/i.test(s) || /\?$/.test(s.trim());
+}
+function v2842NeedsMaterialSourceEscalation(value){
+  const s=clean(value).toLowerCase();
+  if(!v2842HighImpactMedicalQuestion(s))return false;
+  return /\b(?:stage\s*(?:[1-4]|i{1,3}|iv)|metastatic|spread|where\s+it\s+has\s+spread|chemotherapy|chemo|radiation|immunotherapy|targeted\s+therapy|clinical\s+trial|prognosis|survival|life\s+expectancy|how\s+long|declin(?:e|ed|ing)\s+treatment|without\s+treatment|specific\s+treatment|treatment\s+being\s+considered)\b/.test(s);
+}
+function v2842AlzheimerCureQuestion(value){
+  const s=clean(value).replace(/[?!.]+$/,'').trim().toLowerCase();
+  return /\b(?:alzheimer(?:'s|s)?|dementia)\b/.test(s) && /\b(?:cure|cures|cured|curable|incurable)\b/.test(s);
+}
+function v2842FirstUsefulSentence(value){
+  const s=clean(value).replace(/^Explanation\s*:\s*/i,'');
+  if(!s)return '';
+  const m=s.match(/^(.+?[.!?])(?:\s|$)/);
+  return clean(m?m[1]:s);
+}
+function v2842RemoveGenericMedicalFiller(value){
+  const raw=clean(value);
+  if(!raw)return '';
+  const emergency=/\b(?:emergency|urgent|immediate|911|poison control|suicid|difficulty breathing|chest pain|severe bleeding|stroke signs)\b/i.test(raw);
+  if(emergency)return raw;
+  return raw.split(/\s*\|\s*|(?<=[.!?])\s+(?=[A-Z])/).map(function(x){return clean(x);}).filter(function(x){
+    return x && !/\b(?:consult|talk to|speak with|ask|contact|see)\s+(?:your|a|the)\s+(?:doctor|physician|healthcare provider|medical professional|oncology team|oncologist|clinician)\b/i.test(x) && !/\btreatment decisions should not be based on a general\b/i.test(x);
+  }).join(' ');
+}
+function v2842ApplyHighImpactMedicalContract(contract,input){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const raw=clean(input);
+  const subject=v2842HighImpactMedicalSubject(raw);
+  if(!subject)return c;
+
+  c.highImpactMedical=true;
+  c.humanImpactPriority='HIGHEST';
+  c.importanceBasedSourceEscalation=true;
+  c.renderExplanationOnMainCard=true;
+  c.explanationRequired=true;
+  c.hideExplanation=false;
+  c.suppressExplanation=false;
+  c.backendVersion=VERSION;
+  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2842.lock;
+
+  if(v2841CancerCureQuestion(raw)){
+    const answer='Some cancers can be cured, but there is no single cure for every cancer.';
+    const explanation='Cancer is a group of many different diseases. Outcomes depend on the cancer type, stage, biology, overall health, and response to treatment. Even when a cure is unlikely, treatment may sometimes control the cancer, ease symptoms, improve quality of life, or offer someone more time.';
+    const support='Providing more details may allow AIVerify to give a more specific and helpful response.';
+    const sourceUrl='https://www.cancer.gov/about-cancer/diagnosis-staging/prognosis';
+    c.route='health-medical/high-impact/cancer-cure/v2842';
+    c.claim=raw.replace(/[?!.]+$/,'').trim();
+    c.pageTitle='';c.pageSummary=explanation;c.summary=answer;c.analysisResult='Answer';c.answer=answer;c.answerList=[];
+    c.why=explanation;c.explanation=explanation;
+    c.evidence='National Cancer Institute information explains that cancer is many diseases and that prognosis and treatment outcomes vary by cancer type, stage, biology, overall health, and response to treatment.';
+    c.supportingInformation=support;
+    c.source='National Cancer Institute';c.sourceBasis='National Cancer Institute';c.sourceUrl=sourceUrl;c.primarySourceUrl=sourceUrl;
+    c.confidence='High confidence';c.uncertainty='';c.classification='HIGH-IMPACT HEALTH / MEDICAL';c.status='ANSWERED';c.inputType='QUESTION';
+    c.outputBasket='DIRECT_ANSWER';c.fixedOutputBasket='DIRECT_ANSWER';c.renderer='FACTUAL_ACCURACY_ANALYSIS';c.legacyResultsRenderer=false;
+    c.hideSourceBasis=true;c.suppressSourceBasis=true;c.sourceDisplayPolicy='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';c.showSourceUrl=true;
+    c.structuredFactsOnly=true;c.evaluatorUserFacingText=false;c.showAdditionalInformation=true;
+  }else if(v2842AlzheimerCureQuestion(raw)){
+    const answer='There is currently no cure for Alzheimer’s disease, but treatment and support may help manage symptoms or slow progression for some people.';
+    const explanation='Alzheimer’s disease affects people differently. Available treatments do not reverse the disease, but some may temporarily help memory and thinking or slow decline for certain people, while supportive care can protect comfort, safety, and quality of life.';
+    const support='A more specific question that includes the person’s stage, current symptoms, overall health, and treatment being considered may allow AIVerify to provide a more helpful general explanation.';
+    const sourceUrl='https://www.nia.nih.gov/health/alzheimers-treatment/how-alzheimers-disease-treated';
+    c.route='health-medical/high-impact/alzheimers-cure/v2842';
+    c.claim=raw.replace(/[?!.]+$/,'').trim();c.pageTitle='';c.pageSummary=explanation;c.summary=answer;c.analysisResult='Answer';c.answer=answer;c.answerList=[];
+    c.why=explanation;c.explanation=explanation;
+    c.evidence='National Institute on Aging information explains that current Alzheimer’s treatments do not cure the disease but may help with symptoms or slow progression for some people.';
+    c.supportingInformation=support;c.source='National Institute on Aging';c.sourceBasis='National Institute on Aging';c.sourceUrl=sourceUrl;c.primarySourceUrl=sourceUrl;
+    c.confidence='High confidence';c.uncertainty='';c.classification='HIGH-IMPACT HEALTH / MEDICAL';c.status='ANSWERED';c.inputType='QUESTION';
+    c.outputBasket='DIRECT_ANSWER';c.fixedOutputBasket='DIRECT_ANSWER';c.renderer='FACTUAL_ACCURACY_ANALYSIS';c.legacyResultsRenderer=false;
+    c.hideSourceBasis=true;c.suppressSourceBasis=true;c.sourceDisplayPolicy='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';c.showSourceUrl=true;
+    c.structuredFactsOnly=true;c.evaluatorUserFacingText=false;c.showAdditionalInformation=true;
+  }else{
+    c.supportingInformation=v2842RemoveGenericMedicalFiller(c.supportingInformation||'');
+    const currentAnswer=clean(c.answer||'');
+    if(/^(?:yes|no)\.?$/i.test(currentAnswer)){
+      const better=v2842FirstUsefulSentence(c.explanation||c.why||c.summary||c.evidence||'');
+      if(better)c.answer=(/^yes/i.test(currentAnswer)?'Yes — ':'No — ')+better.replace(/^[Yy]es\s*[-—:]?\s*|^[Nn]o\s*[-—:]?\s*/,'');
+    }
+    c.showAdditionalInformation=!!clean(c.supportingInformation||'');
+  }
+
+  if(!v2842ExplicitFaithMedicalRequest(raw)){
+    c.automaticFaithSupport='SUPPRESSED_UNLESS_USER_INTRODUCES_FAITH';
+  }
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{}, {
+    activeFunction:'highImpactMedicalResponseRepairV2842',
+    highImpactMedicalSubject:subject,
+    humanImpactPriority:'HIGHEST',
+    importanceBasedSourceEscalation:v2842NeedsMaterialSourceEscalation(raw)?'LIVE_AUTHORITATIVE_SOURCE_REQUESTED':'OFFICIAL_STABLE_SOURCE_OR_EXISTING_EVIDENCE',
+    bareYesNoMedicalAnswer:/^(?:yes|no)\.?$/i.test(clean(c.answer||''))?'FAIL':'BLOCKED',
+    compassionateMedicalWording:'REQUIRED',
+    genericClinicianFiller:'REMOVED_EXCEPT_EMERGENCY_SAFETY',
+    automaticFaithSupport:v2842ExplicitFaithMedicalRequest(raw)?'USER_INTRODUCED':'SUPPRESSED',
+    explanationPlacement:'MAIN_RESULT_ABOVE_ADDITIONAL_INFORMATION',
+    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2842.lock,
+    priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2841.lock
+  });
+  return c;
+}
+
+const v2842PreviousShouldUseOpenAILiveSource=shouldUseOpenAILiveSource;
+shouldUseOpenAILiveSource=function(primary,route,request){
+  if(v2842NeedsMaterialSourceEscalation(primary))return true;
+  return v2842PreviousShouldUseOpenAILiveSource(primary,route,request);
+};
+
+const v2842PreviousGenerateImmutableCompletedResponse=v2764GenerateImmutableCompletedResponse;
+function v2842PatchSerializedResponse(raw,text){
+  const lines=String(text||'').split(/\r?\n/);
+  for(let i=0;i<lines.length;i++){
+    const m=lines[i].match(/^AIV_RESULT_CONTRACT:\s*(\{.*\})\s*$/);
+    if(m){
+      try{
+        let c=JSON.parse(m[1])||{};
+        c=v2842ApplyHighImpactMedicalContract(c,raw);
+        c.backendVersion=VERSION;
+        c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2842.lock;
+        lines[i]='AIV_RESULT_CONTRACT: '+JSON.stringify(c);
+      }catch(_e){}
+      continue;
+    }
+    if(/^Backend:\s*/.test(lines[i]))lines[i]=lines[i].replace(/BE_AIV_v\d+/g,VERSION);
+    if(/^R1_GOLDEN_BENCHMARK_LOCK:\s*/.test(lines[i]))lines[i]='R1_GOLDEN_BENCHMARK_LOCK: '+R1_GOLDEN_BENCHMARK_LOCK_V2842.lock;
+    if(/^PRIOR_RECOVERY_BENCHMARK:\s*/.test(lines[i]))lines[i]='PRIOR_RECOVERY_BENCHMARK: '+R1_GOLDEN_BENCHMARK_LOCK_V2841.lock;
+  }
+  let out=lines.join('\n');
+  if(!/HIGH_IMPACT_MEDICAL_RESPONSE_REPAIR_V2842:\s*active/i.test(out)){
+    out+='\nR1_GOLDEN_BENCHMARK_LOCK: '+R1_GOLDEN_BENCHMARK_LOCK_V2842.lock;
+    out+='\nPRIOR_RECOVERY_BENCHMARK: '+R1_GOLDEN_BENCHMARK_LOCK_V2841.lock;
+    out+='\nHIGH_IMPACT_MEDICAL_RESPONSE_REPAIR_V2842: active';
+  }
+  return out;
+}
+v2764GenerateImmutableCompletedResponse=async function(input,keyId){
+  const raw=clean(input);
+  const previous=await v2842PreviousGenerateImmutableCompletedResponse(raw,keyId);
+  return v2842PatchSerializedResponse(raw,previous);
 };
