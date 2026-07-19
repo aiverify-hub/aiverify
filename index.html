@@ -1,4 +1,16 @@
-<!-- BM_FE_AIV_v2228_RBU: Render backend URL repair over verified v2226. -->
+<!-- BM_FE_AIV_v2231_HMR: High-impact medical explanation placement over verified v2230. -->
+<!-- HIGH_IMPACT_MEDICAL_RESPONSE_RENDER_REPAIR_V2231 -->
+<!-- Baseline: BM_FE_AIV_v2230_DBR_html.txt; compatible with BM_BE_AIV_v2842_HMR_js.txt -->
+<!-- BM_FE_AIV_v2230_DBR: Dynamic local/public backend routing repair over verified v2229. -->
+<!-- DYNAMIC_BACKEND_ROUTING_REPAIR_V2230 -->
+<!-- Baseline: BM_FE_AIV_v2229_MUR_html.txt; compatible with BM_BE_AIV_v2841_CMR_js.txt -->
+<!-- BM_FE_AIV_v2229_MUR: Approved mobile UI merged with verified v2228 Render backend URLs. -->
+<!-- MOBILE_UI_RENDER_URL_MERGE_V2229 -->
+<!-- Baseline: BM_FE_AIV_v2228_RBU_html.txt + approved BM_FE_AIV_v2227_MUI_html.txt changes -->
+<!-- BM_FE_AIV_v2227_MUI: Mobile input and action-control refinement over verified v2226. -->
+<!-- MOBILE_INPUT_AND_ACTION_CONTROLS_REPAIR_V2227 -->
+<!-- Baseline: BM_FE_AIV_v2226_LSB_html.txt -->
+<!-- BM_FE_AIV_v2226_LSB: Soft lavender Scripture support box restyle over verified v2225. -->
 <!-- LAVENDER_SCRIPTURE_BOX_RESTYLE_V2226 -->
 <!-- Baseline: BM_FE_AIV_v2225_RTY_html.txt -->
 <!-- BM_FE_AIV_v2225_RTY: General timeout retry wording repair over verified v2224. -->
@@ -248,7 +260,7 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BM_FE_AIV_v2228_RBU</title>
+<title>BM_FE_AIV_v2231_HMR</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding-bottom:52px}
@@ -264,7 +276,7 @@ textarea:focus{border-color:#2ecc71;box-shadow:0 0 0 3px rgba(46,204,113,.18)}
 button{margin:6px 5px;padding:12px 18px;border:none;border-radius:9px;cursor:pointer;font-weight:800;font-size:14px;box-shadow:0 3px 9px rgba(0,0,0,.16)}
 button:active{transform:translateY(1px)}
 .analyze{background:#22b765;color:#fff;font-size:15px;padding-left:20px;padding-right:20px}
-.clear{background:#edf2f6;color:#4b5a66;box-shadow:0 2px 6px rgba(0,0,0,.08)}.copy{background:#3498db;color:#fff}.paste{background:#16a085;color:#fff}.sample{background:#aaa;color:#111}.clearResults{background:#aaa;color:#111}
+.clear{background:#f5f7f9;color:#2f3b45;border:2px solid #87939d;box-shadow:0 2px 7px rgba(0,0,0,.16)}.copy{background:#3498db;color:#fff}.paste{background:#16a085;color:#fff}.sample{background:#aaa;color:#111}.clearResults{background:#aaa;color:#111}
 .meta{font-size:14px;color:#333;margin-top:8px;display:flex;justify-content:space-between;gap:14px}
 .loading{color:#555;font-style:italic;font-weight:700}
 .bottomBorder{position:fixed;left:0;right:0;bottom:0;height:48px;background:rgba(58,105,153,.72);border-top:1px solid rgba(255,255,255,.18)}
@@ -505,16 +517,21 @@ body.sampleChooserOpen{overflow:hidden}
   .brandTitle{font-size:22px!important;line-height:1!important}
   .brandSub{font-size:12px!important;line-height:1.05!important;margin-top:2px!important}
   .container{width:calc(100vw - 12px)!important;max-width:calc(100vw - 12px)!important;margin-top:5px!important}
-  h2{font-size:18px!important;line-height:1.08!important;margin:0 0 6px!important;padding:0 4px!important}
+  h2{font-size:clamp(13.5px,4vw,15px)!important;line-height:1.08!important;margin:0 0 6px!important;padding:0 2px!important;white-space:nowrap!important;letter-spacing:-.2px!important}
   .box,.resultBox{padding:9px 8px!important;border-radius:10px!important;margin:6px auto!important}
-  textarea{height:76px!important;min-height:76px!important;font-size:13px!important;line-height:1.16!important;padding:8px!important;border-radius:8px!important}
-  textarea::placeholder{font-size:12px!important;line-height:1.14!important}
+  textarea{height:70px!important;min-height:70px!important;font-size:13px!important;line-height:1.16!important;padding:8px!important;border-radius:8px!important}
+  textarea::placeholder{font-size:12px!important;line-height:1.18!important}
   .meta{font-size:10.5px!important;line-height:1.1!important;margin-top:4px!important;gap:7px!important;flex-direction:row!important;align-items:center!important;text-align:left!important}
   .subjectCountInline{font-size:10.5px!important;margin-top:3px!important}
-  .actionButtons{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important;margin-top:5px!important}
-  .actionButtons button{width:100%!important;min-width:0!important;max-width:none!important;margin:0!important;padding:8px 3px!important;font-size:11.5px!important;line-height:1.08!important;white-space:nowrap!important}
-  .actionButtons .analyze{font-size:11.5px!important}
-  .actionButtons .analyze span{font-size:15px!important}
+  .box>div.actionButtons:last-child{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:auto auto!important;gap:5px!important;margin-top:5px!important;justify-content:stretch!important;align-items:stretch!important}
+  .box>div.actionButtons:last-child button{width:100%!important;min-width:0!important;max-width:none!important;min-height:40px!important;margin:0!important;padding:8px 4px!important;font-size:12px!important;line-height:1.08!important;white-space:nowrap!important;flex:none!important}
+  .box>div.actionButtons:last-child #analyzeBtn{grid-column:1 / span 2!important;grid-row:1!important}
+  .box>div.actionButtons:last-child #clearBtn{grid-column:3!important;grid-row:1!important;border-width:2px!important}
+  .box>div.actionButtons:last-child #copyBtn{grid-column:1!important;grid-row:2!important}
+  .box>div.actionButtons:last-child #pasteBtn{grid-column:2!important;grid-row:2!important}
+  .box>div.actionButtons:last-child #sampleBtn{grid-column:3!important;grid-row:2!important}
+  .actionButtons .analyze{font-size:12.5px!important}
+  .actionButtons .analyze span{font-size:16px!important}
   #contentType{font-size:13px!important;margin-bottom:4px!important}
   #result{font-size:15px!important}
   .resultBox{min-height:42px!important}
@@ -534,21 +551,21 @@ body.sampleChooserOpen{overflow:hidden}
 </style>
 </head>
 <body>
-<div class="version" id="versionBadge">frontend v2228</div>
+<div class="version" id="versionBadge">frontend v2231</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div class="container"><h2>Is This Content Accurate and Trustworthy?</h2>
 <div class="box"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
 
-Examples: I saw where metal could catch fire. / What planets are in our solar system?"></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction">Ready</div></div><div id="subjectCountInline" class="subjectCountInline"></div>
-<div class="actionButtons"><button type="button" id="analyzeBtn" class="analyze">Analyze<span style="font-size:20px;">/</span>Enter</button><button type="button" id="clearBtn" class="clear">Clear</button><button type="button" id="copyBtn" class="copy">Copy</button><button type="button" id="pasteBtn" class="paste">Paste</button><button type="button" id="sampleBtn" class="sample">Input Examples</button><button type="button" id="clearResultsBtn" class="clearResults">Clear Results</button></div></div>
+Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction">Ready</div></div><div id="subjectCountInline" class="subjectCountInline"></div>
+<div class="actionButtons"><button type="button" id="analyzeBtn" class="analyze">Analyze<span style="font-size:20px;">/</span>Enter</button><button type="button" id="clearBtn" class="clear">Clear</button><button type="button" id="copyBtn" class="copy">Copy</button><button type="button" id="pasteBtn" class="paste">Paste</button><button type="button" id="sampleBtn" class="sample">Samples</button></div></div>
 
 <div id="sampleChooser" class="sampleChooserOverlay" hidden aria-hidden="true">
   <div class="sampleChooserPanel" role="dialog" aria-modal="true" aria-labelledby="sampleChooserTitle">
     <div class="sampleChooserHeader">
-      <div id="sampleChooserTitle" class="sampleChooserTitle">Choose an Input Example</div>
-      <button type="button" id="sampleCloseBtn" class="sampleCloseBtn" aria-label="Close Input Examples chooser">×</button>
+      <div id="sampleChooserTitle" class="sampleChooserTitle">Choose a Sample</div>
+      <button type="button" id="sampleCloseBtn" class="sampleCloseBtn" aria-label="Close Samples chooser">×</button>
     </div>
-    <div id="sampleChooserIntro" class="sampleChooserIntro">Choose a category, then select an example. Run it as shown or replace the bracketed text with your own input.</div>
+    <div id="sampleChooserIntro" class="sampleChooserIntro">Choose a category, then select a sample. Run it as shown or replace the bracketed text with your own input.</div>
     <div id="sampleChooserList" class="sampleChooserList"></div>
     <button type="button" id="sampleBackBtn" class="sampleBackBtn" hidden>Back to Categories</button>
   </div>
@@ -557,10 +574,12 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
 <script>
 (function(){
   "use strict";
-  const API_URL="https://aiverify-backend.onrender.com/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2228";
+  const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
+  const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
+  const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
+  const FRONTEND_VERSION="frontend v2231";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2822_V2222";
-  const HEALTH_URL="https://aiverify-backend.onrender.com/health";
+  const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
   function setTopRightBackendVersion(versionText){
     try{
@@ -593,7 +612,7 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
   }
   refreshTopRightBackendVersion();
 
-  const RETRY_TEST_BASE="https://aiverify-backend.onrender.com/retry-test";
+  const RETRY_TEST_BASE=BACKEND_BASE_URL+"/retry-test";
   const RETRY_TIMEOUT_TEST_INPUT=`Answer these 12 questions about Mars:
 1. Which planet is Mars from the Sun?
 2. How many moons does Mars have?
@@ -732,7 +751,7 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
 ];
   const PUBLIC_SAMPLE_CATEGORIES=[
     {
-        "name": "Featured Examples",
+        "name": "Featured Samples",
         "examples": [
             "What are warning signs of a controlling friendship or dating relationship?",
             "Why do antibiotics not work against viruses?",
@@ -4562,7 +4581,8 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
           ? v2212PreserveRequiredExplanation(c.explanation||c.why||displayWhy)
           : v2130CleanExplanation(v2077RequiredExplanation(c,displayWhy,displayEvidence,evidence,answer),answer);
       }
-      if(requiredExplanation) detailItems.push('Explanation: '+requiredExplanation);
+      const mainCardExplanation=(c&&c.renderExplanationOnMainCard===true)||(c&&c.highImpactMedical===true) ? requiredExplanation : '';
+      if(requiredExplanation && !mainCardExplanation) detailItems.push('Explanation: '+requiredExplanation);
       const faithContractForSource=/faith|scripture|biblical/i.test(String((c&&c.route)||'')+' '+String((c&&c.classification)||'')+' '+String((c&&c.supportingInformation)||''));
       const submittedInputUrl=/^https?:\/\/\S+$/i.test(String(lastAnalyzedInput||'').trim())?String(lastAnalyzedInput||'').trim():'';
       const externalSourceVisible=sourceUrl && !(c&&c.suppressDuplicateSubmittedSource) && !(submittedInputUrl && sourceUrl===submittedInputUrl);
@@ -4598,6 +4618,7 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
           html+='<div class="verifiedResultLine answerPrimaryLine" data-analysis-result-row="true"><strong>'+esc(resultLabel)+':</strong>&nbsp;&nbsp;'+resultRendered+'</div>';
         }
       }
+      if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
       const countDetailsHtml=v2224RenderKjvCountDetails(c,requiredExplanation||displayWhy||why);
       const detailsHtml=countDetailsHtml || renderSupportingInformationList(detailItems,[claim,answer,Array.isArray(c.answerList)?c.answerList.join(' '):'',why,evidence,supportRaw].join(' '));
       if(detailsHtml) html+='<div class="resultDetailsGap">'+detailsHtml+'</div>';
@@ -4878,7 +4899,7 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
   }
   function renderSampleCategories(){
     activeSampleCategoryIndex=-1;
-    setText('sampleChooserTitle','Choose an Input Example');
+    setText('sampleChooserTitle','Choose a Sample');
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
@@ -4902,13 +4923,13 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
-      intro.textContent=(category.name==='R1 Retest')?((category.examples&&category.examples.length)?'Select a saved R1 retest example.':'R1 Retest is empty. Failed beta cases can be added here for grouped retesting.'):'Select an example from this category.';
+      intro.textContent=(category.name==='R1 Retest')?((category.examples&&category.examples.length)?'Select a saved R1 retest sample.':'R1 Retest is empty. Failed beta cases can be added here for grouped retesting.'):'Select a sample from this category.';
     }
     const back=el('sampleBackBtn');if(back)back.hidden=false;
     const list=sampleChooserListNode();if(!list)return;
     list.className='sampleChooserList sampleExampleList';list.innerHTML='';
     if(!category.examples || !category.examples.length){
-      const empty=document.createElement('div');empty.className='sampleEmptyState';empty.textContent='No R1 Retest examples are currently loaded.';list.appendChild(empty);return;
+      const empty=document.createElement('div');empty.className='sampleEmptyState';empty.textContent='No R1 Retest samples are currently loaded.';list.appendChild(empty);return;
     }
     category.examples.forEach(function(example,exampleIndex){
       const button=document.createElement('button');button.type='button';button.className='sampleExampleBtn';
@@ -4932,7 +4953,7 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
         }catch(_e){}
       }
     }
-    updateCounts();setTranscriptStatus(null,'');setText('lastAction',category.name+' input example loaded');closeSampleChooser();
+    updateCounts();setTranscriptStatus(null,'');setText('lastAction',category.name+' sample loaded');closeSampleChooser();
   }
   function sample(){renderSampleCategories();setSampleChooserOpen(true);}
 
@@ -4982,7 +5003,6 @@ Examples: I saw where metal could catch fire. / What planets are in our solar sy
     bind("sampleBtn",sample);
     bind("sampleCloseBtn",closeSampleChooser);
     bind("sampleBackBtn",renderSampleCategories);
-    bind("clearResultsBtn",resetResult);
     const chooser=sampleChooserNode();
     if(chooser){chooser.addEventListener('click',function(e){if(e.target===chooser)closeSampleChooser();});}
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&chooser&&!chooser.hidden)closeSampleChooser();});
