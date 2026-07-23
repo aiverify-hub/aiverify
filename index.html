@@ -1,3 +1,9 @@
+<!-- BM_FE_AIV_v2233_MVD: Modular backend version display repair over verified v2232. -->
+<!-- MODULAR_BACKEND_VERSION_DISPLAY_REPAIR_V2233 -->
+<!-- Baseline: BM_FE_AIV_v2232_GRR_html.txt; compatible with MASTER_v1_03 and legacy BE_AIV backends. -->
+<!-- BM_FE_AIV_v2232_GRR: Global-readiness active-link rendering and R1 Retest refresh over verified v2231. -->
+<!-- GLOBAL_READINESS_ACTIVE_LINK_AND_R1_RETEST_REPAIR_V2232 -->
+<!-- Baseline: BM_FE_AIV_v2231_HMR_html.txt; compatible with BM_BE_AIV_v2844_GRR_js.txt -->
 <!-- BM_FE_AIV_v2231_HMR: High-impact medical explanation placement over verified v2230. -->
 <!-- HIGH_IMPACT_MEDICAL_RESPONSE_RENDER_REPAIR_V2231 -->
 <!-- Baseline: BM_FE_AIV_v2230_DBR_html.txt; compatible with BM_BE_AIV_v2842_HMR_js.txt -->
@@ -260,7 +266,7 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BM_FE_AIV_v2231_HMR</title>
+<title>BM_FE_AIV_v2233_MVD</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding-bottom:52px}
@@ -342,6 +348,7 @@ button:active{transform:translateY(1px)}
 .faithSupportingNote{margin:3px 0 5px 18px;font-size:13px;line-height:1.25;color:#34424d;font-weight:800}
 .sourceToSupportingSpacer{height:6px}
 
+.aivActionLinkLine{margin:9px 0 5px;text-align:left}.aivActionLink{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 15px;border-radius:9px;background:#1d6fb8;color:#fff!important;font-weight:900;text-decoration:none!important;box-shadow:0 2px 7px rgba(0,0,0,.16)}.aivActionLink:hover{text-decoration:underline!important}.aivActionLink:focus{outline:3px solid rgba(29,111,184,.25);outline-offset:2px}
 .err{color:#e74c3c;font-weight:900;font-size:24px}
 .version{position:absolute;top:10px;right:20px;font-size:14px;color:#fff;opacity:.92;font-weight:700;text-shadow:0 1px 5px rgba(0,0,0,.24)}
 #contentType{font-size:16px;color:#26313a;margin-bottom:9px;font-weight:800}
@@ -551,7 +558,7 @@ body.sampleChooserOpen{overflow:hidden}
 </style>
 </head>
 <body>
-<div class="version" id="versionBadge">frontend v2231</div>
+<div class="version" id="versionBadge">frontend v2233</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div class="container"><h2>Is This Content Accurate and Trustworthy?</h2>
 <div class="box"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
@@ -577,8 +584,8 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2231";
-  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2822_V2222";
+  const FRONTEND_VERSION="frontend v2233";
+  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2844_V2232";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
   function setTopRightBackendVersion(versionText){
@@ -586,11 +593,14 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
       const badge=document.getElementById('versionBadge');
       if(!badge) return;
       const raw=String(versionText||'');
-      const m=raw.match(/\bBE_AIV_v\d+\b/i);
-      if(m){
-        let be=m[0].replace(/^BE_AIV_/i,'');
+      const legacyMatch=raw.match(/\bBE_AIV_v\d+\b/i);
+      const modularMatch=raw.match(/\bMASTER_v\d+(?:_\d+)*\b/i);
+      if(modularMatch){
+        badge.textContent=FRONTEND_VERSION+' | backend '+modularMatch[0];
+      }else if(legacyMatch){
+        let be=legacyMatch[0].replace(/^BE_AIV_/i,'');
         badge.textContent=FRONTEND_VERSION+' | backend '+be;
-      }else if(!/backend\s+v\d+/i.test(badge.textContent||'')){
+      }else if(!/backend\s+(?:v\d+|MASTER_v\d+(?:_\d+)*)/i.test(badge.textContent||'')){
         badge.textContent=FRONTEND_VERSION;
       }
     }catch(_e){}
@@ -598,7 +608,7 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
   function updateTopRightBackendVersionFromText(text){
     try{
       const line=(String(text||'').split(/\r?\n/).find(function(x){return /^Backend:/i.test(String(x||''));})||'');
-      const jsonMatch=String(text||'').match(/"backendVersion"\s*:\s*"(BE_AIV_v\d+)"/i);
+      const jsonMatch=String(text||'').match(/"backendVersion"\s*:\s*"((?:BE_AIV_v\d+)|(?:MASTER_v\d+(?:_\d+)*))"/i);
       setTopRightBackendVersion(jsonMatch&&jsonMatch[1] ? jsonMatch[1] : line);
     }catch(_e){}
   }
@@ -837,7 +847,15 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
     },
     {
         "name": "R1 Retest",
-        "examples": []
+        "examples": [
+            "What is the most expensive cheese in the world",
+            "What is today's date",
+            "What is the largest National Park in Canada",
+            "Show me a map of Canada",
+            "Is there any proof that Bigfoot exists",
+            "What does a person home use robot cost",
+            "Where is Wood Buffalo National Park?"
+        ]
     }
 ];
   let activeSampleCategoryIndex=-1;
@@ -4565,6 +4583,8 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
       const cleanedContractSource=cleanContractSourceForDisplay(c.source||c.sourceBasis||'',c);
       const source=v2130NeutralSource(cleanedContractSource,c) || ((/SHOW_MODEL_KNOWLEDGE|SHOW_EXTERNAL_SOURCE/i.test(sourcePolicy) && !/faith|scripture|biblical/i.test(String((c.route||'')+' '+(c.classification||'')+' '+(c.supportingInformation||'')))) ? String(c.source||c.sourceBasis||'').trim() : '');
       const sourceUrl=String(c.sourceUrl||c.primarySourceUrl||'').trim();
+      const actionLinkUrl=String(c.actionLinkUrl||'').trim();
+      const actionLinkLabel=String(c.actionLinkLabel||(/\bmap\b/i.test(String(c.classification||'')+' '+String(c.route||''))?'Open Map':'View Image')).trim();
       const explicitMeaningBasket=/^(?:MEANING|WORD_MEANING|ENTITY_MEANING|IDENTIFICATION)$/i.test(contractBasket);
       const preIsMeaning=explicitMeaningBasket || (!c.fixedOutputBasket && /meaning|identification/i.test(analysis+' '+String(c.classification||'')+' '+String(c.route||'')));
       if(preIsMeaning && String(evidence||'').trim() && String(answer||'').trim() && contractTextNormForCompare(evidence).indexOf(contractTextNormForCompare(answer).slice(0,60))>=0){ evidence=''; }
@@ -4585,7 +4605,7 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
       if(requiredExplanation && !mainCardExplanation) detailItems.push('Explanation: '+requiredExplanation);
       const faithContractForSource=/faith|scripture|biblical/i.test(String((c&&c.route)||'')+' '+String((c&&c.classification)||'')+' '+String((c&&c.supportingInformation)||''));
       const submittedInputUrl=/^https?:\/\/\S+$/i.test(String(lastAnalyzedInput||'').trim())?String(lastAnalyzedInput||'').trim():'';
-      const externalSourceVisible=sourceUrl && !(c&&c.suppressDuplicateSubmittedSource) && !(submittedInputUrl && sourceUrl===submittedInputUrl);
+      const externalSourceVisible=sourceUrl && sourceUrl!==actionLinkUrl && !(c&&c.suppressDuplicateSubmittedSource) && !(submittedInputUrl && sourceUrl===submittedInputUrl);
       const visibleSource=!faithContractForSource ? (externalSourceVisible?sourceUrl:source) : '';
       if(!compactDirectAnswer){
         supporting.forEach(function(item){ if(!answerListTextDuplicates(item,c)) detailItems.push(item); });
@@ -4618,6 +4638,7 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
           html+='<div class="verifiedResultLine answerPrimaryLine" data-analysis-result-row="true"><strong>'+esc(resultLabel)+':</strong>&nbsp;&nbsp;'+resultRendered+'</div>';
         }
       }
+      if(actionLinkUrl && /^https?:\/\//i.test(actionLinkUrl)) html+='<div class="aivActionLinkLine"><a class="aivActionLink" href="'+esc(actionLinkUrl)+'" target="_blank" rel="noopener noreferrer">'+esc(actionLinkLabel||'Open Link')+'</a></div>';
       if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
       const countDetailsHtml=v2224RenderKjvCountDetails(c,requiredExplanation||displayWhy||why);
       const detailsHtml=countDetailsHtml || renderSupportingInformationList(detailItems,[claim,answer,Array.isArray(c.answerList)?c.answerList.join(' '):'',why,evidence,supportRaw].join(' '));
@@ -4772,7 +4793,10 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
   }
   async function fetchCompactTextV1734(value,runId){
     refreshTopRightBackendVersion();
-    const url=API_URL+encodeURIComponent(value)+"&_="+Date.now()+"&renderRun="+runId;
+    const now=new Date();
+    const clientDate=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
+    const clientTimezone=(Intl.DateTimeFormat&&Intl.DateTimeFormat().resolvedOptions().timeZone)||"";
+    const url=API_URL+encodeURIComponent(value)+"&_="+Date.now()+"&renderRun="+runId+"&clientDate="+encodeURIComponent(clientDate)+"&tz="+encodeURIComponent(clientTimezone);
     const fetchOptions={cache:"no-store",mode:"cors"};
     if(activeAbortController) fetchOptions.signal=activeAbortController.signal;
     const res=await fetch(url,fetchOptions);
