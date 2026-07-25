@@ -1,4 +1,6 @@
-<!-- BM_FE_AIV_v2233_MVD: Modular backend version display repair over verified v2232. -->
+<!-- BM_FE_AIV_v2240_RSR: clean responsive sizing and named-source rendering repair over verified v2233. -->
+<!-- ANALYTICS_SOURCE_VALIDATION_AND_RESPONSIVE_SIZING_REPAIR_V2240 -->
+<!-- Baseline: BM_FE_AIV_v2233_MVD_html.txt; compatible with BM_BE_AIV_v2874_ASV_js.txt. -->
 <!-- MODULAR_BACKEND_VERSION_DISPLAY_REPAIR_V2233 -->
 <!-- Baseline: BM_FE_AIV_v2232_GRR_html.txt; compatible with MASTER_v1_03 and legacy BE_AIV backends. -->
 <!-- BM_FE_AIV_v2232_GRR: Global-readiness active-link rendering and R1 Retest refresh over verified v2231. -->
@@ -268,14 +270,14 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>BM_FE_AIV_v2233_MVD</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding-bottom:52px}
-.headerWrap{display:flex;align-items:flex-start;gap:10px;padding:14px 34px 0;text-align:left}
-.logoBox{width:46px;height:46px;border-radius:14px;background:linear-gradient(180deg,#a0ddf6,#4faadb);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 8px 18px rgba(0,0,0,.18)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding:0 0 52px;overflow-x:hidden}
+.headerWrap{display:flex;align-items:center;gap:10px;width:min(1180px,calc(100% - 32px));max-width:1180px;margin:0 auto;padding:14px 0 0;text-align:left}
+.logoBox{width:46px;height:46px;flex:0 0 46px;border-radius:14px;background:linear-gradient(180deg,#a0ddf6,#4faadb);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 8px 18px rgba(0,0,0,.18)}
 .brandTitle{font-size:31px;font-weight:800;margin:0;line-height:1;letter-spacing:.2px}
 .brandSub{font-size:18px;font-weight:700;color:rgba(255,255,255,.94);margin-top:6px}
-.container{width:75vw;max-width:1500px;margin:14px auto 0}
-h2{margin:0 0 14px;font-size:31px;line-height:1.15;text-shadow:0 2px 8px rgba(0,0,0,.15)}
+.container{width:min(1180px,calc(100% - 32px));max-width:1180px;margin:12px auto 0}
+h2{margin:0 0 14px;font-size:clamp(24px,2.2vw,31px);line-height:1.15;text-shadow:0 2px 8px rgba(0,0,0,.15);overflow-wrap:anywhere}
 .box,.resultBox{background:#f2f4f6;color:#000;width:100%;max-width:100%;margin:14px auto;padding:18px 20px;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.45)}
 textarea{width:100%;height:112px;border-radius:10px;padding:14px;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.28;border:1px solid #bac6d0;outline:none;background:#fff;color:#111}
 textarea:focus{border-color:#2ecc71;box-shadow:0 0 0 3px rgba(46,204,113,.18)}
@@ -350,7 +352,7 @@ button:active{transform:translateY(1px)}
 
 .aivActionLinkLine{margin:9px 0 5px;text-align:left}.aivActionLink{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 15px;border-radius:9px;background:#1d6fb8;color:#fff!important;font-weight:900;text-decoration:none!important;box-shadow:0 2px 7px rgba(0,0,0,.16)}.aivActionLink:hover{text-decoration:underline!important}.aivActionLink:focus{outline:3px solid rgba(29,111,184,.25);outline-offset:2px}
 .err{color:#e74c3c;font-weight:900;font-size:24px}
-.version{position:absolute;top:10px;right:20px;font-size:14px;color:#fff;opacity:.92;font-weight:700;text-shadow:0 1px 5px rgba(0,0,0,.24)}
+.version{position:absolute;top:12px;right:16px;max-width:46vw;font-size:13px;line-height:1.2;text-align:right;white-space:normal;color:#fff;opacity:.92;font-weight:700;text-shadow:0 1px 5px rgba(0,0,0,.24)}
 #contentType{font-size:16px;color:#26313a;margin-bottom:9px;font-weight:800}
 .transcriptStatus{font-size:13px;line-height:1.25;margin:5px 0 8px;padding:6px 8px;border-radius:7px;background:#eef3f7;color:#27333d;font-weight:700;text-align:left}
 #result{font-size:18px;color:#111}
@@ -402,47 +404,12 @@ button:active{transform:translateY(1px)}
 #result,.resultText{white-space:pre-wrap}
 .claimSubject,.claimTitle,.claimSummary,.claimMeta,.sourceInfluence,.faithRefs,.versionLine{white-space:normal}
 
-@media(max-width:720px){.headerWrap{padding:14px 20px 0}.container{width:calc(100vw - 28px);max-width:calc(100vw - 28px)}h2{font-size:30px}.box,.resultBox{width:100%;max-width:100%;padding:18px}button{width:auto;margin:6px 4px}.meta{flex-direction:column;text-align:left}}
 
 /* v2054 confidence-last Additional Information order; v2053 sample queue refresh; v2052 mobile render readiness. */
 /* v2051 polish: URL detail dedupe, consistent visible Depends answers, narrative-video claim routing support, and readable positive badges; preserves v2050 layout. */
 /* v2048 mobile responsive cleanup: keep desktop stable while improving phone layout and removing temporary version/backend clutter from visible results. */
 .aivAnalysisResultBadgeInfo{background:#e7f3ff!important;color:#0f4f86!important;border:1px solid #a8d4ff!important}
 .versionLine{display:none!important}
-@media(max-width:720px){
-  body{padding-bottom:18px}
-  .version{display:none!important}
-  .bottomBorder{display:none!important}
-  .headerWrap{padding:10px 14px 0!important;gap:8px!important;align-items:center!important}
-  .logoBox{width:38px!important;height:38px!important;border-radius:11px!important;font-size:20px!important}
-  .brandTitle{font-size:25px!important;line-height:1!important}
-  .brandSub{font-size:14px!important;margin-top:3px!important}
-  .container{width:calc(100vw - 18px)!important;max-width:calc(100vw - 18px)!important;margin-top:8px!important}
-  h2{font-size:22px!important;line-height:1.12!important;margin:0 0 10px!important}
-  .box,.resultBox{padding:12px 11px!important;border-radius:12px!important;margin:10px auto!important}
-  textarea{height:96px!important;font-size:15px!important;line-height:1.22!important;padding:10px!important}
-  button{font-size:13px!important;padding:10px 12px!important;margin:5px 3px!important;min-width:84px!important}
-  .analyze{font-size:13px!important}
-  .meta{font-size:12px!important;margin-top:6px!important;gap:3px!important}
-  #contentType{font-size:14px!important;margin-bottom:6px!important}
-  #result{font-size:16px!important}
-  .resultSectionTitle,.aiTitle{font-size:18px!important;margin:9px 0 7px!important}
-  .verifiedResultPanel{padding:9px 9px!important;margin:7px 0 9px!important}
-  .verifiedResultLine{font-size:14px!important;line-height:1.34!important;margin:3px 0!important}
-  .aivAnalysisResultBadge{font-size:13px!important;line-height:1.14!important;white-space:normal!important;max-width:100%!important;text-align:center!important}
-  .answerInlineList{margin-left:18px!important;padding-left:16px!important;line-height:1.28!important}
-  .claimQuestionLine{margin:2px 0 6px!important}
-  .sourceBasisLine{margin:7px 0 2px!important}
-  .supportingInfo,.userNotes{padding:7px 8px!important;margin:10px 0!important}
-  .supportingInfoBody,.userNotesBody{font-size:13px!important;line-height:1.34!important;padding:7px 8px!important}
-  .box>div:last-child{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:8px 8px!important}
-  .box>div:last-child button{flex:1 1 42%!important;max-width:190px!important;margin:0!important}
-  .box>div:last-child button.analyze,#clearResultsBtn{flex-basis:58%!important}
-  .aivAnalysisResultBadgeAccurate{background:#9fddb6!important;color:#043d19!important;border-color:#3da761!important}
-  .aivAnalysisResultBadgeInaccurate{background:#f3caca!important;color:#7b150e!important;border-color:#d78f89!important}
-}
-
-
 .loadingWave{display:inline-flex;align-items:center;gap:2px;font-style:normal;font-weight:800;color:#46525c}
 .loadingWaveText{margin-right:2px}
 .loadingWaveDot{display:inline-block;animation:aivWaveDot 1.05s ease-in-out infinite;transform-origin:center}
@@ -516,21 +483,21 @@ body.sampleChooserOpen{overflow:hidden}
 .actionButtons{display:block}
 
 @media(max-width:720px){
-  body{padding-bottom:8px!important;overflow-x:hidden!important}
-  .version{display:none!important}
+  body{padding:35px 0 8px!important;overflow-x:hidden!important}
+  .version{display:block!important;position:absolute!important;top:8px!important;left:8px!important;right:8px!important;max-width:none!important;font-size:10px!important;line-height:1.15!important;text-align:right!important;white-space:normal!important}
   .bottomBorder{display:none!important}
-  .headerWrap{padding:7px 9px 0!important;gap:7px!important;align-items:center!important}
-  .logoBox{width:34px!important;height:34px!important;border-radius:10px!important;font-size:18px!important;flex:0 0 34px!important}
+  .headerWrap{width:calc(100% - 20px)!important;max-width:none!important;margin:0 auto!important;padding:3px 0 0!important;gap:7px!important;align-items:center!important}
+  .logoBox{width:34px!important;height:34px!important;flex:0 0 34px!important;border-radius:10px!important;font-size:18px!important}
   .brandTitle{font-size:22px!important;line-height:1!important}
   .brandSub{font-size:12px!important;line-height:1.05!important;margin-top:2px!important}
-  .container{width:calc(100vw - 12px)!important;max-width:calc(100vw - 12px)!important;margin-top:5px!important}
-  h2{font-size:clamp(13.5px,4vw,15px)!important;line-height:1.08!important;margin:0 0 6px!important;padding:0 2px!important;white-space:nowrap!important;letter-spacing:-.2px!important}
-  .box,.resultBox{padding:9px 8px!important;border-radius:10px!important;margin:6px auto!important}
-  textarea{height:70px!important;min-height:70px!important;font-size:13px!important;line-height:1.16!important;padding:8px!important;border-radius:8px!important}
-  textarea::placeholder{font-size:12px!important;line-height:1.18!important}
+  .container{width:calc(100% - 12px)!important;max-width:none!important;margin:6px auto 0!important}
+  h2{font-size:clamp(18px,5.6vw,24px)!important;line-height:1.1!important;margin:0 0 8px!important;padding:0 2px!important;white-space:normal!important;letter-spacing:-.2px!important}
+  .box,.resultBox{width:100%!important;max-width:100%!important;padding:10px 8px!important;border-radius:10px!important;margin:7px auto!important}
+  textarea{width:100%!important;height:76px!important;min-height:76px!important;font-size:13px!important;line-height:1.18!important;padding:8px!important;border-radius:8px!important}
+  textarea::placeholder{font-size:12px!important;line-height:1.2!important}
   .meta{font-size:10.5px!important;line-height:1.1!important;margin-top:4px!important;gap:7px!important;flex-direction:row!important;align-items:center!important;text-align:left!important}
   .subjectCountInline{font-size:10.5px!important;margin-top:3px!important}
-  .box>div.actionButtons:last-child{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:auto auto!important;gap:5px!important;margin-top:5px!important;justify-content:stretch!important;align-items:stretch!important}
+  .box>div.actionButtons:last-child{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-template-rows:auto auto!important;gap:5px!important;margin-top:6px!important;justify-content:stretch!important;align-items:stretch!important}
   .box>div.actionButtons:last-child button{width:100%!important;min-width:0!important;max-width:none!important;min-height:40px!important;margin:0!important;padding:8px 4px!important;font-size:12px!important;line-height:1.08!important;white-space:nowrap!important;flex:none!important}
   .box>div.actionButtons:last-child #analyzeBtn{grid-column:1 / span 2!important;grid-row:1!important}
   .box>div.actionButtons:last-child #clearBtn{grid-column:3!important;grid-row:1!important;border-width:2px!important}
@@ -555,15 +522,21 @@ body.sampleChooserOpen{overflow:hidden}
   .sampleBackBtn{width:100%!important;margin-top:9px!important;font-size:13px!important}
 }
 
+@media(min-width:721px) and (max-width:1100px){
+  .headerWrap,.container{width:calc(100% - 28px);max-width:none}
+  .version{font-size:12px;max-width:42vw}
+  h2{font-size:clamp(23px,3vw,29px)}
+}
+
 </style>
 </head>
 <body>
-<div class="version" id="versionBadge">frontend v2233</div>
+<div class="version" id="versionBadge">frontend v2240</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div class="container"><h2>Is This Content Accurate and Trustworthy?</h2>
 <div class="box"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
 
-Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction">Ready</div></div><div id="subjectCountInline" class="subjectCountInline"></div>
+Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction">Ready</div></div><div id="subjectCountInline" class="subjectCountInline"></div>
 <div class="actionButtons"><button type="button" id="analyzeBtn" class="analyze">Analyze<span style="font-size:20px;">/</span>Enter</button><button type="button" id="clearBtn" class="clear">Clear</button><button type="button" id="copyBtn" class="copy">Copy</button><button type="button" id="pasteBtn" class="paste">Paste</button><button type="button" id="sampleBtn" class="sample">Samples</button></div></div>
 
 <div id="sampleChooser" class="sampleChooserOverlay" hidden aria-hidden="true">
@@ -584,7 +557,7 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2233";
+  const FRONTEND_VERSION="frontend v2240";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2844_V2232";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
@@ -4581,7 +4554,7 @@ Tap Samples to get started."></textarea><div class="meta"><div><span id="wordcou
       }
       const sourcePolicy=String(c.sourceDisplayPolicy||'');
       const cleanedContractSource=cleanContractSourceForDisplay(c.source||c.sourceBasis||'',c);
-      const source=v2130NeutralSource(cleanedContractSource,c) || ((/SHOW_MODEL_KNOWLEDGE|SHOW_EXTERNAL_SOURCE/i.test(sourcePolicy) && !/faith|scripture|biblical/i.test(String((c.route||'')+' '+(c.classification||'')+' '+(c.supportingInformation||'')))) ? String(c.source||c.sourceBasis||'').trim() : '');
+      const source=v2130NeutralSource(cleanedContractSource,c) || ((/SHOW_MODEL_KNOWLEDGE|SHOW_EXTERNAL_SOURCE|SHOW_NAMED_SOURCE/i.test(sourcePolicy) && !/faith|scripture|biblical/i.test(String((c.route||'')+' '+(c.classification||'')+' '+(c.supportingInformation||'')))) ? String(c.source||c.sourceBasis||'').trim() : '');
       const sourceUrl=String(c.sourceUrl||c.primarySourceUrl||'').trim();
       const actionLinkUrl=String(c.actionLinkUrl||'').trim();
       const actionLinkLabel=String(c.actionLinkLabel||(/\bmap\b/i.test(String(c.classification||'')+' '+String(c.route||''))?'Open Map':'View Image')).trim();
