@@ -1,4 +1,8 @@
-<!-- BM_FE_AIV_v2240_RSR: clean responsive sizing and named-source rendering repair over verified v2233. -->
+<!-- BM_FE_AIV_v2243_SSR: sign-out and authentication-boundary workspace reset over verified v2242. -->
+<!-- Baseline: BM_FE_AIV_v2242_BSC_html.txt; compatible with unchanged BM_BE_AIV_v2875_BSI_js.txt. -->
+<!-- SIGN_OUT_WORKSPACE_RESET_V2243 -->
+<!-- BETA_SIGN_IN_DISCLOSURE_AND_CLEAN_SIGN_OUT_V2242 -->
+<!-- BM_FE_AIV_v2241_BSI: required beta sign-in and tester-linked analytics over verified v2240. -->
 <!-- ANALYTICS_SOURCE_VALIDATION_AND_RESPONSIVE_SIZING_REPAIR_V2240 -->
 <!-- Baseline: BM_FE_AIV_v2233_MVD_html.txt; compatible with BM_BE_AIV_v2874_ASV_js.txt. -->
 <!-- MODULAR_BACKEND_VERSION_DISPLAY_REPAIR_V2233 -->
@@ -268,7 +272,7 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BM_FE_AIV_v2233_MVD</title>
+<title>BM_FE_AIV_v2241_BSI</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding:0 0 52px;overflow-x:hidden}
@@ -528,11 +532,63 @@ body.sampleChooserOpen{overflow:hidden}
   h2{font-size:clamp(23px,3vw,29px)}
 }
 
+
+/* BM_FE_AIV_v2241_BSI — required beta sign-in and remembered tester session. */
+body.aivAuthLocked{overflow:hidden!important}
+.aivAuthOverlay[hidden]{display:none!important}
+.aivAuthOverlay{position:fixed;inset:0;z-index:5000;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);display:flex;align-items:center;justify-content:center;padding:18px;color:#111;text-align:left}
+.aivAuthCard{width:min(480px,100%);background:#f4f6f8;border:1px solid rgba(255,255,255,.82);border-radius:16px;padding:22px 24px 24px;box-shadow:0 22px 60px rgba(0,0,0,.34)}
+.aivAuthBrand{display:flex;align-items:center;gap:10px;margin-bottom:15px}
+.aivAuthBrand .logoBox{box-shadow:none}
+.aivAuthTitle{font-size:25px;line-height:1.15;font-weight:900;color:#0c3555;margin:0 0 7px;text-align:center}
+.aivAuthIntro{font-size:15px;line-height:1.38;color:#33424d;margin:0 0 15px;text-align:center}
+.aivAuthDataNotice{margin:0 0 13px;padding:9px 10px;border-radius:9px;background:#edf7ff;border:1px solid #b8d9ee;color:#244a64;font-size:13px;line-height:1.35;text-align:left}
+.aivAuthLabel{display:block;font-size:14px;font-weight:900;color:#173b57;margin:10px 0 5px}
+.aivAuthInput{width:100%;height:46px;border:1px solid #aebdca;border-radius:9px;background:#fff;color:#111;font:700 17px Arial,Helvetica,sans-serif;padding:9px 11px;outline:none}
+.aivAuthInput:focus{border-color:#2d9cdb;box-shadow:0 0 0 3px rgba(45,156,219,.16)}
+.aivAuthSubmit{width:100%;margin:15px 0 0!important;background:#22b765;color:#fff;font-size:16px!important;padding:13px 16px!important}
+.aivAuthMessage{min-height:20px;margin:9px 0 0;font-size:14px;line-height:1.3;font-weight:800;text-align:center;color:#9b2d23}
+.aivAuthNotice{margin:15px 0 0;padding:10px 11px;border-radius:9px;background:#fff8df;border:1px solid #e3ce84;color:#594713;font-size:13px;line-height:1.35}
+.testerBar{width:min(1180px,calc(100% - 32px));max-width:1180px;margin:4px auto 0;display:flex;align-items:center;justify-content:flex-end;gap:8px;font-size:13px;font-weight:800;color:#fff;text-align:right}
+.testerBar[hidden]{display:none!important}
+.testerSignOut{margin:0!important;padding:6px 10px!important;border-radius:7px!important;background:rgba(255,255,255,.92)!important;color:#24455e!important;font-size:12px!important;box-shadow:none!important}
+@media(max-width:720px){
+  .aivAuthOverlay{padding:9px;align-items:flex-start;overflow:auto}
+  .aivAuthCard{margin:14px 0;padding:16px 14px 17px;border-radius:12px}
+  .aivAuthBrand{margin-bottom:11px}
+  .aivAuthTitle{font-size:21px}
+  .aivAuthIntro{font-size:13px;line-height:1.3;margin-bottom:11px}
+  .aivAuthDataNotice{font-size:12px;margin-bottom:10px;padding:8px}
+  .aivAuthLabel{font-size:12px;margin:8px 0 4px}
+  .aivAuthInput{height:42px;font-size:15px}
+  .aivAuthNotice{font-size:12px;margin-top:11px;padding:8px}
+  .testerBar{width:calc(100% - 20px);margin:2px auto 0;font-size:11px;gap:5px}
+  .testerSignOut{font-size:10px!important;padding:5px 7px!important}
+}
+
 </style>
 </head>
-<body>
-<div class="version" id="versionBadge">frontend v2240</div>
+<body class="aivAuthLocked">
+<div id="aivAuthOverlay" class="aivAuthOverlay" role="dialog" aria-modal="true" aria-labelledby="aivAuthTitle">
+  <div class="aivAuthCard">
+    <div class="aivAuthBrand"><div class="logoBox">AiV</div><div><div class="brandTitle" style="color:#0c3555">AIVerify</div><div class="brandSub" style="color:#4b6c84">Searching for Truth</div></div></div>
+    <div id="aivAuthTitle" class="aivAuthTitle">Beta Tester Sign In</div>
+    <div class="aivAuthDataNotice"><strong>Beta testing notice:</strong> Your name, scan activity, and results are recorded to help evaluate and improve AIVerify.</div>
+    <p class="aivAuthIntro">Enter your name and a 4-digit PIN. On your first visit, this creates your beta tester account. Use the same name and PIN on another device.</p>
+    <form id="aivAuthForm" autocomplete="on">
+      <label class="aivAuthLabel" for="aivTesterName">Name</label>
+      <input id="aivTesterName" class="aivAuthInput" type="text" maxlength="60" autocomplete="name" required>
+      <label class="aivAuthLabel" for="aivTesterPin">4-digit PIN</label>
+      <input id="aivTesterPin" class="aivAuthInput" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="current-password" required>
+      <button id="aivAuthSubmit" class="aivAuthSubmit" type="submit">Sign In</button>
+    </form>
+    <div id="aivAuthMessage" class="aivAuthMessage" aria-live="polite"></div>
+    <div class="aivAuthNotice"><strong>Beta use notice:</strong> AIVerify pays for some current-information, webpage, video, and media scans. Please use these scan types thoughtfully during beta. You will not be charged.</div>
+  </div>
+</div>
+<div class="version" id="versionBadge">frontend v2243</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
+<div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
 <div class="container"><h2>Is This Content Accurate and Trustworthy?</h2>
 <div class="box"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
 
@@ -557,8 +613,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2240";
-  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2844_V2232";
+  const FRONTEND_VERSION="frontend v2243";
+  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2875_V2243";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
   function setTopRightBackendVersion(versionText){
@@ -594,6 +650,100 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }catch(_e){}
   }
   refreshTopRightBackendVersion();
+
+  const AIV_TESTER_SESSION_STORAGE_KEY='aiv_beta_tester_session_v1';
+  const AIV_TESTER_NAME_STORAGE_KEY='aiv_beta_tester_name_v1';
+  let activeTesterSession=null;
+  function aivAuthNode(id){return document.getElementById(id);}
+  function aivSetAuthMessage(message,isSuccess){
+    const node=aivAuthNode('aivAuthMessage');if(!node)return;
+    node.textContent=String(message||'');node.style.color=isSuccess?'#176b39':'#9b2d23';
+  }
+  function aivStoredSessionToken(){try{return String(localStorage.getItem(AIV_TESTER_SESSION_STORAGE_KEY)||'');}catch(_e){return '';}}
+  function aivStoreSession(payload){
+    try{localStorage.setItem(AIV_TESTER_SESSION_STORAGE_KEY,payload.sessionToken);localStorage.setItem(AIV_TESTER_NAME_STORAGE_KEY,payload.tester&&payload.tester.name||'');}catch(_e){}
+  }
+  function aivClearStoredSession(){
+    try{localStorage.removeItem(AIV_TESTER_SESSION_STORAGE_KEY);localStorage.removeItem(AIV_TESTER_NAME_STORAGE_KEY);}catch(_e){}
+    activeTesterSession=null;
+  }
+  function aivSessionHeaders(){
+    const token=activeTesterSession&&activeTesterSession.token||aivStoredSessionToken();
+    return token?{'x-aiv-session':token}:{};
+  }
+  function aivResetWorkspaceForAuthBoundary(){
+    try{cancelActiveRender();}catch(_e){}
+    try{retryTimeoutState=null;}catch(_e){}
+    try{activeLoadedTemplateSample=false;}catch(_e){}
+    try{lastAnalyzedInput='';}catch(_e){}
+    const i=input();
+    if(i){i.value='';i.dataset.aivLoadedTemplate='false';i.dataset.aivNativeTemplatePaste='false';}
+    try{updateCounts();}catch(_e){}
+    try{setText('subjectCountInline','');}catch(_e){}
+    try{setText('contentType','');}catch(_e){}
+    try{setTranscriptStatus(null,'');}catch(_e){}
+    try{hardClearRenderedResults();replaceResultHtml('Ready');}catch(_e){}
+    try{setText('lastAction','Ready');}catch(_e){}
+    try{closeSampleChooser();}catch(_e){}
+  }
+  function aivShowSignIn(message){
+    let rememberedName='';try{rememberedName=String(localStorage.getItem(AIV_TESTER_NAME_STORAGE_KEY)||'');}catch(_e){}
+    aivResetWorkspaceForAuthBoundary();
+    aivClearStoredSession();
+    document.body.classList.add('aivAuthLocked');
+    const overlay=aivAuthNode('aivAuthOverlay');if(overlay)overlay.hidden=false;
+    const bar=aivAuthNode('testerBar');if(bar)bar.hidden=true;
+    aivSetAuthMessage(message||'',false);
+    const name=aivAuthNode('aivTesterName');
+    if(name){name.value=rememberedName||name.value||'';setTimeout(function(){name.focus();},0);}
+  }
+  function aivShowSignedIn(tester,token){
+    activeTesterSession={tester:tester,token:token};
+    document.body.classList.remove('aivAuthLocked');
+    const overlay=aivAuthNode('aivAuthOverlay');if(overlay)overlay.hidden=true;
+    const bar=aivAuthNode('testerBar');if(bar)bar.hidden=false;
+    const display=aivAuthNode('testerNameDisplay');if(display)display.textContent=tester&&tester.name||'';
+    aivSetAuthMessage('',false);
+    const pin=aivAuthNode('aivTesterPin');if(pin)pin.value='';
+    const i=input();if(i&&(!window.matchMedia||window.matchMedia('(min-width:721px)').matches))setTimeout(function(){i.focus();},0);
+  }
+  async function aivValidateStoredSession(){
+    const token=aivStoredSessionToken();
+    if(!token){aivShowSignIn('');return;}
+    aivSetAuthMessage('Checking saved sign-in…',true);
+    try{
+      const res=await fetch(BACKEND_BASE_URL+'/auth/session?_='+Date.now(),{cache:'no-store',mode:'cors',headers:{'x-aiv-session':token}});
+      const data=await res.json().catch(function(){return {};});
+      if(!res.ok||!data.ok||!data.tester){aivShowSignIn('Your saved sign-in expired. Please sign in again.');return;}
+      aivShowSignedIn(data.tester,token);
+    }catch(_e){aivShowSignIn('AIVerify could not verify your sign-in. Make sure the backend is running and try again.');}
+  }
+  async function aivSubmitSignIn(event){
+    if(event)event.preventDefault();
+    const name=String(aivAuthNode('aivTesterName')&&aivAuthNode('aivTesterName').value||'').replace(/\s+/g,' ').trim();
+    const pin=String(aivAuthNode('aivTesterPin')&&aivAuthNode('aivTesterPin').value||'');
+    if(name.length<2){aivSetAuthMessage('Enter your name.',false);return;}
+    if(!/^\d{4}$/.test(pin)){aivSetAuthMessage('Enter an exact 4-digit PIN.',false);return;}
+    const button=aivAuthNode('aivAuthSubmit');if(button){button.disabled=true;button.textContent='Signing In…';}
+    aivSetAuthMessage('',false);
+    try{
+      const res=await fetch(BACKEND_BASE_URL+'/auth/sign-in',{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'application/json'},body:JSON.stringify({name:name,pin:pin})});
+      const data=await res.json().catch(function(){return {};});
+      if(!res.ok||!data.ok||!data.sessionToken||!data.tester){aivSetAuthMessage(data.error||'Sign in failed.',false);return;}
+      aivStoreSession(data);
+      aivShowSignedIn(data.tester,data.sessionToken);
+      setText('lastAction',data.registered?'Beta account created':'Signed in');
+    }catch(_e){aivSetAuthMessage('AIVerify could not reach the sign-in service.',false);}
+    finally{if(button){button.disabled=false;button.textContent='Sign In';}}
+  }
+  async function aivSignOut(){
+    const token=aivStoredSessionToken();
+    try{if(token)await fetch(BACKEND_BASE_URL+'/auth/sign-out',{method:'POST',cache:'no-store',mode:'cors',headers:{'x-aiv-session':token}});}catch(_e){}
+    aivShowSignIn('Signed out.');
+    const name=aivAuthNode('aivTesterName');if(name)name.value='';
+    const pin=aivAuthNode('aivTesterPin');if(pin)pin.value='';
+  }
+  function aivHandleUnauthorized(){aivShowSignIn('Your sign-in is required again.');}
 
   const RETRY_TEST_BASE=BACKEND_BASE_URL+"/retry-test";
   const RETRY_TIMEOUT_TEST_INPUT=`Answer these 12 questions about Mars:
@@ -1365,7 +1515,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   async function getRetryTestStatus(state){
     try{
       const url=RETRY_TEST_BASE+'/status?input='+encodeURIComponent(state.raw)+'&session='+encodeURIComponent(state.session)+'&token='+encodeURIComponent(state.token)+'&_='+Date.now();
-      const res=await fetch(url,{cache:'no-store',mode:'cors'});
+      const res=await fetch(url,{cache:'no-store',mode:'cors',headers:aivSessionHeaders()});
       if(!res.ok)return null;
       return await res.json();
     }catch(_e){return null;}
@@ -1377,7 +1527,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(!state)return;
     try{
       const url=RETRY_TEST_BASE+'/clear?session='+encodeURIComponent(state.session)+'&token='+encodeURIComponent(state.token)+'&_='+Date.now();
-      fetch(url,{cache:'no-store',mode:'cors'}).catch(function(){});
+      fetch(url,{cache:'no-store',mode:'cors',headers:aivSessionHeaders()}).catch(function(){});
     }catch(_e){}
   }
   async function startRetryTimeoutTest(raw){
@@ -1405,9 +1555,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     },20000);
     try{
       const url=RETRY_TEST_BASE+'/start?input='+encodeURIComponent(raw)+'&session='+encodeURIComponent(state.session)+'&token='+encodeURIComponent(state.token)+'&_='+Date.now();
-      const options={cache:'no-store',mode:'cors'};
+      const options={cache:'no-store',mode:'cors',headers:aivSessionHeaders()};
       if(activeAbortController)options.signal=activeAbortController.signal;
       const res=await fetch(url,options);
+      if(res.status===401){aivHandleUnauthorized();return;}
       if(state.timedOut || runId!==activeRenderRun)return;
       const payload=await res.json();
       clearRetryTimers();
@@ -1439,9 +1590,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     activeAbortController=(typeof AbortController!=="undefined")?new AbortController():null;
     try{
       const url=RETRY_TEST_BASE+'/retry?input='+encodeURIComponent(current)+'&session='+encodeURIComponent(state.session)+'&token='+encodeURIComponent(state.token)+'&_='+Date.now();
-      const options={cache:'no-store',mode:'cors'};
+      const options={cache:'no-store',mode:'cors',headers:aivSessionHeaders()};
       if(activeAbortController)options.signal=activeAbortController.signal;
       const res=await fetch(url,options);
+      if(res.status===401){aivHandleUnauthorized();return;}
       const payload=await res.json();
       if(runId!==activeRenderRun)return;
       if(!res.ok || !payload.ok){
@@ -4770,10 +4922,11 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const clientDate=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
     const clientTimezone=(Intl.DateTimeFormat&&Intl.DateTimeFormat().resolvedOptions().timeZone)||"";
     const url=API_URL+encodeURIComponent(value)+"&_="+Date.now()+"&renderRun="+runId+"&clientDate="+encodeURIComponent(clientDate)+"&tz="+encodeURIComponent(clientTimezone);
-    const fetchOptions={cache:"no-store",mode:"cors"};
+    const fetchOptions={cache:"no-store",mode:"cors",headers:aivSessionHeaders()};
     if(activeAbortController) fetchOptions.signal=activeAbortController.signal;
     const res=await fetch(url,fetchOptions);
     if(runId!==activeRenderRun)return null;
+    if(res.status===401){aivHandleUnauthorized();throw new Error("Beta sign-in required");}
     if(!res.ok)throw new Error("HTTP "+res.status);
     const txt=await res.text();
     // Backend version is health-endpoint owned; response route labels cannot overwrite it.
@@ -4790,6 +4943,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
 
   async function newAnalyze(){
+    if(!activeTesterSession){aivShowSignIn('Sign in before running a scan.');return;}
     const i=input();
     const raw=sanitizeInputForAnalyze(i?i.value.trim():"");
     if(!raw){if(i)i.focus(); return;}
@@ -4993,6 +5147,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function bind(id,fn){const n=el(id); if(!n)return; n.onclick=function(e){if(e)e.preventDefault(); fn();};}
   function init(){
+    const authForm=aivAuthNode('aivAuthForm');if(authForm)authForm.addEventListener('submit',aivSubmitSignIn);
+    bind("testerSignOut",aivSignOut);
     bind("analyzeBtn",newAnalyze);
     bind("clearBtn",clearInput);
     bind("copyBtn",copyInput);
@@ -5036,6 +5192,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       }
       resetNestedFaithScriptureDropdowns();
     }catch(_e){}
+    aivValidateStoredSession();
   }
   document.documentElement.setAttribute('data-aiv-r1-golden-lock',R1_GOLDEN_BENCHMARK_LOCK);
   window.newAnalyze=newAnalyze;

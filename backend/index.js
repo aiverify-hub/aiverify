@@ -1,4 +1,4 @@
-// BM_BE_AIV_v2874_ASV: analytics source, validation, and canonical quality-flag repair over verified v2873.
+// BM_BE_AIV_v2875_BSI: required beta sign-in and tester-linked analytics over verified v2874.
 // ANALYTICS_SOURCE_VALIDATION_AND_RESPONSIVE_SIZING_REPAIR_V2874
 // Preserves recovered entity answers, retains the actual authority as the final Source,
 // validates the completed user-facing contract, and consolidates equivalent analytics flags.
@@ -411,7 +411,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v2874';
+const VERSION = 'BE_AIV_v2875';
 const PORT = Number(process.env.PORT || 3000);
 const SAME_SESSION_RESULT_CACHE = new Map();
 const COMPLETED_CONTRACT_CACHE_V2764 = new Map();
@@ -24295,11 +24295,11 @@ function v2867ApplyAnswerDeduplication(contract){
     c.answerAdditionalInformationDeduplicated=true;
   }
   c.backendVersion=VERSION;
-  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2874.lock;
+  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2875.lock;
   c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{}, {
     activeFunction:'answerDeduplicationRepairV2867',
     answerAdditionalInformationDeduplication:standards.length>1?'APPLIED':'NOT_REQUIRED',
-    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2874.lock,
+    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2875.lock,
     priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2867.lock
   });
   return c;
@@ -24338,13 +24338,13 @@ function v2870ApplyEntityIdentificationRenderRepair(contract,raw){
     c.entityName=namedRemainder;
   }
   c.backendVersion=VERSION;
-  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2874.lock;
+  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2875.lock;
   c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{
     activeFunction:'entityIdentificationRenderRepairV2870',
     entityIdentificationRenderRepair:namedRemainder?'APPLIED':'NOT_REQUIRED',
     namedEntityPreserved:namedRemainder||'',
     exactInputHardcoding:false,
-    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2874.lock,
+    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2875.lock,
     priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2869.lock
   });
   return c;
@@ -24353,7 +24353,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v2874'
+  currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -24462,7 +24462,7 @@ function v2873ApplyEntityTargetResponseIntegrity(contract,raw){
     c.contractValidated=c.validationErrors.length===0;
   }
   c.backendVersion=VERSION;
-  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2874.lock;
+  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2875.lock;
   c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{
     activeFunction:'entityTargetResponseIntegrityRepairV2873',
     countryIdentificationQuestion:countryQuestion,
@@ -24470,7 +24470,7 @@ function v2873ApplyEntityTargetResponseIntegrity(contract,raw){
     entityTargetRecovered:recoveredCountry||'',
     recoveryUsedExistingResponseEvidence:!!recoveredCountry,
     exactInputHardcoding:false,
-    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2874.lock,
+    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2875.lock,
     priorAnalyticsCandidate:R1_GOLDEN_BENCHMARK_LOCK_V2872.lock
   });
   return c;
@@ -24520,14 +24520,14 @@ function v2874FinalizeEntityTargetContract(contract,raw){
     c.contractValidated=c.validationErrors.length===0;
   }
   c.backendVersion=VERSION;
-  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2874.lock;
+  c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2875.lock;
   c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{
     activeFunction:'analyticsSourceAndFinalContractValidationRepairV2874',
     materialAuthorityPreserved:!!clean(c.source||c.sourceBasis||''),
     namedSourceDisplayPolicy:clean(c.sourceDisplayPolicy||''),
     finalContractRevalidated:true,
     canonicalAnalyticsFlags:true,
-    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2874.lock,
+    goldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2875.lock,
     priorAnalyticsCandidate:R1_GOLDEN_BENCHMARK_LOCK_V2873.lock
   });
   return c;
@@ -24536,7 +24536,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v2874'
+  currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -24552,7 +24552,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v2874'
+  currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -24579,7 +24579,7 @@ function v2865NormalizeSerializedResponse(raw,serialized){
       }catch(_e){out.push(line);}
       continue;
     }
-    if(/^R1_GOLDEN_BENCHMARK_LOCK:/i.test(line)){out.push('R1_GOLDEN_BENCHMARK_LOCK: '+R1_GOLDEN_BENCHMARK_LOCK_V2874.lock);continue;}
+    if(/^R1_GOLDEN_BENCHMARK_LOCK:/i.test(line)){out.push('R1_GOLDEN_BENCHMARK_LOCK: '+R1_GOLDEN_BENCHMARK_LOCK_V2875.lock);continue;}
     if(/^PRIOR_RECOVERY_BENCHMARK:/i.test(line)){out.push('PRIOR_RECOVERY_BENCHMARK: '+R1_GOLDEN_BENCHMARK_LOCK_V2867.lock);continue;}
     if(/^AIV_RESULT_CONTRACT_COUNT:/i.test(line)){continue;}
     out.push(line);
@@ -24597,7 +24597,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v2874'
+  currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -24852,7 +24852,7 @@ const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v2874'
+  currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -24866,7 +24866,7 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v2874'
+  currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
@@ -24877,7 +24877,7 @@ if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
 
 function sendJson(res,status,value){return send(res,status,'application/json; charset=utf-8',JSON.stringify(value,null,2));}
 
-function send(res,status,type,body){res.writeHead(status,{'content-type':type,'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,OPTIONS','access-control-allow-headers':'content-type,x-aiv-admin-token'});res.end(body);}
+function send(res,status,type,body){res.writeHead(status,{'content-type':type,'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,OPTIONS','access-control-allow-headers':'content-type,x-aiv-admin-token,x-aiv-session,authorization'});res.end(body);}
 const RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865=Object.freeze({
   ordinaryQuestionPipelineBeforeLimitation:true,
   lockedV2861SuccessesPreserved:true,
@@ -24893,7 +24893,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v2874'
+  currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -25092,6 +25092,7 @@ function v2872RecordScanEvent(req,input,body,durationMs,options){
       eventId:v2872EventId(),timestamp:new Date().toISOString(),backendVersion:VERSION,
       requestId:v2872ClampText(clean(req&&req.headers&&req.headers['rndr-id']||''),80),
       anonymousVisitorId:v2872AnonymousVisitorId(req),doNotTrack:dnt,
+      testerId:v2872ClampText(o.testerId||'',64),testerName:v2872ClampText(o.testerName||'',80),
       inputType:v2872InputType(input),inputPreview:redacted,inputCharacters:String(input||'').length,inputWords:v2872CountWords(input),
       outcome:outcome.outcome,failureCategory:outcome.failureCategory,reviewRequired:reviewRequired,qualityFlags:qualityFlags,durationMs:Math.max(0,Math.round(Number(durationMs)||0)),
       route:route,classification:v2872ClampText(primary.classification||'',140),analysisResult:v2872ClampText(primary.analysisResult||primary.status||'',120),
@@ -25137,9 +25138,11 @@ function v2872AnalyticsSummary(days){
     totalDuration+=Number(e.durationMs)||0;maxDuration=Math.max(maxDuration,Number(e.durationMs)||0);
     if(e.paidOrCurrentLookup)currentLookups++;if(e.cacheHit)cacheHits++;
   });
+  const testerUsage=v2875TesterUsageSummary(events);
   return {
-    ok:true,version:VERSION,analyticsVersion:'ANALYTICS_SOURCE_VALIDATION_AND_RESPONSIVE_SIZING_REPAIR_V2874',startedAt:V2872_ANALYTICS_STARTED_AT,
+    ok:true,version:VERSION,analyticsVersion:'REQUIRED_BETA_SIGN_IN_AND_TESTER_TRACKING_V2875',startedAt:V2872_ANALYTICS_STARTED_AT,
     periodDays:requested,retentionDays:V2872_ANALYTICS_RETENTION_DAYS,failureRetentionDays:V2872_ANALYTICS_FAILURE_RETENTION_DAYS,totalScans:events.length,anonymousVisitors:visitors.size,
+    registeredTesters:V2875_TESTER_ACCOUNTS.length,activeTesters:testerUsage.filter(function(x){return x.totalScans>0;}).length,testerUsage:testerUsage,
     answeredScans:answered,failedOrReviewScans:failed,reviewRequiredScans:reviewRequired,answerRatePercent:events.length?Math.round(answered/events.length*1000)/10:0,
     failureRatePercent:events.length?Math.round(failed/events.length*1000)/10:0,averageResponseMs:events.length?Math.round(totalDuration/events.length):0,maxResponseMs:maxDuration,
     currentOrPaidLookupScans:currentLookups,cacheHits:cacheHits,
@@ -25176,9 +25179,200 @@ function v2872AnalyticsRecent(u){
   return {ok:true,version:VERSION,count:Math.min(limit,events.length),events:events.slice(0,limit)};
 }
 v2872InitializeAnalyticsStorage();
+
+// REQUIRED_BETA_SIGN_IN_AND_TESTER_TRACKING_V2875
+const V2875_TESTER_SCHEMA_VERSION=1;
+const V2875_TESTER_ACCOUNTS_FILE_PATH=path.join(V2872_ANALYTICS_STORAGE_DIR,'tester-accounts.json');
+const V2875_TESTER_SESSION_SECRET_FILE_PATH=path.join(V2872_ANALYTICS_STORAGE_DIR,'.tester-session-secret');
+const V2875_TESTER_SESSION_DAYS=Math.max(1,Math.min(180,Number(process.env.AIV_TESTER_SESSION_DAYS||30)||30));
+const V2875_TESTER_ACCOUNTS=[];
+let V2875_TESTER_SESSION_SECRET='';
+let V2875_TESTER_STORAGE_READY=false;
+const V2875_LOGIN_FAILURES=new Map();
+
+function v2875Base64UrlEncode(value){
+  return Buffer.from(value).toString('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+}
+function v2875Base64UrlDecode(value){
+  const s=String(value||'').replace(/-/g,'+').replace(/_/g,'/');
+  const padded=s+'='.repeat((4-s.length%4)%4);
+  return Buffer.from(padded,'base64').toString('utf8');
+}
+function v2875NormalizeTesterName(value){
+  return String(value||'').normalize('NFKC').replace(/\s+/g,' ').trim();
+}
+function v2875TesterNameKey(value){return v2875NormalizeTesterName(value).toLocaleLowerCase('en-US');}
+function v2875ValidTesterName(value){
+  const name=v2875NormalizeTesterName(value);
+  return name.length>=2&&name.length<=60&&/^[\p{L}\p{M}0-9 .'-]+$/u.test(name)&&/[\p{L}0-9]/u.test(name);
+}
+function v2875ValidPin(value){return /^\d{4}$/.test(String(value||''));}
+function v2875HashPin(pin,salt){return v2872Crypto.scryptSync(String(pin),String(salt),64).toString('hex');}
+function v2875SafeEqualHex(a,b){
+  try{
+    const left=Buffer.from(String(a||''),'hex'),right=Buffer.from(String(b||''),'hex');
+    return left.length===right.length&&left.length>0&&v2872Crypto.timingSafeEqual(left,right);
+  }catch(_e){return false;}
+}
+function v2875ValidateTesterAccount(account){
+  return !!(account&&typeof account==='object'&&/^[a-f0-9]{24}$/.test(clean(account.id))&&v2875ValidTesterName(account.name)&&v2875TesterNameKey(account.name)===clean(account.nameKey)&&/^[a-f0-9]{32}$/.test(clean(account.pinSalt))&&/^[a-f0-9]{128}$/.test(clean(account.pinHash))&&Date.parse(account.createdAt||0)>0);
+}
+function v2875PersistTesterAccounts(){
+  if(!V2875_TESTER_STORAGE_READY)throw new Error('Tester storage is not ready.');
+  const payload={schemaVersion:V2875_TESTER_SCHEMA_VERSION,updatedAt:new Date().toISOString(),accounts:V2875_TESTER_ACCOUNTS};
+  const temp=V2875_TESTER_ACCOUNTS_FILE_PATH+'.tmp';
+  fs.writeFileSync(temp,JSON.stringify(payload,null,2)+'\n',{encoding:'utf8',mode:0o600});
+  try{fs.rmSync(V2875_TESTER_ACCOUNTS_FILE_PATH,{force:true});}catch(_e){}
+  fs.renameSync(temp,V2875_TESTER_ACCOUNTS_FILE_PATH);
+}
+function v2875InitializeTesterStorage(){
+  fs.mkdirSync(V2872_ANALYTICS_STORAGE_DIR,{recursive:true});
+  const configuredSecret=clean(process.env.AIV_TESTER_SESSION_SECRET||'');
+  if(configuredSecret)V2875_TESTER_SESSION_SECRET=configuredSecret;
+  else if(fs.existsSync(V2875_TESTER_SESSION_SECRET_FILE_PATH))V2875_TESTER_SESSION_SECRET=clean(fs.readFileSync(V2875_TESTER_SESSION_SECRET_FILE_PATH,'utf8'));
+  if(!V2875_TESTER_SESSION_SECRET){
+    V2875_TESTER_SESSION_SECRET=v2872Crypto.randomBytes(48).toString('hex');
+    fs.writeFileSync(V2875_TESTER_SESSION_SECRET_FILE_PATH,V2875_TESTER_SESSION_SECRET,{encoding:'utf8',mode:0o600});
+  }
+  if(V2875_TESTER_SESSION_SECRET.length<32)throw new Error('Tester session secret is malformed.');
+  if(!fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH)){
+    fs.writeFileSync(V2875_TESTER_ACCOUNTS_FILE_PATH,JSON.stringify({schemaVersion:V2875_TESTER_SCHEMA_VERSION,updatedAt:new Date().toISOString(),accounts:[]},null,2)+'\n',{encoding:'utf8',mode:0o600});
+  }
+  let parsed;
+  try{parsed=JSON.parse(fs.readFileSync(V2875_TESTER_ACCOUNTS_FILE_PATH,'utf8'));}catch(_e){throw new Error('Tester account storage is malformed.');}
+  if(!parsed||parsed.schemaVersion!==V2875_TESTER_SCHEMA_VERSION||!Array.isArray(parsed.accounts))throw new Error('Tester account storage schema is malformed.');
+  const names=new Set(),ids=new Set();
+  parsed.accounts.forEach(function(account){
+    if(!v2875ValidateTesterAccount(account))throw new Error('Tester account storage contains a malformed account.');
+    if(names.has(account.nameKey)||ids.has(account.id))throw new Error('Tester account storage contains duplicate accounts.');
+    names.add(account.nameKey);ids.add(account.id);
+  });
+  V2875_TESTER_ACCOUNTS.splice(0,V2875_TESTER_ACCOUNTS.length);
+  Array.prototype.push.apply(V2875_TESTER_ACCOUNTS,parsed.accounts);
+  V2875_TESTER_STORAGE_READY=true;
+  v2875PersistTesterAccounts();
+}
+function v2875FindTesterByName(value){
+  const key=v2875TesterNameKey(value);
+  return V2875_TESTER_ACCOUNTS.find(function(account){return account.nameKey===key;})||null;
+}
+function v2875FindTesterById(value){return V2875_TESTER_ACCOUNTS.find(function(account){return account.id===clean(value);})||null;}
+function v2875IssueSession(account){
+  const now=Math.floor(Date.now()/1000),expires=now+V2875_TESTER_SESSION_DAYS*86400;
+  const payload={v:1,testerId:account.id,iat:now,exp:expires,nonce:v2872Crypto.randomBytes(10).toString('hex')};
+  const encoded=v2875Base64UrlEncode(JSON.stringify(payload));
+  const signature=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(encoded).digest('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+  return {token:encoded+'.'+signature,expiresAt:new Date(expires*1000).toISOString()};
+}
+function v2875SessionToken(req){
+  const direct=clean(req&&req.headers&&req.headers['x-aiv-session']||'');
+  if(direct)return direct;
+  const authorization=clean(req&&req.headers&&req.headers.authorization||'');
+  const match=authorization.match(/^Bearer\s+(.+)$/i);
+  return clean(match&&match[1]||'');
+}
+function v2875AuthenticateRequest(req){
+  const token=v2875SessionToken(req),parts=token.split('.');
+  if(parts.length!==2)return null;
+  const expected=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(parts[0]).digest('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+  if(!v2872TokenEqual(parts[1],expected))return null;
+  let payload;
+  try{payload=JSON.parse(v2875Base64UrlDecode(parts[0]));}catch(_e){return null;}
+  const now=Math.floor(Date.now()/1000);
+  if(!payload||payload.v!==1||!payload.testerId||Number(payload.exp||0)<=now||Number(payload.iat||0)>now+300)return null;
+  return v2875FindTesterById(payload.testerId);
+}
+function v2875PublicTester(account){return {id:account.id,name:account.name,createdAt:account.createdAt};}
+function v2875RequireTester(req,res){
+  const tester=v2875AuthenticateRequest(req);
+  if(!tester){sendJson(res,401,{ok:false,error:'Beta sign-in is required.'});return null;}
+  return tester;
+}
+function v2875ReadJsonBody(req,maxBytes){
+  return new Promise(function(resolve,reject){
+    let total=0,body='';
+    req.setEncoding('utf8');
+    req.on('data',function(chunk){total+=Buffer.byteLength(chunk);if(total>(maxBytes||4096)){reject(new Error('Request is too large.'));req.destroy();return;}body+=chunk;});
+    req.on('end',function(){try{resolve(body?JSON.parse(body):{});}catch(_e){reject(new Error('Invalid request.'));}});
+    req.on('error',reject);
+  });
+}
+function v2875LoginKey(req,name){return v2872Crypto.createHash('sha256').update(v2872RequestIp(req)+'|'+v2875TesterNameKey(name)).digest('hex').slice(0,32);}
+function v2875LoginBlocked(req,name){
+  const key=v2875LoginKey(req,name),state=V2875_LOGIN_FAILURES.get(key),now=Date.now();
+  if(!state)return false;
+  if(state.lockedUntil&&state.lockedUntil>now)return true;
+  if(now-state.startedAt>15*60*1000){V2875_LOGIN_FAILURES.delete(key);return false;}
+  return false;
+}
+function v2875RecordLoginFailure(req,name){
+  const key=v2875LoginKey(req,name),now=Date.now();
+  let state=V2875_LOGIN_FAILURES.get(key);
+  if(!state||now-state.startedAt>15*60*1000)state={startedAt:now,count:0,lockedUntil:0};
+  state.count++;
+  if(state.count>=8)state.lockedUntil=now+15*60*1000;
+  V2875_LOGIN_FAILURES.set(key,state);
+}
+function v2875ClearLoginFailures(req,name){V2875_LOGIN_FAILURES.delete(v2875LoginKey(req,name));}
+async function v2875HandleTesterSignIn(req,res){
+  if(req.method!=='POST')return sendJson(res,405,{ok:false,error:'Method not allowed.'});
+  let body;
+  try{body=await v2875ReadJsonBody(req,4096);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
+  const name=v2875NormalizeTesterName(body&&body.name),pin=String(body&&body.pin||'');
+  if(!v2875ValidTesterName(name))return sendJson(res,400,{ok:false,error:'Enter a valid name using 2 to 60 letters, numbers, spaces, apostrophes, periods, or hyphens.'});
+  if(!v2875ValidPin(pin))return sendJson(res,400,{ok:false,error:'Enter an exact 4-digit PIN.'});
+  if(v2875LoginBlocked(req,name))return sendJson(res,429,{ok:false,error:'Too many incorrect PIN attempts. Try again in 15 minutes.'});
+  let account=v2875FindTesterByName(name),registered=false;
+  if(account){
+    const actual=v2875HashPin(pin,account.pinSalt);
+    if(!v2875SafeEqualHex(actual,account.pinHash)){
+      v2875RecordLoginFailure(req,name);
+      return sendJson(res,401,{ok:false,error:'That name is already registered and the PIN did not match.'});
+    }
+  }else{
+    const now=new Date().toISOString(),salt=v2872Crypto.randomBytes(16).toString('hex');
+    account={id:v2872Crypto.randomBytes(12).toString('hex'),name:name,nameKey:v2875TesterNameKey(name),pinSalt:salt,pinHash:v2875HashPin(pin,salt),createdAt:now,lastLoginAt:now};
+    V2875_TESTER_ACCOUNTS.push(account);registered=true;
+  }
+  v2875ClearLoginFailures(req,name);
+  account.lastLoginAt=new Date().toISOString();
+  v2875PersistTesterAccounts();
+  const session=v2875IssueSession(account);
+  return sendJson(res,200,{ok:true,registered:registered,tester:v2875PublicTester(account),sessionToken:session.token,sessionExpiresAt:session.expiresAt});
+}
+function v2875TesterUsageSummary(events){
+  const map=new Map();
+  V2875_TESTER_ACCOUNTS.forEach(function(account){map.set(account.id,{testerId:account.id,testerName:account.name,totalScans:0,currentOrPaidLookupScans:0,failuresOrReviewScans:0,firstScanAt:'',lastScanAt:'',routes:{},outcomes:{}});});
+  (Array.isArray(events)?events:[]).forEach(function(event){
+    if(!event||!event.testerId)return;
+    let row=map.get(event.testerId);
+    if(!row){row={testerId:event.testerId,testerName:event.testerName||'Unknown tester',totalScans:0,currentOrPaidLookupScans:0,failuresOrReviewScans:0,firstScanAt:'',lastScanAt:'',routes:{},outcomes:{}};map.set(event.testerId,row);}
+    row.totalScans++;
+    if(event.paidOrCurrentLookup)row.currentOrPaidLookupScans++;
+    if(event.failureCategory||event.reviewRequired)row.failuresOrReviewScans++;
+    const timestamp=clean(event.timestamp||'');
+    if(timestamp&&(!row.firstScanAt||timestamp<row.firstScanAt))row.firstScanAt=timestamp;
+    if(timestamp&&(!row.lastScanAt||timestamp>row.lastScanAt))row.lastScanAt=timestamp;
+    v2872Increment(row.routes,event.route||'UNSPECIFIED');
+    v2872Increment(row.outcomes,event.outcome||'UNSPECIFIED');
+  });
+  return Array.from(map.values()).map(function(row){
+    row.routes=v2872TopEntries(row.routes,20);row.outcomes=v2872TopEntries(row.outcomes,20);return row;
+  }).sort(function(a,b){return b.totalScans-a.totalScans||a.testerName.localeCompare(b.testerName);});
+}
+
+v2875InitializeTesterStorage();
+const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v2875',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function'
+});
+if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.storageReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.accountFileExists||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionSecretReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.pinHashingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionValidationAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.analyticsLinkingAvailable){
+  throw new Error('REQUIRED_BETA_SIGN_IN_AND_TESTER_TRACKING_V2875 startup validation failed');
+}
+
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2874'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2875'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -25189,7 +25383,16 @@ const server=http.createServer(async (req,res)=>{
   try{
     if(req.method==='OPTIONS') return send(res,204,'text/plain','');
     const u=new URL(req.url,'http://localhost:'+PORT);
-    if(u.pathname==='/health') return send(res,200,'application/json',JSON.stringify({ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,persistentCompletedContractCache:false,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2874,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2873,sourceStrategyStats:v2776SourceStrategySnapshot(),sourceFlags:runtimeSourceFlags(),analytics:{version:'ANALYTICS_SOURCE_VALIDATION_AND_RESPONSIVE_SIZING_REPAIR_V2874',startedAt:V2872_ANALYTICS_STARTED_AT,allScanLogging:V2872_ANALYTICS_LOG_ALL,memoryEvents:V2872_ANALYTICS_EVENTS.length,memoryFailures:V2872_ANALYTICS_FAILURES.length,adminEndpointsEnabled:!!V2872_ANALYTICS_ADMIN_TOKEN,filePersistenceEnabled:V2872_ANALYTICS_STORAGE_READY,storageDurability:V2872_ANALYTICS_STORAGE_DURABILITY,configuredStorageDirectory:!!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR,renderPersistentStorageConfigured:!process.env.RENDER||!!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR,commandWindowPerScanLogging:false}},null,2));
+    if(u.pathname==='/auth/sign-in')return await v2875HandleTesterSignIn(req,res);
+    if(u.pathname==='/auth/session'){
+      const tester=v2875RequireTester(req,res);if(!tester)return;
+      return sendJson(res,200,{ok:true,tester:v2875PublicTester(tester)});
+    }
+    if(u.pathname==='/auth/sign-out'){
+      const tester=v2875RequireTester(req,res);if(!tester)return;
+      return sendJson(res,200,{ok:true});
+    }
+    if(u.pathname==='/health') return send(res,200,'application/json',JSON.stringify({ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,persistentCompletedContractCache:false,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2875,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2874,sourceStrategyStats:v2776SourceStrategySnapshot(),sourceFlags:runtimeSourceFlags(),analytics:{version:'REQUIRED_BETA_SIGN_IN_AND_TESTER_TRACKING_V2875',startedAt:V2872_ANALYTICS_STARTED_AT,allScanLogging:V2872_ANALYTICS_LOG_ALL,memoryEvents:V2872_ANALYTICS_EVENTS.length,memoryFailures:V2872_ANALYTICS_FAILURES.length,adminEndpointsEnabled:!!V2872_ANALYTICS_ADMIN_TOKEN,filePersistenceEnabled:V2872_ANALYTICS_STORAGE_READY,storageDurability:V2872_ANALYTICS_STORAGE_DURABILITY,configuredStorageDirectory:!!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR,renderPersistentStorageConfigured:!process.env.RENDER||!!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR,commandWindowPerScanLogging:false},betaSignIn:{required:true,registeredTesters:V2875_TESTER_ACCOUNTS.length,storageReady:V2875_TESTER_STORAGE_READY}},null,2));
     if(u.pathname==='/analytics/summary'){
       if(!v2872AnalyticsAccess(req,res,u))return;
       return sendJson(res,200,v2872AnalyticsSummary(u.searchParams.get('days')||7));
@@ -25200,9 +25403,10 @@ const server=http.createServer(async (req,res)=>{
     }
     if(u.pathname==='/analytics/export'){
       if(!v2872AnalyticsAccess(req,res,u))return;
-      return sendJson(res,200,{ok:true,version:VERSION,exportedAt:new Date().toISOString(),events:V2872_ANALYTICS_EVENTS.slice()});
+      return sendJson(res,200,{ok:true,version:VERSION,exportedAt:new Date().toISOString(),registeredTesterCount:V2875_TESTER_ACCOUNTS.length,testerUsage:v2875TesterUsageSummary(V2872_ANALYTICS_EVENTS),events:V2872_ANALYTICS_EVENTS.slice()});
     }
     if(u.pathname==='/retry-test/start'){
+      const tester=v2875RequireTester(req,res);if(!tester)return;
       const input=u.searchParams.get('input')||'';
       const sessionId=u.searchParams.get('session')||'';
       const token=u.searchParams.get('token')||'';
@@ -25211,13 +25415,16 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,result.status,result.body);
     }
     if(u.pathname==='/retry-test/status'){
+      const tester=v2875RequireTester(req,res);if(!tester)return;
       return sendJson(res,200,retryTimeoutTestStatus(u.searchParams.get('input')||'',u.searchParams.get('session')||'',u.searchParams.get('token')||''));
     }
     if(u.pathname==='/retry-test/retry'){
+      const tester=v2875RequireTester(req,res);if(!tester)return;
       const result=await continueRetryTimeoutTest(u.searchParams.get('input')||'',u.searchParams.get('session')||'',u.searchParams.get('token')||'');
       return sendJson(res,result.status,result.body);
     }
     if(u.pathname==='/retry-test/clear'){
+      const tester=v2875RequireTester(req,res);if(!tester)return;
       return sendJson(res,200,clearRetryTimeoutTest(u.searchParams.get('session')||'',u.searchParams.get('token')||''));
     }
     if(u.pathname==='/developer-cache-status'){
@@ -25228,9 +25435,10 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedResultsCleared:cleared.completed,inFlightCleared:cleared.inFlight,paidResultsCleared:cleared.paidResults,paidInFlightCleared:cleared.paidInFlight});
     }
     if(u.pathname==='/scan' || u.pathname==='/analyze'){
+      const tester=v2875RequireTester(req,res);if(!tester)return;
       const input=u.searchParams.get('input')||u.searchParams.get('claim')||u.searchParams.get('q')||u.searchParams.get('text')||'';
       const requestState={aborted:false};
-      const requestContext={timezone:u.searchParams.get('tz')||'',clientDate:u.searchParams.get('clientDate')||''};
+      const requestContext={timezone:u.searchParams.get('tz')||'',clientDate:u.searchParams.get('clientDate')||'',testerId:tester.id,testerName:tester.name};
       analyticsScan={input:input,startedAt:Date.now(),requestContext:requestContext,finalized:false};
       const finalizeAnalytics=function(body,options){
         if(!analyticsScan||analyticsScan.finalized)return;
@@ -25261,6 +25469,7 @@ server.listen(PORT,'0.0.0.0',()=>{
   console.log(VERSION+' running on port '+PORT);
   console.log(runtimeSourceFlagsLine());
   console.log('AIV analytics ready: quiet storage '+(V2872_ANALYTICS_STORAGE_READY?'enabled':'memory only'));
+  console.log('AIV beta sign-in ready: '+V2875_TESTER_ACCOUNTS.length+' registered tester(s)');
   if(process.env.RENDER&&!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR){
     console.warn('AIV analytics warning: configure AIV_ANALYTICS_STORAGE_DIR on a mounted Render persistent disk before production logging.');
   }
@@ -30648,6 +30857,14 @@ const R1_GOLDEN_BENCHMARK_LOCK_V2874=Object.freeze({
   lock:'R1_GOLDEN_BENCHMARK_LOCK_V2874_V2240',
   status:'CANDIDATE_PENDING_SOURCE_VALIDATION_AND_RESPONSIVE_VERIFICATION',
   priorAnalyticsCandidate:R1_GOLDEN_BENCHMARK_LOCK_V2873.lock,
+  priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2870.lock
+});
+const R1_GOLDEN_BENCHMARK_LOCK_V2875=Object.freeze({
+  backend:'BM_BE_AIV_v2875_BSI_js.txt',
+  frontend:'BM_FE_AIV_v2241_BSI_html.txt',
+  lock:'R1_GOLDEN_BENCHMARK_LOCK_V2875_V2241',
+  status:'required beta sign-in and tester-linked analytics locked',
+  priorAnalyticsCandidate:R1_GOLDEN_BENCHMARK_LOCK_V2874.lock,
   priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2870.lock
 });
 
