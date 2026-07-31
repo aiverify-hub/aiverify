@@ -1,3 +1,5 @@
+<!-- BM_FE_AIV_v2256_AIR: removes conflicting audio/video-ready wording while preserving the verified v2255 AI beta notice and behavior. -->
+<!-- AI_MEDIA_INTRO_REDUNDANCY_REPAIR_V2256 -->
 <!-- BM_FE_AIV_v2255_ABN: plain-language AI beta capability notice over verified v2254. -->
 <!-- AI_BETA_CAPABILITY_NOTICE_V2255 -->
 <!-- BM_FE_AIV_v2254_AIC: AI-media result color mapping over verified v2253. -->
@@ -692,7 +694,7 @@ body.aivAuthLocked{overflow:hidden!important}
     <div class="aivAuthNotice"><strong>Beta use notice:</strong> AIVerify pays for some current-information, webpage, video, and media scans. Please use these scan types thoughtfully during beta. You will not be charged.</div>
   </div>
 </div>
-<div class="version" id="versionBadge">frontend v2255</div>
+<div class="version" id="versionBadge">frontend v2256</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
@@ -717,7 +719,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   <div id="aiMediaCheck" class="aiMediaCheck">
     <div class="aiMediaHeading">Check for AI Creation <span class="aiMediaBeta">Beta</span></div>
     <div class="aiMediaBody">
-      <p class="aiMediaIntro">Upload an image, audio file, or video to check whether it was generated or materially altered using AI. Results use AIVerify’s combined analysis without exposing individual detection sources.</p>
+      <p class="aiMediaIntro">Upload an image to check whether it was generated or materially altered using AI.</p>
       <p class="aiMediaIntro"><strong>AI image checking is complete for this beta. Audio and video checking are still being developed for this initial release.</strong></p>
       <input id="aiMediaFile" class="aiMediaFile" type="file" accept="image/jpeg,image/png,image/gif,image/webp,audio/mpeg,audio/wav,video/mp4,video/quicktime,video/webm">
       <div class="aiMediaActions"><button type="button" id="aiMediaButton" class="aiMediaButton">Check for AI Creation</button><span class="aiMediaLimit">JPEG, PNG, GIF, WebP, MP3, WAV, MP4, MOV, or WebM — maximum 8 MB</span></div>
@@ -754,8 +756,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2255";
-  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2895_V2255";
+  const FRONTEND_VERSION="frontend v2256";
+  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2895_V2256";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
   function setTopRightBackendVersion(versionText){
