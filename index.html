@@ -1,3 +1,11 @@
+<!-- BM_FE_AIV_v2255_ABN: plain-language AI beta capability notice over verified v2254. -->
+<!-- AI_BETA_CAPABILITY_NOTICE_V2255 -->
+<!-- BM_FE_AIV_v2254_AIC: AI-media result color mapping over verified v2253. -->
+<!-- AI_MEDIA_RESULT_COLOR_MAPPING_REPAIR_V2254 -->
+<!-- Baseline: BM_FE_AIV_v2253_RVF_html.txt; compatible with BM_BE_AIV_v2894_AIC_js.txt. -->
+<!-- BM_FE_AIV_v2253_RVF: clickable beta-review count filters and reversible Reviewed status over verified v2252. -->
+<!-- REVIEW_VIEW_FILTERS_AND_REOPEN_REPAIR_V2253 -->
+<!-- BM_FE_AIV_v2247_TWS: adds provider-ready AI media analysis display over verified v2244; metadata-only fallback preserved. -->
 <!-- BM_FE_AIV_v2243_SSR: sign-out and authentication-boundary workspace reset over verified v2242. -->
 <!-- Baseline: BM_FE_AIV_v2242_BSC_html.txt; compatible with unchanged BM_BE_AIV_v2875_BSI_js.txt. -->
 <!-- SIGN_OUT_WORKSPACE_RESET_V2243 -->
@@ -264,6 +272,9 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <!-- AIVerify_frontend_v1678_EXTRAORDINARY_TRANSCRIPT_EVIDENCE_CHAINS: paired with backend v2095; preserves v1670 layout while supporting stronger layered evidence-chain output. -->
 <!-- AIVerify_frontend_v1723_POST_EXTRACTION_CLAIM_REORDERING_REMOVAL: fixes whole-input exact-claim override so later NASA extraordinary claims cannot replace first climate-consensus claim. -->
 <!DOCTYPE html>
+<!-- BM_FE_AIV_v2252_URQ: unique review grouping, scan date display, accurate queue wording, and oldest/newest review ordering over verified v2251/v2885. -->
+<!-- Preserves exact result capture, sign-in, AI detection, public result colors, and all normal scan rendering. -->
+<!-- BM_FE_AIV_v2244_APS: adds signed-in AI media provenance upload panel for backend v2877; normal scan UI preserved. -->
 <!-- AIV_F_v1871_SIUN: adds optional Supporting Information for accepted scans and user-facing Notes terminology. -->
 <!-- AIV_F_v1868_URQR: URL result quality repair; specific URL claim cards render complete page-derived content and source-supported status. -->
 <!-- AIVerify_frontend_v1661 FIX1 — paired with backend v2083 FIX1; version label verified. -->
@@ -272,7 +283,7 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>BM_FE_AIV_v2241_BSI</title>
+<title>BM_FE_AIV_v2252_URQ</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding:0 0 52px;overflow-x:hidden}
@@ -566,6 +577,101 @@ body.aivAuthLocked{overflow:hidden!important}
   .testerSignOut{font-size:10px!important;padding:5px 7px!important}
 }
 
+
+
+/* BM_FE_AIV_v2252_URQ — unique review grouping, scan date display, accurate queue wording, and oldest/newest review ordering. */
+.workflowPrompt{margin-bottom:8px!important}
+.workflowSelector{display:flex;justify-content:center;margin:0 auto 12px;width:100%}
+.workflowChoice{display:flex!important;align-items:center!important;justify-content:center;min-height:46px;margin:0!important;padding:10px 15px!important;border-radius:10px!important;border:2px solid #0f6f9b!important;background:#e8f4fb!important;color:#17354c!important;text-align:center!important;box-shadow:0 5px 14px rgba(15,83,120,.14)!important}
+.workflowChoice:hover{border-color:#4385aa!important}
+.workflowChoiceTitle{display:block;font-size:14px;font-weight:900;line-height:1.15}
+.workflowChoiceHelp{display:none}
+.workflowPanel[hidden],#informationResultPanel[hidden]{display:none!important}
+.informationCheck,.aiMediaCheck{margin:0;background:rgba(244,247,250,.97);border:1px solid #c9d8e3;border-radius:12px;box-shadow:0 5px 16px rgba(15,48,72,.12);overflow:hidden;color:#17354c}
+.informationHeading,.aiMediaHeading{padding:13px 16px;font-size:16px;font-weight:900;background:#e8f3fb;color:#123e5c}
+.informationBody,.aiMediaBody{padding:14px 16px 16px}
+.informationIntro,.aiMediaIntro{font-size:13px;line-height:1.38;margin:0 0 11px;color:#36566b}
+.informationInputBox{margin:0!important;padding:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+.aiMediaBeta{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:10px;background:#d9e7ef;font-size:10px;vertical-align:2px}
+.aiMediaFile{display:block;width:100%;padding:9px;background:#fff;border:1px solid #b6c8d5;border-radius:8px;font-size:13px}
+.aiMediaActions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.aiMediaButton{margin:0!important;background:#187ea8!important;color:#fff!important;padding:10px 15px!important;font-size:14px!important}
+.aiMediaButton:disabled{opacity:.62;cursor:wait}
+.aiMediaLimit{font-size:12px;color:#587184}
+.aiMediaResult{margin-top:12px;padding:11px 12px;border-radius:9px;background:#fff;border:1px solid #ccd9e2;font-size:13px;line-height:1.4;color:#263f50}
+.aiMediaResult strong{display:block;font-size:15px;color:#123e5c;margin-bottom:5px}
+.aiMediaResult.isAiGenerated{border-color:#6fa9d2;background:#eaf4ff;color:#164f77}
+.aiMediaResult.isAiGenerated strong{color:#0f4f86}
+.aiMediaResult.isSuccess{border-color:#8cc6a2;background:#f0fbf4}
+.aiMediaResult.isWarning{border-color:#dfbd64;background:#fff9e8}
+.aiMediaResult.isError{border-color:#d69088;background:#fff1ef;color:#842f27}
+.aiMediaFacts{margin-top:8px;padding-top:8px;border-top:1px solid rgba(60,90,110,.18);font-size:12px;color:#496577}
+.aiMediaSignals{margin-top:6px;font-weight:800}
+@media(max-width:720px){
+  .workflowSelector{margin-bottom:9px}
+  .workflowChoice{width:100%;min-height:44px;padding:9px 12px!important}
+  .workflowChoiceTitle{font-size:13px}
+  .informationCheck,.aiMediaCheck{border-radius:10px}
+  .informationHeading,.aiMediaHeading{padding:11px 12px;font-size:14px}
+  .informationBody,.aiMediaBody{padding:11px 12px 13px}
+  .informationIntro{font-size:12px}
+  .aiMediaIntro,.aiMediaResult{font-size:12px}
+  .aiMediaButton{width:100%;font-size:13px!important}
+}
+
+
+
+/* UNIQUE_REVIEW_QUEUE_AND_DATE_REPAIR_V2252 */
+.responseReviewPanel{margin:14px 0 0;padding:12px 14px;border:1px solid #c7d3dc;border-radius:10px;background:#fff;color:#17232c;font-size:14px;line-height:1.3}
+.responseReviewPanel[hidden]{display:none!important}
+.responseReviewToggle{display:flex;align-items:center;gap:9px;font-weight:900;cursor:pointer}
+.responseReviewToggle input{width:18px;height:18px;margin:0;accent-color:#b33a31}
+.responseReviewReasons{margin:10px 0 0 27px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.responseReviewReasons[hidden],.responseReviewOther[hidden]{display:none!important}
+.responseReviewReasons label{font-weight:800;color:#33424d}
+.responseReviewReasons select,.responseReviewOther{min-width:230px;max-width:100%;padding:8px 9px;border:1px solid #9baab6;border-radius:7px;background:#fff;color:#111;font-size:14px}
+.responseReviewOther{width:min(430px,100%)}
+.responseReviewStatus{margin:7px 0 0 27px;font-weight:800;color:#176b39}
+.clarificationQuote{margin:10px 0;padding:12px;border-radius:9px;background:#fff;border:1px solid #c8d8e3;font-size:16px;font-weight:800;color:#17354c;white-space:pre-wrap}
+.clarificationActions{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}
+.clarificationAction{margin:0!important;padding:9px 12px!important;font-size:13px!important}
+.clarificationAction.primary{background:#187ea8!important;color:#fff!important}
+.clarificationAction.secondary{background:#eef3f6!important;color:#17354c!important;border:1px solid #aebec9!important}
+.betaReviewDashboard{width:min(980px,calc(100% - 32px));max-width:980px;margin:18px auto 0;padding:18px;background:#eef2f5;color:#111;border-radius:14px;text-align:left;box-shadow:0 12px 28px rgba(0,0,0,.22)}
+.betaReviewDashboard[hidden]{display:none!important}
+.betaReviewHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.betaReviewTitle{font-size:25px;font-weight:900;color:#0f3656}
+.betaReviewSubtitle{font-size:13px;color:#526877;margin-top:3px}
+.betaReviewControls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.betaReviewToken{min-width:230px;padding:9px 10px;border:1px solid #9eacb7;border-radius:7px;font-size:14px}
+.betaReviewButton{margin:0!important;padding:9px 12px!important;background:#2b6f9f;color:#fff;box-shadow:none!important}
+.betaReviewMessage{font-size:13px;font-weight:800;color:#8a2d24;margin:4px 0 10px}
+.betaReviewProgress{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 13px}
+.betaReviewProgressItem{appearance:none;margin:0!important;background:#fff!important;border:1px solid #d3dde4!important;border-radius:9px!important;padding:8px 11px!important;font-size:13px!important;color:#344755!important;box-shadow:none!important;cursor:pointer}
+.betaReviewProgressItem:hover{border-color:#6f94ad!important}
+.betaReviewProgressItem.isActive{background:#2b6f9f!important;border-color:#2b6f9f!important;color:#fff!important}
+.betaReviewProgressItem b{font-size:16px;color:#123e60;margin-left:5px}
+.betaReviewProgressItem.isActive b{color:#fff}
+.betaReviewOrderControls{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:0 0 12px}.betaReviewOrderLabel{font-size:13px;font-weight:900;color:#36556a}.betaReviewOrderButton{margin:0!important;padding:7px 10px!important;background:#fff!important;color:#24445c!important;border:1px solid #aebec9!important;box-shadow:none!important}.betaReviewOrderButton.isActive{background:#2b6f9f!important;color:#fff!important;border-color:#2b6f9f!important}.betaSimpleDate{font-weight:900;color:#163d5b}
+.betaReviewQueueTitle{font-size:19px;font-weight:900;color:#0f3656;margin:12px 0 4px}
+.betaReviewQueueHelp{font-size:12px;color:#5c6e7a;margin-bottom:9px}
+.betaSimpleItem{background:#fff;border:1px solid #cfdbe3;border-radius:11px;margin:10px 0;padding:13px;box-shadow:0 3px 9px rgba(20,55,80,.07)}
+.betaSimpleItem.isUserFlagged{border-left:6px solid #c84b42}
+.betaSimpleItem.isAutomaticFlagged{border-left:6px solid #d3a329}
+.betaSimpleTop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:9px}
+.betaSimpleNumber{font-weight:900;color:#163d5b}
+.betaSimpleReviewed{display:flex;align-items:center;gap:7px;font-weight:900;cursor:pointer;color:#224258}
+.betaSimpleReviewed input{width:19px;height:19px;margin:0;accent-color:#26734d}
+.betaSimpleLabel{font-weight:900;color:#233b4d;margin:9px 0 4px}
+.betaSimpleInput,.betaSimpleResult{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafb;border:1px solid #d9e2e8;border-radius:8px;padding:10px 11px;color:#111;line-height:1.42}
+.betaSimpleInput{font-size:15px;font-weight:800}
+.betaSimpleResult{font-size:14px;background:#fff}
+.betaSimpleFlag{margin:9px 0 0;padding:8px 10px;border-radius:7px;background:#fff4e8;border:1px solid #e8c498;font-size:13px;font-weight:800;color:#653b0d}
+.betaSimpleFlag.user{background:#fff0ee;border-color:#e6b5b0;color:#7d2922}
+.betaSimpleStatus{font-size:12px;font-weight:800;color:#176b39;margin-top:7px;text-align:right}
+.betaReviewEmpty{background:#fff;border:1px solid #d3dde4;border-radius:10px;padding:16px;text-align:center;font-weight:800;color:#36556a}
+@media(max-width:720px){.responseReviewPanel{font-size:12px;padding:10px}.responseReviewReasons{margin-left:0}.responseReviewStatus{margin-left:0}.responseReviewReasons select,.responseReviewOther{min-width:0;width:100%}.betaReviewDashboard{width:calc(100% - 20px);padding:12px}.betaReviewToken{min-width:0;width:100%}.betaReviewControls{width:100%}.betaSimpleInput{font-size:14px}.betaSimpleResult{font-size:13px}.clarificationActions button{width:100%}}
+
 </style>
 </head>
 <body class="aivAuthLocked">
@@ -586,14 +692,39 @@ body.aivAuthLocked{overflow:hidden!important}
     <div class="aivAuthNotice"><strong>Beta use notice:</strong> AIVerify pays for some current-information, webpage, video, and media scans. Please use these scan types thoughtfully during beta. You will not be charged.</div>
   </div>
 </div>
-<div class="version" id="versionBadge">frontend v2243</div>
+<div class="version" id="versionBadge">frontend v2255</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
-<div class="container"><h2>Is This Content Accurate and Trustworthy?</h2>
-<div class="box"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
+<div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
+<div class="workflowSelector" aria-label="Switch AIVerify check">
+  <button type="button" id="workflowToggleBtn" class="workflowChoice" aria-controls="informationModePanel aiCreationModePanel"><span id="workflowToggleText" class="workflowChoiceTitle">Check for AI Creation</span></button>
+</div>
+
+<div id="informationModePanel" class="workflowPanel" role="tabpanel" aria-label="Check the Information">
+  <div class="informationCheck">
+    <div class="informationHeading">Check the Information</div>
+    <div class="informationBody">
+      <p class="informationIntro">Enter a question, claim, webpage, video address, or document text.</p>
+      <div class="box informationInputBox"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
 
 Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction">Ready</div></div><div id="subjectCountInline" class="subjectCountInline"></div>
-<div class="actionButtons"><button type="button" id="analyzeBtn" class="analyze">Analyze<span style="font-size:20px;">/</span>Enter</button><button type="button" id="clearBtn" class="clear">Clear</button><button type="button" id="copyBtn" class="copy">Copy</button><button type="button" id="pasteBtn" class="paste">Paste</button><button type="button" id="sampleBtn" class="sample">Samples</button></div></div>
+      <div class="actionButtons"><button type="button" id="analyzeBtn" class="analyze">Analyze<span style="font-size:20px;">/</span>Enter</button><button type="button" id="clearBtn" class="clear">Clear</button><button type="button" id="copyBtn" class="copy">Copy</button><button type="button" id="pasteBtn" class="paste">Paste</button><button type="button" id="sampleBtn" class="sample">Samples</button></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="aiCreationModePanel" class="workflowPanel" role="tabpanel" aria-label="Check for AI Creation" hidden>
+  <div id="aiMediaCheck" class="aiMediaCheck">
+    <div class="aiMediaHeading">Check for AI Creation <span class="aiMediaBeta">Beta</span></div>
+    <div class="aiMediaBody">
+      <p class="aiMediaIntro">Upload an image, audio file, or video to check whether it was generated or materially altered using AI. Results use AIVerify’s combined analysis without exposing individual detection sources.</p>
+      <p class="aiMediaIntro"><strong>AI image checking is complete for this beta. Audio and video checking are still being developed for this initial release.</strong></p>
+      <input id="aiMediaFile" class="aiMediaFile" type="file" accept="image/jpeg,image/png,image/gif,image/webp,audio/mpeg,audio/wav,video/mp4,video/quicktime,video/webm">
+      <div class="aiMediaActions"><button type="button" id="aiMediaButton" class="aiMediaButton">Check for AI Creation</button><span class="aiMediaLimit">JPEG, PNG, GIF, WebP, MP3, WAV, MP4, MOV, or WebM — maximum 8 MB</span></div>
+      <div id="aiMediaResult" class="aiMediaResult" aria-live="polite">Choose a media file to check.</div><div id="aiMediaReviewPanel" class="responseReviewPanel" hidden></div>
+    </div>
+  </div>
+</div>
 
 <div id="sampleChooser" class="sampleChooserOverlay" hidden aria-hidden="true">
   <div class="sampleChooserPanel" role="dialog" aria-modal="true" aria-labelledby="sampleChooserTitle">
@@ -606,15 +737,25 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     <button type="button" id="sampleBackBtn" class="sampleBackBtn" hidden>Back to Categories</button>
   </div>
 </div>
-<div class="resultBox"><div id="contentType"></div><div id="transcriptStatus" class="transcriptStatus" style="display:none"></div><div id="result">Ready</div></div></div><div class="bottomBorder"></div>
+<div id="informationResultPanel" class="resultBox"><div id="contentType"></div><div id="transcriptStatus" class="transcriptStatus" style="display:none"></div><div id="result">Ready</div><div id="responseReviewPanel" class="responseReviewPanel" hidden></div></div></div>
+<section id="betaReviewDashboard" class="betaReviewDashboard" hidden aria-labelledby="betaReviewTitle">
+  <div class="betaReviewHeader"><div><div id="betaReviewTitle" class="betaReviewTitle">Beta Scan Review</div><div class="betaReviewSubtitle">Review each unique scan in the same order it was received. Technical data remains stored but hidden.</div></div><div class="betaReviewControls"><input id="betaReviewToken" class="betaReviewToken" type="password" autocomplete="off" placeholder="Analytics admin token"><button type="button" id="betaReviewLoad" class="betaReviewButton">Refresh</button></div></div>
+  <div id="betaReviewMessage" class="betaReviewMessage"></div>
+  <div id="betaReviewSummary"></div>
+  <div class="betaReviewOrderControls"><span class="betaReviewOrderLabel">Show:</span><button type="button" id="betaReviewOldest" class="betaReviewOrderButton isActive">Oldest first</button><button type="button" id="betaReviewNewest" class="betaReviewOrderButton">Newest first</button></div>
+  <div id="betaReviewQueueTitle" class="betaReviewQueueTitle">Unreviewed Unique Scans</div>
+  <div id="betaReviewQueueHelp" class="betaReviewQueueHelp">Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are stored but shown once. Flagged scans are highlighted.</div>
+  <div id="betaReviewQueue"></div>
+</section>
+<div class="bottomBorder"></div>
 <script>
 (function(){
   "use strict";
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2243";
-  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2875_V2243";
+  const FRONTEND_VERSION="frontend v2255";
+  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2895_V2255";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
   function setTopRightBackendVersion(versionText){
@@ -669,7 +810,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function aivSessionHeaders(){
     const token=activeTesterSession&&activeTesterSession.token||aivStoredSessionToken();
-    return token?{'x-aiv-session':token}:{};
+    const headers={'x-aiv-frontend-version':FRONTEND_VERSION};
+    if(token)headers['x-aiv-session']=token;
+    return headers;
   }
   function aivResetWorkspaceForAuthBoundary(){
     try{cancelActiveRender();}catch(_e){}
@@ -685,6 +828,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     try{hardClearRenderedResults();replaceResultHtml('Ready');}catch(_e){}
     try{setText('lastAction','Ready');}catch(_e){}
     try{closeSampleChooser();}catch(_e){}
+    try{aivResetAiMediaCheck();}catch(_e){}
+    try{aivClearReviewPanels();}catch(_e){}
+    try{aivSetWorkflowMode('information');}catch(_e){}
   }
   function aivShowSignIn(message){
     let rememberedName='';try{rememberedName=String(localStorage.getItem(AIV_TESTER_NAME_STORAGE_KEY)||'');}catch(_e){}
@@ -996,6 +1142,163 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function el(id){return document.getElementById(id);} 
   function input(){return el("input");}
   function esc(v){return String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
+  const AIV_REVIEW_REASONS=['Seems incorrect','Missing important information','Source problem','Confusing or unclear','Other'];
+  let activeScanEventIds=[];
+  function aivUniqueEventIds(values){return Array.from(new Set((Array.isArray(values)?values:[values]).map(function(value){return String(value||'').trim();}).filter(Boolean)));}
+  function aivClearReviewPanels(){
+    activeScanEventIds=[];
+    ['responseReviewPanel','aiMediaReviewPanel'].forEach(function(id){const node=el(id);if(node){node.hidden=true;node.innerHTML='';}});
+  }
+  async function aivFlagEvents(eventIds,flagged,reason,otherText,statusNode){
+    const ids=aivUniqueEventIds(eventIds);
+    if(!ids.length)return;
+    if(statusNode){statusNode.style.color='#176b39';statusNode.textContent=flagged?'Saving review flag…':'Removing review flag…';}
+    try{
+      for(let index=0;index<ids.length;index+=1){
+        const headers=aivSessionHeaders();headers['content-type']='application/json';
+        const response=await fetch(BACKEND_BASE_URL+'/analytics/flag',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({eventId:ids[index],flagged:flagged!==false,reason:String(reason||''),otherText:String(otherText||'')})});
+        const data=await response.json().catch(function(){return {};});
+        if(response.status===401){aivHandleUnauthorized();return;}
+        if(!response.ok||!data.ok)throw new Error(data.error||'The response flag could not be changed.');
+      }
+      if(statusNode)statusNode.textContent=flagged?'Flagged for review.':'Review flag removed.';
+    }catch(error){if(statusNode){statusNode.style.color='#9b2d23';statusNode.textContent=String(error&&error.message||error||'The response flag could not be changed.');}}
+  }
+  function aivRenderReviewPanel(containerId,eventIds){
+    const node=el(containerId);if(!node)return;
+    const ids=aivUniqueEventIds(eventIds);
+    if(!ids.length){node.hidden=true;node.innerHTML='';return;}
+    node.hidden=false;node.innerHTML='';
+    const toggle=document.createElement('label');toggle.className='responseReviewToggle';
+    const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.setAttribute('aria-label','Flag this response for review');
+    const labelText=document.createElement('span');labelText.textContent='Flag this response for review';
+    toggle.appendChild(checkbox);toggle.appendChild(labelText);node.appendChild(toggle);
+    const reasons=document.createElement('div');reasons.className='responseReviewReasons';reasons.hidden=true;
+    const reasonLabel=document.createElement('label');reasonLabel.textContent='Reason (optional)';
+    const select=document.createElement('select');
+    const blank=document.createElement('option');blank.value='';blank.textContent='No reason selected';select.appendChild(blank);
+    AIV_REVIEW_REASONS.forEach(function(reason){const option=document.createElement('option');option.value=reason;option.textContent=reason;select.appendChild(option);});
+    const other=document.createElement('input');other.type='text';other.className='responseReviewOther';other.maxLength=1000;other.placeholder='Optional details about Other';other.hidden=true;
+    reasons.appendChild(reasonLabel);reasons.appendChild(select);reasons.appendChild(other);node.appendChild(reasons);
+    const status=document.createElement('div');status.className='responseReviewStatus';node.appendChild(status);
+    checkbox.addEventListener('change',function(){
+      reasons.hidden=!checkbox.checked;
+      if(!checkbox.checked){select.value='';other.value='';other.hidden=true;aivFlagEvents(ids,false,'','',status);}
+      else aivFlagEvents(ids,true,select.value,other.value,status);
+    });
+    select.addEventListener('change',function(){
+      if(!checkbox.checked){checkbox.checked=true;reasons.hidden=false;}
+      other.hidden=select.value!=='Other';
+      if(other.hidden)other.value='';
+      aivFlagEvents(ids,true,select.value,other.value,status);
+      if(!other.hidden)setTimeout(function(){other.focus();},0);
+    });
+    other.addEventListener('change',function(){if(checkbox.checked&&select.value==='Other')aivFlagEvents(ids,true,'Other',other.value,status);});
+  }
+  async function aivReportVisibleResult(eventIds,visibleText){
+    const ids=aivUniqueEventIds(eventIds);if(!ids.length)return;
+    const exact=String(visibleText||'');
+    try{
+      for(let index=0;index<ids.length;index+=1){
+        const headers=aivSessionHeaders();headers['content-type']='application/json';
+        await fetch(BACKEND_BASE_URL+'/analytics/visible-result',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({eventId:ids[index],frontendVersion:FRONTEND_VERSION,visibleResult:exact})});
+      }
+    }catch(_e){}
+  }
+  function aivFinalizeResultReview(eventIds,visibleNode,panelId){
+    const ids=aivUniqueEventIds(eventIds);activeScanEventIds=ids;
+    aivRenderReviewPanel(panelId||'responseReviewPanel',ids);
+    if(ids.length&&visibleNode)aivReportVisibleResult(ids,String(visibleNode.innerText||visibleNode.textContent||''));
+  }
+  let AIV_BETA_REVIEW_ORDER='oldest';
+  let AIV_BETA_REVIEW_FILTER='unreviewed';
+  function aivReviewAdminToken(){const node=el('betaReviewToken');return String(node&&node.value||'').trim();}
+  function aivReviewAdminHeaders(){const headers={'x-aiv-frontend-version':FRONTEND_VERSION};const token=aivReviewAdminToken();if(token)headers['x-aiv-admin-token']=token;return headers;}
+  function aivReviewSetMessage(message,success){const node=el('betaReviewMessage');if(node){node.textContent=String(message||'');node.style.color=success?'#176b39':'#8a2d24';}}
+  function aivReviewFilterInfo(filter){
+    const name=String(filter||'unreviewed');
+    if(name==='reviewed')return {title:'Reviewed Unique Scans',help:'Uncheck Reviewed to return a scan to the unreviewed list. Repeated scans remain grouped.',empty:'No reviewed qualifying scans are stored.',countKey:'reviewed',loading:'Loading reviewed scans…'};
+    if(name==='user-flagged')return {title:'User-Flagged Unique Scans',help:'Shows scans flagged by a tester, whether reviewed or unreviewed. The tester and selected reason remain visible.',empty:'No user-flagged qualifying scans are stored.',countKey:'userFlagged',loading:'Loading user-flagged scans…'};
+    if(name==='automatic-flags')return {title:'Automatically Flagged Unique Scans',help:'Shows scans AIVerify marked for closer review, whether reviewed or unreviewed.',empty:'No automatically flagged qualifying scans are stored.',countKey:'automaticallyFlagged',loading:'Loading automatically flagged scans…'};
+    return {title:'Unreviewed Unique Scans',help:'Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are stored but shown once. Flagged scans are highlighted.',empty:'No unreviewed qualifying scans are waiting.',countKey:'unreviewed',loading:'Loading unreviewed scans…'};
+  }
+  function aivApplyReviewFilterLabels(){const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);const title=el('betaReviewQueueTitle');const help=el('betaReviewQueueHelp');if(title)title.textContent=info.title;if(help)help.textContent=info.help;}
+  function aivSetBetaReviewFilter(filter){
+    const allowed=['unreviewed','reviewed','user-flagged','automatic-flags'];
+    AIV_BETA_REVIEW_FILTER=allowed.indexOf(filter)>=0?filter:'unreviewed';
+    aivApplyReviewFilterLabels();aivLoadBetaReview();
+  }
+  function aivRenderReviewSummary(data){
+    const node=el('betaReviewSummary');if(!node)return;
+    const counts=data&&data.counts||{};
+    const items=[['unreviewed','Unreviewed',counts.unreviewed||0],['reviewed','Reviewed',counts.reviewed||0],['user-flagged','User flagged',counts.userFlagged||0],['automatic-flags','Automatic flags',counts.automaticallyFlagged||0]];
+    node.innerHTML='<div class="betaReviewProgress">'+items.map(function(item){return '<button type="button" class="betaReviewProgressItem'+(AIV_BETA_REVIEW_FILTER===item[0]?' isActive':'')+'" data-review-filter="'+esc(item[0])+'">'+esc(item[1])+' <b>'+esc(item[2])+'</b></button>';}).join('')+'</div>';
+    node.querySelectorAll('[data-review-filter]').forEach(function(button){button.addEventListener('click',function(){aivSetBetaReviewFilter(String(button.getAttribute('data-review-filter')||''));});});
+  }
+  function aivFriendlyAutomaticFlag(event){
+    const value=String(event.failureCategory||(event.qualityFlags&&event.qualityFlags[0])||'Review suggested').replace(/_/g,' ').toLowerCase();
+    return value.charAt(0).toUpperCase()+value.slice(1);
+  }
+  function aivReviewDate(value){
+    const date=new Date(String(value||''));
+    if(!Number.isFinite(date.getTime()))return 'Date unavailable';
+    return date.toLocaleString([], {year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'});
+  }
+  function aivRenderReviewQueue(data){
+    const node=el('betaReviewQueue');if(!node)return;
+    const events=data&&Array.isArray(data.events)?data.events:[];
+    if(!events.length){node.innerHTML='<div class="betaReviewEmpty">'+esc(aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER).empty)+'</div>';return;}
+    node.innerHTML=events.map(function(event){
+      const visible=event.frontendVisibleResultExact||event.userVisibleResultExact||event.resultTextExact||'';
+      const userFlags=Array.isArray(event.userFlags)&&event.userFlags.length?event.userFlags:(event.userFlag&&event.userFlag.flagged?[{testerName:event.testerName||'tester',reason:event.userFlag.reason||'',otherText:event.userFlag.otherText||'',flaggedAt:event.userFlag.flaggedAt||''}]:[]);
+      const userFlagged=userFlags.length>0;
+      const automaticFlagged=!!(event.automaticFlag||event.reviewRequired||event.failureCategory);
+      const reviewed=!!(event.review&&event.review.reviewed);
+      const classes=['betaSimpleItem'];if(userFlagged)classes.push('isUserFlagged');else if(automaticFlagged)classes.push('isAutomaticFlagged');
+      let flags='';
+      userFlags.forEach(function(flag){
+        const reason=flag.reason||'No reason selected';
+        const other=flag.otherText?(' — '+flag.otherText):'';
+        flags+='<div class="betaSimpleFlag user">Flagged by '+esc(flag.testerName||'tester')+' — '+esc(reason+other)+'</div>';
+      });
+      if(automaticFlagged)flags+='<div class="betaSimpleFlag">Automatically flagged — '+esc(aivFriendlyAutomaticFlag(event))+'</div>';
+      const ids=(Array.isArray(event.reviewEventIds)&&event.reviewEventIds.length?event.reviewEventIds:[event.eventId]).filter(Boolean).join(',');
+      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+esc(visible)+'</div>'+flags+'<div class="betaSimpleStatus" data-simple-status></div></article>';
+    }).join('');
+    node.querySelectorAll('[data-simple-reviewed]').forEach(function(box){box.addEventListener('change',aivSaveSimpleReviewed);});
+  }
+  async function aivSaveSimpleReviewed(event){
+    const box=event&&event.currentTarget;const item=box&&box.closest('[data-review-events]');if(!item)return;
+    const reviewed=!!box.checked;
+    const eventIds=String(item.getAttribute('data-review-events')||'').split(',').map(function(value){return value.trim();}).filter(Boolean);const status=item.querySelector('[data-simple-status]');box.disabled=true;if(status)status.textContent='Saving…';
+    try{
+      const headers=aivReviewAdminHeaders();headers['content-type']='application/json';
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/review/update',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({eventIds:eventIds,review:{reviewed:reviewed}})});
+      const data=await response.json().catch(function(){return {};});
+      if(!response.ok||!data.ok)throw new Error(data.error||'Review could not be saved.');
+      if(status)status.textContent=reviewed?'Reviewed.':'Returned to unreviewed.';item.style.opacity='.45';setTimeout(aivLoadBetaReview,260);
+    }catch(error){box.checked=!reviewed;box.disabled=false;if(status){status.style.color='#9b2d23';status.textContent=String(error&&error.message||error||'Review could not be saved.');}}
+  }
+  async function aivLoadBetaReview(){
+    const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);aivReviewSetMessage(info.loading,true);aivApplyReviewFilterLabels();
+    try{
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/review-queue?limit=25&qualifying=1&filter='+encodeURIComponent(AIV_BETA_REVIEW_FILTER)+'&order='+encodeURIComponent(AIV_BETA_REVIEW_ORDER)+'&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
+      const queue=await response.json().catch(function(){return {};});
+      if(!response.ok||!queue.ok)throw new Error(queue.error||'Review queue could not be loaded.');
+      try{sessionStorage.setItem('aiv_beta_review_token',aivReviewAdminToken());}catch(_e){}
+      aivRenderReviewSummary(queue);aivRenderReviewQueue(queue);const total=Number(queue.counts&&queue.counts[info.countKey]||0);const orderLabel=AIV_BETA_REVIEW_ORDER==='newest'?'newest first':'oldest first';aivReviewSetMessage(queue.count?'Showing '+queue.count+' of '+total+' '+info.title.toLowerCase()+' — '+orderLabel+'.':info.empty,true);
+    }catch(error){aivReviewSetMessage(String(error&&error.message||error||'Review queue could not be loaded.'),false);}
+  }
+  function aivInitBetaReview(){
+    const enabled=new URLSearchParams(window.location.search).get('beta-review')==='1';const dashboard=el('betaReviewDashboard');if(!dashboard)return;
+    dashboard.hidden=!enabled;if(!enabled)return;
+    const token=el('betaReviewToken');try{if(token)token.value=sessionStorage.getItem('aiv_beta_review_token')||'';}catch(_e){}
+    const load=el('betaReviewLoad');if(load)load.onclick=aivLoadBetaReview;
+    const oldest=el('betaReviewOldest');const newest=el('betaReviewNewest');
+    function setOrder(order){AIV_BETA_REVIEW_ORDER=order==='newest'?'newest':'oldest';if(oldest)oldest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='oldest');if(newest)newest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='newest');aivLoadBetaReview();}
+    if(oldest)oldest.onclick=function(){setOrder('oldest');};if(newest)newest.onclick=function(){setOrder('newest');};
+    aivApplyReviewFilterLabels();if(AIV_FRONTEND_IS_LOCAL)setTimeout(aivLoadBetaReview,0);
+  }
   function splitEvidenceItems(v){return String(v||"").split(/\s+;\s+/).map(function(x){return x.trim();}).filter(function(x){return x && !/captcha|cloudflare|enable javascript|javascript required|search results|related searches|cookie|subscribe|sign in|navigation|main menu|table of contents/i.test(x);}).slice(0,10);}
   function polishAiDisplayText(v){return String(v==null?'':v).replace(/Content too limited for a reliable AI-content estimate\.?/gi,'Too little content was provided for a reliable estimate.').replace(/Not enough content was provided for a reliable AI-content estimate\.?/gi,'Too little content was provided for a reliable estimate.').replace(/The sample is too short for a stronger estimate\.?/gi,'The sample is short, so this estimate is cautious.').replace(/Truth-checking result has priority over AI-origin guessing\.?/gi,'Truth-checking remains the main result.').replace(/AI-writing detection is only an estimate, not proof\.?/gi,'AI-content cannot be confirmed with 100% certainty.').trim();}
   function isDiagnosticPipeChunk(v){
@@ -1015,6 +1318,12 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const re=new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*:\\s*([^|\\n\\r]+)','i');
     const m=String(text||'').match(re);
     return m&&m[1]?m[1].trim():'';
+  }
+  function aivClarificationInfo(text){
+    const raw=String(text||'');
+    if(!/CLARIFICATION_REQUIRED:\s*true/i.test(raw))return null;
+    const suggestion=extractDiagnosticField(raw,'CLARIFICATION_SUGGESTION');
+    return suggestion?{suggestion:suggestion}:null;
   }
   function buildAcceptabilityNoticeInfo(text){
     const raw=String(text||'');
@@ -1151,7 +1460,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const t=String(type||'').toUpperCase();
     if(t==='PORTAL_URL' || t==='MULTI_TARGET_CONTENT' || t==='BROAD_SUBJECT') return 'Input Not Specific Enough';
     if(t==='WORD_OR_PHRASE') return 'Input Needs Review';
-    if(t==='INVALID_INPUT' || t==='INVALID_REQUEST') return 'Input Cannot Be Analyzed';
+    if(t==='INVALID_INPUT' || t==='INVALID_REQUEST') return 'Input Cannot Be Understood';
     return 'Input Needs Review';
   }
   function extractLineValueSimple(raw,label){
@@ -1176,6 +1485,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     return html;
   }
   function renderAcceptabilityNotice(text){
+    const clarification=aivClarificationInfo(text);
+    if(clarification){
+      return '<div class="requestAssessment"><div class="requestAssessmentTitle">Confirm the Request</div><div class="requestAssessmentRecommendation">AIVerify may understand what was entered, but needs confirmation before analyzing it.</div><div class="clarificationQuote">Did you mean: “'+esc(clarification.suggestion)+'”</div><div class="clarificationActions"><button type="button" class="clarificationAction primary" data-aiv-clarify-yes data-suggestion="'+esc(clarification.suggestion)+'">Yes, analyze this</button><button type="button" class="clarificationAction secondary" data-aiv-clarify-edit data-suggestion="'+esc(clarification.suggestion)+'">No, let me revise it</button></div></div>';
+    }
     const info=buildAcceptabilityNoticeInfo(text);
     if(!info) return '';
     const nextItems=guidanceItemsForRequest(info.type);
@@ -1190,7 +1503,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     else if(t==='PORTAL_URL') shortBody='This homepage covers many topics. Choose one specific page, claim, document, or video to check.';
     else if(t==='BROAD_SUBJECT') shortBody='This is a topic, not a specific verification target. Narrow it to one claim, question, page, or source.';
     else if(t==='WORD_OR_PHRASE') shortBody='A word meaning can be shown, but verification needs a specific claim, question, page, source, or context.';
-    else if(t==='INVALID_INPUT') shortBody='This input does not contain enough meaningful information to analyze.';
+    else if(t==='INVALID_INPUT') shortBody='AIVerify could not understand this request. Please check the wording or spelling and try again.';
     else if(t==='INVALID_REQUEST') shortBody='This request needs the exact content you want checked.';
     else if(t==='NON_VIDEO_WEBPAGE') shortBody='This input is a webpage, not a specific submitted video for authenticity analysis.';
     html+='<div class="requestAssessmentRecommendation">'+esc(shortBody)+'</div>';
@@ -1319,7 +1632,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       if(t==='PORTAL_URL') return 'This input points to a homepage or portal, not one specific page, claim, document, or video.';
       if(t==='BROAD_SUBJECT') return 'This input names a broad topic but does not state one specific claim, question, page, or source.';
       if(t==='WORD_OR_PHRASE') return 'This input is a word or short phrase. Provide the intended meaning, sentence, source, claim, or question to verify.';
-      if(t==='INVALID_INPUT') return 'This input does not contain enough meaningful information to identify a verification target.';
+      if(t==='INVALID_INPUT') return 'AIVerify could not understand this request. Please check the wording or spelling and try again.';
       if(t==='INVALID_REQUEST') return 'This request needs the actual content to check before analysis can run.';
       return '';
     }
@@ -1622,6 +1935,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function updateCounts(){const i=input(); const value=i?i.value:""; const words=countWords(value); setText("wordcount",words+" words"); setText("charcount",value.length+" characters"); updateSubjectCountPreview();}
   function hardClearRenderedResults(){
+    aivClearReviewPanels();
     const content=el("contentType");
     const result=el("result");
     if(content) content.replaceChildren();
@@ -4929,8 +5243,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(res.status===401){aivHandleUnauthorized();throw new Error("Beta sign-in required");}
     if(!res.ok)throw new Error("HTTP "+res.status);
     const txt=await res.text();
+    const eventId=String(res.headers.get('x-aiv-scan-event')||'').trim();
     // Backend version is health-endpoint owned; response route labels cannot overwrite it.
-    return txt;
+    return {text:txt,eventId:eventId};
   }
   function renderSeparatedUrlResultsV1734(rows){
     let html='';
@@ -4972,10 +5287,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       if(separatedUrls.length>1){
         const rows=[];
         for(let u=0;u<separatedUrls.length;u++){
-          const text=await fetchCompactTextV1734(separatedUrls[u],runId);
+          const response=await fetchCompactTextV1734(separatedUrls[u],runId);
           if(runId!==activeRenderRun)return;
-          if(text==null) return;
-          rows.push({url:separatedUrls[u],text:text});
+          if(response==null)return;
+          rows.push({url:separatedUrls[u],text:response.text,eventId:response.eventId});
         }
         if(runId!==activeRenderRun)return;
         clearGeneralScanTimers();
@@ -4984,11 +5299,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         setTranscriptStatus(null,"");
         replaceResultHtml(renderSeparatedUrlResultsV1734(rows));
         setText("subjectCountInline","Content subjects detected: "+rows.length);
+        aivFinalizeResultReview(rows.map(function(row){return row.eventId;}),el('result'),'responseReviewPanel');
         if(runId===activeRenderRun)setText("lastAction","Done");
         return;
       }
-      const text=await fetchCompactTextV1734(raw,runId);
+      const response=await fetchCompactTextV1734(raw,runId);
       if(runId!==activeRenderRun)return;
+      if(response==null)return;
+      const text=response.text;
       clearGeneralScanTimers();
       hardClearRenderedResults();
       setText("contentType","");
@@ -5014,6 +5332,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
           setText("subjectCountInline","Content subjects detected: "+(parsedForCount.__detectedClaimCount || parsedForCount.claims.length));
         }
       }catch(_e){}
+      aivFinalizeResultReview([response.eventId],el('result'),'responseReviewPanel');
       if(runId===activeRenderRun)setText("lastAction","Done");
     }catch(e){
       if(e && e.name==="AbortError")return;
@@ -5134,6 +5453,97 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     setText('lastAction',hasMedia?'Original media URL retained; enter the topic, lyrics, transcript, or claim.':'Enter the main topic or claim from the video');
   }
 
+
+  let aivWorkflowMode='information';
+  function aivSetWorkflowMode(mode){
+    const selected=(mode==='ai')?'ai':'information';
+    aivWorkflowMode=selected;
+    const toggleText=aivAiNode('workflowToggleText');
+    const toggleButton=aivAiNode('workflowToggleBtn');
+    const infoPanel=aivAiNode('informationModePanel');
+    const infoResult=aivAiNode('informationResultPanel');
+    const aiPanel=aivAiNode('aiCreationModePanel');
+    const informationActive=selected==='information';
+    if(toggleText)toggleText.textContent=informationActive?'Check for AI Creation':'Check the Information';
+    if(toggleButton)toggleButton.setAttribute('aria-label',informationActive?'Switch to Check for AI Creation':'Switch to Check the Information');
+    if(infoPanel)infoPanel.hidden=!informationActive;
+    if(infoResult)infoResult.hidden=!informationActive;
+    if(aiPanel)aiPanel.hidden=informationActive;
+    if(!informationActive){try{closeSampleChooser();}catch(_e){};const file=aivAiNode('aiMediaFile');if(file)setTimeout(function(){file.focus();},0);}
+    else{const i=input();if(i&&(!window.matchMedia||window.matchMedia('(min-width:721px)').matches))setTimeout(function(){i.focus();},0);}
+  }
+  function aivToggleWorkflowMode(){aivSetWorkflowMode(aivWorkflowMode==='information'?'ai':'information');}
+
+
+  const AI_MEDIA_MAX_BYTES=8*1024*1024;
+  function aivAiNode(id){return document.getElementById(id);}
+  function aivSetAiMediaResult(title,detail,state,facts){
+    const node=aivAiNode('aiMediaResult');if(!node)return;
+    node.className='aiMediaResult'+(state?' '+state:'');
+    node.innerHTML='';
+    const strong=document.createElement('strong');strong.textContent=String(title||'AI Creation Check');node.appendChild(strong);
+    if(detail){const p=document.createElement('div');p.textContent=String(detail);node.appendChild(p);}
+    if(facts&&facts.length){const f=document.createElement('div');f.className='aiMediaFacts';f.textContent=facts.join(' | ');node.appendChild(f);}
+  }
+  function aivResetAiMediaCheck(){
+    const file=aivAiNode('aiMediaFile');
+    const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}if(file)file.value='';
+    const button=aivAiNode('aiMediaButton');if(button){button.disabled=false;button.textContent='Check for AI Creation';}
+    aivSetAiMediaResult('AI Creation Check','Choose a media file to check.','',[]);
+  }
+  function aivReadFileBase64(file){
+    return new Promise(function(resolve,reject){
+      const reader=new FileReader();
+      reader.onload=function(){
+        const value=String(reader.result||'');
+        const comma=value.indexOf(',');
+        if(comma<0){reject(new Error('The selected file could not be read.'));return;}
+        resolve(value.slice(comma+1));
+      };
+      reader.onerror=function(){reject(new Error('The selected file could not be read.'));};
+      reader.readAsDataURL(file);
+    });
+  }
+  async function aivRunAiMediaCheck(){
+    if(!activeTesterSession){aivShowSignIn('Sign in before checking media.');return;}
+    const inputNode=aivAiNode('aiMediaFile');
+    const file=inputNode&&inputNode.files&&inputNode.files[0];
+    if(!file){aivSetAiMediaResult('Choose a file','Select an image, audio file, or video first.','isError',[]);return;}
+    if(file.size>AI_MEDIA_MAX_BYTES){aivSetAiMediaResult('File is too large','This beta stage accepts files up to 8 MB.','isError',[]);return;}
+    const button=aivAiNode('aiMediaButton');if(button){button.disabled=true;button.textContent='Checking…';}
+    aivSetAiMediaResult('Checking media','The file is being checked in memory. It is not saved by this build.','',[]);
+    try{
+      const base64=await aivReadFileBase64(file);
+      const headers=aivSessionHeaders();headers['content-type']='application/json';
+      const res=await fetch(BACKEND_BASE_URL+'/ai-detection/analyze',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({filename:file.name,mimeType:file.type,sizeBytes:file.size,base64:base64})});
+      const data=await res.json().catch(function(){return {};});
+      if(res.status===401){aivHandleUnauthorized();return;}
+      if(!res.ok||!data.ok)throw new Error(data.error||'The media check failed.');
+      const aiStatus=String(data.status||'').toUpperCase();
+      let state='isWarning';
+      if(aiStatus==='AI_GENERATED'||aiStatus==='AI_GENERATED_OR_ALTERED'||aiStatus==='AI_ALTERED')state='isAiGenerated';
+      else if(aiStatus==='NO_CLEAR_AI_EVIDENCE')state='isSuccess';
+      else if(data.resultLevel==='error'||aiStatus==='ANALYSIS_UNAVAILABLE')state='isError';
+      const media=data.media||{};
+      const summary=data.publicSummary||{};
+      const facts=[
+        summary.confidenceBand?('AIVerify confidence: '+summary.confidenceBand):'',
+        Number(summary.independentChecksCompleted)>0?('Independent checks completed: '+Number(summary.independentChecksCompleted)):'',
+        summary.provenanceFound?'Embedded creation information: Found':'',
+        summary.possibleGenerator?('Possible generator: '+summary.possibleGenerator):'',
+        media.mediaType?('Type: '+media.mediaType):'',
+        media.detectedMimeType?('Format: '+media.detectedMimeType):''
+      ].filter(Boolean);
+      aivSetAiMediaResult(data.answer||'Media check complete',data.explanation||'',state,facts);
+      const eventId=String(data.analyticsEventId||res.headers.get('x-aiv-scan-event')||'').trim();
+      aivFinalizeResultReview([eventId],aivAiNode('aiMediaResult'),'aiMediaReviewPanel');
+    }catch(error){
+      aivSetAiMediaResult('Media check failed',String(error&&error.message||error||'Unknown error'),'isError',[]);
+    }finally{
+      if(button){button.disabled=false;button.textContent='Check for AI Creation';}
+    }
+  }
+
   function resetNestedFaithScriptureDropdowns(){
     document.querySelectorAll('details.supportingInfo').forEach(function(parent){
       if(parent.__aivFaithResetBound)return;
@@ -5149,6 +5559,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function init(){
     const authForm=aivAuthNode('aivAuthForm');if(authForm)authForm.addEventListener('submit',aivSubmitSignIn);
     bind("testerSignOut",aivSignOut);
+    bind("workflowToggleBtn",aivToggleWorkflowMode);
     bind("analyzeBtn",newAnalyze);
     bind("clearBtn",clearInput);
     bind("copyBtn",copyInput);
@@ -5156,6 +5567,17 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     bind("sampleBtn",sample);
     bind("sampleCloseBtn",closeSampleChooser);
     bind("sampleBackBtn",renderSampleCategories);
+    bind("aiMediaButton",aivRunAiMediaCheck);
+    aivSetWorkflowMode('information');
+    aivInitBetaReview();
+    document.addEventListener('click',function(event){
+      const yes=event.target&&event.target.closest&&event.target.closest('[data-aiv-clarify-yes]');
+      const edit=event.target&&event.target.closest&&event.target.closest('[data-aiv-clarify-edit]');
+      const control=yes||edit;if(!control)return;
+      event.preventDefault();const suggestion=String(control.getAttribute('data-suggestion')||'');const i=input();if(!i)return;
+      i.value=suggestion;updateCounts();setText('lastAction',yes?'Confirmed interpretation':'Revise the interpreted request, then analyze');
+      if(yes){newAnalyze();}else{i.focus();try{i.setSelectionRange(i.value.length,i.value.length);}catch(_e){}}
+    });
     const chooser=sampleChooserNode();
     if(chooser){chooser.addEventListener('click',function(e){if(e.target===chooser)closeSampleChooser();});}
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&chooser&&!chooser.hidden)closeSampleChooser();});
