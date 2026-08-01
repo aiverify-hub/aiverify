@@ -1,3 +1,7 @@
+<!-- BM_FE_AIV_v2258_HV3: forces a clean AI-media workspace during page initialization and browser page restoration while preserving session sign-in and direct backend-version updates after AI scans. -->
+<!-- AI_MEDIA_BROWSER_STATE_RESET_REPAIR_V2258 -->
+<!-- BM_FE_AIV_v2257_AVF: AI-workspace reset and AI-scan backend-version refresh over verified v2256. Clears stale selected media/results when the backend version changes, clears the prior result when a different media file is chosen, and updates the visible backend version directly after an AI scan. -->
+<!-- AI_WORKSPACE_AND_VERSION_REFRESH_REPAIR_V2257 -->
 <!-- BM_FE_AIV_v2256_AIR: removes conflicting audio/video-ready wording while preserving the verified v2255 AI beta notice and behavior. -->
 <!-- AI_MEDIA_INTRO_REDUNDANCY_REPAIR_V2256 -->
 <!-- BM_FE_AIV_v2255_ABN: plain-language AI beta capability notice over verified v2254. -->
@@ -756,26 +760,37 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2256";
-  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2895_V2256";
+  const FRONTEND_VERSION="frontend v2258";
+  const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
-  function setTopRightBackendVersion(versionText){
+  let AIV_LAST_BACKEND_VERSION='';
+  function aivNormalizedBackendVersion(versionText){
+    const raw=String(versionText||'');
+    const legacyMatch=raw.match(/\bBE_AIV_v\d+\b/i);
+    const modularMatch=raw.match(/\bMASTER_v\d+(?:_\d+)*\b/i);
+    return modularMatch?modularMatch[0]:(legacyMatch?legacyMatch[0]:'');
+  }
+  function setTopRightBackendVersion(versionText,options){
     try{
       const badge=document.getElementById('versionBadge');
-      if(!badge) return;
-      const raw=String(versionText||'');
-      const legacyMatch=raw.match(/\bBE_AIV_v\d+\b/i);
-      const modularMatch=raw.match(/\bMASTER_v\d+(?:_\d+)*\b/i);
-      if(modularMatch){
-        badge.textContent=FRONTEND_VERSION+' | backend '+modularMatch[0];
-      }else if(legacyMatch){
-        let be=legacyMatch[0].replace(/^BE_AIV_/i,'');
-        badge.textContent=FRONTEND_VERSION+' | backend '+be;
+      if(!badge) return '';
+      const normalized=aivNormalizedBackendVersion(versionText);
+      const previous=AIV_LAST_BACKEND_VERSION;
+      if(normalized)AIV_LAST_BACKEND_VERSION=normalized;
+      if(/^MASTER_/i.test(normalized)){
+        badge.textContent=FRONTEND_VERSION+' | backend '+normalized;
+      }else if(/^BE_AIV_/i.test(normalized)){
+        badge.textContent=FRONTEND_VERSION+' | backend '+normalized.replace(/^BE_AIV_/i,'');
       }else if(!/backend\s+(?:v\d+|MASTER_v\d+(?:_\d+)*)/i.test(badge.textContent||'')){
         badge.textContent=FRONTEND_VERSION;
       }
-    }catch(_e){}
+      const changed=!!(previous&&normalized&&previous!==normalized);
+      if(changed&&!(options&&options.preserveAiWorkspace)){
+        try{aivResetAiMediaCheck();}catch(_e){}
+      }
+      return normalized;
+    }catch(_e){return '';}
   }
   function updateTopRightBackendVersionFromText(text){
     try{
@@ -784,13 +799,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       setTopRightBackendVersion(jsonMatch&&jsonMatch[1] ? jsonMatch[1] : line);
     }catch(_e){}
   }
-  async function refreshTopRightBackendVersion(){
+  async function refreshTopRightBackendVersion(options){
     try{
       const res=await fetch(HEALTH_URL+'?_='+Date.now(),{cache:'no-store',mode:'cors'});
-      if(!res.ok) return;
+      if(!res.ok) return '';
       const data=await res.json();
-      if(data && data.version) setTopRightBackendVersion(data.version);
+      if(data&&data.version)return setTopRightBackendVersion(data.version,options);
     }catch(_e){}
+    return '';
   }
   refreshTopRightBackendVersion();
 
@@ -5508,6 +5524,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   async function aivRunAiMediaCheck(){
     if(!activeTesterSession){aivShowSignIn('Sign in before checking media.');return;}
+    await refreshTopRightBackendVersion();
     const inputNode=aivAiNode('aiMediaFile');
     const file=inputNode&&inputNode.files&&inputNode.files[0];
     if(!file){aivSetAiMediaResult('Choose a file','Select an image, audio file, or video first.','isError',[]);return;}
@@ -5519,6 +5536,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       const headers=aivSessionHeaders();headers['content-type']='application/json';
       const res=await fetch(BACKEND_BASE_URL+'/ai-detection/analyze',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({filename:file.name,mimeType:file.type,sizeBytes:file.size,base64:base64})});
       const data=await res.json().catch(function(){return {};});
+      if(data&&data.backendVersion)setTopRightBackendVersion(data.backendVersion,{preserveAiWorkspace:true});
+      else await refreshTopRightBackendVersion({preserveAiWorkspace:true});
       if(res.status===401){aivHandleUnauthorized();return;}
       if(!res.ok||!data.ok)throw new Error(data.error||'The media check failed.');
       const aiStatus=String(data.status||'').toUpperCase();
@@ -5559,6 +5578,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function bind(id,fn){const n=el(id); if(!n)return; n.onclick=function(e){if(e)e.preventDefault(); fn();};}
   function init(){
+    try{aivResetAiMediaCheck();}catch(_e){}
     const authForm=aivAuthNode('aivAuthForm');if(authForm)authForm.addEventListener('submit',aivSubmitSignIn);
     bind("testerSignOut",aivSignOut);
     bind("workflowToggleBtn",aivToggleWorkflowMode);
@@ -5570,6 +5590,15 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     bind("sampleCloseBtn",closeSampleChooser);
     bind("sampleBackBtn",renderSampleCategories);
     bind("aiMediaButton",aivRunAiMediaCheck);
+    const aiMediaFileNode=aivAiNode('aiMediaFile');
+    if(aiMediaFileNode)aiMediaFileNode.addEventListener('change',function(){
+      const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}
+      const selected=aiMediaFileNode.files&&aiMediaFileNode.files[0];
+      aivSetAiMediaResult(selected?'Ready to check':'AI Creation Check',selected?String(selected.name||'Selected media file'):'Choose a media file to check.','',[]);
+    });
+    window.addEventListener('focus',function(){refreshTopRightBackendVersion();});
+    window.addEventListener('pageshow',function(event){if(event&&event.persisted){try{aivResetAiMediaCheck();}catch(_e){}}refreshTopRightBackendVersion();});
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshTopRightBackendVersion();});
     aivSetWorkflowMode('information');
     aivInitBetaReview();
     document.addEventListener('click',function(event){

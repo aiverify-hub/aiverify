@@ -1,9 +1,11 @@
 'use strict';
 
-const MODULE_VERSION = 'AI_DETECTION_CONFIG_V5';
+const MODULE_VERSION = 'AI_DETECTION_CONFIG_V9';
 const SUPPORTED_MEDIA_TYPES = Object.freeze(['image', 'audio', 'video']);
-const DEFAULT_HIVE_ENDPOINT = 'https://api.thehive.ai/api/v3/hive/ai-generated-and-deepfake-content-detection';
+const DEFAULT_HIVE_VISUAL_ENDPOINT = 'https://api.thehive.ai/api/v3/hive/ai-generated-and-deepfake-content-detection';
+const DEFAULT_HIVE_AUDIO_ENDPOINT = DEFAULT_HIVE_VISUAL_ENDPOINT;
 const DEFAULT_HIVE_AUTH_SCHEME = 'Bearer';
+const DEFAULT_HIVE_AUDIO_AUTH_SCHEME = 'Bearer';
 const DEFAULT_SIGHTENGINE_ENDPOINT = 'https://api.sightengine.com/1.0/check.json';
 const DEFAULT_SIGHTENGINE_MODELS = Object.freeze(['genai']);
 const DEFAULT_PUBLIC_AI_GENERATED_THRESHOLD = 0.80;
@@ -32,8 +34,11 @@ function createConfig(env) {
   const source = env && typeof env === 'object' ? env : {};
   const sharedHiveKey = clean(source.HIVE_API_KEY);
   const hiveVisualKey = clean(source.HIVE_VISUAL_API_KEY) || sharedHiveKey;
-  const hiveAudioKey = clean(source.HIVE_AUDIO_API_KEY) || sharedHiveKey;
-  const hiveEndpoint = clean(source.HIVE_API_ENDPOINT) || DEFAULT_HIVE_ENDPOINT;
+  // Hive V3 handles visual and audio inputs through the same model endpoint and Bearer key.
+  const hiveAudioKey = clean(source.HIVE_AUDIO_API_KEY) || hiveVisualKey;
+  const legacyHiveEndpoint = clean(source.HIVE_API_ENDPOINT);
+  const hiveVisualEndpoint = clean(source.HIVE_VISUAL_API_ENDPOINT) || legacyHiveEndpoint || DEFAULT_HIVE_VISUAL_ENDPOINT;
+  const hiveAudioEndpoint = clean(source.HIVE_AUDIO_API_ENDPOINT) || DEFAULT_HIVE_AUDIO_ENDPOINT;
   const hiveTimeoutMs = positiveInteger(source.HIVE_API_TIMEOUT_MS, 45000, 5000, 180000);
 
   const hiveMediaTypes = [];
@@ -69,8 +74,12 @@ function createConfig(env) {
         configured: hiveMediaTypes.length > 0,
         configuredMediaTypes: Object.freeze(Array.from(new Set(hiveMediaTypes))),
         apiVersion: 'v3',
+        audioApiVersion: 'v3',
         authScheme: DEFAULT_HIVE_AUTH_SCHEME,
-        endpoint: hiveEndpoint,
+        audioAuthScheme: DEFAULT_HIVE_AUDIO_AUTH_SCHEME,
+        endpoint: hiveVisualEndpoint,
+        visualEndpoint: hiveVisualEndpoint,
+        audioEndpoint: hiveAudioEndpoint,
         timeoutMs: hiveTimeoutMs,
         visualApiKey: hiveVisualKey,
         audioApiKey: hiveAudioKey
@@ -103,8 +112,11 @@ function validateConfig(config) {
   if (!config.providers || !config.providers.hive || !config.providers.sightengine || !config.thresholds) {
     throw new Error('AI detection provider configuration is malformed.');
   }
-  if (config.providers.hive.apiVersion !== 'v3' || config.providers.hive.authScheme !== DEFAULT_HIVE_AUTH_SCHEME) {
-    throw new Error('AI detection Hive V3 authentication configuration is malformed.');
+  if (config.providers.hive.apiVersion !== 'v3' || config.providers.hive.authScheme !== DEFAULT_HIVE_AUTH_SCHEME || config.providers.hive.audioApiVersion !== 'v3' || config.providers.hive.audioAuthScheme !== DEFAULT_HIVE_AUDIO_AUTH_SCHEME) {
+    throw new Error('AI detection Hive media authentication configuration is malformed.');
+  }
+  if (!clean(config.providers.hive.visualEndpoint) || !clean(config.providers.hive.audioEndpoint)) {
+    throw new Error('AI detection Hive media endpoint configuration is malformed.');
   }
   if (config.providers.sightengine.apiVersion !== '1.0' || !Array.isArray(config.providers.sightengine.models) || config.providers.sightengine.models[0] !== 'genai') {
     throw new Error('AI detection Sightengine configuration is malformed.');
@@ -118,8 +130,11 @@ function validateConfig(config) {
 module.exports = Object.freeze({
   MODULE_VERSION: MODULE_VERSION,
   SUPPORTED_MEDIA_TYPES: SUPPORTED_MEDIA_TYPES,
-  DEFAULT_HIVE_ENDPOINT: DEFAULT_HIVE_ENDPOINT,
+  DEFAULT_HIVE_ENDPOINT: DEFAULT_HIVE_VISUAL_ENDPOINT,
+  DEFAULT_HIVE_VISUAL_ENDPOINT: DEFAULT_HIVE_VISUAL_ENDPOINT,
+  DEFAULT_HIVE_AUDIO_ENDPOINT: DEFAULT_HIVE_AUDIO_ENDPOINT,
   DEFAULT_HIVE_AUTH_SCHEME: DEFAULT_HIVE_AUTH_SCHEME,
+  DEFAULT_HIVE_AUDIO_AUTH_SCHEME: DEFAULT_HIVE_AUDIO_AUTH_SCHEME,
   DEFAULT_SIGHTENGINE_ENDPOINT: DEFAULT_SIGHTENGINE_ENDPOINT,
   DEFAULT_SIGHTENGINE_MODELS: DEFAULT_SIGHTENGINE_MODELS,
   DEFAULT_PUBLIC_AI_GENERATED_THRESHOLD: DEFAULT_PUBLIC_AI_GENERATED_THRESHOLD,

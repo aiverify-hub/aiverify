@@ -1,9 +1,36 @@
 'use strict';
 
-const MODULE_VERSION = 'AI_DETECTION_HIVE_PROVIDER_V3';
+const MODULE_VERSION = 'AI_DETECTION_HIVE_PROVIDER_V7';
 
 function clean(value) {
   return String(value == null ? '' : value).trim();
+}
+
+
+function safeDiagnosticText(value, apiKey) {
+  let text = clean(value);
+  if (!text) return '';
+  if (apiKey) text = text.split(apiKey).join('[redacted-key]');
+  text = text
+    .replace(/(authorization|api[_-]?key|token|secret)(\s*[=:]\s*|\s+)[^\s,;"'}]+/gi, '$1$2[redacted]')
+    .replace(/\b[A-Za-z0-9_\-]{32,}\b/g, '[redacted]')
+    .replace(/\s+/g, ' ')
+    .slice(0, 900);
+  return text;
+}
+
+function logAudioDiagnostic(details) {
+  if (!details || details.mediaType !== 'audio') return;
+  const parts = [
+    'stage=' + clean(details.stage || 'unknown'),
+    'http=' + (details.httpStatus == null ? 'none' : String(details.httpStatus)),
+    'content-type=' + clean(details.contentType || 'unknown')
+  ];
+  const message = safeDiagnosticText(details.message, details.apiKey);
+  const body = safeDiagnosticText(details.body, details.apiKey);
+  if (message) parts.push('message=' + message);
+  if (body) parts.push('response=' + body);
+  console.error('AIV Hive audio diagnostic: ' + parts.join(' | '));
 }
 
 function numericScore(value) {
@@ -20,6 +47,18 @@ function maxScore(current, candidate) {
 function providerKeyForMedia(hiveConfig, mediaType) {
   if (!hiveConfig) return '';
   return mediaType === 'audio' ? clean(hiveConfig.audioApiKey) : clean(hiveConfig.visualApiKey);
+}
+
+function endpointForMedia(hiveConfig, mediaType) {
+  if (!hiveConfig) return '';
+  if (mediaType === 'audio') return clean(hiveConfig.audioEndpoint);
+  return clean(hiveConfig.visualEndpoint || hiveConfig.endpoint);
+}
+
+function authSchemeForMedia(hiveConfig, mediaType) {
+  if (!hiveConfig) return '';
+  if (mediaType === 'audio') return clean(hiveConfig.audioAuthScheme) || 'Token';
+  return clean(hiveConfig.authScheme) || 'Bearer';
 }
 
 function responseErrorMessage(payload, fallback) {
@@ -191,7 +230,10 @@ async function analyze(preparedMedia, config) {
   }
   const hiveConfig = config && config.providers && config.providers.hive;
   const apiKey = providerKeyForMedia(hiveConfig, preparedMedia.mediaType);
+  const endpoint = endpointForMedia(hiveConfig, preparedMedia.mediaType);
+  const authScheme = authSchemeForMedia(hiveConfig, preparedMedia.mediaType);
   if (!apiKey) return emptyResult('NOT_CONFIGURED', false, false, '');
+  if (!endpoint) return emptyResult('FAILED', false, true, 'Hive media endpoint is not configured.');
   if (typeof fetch !== 'function' || typeof FormData !== 'function' || typeof Blob !== 'function') {
     throw new Error('This Node.js version does not support the required media upload interface.');
   }
@@ -199,30 +241,54 @@ async function analyze(preparedMedia, config) {
   const controller = new AbortController();
   const timeoutMs = Number(hiveConfig.timeoutMs) || 45000;
   const timeout = setTimeout(function () { controller.abort(); }, timeoutMs);
+  let audioDiagnosticLogged = false;
 
   try {
     const form = new FormData();
     form.append('media', new Blob([preparedMedia.buffer], { type: preparedMedia.detectedMimeType }), preparedMedia.filename);
-    const response = await fetch(hiveConfig.endpoint, {
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         accept: 'application/json',
-        authorization: 'Bearer ' + apiKey
+        authorization: authScheme + ' ' + apiKey
       },
       body: form,
       signal: controller.signal
     });
     const text = await response.text();
+    const contentType = clean(response.headers && response.headers.get ? response.headers.get('content-type') : '');
     let payload = {};
     try { payload = text ? JSON.parse(text) : {}; } catch (_error) { payload = {}; }
     if (!response.ok) {
-      throw new Error(responseErrorMessage(payload, 'Hive V3 media analysis returned HTTP ' + response.status + '.'));
+      const responseMessage = responseErrorMessage(payload, 'Hive ' + preparedMedia.mediaType + ' analysis returned HTTP ' + response.status + '.');
+      logAudioDiagnostic({
+        mediaType: preparedMedia.mediaType,
+        stage: 'http-response',
+        httpStatus: response.status,
+        contentType: contentType,
+        message: responseMessage,
+        body: text,
+        apiKey: apiKey
+      });
+      audioDiagnosticLogged = preparedMedia.mediaType === 'audio';
+      throw new Error(responseMessage);
     }
 
     const collected = collectOutput(payload);
     const summary = summarizeClasses(collected.frames);
     if (!collected.frames.length) {
-      throw new Error(responseErrorMessage(payload, 'Hive V3 returned no usable media classifications.'));
+      const classificationMessage = responseErrorMessage(payload, 'Hive ' + preparedMedia.mediaType + ' analysis returned no usable classifications.');
+      logAudioDiagnostic({
+        mediaType: preparedMedia.mediaType,
+        stage: 'classification-parse',
+        httpStatus: response.status,
+        contentType: contentType,
+        message: classificationMessage,
+        body: text,
+        apiKey: apiKey
+      });
+      audioDiagnosticLogged = preparedMedia.mediaType === 'audio';
+      throw new Error(classificationMessage);
     }
 
     return Object.freeze({
@@ -244,8 +310,29 @@ async function analyze(preparedMedia, config) {
     });
   } catch (error) {
     const message = error && error.name === 'AbortError'
-      ? 'Hive V3 media analysis timed out.'
-      : clean(error && error.message || error) || 'Hive V3 media analysis failed.';
+      ? 'Hive ' + preparedMedia.mediaType + ' analysis timed out.'
+      : clean(error && error.message || error) || 'Hive ' + preparedMedia.mediaType + ' analysis failed.';
+    if (preparedMedia.mediaType === 'audio' && error && error.name === 'AbortError') {
+      logAudioDiagnostic({
+        mediaType: preparedMedia.mediaType,
+        stage: 'timeout',
+        httpStatus: null,
+        contentType: '',
+        message: message,
+        body: '',
+        apiKey: apiKey
+      });
+    } else if (preparedMedia.mediaType === 'audio' && !audioDiagnosticLogged) {
+      logAudioDiagnostic({
+        mediaType: preparedMedia.mediaType,
+        stage: 'request-error',
+        httpStatus: null,
+        contentType: '',
+        message: message,
+        body: '',
+        apiKey: apiKey
+      });
+    }
     return emptyResult('FAILED', true, true, message);
   } finally {
     clearTimeout(timeout);
@@ -256,5 +343,7 @@ module.exports = Object.freeze({
   MODULE_VERSION: MODULE_VERSION,
   analyze: analyze,
   collectOutput: collectOutput,
-  summarizeClasses: summarizeClasses
+  summarizeClasses: summarizeClasses,
+  endpointForMedia: endpointForMedia,
+  authSchemeForMedia: authSchemeForMedia
 });

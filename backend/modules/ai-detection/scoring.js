@@ -1,6 +1,6 @@
 'use strict';
 
-const MODULE_VERSION = 'AI_DETECTION_SCORING_V6';
+const MODULE_VERSION = 'AI_DETECTION_SCORING_V7';
 
 function clean(value) {
   return String(value == null ? '' : value).trim();
@@ -58,6 +58,14 @@ function deepfakeThresholdFor(mediaType, thresholds) {
   return mediaType === 'video'
     ? threshold(source.deepfakeVideo, 0.50)
     : threshold(source.deepfakeImage, 0.90);
+}
+
+function isDevelopingMediaType(mediaType) {
+  return mediaType === 'audio' || mediaType === 'video';
+}
+
+function developingMediaLabel(mediaType) {
+  return mediaType === 'audio' ? 'Audio' : 'Video';
 }
 
 function sourceLabel(value) {
@@ -127,6 +135,7 @@ function score(input) {
   const detectorSpread = highestAiScore != null && lowestAiScore != null ? highestAiScore - lowestAiScore : null;
   const combinedDeepfakeConfidence = average(deepfakeScores);
   const providerCompleted = completedProviders.length > 0;
+  const developingMediaType = isDevelopingMediaType(mediaType);
   const providerConsensusAi = aiScores.length > 1 && aiScores.every(function (value) { return value >= publicAiThreshold; });
   const corroboratedAi = aiScores.length > 1 && highestAiScore != null && lowestAiScore != null &&
     highestAiScore >= strongSingleThreshold && lowestAiScore >= corroborationFloor && detectorSpread <= 0.35;
@@ -154,7 +163,11 @@ function score(input) {
   if (deepfakeFlagged) publicSignals.push('Independent analysis identified material AI alteration.');
   if (mixedProviderEvidence) publicSignals.push('Independent detection methods produced materially conflicting results.');
   if (!aiGenerated && !deepfakeFlagged && providerCompleted && !mixedProviderEvidence) {
-    publicSignals.push('The available checks did not find enough evidence for an AI-generated classification.');
+    if (developingMediaType) {
+      publicSignals.push(developingMediaLabel(mediaType) + ' checking is still being developed for this initial release.');
+    } else {
+      publicSignals.push('The available checks did not find enough evidence for an AI-generated classification.');
+    }
   }
 
   let status = 'INCONCLUSIVE';
@@ -193,6 +206,10 @@ function score(input) {
     status = 'UNCLEAR';
     answer = 'Unclear';
     explanation = 'The available detection methods materially disagreed, so AIVerify is not classifying this media as AI-generated or human-created.';
+  } else if (providerCompleted && developingMediaType) {
+    status = 'UNCLEAR';
+    answer = 'Unclear';
+    explanation = developingMediaLabel(mediaType) + ' checking is still being developed for this initial release. The available analysis did not find strong AI evidence, but AIVerify is not classifying this media as human-created.';
   } else if (providerCompleted) {
     status = 'NO_CLEAR_AI_EVIDENCE';
     answer = 'No clear evidence of AI generation';
@@ -248,6 +265,7 @@ function score(input) {
       corroboratedAi: corroboratedAi,
       singleProviderAi: singleProviderAi,
       mixedProviderEvidence: mixedProviderEvidence,
+      developingMediaTypeGuardApplied: developingMediaType && !aiGenerated && !deepfakeFlagged,
       thresholds: Object.freeze({
         publicAiThreshold: publicAiThreshold,
         strongSingleThreshold: strongSingleThreshold,

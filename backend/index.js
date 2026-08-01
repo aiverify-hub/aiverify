@@ -1,3 +1,7 @@
+// BM_BE_AIV_v2902_AVK: binds Hive V3 audio to the same working visual-model key when no dedicated audio key is configured. Preserves the documented V3 endpoint/Bearer request, verified image behavior, scoring, analytics, sign-in, normal scans, and frontend AI-version response.
+// BM_BE_AIV_v2900_AVF: AI-media backend-version response and Hive audio credential-source diagnostics over v2899. Preserves the verified Hive request format and safe error logging while distinguishing a dedicated audio key from a shared fallback; normal scans, image scoring, analytics, and sign-in remain unchanged.
+// BM_BE_AIV_v2900_ADL: safe Hive audio diagnostic logging over failed v2898 audio test. Logs only sanitized response status/details needed to identify the audio provider failure; preserves request routing, image behavior, scoring, analytics, sign-in, and normal scans.
+// BM_BE_AIV_v2896_AMG: developing-media maturity guard over verified v2895/v2256. Strong AI evidence can still classify audio or video as AI-generated; weaker audio/video evidence remains Unclear instead of implying a completed non-AI determination.
 // BM_BE_AIV_v2895_CCS: consensus-calibrated AI-detection scoring over verified v2894/v2254. Requires actual provider agreement or strong corroboration, returns Unclear for material provider conflicts, and preserves provenance priority.
 // BM_BE_AIV_v2894_AIC: AI-detection coordinator entry-point extraction over verified v2892/v2253. Structural update only; scan results and routing preserved.
 // BM_BE_AIV_v2892_UCD: deterministic uncertain-input clarification decision binding over verified v2891/v2253.
@@ -427,7 +431,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v2895';
+const VERSION = 'BE_AIV_v2902';
 const PORT = Number(process.env.PORT || 3000);
 const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
   try{
@@ -459,8 +463,11 @@ const AI_DETECTION_COORDINATOR_V2895 = (function loadAiDetectionCoordinatorV2895
       throw new Error('AI detection foundation interface is incomplete.');
     }
     const health=foundation.health();
-    if(!health||health.scoringVersion!=='AI_DETECTION_SCORING_V6'){
+    if(!health||health.scoringVersion!=='AI_DETECTION_SCORING_V7'){
       throw new Error('AI detection consensus scoring module is missing or incompatible.');
+    }
+    if(health.hiveProviderVersion!=='AI_DETECTION_HIVE_PROVIDER_V7'){
+      throw new Error('AI detection Hive audio routing provider is missing or incompatible.');
     }
     return foundation;
   }catch(error){
@@ -7432,13 +7439,15 @@ function runtimeSourceFlagsLine(){
   const supadataKey=envSecret('EXTERNAL_YOUTUBE_TRANSCRIPT_API_KEY') || envSecret('SUPADATA_API_KEY');
   const sharedHiveKey=envSecret('HIVE_API_KEY');
   const hiveVisualKey=envSecret('HIVE_VISUAL_API_KEY') || sharedHiveKey;
-  const hiveAudioKey=envSecret('HIVE_AUDIO_API_KEY') || sharedHiveKey;
+  const dedicatedHiveAudioKey=envSecret('HIVE_AUDIO_API_KEY');
+  const hiveAudioKey=dedicatedHiveAudioKey || hiveVisualKey;
+  const hiveAudioStatus=dedicatedHiveAudioKey?'Dedicated V3 key loaded':(envSecret('HIVE_VISUAL_API_KEY')?'Visual V3 key reused':(sharedHiveKey?'Shared V3 key reused':'Missing'));
   return [
     'AIV API configuration:',
     'OpenAI: '+loaded('OPENAI_API_KEY'),
     'Supadata: '+(supadataKey?'Loaded':'Missing'),
     'Hive visual: '+(hiveVisualKey?'Loaded':'Missing'),
-    'Hive audio: '+(hiveAudioKey?'Loaded':'Missing'),
+    'Hive audio: '+hiveAudioStatus,
     'Sightengine user: '+loaded('SIGHTENGINE_API_USER'),
     'Sightengine secret: '+loaded('SIGHTENGINE_API_SECRET')
   ].join('\n');
@@ -24392,7 +24401,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v2895'
+  currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -24575,7 +24584,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v2895'
+  currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -24591,7 +24600,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v2895'
+  currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -24636,7 +24645,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v2895'
+  currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -24891,7 +24900,7 @@ const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v2895'
+  currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -24905,7 +24914,7 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v2895'
+  currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
@@ -24932,7 +24941,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v2895'
+  currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -25402,7 +25411,7 @@ function v2875TesterUsageSummary(events){
 
 v2875InitializeTesterStorage();
 const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2895',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  currentVersion:VERSION==='BE_AIV_v2902',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
   pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function'
 });
 if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.storageReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.accountFileExists||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionSecretReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.pinHashingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionValidationAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.analyticsLinkingAvailable){
@@ -25411,7 +25420,7 @@ if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BET
 
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2895'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2902'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -25461,7 +25470,7 @@ async function v2878HandleAiMediaScan(req,res){
         durationMs:Date.now()-startedAt,testerId:tester.id,testerName:tester.name,frontendVersion:frontendVersion,route:'ai-detection/media/v2889',contract:analyticsContract,
         userVisibleResultExact:[result.answer,result.explanation].filter(Boolean).join('\n'),mediaSha256:result&&result.media&&result.media.sha256||'',mediaFilename:result&&result.media&&result.media.filename||''
       });
-      const publicResult=Object.assign({},result,{analyticsEventId:analyticsEvent&&analyticsEvent.eventId||''});
+      const publicResult=Object.assign({},result,{backendVersion:VERSION,analyticsEventId:analyticsEvent&&analyticsEvent.eventId||''});
       return sendJson(res,200,publicResult,analyticsEvent&&analyticsEvent.eventId?{'x-aiv-scan-event':analyticsEvent.eventId}:{});
     }catch(error){
       const message=clean(error&&error.message||error)||'AI media detection scan failed.';
@@ -25628,7 +25637,7 @@ async function v2885PreflightUnclearInput(input,requestState){
   return v2885UnclearInputGuidanceBody(raw,interpretation);
 }
 const UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2895',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
+  currentVersion:VERSION==='BE_AIV_v2902',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
 });
 if(!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.currentVersion||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.candidateDetectorAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.interpreterAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.friendlyFallbackAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.preflightAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionCacheReady||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionKeyAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.requestBindingAvailable){
   throw new Error('UNCERTAIN_INPUT_CLARIFICATION_AND_FRIENDLY_RETRY_V2885 startup validation failed');
@@ -25752,10 +25761,12 @@ server.listen(PORT,'0.0.0.0',()=>{
   console.log(VERSION+' running on port '+PORT);
   console.log(runtimeSourceFlagsLine());
   console.log('AIV analytics and beta review ready: '+ANALYTICS_REVIEW_V2889.health().version);
+  console.log('AIV analytics admin token: '+(V2872_ANALYTICS_ADMIN_TOKEN?'Loaded':'Missing'));
   console.log('AIV beta sign-in ready: '+V2875_TESTER_ACCOUNTS.length+' registered tester(s)');
   console.log('AIV AI detection coordinator ready: '+AI_DETECTION_COORDINATOR_V2895.health().coordinatorVersion);
   console.log('AIV AI detection provider foundation ready: '+AI_DETECTION_COORDINATOR_V2895.health().version);
   console.log('AIV AI detection consensus scoring ready: '+AI_DETECTION_COORDINATOR_V2895.health().scoringVersion);
+  console.log('AIV Hive media provider ready: '+AI_DETECTION_COORDINATOR_V2895.health().hiveProviderVersion);
   if(process.env.RENDER&&!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR){
     console.warn('AIV analytics warning: configure AIV_ANALYTICS_STORAGE_DIR on a mounted Render persistent disk before production logging.');
   }
