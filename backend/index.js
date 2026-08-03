@@ -1,4 +1,25 @@
-// BM_BE_AIV_v2902_AVK: binds Hive V3 audio to the same working visual-model key when no dedicated audio key is configured. Preserves the documented V3 endpoint/Bearer request, verified image behavior, scoring, analytics, sign-in, normal scans, and frontend AI-version response.
+// BM_BE_AIV_v2920_AQR: adaptive video-title response rendering over verified v2919. Question titles now return the exact title first, a brief direct answer, and source without an accuracy verdict or corrective lead-in; declarative claims retain full truth/deception verification. Preserves YouTube title resolution, 30-day cache, OpenAI fallback, analytics, sign-in, AI media behavior, and all unrelated v2919 behavior.
+// ADAPTIVE_QUESTION_CLAIM_RESPONSE_V2920
+// BM_BE_AIV_v2919_VCB: routes specific YouTube URLs directly through the completed AIV_VIDEO_AUTH_CONTRACT instead of forcing that valid video result through the general AIV_RESULT_CONTRACT adapter that discarded it as unsupported. Preserves title resolution, 30-day cache, OpenAI title fallback, live title verification, frontend v2264 compatibility, and all unrelated v2918 behavior.
+// VIDEO_CONTRACT_CANONICAL_BYPASS_V2919
+// VIDEO_TITLE_VERIFIER_SUCCESS_BINDING_V2918
+// YOUTUBE_TITLE_RESOLUTION_AND_OPENAI_FALLBACK_V2917
+// BM_BE_AIV_v2916_VFV: forces every specific non-music YouTube title with a factual claim or question through the dedicated exact-title live verifier, preventing an earlier local/metadata result from stopping live verification; preserves all verified v2915 behavior.
+// VIDEO_TITLE_FORCED_LIVE_VERIFICATION_V2916
+// BM_BE_AIV_v2915_VQA: preserves the substantive live answer for factual-question video titles, labels unresolved but answerable title questions as Unclear instead of a blank Needs more evidence result, and binds the exact retrieved title to the visible result; preserves all verified v2914 behavior.
+// VIDEO_TITLE_QUESTION_ANSWER_PRESERVATION_V2915
+// BM_BE_AIV_v2915_VRP: routes every specific video URL into the video factual-verification pipeline before general fact, question, or URL evaluators can preempt it; preserves the dedicated exact-title live verifier and all verified v2913 behavior.
+// VIDEO_URL_PRE_EVALUATOR_ROUTE_PRIORITY_V2914
+// BM_BE_AIV_v2913_SVR: repairs the v2912 startup-version validation locks while preserving the dedicated YouTube title-claim live verifier and all verified v2912 behavior.
+// VIDEO_LINK_STARTUP_VALIDATION_REPAIR_V2913
+// BM_BE_AIV_v2912_VCV: uses a dedicated live verifier that receives the exact retrieved YouTube title, the detected main claim, and the original video URL; verifies the title's factual proposition against independent sources instead of requiring sources to mention the video; preserves all verified v2911 behavior.
+// VIDEO_LINK_DEDICATED_TITLE_CLAIM_VERIFICATION_V2912
+// VIDEO_LINK_EXACT_TITLE_LIVE_VERIFICATION_V2911
+// VIDEO_LINK_NEEDS_MORE_EVIDENCE_LIVE_FOLLOWUP_V2910
+// VIDEO_LINK_TITLE_AND_TRANSCRIPT_FALLBACK_V2909
+// VIDEO_LINK_TITLE_LOOKUP_FALLBACK_V2908
+// AI_MEDIA_OPTIONAL_VIDEO_STARTUP_REPAIR_V2907
+// VIDEO_LINK_LIVE_VERIFICATION_V2905
 // BM_BE_AIV_v2900_AVF: AI-media backend-version response and Hive audio credential-source diagnostics over v2899. Preserves the verified Hive request format and safe error logging while distinguishing a dedicated audio key from a shared fallback; normal scans, image scoring, analytics, and sign-in remain unchanged.
 // BM_BE_AIV_v2900_ADL: safe Hive audio diagnostic logging over failed v2898 audio test. Logs only sanitized response status/details needed to identify the audio provider failure; preserves request routing, image behavior, scoring, analytics, sign-in, and normal scans.
 // BM_BE_AIV_v2896_AMG: developing-media maturity guard over verified v2895/v2256. Strong AI evidence can still classify audio or video as AI-generated; weaker audio/video evidence remains Unclear instead of implying a completed non-AI determination.
@@ -431,7 +452,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v2902';
+const VERSION = 'BE_AIV_v2920';
 const PORT = Number(process.env.PORT || 3000);
 const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
   try{
@@ -448,10 +469,10 @@ const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
     throw new Error('Analytics review foundation failed to load: '+(error&&error.message?error.message:String(error)));
   }
 })();
-const AI_DETECTION_COORDINATOR_V2895 = (function loadAiDetectionCoordinatorV2895(){
+const AI_DETECTION_COORDINATOR_V2904 = (function loadAiDetectionCoordinatorV2904(){
   try{
     const aiDetectionCoordinator=require(path.join(__dirname,'modules','ai-detection','coordinator.js'));
-    if(!aiDetectionCoordinator||aiDetectionCoordinator.MODULE_VERSION!=='AI_DETECTION_COORDINATOR_V1'||typeof aiDetectionCoordinator.createAiDetectionFoundation!=='function'){
+    if(!aiDetectionCoordinator||aiDetectionCoordinator.MODULE_VERSION!=='AI_DETECTION_COORDINATOR_V3'||typeof aiDetectionCoordinator.createAiDetectionFoundation!=='function'){
       throw new Error('AI detection coordinator interface is malformed.');
     }
     const foundation=aiDetectionCoordinator.createAiDetectionFoundation({
@@ -463,11 +484,13 @@ const AI_DETECTION_COORDINATOR_V2895 = (function loadAiDetectionCoordinatorV2895
       throw new Error('AI detection foundation interface is incomplete.');
     }
     const health=foundation.health();
-    if(!health||health.scoringVersion!=='AI_DETECTION_SCORING_V7'){
-      throw new Error('AI detection consensus scoring module is missing or incompatible.');
+    if(!health||health.version!=='AI_DETECTION_CORE_V11'||health.scoringVersion!=='AI_DETECTION_SCORING_V9'){
+      throw new Error('AI detection video-stage core or scoring module is missing or incompatible.');
     }
-    if(health.hiveProviderVersion!=='AI_DETECTION_HIVE_PROVIDER_V7'){
-      throw new Error('AI detection Hive audio routing provider is missing or incompatible.');
+    // Uploaded-video analysis is no longer required for startup. Image and audio checks remain available
+    // according to the configured providers, and missing optional video/audio credentials must not stop AIVerify.
+    if(health.hiveProviderVersion!=='AI_DETECTION_HIVE_PROVIDER_V8'){
+      throw new Error('AI detection Hive visual-and-soundtrack provider is missing or incompatible.');
     }
     return foundation;
   }catch(error){
@@ -7437,11 +7460,9 @@ function runtimeSourceFlags(){
 function runtimeSourceFlagsLine(){
   const loaded=function(name){return envSecret(name)?'Loaded':'Missing';};
   const supadataKey=envSecret('EXTERNAL_YOUTUBE_TRANSCRIPT_API_KEY') || envSecret('SUPADATA_API_KEY');
-  const sharedHiveKey=envSecret('HIVE_API_KEY');
-  const hiveVisualKey=envSecret('HIVE_VISUAL_API_KEY') || sharedHiveKey;
+  const hiveVisualKey=envSecret('HIVE_VISUAL_API_KEY');
   const dedicatedHiveAudioKey=envSecret('HIVE_AUDIO_API_KEY');
-  const hiveAudioKey=dedicatedHiveAudioKey || hiveVisualKey;
-  const hiveAudioStatus=dedicatedHiveAudioKey?'Dedicated V3 key loaded':(envSecret('HIVE_VISUAL_API_KEY')?'Visual V3 key reused':(sharedHiveKey?'Shared V3 key reused':'Missing'));
+  const hiveAudioStatus=dedicatedHiveAudioKey?'Dedicated V3 key loaded':(hiveVisualKey?'Visual V3 key reused':'Missing');
   return [
     'AIV API configuration:',
     'OpenAI: '+loaded('OPENAI_API_KEY'),
@@ -7748,6 +7769,81 @@ async function retrieveYouTubeDataApiPreview(info){
   }catch(e){ out.failureReason='YouTube Data API JSON parse failed'; }
   return out;
 }
+const YOUTUBE_TITLE_CACHE_TTL_MS_V2917=30*24*60*60*1000;
+const YOUTUBE_TITLE_CACHE_V2917=new Map();
+let YOUTUBE_TITLE_CACHE_LOADED_V2917=false;
+function youtubeTitleCachePathV2917(){
+  const configured=clean(process.env.AIV_ANALYTICS_STORAGE_DIR||'');
+  const dir=configured||path.join(__dirname,'data','analytics');
+  return path.join(dir,'youtube-title-cache.json');
+}
+function loadYouTubeTitleCacheV2917(){
+  if(YOUTUBE_TITLE_CACHE_LOADED_V2917)return;
+  YOUTUBE_TITLE_CACHE_LOADED_V2917=true;
+  try{
+    const file=youtubeTitleCachePathV2917();
+    if(!fs.existsSync(file))return;
+    const parsed=JSON.parse(fs.readFileSync(file,'utf8')||'{}');
+    Object.keys(parsed||{}).forEach(function(videoId){
+      const item=parsed[videoId];
+      if(item&&clean(item.title||''))YOUTUBE_TITLE_CACHE_V2917.set(videoId,{title:clean(item.title),source:clean(item.source||'unknown'),retrievedAt:clean(item.retrievedAt||'')});
+    });
+  }catch(_e){}
+}
+function persistYouTubeTitleCacheV2917(){
+  try{
+    const file=youtubeTitleCachePathV2917();
+    fs.mkdirSync(path.dirname(file),{recursive:true});
+    const obj={};
+    YOUTUBE_TITLE_CACHE_V2917.forEach(function(value,key){obj[key]=value;});
+    const tmp=file+'.tmp';
+    fs.writeFileSync(tmp,JSON.stringify(obj,null,2),'utf8');
+    fs.renameSync(tmp,file);
+  }catch(_e){}
+}
+function readYouTubeTitleCacheV2917(videoId){
+  loadYouTubeTitleCacheV2917();
+  const item=YOUTUBE_TITLE_CACHE_V2917.get(clean(videoId||''));
+  if(!item||!clean(item.title||''))return null;
+  const age=Date.now()-Date.parse(item.retrievedAt||'');
+  return {title:clean(item.title),source:clean(item.source||'cache'),retrievedAt:item.retrievedAt||'',fresh:Number.isFinite(age)&&age>=0&&age<YOUTUBE_TITLE_CACHE_TTL_MS_V2917};
+}
+function saveYouTubeTitleCacheV2917(videoId,title,source){
+  const id=clean(videoId||''), resolved=clean(title||'');
+  if(!id||!resolved)return;
+  loadYouTubeTitleCacheV2917();
+  YOUTUBE_TITLE_CACHE_V2917.set(id,{title:resolved,source:clean(source||'unknown'),retrievedAt:new Date().toISOString()});
+  persistYouTubeTitleCacheV2917();
+}
+async function resolveYouTubeTitleV2917(info){
+  const out={title:'',source:'',cacheStatus:'miss',failureReason:'',attemptedMethods:[]};
+  if(!info||!info.videoId||!info.sourceUrl){out.failureReason='missing YouTube video ID or URL';return out;}
+  const cached=readYouTubeTitleCacheV2917(info.videoId);
+  if(cached&&cached.fresh){
+    out.title=cached.title;out.source='cache:'+cached.source;out.cacheStatus='fresh-hit';return out;
+  }
+  const dataApi=await retrieveYouTubeDataApiPreview(info);
+  out.attemptedMethods.push('youtube-data-api');
+  if(dataApi&&dataApi.ok&&dataApi.title){
+    out.title=clean(dataApi.title);out.source='youtube-data-api';out.cacheStatus=cached?'stale-refreshed':'stored';saveYouTubeTitleCacheV2917(info.videoId,out.title,out.source);return out;
+  }
+  try{
+    out.attemptedMethods.push('youtube-oembed');
+    const oUrl='https://www.youtube.com/oembed?format=json&url='+encodeURIComponent(info.sourceUrl);
+    const o=await fetchExternalJsonOrText(oUrl,'',128000,4500);
+    if(o&&o.ok){const obj=JSON.parse(o.text||'{}');if(obj&&obj.title){out.title=clean(obj.title);out.source='youtube-oembed';out.cacheStatus=cached?'stale-refreshed':'stored';saveYouTubeTitleCacheV2917(info.videoId,out.title,out.source);return out;}}
+  }catch(_e){}
+  try{
+    out.attemptedMethods.push('noembed-youtube');
+    const nUrl='https://noembed.com/embed?url='+encodeURIComponent(info.sourceUrl);
+    const n=await fetchExternalJsonOrText(nUrl,'',128000,4500);
+    if(n&&n.ok){const obj=JSON.parse(n.text||'{}');if(obj&&obj.title){out.title=clean(obj.title);out.source='noembed-youtube';out.cacheStatus=cached?'stale-refreshed':'stored';saveYouTubeTitleCacheV2917(info.videoId,out.title,out.source);return out;}}
+  }catch(_e){}
+  if(cached){out.title=cached.title;out.source='stale-cache:'+cached.source;out.cacheStatus='stale-fallback';return out;}
+  out.failureReason='free YouTube title lookup did not return a title';
+  return out;
+}
+
 function videoPreviewFieldsFromRetrieval(r){
   return {title:clean(r&&r.title||''),description:clean(r&&r.description||''),transcript:'',creatorNotes:'',unlabeledText:''};
 }
@@ -7761,6 +7857,7 @@ function youtubeLightPreviewCanAnswer(r){
   if(scenario.detected) return {enough:true,reason:'title/metadata identifies scenario or simulation presentation'};
   if(namedEndTimesIdentityClaim([fields.title, fields.description, claim].filter(Boolean).join(' '))) return {enough:true,reason:'title/metadata identifies a named Antichrist identity claim that can be handled without transcript retrieval'};
   if(eventCheck.possible && !eventCheck.reliableConfirmationSignal) return {enough:true,reason:'title/metadata identifies possible real-world event claim needing unsupported/not-verified routing'};
+  if(fields.title && (isAnyQuestionInputText(fields.title) || looksLikeStandardFactualClaimInput(fields.title) || looksLikeGeneralDeclarativeFactualClaimInput(fields.title) || looksLikeValidShortFactualClaimOrQuestionInput(fields.title))) return {enough:true,reason:'exact YouTube title identifies a factual question or claim for independent live verification'};
   return {enough:false,reason:'transcript needed for stronger video analysis'};
 }
 
@@ -7773,30 +7870,20 @@ async function retrieveYouTubePublicText(info){
     titleRetrieved:false,descriptionRetrieved:false,transcriptRetrieved:false,
     captionTrackUrlFound:false,captionTrackUrlHost:'',captionFetchAttempted:false,captionResponseStatus:'not attempted',captionResponseContentType:'not available',captionResponseFormat:'not attempted',captionResponseBytes:0,captionResponsePreviewSafe:'not attempted',transcriptTextLength:0,transcriptParseStage:'not started',transcriptParseError:'',
     externalEnabled:envFlag('EXTERNAL_YOUTUBE_TRANSCRIPT_ENABLED'), externalProvider:clean(process.env.EXTERNAL_YOUTUBE_TRANSCRIPT_PROVIDER||'not configured'), externalRequestAttempted:false, externalResponseStatus:'not attempted', externalTranscriptRetrieved:false, externalTranscriptTextLength:0, externalTitleRetrieved:false, externalDescriptionRetrieved:false, externalFailureReason:'not attempted', externalBindingStage:'not attempted', supadataProviderActive:(clean(process.env.EXTERNAL_YOUTUBE_TRANSCRIPT_PROVIDER||'').toLowerCase()==='supadata'), supadataRequestAttempted:false, supadataRequestMode:clean(process.env.EXTERNAL_YOUTUBE_TRANSCRIPT_MODE||'native').toLowerCase(), supadataResponseStatus:'not attempted', supadataJobId:'', supadataJobStatus:'not applicable', supadataPollCount:0, supadataTranscriptRetrieved:false, supadataTranscriptTextLength:0, supadataLanguage:'', supadataAvailableLangs:'', supadataBillableRequests:'not available', supadataFailureReason:'not attempted', supadataApiKeyPresent:false, supadataApiKeyLength:0, supadataAuthHeaderUsed:false, supadataEndpointUsed:'', supadataRequestUrlSafe:'',
-    videoLightPreviewUsed:false,videoLightPreviewSource:'',videoTitleRetrieved:false,supadataTranscriptUsed:false,supadataSkipReason:'not evaluated',paidSourceUsed:false,videoWordingRepairActive:true,videoClaimTitlePriorityActive:true,videoLimitationsOutputCleanupActive:true,videoVisibleSourceBasisCleaned:true,videoLimitationsUserSimplified:true,
+    videoLightPreviewUsed:false,videoLightPreviewSource:'',videoTitleRetrieved:false,titleResolutionMethod:'',titleCacheStatus:'miss',titleResolutionFailure:'',titleResolutionAttemptedMethods:[],openaiTitleFallbackAttempted:false,openaiTitleFallbackUsed:false,openaiTitleFallbackFailure:'',supadataTranscriptUsed:false,supadataSkipReason:'not evaluated',paidSourceUsed:false,videoWordingRepairActive:true,videoClaimTitlePriorityActive:true,videoLimitationsOutputCleanupActive:true,videoVisibleSourceBasisCleaned:true,videoLimitationsUserSimplified:true,
     retrievedTextUsedForAI:false,retrievedTextUsedForFactual:false,
     failureReason:'',bindingStage:'not attempted'
   };
   if(!info||!info.isYouTube||!info.isSpecific||!info.sourceUrl){ r.failureReason='not a specific YouTube URL'; return r; }
   r.bindingStage='youtube-url-only-retrieval-start';
-  // Try free/basic YouTube light preview first. This should not use Supadata.
-  try{
-    const oUrl='https://www.youtube.com/oembed?format=json&url='+encodeURIComponent(info.sourceUrl);
-    const o=await fetchExternalJsonOrText(oUrl,'',128000,5500);
-    if(o&&o.ok){
-      try{
-        const obj=JSON.parse(o.text||'{}');
-        if(obj&&obj.title){ r.title=clean(obj.title); r.titleRetrieved=!!r.title; r.videoTitleRetrieved=!!r.title; r.videoLightPreviewSource='youtube-oembed'; }
-      }catch(e){}
-    }
-  }catch(e){}
-  if(!r.title){
-    const dp=await retrieveYouTubeDataApiPreview(info);
-    if(dp && dp.ok){
-      if(dp.title){ r.title=dp.title; r.titleRetrieved=true; r.videoTitleRetrieved=true; }
-      if(dp.description){ r.description=dp.description; r.descriptionRetrieved=true; }
-      r.videoLightPreviewSource='youtube-data-api';
-    }
+  // Resolve the exact title first without transcript retrieval.
+  const titleResolution=await resolveYouTubeTitleV2917(info);
+  r.titleResolutionMethod=clean(titleResolution&&titleResolution.source||'');
+  r.titleCacheStatus=clean(titleResolution&&titleResolution.cacheStatus||'miss');
+  r.titleResolutionFailure=clean(titleResolution&&titleResolution.failureReason||'');
+  r.titleResolutionAttemptedMethods=Array.isArray(titleResolution&&titleResolution.attemptedMethods)?titleResolution.attemptedMethods.slice():[];
+  if(titleResolution&&titleResolution.title){
+    r.title=clean(titleResolution.title);r.titleRetrieved=!!r.title;r.videoTitleRetrieved=!!r.title;r.videoLightPreviewSource=r.titleResolutionMethod||'youtube-title-resolver';
   }
   if(looksLikeLikelyMusicTarget(info.sourceUrl, {title:r.title, description:r.description})){ 
     r.videoLightPreviewUsed=true;
@@ -7863,6 +7950,7 @@ async function retrieveYouTubePublicText(info){
   }else{
     r.failureReason=(page&&page.error)||r.pageFetchStatus||'YouTube page fetch failed';
   }
+  if(r.title && !r.titleResolutionMethod){r.titleResolutionMethod='youtube-watch-page-metadata';r.titleCacheStatus='stored';saveYouTubeTitleCacheV2917(info.videoId,r.title,r.titleResolutionMethod);}
   const previewDecision2=youtubeLightPreviewCanAnswer(r);
   if(!r.transcriptRetrieved && previewDecision2.enough){
     r.videoLightPreviewUsed=true;
@@ -7907,7 +7995,7 @@ async function retrieveYouTubePublicText(info){
       r.supadataAuthHeaderUsed=!!ext.supadataAuthHeaderUsed;
       r.supadataEndpointUsed=ext.supadataEndpointUsed||'';
       r.supadataRequestUrlSafe=ext.supadataRequestUrlSafe||'';
-      if(ext.title && !r.title){ r.title=ext.title; r.titleRetrieved=true; }
+      if(ext.title && !r.title){ r.title=ext.title; r.titleRetrieved=true; r.titleResolutionMethod='external-video-text-provider'; r.titleCacheStatus='stored'; saveYouTubeTitleCacheV2917(info.videoId,r.title,r.titleResolutionMethod); }
       if(ext.description && !r.description){ r.description=ext.description; r.descriptionRetrieved=true; }
       if(ext.transcript){ r.transcript=ext.transcript; r.transcriptRetrieved=true; r.transcriptTextLength=ext.transcriptTextLength||ext.transcript.length; r.transcriptParseError='none'; r.transcriptParseStage='external-transcript-bound'; }
       if(ext.titleRetrieved||ext.descriptionRetrieved||ext.transcriptRetrieved){ r.failureReason='none'; }
@@ -7936,6 +8024,14 @@ function youtubeRetrievalDiagnosticLines(retrieval){
     'VIDEO_LIGHT_PREVIEW_USED: '+(r.videoLightPreviewUsed?'true':'false'),
     'VIDEO_LIGHT_PREVIEW_SOURCE: '+clean(r.videoLightPreviewSource||'not used'),
     'VIDEO_TITLE_RETRIEVED: '+(r.videoTitleRetrieved||r.titleRetrieved?'true':'false'),
+    'YOUTUBE_RESOLVED_TITLE: '+clean(r.title||''),
+    'YOUTUBE_TITLE_RESOLUTION_METHOD: '+clean(r.titleResolutionMethod||'not resolved'),
+    'YOUTUBE_TITLE_CACHE_STATUS: '+clean(r.titleCacheStatus||'miss'),
+    'YOUTUBE_TITLE_RESOLUTION_ATTEMPTED_METHODS: '+(Array.isArray(r.titleResolutionAttemptedMethods)?r.titleResolutionAttemptedMethods.join(', '):'none'),
+    'YOUTUBE_TITLE_RESOLUTION_FAILURE: '+clean(r.titleResolutionFailure||'none'),
+    'OPENAI_TITLE_FALLBACK_ATTEMPTED: '+(r.openaiTitleFallbackAttempted?'true':'false'),
+    'OPENAI_TITLE_FALLBACK_USED: '+(r.openaiTitleFallbackUsed?'true':'false'),
+    'OPENAI_TITLE_FALLBACK_FAILURE: '+clean(r.openaiTitleFallbackFailure||'none'),
     'SUPADATA_TRANSCRIPT_USED: '+(r.supadataTranscriptUsed?'true':'false'),
     'SUPADATA_SKIP_REASON: '+clean(r.supadataSkipReason||'not evaluated'),
     'PAID_SOURCE_USED: '+(r.paidSourceUsed?'true':'false'),
@@ -8059,7 +8155,7 @@ function transcriptLikeTextSupplied(value){
 function videoMainClaimCandidate(value){
   const fields=extractVideoInputFields(value);
   if(fields.title && namedEndTimesIdentityClaim(fields.title)) return fields.title;
-  const fieldTexts=[fields.transcript,fields.description,fields.creatorNotes,fields.title,fields.unlabeledText].filter(Boolean);
+  const fieldTexts=[fields.title,fields.transcript,fields.description,fields.creatorNotes,fields.unlabeledText].filter(Boolean);
   let raw=fieldTexts.length ? fieldTexts.join('. ') : (videoSubmittedText(fields) || clean(value));
   raw=raw.replace(/^\s*(?:title|description|desc|transcript|caption|captions|creator notes|notes|context)\s*:\s*/ig,'');
   if(/^https?:\/\//i.test(raw) && !videoSubmittedText(fields)) return '';
@@ -8504,6 +8600,206 @@ function musicVideoDetectionOnlyResult(raw, fields, retrieval, info){
   };
 }
 
+
+function videoLiveFactualResult(mainClaim, live, info){
+  if(!live || !live.ok) return null;
+  const answer=clean(live.answer||'');
+  const why=capitalizeUserFacingChunk(clean(live.why||answer||'The detected video claim was checked against current reliable sources.'));
+  return {
+    claim:videoTopicDisplaySentence(clean(live.claim||mainClaim)),
+    analysisResult:clean(live.analysisResult||'Needs more evidence'),
+    answer:answer,
+    answerList:Array.isArray(live.answerList)?live.answerList.slice(0,10):[],
+    why:why,
+    confidenceInResult:clean(live.confidence||'Source-backed confidence'),
+    evidence:capitalizeUserFacingChunk(clean(live.evidence||why)),
+    source:clean(live.sourceBasis||live.primarySourceTitle||'Current reliable sources'),
+    sourceBasis:clean(live.sourceBasis||live.primarySourceTitle||'Current reliable sources'),
+    sourceUrl:clean(live.primarySourceUrl||''),
+    primarySourceUrl:clean(live.primarySourceUrl||''),
+    supportingInformation:capitalizeUserFacingChunk(clean(live.supportingInformation||'')),
+    contentKind:clean(live.contentKind||''),
+    displayLabel:clean(live.displayLabel||''),
+    hideAnalysisResult:live.hideAnalysisResult===true,
+    briefResponse:live.briefResponse===true,
+    exactVideoTitle:clean(live.exactVideoTitle||''),
+    videoLiveSourceVerified:true,
+    videoSourceCount:Number(live.sourceCount||0)
+  };
+}
+
+async function openAIVideoLinkTitleVerification(videoUrl){
+  const target=validHttpUrl(videoUrl);
+  if(!target) return {ok:false,errorType:'invalid_video_url'};
+  if(!process.env.OPENAI_API_KEY) return {ok:false,errorType:'missing_openai_api_key'};
+  const model=process.env.OPENAI_MODEL || 'gpt-5.4-mini';
+  let videoId='';
+  try{ videoId=videoUrlInfo(target).videoId||''; }catch(_e){}
+  const prompt=[
+    'You are AIVerify video-link factual verification.',
+    'Use web search to identify the exact public title of the submitted YouTube video from its URL or video ID, then verify the main factual claim or factual question expressed by that title using current independent reliable sources.',
+    'The YouTube video itself is not independent proof. Prefer official or primary sources, then reputable reporting or established topical sources.',
+    'Do not claim that video frames or audio were inspected. Do not evaluate whether the hosted video was AI-generated.',
+    'If the title is a factual question, answer it directly. If it is a factual claim, classify it. If the exact title cannot be identified, return Needs more evidence.',
+    'Return ONLY valid JSON with these keys: videoTitle, mainClaim, analysisResult, answer, answerList, why, confidence, evidence, sourceBasis, primarySourceTitle, primarySourceUrl, supportingInformation.',
+    'analysisResult must be one of: Accurate, Mostly Accurate, Mixed / Partly Accurate, Misleading, Inaccurate, Unsupported / Not verified, Needs more evidence.',
+    'Keep the answer and explanation concise. Do not include raw URLs except in primarySourceUrl.',
+    'Submitted video URL: '+target,
+    videoId ? 'YouTube video ID: '+videoId : ''
+  ].filter(Boolean).join('\n');
+  const payload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results'],input:prompt};
+  const resp=await openaiApiRequestJson(payload,50000);
+  if(!resp.ok) return {ok:false,errorType:resp.errorType||'openai_request_failed'};
+  const text=extractOpenAIOutputText(resp.json);
+  const parsed=extractJsonObjectFromText(text);
+  const sources=collectOpenAISourceObjects(resp.json);
+  if(!parsed || typeof parsed!=='object') return {ok:false,errorType:'openai_json_parse_failed'};
+  const videoTitle=clean(parsed.videoTitle||'');
+  const mainClaim=clean(parsed.mainClaim||parsed.claim||videoTitle||'');
+  if(!videoTitle && !mainClaim) return {ok:false,errorType:'video_title_not_found'};
+  const primaryUrl=validHttpUrl(parsed.primarySourceUrl) || (sources[0]&&sources[0].url) || '';
+  const primaryTitle=clean(parsed.primarySourceTitle) || (sources[0]&&sources[0].title) || (primaryUrl?domainFromUrl(primaryUrl):'');
+  const sourceCount=sources.length || (primaryUrl?1:0);
+  const live={
+    ok:true,
+    model:model,
+    analysisResult:normalizeLiveAnalysisResult(parsed.analysisResult),
+    claim:mainClaim,
+    answer:clean(removeFollowUpOfferWording(parsed.answer||'')),
+    answerList:Array.isArray(parsed.answerList)?parsed.answerList.map(function(x){return clean(removeFollowUpOfferWording(x));}).filter(Boolean).slice(0,10):[],
+    why:capitalizeUserFacingChunk(removeFollowUpOfferWording(parsed.why||parsed.answer||'The title claim was checked against current reliable sources.')),
+    confidence:confidenceForLiveResult(parsed,sourceCount,domainFromUrl(primaryUrl)),
+    evidence:capitalizeUserFacingChunk(removeFollowUpOfferWording(parsed.evidence||parsed.why||'')),
+    sourceBasis:compactPrimarySourceName(primaryTitle,primaryUrl) || capitalizeUserFacingChunk(clean(parsed.sourceBasis||primaryTitle||'Current reliable sources')),
+    primarySourceTitle:primaryTitle,
+    primarySourceUrl:primaryUrl,
+    supportingInformation:capitalizeUserFacingChunk(removeFollowUpOfferWording(parsed.supportingInformation||'')),
+    sourceCount:sourceCount,
+    sources:sources
+  };
+  const result=videoLiveFactualResult(mainClaim,live,{sourceUrl:target});
+  if(!result) return {ok:false,errorType:'video_live_result_build_failed'};
+  result.videoTitle=videoTitle;
+  result.videoLinkTitleLookupFallback=true;
+  return {ok:true,videoTitle:videoTitle,mainClaim:mainClaim,result:result,sourceCount:sourceCount};
+}
+
+async function openAIVideoTitleLookupV2917(videoUrl){
+  const target=validHttpUrl(videoUrl);
+  if(!target)return {ok:false,errorType:'invalid_video_url'};
+  if(!process.env.OPENAI_API_KEY)return {ok:false,errorType:'missing_openai_api_key'};
+  const info=videoUrlInfo(target);
+  const videoId=clean(info&&info.videoId||'');
+  const model=process.env.OPENAI_MODEL||'gpt-5.4-mini';
+  const prompt=[
+    'Identify the exact current public title of one specific YouTube video.',
+    'Use web search. Search the exact video ID in quotation marks and the full YouTube URL. Match only a result tied to that exact video ID.',
+    'Do not answer or verify the title. Do not summarize the video. Return ONLY valid JSON with keys videoTitle and channelTitle.',
+    'If the exact title cannot be reliably matched to this video ID, return an empty videoTitle.',
+    'YouTube video ID: '+videoId,
+    'YouTube URL: '+target,
+    'Exact search strings to try: "'+videoId+'" and "youtube '+videoId+'"'
+  ].join('\n');
+  const payload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results'],input:prompt};
+  const resp=await openaiApiRequestJson(payload,50000);
+  if(!resp.ok)return {ok:false,errorType:resp.errorType||'openai_request_failed'};
+  const text=extractOpenAIOutputText(resp.json);
+  const parsed=extractJsonObjectFromText(text);
+  if(!parsed||typeof parsed!=='object')return {ok:false,errorType:'openai_json_parse_failed'};
+  const title=clean(parsed.videoTitle||parsed.title||'');
+  if(!title)return {ok:false,errorType:'video_title_not_found'};
+  saveYouTubeTitleCacheV2917(videoId,title,'openai-web-search-fallback');
+  return {ok:true,videoTitle:title,channelTitle:clean(parsed.channelTitle||''),source:'openai-web-search-fallback'};
+}
+
+async function openAIVideoTitleClaimLiveVerification(videoTitle, detectedMainClaim, videoUrl){
+  const title=clean(videoTitle||'');
+  const detectedClaim=clean(detectedMainClaim||'');
+  const target=validHttpUrl(videoUrl)||'';
+  if(!title && !detectedClaim) return {ok:false,errorType:'missing_video_title_and_claim'};
+  if(!process.env.OPENAI_API_KEY) return {ok:false,errorType:'missing_openai_api_key'};
+  const model=process.env.OPENAI_MODEL || 'gpt-5.4-mini';
+  const prompt=[
+    'You are AIVerify dedicated YouTube title-claim verification.',
+    'The exact public YouTube title has already been retrieved. Do not spend the search trying to rediscover the video title.',
+    'Identify the factual proposition or factual question conveyed by the exact title, then verify or answer that proposition using current independent reliable web sources.',
+    'Search for the underlying people, event, statement, statistic, policy, or subject named by the title. Independent sources do not need to mention the YouTube video or repeat the exact title wording.',
+    'The YouTube title and video are the claim origin only and are not evidence. Prefer official or primary sources, then reputable reporting or established topical sources.',
+    'Do not return Needs more evidence merely because independent sources do not mention the video. Return Needs more evidence only when the underlying factual proposition itself cannot be responsibly resolved from current reliable sources.',
+    'If the title is phrased as a question, answer that exact question directly and briefly. Do not assign an accuracy verdict to a question. Do not begin with corrective phrases such as Not exactly, Not quite, Yes but, or No but unless the title itself is a yes-or-no question.',
+    'If the title is a declarative claim, classify it for truth or deception. If it is clickbait, exaggerated, or incomplete, state the most accurate concise answer and classify the implied factual claim.',
+    'Do not claim that video frames or audio were inspected. Do not evaluate whether the hosted video was AI-generated.',
+    'Return ONLY valid JSON with these keys: analysisResult, claim, answer, answerList, why, confidence, evidence, sourceBasis, primarySourceTitle, primarySourceUrl, supportingInformation.',
+    'analysisResult must be one of: Accurate, Mostly Accurate, Mixed / Partly Accurate, Misleading, Inaccurate, Unsupported / Not verified, Needs more evidence.',
+    'Keep the answer and explanation concise. Do not include raw URLs except in primarySourceUrl.',
+    'Exact YouTube title: '+(title||'not available'),
+    'Previously detected main claim: '+(detectedClaim||'not available'),
+    target ? 'Submitted video URL: '+target : ''
+  ].filter(Boolean).join('\n');
+  const payload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results'],input:prompt};
+  const resp=await openaiApiRequestJson(payload,50000);
+  if(!resp.ok) return {ok:false,errorType:resp.errorType||'openai_request_failed'};
+  const text=extractOpenAIOutputText(resp.json);
+  const parsed=extractJsonObjectFromText(text);
+  const sources=collectOpenAISourceObjects(resp.json);
+  if(!parsed || typeof parsed!=='object') return {ok:false,errorType:'openai_json_parse_failed',sources:sources,rawText:text.slice(0,1000)};
+  const primaryUrl=validHttpUrl(parsed.primarySourceUrl) || (sources[0]&&sources[0].url) || '';
+  const primaryTitle=clean(parsed.primarySourceTitle) || (sources[0]&&sources[0].title) || (primaryUrl?domainFromUrl(primaryUrl):'');
+  const sourceCount=sources.length || (primaryUrl?1:0);
+  const primaryDomain=domainFromUrl(primaryUrl);
+  const verifiedClaim=clean(parsed.claim||detectedClaim||title).replace(/[?]+$/,'').trim();
+  const why=capitalizeUserFacingChunk(removeFollowUpOfferWording(parsed.why||parsed.answer||'The title claim was checked against current independent reliable sources.'));
+  const live={
+    ok:true,
+    model:model,
+    analysisResult:normalizeLiveAnalysisResult(parsed.analysisResult),
+    claim:verifiedClaim,
+    answer:clean(removeFollowUpOfferWording(parsed.answer||'')),
+    answerList:Array.isArray(parsed.answerList)?parsed.answerList.map(function(x){return clean(removeFollowUpOfferWording(x));}).filter(Boolean).slice(0,10):[],
+    why:why,
+    confidence:confidenceForLiveResult(parsed,sourceCount,primaryDomain),
+    evidence:capitalizeUserFacingChunk(removeFollowUpOfferWording(parsed.evidence||why)),
+    sourceBasis:compactPrimarySourceName(primaryTitle,primaryUrl) || capitalizeUserFacingChunk(clean(parsed.sourceBasis||primaryTitle||'Current reliable sources')),
+    primarySourceTitle:primaryTitle,
+    primarySourceUrl:primaryUrl,
+    supportingInformation:capitalizeUserFacingChunk(removeFollowUpOfferWording(parsed.supportingInformation||'')),
+    sourceCount:sourceCount,
+    primaryDomain:primaryDomain,
+    sources:sources,
+    exactVideoTitle:title
+  };
+  const polished=polishLiveSourceResultForDisplay(title||detectedClaim,live);
+  const substantiveAnswer=clean(live.answer||'');
+  const titleIsQuestion=!!(title && isAnyQuestionInputText(title));
+  const titleIsOpenQuestion=!!(titleIsQuestion && /^(?:who|what|when|where|why|how|which|whose|whom)\b/i.test(title));
+  if(titleIsQuestion){
+    // Question titles are requests for an answer, not claims that deserve an accuracy badge.
+    let directAnswer=substantiveAnswer || clean(polished.answer||'');
+    if(titleIsOpenQuestion){
+      directAnswer=directAnswer.replace(/^\s*(?:not exactly|not quite|yes,?\s*but|no,?\s*but)\s*[.:;-]?\s*/i,'').trim();
+    }
+    if(directAnswer && !/^(?:needs more evidence|unclear|unknown|not enough information)$/i.test(directAnswer)){
+      polished.answer=directAnswer;
+    }
+    polished.claim=title;
+    polished.analysisResult='Answer';
+    polished.contentKind='QUESTION';
+    polished.displayLabel='Title';
+    polished.hideAnalysisResult=true;
+    polished.briefResponse=true;
+  }else{
+    polished.contentKind='CLAIM';
+    polished.displayLabel='Claim';
+    polished.hideAnalysisResult=false;
+    polished.briefResponse=false;
+  }
+  polished.exactVideoTitle=title;
+  polished.videoTitleQuestionAnswerPreserved=true;
+  polished.ok=true;
+  polished.errorType='';
+  return polished;
+}
+
 async function videoAuthenticityContract(input){
   const raw=clean(input);
   const originalFields=extractVideoInputFields(input);
@@ -8542,7 +8838,7 @@ async function videoAuthenticityContract(input){
   if(titleScenarioClaim && !musicTargetDetected && !musicVideoWithoutSpecificClaim) mainClaim=titleScenarioClaim;
   const detectedMainTopic=videoMainTopicCandidate(input, fields, mainClaim);
   const unknownMainTopic='Not enough information was submitted or retrieved to identify the video topic.';
-  const mainTopic=detectedMainTopic || unknownMainTopic;
+  let mainTopic=detectedMainTopic || unknownMainTopic;
   const platform=info.isUrl ? info.platform : 'Text / video input';
   const targetType=musicTargetDetected ? (info.isUrl ? 'Music video/song URL' : 'Music video/song reference') : (info.isUrl ? (info.isSpecific ? (hasSubmittedOrRetrievedText ? (originallySubmittedText?'Specific video URL with supplied text':'Specific video URL with retrieved public text') : 'Specific video URL') : 'Media URL') : (hasTranscript ? 'Video text input' : 'Media reference'));
   const signalsChecked=[];
@@ -8619,21 +8915,82 @@ async function videoAuthenticityContract(input){
   else limitations.push('No full public video text was retrieved or inspected for this scan.');
   limitations.push(eventCrosscheck.possible ? 'Result is based on available title/metadata/text signals plus outside confirmation signals when applicable.' : 'Result is based on available title/metadata/text signals only.');
 
+  let videoLinkTitleLookupAttempted=false;
+  let videoLinkTitleLookupUsed=false;
+  let videoLinkTitleLookupFailure='';
+  let videoLinkTitleLookupResult=null;
+  if(!musicTargetDetected && info.isYouTube && info.isSpecific && !clean(fields.title||'')){
+    videoLinkTitleLookupAttempted=true;
+    if(retrieval)retrieval.openaiTitleFallbackAttempted=true;
+    const lookup=await openAIVideoTitleLookupV2917(info.sourceUrl||raw);
+    if(lookup && lookup.ok && lookup.videoTitle){
+      videoLinkTitleLookupUsed=true;
+      const resolvedTitle=clean(lookup.videoTitle);
+      fields.title=resolvedTitle;
+      mainClaim=videoMainClaimCandidate('Title: '+resolvedTitle)||resolvedTitle;
+      mainTopic=resolvedTitle;
+      if(retrieval){retrieval.title=resolvedTitle;retrieval.titleRetrieved=true;retrieval.videoTitleRetrieved=true;retrieval.titleResolutionMethod=lookup.source||'openai-web-search-fallback';retrieval.titleCacheStatus='stored';retrieval.openaiTitleFallbackUsed=true;retrieval.openaiTitleFallbackFailure='';retrieval.bindingStage='openai-title-only-fallback-bound';}
+    }else{
+      videoLinkTitleLookupFailure=clean(lookup&&lookup.errorType||'video title lookup unavailable');
+      if(retrieval){retrieval.openaiTitleFallbackFailure=videoLinkTitleLookupFailure;}
+    }
+  }
   let factualAutoResult=musicTargetDetected ? musicVideoDetectionOnlyResult(raw, fields, retrieval, info) : (mainClaim ? (factualAntichristIdentityVideoResult(mainClaim, fields, info) || factualAnalysisObjectForClaim(mainClaim)) : null);
-  if(!musicTargetDetected && scenarioSignals.detected){
+  const exactVideoTitleClaim=clean(fields.title||'');
+  let videoLiveSourceAttempted=false;
+  let videoLiveSourceUsed=false;
+  let videoLiveSourceFailure=videoLinkTitleLookupFailure;
+  const videoLiveVerificationClaim=clean((info.isYouTube && info.isSpecific && exactVideoTitleClaim) ? exactVideoTitleClaim : mainClaim);
+  const specificYouTubeTitleRequiresLiveVerification=!!(
+    info.isYouTube &&
+    info.isSpecific &&
+    exactVideoTitleClaim &&
+    (isAnyQuestionInputText(exactVideoTitleClaim) || looksLikeStandardFactualClaimInput(exactVideoTitleClaim) || looksLikeGeneralDeclarativeFactualClaimInput(exactVideoTitleClaim) || looksLikeValidShortFactualClaimOrQuestionInput(exactVideoTitleClaim))
+  );
+  const shouldLiveVerifyVideoClaim=!!(!musicTargetDetected && videoLiveVerificationClaim && !scenarioSignals.explicit && (
+    specificYouTubeTitleRequiresLiveVerification ||
+    !factualAutoResult ||
+    /needs more evidence/i.test(clean(factualAutoResult.analysisResult||'')) ||
+    eventCrosscheck.possible ||
+    shouldUseOpenAILiveSource(videoLiveVerificationClaim,classify(videoLiveVerificationClaim),classifyRequest(videoLiveVerificationClaim))
+  ));
+  if(shouldLiveVerifyVideoClaim){
+    videoLiveSourceAttempted=true;
+    const live=await openAIVideoTitleClaimLiveVerification(exactVideoTitleClaim,mainClaim,info.sourceUrl||raw);
+    if(live && live.ok){
+      const liveResult=videoLiveFactualResult(videoLiveVerificationClaim,live,info);
+      if(liveResult){
+        if(exactVideoTitleClaim) liveResult.claim=exactVideoTitleClaim;
+        if(live.answer && !liveResult.answer) liveResult.answer=clean(live.answer);
+        liveResult.contentKind=clean(live.contentKind||liveResult.contentKind||'');
+        liveResult.displayLabel=clean(live.displayLabel||liveResult.displayLabel||'');
+        liveResult.hideAnalysisResult=live.hideAnalysisResult===true;
+        liveResult.briefResponse=live.briefResponse===true;
+        liveResult.exactVideoTitle=clean(live.exactVideoTitle||exactVideoTitleClaim||'');
+        factualAutoResult=liveResult;
+        mainClaim=videoLiveVerificationClaim;
+        mainTopic=videoTopicDisplaySentence(exactVideoTitleClaim||videoLiveVerificationClaim);
+        videoLiveSourceUsed=true;
+        videoLiveSourceFailure='';
+      }
+    }else{
+      videoLiveSourceFailure=clean(live&&live.errorType||'live verification unavailable');
+    }
+  }
+  if(!videoLiveSourceUsed && !musicTargetDetected && scenarioSignals.detected){
     factualAutoResult=factualUnsupportedForVideoScenario(mainClaim || detectedMainTopic || fields.title || fields.description, scenarioSignals, info);
-  }else if(!musicTargetDetected && eventCrosscheck.possible && !eventCrosscheck.reliableConfirmationSignal){
+  }else if(!videoLiveSourceUsed && !musicTargetDetected && eventCrosscheck.possible && !eventCrosscheck.reliableConfirmationSignal){
     factualAutoResult=factualUnsupportedForUnconfirmedVideoEvent(mainClaim || detectedMainTopic || fields.title || fields.description, eventCrosscheck, info);
   }else if(!musicTargetDetected && mainClaim && !factualAutoResult){
     factualAutoResult={
       claim:videoTopicDisplaySentence(mainClaim),
       analysisResult:'Needs more evidence',
-      why:'AIVerify identified this claim or topic from the available video text, but this scan does not include reliable independent confirmation or contradiction for it.',
+      why:'AIVerify identified this claim or topic from the available video text, but current reliable-source verification was unavailable or inconclusive.',
       confidenceInResult:'Limited confidence',
-      evidence: externalRetrievedTextPresent ? 'Public YouTube text can identify what is being claimed, but it is not proof that the event or claim is true.' : 'The available YouTube title, metadata, or public text can identify what is being claimed, but it is not proof that the event or claim is true.',
-      source: externalRetrievedTextPresent ? 'Source basis: Public YouTube text; not confirmation of the claim.' : 'Source basis: Retrieved/submitted video text; not confirmation of the claim.',
+      evidence: externalRetrievedTextPresent ? 'Public YouTube text identifies what is being claimed, but it is not independent proof that the claim is true.' : 'The available title, metadata, or public text identifies what is being claimed, but it is not independent proof that the claim is true.',
+      source: externalRetrievedTextPresent ? 'Source basis: Public YouTube text; not independent confirmation.' : 'Source basis: Retrieved/submitted video text; not independent confirmation.',
       sourceUrl:info.sourceUrl||'',
-      supportingInformation:'Use a specific claim and reliable outside sources for stronger factual verification.'
+      supportingInformation:''
     };
   }
   if(factualAutoResult){
@@ -8711,29 +9068,35 @@ async function videoAuthenticityContract(input){
     whyEvidenceCombinedActive:true,
     conditionalSupportingInfoActive:true,
     conditionalAiBoxActive:true,
-    aiAuthOnDemandActive:!musicTargetDetected,
-    aiAuthButtonActive:!musicTargetDetected,
+    aiAuthOnDemandActive:false,
+    aiAuthButtonActive:false,
     combinedSummaryAndSupportingInfoRepairActive:true,
     aiAuthScenarioBadgeSimplifiedActive:true,
     aiAuthExplicitlyRequested: aiAuthExplicitRequest,
-    aiAuthAutoDisplayMode: musicTargetDetected ? 'disabled-music-r1' : (aiAuthExplicitRequest ? 'explicit' : 'on-demand'),
-    aiAuthAutoDisplayReason: musicTargetDetected ? 'AI/authenticity analysis is disabled for music videos in R1.' : (aiAuthExplicitRequest ? 'AI/authenticity analysis was requested for this input.' : (aiAuthResolvedByFactual ? 'Factual scan already resolved this input as a disclosed scenario/simulation.' : (aiAuthNoUsableData ? 'No usable public video text was available for an automatic AI/authenticity scan.' : 'AI/authenticity scan is available on demand.'))),
-    aiAuthOptionLabel:'Analyze for AI / synthetic indicators',
+    aiAuthAutoDisplayMode:'disabled-social-video',
+    aiAuthAutoDisplayReason:'AIVerify verifies the title and available spoken claims from social-video links; it does not claim to determine whether the hosted video itself was AI-generated.',
+    aiAuthOptionLabel:'',
     conditionalLimitationsActive:true,
     globalFactualFirstRenderingActive:true,
     noDataAiAuthSuppressionActive:true,
     globalSupportingInfoRelevanceActive:true,
     globalLimitationsRelevanceActive:true,
     aiAuthCollapsedDefaultActive:true,
+    videoMainClaimLiveVerificationAttempted:videoLiveSourceAttempted,
+    videoMainClaimLiveVerificationUsed:videoLiveSourceUsed,
+    videoMainClaimLiveVerificationFailure:videoLiveSourceFailure,
+    videoLinkTitleLookupAttempted:videoLinkTitleLookupAttempted,
+    videoLinkTitleLookupUsed:videoLinkTitleLookupUsed,
+    videoLinkTitleLookupFailure:videoLinkTitleLookupFailure,
     youtubeRetrieval: retrieval || null,
-    route:'video-ai-likelihood-r1',
+    route:'video-factual-verification-r1',
     backendVersion:VERSION
   };
 }
 async function videoAuthenticityOutput(input, d){
   const c=await videoAuthenticityContract(input);
   const lines=[
-    'Backend: '+VERSION+' | media:true | src:video-auth-contract | route:video-ai-likelihood-r1',
+    'Backend: '+VERSION+' | media:true | src:video-auth-contract | route:video-factual-verification-r1',
     ...requestAuditLines(input),
     ...analysisBindingAuditLines(),
     'VIDEO_AI_LIKELIHOOD_R1: active',
@@ -8757,6 +9120,22 @@ async function videoAuthenticityOutput(input, d){
     'SUPADATA_AUTH_HEADER_BINDING_REPAIR_R1: active',
     'VIDEO_CROSSCHECK_AND_SIMULATION_CLASSIFIER_R1: active',
     'VIDEO_CROSSCHECK_RESULT_ROUTING_REPAIR_R1: active',
+    'YOUTUBE_TITLE_RESOLUTION_AND_OPENAI_FALLBACK_V2917: active',
+    'VIDEO_TITLE_VERIFIER_SUCCESS_BINDING_V2918: active',
+    'VIDEO_LINK_LIVE_VERIFICATION_V2905: active',
+    'VIDEO_LINK_TITLE_LOOKUP_FALLBACK_V2908: active',
+    'VIDEO_LINK_TITLE_AND_TRANSCRIPT_FALLBACK_V2909: active',
+    'VIDEO_LINK_NEEDS_MORE_EVIDENCE_LIVE_FOLLOWUP_V2910: active',
+    'VIDEO_LINK_EXACT_TITLE_LIVE_VERIFICATION_V2911: active',
+    'VIDEO_LINK_DEDICATED_TITLE_CLAIM_VERIFICATION_V2912: active',
+    'VIDEO_URL_PRE_EVALUATOR_ROUTE_PRIORITY_V2914: active',
+    'VIDEO_TITLE_QUESTION_ANSWER_PRESERVATION_V2915: active',
+    'VIDEO_TITLE_FORCED_LIVE_VERIFICATION_V2916: active',
+    'VIDEO_LINK_TITLE_LOOKUP_ATTEMPTED: '+(c.videoLinkTitleLookupAttempted?'true':'false'),
+    'VIDEO_LINK_TITLE_LOOKUP_USED: '+(c.videoLinkTitleLookupUsed?'true':'false'),
+    'VIDEO_LINK_TITLE_LOOKUP_FAILURE: '+clean(c.videoLinkTitleLookupFailure||'none'),
+    'VIDEO_MAIN_CLAIM_LIVE_VERIFICATION_ATTEMPTED: '+(c.videoMainClaimLiveVerificationAttempted?'true':'false'),
+    'VIDEO_MAIN_CLAIM_LIVE_VERIFICATION_USED: '+(c.videoMainClaimLiveVerificationUsed?'true':'false'),
     'VIDEO_ACTIVE_RESULT_OBJECT_OVERRIDE_REPAIR_R1: active',
     'VIDEO_MAIN_TOPIC_TITLE_PRIORITY_REPAIR_R1: active',
     'VIDEO_CLAIM_TITLE_PRIORITY_REPAIR_R1: active',
@@ -8953,6 +9332,11 @@ async function outputRaw(input){
   const originalInput=clean(input);
   const embeddedNarrativeClaim=extractNarrativeEmbeddedFactualInput(originalInput);
   const routingInput=embeddedNarrativeClaim || originalInput;
+  // Specific video URLs must enter the video verification contract before general
+  // stable-fact, question, or URL evaluators can return an unrelated fallback.
+  if(looksLikeSpecificVideoOrTranscriptTarget(routingInput)){
+    return await videoAuthenticityOutput(routingInput, deferred(originalInput));
+  }
   const entityMeaning=entityMeaningIdentificationOutput(routingInput);
   if(entityMeaning) return entityMeaning;
   // Multi-part informational questions must be evaluated as one request before first-sentence routing.
@@ -24049,6 +24433,18 @@ async function v2764GenerateImmutableCompletedResponse(input,keyId){
 async function v2764HandleAnalyzeRequest(input,requestState,requestContext){
   const raw=clean(input);
 
+  // v2919: the video path already builds a complete AIV_VIDEO_AUTH_CONTRACT with the
+  // resolved YouTube title and its live factual result. Sending that object through the
+  // general canonical AIV_RESULT adapter discarded the video contract and produced the
+  // generic unsupported response. Return the completed video contract directly instead.
+  if(v2708IsSpecificYouTube(raw)){
+    const directVideoResponse=await output(raw);
+    if(requestState&&requestState.aborted)return '';
+    if(directVideoResponse&&/AIV_VIDEO_AUTH_CONTRACT:\s*\{/.test(directVideoResponse)){
+      return directVideoResponse+'\nVIDEO_CONTRACT_CANONICAL_BYPASS_V2919: active';
+    }
+  }
+
   const v2864UrlResult=await v2864AnalyzeSpecificUrl(raw,requestState);
   if(v2864UrlResult)return v2864UrlResult;
 
@@ -24401,7 +24797,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v2902'
+  currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -24584,7 +24980,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v2902'
+  currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -24600,7 +24996,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v2902'
+  currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -24645,7 +25041,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v2902'
+  currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -24900,7 +25296,7 @@ const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v2902'
+  currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -24914,7 +25310,7 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v2902'
+  currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
@@ -24941,7 +25337,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v2902'
+  currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -24949,6 +25345,17 @@ if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnostics
   throw new Error('LOGGING_SCRIPTURE_WORDING_AND_HEADER_SCALE_REPAIR_V2866 startup validation failed');
 }
 
+
+const YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v2920',
+  resolverAvailable:typeof resolveYouTubeTitleV2917==='function',
+  titleFallbackAvailable:typeof openAIVideoTitleLookupV2917==='function',
+  exactTitleVerifierAvailable:typeof openAIVideoTitleClaimLiveVerification==='function',
+  cacheAvailable:YOUTUBE_TITLE_CACHE_V2917 instanceof Map
+});
+if(!YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917.currentVersion||!YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917.resolverAvailable||!YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917.titleFallbackAvailable||!YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917.exactTitleVerifierAvailable||!YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917.cacheAvailable){
+  throw new Error('YOUTUBE_TITLE_RESOLUTION_AND_OPENAI_FALLBACK_V2917 startup validation failed');
+}
 
 // PERSISTENT_ANALYTICS_AND_FAILURE_LOGGING_V2872
 // Initial beta analytics are deliberately isolated from answer generation. A logging failure
@@ -25411,7 +25818,7 @@ function v2875TesterUsageSummary(events){
 
 v2875InitializeTesterStorage();
 const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2902',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  currentVersion:VERSION==='BE_AIV_v2920',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
   pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function'
 });
 if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.storageReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.accountFileExists||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionSecretReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.pinHashingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionValidationAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.analyticsLinkingAvailable){
@@ -25420,7 +25827,7 @@ if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BET
 
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2902'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2920'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -25460,7 +25867,7 @@ async function v2878HandleAiMediaScan(req,res){
     let body;
     try{
       body=await v2875ReadJsonBody(req,12*1024*1024);
-      const result=await AI_DETECTION_COORDINATOR_V2895.analyzeMedia(body);
+      const result=await AI_DETECTION_COORDINATOR_V2904.analyzeMedia(body);
       const analyticsContract={
         route:'ai-detection/media/v2889',classification:'AI MEDIA DETECTION',analysisResult:result.status,status:'ANSWERED',answer:result.answer,explanation:result.explanation,
         source:result.visualOrAudioContentAnalyzed?'AIVerify combined AI-content analysis plus embedded provenance':'Embedded file metadata and provenance markers',contractValidated:true
@@ -25637,7 +26044,7 @@ async function v2885PreflightUnclearInput(input,requestState){
   return v2885UnclearInputGuidanceBody(raw,interpretation);
 }
 const UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2902',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
+  currentVersion:VERSION==='BE_AIV_v2920',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
 });
 if(!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.currentVersion||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.candidateDetectorAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.interpreterAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.friendlyFallbackAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.preflightAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionCacheReady||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionKeyAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.requestBindingAvailable){
   throw new Error('UNCERTAIN_INPUT_CLARIFICATION_AND_FRIENDLY_RETRY_V2885 startup validation failed');
@@ -25662,7 +26069,7 @@ const server=http.createServer(async (req,res)=>{
       persistentCompletedContractCache:false,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,
       persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,
       inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2886,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2885,
-      sourceStrategyStats:v2776SourceStrategySnapshot(),sourceFlags:runtimeSourceFlags(),aiDetection:AI_DETECTION_COORDINATOR_V2895.health(),analytics:ANALYTICS_REVIEW_V2889.health(),
+      sourceStrategyStats:v2776SourceStrategySnapshot(),sourceFlags:runtimeSourceFlags(),aiDetection:AI_DETECTION_COORDINATOR_V2904.health(),analytics:ANALYTICS_REVIEW_V2889.health(),
       betaSignIn:{required:true,registeredTesters:V2875_TESTER_ACCOUNTS.length,storageReady:V2875_TESTER_STORAGE_READY}
     },null,2));
     if(u.pathname==='/ai-detection/analyze'||u.pathname==='/ai-detection/provenance')return await v2878HandleAiMediaScan(req,res);
@@ -25763,10 +26170,11 @@ server.listen(PORT,'0.0.0.0',()=>{
   console.log('AIV analytics and beta review ready: '+ANALYTICS_REVIEW_V2889.health().version);
   console.log('AIV analytics admin token: '+(V2872_ANALYTICS_ADMIN_TOKEN?'Loaded':'Missing'));
   console.log('AIV beta sign-in ready: '+V2875_TESTER_ACCOUNTS.length+' registered tester(s)');
-  console.log('AIV AI detection coordinator ready: '+AI_DETECTION_COORDINATOR_V2895.health().coordinatorVersion);
-  console.log('AIV AI detection provider foundation ready: '+AI_DETECTION_COORDINATOR_V2895.health().version);
-  console.log('AIV AI detection consensus scoring ready: '+AI_DETECTION_COORDINATOR_V2895.health().scoringVersion);
-  console.log('AIV Hive media provider ready: '+AI_DETECTION_COORDINATOR_V2895.health().hiveProviderVersion);
+  console.log('AIV AI detection coordinator ready: '+AI_DETECTION_COORDINATOR_V2904.health().coordinatorVersion);
+  console.log('AIV AI detection provider foundation ready: '+AI_DETECTION_COORDINATOR_V2904.health().version);
+  console.log('AIV AI detection consensus scoring ready: '+AI_DETECTION_COORDINATOR_V2904.health().scoringVersion);
+  console.log('AIV Hive media provider ready: '+AI_DETECTION_COORDINATOR_V2904.health().hiveProviderVersion);
+  console.log('AIV video analysis stage: '+AI_DETECTION_COORDINATOR_V2904.health().videoAnalysisStage);
   if(process.env.RENDER&&!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR){
     console.warn('AIV analytics warning: configure AIV_ANALYTICS_STORAGE_DIR on a mounted Render persistent disk before production logging.');
   }

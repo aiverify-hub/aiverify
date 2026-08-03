@@ -1,4 +1,15 @@
-<!-- BM_FE_AIV_v2258_HV3: forces a clean AI-media workspace during page initialization and browser page restoration while preserving session sign-in and direct backend-version updates after AI scans. -->
+<!-- BM_FE_AIV_v2267_OOC: structured-object output cleanup over verified v2266. Prevents video evidence/source objects from rendering as [object Object] while preserving the approved Title-first question layout, brief Answer, optional Explanation, Source-last order, full claim-verdict layout, backend v2920 compatibility, and all unrelated behavior. -->
+<!-- VIDEO_STRUCTURED_OBJECT_OUTPUT_CLEANUP_V2267 -->
+<!-- BM_FE_AIV_v2266_QTL: question-title-first video layout repair over verified v2265. Gives the dedicated video contract priority over nested generic result contracts; displays Title first, Answer second, hides Analysis Result for ordinary question titles, keeps Source last, and preserves full verdict treatment for checkable claims. Preserves backend v2920 compatibility, diagnostics, analytics review, sign-in, AI media behavior, and all unrelated v2265 behavior. -->
+<!-- VIDEO_QUESTION_TITLE_FIRST_RENDER_PRIORITY_V2266 -->
+<!-- ADAPTIVE_QUESTION_CLAIM_RENDER_V2265 -->
+<!-- BM_FE_AIV_v2264_YTD: shows the exact resolved YouTube title, title-retrieval method, cache status, and OpenAI title-fallback status in Additional Information for the bounded v2917 title-routing test; preserves all verified v2263 behavior. -->
+<!-- YOUTUBE_TITLE_DIAGNOSTICS_V2264 -->
+<!-- BM_FE_AIV_v2263_VQA: displays the direct source-backed answer for video-title questions instead of showing only a verdict badge; preserves all verified v2262 behavior and backend v2915 compatibility. -->
+<!-- VIDEO_TITLE_QUESTION_DIRECT_ANSWER_RENDER_V2263 -->
+<!-- BM_FE_AIV_v2262_TDC: centers empty Results areas, removes Ready placeholders, focuses public wording on truth/deception checking, and limits the AI upload page to image and audio while preserving verified v2261 behavior and backend v2905 compatibility. -->
+<!-- TRUTH_DECEPTION_FRONTEND_CLEANUP_V2262 -->
+<!-- AI_MEDIA_BETA_RELEASE_WORDING_V2261 -->
 <!-- AI_MEDIA_BROWSER_STATE_RESET_REPAIR_V2258 -->
 <!-- BM_FE_AIV_v2257_AVF: AI-workspace reset and AI-scan backend-version refresh over verified v2256. Clears stale selected media/results when the backend version changes, clears the prior result when a different media file is chosen, and updates the visible backend version directly after an AI scan. -->
 <!-- AI_WORKSPACE_AND_VERSION_REFRESH_REPAIR_V2257 -->
@@ -606,6 +617,9 @@ body.aivAuthLocked{overflow:hidden!important}
 .aiMediaLimit{font-size:12px;color:#587184}
 .aiMediaResult{margin-top:12px;padding:11px 12px;border-radius:9px;background:#fff;border:1px solid #ccd9e2;font-size:13px;line-height:1.4;color:#263f50}
 .aiMediaResult strong{display:block;font-size:15px;color:#123e5c;margin-bottom:5px}
+.emptyResultTitle{text-align:center;font-weight:700;color:#123e5c}
+.aiMediaResult.emptyAiResult{text-align:center;font-weight:700;color:#123e5c}
+.aiMediaResult.emptyAiResult strong{margin-bottom:0}
 .aiMediaResult.isAiGenerated{border-color:#6fa9d2;background:#eaf4ff;color:#164f77}
 .aiMediaResult.isAiGenerated strong{color:#0f4f86}
 .aiMediaResult.isSuccess{border-color:#8cc6a2;background:#f0fbf4}
@@ -698,7 +712,7 @@ body.aivAuthLocked{overflow:hidden!important}
     <div class="aivAuthNotice"><strong>Beta use notice:</strong> AIVerify pays for some current-information, webpage, video, and media scans. Please use these scan types thoughtfully during beta. You will not be charged.</div>
   </div>
 </div>
-<div class="version" id="versionBadge">frontend v2256</div>
+<div class="version" id="versionBadge">frontend v2267</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
@@ -710,10 +724,10 @@ body.aivAuthLocked{overflow:hidden!important}
   <div class="informationCheck">
     <div class="informationHeading">Check the Information</div>
     <div class="informationBody">
-      <p class="informationIntro">Enter a question, claim, webpage, video address, or document text.</p>
+      <p class="informationIntro">Enter a question, claim, webpage, video address, or document text to check for accuracy or deception.</p>
       <div class="box informationInputBox"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
 
-Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction">Ready</div></div><div id="subjectCountInline" class="subjectCountInline"></div>
+Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction"></div></div><div id="subjectCountInline" class="subjectCountInline"></div>
       <div class="actionButtons"><button type="button" id="analyzeBtn" class="analyze">Analyze<span style="font-size:20px;">/</span>Enter</button><button type="button" id="clearBtn" class="clear">Clear</button><button type="button" id="copyBtn" class="copy">Copy</button><button type="button" id="pasteBtn" class="paste">Paste</button><button type="button" id="sampleBtn" class="sample">Samples</button></div></div>
     </div>
   </div>
@@ -723,11 +737,11 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   <div id="aiMediaCheck" class="aiMediaCheck">
     <div class="aiMediaHeading">Check for AI Creation <span class="aiMediaBeta">Beta</span></div>
     <div class="aiMediaBody">
-      <p class="aiMediaIntro">Upload an image to check whether it was generated or materially altered using AI.</p>
-      <p class="aiMediaIntro"><strong>AI image checking is complete for this beta. Audio and video checking are still being developed for this initial release.</strong></p>
-      <input id="aiMediaFile" class="aiMediaFile" type="file" accept="image/jpeg,image/png,image/gif,image/webp,audio/mpeg,audio/wav,video/mp4,video/quicktime,video/webm">
-      <div class="aiMediaActions"><button type="button" id="aiMediaButton" class="aiMediaButton">Check for AI Creation</button><span class="aiMediaLimit">JPEG, PNG, GIF, WebP, MP3, WAV, MP4, MOV, or WebM — maximum 8 MB</span></div>
-      <div id="aiMediaResult" class="aiMediaResult" aria-live="polite">Choose a media file to check.</div><div id="aiMediaReviewPanel" class="responseReviewPanel" hidden></div>
+      <p class="aiMediaIntro">Upload an image or audio file to check for evidence that it was generated or altered using AI.</p>
+      <p class="aiMediaIntro"><strong>AI image and audio checking are active in this beta.</strong></p>
+      <input id="aiMediaFile" class="aiMediaFile" type="file" accept="image/jpeg,image/png,image/gif,image/webp,audio/mpeg,audio/wav">
+      <div class="aiMediaActions"><button type="button" id="aiMediaButton" class="aiMediaButton">Check for AI Creation</button><span class="aiMediaLimit">JPEG, PNG, GIF, WebP, MP3, or WAV — maximum 8 MB</span></div>
+      <div id="aiMediaResult" class="aiMediaResult emptyAiResult" aria-live="polite"><strong>Results</strong></div><div id="aiMediaReviewPanel" class="responseReviewPanel" hidden></div>
     </div>
   </div>
 </div>
@@ -743,7 +757,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     <button type="button" id="sampleBackBtn" class="sampleBackBtn" hidden>Back to Categories</button>
   </div>
 </div>
-<div id="informationResultPanel" class="resultBox"><div id="contentType"></div><div id="transcriptStatus" class="transcriptStatus" style="display:none"></div><div id="result">Ready</div><div id="responseReviewPanel" class="responseReviewPanel" hidden></div></div></div>
+<div id="informationResultPanel" class="resultBox"><div id="contentType"></div><div id="transcriptStatus" class="transcriptStatus" style="display:none"></div><div id="result"><div class="emptyResultTitle">Results</div></div><div id="responseReviewPanel" class="responseReviewPanel" hidden></div></div></div>
 <section id="betaReviewDashboard" class="betaReviewDashboard" hidden aria-labelledby="betaReviewTitle">
   <div class="betaReviewHeader"><div><div id="betaReviewTitle" class="betaReviewTitle">Beta Scan Review</div><div class="betaReviewSubtitle">Review each unique scan in the same order it was received. Technical data remains stored but hidden.</div></div><div class="betaReviewControls"><input id="betaReviewToken" class="betaReviewToken" type="password" autocomplete="off" placeholder="Analytics admin token"><button type="button" id="betaReviewLoad" class="betaReviewButton">Refresh</button></div></div>
   <div id="betaReviewMessage" class="betaReviewMessage"></div>
@@ -760,7 +774,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2258";
+  const FRONTEND_VERSION="frontend v2267";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
@@ -843,8 +857,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     try{setText('subjectCountInline','');}catch(_e){}
     try{setText('contentType','');}catch(_e){}
     try{setTranscriptStatus(null,'');}catch(_e){}
-    try{hardClearRenderedResults();replaceResultHtml('Ready');}catch(_e){}
-    try{setText('lastAction','Ready');}catch(_e){}
+    try{hardClearRenderedResults();replaceResultHtml('<div class="emptyResultTitle">Results</div>');}catch(_e){}
+    try{setText('lastAction','');}catch(_e){}
     try{closeSampleChooser();}catch(_e){}
     try{aivResetAiMediaCheck();}catch(_e){}
     try{aivClearReviewPanels();}catch(_e){}
@@ -1992,7 +2006,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     result.innerHTML=v2130EnforceCurrentRenderer(String(htmlValue==null?"":htmlValue));
     v2214HideTechnicalDiagnostics(result);
   }
-  function resetResult(){clearRetryTimeoutCache(); cancelActiveRender(); hardClearRenderedResults(); setText("contentType",""); setTranscriptStatus(null,""); replaceResultHtml("Ready"); setText("lastAction","Ready");}
+  function resetResult(){clearRetryTimeoutCache(); cancelActiveRender(); hardClearRenderedResults(); setText("contentType",""); setTranscriptStatus(null,""); replaceResultHtml('<div class="emptyResultTitle">Results</div>'); setText("lastAction","");}
   function scanning(label){hardClearRenderedResults(); setText("lastAction",label&&label!=="Analyzing"?label+"...":"Scanning..."); setText("contentType",""); replaceResultHtml(loadingWaveHtml(label||"Analyzing"));}
   function errorState(e,runId){if(runId && runId!==activeRenderRun)return; hardClearRenderedResults(); setText("lastAction","Done"); setText("contentType",""); replaceResultHtml('<div class="resultText"><div class="resultSectionTitle">Analysis unavailable</div><div class="claimBlock"><div class="verifiedResultPanel"><div class="verifiedResultGrid"><div class="verifiedResultLine answerListLine"><strong>Answer:</strong>&nbsp;&nbsp;<span class="status-notverified">This scan could not be completed.</span></div><div class="claimMeta evidenceLine">The request ended before a structured result was returned.</div></div></div></div><details class="advancedDetails"><summary>Technical Diagnostics</summary><div class="advancedDetailsBody"><div class="advancedDetailsSection"><div class="advancedDetailsSectionTitle">Technical Diagnostics</div><div class="detailRow"><b>REQUEST_STATUS:</b> controlled frontend failure</div><div class="detailRow"><b>RAW_CONNECTION_DETAILS_VISIBLE:</b> false</div></div></div></details></div>');}
 
@@ -4253,13 +4267,36 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const t=String(topic||'').trim();
     return !t || /^not enough information was submitted to identify the video topic\.?$/i.test(t);
   }
+  function videoVisibleTextValue(value){
+    if(value===null || value===undefined) return '';
+    if(Array.isArray(value)){
+      const parts=[];
+      value.forEach(function(item){
+        const text=videoVisibleTextValue(item);
+        const key=String(text||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+        if(text && key && !parts.some(function(existing){return String(existing||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()===key;})) parts.push(text);
+      });
+      return parts.join(' ');
+    }
+    if(typeof value==='object'){
+      const parts=[];
+      ['text','snippet','summary','statement','description','content','why','evidence','answer'].forEach(function(key){
+        if(value[key]===undefined || value[key]===null) return;
+        const text=videoVisibleTextValue(value[key]);
+        const norm=String(text||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+        if(text && norm && !parts.some(function(existing){return String(existing||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()===norm;})) parts.push(text);
+      });
+      return parts.join(' ');
+    }
+    return String(value);
+  }
   function aivCapitalizeFirst(value){
-    let s=String(value||'').replace(/\s+/g,' ').trim();
+    let s=videoVisibleTextValue(value).replace(/\s+/g,' ').trim();
     if(!s) return '';
     return s.replace(/^([a-z])/,function(m){return m.toUpperCase();});
   }
   function cleanVisibleVideoResultText(value){
-    let s=String(value||'').replace(/\s+/g,' ').trim();
+    let s=videoVisibleTextValue(value).replace(/(?:\s*,?\s*\[object Object\])+/gi,' ').replace(/\s+/g,' ').trim();
     if(!s) return '';
     s=s.replace(/title\/description\/transcript/gi,'title/description/public text');
     s=s.replace(/title\/metadata\/text/gi,'title/metadata/public text');
@@ -4382,6 +4419,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function videoAuthBoxNeeded(c){
     if(!c) return false;
+    if(c.aiAuthOnDemandActive===false || c.aiAuthButtonActive===false) return false;
     if(videoMusicTarget(c)) return false;
     // v1932 AIC: AI/Auth is collapsed by default for video/media inputs.
     // Full AI/Auth renders only when the user explicitly asked for AI/authenticity analysis.
@@ -4458,19 +4496,42 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         if(result.sourceUrl || result.primarySourceUrl) detailItems.push('Source URL: '+cleanVisibleVideoResultText(result.sourceUrl||result.primarySourceUrl));
         html+=renderSupportingInformationList(detailItems);
       }else{
-        html+='<div class="verifiedResultLine" data-analysis-result-row="true"><strong>Analysis Result:</strong>&nbsp;&nbsp;'+renderAnalysisResultBadge(result.analysisResult || 'Needs more evidence')+'</div>';
-        if(result.claim) html+='<div class="verifiedResultLine"><strong>Claim / Title:</strong>&nbsp;&nbsp;'+esc(result.claim)+'</div>';
-        if(result.source){
-          const cleanedSource=cleanVisibleVideoResultText(cleanContractSourceForDisplay(result.source,result));
-          if(cleanedSource) html+='<div class="verifiedResultLine"><strong>'+esc(sourceBasisLabelForDisplay(result.source,result))+':</strong>&nbsp;&nbsp;'+esc(aivCompactSentence(cleanedSource,170))+'</div>';
-        }
+        const exactTitle=cleanVisibleVideoResultText(result.exactVideoTitle||result.claim||'');
+        const isQuestionResult=!!(result.hideAnalysisResult===true || String(result.contentKind||'').toUpperCase()==='QUESTION' || /\?\s*$/.test(exactTitle) || /^(?:who|what|when|where|why|how|which|whose|whom)\b/i.test(exactTitle));
+        const directVideoAnswer=cleanVisibleVideoResultText(result.answer||'');
         const explanation=aivCapitalizeFirst(combineWhyEvidence(result.why,result.evidence));
-        const confidence=simplifyVideoConfidence(result.confidenceInResult);
         const evidenceText=aivCapitalizeFirst(cleanVisibleVideoResultText(result.evidence));
-        if(explanation) detailItems.push('Explanation: '+explanation);
-        if(evidenceText && contractTextNormForCompare(evidenceText)!==contractTextNormForCompare(explanation)) detailItems.push('Evidence: '+evidenceText);
-        if(result.sourceUrl || result.primarySourceUrl) detailItems.push('Source URL: '+cleanVisibleVideoResultText(result.sourceUrl||result.primarySourceUrl));
-        if(videoSupportingInfoIsUseful(result.supportingInformation,result)) detailItems.push(cleanVisibleVideoResultText(result.supportingInformation));
+        if(isQuestionResult){
+          if(exactTitle) html+='<div class="verifiedResultLine"><strong>Title:</strong>&nbsp;&nbsp;'+esc(exactTitle)+'</div>';
+          if(directVideoAnswer && !/^(?:needs more evidence|unclear|unknown)$/i.test(directVideoAnswer)){
+            html+='<div class="verifiedResultLine"><strong>Answer:</strong>&nbsp;&nbsp;'+esc(directVideoAnswer)+'</div>';
+          }else{
+            html+='<div class="verifiedResultLine"><strong>Answer:</strong>&nbsp;&nbsp;This question could not be answered reliably from the sources available in this scan.</div>';
+          }
+          /* v2267: question titles use the lean answer layout and structured evidence is cleaned before display. Source basis stays internal;
+             a material source URL is rendered last inside Additional Information. */
+          const answerNorm=contractTextNormForCompare(directVideoAnswer);
+          const explanationNorm=contractTextNormForCompare(explanation);
+          if(explanation && explanationNorm && explanationNorm!==answerNorm && explanationNorm.indexOf(answerNorm.slice(0,90))<0 && answerNorm.indexOf(explanationNorm.slice(0,90))<0){
+            detailItems.push('Explanation: '+explanation);
+          }
+          if(result.sourceUrl || result.primarySourceUrl) detailItems.push('Source URL: '+cleanVisibleVideoResultText(result.sourceUrl||result.primarySourceUrl));
+          if(videoSupportingInfoIsUseful(result.supportingInformation,result)) detailItems.push(cleanVisibleVideoResultText(result.supportingInformation));
+        }else{
+          if(result.claim) html+='<div class="verifiedResultLine"><strong>Claim:</strong>&nbsp;&nbsp;'+esc(result.claim)+'</div>';
+          html+='<div class="verifiedResultLine" data-analysis-result-row="true"><strong>Analysis Result:</strong>&nbsp;&nbsp;'+renderAnalysisResultBadge(result.analysisResult || 'Needs more evidence')+'</div>';
+          if(directVideoAnswer && !/^(?:needs more evidence|unclear|unknown)$/i.test(directVideoAnswer)){
+            html+='<div class="verifiedResultLine"><strong>Answer:</strong>&nbsp;&nbsp;'+esc(directVideoAnswer)+'</div>';
+          }
+          if(result.source){
+            const cleanedSource=cleanVisibleVideoResultText(cleanContractSourceForDisplay(result.source,result));
+            if(cleanedSource) html+='<div class="verifiedResultLine"><strong>'+esc(sourceBasisLabelForDisplay(result.source,result))+':</strong>&nbsp;&nbsp;'+esc(aivCompactSentence(cleanedSource,170))+'</div>';
+          }
+          if(explanation) detailItems.push('Explanation: '+explanation);
+          if(evidenceText && contractTextNormForCompare(evidenceText)!==contractTextNormForCompare(explanation)) detailItems.push('Evidence: '+evidenceText);
+          if(result.sourceUrl || result.primarySourceUrl) detailItems.push('Source URL: '+cleanVisibleVideoResultText(result.sourceUrl||result.primarySourceUrl));
+          if(videoSupportingInfoIsUseful(result.supportingInformation,result)) detailItems.push(cleanVisibleVideoResultText(result.supportingInformation));
+        }
         /* v2120: confidence retained internally but hidden from normal user-facing results. */
         html+=renderSupportingInformationList(detailItems);
       }
@@ -4526,7 +4587,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       limitationsHtml+=renderVideoAuthLimitations(c.limitations);
     });
     const aiContracts=contracts.filter(function(c){return videoAuthBoxNeeded(c);});
-    const aiOptionContracts=contracts.filter(function(c){return !videoAuthBoxNeeded(c) && !videoMusicTarget(c);});
+    const aiOptionContracts=contracts.filter(function(c){return !videoAuthBoxNeeded(c) && !videoMusicTarget(c) && c.aiAuthOnDemandActive!==false && c.aiAuthButtonActive!==false;});
     if(aiContracts.length){
       html+='<div class="resultSectionTitle">AI / Authenticity Analysis</div>';
       aiContracts.forEach(function(c,i){
@@ -4544,6 +4605,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         ytDiag.push(['YOUTUBE_PAGE_FETCH_ATTEMPTED',yr.pageFetchAttempted?'true':'false']);
         ytDiag.push(['YOUTUBE_PAGE_FETCH_STATUS',yr.pageFetchStatus||'not attempted']);
         ytDiag.push(['YOUTUBE_TITLE_RETRIEVED',yr.titleRetrieved?'true':'false']);
+        ytDiag.push(['YOUTUBE_RESOLVED_TITLE',yr.title||'not resolved']);
+        ytDiag.push(['YOUTUBE_TITLE_RESOLUTION_METHOD',yr.titleResolutionMethod||'not resolved']);
+        ytDiag.push(['YOUTUBE_TITLE_CACHE_STATUS',yr.titleCacheStatus||'miss']);
+        ytDiag.push(['YOUTUBE_TITLE_RESOLUTION_ATTEMPTED_METHODS',Array.isArray(yr.titleResolutionAttemptedMethods)?yr.titleResolutionAttemptedMethods.join(', '):'none']);
+        ytDiag.push(['YOUTUBE_TITLE_RESOLUTION_FAILURE',yr.titleResolutionFailure||'none']);
+        ytDiag.push(['OPENAI_TITLE_FALLBACK_ATTEMPTED',yr.openaiTitleFallbackAttempted?'true':'false']);
+        ytDiag.push(['OPENAI_TITLE_FALLBACK_USED',yr.openaiTitleFallbackUsed?'true':'false']);
+        ytDiag.push(['OPENAI_TITLE_FALLBACK_FAILURE',yr.openaiTitleFallbackFailure||'none']);
         ytDiag.push(['YOUTUBE_DESCRIPTION_RETRIEVED',yr.descriptionRetrieved?'true':'false']);
         ytDiag.push(['YOUTUBE_CAPTION_TRACKS_FOUND',yr.captionTracksFound||0]);
         ytDiag.push(['YOUTUBE_CAPTION_TRACK_URL_FOUND',yr.captionTrackUrlFound?'true':'false']);
@@ -5135,10 +5204,13 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       p.ai={indicators:'Low estimate for this short mixed-input test.',signals:'Short user-entered factual claims with simple sentence structure; truth-checking remains the main result.',reasoning:'The input is too short for a strong AI-origin conclusion.',technical:'Short sample; mixed factual statements; limited style evidence.',note:'AI-content cannot be confirmed with 100% certainty.'};
     }
     let html='';
-    const activeContractHtml=renderActiveResultContracts(text);
-    if(activeContractHtml) return activeContractHtml;
+    /* v2266: a completed AIV_VIDEO_AUTH_CONTRACT owns social-video rendering.
+       Evaluate it before nested/general AIV_RESULT contracts so question titles cannot
+       be converted back into an Analysis Result row. */
     const videoAuthHtml=renderVideoAuthenticityContracts(text);
     if(videoAuthHtml) return videoAuthHtml;
+    const activeContractHtml=renderActiveResultContracts(text);
+    if(activeContractHtml) return activeContractHtml;
     const acceptabilityIssue=hasAcceptabilityIssue(text);
     if(acceptabilityIssue){
       html+=renderAcceptabilityNotice(text);
@@ -5507,7 +5579,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const file=aivAiNode('aiMediaFile');
     const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}if(file)file.value='';
     const button=aivAiNode('aiMediaButton');if(button){button.disabled=false;button.textContent='Check for AI Creation';}
-    aivSetAiMediaResult('AI Creation Check','Choose a media file to check.','',[]);
+    aivSetAiMediaResult('Results','','emptyAiResult',[]);
   }
   function aivReadFileBase64(file){
     return new Promise(function(resolve,reject){
@@ -5527,7 +5599,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     await refreshTopRightBackendVersion();
     const inputNode=aivAiNode('aiMediaFile');
     const file=inputNode&&inputNode.files&&inputNode.files[0];
-    if(!file){aivSetAiMediaResult('Choose a file','Select an image, audio file, or video first.','isError',[]);return;}
+    if(!file){aivSetAiMediaResult('Choose a file','Select an image or audio file first.','isError',[]);return;}
     if(file.size>AI_MEDIA_MAX_BYTES){aivSetAiMediaResult('File is too large','This beta stage accepts files up to 8 MB.','isError',[]);return;}
     const button=aivAiNode('aiMediaButton');if(button){button.disabled=true;button.textContent='Checking…';}
     aivSetAiMediaResult('Checking media','The file is being checked in memory. It is not saved by this build.','',[]);
@@ -5547,13 +5619,16 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       else if(data.resultLevel==='error'||aiStatus==='ANALYSIS_UNAVAILABLE')state='isError';
       const media=data.media||{};
       const summary=data.publicSummary||{};
+      const videoAnalysis=data.videoAnalysis||{};
       const facts=[
         summary.confidenceBand?('AIVerify confidence: '+summary.confidenceBand):'',
         Number(summary.independentChecksCompleted)>0?('Independent checks completed: '+Number(summary.independentChecksCompleted)):'',
         summary.provenanceFound?'Embedded creation information: Found':'',
         summary.possibleGenerator?('Possible generator: '+summary.possibleGenerator):'',
         media.mediaType?('Type: '+media.mediaType):'',
-        media.detectedMimeType?('Format: '+media.detectedMimeType):''
+        media.detectedMimeType?('Format: '+media.detectedMimeType):'',
+        media.mediaType==='video'?(videoAnalysis.visualFramesAnalyzed?'Video frames: Checked':'Video frames: Not completed'):'',
+        media.mediaType==='video'?(videoAnalysis.soundtrackAnalyzed?'Soundtrack: Checked':'Soundtrack: Not completed'):''
       ].filter(Boolean);
       aivSetAiMediaResult(data.answer||'Media check complete',data.explanation||'',state,facts);
       const eventId=String(data.analyticsEventId||res.headers.get('x-aiv-scan-event')||'').trim();
@@ -5594,7 +5669,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(aiMediaFileNode)aiMediaFileNode.addEventListener('change',function(){
       const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}
       const selected=aiMediaFileNode.files&&aiMediaFileNode.files[0];
-      aivSetAiMediaResult(selected?'Ready to check':'AI Creation Check',selected?String(selected.name||'Selected media file'):'Choose a media file to check.','',[]);
+      aivSetAiMediaResult('Results',selected?String(selected.name||'Selected media file'):'',selected?'':'emptyAiResult',[]);
     });
     window.addEventListener('focus',function(){refreshTopRightBackendVersion();});
     window.addEventListener('pageshow',function(event){if(event&&event.persisted){try{aivResetAiMediaCheck();}catch(_e){}}refreshTopRightBackendVersion();});
