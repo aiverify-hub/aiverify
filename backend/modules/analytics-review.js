@@ -5,14 +5,17 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V6';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V7';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
   'Source problem',
   'Confusing or unclear',
-  'Other'
+  'Other',
+  'Needs Improvement',
+  'Incorrect'
 ]);
+const FEEDBACK_RATINGS = Object.freeze(['Acceptable', 'Needs Improvement', 'Incorrect']);
 const HUMAN_VERDICTS = Object.freeze(['', 'Valid', 'Incorrect', 'Questionable']);
 const RETEST_RESULTS = Object.freeze(['', 'Not retested', 'Passed', 'Failed', 'Partial']);
 const ISSUE_CATEGORIES = Object.freeze([
@@ -288,7 +291,15 @@ function groupReviewEvents(sourceEvents) {
     const unreviewedAttempts = attempts.filter(function (event) { return !(event.review && event.review.reviewed); });
     const activeAttempts = unreviewedAttempts.length ? unreviewedAttempts : attempts;
     const userFlagLatestByTester = new Map();
+    const feedbackLatestByTester = new Map();
     activeAttempts.forEach(function (event) {
+      if (event.testerFeedback && FEEDBACK_RATINGS.includes(clean(event.testerFeedback.rating))) {
+        const testerKey = clean(event.testerId || event.testerName || 'unknown');
+        const existing = feedbackLatestByTester.get(testerKey);
+        const feedbackTime = clean(event.testerFeedback.submittedAt || event.timestamp || '');
+        const existingTime = existing ? clean(existing.testerFeedback.submittedAt || existing.timestamp || '') : '';
+        if (!existing || feedbackTime >= existingTime) feedbackLatestByTester.set(testerKey, event);
+      }
       if (!(event.userFlag && event.userFlag.flagged)) return;
       const testerKey = clean(event.testerId || event.testerName || 'unknown');
       const existing = userFlagLatestByTester.get(testerKey);
@@ -311,13 +322,25 @@ function groupReviewEvents(sourceEvents) {
     const firstSeenAt = attempts[0] && attempts[0].timestamp || '';
     const lastSeenAt = attempts[attempts.length - 1] && attempts[attempts.length - 1].timestamp || firstSeenAt;
     const pendingSinceAt = (unreviewedAttempts[0] && unreviewedAttempts[0].timestamp) || lastSeenAt;
+    const testerFeedbacks = Array.from(feedbackLatestByTester.values()).sort(function (a, b) {
+      return String(b.testerFeedback && b.testerFeedback.submittedAt || b.timestamp || '').localeCompare(String(a.testerFeedback && a.testerFeedback.submittedAt || a.timestamp || ''));
+    }).map(function (event) {
+      return {
+        testerId: clean(event.testerId || ''),
+        testerName: clean(event.testerName || 'Unknown tester'),
+        rating: clean(event.testerFeedback && event.testerFeedback.rating || ''),
+        comment: text(event.testerFeedback && event.testerFeedback.comment || '').slice(0, 4000),
+        submittedAt: safeIso(event.testerFeedback && event.testerFeedback.submittedAt || event.timestamp)
+      };
+    });
     const userFlags = userFlagEvents.map(function (event) {
       return {
         testerId: clean(event.testerId || ''),
         testerName: clean(event.testerName || 'Unknown tester'),
         reason: clean(event.userFlag && event.userFlag.reason || ''),
-        otherText: text(event.userFlag && event.userFlag.otherText || '').slice(0, 1000),
-        flaggedAt: safeIso(event.userFlag && event.userFlag.flaggedAt || event.timestamp)
+        otherText: text(event.userFlag && event.userFlag.otherText || '').slice(0, 4000),
+        flaggedAt: safeIso(event.userFlag && event.userFlag.flaggedAt || event.timestamp),
+        fromFeedback: event.userFlag && event.userFlag.fromFeedback === true
       };
     });
     const copy = clone(representative) || {};
@@ -330,13 +353,20 @@ function groupReviewEvents(sourceEvents) {
     copy.pendingSinceAt = pendingSinceAt;
     copy.displayTimestamp = representative && representative.timestamp || pendingSinceAt;
     copy.resultVariantCount = fingerprints.length;
+    copy.testerFeedbacks = testerFeedbacks;
+    copy.testerFeedback = testerFeedbacks.length ? {
+      rating: testerFeedbacks[0].rating,
+      comment: testerFeedbacks[0].comment,
+      submittedAt: testerFeedbacks[0].submittedAt
+    } : normalizeTesterFeedback(null);
     copy.userFlags = userFlags;
     copy.userFlag = userFlags.length ? {
       flagged: true,
       reason: userFlags[0].reason,
       otherText: userFlags[0].otherText,
-      flaggedAt: userFlags[0].flaggedAt
-    } : { flagged: false, reason: '', otherText: '', flaggedAt: '' };
+      flaggedAt: userFlags[0].flaggedAt,
+      fromFeedback: userFlags[0].fromFeedback === true
+    } : { flagged: false, reason: '', otherText: '', flaggedAt: '', fromFeedback: false };
     copy.qualityFlags = aggregateReasons;
     copy.failureCategory = aggregateReasons[0] || '';
     copy.automaticFlag = aggregateReasons.length > 0;
@@ -614,6 +644,16 @@ function normalizeReview(value) {
   };
 }
 
+function normalizeTesterFeedback(value) {
+  const source = value && typeof value === 'object' ? value : {};
+  const rating = FEEDBACK_RATINGS.includes(clean(source.rating)) ? clean(source.rating) : '';
+  return {
+    rating: rating,
+    comment: text(source.comment || '').slice(0, 4000),
+    submittedAt: safeIso(source.submittedAt)
+  };
+}
+
 function normalizeEvent(event, backendVersion) {
   const source = event && typeof event === 'object' ? event : {};
   const inputExact = source.inputExact != null ? text(source.inputExact) : text(source.inputPreview || '');
@@ -639,9 +679,11 @@ function normalizeEvent(event, backendVersion) {
     userFlag: source.userFlag && typeof source.userFlag === 'object' ? {
       flagged: source.userFlag.flagged === true,
       reason: REVIEW_REASONS.includes(clean(source.userFlag.reason)) ? clean(source.userFlag.reason) : '',
-      otherText: text(source.userFlag.otherText || '').slice(0, 1000),
-      flaggedAt: safeIso(source.userFlag.flaggedAt)
-    } : { flagged: false, reason: '', otherText: '', flaggedAt: '' },
+      otherText: text(source.userFlag.otherText || '').slice(0, 4000),
+      flaggedAt: safeIso(source.userFlag.flaggedAt),
+      fromFeedback: source.userFlag.fromFeedback === true
+    } : { flagged: false, reason: '', otherText: '', flaggedAt: '', fromFeedback: false },
+    testerFeedback: normalizeTesterFeedback(source.testerFeedback),
     review: normalizeReview(source.review),
     providerUsage: providerUsage,
     duplicateType: clean(source.duplicateType || ''),
@@ -1050,7 +1092,8 @@ function createAnalyticsReviewFoundation(options) {
         duplicateOfEventId: duplicate ? duplicate.eventId : '',
         duplicateSimilarity: duplicate ? roundMoney(duplicate.similarity) : 0,
         qualifyingScan: !duplicate && !['CLARIFICATION_REQUIRED', 'INVALID_INPUT', 'INVALID_REQUEST'].includes(resultOutcome.outcome),
-        userFlag: { flagged: false, reason: '', otherText: '', flaggedAt: '' },
+        userFlag: { flagged: false, reason: '', otherText: '', flaggedAt: '', fromFeedback: false },
+        testerFeedback: normalizeTesterFeedback(null),
         review: defaultReview()
       }, backendVersion);
 
@@ -1096,6 +1139,25 @@ function createAnalyticsReviewFoundation(options) {
     event.userFlag = { flagged: true, reason: reason, otherText: reason === 'Other' ? otherText : '', flaggedAt: new Date().toISOString() };
     rewriteEvents();
     return { ok: true, eventId: event.eventId, flagged: true, reason: reason, otherText: event.userFlag.otherText };
+  }
+
+  function feedbackEvent(details) {
+    const data = details && typeof details === 'object' ? details : {};
+    const event = findEvent(data.eventId);
+    const rating = clean(data.rating);
+    const comment = text(data.comment || '').slice(0, 4000);
+    if (!event) return { ok: false, status: 404, error: 'Scan record not found.' };
+    if (!data.testerId || event.testerId !== data.testerId) return { ok: false, status: 403, error: 'Forbidden' };
+    if (!FEEDBACK_RATINGS.includes(rating)) return { ok: false, status: 400, error: 'Choose Acceptable, Needs Improvement, or Incorrect.' };
+    const submittedAt = new Date().toISOString();
+    event.testerFeedback = { rating: rating, comment: comment, submittedAt: submittedAt };
+    if (rating === 'Acceptable') {
+      event.userFlag = { flagged: false, reason: '', otherText: '', flaggedAt: '', fromFeedback: false };
+    } else {
+      event.userFlag = { flagged: true, reason: rating, otherText: comment, flaggedAt: submittedAt, fromFeedback: true };
+    }
+    rewriteEvents();
+    return { ok: true, eventId: event.eventId, feedback: clone(event.testerFeedback), flagged: event.userFlag.flagged };
   }
 
   function updateReview(details) {
@@ -1185,7 +1247,7 @@ function createAnalyticsReviewFoundation(options) {
     const qualifyingOnly = query.qualifyingOnly === true;
     const order = clean(query.order).toLowerCase() === 'newest' ? 'newest' : 'oldest';
     const requestedFilter = clean(query.filter).toLowerCase();
-    const filter = ['unreviewed', 'reviewed', 'user-flagged', 'automatic-flags', 'all'].indexOf(requestedFilter) >= 0
+    const filter = ['unreviewed', 'reviewed', 'user-flagged', 'automatic-flags', 'acceptable', 'needs-improvement', 'incorrect', 'all'].indexOf(requestedFilter) >= 0
       ? requestedFilter
       : (includeReviewed ? 'all' : 'unreviewed');
     const eligibleEvents = events.filter(function (event) {
@@ -1198,6 +1260,9 @@ function createAnalyticsReviewFoundation(options) {
       reviewed: grouped.filter(function (event) { return event.review && event.review.reviewed; }).length,
       userFlagged: grouped.filter(function (event) { return event.userFlag && event.userFlag.flagged; }).length,
       automaticallyFlagged: grouped.filter(function (event) { return event.automaticFlag || event.reviewRequired || event.failureCategory; }).length,
+      acceptable: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Acceptable'; }); }).length,
+      needsImprovement: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Needs Improvement'; }); }).length,
+      incorrect: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Incorrect'; }); }).length,
       rawAttempts: eligibleEvents.length,
       repeatedAttempts: Math.max(0, eligibleEvents.length - grouped.length)
     };
@@ -1209,6 +1274,10 @@ function createAnalyticsReviewFoundation(options) {
       if (filter === 'reviewed') return reviewed;
       if (filter === 'user-flagged') return userFlagged;
       if (filter === 'automatic-flags') return automaticallyFlagged;
+      const feedbacks = Array.isArray(event.testerFeedbacks) ? event.testerFeedbacks : [];
+      if (filter === 'acceptable') return feedbacks.some(function (feedback) { return feedback.rating === 'Acceptable'; });
+      if (filter === 'needs-improvement') return feedbacks.some(function (feedback) { return feedback.rating === 'Needs Improvement'; });
+      if (filter === 'incorrect') return feedbacks.some(function (feedback) { return feedback.rating === 'Incorrect'; });
       return true;
     });
     source.sort(function (a, b) {
@@ -1274,6 +1343,8 @@ function createAnalyticsReviewFoundation(options) {
       reviewDateDisplaySupported: true,
       reviewFiltersEnabled: true,
       reviewedStatusReversible: true,
+      testerFeedbackRatingsEnabled: true,
+      testerFeedbackCommentsEnabled: true,
       providerUsageTrackingEnabled: true
     };
   }
@@ -1292,6 +1363,7 @@ function createAnalyticsReviewFoundation(options) {
     recordScanEvent: recordScanEvent,
     updateVisibleResult: updateVisibleResult,
     flagEvent: flagEvent,
+    feedbackEvent: feedbackEvent,
     updateReview: updateReview,
     summary: summary,
     recent: recent,
@@ -1299,6 +1371,7 @@ function createAnalyticsReviewFoundation(options) {
     exportData: exportData,
     findEvent: function (identifier) { return clone(findEvent(identifier)); },
     reviewReasons: REVIEW_REASONS.slice(),
+    feedbackRatings: FEEDBACK_RATINGS.slice(),
     humanVerdicts: HUMAN_VERDICTS.slice(),
     issueCategories: ISSUE_CATEGORIES.slice(),
     retestResults: RETEST_RESULTS.slice()
@@ -1308,6 +1381,7 @@ function createAnalyticsReviewFoundation(options) {
 module.exports = Object.freeze({
   MODULE_VERSION: MODULE_VERSION,
   REVIEW_REASONS: REVIEW_REASONS,
+  FEEDBACK_RATINGS: FEEDBACK_RATINGS,
   HUMAN_VERDICTS: HUMAN_VERDICTS,
   ISSUE_CATEGORIES: ISSUE_CATEGORIES,
   RETEST_RESULTS: RETEST_RESULTS,
