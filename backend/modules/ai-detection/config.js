@@ -1,6 +1,6 @@
 'use strict';
 
-const MODULE_VERSION = 'AI_DETECTION_CONFIG_V9';
+const MODULE_VERSION = 'AI_DETECTION_CONFIG_V10';
 const SUPPORTED_MEDIA_TYPES = Object.freeze(['image', 'audio', 'video']);
 const DEFAULT_HIVE_VISUAL_ENDPOINT = 'https://api.thehive.ai/api/v3/hive/ai-generated-and-deepfake-content-detection';
 const DEFAULT_HIVE_AUDIO_ENDPOINT = DEFAULT_HIVE_VISUAL_ENDPOINT;
@@ -32,9 +32,9 @@ function threshold(value, fallback) {
 
 function createConfig(env) {
   const source = env && typeof env === 'object' ? env : {};
-  const sharedHiveKey = clean(source.HIVE_API_KEY);
-  const hiveVisualKey = clean(source.HIVE_VISUAL_API_KEY) || sharedHiveKey;
-  // Hive V3 handles visual and audio inputs through the same model endpoint and Bearer key.
+  // Use the same dedicated variable names locally and on Render.
+  const hiveVisualKey = clean(source.HIVE_VISUAL_API_KEY);
+  // A dedicated audio key is preferred; the visual V3 key remains a safe fallback.
   const hiveAudioKey = clean(source.HIVE_AUDIO_API_KEY) || hiveVisualKey;
   const legacyHiveEndpoint = clean(source.HIVE_API_ENDPOINT);
   const hiveVisualEndpoint = clean(source.HIVE_VISUAL_API_ENDPOINT) || legacyHiveEndpoint || DEFAULT_HIVE_VISUAL_ENDPOINT;

@@ -1,6 +1,6 @@
 'use strict';
 
-const MODULE_VERSION = 'AI_DETECTION_SCORING_V7';
+const MODULE_VERSION = 'AI_DETECTION_SCORING_V9';
 
 function clean(value) {
   return String(value == null ? '' : value).trim();
@@ -95,6 +95,7 @@ function confidenceBandForEvidence(input) {
 function providerPublicRecord(provider) {
   return Object.freeze({
     name: provider.provider || '',
+    analysisKind: provider.analysisKind || '',
     configured: provider.configured === true,
     attempted: provider.attempted === true,
     status: provider.status || 'NOT_CONFIGURED',
@@ -108,13 +109,164 @@ function providerPublicRecord(provider) {
   });
 }
 
-function score(input) {
-  const data = input && typeof input === 'object' ? input : {};
-  const mediaType = clean(data.mediaType);
-  const provenance = data.provenance || {};
-  const thresholds = data.thresholds || {};
-  const suppliedProviders = Array.isArray(data.providers) ? data.providers : (data.provider ? [data.provider] : []);
-  const providers = suppliedProviders.filter(function (entry) { return entry && typeof entry === 'object'; });
+function scoreVideo(data, providers, provenance, thresholds) {
+  const completedProviders = providers.filter(function (entry) {
+    return entry.status === 'COMPLETED' && entry.contentAnalyzed === true;
+  });
+  const failedProviders = providers.filter(function (entry) { return entry.status === 'FAILED'; });
+  const visualProviders = completedProviders.filter(function (entry) { return entry.analysisKind !== 'soundtrack'; });
+  const soundtrackProviders = completedProviders.filter(function (entry) { return entry.analysisKind === 'soundtrack'; });
+  const visualAiScore = maximum(visualProviders.map(function (entry) { return entry.aiGeneratedScore; }));
+  const soundtrackAiScore = maximum(soundtrackProviders.map(function (entry) { return entry.aiGeneratedScore; }));
+  const visualDeepfakeScore = maximum(visualProviders.map(function (entry) { return entry.deepfakeScore; }));
+  const videoAiThreshold = aiThresholdFor('video', thresholds);
+  const audioAiThreshold = aiThresholdFor('audio', thresholds);
+  const deepfakeThreshold = deepfakeThresholdFor('video', thresholds);
+  const provenanceAffirmative = provenance.status === 'AI_DISCLOSURE_FOUND' || provenance.status === 'AI_TOOL_METADATA_FOUND';
+  const visualCompleted = visualProviders.length > 0;
+  const soundtrackCompleted = soundtrackProviders.length > 0;
+  const visualAi = visualAiScore != null && visualAiScore >= videoAiThreshold;
+  const soundtrackAi = soundtrackAiScore != null && soundtrackAiScore >= audioAiThreshold;
+  const deepfakeFlagged = visualDeepfakeScore != null && visualDeepfakeScore >= deepfakeThreshold;
+  const aiGenerated = provenanceAffirmative || visualAi || soundtrackAi;
+  const providerCompleted = completedProviders.length > 0;
+  const publicSignals = [];
+  if (provenanceAffirmative) publicSignals.push('Embedded creation information identified AI generation.');
+  if (visualAi) publicSignals.push('Independent visual analysis found strong AI-generation evidence in the video frames.');
+  if (soundtrackAi) publicSignals.push('Independent audio analysis found strong AI-generation evidence in the soundtrack.');
+  if (deepfakeFlagged) publicSignals.push('Independent visual analysis identified material AI alteration.');
+  if (visualCompleted) publicSignals.push('Video frames were checked.');
+  if (soundtrackCompleted) publicSignals.push('The video soundtrack was checked.');
+
+  let status = 'INCONCLUSIVE';
+  let answer = 'Unclear';
+  let explanation = 'The available evidence was not sufficient for a dependable conclusion.';
+  let resultLevel = 'warning';
+
+  if (aiGenerated && deepfakeFlagged) {
+    status = 'AI_GENERATED_OR_ALTERED';
+    answer = 'AI-generated or altered';
+    resultLevel = 'success';
+  } else if (aiGenerated) {
+    status = 'AI_GENERATED';
+    answer = 'AI-generated';
+    resultLevel = 'success';
+  } else if (deepfakeFlagged) {
+    status = 'AI_ALTERED';
+    answer = 'AI-altered';
+    resultLevel = 'success';
+  } else if (providerCompleted) {
+    status = 'UNCLEAR';
+    answer = 'Unclear';
+  } else if (failedProviders.length) {
+    status = 'ANALYSIS_UNAVAILABLE';
+    answer = 'AI analysis unavailable';
+    resultLevel = 'error';
+  }
+
+  if (status === 'AI_GENERATED_OR_ALTERED') {
+    if (visualAi && soundtrackAi) explanation = 'Independent analysis found strong AI evidence in both the video frames and soundtrack, including evidence of material visual alteration.';
+    else if (visualAi) explanation = 'Independent visual analysis found strong evidence that the video frames were AI-generated or materially altered. The soundtrack check did not add strong AI evidence.';
+    else if (soundtrackAi) explanation = 'Independent audio analysis found strong evidence that the soundtrack was AI-generated, and visual analysis found evidence of material alteration in the video frames.';
+    else explanation = 'Embedded creation information identified AI use, and independent visual analysis found evidence of material alteration.';
+  } else if (status === 'AI_GENERATED') {
+    if (visualAi && soundtrackAi) explanation = 'Independent analysis found strong evidence that both the video frames and soundtrack were AI-generated.';
+    else if (visualAi && soundtrackCompleted) explanation = 'Independent visual analysis found strong evidence that the video frames were AI-generated. The soundtrack was also checked and did not add strong AI evidence.';
+    else if (soundtrackAi && visualCompleted) explanation = 'Independent audio analysis found strong evidence that the soundtrack was AI-generated. The video frames were also checked and did not add strong AI evidence.';
+    else if (visualAi) explanation = 'Independent visual analysis found strong evidence that the video frames were AI-generated. The soundtrack check was not completed.';
+    else if (soundtrackAi) explanation = 'Independent audio analysis found strong evidence that the soundtrack was AI-generated. The video-frame check was not completed.';
+    else if (provenanceAffirmative) explanation = 'Embedded creation information identifies this video as AI-generated.';
+  } else if (status === 'AI_ALTERED') {
+    explanation = soundtrackCompleted
+      ? 'Independent visual analysis found strong evidence that the video frames were materially altered using AI. The soundtrack was also checked.'
+      : 'Independent visual analysis found strong evidence that the video frames were materially altered using AI. The soundtrack check was not completed.';
+  } else if (status === 'UNCLEAR') {
+    if (visualCompleted && soundtrackCompleted) explanation = 'The video frames and soundtrack were checked, but the available evidence was not sufficient for a dependable conclusion. AIVerify is not classifying the video as human-created.';
+    else if (visualCompleted) explanation = 'The video frames were checked, but the available visual evidence was not sufficient for a dependable conclusion. The soundtrack check was not completed.';
+    else if (soundtrackCompleted) explanation = 'The soundtrack was checked, but the available audio evidence was not sufficient for a dependable conclusion. The video-frame check was not completed.';
+  } else if (status === 'ANALYSIS_UNAVAILABLE') {
+    explanation = 'The external video analysis could not be completed. Embedded creation information was also not sufficient for a conclusion.';
+  }
+
+  let bestSource = { sourceClass: '', sourceScore: null };
+  visualProviders.forEach(function (provider) {
+    const value = numeric(provider.sourceScore);
+    if (value != null && value >= 0.80 && (bestSource.sourceScore == null || value > bestSource.sourceScore)) {
+      bestSource = { sourceClass: provider.sourceClass || '', sourceScore: value };
+    }
+  });
+
+  const attemptedProviders = providers.filter(function (entry) { return entry.attempted === true; });
+  const configuredProviders = providers.filter(function (entry) { return entry.configured === true; });
+  const providerNames = unique(attemptedProviders.map(function (entry) { return entry.provider; }));
+  const aggregateStatus = providerCompleted ? 'COMPLETED' : (failedProviders.length ? 'FAILED' : 'NOT_CONFIGURED');
+  const combinedAiConfidence = maximum([visualAiScore, soundtrackAiScore, provenanceAffirmative ? 1 : null]);
+  const internalProviders = providers.map(providerPublicRecord);
+  const publicSummary = Object.freeze({
+    conclusion: answer,
+    confidenceBand: aiGenerated || deepfakeFlagged ? (combinedAiConfidence != null && combinedAiConfidence >= 0.95 ? 'Very high' : 'High') : (providerCompleted ? 'Mixed' : 'Undetermined'),
+    independentChecksCompleted: completedProviders.length,
+    provenanceFound: provenanceAffirmative,
+    possibleGenerator: bestSource.sourceClass ? sourceLabel(bestSource.sourceClass) : '',
+    videoVisualCheckCompleted: visualCompleted,
+    videoSoundtrackCheckCompleted: soundtrackCompleted,
+    providerDetailsHidden: true,
+    percentageDetailsHidden: true,
+    aiGeneratedThresholdApplied: threshold(thresholds.publicAiGenerated, 0.80)
+  });
+
+  return Object.freeze({
+    version: MODULE_VERSION,
+    status: status,
+    answer: answer,
+    explanation: explanation,
+    resultLevel: resultLevel,
+    publicSignals: Object.freeze(unique(publicSignals).slice(0, 8)),
+    publicSummary: publicSummary,
+    metadataOnly: !providerCompleted,
+    visualOrAudioContentAnalyzed: providerCompleted,
+    internal: Object.freeze({
+      detectorAiConfidence: combinedAiConfidence,
+      combinedAiConfidence: combinedAiConfidence,
+      combinedDeepfakeConfidence: visualDeepfakeScore,
+      detectorSpread: null,
+      providerConsensusAi: visualAi && soundtrackAi,
+      corroboratedAi: visualAi && soundtrackAi,
+      singleProviderAi: (visualAi ? 1 : 0) + (soundtrackAi ? 1 : 0) === 1,
+      mixedProviderEvidence: false,
+      developingMediaTypeGuardApplied: !aiGenerated && !deepfakeFlagged,
+      videoVisualAi: visualAi,
+      videoSoundtrackAi: soundtrackAi,
+      videoVisualCheckCompleted: visualCompleted,
+      videoSoundtrackCheckCompleted: soundtrackCompleted,
+      thresholds: Object.freeze({
+        publicAiThreshold: threshold(thresholds.publicAiGenerated, 0.80),
+        videoAiThreshold: videoAiThreshold,
+        audioAiThreshold: audioAiThreshold,
+        deepfakeThreshold: deepfakeThreshold
+      }),
+      providers: Object.freeze(internalProviders),
+      provider: Object.freeze({
+        name: providerNames.join(' + '),
+        configured: configuredProviders.length > 0,
+        attempted: attemptedProviders.length > 0,
+        status: aggregateStatus,
+        frameCount: visualProviders.reduce(function (total, entry) { return total + (Number(entry.frameCount) || 0); }, 0),
+        soundtrackSegmentCount: soundtrackProviders.reduce(function (total, entry) { return total + (Number(entry.frameCount) || 0); }, 0),
+        aiGeneratedScore: combinedAiConfidence,
+        deepfakeScore: visualDeepfakeScore,
+        sourceClass: bestSource.sourceClass,
+        sourceScore: bestSource.sourceScore,
+        charge: null,
+        error: failedProviders.length && !providerCompleted
+          ? failedProviders.map(function (entry) { return entry.error; }).filter(Boolean).join('; ')
+          : ''
+      })
+    })
+  });
+}
+
+function scoreStandard(data, providers, provenance, thresholds, mediaType) {
   const completedProviders = providers.filter(function (entry) {
     return entry.status === 'COMPLETED' && entry.contentAnalyzed === true;
   });
@@ -163,11 +315,8 @@ function score(input) {
   if (deepfakeFlagged) publicSignals.push('Independent analysis identified material AI alteration.');
   if (mixedProviderEvidence) publicSignals.push('Independent detection methods produced materially conflicting results.');
   if (!aiGenerated && !deepfakeFlagged && providerCompleted && !mixedProviderEvidence) {
-    if (developingMediaType) {
-      publicSignals.push(developingMediaLabel(mediaType) + ' checking is still being developed for this initial release.');
-    } else {
-      publicSignals.push('The available checks did not find enough evidence for an AI-generated classification.');
-    }
+    if (developingMediaType) publicSignals.push(developingMediaLabel(mediaType) + ' checking is still being developed for this initial release.');
+    else publicSignals.push('The available checks did not find enough evidence for an AI-generated classification.');
   }
 
   let status = 'INCONCLUSIVE';
@@ -185,17 +334,11 @@ function score(input) {
   } else if (aiGenerated) {
     status = 'AI_GENERATED';
     answer = 'AI-generated';
-    if (provenanceAffirmative && detectorAiGenerated) {
-      explanation = 'Embedded creation information identifies this media as AI-generated, and independent analysis also supports that conclusion.';
-    } else if (provenanceAffirmative) {
-      explanation = 'Embedded creation information identifies this media as AI-generated.';
-    } else if (providerConsensusAi) {
-      explanation = 'Multiple independent detection methods each identified this media as AI-generated.';
-    } else if (corroboratedAi) {
-      explanation = 'One independent method found strong AI-generation evidence and another provided supporting evidence.';
-    } else {
-      explanation = 'An independent detection method found strong evidence that this media is AI-generated.';
-    }
+    if (provenanceAffirmative && detectorAiGenerated) explanation = 'Embedded creation information identifies this media as AI-generated, and independent analysis also supports that conclusion.';
+    else if (provenanceAffirmative) explanation = 'Embedded creation information identifies this media as AI-generated.';
+    else if (providerConsensusAi) explanation = 'Multiple independent detection methods each identified this media as AI-generated.';
+    else if (corroboratedAi) explanation = 'One independent method found strong AI-generation evidence and another provided supporting evidence.';
+    else explanation = 'An independent detection method found strong evidence that this media is AI-generated.';
     resultLevel = 'success';
   } else if (deepfakeFlagged) {
     status = 'AI_ALTERED';
@@ -235,6 +378,8 @@ function score(input) {
     independentChecksCompleted: completedProviders.length,
     provenanceFound: provenanceAffirmative,
     possibleGenerator: bestSource.sourceClass ? sourceLabel(bestSource.sourceClass) : '',
+    videoVisualCheckCompleted: false,
+    videoSoundtrackCheckCompleted: false,
     providerDetailsHidden: true,
     percentageDetailsHidden: true,
     aiGeneratedThresholdApplied: publicAiThreshold
@@ -292,6 +437,17 @@ function score(input) {
       })
     })
   });
+}
+
+function score(input) {
+  const data = input && typeof input === 'object' ? input : {};
+  const mediaType = clean(data.mediaType);
+  const provenance = data.provenance || {};
+  const thresholds = data.thresholds || {};
+  const suppliedProviders = Array.isArray(data.providers) ? data.providers : (data.provider ? [data.provider] : []);
+  const providers = suppliedProviders.filter(function (entry) { return entry && typeof entry === 'object'; });
+  if (mediaType === 'video') return scoreVideo(data, providers, provenance, thresholds);
+  return scoreStandard(data, providers, provenance, thresholds, mediaType);
 }
 
 module.exports = Object.freeze({

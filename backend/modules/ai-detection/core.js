@@ -7,7 +7,7 @@ const hiveProvider = require('./provider-hive');
 const sightengineProvider = require('./provider-sightengine');
 const scoring = require('./scoring');
 
-const MODULE_VERSION = 'AI_DETECTION_CORE_V9';
+const MODULE_VERSION = 'AI_DETECTION_CORE_V11';
 
 function unionMediaTypes(config) {
   const names = [];
@@ -24,13 +24,13 @@ function unionMediaTypes(config) {
 function createAiDetectionFoundation(options) {
   const settings = options && typeof options === 'object' ? options : {};
   const backendVersion = String(settings.backendVersion || '').trim();
-  if (!backendVersion) {
-    throw new Error('AI detection foundation requires the active backend version.');
-  }
+  if (!backendVersion) throw new Error('AI detection foundation requires the active backend version.');
 
   const config = detectionConfig.createConfig(settings.env || process.env);
   detectionConfig.validateConfig(config);
   const onProviderOperations = typeof settings.onProviderOperations === 'function' ? settings.onProviderOperations : null;
+  const hiveVisualReady = config.providers.hive.configuredMediaTypes.indexOf('video') >= 0;
+  const hiveAudioReady = config.providers.hive.configuredMediaTypes.indexOf('audio') >= 0;
 
   function health() {
     return {
@@ -43,6 +43,9 @@ function createAiDetectionFoundation(options) {
       provenancePriorityEnabled: true,
       externalContentDetectionEnabled: config.providerConfigured,
       visualOrAudioContentDetectionEnabled: config.providerConfigured,
+      videoVisualAnalysisEnabled: hiveVisualReady,
+      videoSoundtrackAnalysisEnabled: hiveAudioReady,
+      videoAnalysisStage: 'visual-and-soundtrack',
       multiProviderImageDetectionEnabled: config.providers.hive.configured && config.providers.sightengine.configured,
       maxUploadBytes: mediaIntake.MAX_MEDIA_BYTES,
       providerConfigured: config.providerConfigured,
@@ -56,7 +59,6 @@ function createAiDetectionFoundation(options) {
       hiveApiVersion: config.providers.hive.apiVersion,
       hiveAuthentication: config.providers.hive.authScheme,
       hiveProviderVersion: hiveProvider.MODULE_VERSION,
-      hiveValueFieldParserEnabled: hiveProvider.MODULE_VERSION === 'AI_DETECTION_HIVE_PROVIDER_V3',
       sightengineApiVersion: config.providers.sightengine.apiVersion,
       sightengineProviderVersion: sightengineProvider.MODULE_VERSION,
       sightengineModels: config.providers.sightengine.models.slice(),
@@ -73,38 +75,58 @@ function createAiDetectionFoundation(options) {
     };
   }
 
+  function recordOperations(providerResults) {
+    if (!onProviderOperations) return;
+    try {
+      onProviderOperations(providerResults.map(function (provider) {
+        const kind = provider.analysisKind || '';
+        return {
+          provider: provider.provider || '',
+          operation: kind === 'soundtrack' ? 'video-soundtrack-analysis' : (kind === 'visual' ? 'visual-media-analysis' : 'media-analysis'),
+          actualRequest: provider.attempted === true,
+          requestCount: provider.attempted === true ? 1 : 0,
+          operations: provider.attempted === true ? 1 : 0,
+          status: provider.status || '',
+          charge: provider.charge || null,
+          taskId: provider.taskId || '',
+          error: provider.error || ''
+        };
+      }));
+    } catch (_error) {}
+  }
+
   async function analyzeMedia(payload) {
     const prepared = mediaIntake.prepare(payload);
     const provenanceResult = provenance.inspect(prepared);
-    const providerResults = await Promise.all([
-      hiveProvider.analyze(prepared, config),
-      sightengineProvider.analyze(prepared, config)
-    ]);
+    let providerResults;
+
+    if (prepared.mediaType === 'video') {
+      providerResults = await Promise.all([
+        hiveProvider.analyze(prepared, config, { analysisMediaType: 'video', analysisKind: 'visual', providerName: 'hive-visual' }),
+        sightengineProvider.analyze(prepared, config),
+        hiveProvider.analyze(prepared, config, { analysisMediaType: 'audio', analysisKind: 'soundtrack', providerName: 'hive-audio' })
+      ]);
+    } else {
+      providerResults = await Promise.all([
+        hiveProvider.analyze(prepared, config, {
+          analysisMediaType: prepared.mediaType,
+          analysisKind: prepared.mediaType === 'audio' ? 'audio' : 'visual',
+          providerName: 'hive'
+        }),
+        sightengineProvider.analyze(prepared, config)
+      ]);
+    }
+
     const result = scoring.score({
       mediaType: prepared.mediaType,
       provenance: provenanceResult,
       providers: providerResults,
       thresholds: config.thresholds
     });
+    recordOperations(providerResults);
 
-    if (onProviderOperations) {
-      try {
-        onProviderOperations(providerResults.map(function (provider) {
-          return {
-            provider: provider.provider || '',
-            operation: 'media-analysis',
-            actualRequest: provider.attempted === true,
-            requestCount: provider.attempted === true ? 1 : 0,
-            operations: provider.attempted === true ? 1 : 0,
-            status: provider.status || '',
-            charge: provider.charge || null,
-            taskId: provider.taskId || '',
-            error: provider.error || ''
-          };
-        }));
-      } catch (_error) {}
-    }
-
+    const summary = result.publicSummary || {};
+    const providerInternal = result.internal && result.internal.provider ? result.internal.provider : {};
     return {
       ok: true,
       version: MODULE_VERSION,
@@ -116,6 +138,13 @@ function createAiDetectionFoundation(options) {
       publicSummary: result.publicSummary,
       metadataOnly: result.metadataOnly,
       visualOrAudioContentAnalyzed: result.visualOrAudioContentAnalyzed,
+      videoAnalysis: prepared.mediaType === 'video' ? {
+        stage: 'visual-and-soundtrack',
+        visualFramesAnalyzed: summary.videoVisualCheckCompleted === true,
+        soundtrackAnalyzed: summary.videoSoundtrackCheckCompleted === true,
+        frameClassifications: Number(providerInternal.frameCount) || 0,
+        soundtrackClassifications: Number(providerInternal.soundtrackSegmentCount) || 0
+      } : null,
       media: {
         filename: prepared.filename,
         mediaType: prepared.mediaType,

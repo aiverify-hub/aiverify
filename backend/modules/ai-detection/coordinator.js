@@ -2,8 +2,8 @@
 
 const core = require('./core');
 
-const MODULE_VERSION = 'AI_DETECTION_COORDINATOR_V1';
-const CORE_VERSION = 'AI_DETECTION_CORE_V9';
+const MODULE_VERSION = 'AI_DETECTION_COORDINATOR_V3';
+const CORE_VERSION = 'AI_DETECTION_CORE_V11';
 
 function validateCore() {
   if (!core || core.MODULE_VERSION !== CORE_VERSION || typeof core.createAiDetectionFoundation !== 'function') {
@@ -26,7 +26,7 @@ function createAiDetectionFoundation(options) {
       mediaRouting: Object.freeze({
         image: 'core',
         audio: 'core',
-        video: 'core'
+        video: 'core-visual-and-soundtrack'
       })
     });
   }
