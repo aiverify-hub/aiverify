@@ -1,3 +1,4 @@
+<!-- BM_FE_AIV_v2269_PSF: two-section Sample discovery, optional overall tester feedback, and non-destructive review-round controls over verified v2268. -->
 <!-- BM_FE_AIV_v2268_PTF: paid-tester response rating and comment workflow over verified v2267. Replaces the vague flag-only control with Acceptable, Needs Improvement, and Incorrect ratings plus an optional comment; preserves exact visible-result capture, review dashboard, sign-in, AI media behavior, backend v2921 compatibility, and all unrelated v2267 behavior. -->
 <!-- PAID_TESTER_FEEDBACK_WORKFLOW_V2268 -->
 <!-- VIDEO_STRUCTURED_OBJECT_OUTPUT_CLEANUP_V2267 -->
@@ -696,6 +697,41 @@ body.aivAuthLocked{overflow:hidden!important}
 .betaReviewEmpty{background:#fff;border:1px solid #d3dde4;border-radius:10px;padding:16px;text-align:center;font-weight:800;color:#36556a}
 @media(max-width:720px){.responseReviewPanel{font-size:12px;padding:10px}.responseReviewRatings{display:grid;grid-template-columns:1fr}.responseReviewRating{width:100%}.responseReviewComment{width:100%}.betaReviewDashboard{width:calc(100% - 20px);padding:12px}.betaReviewToken{min-width:0;width:100%}.betaReviewControls{width:100%}.betaSimpleInput{font-size:14px}.betaSimpleResult{font-size:13px}.clarificationActions button{width:100%}}
 
+
+/* BM_FE_AIV_v2269_PSF — paid-testing discovery and review-round controls. */
+.sampleSectionGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sampleSectionBtn{width:100%;margin:0;box-shadow:none;text-align:left;background:#fff;color:#15364f;border:1px solid #c8d8e4;border-radius:10px;padding:15px;font-size:17px;line-height:1.2;font-weight:900}
+.sampleSectionBtn:hover{background:#eaf4fb;border-color:#82b5d7}
+.sampleSectionHelp{display:block;margin-top:6px;font-size:13px;line-height:1.35;font-weight:600;color:#526b7d}
+.sampleAiInfo{background:#fff;border:1px solid #c8d8e4;border-radius:10px;padding:13px 14px;color:#29495e;font-size:14px;line-height:1.45}
+.sampleAiInfo strong{color:#123e5c}
+.sampleAiOpen{width:100%;margin:0!important;background:#187ea8!important;color:#fff!important}
+.overallTesterFeedback{margin:14px 0 0;background:rgba(244,247,250,.97);border:1px solid #c9d8e3;border-radius:12px;padding:14px 16px;color:#17354c;box-shadow:0 5px 16px rgba(15,48,72,.1)}
+.overallTesterFeedbackTitle{font-size:16px;font-weight:900;color:#123e5c}
+.overallTesterFeedbackHelp{margin:5px 0 9px;font-size:13px;line-height:1.35;color:#496577}
+.overallTesterFeedbackText{display:block;width:100%;min-height:88px;resize:vertical;border:1px solid #b9c9d5;border-radius:8px;background:#fff;padding:9px 10px;font:14px/1.4 Arial,Helvetica,sans-serif;color:#111}
+.overallTesterFeedbackActions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px}
+.overallTesterFeedbackSave{margin:0!important;background:#2478a4!important;color:#fff!important;font-size:13px!important;padding:9px 13px!important}
+.overallTesterFeedbackStatus{font-size:12px;font-weight:800;color:#176b39}
+.betaReviewRoundControls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0}
+.betaReviewRoundButton{margin:0!important;background:#1f6f98!important;color:#fff!important;font-size:13px!important;padding:8px 11px!important}
+.betaReviewArchiveToggle{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#31536a}
+.betaReviewRoundLabel{font-size:13px;font-weight:900;color:#174b69;background:#eaf4fb;border:1px solid #b8d3e4;border-radius:8px;padding:7px 9px}
+.betaOverallFeedback{margin:12px 0 16px;background:#f7fbfd;border:1px solid #c9dbe6;border-radius:10px;padding:12px}
+.betaOverallFeedbackTitle{font-size:15px;font-weight:900;color:#123e5c;margin-bottom:8px}
+.betaOverallFeedbackItem{background:#fff;border:1px solid #d4e0e7;border-radius:8px;padding:9px 10px;margin-top:7px}
+.betaOverallFeedbackMeta{font-size:12px;font-weight:900;color:#47677b;margin-bottom:5px}
+.betaOverallFeedbackText{white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;line-height:1.4;color:#111}
+@media(max-width:720px){
+  .sampleSectionGrid{grid-template-columns:1fr}
+  .sampleSectionBtn{font-size:15px;padding:12px}
+  .overallTesterFeedback{padding:11px 12px}
+  .overallTesterFeedbackActions{display:block}
+  .overallTesterFeedbackSave{width:100%;margin-bottom:6px!important}
+  .betaReviewRoundControls{align-items:stretch}
+  .betaReviewRoundButton{width:100%}
+}
+
 </style>
 </head>
 <body class="aivAuthLocked">
@@ -716,7 +752,7 @@ body.aivAuthLocked{overflow:hidden!important}
     <div class="aivAuthNotice"><strong>Beta use notice:</strong> AIVerify pays for some current-information, webpage, video, and media scans. Please use these scan types thoughtfully during beta. You will not be charged.</div>
   </div>
 </div>
-<div class="version" id="versionBadge">frontend v2267</div>
+<div class="version" id="versionBadge">frontend v2269</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
@@ -756,16 +792,25 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       <div id="sampleChooserTitle" class="sampleChooserTitle">Choose a Sample</div>
       <button type="button" id="sampleCloseBtn" class="sampleCloseBtn" aria-label="Close Samples chooser">×</button>
     </div>
-    <div id="sampleChooserIntro" class="sampleChooserIntro">Choose a category, then select a sample. Run it as shown or replace the bracketed text with your own input.</div>
+    <div id="sampleChooserIntro" class="sampleChooserIntro">Choose Claims & Information or AI Creation. Samples are ideas—use your own content when testing.</div>
     <div id="sampleChooserList" class="sampleChooserList"></div>
     <button type="button" id="sampleBackBtn" class="sampleBackBtn" hidden>Back to Categories</button>
   </div>
 </div>
-<div id="informationResultPanel" class="resultBox"><div id="contentType"></div><div id="transcriptStatus" class="transcriptStatus" style="display:none"></div><div id="result"><div class="emptyResultTitle">Results</div></div><div id="responseReviewPanel" class="responseReviewPanel" hidden></div></div></div>
+<div id="informationResultPanel" class="resultBox"><div id="contentType"></div><div id="transcriptStatus" class="transcriptStatus" style="display:none"></div><div id="result"><div class="emptyResultTitle">Results</div></div><div id="responseReviewPanel" class="responseReviewPanel" hidden></div></div>
+<section id="overallTesterFeedback" class="overallTesterFeedback" aria-labelledby="overallTesterFeedbackTitle">
+  <div id="overallTesterFeedbackTitle" class="overallTesterFeedbackTitle">Overall Feedback or Suggestions <span style="font-size:12px;font-weight:700;color:#5d7382">(Optional)</span></div>
+  <div class="overallTesterFeedbackHelp">After completing your tests, share anything that was useful, confusing, missing, or worth improving.</div>
+  <textarea id="overallTesterFeedbackText" class="overallTesterFeedbackText" maxlength="10000" placeholder="Optional overall feedback or suggestions"></textarea>
+  <div class="overallTesterFeedbackActions"><button type="button" id="overallTesterFeedbackSave" class="overallTesterFeedbackSave">Save Overall Feedback</button><span id="overallTesterFeedbackStatus" class="overallTesterFeedbackStatus"></span></div>
+</section>
+</div>
 <section id="betaReviewDashboard" class="betaReviewDashboard" hidden aria-labelledby="betaReviewTitle">
   <div class="betaReviewHeader"><div><div id="betaReviewTitle" class="betaReviewTitle">Beta Scan Review</div><div class="betaReviewSubtitle">Review each unique scan in the same order it was received. Technical data remains stored but hidden.</div></div><div class="betaReviewControls"><input id="betaReviewToken" class="betaReviewToken" type="password" autocomplete="off" placeholder="Analytics admin token"><button type="button" id="betaReviewLoad" class="betaReviewButton">Refresh</button></div></div>
   <div id="betaReviewMessage" class="betaReviewMessage"></div>
+  <div class="betaReviewRoundControls"><button type="button" id="betaReviewStartRound" class="betaReviewRoundButton">Start New Test Round</button><label class="betaReviewArchiveToggle"><input id="betaReviewShowArchived" type="checkbox"> Show archived scans</label><span id="betaReviewRoundLabel" class="betaReviewRoundLabel">All stored scans</span></div>
   <div id="betaReviewSummary"></div>
+  <div id="betaOverallFeedback" class="betaOverallFeedback"><div class="betaOverallFeedbackTitle">Overall Tester Feedback</div><div id="betaOverallFeedbackList"></div></div>
   <div class="betaReviewOrderControls"><span class="betaReviewOrderLabel">Show:</span><button type="button" id="betaReviewOldest" class="betaReviewOrderButton isActive">Oldest first</button><button type="button" id="betaReviewNewest" class="betaReviewOrderButton">Newest first</button></div>
   <div id="betaReviewQueueTitle" class="betaReviewQueueTitle">Unreviewed Unique Scans</div>
   <div id="betaReviewQueueHelp" class="betaReviewQueueHelp">Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are stored but shown once. Flagged scans are highlighted.</div>
@@ -778,7 +823,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2268";
+  const FRONTEND_VERSION="frontend v2269";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
@@ -1164,6 +1209,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }
 ];
   let activeSampleCategoryIndex=-1;
+  let activeSampleSection='';
   let activeLoadedTemplateSample=false;
   let lastAnalyzedInput="";
   let activeRenderRun=0;
@@ -1242,8 +1288,24 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     aivRenderReviewPanel(panelId||'responseReviewPanel',ids);
     if(ids.length&&visibleNode)aivReportVisibleResult(ids,String(visibleNode.innerText||visibleNode.textContent||''));
   }
+  async function aivSaveOverallTesterFeedback(){
+    const field=el('overallTesterFeedbackText');const button=el('overallTesterFeedbackSave');const status=el('overallTesterFeedbackStatus');
+    const feedback=String(field&&field.value||'').trim();
+    if(!feedback){if(status){status.style.color='#9b2d23';status.textContent='Enter feedback or a suggestion before saving.';}return;}
+    if(button)button.disabled=true;if(status){status.style.color='#176b39';status.textContent='Saving…';}
+    try{
+      const headers=aivSessionHeaders();headers['content-type']='application/json';
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/overall-feedback',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({feedback:feedback})});
+      const data=await response.json().catch(function(){return {};});
+      if(response.status===401){aivHandleUnauthorized();return;}
+      if(!response.ok||!data.ok)throw new Error(data.error||'Overall feedback could not be saved.');
+      if(status)status.textContent='Overall feedback saved.';
+    }catch(error){if(status){status.style.color='#9b2d23';status.textContent=String(error&&error.message||error||'Overall feedback could not be saved.');}}
+    finally{if(button)button.disabled=false;}
+  }
   let AIV_BETA_REVIEW_ORDER='oldest';
   let AIV_BETA_REVIEW_FILTER='unreviewed';
+  let AIV_BETA_INCLUDE_ARCHIVED=false;
   function aivReviewAdminToken(){const node=el('betaReviewToken');return String(node&&node.value||'').trim();}
   function aivReviewAdminHeaders(){const headers={'x-aiv-frontend-version':FRONTEND_VERSION};const token=aivReviewAdminToken();if(token)headers['x-aiv-admin-token']=token;return headers;}
   function aivReviewSetMessage(message,success){const node=el('betaReviewMessage');if(node){node.textContent=String(message||'');node.style.color=success?'#176b39':'#8a2d24';}}
@@ -1269,6 +1331,27 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const items=[['unreviewed','Unreviewed',counts.unreviewed||0],['reviewed','Reviewed',counts.reviewed||0],['user-flagged','User flagged',counts.userFlagged||0],['automatic-flags','Automatic flags',counts.automaticallyFlagged||0],['acceptable','Acceptable',counts.acceptable||0],['needs-improvement','Needs improvement',counts.needsImprovement||0],['incorrect','Incorrect',counts.incorrect||0]];
     node.innerHTML='<div class="betaReviewProgress">'+items.map(function(item){return '<button type="button" class="betaReviewProgressItem'+(AIV_BETA_REVIEW_FILTER===item[0]?' isActive':'')+'" data-review-filter="'+esc(item[0])+'">'+esc(item[1])+' <b>'+esc(item[2])+'</b></button>';}).join('')+'</div>';
     node.querySelectorAll('[data-review-filter]').forEach(function(button){button.addEventListener('click',function(){aivSetBetaReviewFilter(String(button.getAttribute('data-review-filter')||''));});});
+  }
+  function aivRenderOverallFeedback(data){
+    const list=el('betaOverallFeedbackList');if(!list)return;
+    const feedbacks=data&&Array.isArray(data.overallFeedbacks)?data.overallFeedbacks:[];
+    if(!feedbacks.length){list.innerHTML='<div class="betaReviewEmpty">No overall tester feedback has been submitted for this view.</div>';return;}
+    list.innerHTML=feedbacks.map(function(item){
+      return '<div class="betaOverallFeedbackItem"><div class="betaOverallFeedbackMeta">'+esc(item.testerName||'Tester')+' — '+esc(aivReviewDate(item.submittedAt))+'</div><div class="betaOverallFeedbackText">'+esc(item.feedback||'')+'</div></div>';
+    }).join('');
+  }
+  async function aivStartNewReviewRound(){
+    if(!window.confirm('Start a new test round? Existing scans will be archived from the default counts but will not be deleted.'))return;
+    const button=el('betaReviewStartRound');if(button)button.disabled=true;aivReviewSetMessage('Starting new test round…',true);
+    try{
+      const headers=aivReviewAdminHeaders();headers['content-type']='application/json';
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/review/start-round',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:'{}'});
+      const data=await response.json().catch(function(){return {};});
+      if(!response.ok||!data.ok)throw new Error(data.error||'The new test round could not be started.');
+      AIV_BETA_INCLUDE_ARCHIVED=false;const archived=el('betaReviewShowArchived');if(archived)archived.checked=false;
+      AIV_BETA_REVIEW_FILTER='unreviewed';aivApplyReviewFilterLabels();await aivLoadBetaReview();
+    }catch(error){aivReviewSetMessage(String(error&&error.message||error||'The new test round could not be started.'),false);}
+    finally{if(button)button.disabled=false;}
   }
   function aivFriendlyAutomaticFlag(event){
     const value=String(event.failureCategory||(event.qualityFlags&&event.qualityFlags[0])||'Review suggested').replace(/_/g,' ').toLowerCase();
@@ -1325,11 +1408,12 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   async function aivLoadBetaReview(){
     const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);aivReviewSetMessage(info.loading,true);aivApplyReviewFilterLabels();
     try{
-      const response=await fetch(BACKEND_BASE_URL+'/analytics/review-queue?limit=25&qualifying=1&filter='+encodeURIComponent(AIV_BETA_REVIEW_FILTER)+'&order='+encodeURIComponent(AIV_BETA_REVIEW_ORDER)+'&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/review-queue?limit=25&qualifying=1&filter='+encodeURIComponent(AIV_BETA_REVIEW_FILTER)+'&order='+encodeURIComponent(AIV_BETA_REVIEW_ORDER)+'&archived='+(AIV_BETA_INCLUDE_ARCHIVED?'1':'0')+'&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
       const queue=await response.json().catch(function(){return {};});
       if(!response.ok||!queue.ok)throw new Error(queue.error||'Review queue could not be loaded.');
       try{sessionStorage.setItem('aiv_beta_review_token',aivReviewAdminToken());}catch(_e){}
-      aivRenderReviewSummary(queue);aivRenderReviewQueue(queue);const total=Number(queue.counts&&queue.counts[info.countKey]||0);const orderLabel=AIV_BETA_REVIEW_ORDER==='newest'?'newest first':'oldest first';aivReviewSetMessage(queue.count?'Showing '+queue.count+' of '+total+' '+info.title.toLowerCase()+' — '+orderLabel+'.':info.empty,true);
+      const roundLabel=el('betaReviewRoundLabel');if(roundLabel)roundLabel.textContent=(queue.round&&queue.round.label||'All stored scans')+(AIV_BETA_INCLUDE_ARCHIVED?' + archived':'');
+      aivRenderReviewSummary(queue);aivRenderOverallFeedback(queue);aivRenderReviewQueue(queue);const total=Number(queue.counts&&queue.counts[info.countKey]||0);const orderLabel=AIV_BETA_REVIEW_ORDER==='newest'?'newest first':'oldest first';aivReviewSetMessage(queue.count?'Showing '+queue.count+' of '+total+' '+info.title.toLowerCase()+' — '+orderLabel+'.':info.empty,true);
     }catch(error){aivReviewSetMessage(String(error&&error.message||error||'Review queue could not be loaded.'),false);}
   }
   function aivInitBetaReview(){
@@ -1337,6 +1421,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     dashboard.hidden=!enabled;if(!enabled)return;
     const token=el('betaReviewToken');try{if(token)token.value=sessionStorage.getItem('aiv_beta_review_token')||'';}catch(_e){}
     const load=el('betaReviewLoad');if(load)load.onclick=aivLoadBetaReview;
+    const startRound=el('betaReviewStartRound');if(startRound)startRound.onclick=aivStartNewReviewRound;
+    const showArchived=el('betaReviewShowArchived');if(showArchived)showArchived.onchange=function(){AIV_BETA_INCLUDE_ARCHIVED=!!showArchived.checked;aivLoadBetaReview();};
     const oldest=el('betaReviewOldest');const newest=el('betaReviewNewest');
     function setOrder(order){AIV_BETA_REVIEW_ORDER=order==='newest'?'newest':'oldest';if(oldest)oldest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='oldest');if(newest)newest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='newest');aivLoadBetaReview();}
     if(oldest)oldest.onclick=function(){setOrder('oldest');};if(newest)newest.onclick=function(){setOrder('newest');};
@@ -5452,7 +5538,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     document.body.classList.toggle('sampleChooserOpen',!!open);
   }
   function closeSampleChooser(){
-    setSampleChooserOpen(false);activeSampleCategoryIndex=-1;
+    setSampleChooserOpen(false);activeSampleCategoryIndex=-1;activeSampleSection='';
     if(window.matchMedia && window.matchMedia('(min-width:721px)').matches){const i=input();if(i)i.focus();}
   }
   function v2214FlatPublicSampleItems(){
@@ -5468,15 +5554,30 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function v2214R1RetestCategoryIndex(){
     return PUBLIC_SAMPLE_CATEGORIES.findIndex(function(category){return category.name==='R1 Retest';});
   }
+  function renderSampleSections(){
+    activeSampleCategoryIndex=-1;activeSampleSection='';
+    setText('sampleChooserTitle','Explore Samples');
+    const intro=el('sampleChooserIntro');
+    if(intro){intro.style.display='block';intro.textContent='Choose a section. Samples are ideas—use your own content when testing.';}
+    const back=el('sampleBackBtn');if(back)back.hidden=true;
+    const list=sampleChooserListNode();if(!list)return;
+    list.className='sampleChooserList sampleSectionGrid';list.innerHTML='';
+    const claims=document.createElement('button');claims.type='button';claims.className='sampleSectionBtn';
+    claims.innerHTML='<span>Claims &amp; Information</span><span class="sampleSectionHelp">Explore questions, factual claims, webpages, videos, documents, everyday decisions, safety, faith, science, and more.</span>';
+    claims.onclick=renderSampleCategories;list.appendChild(claims);
+    const ai=document.createElement('button');ai.type='button';ai.className='sampleSectionBtn';
+    ai.innerHTML='<span>AI Creation</span><span class="sampleSectionHelp">See which image and audio files can be checked for evidence of AI generation or alteration.</span>';
+    ai.onclick=renderAiSampleIdeas;list.appendChild(ai);
+  }
   function renderSampleCategories(){
-    activeSampleCategoryIndex=-1;
-    setText('sampleChooserTitle','Choose a Sample');
+    activeSampleCategoryIndex=-1;activeSampleSection='claims';
+    setText('sampleChooserTitle','Claims & Information');
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
-      intro.textContent='Choose a category, then select an example. Run it as shown or replace the bracketed text with your own input.';
+      intro.textContent='Choose a category for ideas. Use your own question, claim, link, topic, or document rather than copying a sample exactly.';
     }
-    const back=el('sampleBackBtn');if(back)back.hidden=true;
+    const back=el('sampleBackBtn');if(back){back.hidden=false;back.textContent='Back to Sample Sections';}
     const list=sampleChooserListNode();if(!list)return;
     list.className='sampleChooserList sampleCategoryGrid';list.innerHTML='';
     PUBLIC_SAMPLE_CATEGORIES.forEach(function(category,categoryIndex){
@@ -5488,15 +5589,29 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       button.onclick=function(){renderSampleExamples(categoryIndex);};list.appendChild(button);
     });
   }
+  function renderAiSampleIdeas(){
+    activeSampleCategoryIndex=-1;activeSampleSection='ai';
+    setText('sampleChooserTitle','AI Creation');
+    const intro=el('sampleChooserIntro');
+    if(intro){intro.style.display='block';intro.textContent='AIVerify can check supported image and audio files for evidence that they were generated or altered using AI.';}
+    const back=el('sampleBackBtn');if(back){back.hidden=false;back.textContent='Back to Sample Sections';}
+    const list=sampleChooserListNode();if(!list)return;
+    list.className='sampleChooserList sampleExampleList';list.innerHTML='';
+    const info=document.createElement('div');info.className='sampleAiInfo';
+    info.innerHTML='<strong>Supported content</strong><br>Images: JPEG, PNG, GIF, or WebP<br>Audio: MP3 or WAV<br>Maximum file size: 8 MB<br><br>Ideas: test an original photo, a known AI-created image, an image you are unsure about, or an audio file you created or received.';
+    list.appendChild(info);
+    const open=document.createElement('button');open.type='button';open.className='sampleAiOpen';open.textContent='Open AI Creation Check';
+    open.onclick=function(){aivSetWorkflowMode('ai');closeSampleChooser();};list.appendChild(open);
+  }
   function renderSampleExamples(index){
     const category=PUBLIC_SAMPLE_CATEGORIES[index];if(!category)return;
-    activeSampleCategoryIndex=index;setText('sampleChooserTitle',category.name);
+    activeSampleCategoryIndex=index;activeSampleSection='claims';setText('sampleChooserTitle',category.name);
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
-      intro.textContent=(category.name==='R1 Retest')?((category.examples&&category.examples.length)?'Select a saved R1 retest sample.':'R1 Retest is empty. Failed beta cases can be added here for grouped retesting.'):'Select a sample from this category.';
+      intro.textContent=(category.name==='R1 Retest')?((category.examples&&category.examples.length)?'Select a saved R1 retest sample.':'R1 Retest is empty. Failed beta cases can be added here for grouped retesting.'):'Select an idea from this category, or enter your own related content.';
     }
-    const back=el('sampleBackBtn');if(back)back.hidden=false;
+    const back=el('sampleBackBtn');if(back){back.hidden=false;back.textContent='Back to Claims & Information';}
     const list=sampleChooserListNode();if(!list)return;
     list.className='sampleChooserList sampleExampleList';list.innerHTML='';
     if(!category.examples || !category.examples.length){
@@ -5526,7 +5641,11 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }
     updateCounts();setTranscriptStatus(null,'');setText('lastAction',category.name+' sample loaded');closeSampleChooser();
   }
-  function sample(){renderSampleCategories();setSampleChooserOpen(true);}
+  function sampleBack(){
+    if(activeSampleCategoryIndex>=0)return renderSampleCategories();
+    return renderSampleSections();
+  }
+  function sample(){renderSampleSections();setSampleChooserOpen(true);}
 
   async function writeClipboard(v){try{if(navigator.clipboard){await navigator.clipboard.writeText(String(v||"")); return true;}}catch(e){} try{const ta=document.createElement("textarea"); ta.value=String(v||""); ta.style.position="fixed"; ta.style.left="-9999px"; document.body.appendChild(ta); ta.focus(); ta.select(); const ok=document.execCommand("copy"); document.body.removeChild(ta); return ok;}catch(e){return false;}}
   async function readClipboard(){try{if(navigator.clipboard)return await navigator.clipboard.readText();}catch(e){} return "";}
@@ -5674,8 +5793,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     bind("pasteBtn",pasteInput);
     bind("sampleBtn",sample);
     bind("sampleCloseBtn",closeSampleChooser);
-    bind("sampleBackBtn",renderSampleCategories);
+    bind("sampleBackBtn",sampleBack);
     bind("aiMediaButton",aivRunAiMediaCheck);
+    bind("overallTesterFeedbackSave",aivSaveOverallTesterFeedback);
     const aiMediaFileNode=aivAiNode('aiMediaFile');
     if(aiMediaFileNode)aiMediaFileNode.addEventListener('change',function(){
       const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}

@@ -5,7 +5,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V7';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V8';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
@@ -654,6 +654,18 @@ function normalizeTesterFeedback(value) {
   };
 }
 
+function normalizeOverallFeedback(value) {
+  const source = value && typeof value === 'object' ? value : {};
+  return {
+    feedbackId: clean(source.feedbackId) || eventId(),
+    testerId: clean(source.testerId),
+    testerName: clean(source.testerName || 'Tester').slice(0, 120),
+    feedback: text(source.feedback || '').slice(0, 10000),
+    submittedAt: safeIso(source.submittedAt) || new Date().toISOString(),
+    roundId: clean(source.roundId || 'all')
+  };
+}
+
 function normalizeEvent(event, backendVersion) {
   const source = event && typeof event === 'object' ? event : {};
   const inputExact = source.inputExact != null ? text(source.inputExact) : text(source.inputPreview || '');
@@ -830,12 +842,16 @@ function createAnalyticsReviewFoundation(options) {
 
   const storageDir = clean(env.AIV_ANALYTICS_STORAGE_DIR) || path.join(backendDir, 'data', 'analytics');
   const eventFile = path.join(storageDir, 'scan-events.jsonl');
+  const overallFeedbackFile = path.join(storageDir, 'overall-feedback.jsonl');
+  const reviewRoundFile = path.join(storageDir, 'review-round.json');
   const secretFile = path.join(storageDir, '.analytics-secret');
   const timezone = clean(env.AIV_ANALYTICS_TIMEZONE) || 'America/New_York';
   const billingCycleDay = Math.min(28, Math.max(1, Math.round(finiteNumber(env.AIV_ANALYTICS_BILLING_CYCLE_DAY, 1))));
   const memoryLimit = Math.max(100, Math.min(25000, Math.round(finiteNumber(env.AIV_ANALYTICS_MEMORY_LIMIT, 5000))));
   const retentionDays = Math.max(30, Math.min(3650, Math.round(finiteNumber(env.AIV_ANALYTICS_RETENTION_DAYS, 730))));
   const events = [];
+  const overallFeedbacks = [];
+  let currentReviewRound = { id: 'all', number: 0, label: 'All stored scans', startedAt: '' };
   const contextStorage = new AsyncLocalStorage();
   let hashSecret = '';
   let storageReady = false;
@@ -846,6 +862,32 @@ function createAnalyticsReviewFoundation(options) {
     if (warningEmitted) return;
     warningEmitted = true;
     console.warn('AIV analytics review storage warning: ' + clean(error && error.message || error));
+  }
+
+
+  function writeOverallFeedbacks() {
+    if (!storageReady) return false;
+    try {
+      const temporary = overallFeedbackFile + '.tmp';
+      fs.writeFileSync(temporary, overallFeedbacks.map(function (item) { return JSON.stringify(item); }).join('\n') + (overallFeedbacks.length ? '\n' : ''), 'utf8');
+      try { fs.rmSync(overallFeedbackFile, { force: true }); } catch (_error) {}
+      fs.renameSync(temporary, overallFeedbackFile);
+      return true;
+    } catch (error) {
+      warn(error);
+      return false;
+    }
+  }
+
+  function writeReviewRound() {
+    if (!storageReady) return false;
+    try {
+      fs.writeFileSync(reviewRoundFile, JSON.stringify(currentReviewRound, null, 2) + '\n', 'utf8');
+      return true;
+    } catch (error) {
+      warn(error);
+      return false;
+    }
   }
 
   function rewriteEvents() {
@@ -887,9 +929,30 @@ function createAnalyticsReviewFoundation(options) {
           } catch (_error) {}
         });
       }
+      if (fs.existsSync(overallFeedbackFile)) {
+        String(fs.readFileSync(overallFeedbackFile, 'utf8') || '').split(/\r?\n/).forEach(function (line) {
+          if (!line.trim()) return;
+          try { overallFeedbacks.push(normalizeOverallFeedback(JSON.parse(line))); } catch (_error) {}
+        });
+      }
+      if (fs.existsSync(reviewRoundFile)) {
+        try {
+          const storedRound = JSON.parse(fs.readFileSync(reviewRoundFile, 'utf8'));
+          if (storedRound && typeof storedRound === 'object') {
+            currentReviewRound = {
+              id: clean(storedRound.id) || 'all',
+              number: Math.max(0, Math.round(finiteNumber(storedRound.number, 0))),
+              label: clean(storedRound.label) || 'Current test round',
+              startedAt: safeIso(storedRound.startedAt)
+            };
+          }
+        } catch (_error) {}
+      }
       while (events.length > memoryLimit) events.shift();
       storageReady = true;
       rewriteEvents();
+      writeOverallFeedbacks();
+      writeReviewRound();
     } catch (error) {
       hashSecret = hashSecret || crypto.randomBytes(32).toString('hex');
       storageReady = false;
@@ -1160,6 +1223,53 @@ function createAnalyticsReviewFoundation(options) {
     return { ok: true, eventId: event.eventId, feedback: clone(event.testerFeedback), flagged: event.userFlag.flagged };
   }
 
+
+  function saveOverallFeedback(details) {
+    const data = details && typeof details === 'object' ? details : {};
+    const testerId = clean(data.testerId);
+    const feedback = text(data.feedback || '').trim().slice(0, 10000);
+    if (!testerId) return { ok: false, status: 403, error: 'Forbidden' };
+    if (!feedback) return { ok: false, status: 400, error: 'Enter feedback or a suggestion before saving.' };
+    const roundId = clean(currentReviewRound.id || 'all');
+    const submittedAt = new Date().toISOString();
+    const existing = overallFeedbacks.find(function (item) { return item.testerId === testerId && clean(item.roundId) === roundId; });
+    if (existing) {
+      existing.testerName = clean(data.testerName || existing.testerName || 'Tester').slice(0, 120);
+      existing.feedback = feedback;
+      existing.submittedAt = submittedAt;
+    } else {
+      overallFeedbacks.push(normalizeOverallFeedback({
+        testerId: testerId,
+        testerName: data.testerName || 'Tester',
+        feedback: feedback,
+        submittedAt: submittedAt,
+        roundId: roundId
+      }));
+    }
+    writeOverallFeedbacks();
+    const saved = overallFeedbacks.find(function (item) { return item.testerId === testerId && clean(item.roundId) === roundId; });
+    return { ok: true, feedback: clone(saved), round: clone(currentReviewRound) };
+  }
+
+  function startReviewRound(details) {
+    const data = details && typeof details === 'object' ? details : {};
+    const nextNumber = Math.max(1, Math.round(finiteNumber(currentReviewRound.number, 0)) + 1);
+    const startedAt = new Date().toISOString();
+    currentReviewRound = {
+      id: 'round-' + nextNumber + '-' + Date.now().toString(36),
+      number: nextNumber,
+      label: clean(data.label) || ('Test Round ' + nextNumber),
+      startedAt: startedAt
+    };
+    writeReviewRound();
+    return { ok: true, round: clone(currentReviewRound) };
+  }
+
+  function feedbackForRound(includeArchived) {
+    if (includeArchived || !clean(currentReviewRound.id) || currentReviewRound.id === 'all') return clone(overallFeedbacks).sort(function (a, b) { return String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')); });
+    return clone(overallFeedbacks.filter(function (item) { return clean(item.roundId) === clean(currentReviewRound.id); })).sort(function (a, b) { return String(b.submittedAt || '').localeCompare(String(a.submittedAt || '')); });
+  }
+
   function updateReview(details) {
     const data = details && typeof details === 'object' ? details : {};
     const identifiers = Array.from(new Set([].concat(Array.isArray(data.eventIds) ? data.eventIds : [], data.eventId || []).map(clean).filter(Boolean)));
@@ -1245,13 +1355,21 @@ function createAnalyticsReviewFoundation(options) {
     const limit = Math.max(1, Math.min(500, Math.round(finiteNumber(query.limit, 200))));
     const includeReviewed = query.includeReviewed !== false;
     const qualifyingOnly = query.qualifyingOnly === true;
+    const includeArchived = query.includeArchived === true;
     const order = clean(query.order).toLowerCase() === 'newest' ? 'newest' : 'oldest';
     const requestedFilter = clean(query.filter).toLowerCase();
     const filter = ['unreviewed', 'reviewed', 'user-flagged', 'automatic-flags', 'acceptable', 'needs-improvement', 'incorrect', 'all'].indexOf(requestedFilter) >= 0
       ? requestedFilter
       : (includeReviewed ? 'all' : 'unreviewed');
+    const roundStartMs = timestampMilliseconds(currentReviewRound.startedAt);
     const eligibleEvents = events.filter(function (event) {
-      return !qualifyingOnly || !isNonQualifyingOutcome(event);
+      if (qualifyingOnly && isNonQualifyingOutcome(event)) return false;
+      if (!includeArchived && roundStartMs && timestampMilliseconds(event.timestamp) < roundStartMs) return false;
+      return true;
+    });
+    const archivedEligibleEvents = events.filter(function (event) {
+      if (qualifyingOnly && isNonQualifyingOutcome(event)) return false;
+      return roundStartMs && timestampMilliseconds(event.timestamp) < roundStartMs;
     });
     const grouped = groupReviewEvents(eligibleEvents);
     const counts = {
@@ -1264,7 +1382,9 @@ function createAnalyticsReviewFoundation(options) {
       needsImprovement: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Needs Improvement'; }); }).length,
       incorrect: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Incorrect'; }); }).length,
       rawAttempts: eligibleEvents.length,
-      repeatedAttempts: Math.max(0, eligibleEvents.length - grouped.length)
+      repeatedAttempts: Math.max(0, eligibleEvents.length - grouped.length),
+      archived: groupReviewEvents(archivedEligibleEvents).length,
+      overallFeedback: feedbackForRound(includeArchived).length
     };
     let source = grouped.filter(function (event) {
       const reviewed = !!(event.review && event.review.reviewed);
@@ -1293,7 +1413,7 @@ function createAnalyticsReviewFoundation(options) {
       copy.reviewOrder = order;
       return copy;
     });
-    return { ok: true, version: backendVersion, analyticsVersion: MODULE_VERSION, count: selected.length, counts: counts, filter: filter, order: order, events: selected };
+    return { ok: true, version: backendVersion, analyticsVersion: MODULE_VERSION, count: selected.length, counts: counts, filter: filter, order: order, round: clone(currentReviewRound), includeArchived: includeArchived, overallFeedbacks: feedbackForRound(includeArchived), events: selected };
   }
 
   function recent(options) {
@@ -1313,7 +1433,9 @@ function createAnalyticsReviewFoundation(options) {
       analyticsVersion: MODULE_VERSION,
       exportedAt: new Date().toISOString(),
       summary: summary(exportOptions),
-      reviewQueue: queue({ limit: 500, includeReviewed: true }),
+      reviewQueue: queue({ limit: 500, includeReviewed: true, includeArchived: true }),
+      currentReviewRound: clone(currentReviewRound),
+      overallFeedbacks: clone(overallFeedbacks),
       events: clone(events)
     };
   }
@@ -1345,6 +1467,9 @@ function createAnalyticsReviewFoundation(options) {
       reviewedStatusReversible: true,
       testerFeedbackRatingsEnabled: true,
       testerFeedbackCommentsEnabled: true,
+      overallTesterFeedbackEnabled: true,
+      reviewRoundsEnabled: true,
+      currentReviewRound: clone(currentReviewRound),
       providerUsageTrackingEnabled: true
     };
   }
@@ -1364,6 +1489,8 @@ function createAnalyticsReviewFoundation(options) {
     updateVisibleResult: updateVisibleResult,
     flagEvent: flagEvent,
     feedbackEvent: feedbackEvent,
+    saveOverallFeedback: saveOverallFeedback,
+    startReviewRound: startReviewRound,
     updateReview: updateReview,
     summary: summary,
     recent: recent,

@@ -1,4 +1,5 @@
-// BM_BE_AIV_v2921_PTF: paid-tester response rating and comment storage over verified v2920. Adds tester-owned Acceptable, Needs Improvement, and Incorrect feedback with optional comments, automatically flags non-acceptable ratings for review, exposes rating filters in the review queue, and preserves all verified v2920 analysis, source, sign-in, media, cache, and rendering behavior.
+// BM_BE_AIV_v2922_PSF: paid-testing sample discovery, optional overall tester feedback, and non-destructive review-round archiving over verified v2921.
+// BM_BE_AIV_v2922_PTF: paid-tester response rating and comment storage over verified v2920. Adds tester-owned Acceptable, Needs Improvement, and Incorrect feedback with optional comments, automatically flags non-acceptable ratings for review, exposes rating filters in the review queue, and preserves all verified v2920 analysis, source, sign-in, media, cache, and rendering behavior.
 // PAID_TESTER_FEEDBACK_STORAGE_V2921
 // ADAPTIVE_QUESTION_CLAIM_RESPONSE_V2920
 // BM_BE_AIV_v2919_VCB: routes specific YouTube URLs directly through the completed AIV_VIDEO_AUTH_CONTRACT instead of forcing that valid video result through the general AIV_RESULT_CONTRACT adapter that discarded it as unsupported. Preserves title resolution, 30-day cache, OpenAI title fallback, live title verification, frontend v2264 compatibility, and all unrelated v2918 behavior.
@@ -453,7 +454,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v2921';
+const VERSION = 'BE_AIV_v2922';
 const PORT = Number(process.env.PORT || 3000);
 const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
   try{
@@ -462,7 +463,7 @@ const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
       throw new Error('Analytics review module interface is malformed.');
     }
     const foundation=analyticsModule.createAnalyticsReviewFoundation({backendVersion:VERSION,backendDir:__dirname,env:process.env});
-    if(!foundation||typeof foundation.runScan!=='function'||typeof foundation.recordScanEvent!=='function'||typeof foundation.summary!=='function'||typeof foundation.feedbackEvent!=='function'){
+    if(!foundation||typeof foundation.runScan!=='function'||typeof foundation.recordScanEvent!=='function'||typeof foundation.summary!=='function'||typeof foundation.feedbackEvent!=='function'||typeof foundation.saveOverallFeedback!=='function'||typeof foundation.startReviewRound!=='function'){
       throw new Error('Analytics review foundation interface is incomplete.');
     }
     return foundation;
@@ -24798,7 +24799,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v2921'
+  currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -24981,7 +24982,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v2921'
+  currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -24997,7 +24998,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v2921'
+  currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -25042,7 +25043,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v2921'
+  currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -25297,7 +25298,7 @@ const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v2921'
+  currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -25311,7 +25312,7 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v2921'
+  currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
@@ -25338,7 +25339,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v2921'
+  currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -25348,7 +25349,7 @@ if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnostics
 
 
 const YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2921',
+  currentVersion:VERSION==='BE_AIV_v2922',
   resolverAvailable:typeof resolveYouTubeTitleV2917==='function',
   titleFallbackAvailable:typeof openAIVideoTitleLookupV2917==='function',
   exactTitleVerifierAvailable:typeof openAIVideoTitleClaimLiveVerification==='function',
@@ -25819,7 +25820,7 @@ function v2875TesterUsageSummary(events){
 
 v2875InitializeTesterStorage();
 const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2921',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  currentVersion:VERSION==='BE_AIV_v2922',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
   pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function'
 });
 if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.storageReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.accountFileExists||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionSecretReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.pinHashingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionValidationAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.analyticsLinkingAvailable){
@@ -25828,7 +25829,7 @@ if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BET
 
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2921'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2922'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -25855,6 +25856,20 @@ async function v2921HandleTesterFeedback(req,res){
   const tester=v2875RequireTester(req,res);if(!tester)return;
   let body;try{body=await v2875ReadJsonBody(req,12288);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
   const result=ANALYTICS_REVIEW_V2889.feedbackEvent({eventId:body&&body.eventId,testerId:tester.id,rating:body&&body.rating,comment:body&&body.comment});
+  return sendJson(res,result.status||200,result);
+}
+async function v2922HandleOverallFeedback(req,res){
+  if(req.method!=='POST')return sendJson(res,405,{ok:false,error:'Method not allowed.'});
+  const tester=v2875RequireTester(req,res);if(!tester)return;
+  let body;try{body=await v2875ReadJsonBody(req,22000);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
+  const result=ANALYTICS_REVIEW_V2889.saveOverallFeedback({testerId:tester.id,testerName:tester.name,feedback:body&&body.feedback});
+  return sendJson(res,result.status||200,result);
+}
+async function v2922HandleStartReviewRound(req,res,u){
+  if(req.method!=='POST')return sendJson(res,405,{ok:false,error:'Method not allowed.'});
+  if(!v2872AnalyticsAccess(req,res,u))return;
+  let body;try{body=await v2875ReadJsonBody(req,12000);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
+  const result=ANALYTICS_REVIEW_V2889.startReviewRound({label:body&&body.label});
   return sendJson(res,result.status||200,result);
 }
 async function v2885HandleReviewUpdate(req,res,u){
@@ -26052,7 +26067,7 @@ async function v2885PreflightUnclearInput(input,requestState){
   return v2885UnclearInputGuidanceBody(raw,interpretation);
 }
 const UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2921',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
+  currentVersion:VERSION==='BE_AIV_v2922',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
 });
 if(!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.currentVersion||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.candidateDetectorAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.interpreterAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.friendlyFallbackAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.preflightAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionCacheReady||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionKeyAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.requestBindingAvailable){
   throw new Error('UNCERTAIN_INPUT_CLARIFICATION_AND_FRIENDLY_RETRY_V2885 startup validation failed');
@@ -26084,6 +26099,8 @@ const server=http.createServer(async (req,res)=>{
     if(u.pathname==='/analytics/visible-result')return await v2885HandleVisibleResult(req,res);
     if(u.pathname==='/analytics/flag')return await v2885HandleTesterFlag(req,res);
     if(u.pathname==='/analytics/feedback')return await v2921HandleTesterFeedback(req,res);
+    if(u.pathname==='/analytics/overall-feedback')return await v2922HandleOverallFeedback(req,res);
+    if(u.pathname==='/analytics/review/start-round')return await v2922HandleStartReviewRound(req,res,u);
     if(u.pathname==='/analytics/review/update')return await v2885HandleReviewUpdate(req,res,u);
     if(u.pathname==='/analytics/summary'){
       if(!v2872AnalyticsAccess(req,res,u))return;
@@ -26095,7 +26112,7 @@ const server=http.createServer(async (req,res)=>{
     }
     if(u.pathname==='/analytics/review-queue'){
       if(!v2872AnalyticsAccess(req,res,u))return;
-      return sendJson(res,200,ANALYTICS_REVIEW_V2889.queue({limit:u.searchParams.get('limit')||200,includeReviewed:!v2872Bool(u.searchParams.get('unreviewed')||''),qualifyingOnly:v2872Bool(u.searchParams.get('qualifying')||''),filter:u.searchParams.get('filter')||'',order:u.searchParams.get('order')||''}));
+      return sendJson(res,200,ANALYTICS_REVIEW_V2889.queue({limit:u.searchParams.get('limit')||200,includeReviewed:!v2872Bool(u.searchParams.get('unreviewed')||''),qualifyingOnly:v2872Bool(u.searchParams.get('qualifying')||''),includeArchived:v2872Bool(u.searchParams.get('archived')||''),filter:u.searchParams.get('filter')||'',order:u.searchParams.get('order')||''}));
     }
     if(u.pathname==='/analytics/export'){
       if(!v2872AnalyticsAccess(req,res,u))return;
