@@ -1,4 +1,6 @@
-// BM_BE_AIV_v2923_RTS: adds selectable test-round review views and preserves each round, including empty rounds, over verified v2922.
+// BM_BE_AIV_v2924_VBR: rejects video files at the AI Creation endpoint before any AI-detection provider call and returns the platform-data explanation; preserves all verified v2923 behavior.
+// AI_CREATION_VIDEO_BLOCK_AND_REASON_V2924
+// BM_BE_AIV_v2924_RTS: adds selectable test-round review views and preserves each round, including empty rounds, over verified v2922.
 // BM_BE_AIV_v2922_PSF: paid-testing sample discovery, optional overall tester feedback, and non-destructive review-round archiving over verified v2921.
 // BM_BE_AIV_v2922_PTF: paid-tester response rating and comment storage over verified v2920. Adds tester-owned Acceptable, Needs Improvement, and Incorrect feedback with optional comments, automatically flags non-acceptable ratings for review, exposes rating filters in the review queue, and preserves all verified v2920 analysis, source, sign-in, media, cache, and rendering behavior.
 // PAID_TESTER_FEEDBACK_STORAGE_V2921
@@ -455,7 +457,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v2923';
+const VERSION = 'BE_AIV_v2924';
 const PORT = Number(process.env.PORT || 3000);
 const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
   try{
@@ -24800,7 +24802,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v2923'
+  currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -24983,7 +24985,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v2923'
+  currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -24999,7 +25001,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v2923'
+  currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -25044,7 +25046,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v2923'
+  currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -25299,7 +25301,7 @@ const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v2923'
+  currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -25313,7 +25315,7 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v2923'
+  currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
@@ -25340,7 +25342,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v2923'
+  currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -25350,7 +25352,7 @@ if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnostics
 
 
 const YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2923',
+  currentVersion:VERSION==='BE_AIV_v2924',
   resolverAvailable:typeof resolveYouTubeTitleV2917==='function',
   titleFallbackAvailable:typeof openAIVideoTitleLookupV2917==='function',
   exactTitleVerifierAvailable:typeof openAIVideoTitleClaimLiveVerification==='function',
@@ -25821,7 +25823,7 @@ function v2875TesterUsageSummary(events){
 
 v2875InitializeTesterStorage();
 const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2923',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  currentVersion:VERSION==='BE_AIV_v2924',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
   pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function'
 });
 if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.storageReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.accountFileExists||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionSecretReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.pinHashingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionValidationAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.analyticsLinkingAvailable){
@@ -25830,7 +25832,7 @@ if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BET
 
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2923'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2924'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -25882,6 +25884,13 @@ async function v2885HandleReviewUpdate(req,res,u){
 }
 
 
+const V2924_AI_VIDEO_BLOCK_MESSAGE='Video files are not a valid input for AI Creation checks. Reliable analysis requires the original media and provenance data that platforms often restrict access to. Platforms should provide that data to qualified verification tools, analyze the content themselves, or require verification before allowing it to be distributed.';
+function v2924AiMediaIsVideo(body){
+  const mime=clean(body&&body.mimeType||'').toLowerCase();
+  const filename=clean(body&&body.filename||'').toLowerCase();
+  return mime.indexOf('video/')===0||/\.(?:mp4|m4v|mov|avi|wmv|flv|webm|mkv|mpeg|mpg|3gp|3g2|ogv|ts|mts|m2ts)$/i.test(filename);
+}
+
 async function v2878HandleAiMediaScan(req,res){
   if(req.method!=='POST')return sendJson(res,405,{ok:false,error:'Method not allowed.'});
   const tester=v2875RequireTester(req,res);if(!tester)return;
@@ -25891,6 +25900,10 @@ async function v2878HandleAiMediaScan(req,res){
     let body;
     try{
       body=await v2875ReadJsonBody(req,12*1024*1024);
+      if(v2924AiMediaIsVideo(body)){
+        const analyticsEvent=ANALYTICS_REVIEW_V2889.recordScanEvent({req:req,input:'AI media detection scan: '+clean(body&&body.filename||'uploaded-video'),body:'',durationMs:Date.now()-startedAt,testerId:tester.id,testerName:tester.name,frontendVersion:frontendVersion,route:'ai-detection/media/video-blocked-v2924',errorType:'VIDEO_INPUT_BLOCKED',mediaFilename:body&&body.filename||''});
+        return sendJson(res,415,{ok:false,error:V2924_AI_VIDEO_BLOCK_MESSAGE,backendVersion:VERSION,analyticsEventId:analyticsEvent&&analyticsEvent.eventId||''},analyticsEvent&&analyticsEvent.eventId?{'x-aiv-scan-event':analyticsEvent.eventId}:{});
+      }
       const result=await AI_DETECTION_COORDINATOR_V2904.analyzeMedia(body);
       const analyticsContract={
         route:'ai-detection/media/v2889',classification:'AI MEDIA DETECTION',analysisResult:result.status,status:'ANSWERED',answer:result.answer,explanation:result.explanation,
@@ -26068,7 +26081,7 @@ async function v2885PreflightUnclearInput(input,requestState){
   return v2885UnclearInputGuidanceBody(raw,interpretation);
 }
 const UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2923',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
+  currentVersion:VERSION==='BE_AIV_v2924',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
 });
 if(!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.currentVersion||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.candidateDetectorAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.interpreterAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.friendlyFallbackAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.preflightAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionCacheReady||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionKeyAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.requestBindingAvailable){
   throw new Error('UNCERTAIN_INPUT_CLARIFICATION_AND_FRIENDLY_RETRY_V2885 startup validation failed');

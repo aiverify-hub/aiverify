@@ -1,3 +1,5 @@
+<!-- BM_FE_AIV_v2274_VBR: blocks video files in the AI Creation check before file reading or provider submission and explains why reliable video verification requires original media and provenance access; preserves all verified v2273 behavior. -->
+<!-- AI_CREATION_VIDEO_BLOCK_AND_REASON_V2274 -->
 <!-- BM_FE_AIV_v2273_OFR: keeps one editable overall-feedback submission per tester per test round, with later saves updating the same round entry while preserving prior rounds over verified v2272. -->
 <!-- OVERALL_FEEDBACK_ONE_PER_ROUND_V2273 -->
 <!-- BM_FE_AIV_v2272_RFL: preserves direct test-round filtering and repairs older feedback labels in All Test Rounds by resolving each stored round ID to its actual round name over verified v2271. -->
@@ -758,7 +760,7 @@ body.aivAuthLocked{overflow:hidden!important}
     <div class="aivAuthNotice"><strong>Beta use notice:</strong> AIVerify pays for some current-information, webpage, video, and media scans. Please use these scan types thoughtfully during beta. You will not be charged.</div>
   </div>
 </div>
-<div class="version" id="versionBadge">frontend v2273</div>
+<div class="version" id="versionBadge">frontend v2274</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
@@ -829,7 +831,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2273";
+  const FRONTEND_VERSION="frontend v2274";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
 
@@ -5731,7 +5733,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 
 
   const AI_MEDIA_MAX_BYTES=8*1024*1024;
+  const AI_VIDEO_BLOCK_MESSAGE='Video files are not a valid input for AI Creation checks. Reliable analysis requires the original media and provenance data that platforms often restrict access to. Platforms should provide that data to qualified verification tools, analyze the content themselves, or require verification before allowing it to be distributed.';
   function aivAiNode(id){return document.getElementById(id);}
+  function aivAiMediaIsVideo(file){
+    if(!file)return false;
+    const mime=String(file.type||'').trim().toLowerCase();
+    const name=String(file.name||'').trim().toLowerCase();
+    return mime.indexOf('video/')===0||/\.(?:mp4|m4v|mov|avi|wmv|flv|webm|mkv|mpeg|mpg|3gp|3g2|ogv|ts|mts|m2ts)$/i.test(name);
+  }
   function aivSetAiMediaResult(title,detail,state,facts){
     const node=aivAiNode('aiMediaResult');if(!node)return;
     node.className='aiMediaResult'+(state?' '+state:'');
@@ -5765,6 +5774,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const inputNode=aivAiNode('aiMediaFile');
     const file=inputNode&&inputNode.files&&inputNode.files[0];
     if(!file){aivSetAiMediaResult('Choose a file','Select an image or audio file first.','isError',[]);return;}
+    if(aivAiMediaIsVideo(file)){if(inputNode)inputNode.value='';aivSetAiMediaResult('Video files are not supported',AI_VIDEO_BLOCK_MESSAGE,'isError',[]);return;}
     if(file.size>AI_MEDIA_MAX_BYTES){aivSetAiMediaResult('File is too large','This beta stage accepts files up to 8 MB.','isError',[]);return;}
     const button=aivAiNode('aiMediaButton');if(button){button.disabled=true;button.textContent='Checking…';}
     aivSetAiMediaResult('Checking media','The file is being checked in memory. It is not saved by this build.','',[]);
@@ -5835,6 +5845,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(aiMediaFileNode)aiMediaFileNode.addEventListener('change',function(){
       const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}
       const selected=aiMediaFileNode.files&&aiMediaFileNode.files[0];
+      if(aivAiMediaIsVideo(selected)){aiMediaFileNode.value='';aivSetAiMediaResult('Video files are not supported',AI_VIDEO_BLOCK_MESSAGE,'isError',[]);return;}
       aivSetAiMediaResult('Results',selected?String(selected.name||'Selected media file'):'',selected?'':'emptyAiResult',[]);
     });
     window.addEventListener('focus',function(){refreshTopRightBackendVersion();});
