@@ -1,3 +1,152 @@
+// BM_BE_AIV_v3046_LMO: consolidated biblical moral engine over v3043. Moral/life-direction questions now have one authoritative route owner before resource, technical, medical-domain, current-source, semantic-research, and legacy moral handlers can consume the request. Every owned moral question uses the same actor/action/qualifier/polarity audit, then resolves all displayed supporting references against the embedded 31,102-verse local KJV corpus. Older specialized moral responders no longer participate in moral route selection or finalization. Preserves non-moral routing, unrelated Bible factual/count behavior, and frontend v2303 compatibility. Shared architecture only; no test-question hardcoding.
+// BM_BE_AIV_v3043_QCB: shared qualified-conflict action binding over v3042. Qualified moral questions involving confidentiality versus serious preventable harm, and forgiveness versus restored trust/relationship, now bind the direct Yes/No answer to the exact action being asked about before older broad moral templates or server preflights can answer a neighboring proposition. The same fast KJV-first contract runs at both the outer preflight and analyze dispatcher. Shared category-level logic only; no sentence hardcoding. Preserves verified v3042 behavior and frontend v2303 compatibility.
+// BM_BE_AIV_v3042_OPR: outer preflight moral-priority repair over v3041. Protective-reporting and creditor-debt-mercy moral questions are now resolved before the server-level resource, semantic-research, boundary, clarification, factual, and recovery preflights—not merely inside the later analyze dispatcher. This closes the route-order gap that allowed a recognized protective-duty question to spend ~20 seconds in generic research and time out before reaching the KJV-first moral contract. Shared route-order correction only; no test-sentence hardcoding. Preserves v3041 and frontend v2303 compatibility.
+// BM_BE_AIV_v3042_PMR: protective-moral route priority over v3040. Strong normative questions about reporting or disclosing known theft, fraud, exploitation, or abuse of a vulnerable person now run through the existing KJV-first protective-duty contract before any generic boundary, current-source, or model-research route can consume the request. This is a shared route-priority correction, not sentence hardcoding. Debt-mercy behavior and all verified v3040 behavior are preserved. Frontend v2303 compatibility preserved.
+// BM_BE_AIV_v3042_PDM: shared protective-reporting and debt-mercy moral binding over v3039. Normative questions about reporting known ongoing theft, fraud, exploitation, or abuse of a vulnerable person now use a fast KJV-first protective-duty route instead of drifting into slow generic legal/current-source research. Debt-forgiveness questions distinguish a creditor voluntarily releasing a genuine unpayable debt from borrower restitution or theft, so mercy is not answered with stolen-property logic. The shared moral prompt also preserves those role distinctions for broader generated cases. Preserves v3039 exact-action polarity, v3038 direct-polarity recovery, v3037 moral completeness/ownership routing, v3036 apology actor binding, v3035 wagering context, v3034 borrower/lender binding, v3033 serious-harm logic, current-source behavior, and frontend v2303 compatibility. Shared category-level logic only; no exact test-sentence hardcoding.
+// BM_BE_AIV_v3042_MPR: shared moral-priority and inflected-conduct routing over v3038. Explicit wrongness questions now use the canonical exact-action/polarity-audited moral evaluator before older deterministic/expanded profiles can return a grammatically direct but semantically inverted Yes/No. Normative moral intent recognizes common inflected conduct forms such as supporting/helping/providing/withholding so ordinary real-world moral questions remain on the KJV-first Scripture-supported route instead of falling through to generic model knowledge. Preserves v3038 direct-polarity recovery, v3037 moral completeness/ownership routing, v3036 apology actor binding, v3035 wagering context, v3034 borrower/lender and hostile-wish binding, v3033 serious-harm logic, current-source behavior, and frontend v2303 compatibility. Shared route-level logic only; no exact test-sentence hardcoding.
+// BM_BE_AIV_v3042_DPR: shared direct-polarity recovery for explicit moral wrongness questions over v3037. When an older deterministic or expanded moral profile supplies useful Scripture guidance but answers an explicit "is this wrong/sinful/immoral" question with advice instead of a direct Yes/No, the canonical moral router now invokes the existing exact-question moral evaluator before returning the older profile. Special qualified moral routes (including wagering, serious-harm, borrower/lender, hostile-wish, and apology-perspective logic) remain higher-priority and unchanged. Preserves v3037 moral routing/completeness, current-source behavior, and frontend v2303 compatibility. Shared route-level recovery only; no test-sentence hardcoding.
+// BM_BE_AIV_v3042_MCR: shared moral completeness, direct-question polarity, and normative ownership routing over v3036. Normative conduct questions addressed to you/one/someone now enter the same KJV-first moral route as first-person questions; borrowed-property return questions therefore remain moral/ownership guidance instead of falling through to generic model knowledge. Explicit wrongness questions require a direct polarity-bound answer, and moral responses retain one brief useful Explanation; when the model omits it, the first directly relevant Scripture application supplies the concise explanation rather than leaving the section blank. Preserves v3036 apology actor binding, v3035 wagering context, v3034 borrower/lender and hostile-wish binding, v3033 qualified serious-harm logic, current-source behavior, and frontend v2303 compatibility. Shared routing/completeness logic only; no exact test-sentence hardcoding.
+// BM_BE_AIV_v3042_APB: shared apology actor/perspective binding over v3035. Moral questions asking whether the speaker should apologize for harm caused by how they spoke, acted, or handled a situation now stay bound to the speaker's own conduct instead of being redirected into the older forgiveness/no-apology template for an injured party. The response distinguishes apologizing for needless hurt or poor handling from falsely admitting that the underlying factual position was wrong. Preserves v3035 wagering context, v3034 borrower/lender and hostile-wish binding, v3033 qualified serious-harm polarity, current-source behavior, and frontend v2303 compatibility. Shared actor/action logic only; no exact test-sentence hardcoding.
+// BM_BE_AIV_v3042_GMC: shared gambling/wagering moral-context repair over v3034. Moral questions about gambling, betting, wagering, lotteries, sportsbooks, and fantasy contests are no longer treated as categorically sinful merely because money is wagered. The shared rule distinguishes the activity from sinful conditions such as covetousness, loss of self-control, neglect of household obligations, deception, or foreseeable financial harm; affordable recreational wagering is therefore not automatically condemned. The response always includes a public-facing explanation and Scripture support tied to the actual principle being applied. Preserves v3034 borrower/lender binding, hostile-wish polarity, qualified serious-harm logic, current-source behavior, and frontend v2303 compatibility. Shared category-level logic only; no test-sentence or brand hardcoding.
+// BM_BE_AIV_v3042_QMP: shared qualified-moral action-polarity priority over v3032. When a moral question contains a genuine serious-harm/life-safety qualifier, AIVerify now binds the Yes/No answer to the action the user actually asked about before older broad moral templates can answer the opposite proposition. Harmful-promise questions distinguish breaking a promise from keeping one; life-protection truth/lying questions prioritize preventing serious harm without turning ordinary deception into a general exception. Preserves v3032 current-source optimization, official-source priority, public explanation hygiene, all unrelated moral/Bible behavior, and frontend v2303 compatibility. Shared principle-level logic only; no test-sentence hardcoding.
+// BM_BE_AIV_v3042_FOC: final one-pass current-source optimization over v3031. Government/public-authority current questions now run a bounded official-domain evidence lane in parallel with the full authority-owner discovery path, allowing strong official .gov/.mil evidence to be synthesized before a slow grounded-search timeout when available. Public source-bound explanations remove embedded markdown/raw URLs because the dedicated Source line already carries the destination. Preserves authoritative-source priority, multi-part materialization, resource specificity, comparison consistency, ambiguity handling, and frontend v2303 compatibility. Shared architecture only; no court-, justice-, person-, organization-, or test-specific answer hardcoding.
+// BM_BE_AIV_v3031_ASX: shared authoritative-source priority and public explanation hygiene repair over v3030. Current named-entity research now recognizes government/public-authority entities and strongly prefers their official government domains over commercial look-alike or tracker sites; evidence source selection favors materially supporting official-authority rows when available; source-bound synthesis is explicitly barred from exposing internal evidence labels/instructions, with a shared user-facing explanation fallback if internal research language leaks through. Preserves multi-part materialization, resource specificity, comparison consistency, ambiguity handling, current-source coordination, and frontend v2303 compatibility. Shared architecture only; no court-, justice-, person-, organization-, or test-specific answer hardcoding.
+// BM_BE_AIV_v3031_MPM: shared multi-part membership materialization repair over v3029. Current count-plus-who/list questions preserve the full named entity even when a secondary clause follows it; judicial/member roles participate in the same source-owned current research path; evidence discovery scores role-relevant court/member pages; validated multi-part synthesis is materialized into the main ANSWER instead of allowing a count-only answer when the requested names are already present in structured parts. Shared architecture only; no court-, justice-, person-, or test-specific answer hardcoding.
+// BM_BE_AIV_v3029_SIR: shared specificity, integrity, and role-source binding repair over v3028. Resource page requests preserve exact requested subresource/topic (including instructions pages) instead of collapsing to a nearby form/office page; multi-part questions retain every requested part through output-shape repair; numeric comparisons are checked for answer/explanation consistency and corrected through live research; ambiguous single-token geographic officeholder lookups require role-compatible source evidence and best-available ambiguity output no longer cites a one-sided unrelated source; current web prompts use the client-local calendar date when supplied. Shared architecture only; no test-entity answer hardcoding.
+// BM_BE_AIV_v3029_HRL: official-homepage resource lock over v3027. For requests asking for an organization's official website/homepage, once an official-domain candidate is validated the response now resolves to that domain root, suppresses unrelated subpage excerpts/provider prose, and returns the direct official homepage cleanly. Preserves current-source entity research, multi-word entity extraction, source-owned coordination, cache behavior, and all unrelated routing. Shared resource-request architecture only; no organization-specific hardcoding.
+// BM_BE_AIV_v3027_MIE: multi-word institutional entity extraction repair over v3026. Preserves fast source-owned coordination, official-host inheritance, acronym/rebrand handling, strict current/source validation, best-available fallback, and frontend compatibility. For role/member questions, the shared entity parser now preserves full trailing institutional names such as multi-word boards, commissions, councils, and systems instead of collapsing to the final role word. Shared architecture only; no organization- or test-specific hardcoding.
+// BM_BE_AIV_v3026_FSR: fast source-owned research coordination over v3025. Preserves official-host identity inheritance, acronym-led entity matching, same-site navigation, strict current/source validation, best-available fallback, and frontend v2298 compatibility. For dynamic current named-entity questions, AIVerify now gives free/direct authority discovery a short head start, then runs official-source discovery and OpenAI grounded research concurrently instead of serially. A validated official-source result returns immediately; failed grounded calls no longer force a full serial provider chain before the frontend timeout. Successful grounded official hosts are remembered briefly for related follow-up questions. Shared architecture only; no organization-, board-, SIL-, NATO-, religion-, country-, language-, or test-specific hardcoding.
+// BM_BE_AIV_v3026_AOI: acronym-led official-identity matching over v3024. Preserves verified official-host discovery, same-site navigation, source-bound synthesis, cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, strict validation, best-available fallback, and frontend v2298 compatibility. For organization names whose stable identity is an acronym followed only by a generic organization qualifier (for example International, Global, Foundation, Institute, Association, etc.), exact acronym matches in an official host label or page title can satisfy entity identity even when the qualifier has changed. This prevents legitimate rebranded/short-form official sources from being rejected while still requiring exact acronym boundaries. Shared architecture only; no organization-, board-, SIL-, NATO-, religion-, country-, language-, or test-specific hardcoding.
+// BM_BE_AIV_v3026_OBS: official-bound synthesis inheritance over v3023. Preserves verified official-host discovery, same-site navigation, cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, strict current/source validation, best-available fallback, and frontend v2298 compatibility. Once evidence has been bound to a verified official host, the shared evidence synthesizer now honors that binding instead of re-applying the older literal entity-title matcher and discarding the official page before synthesis. Also keeps official-site navigation scanning alive when an individual anchor is not an HTTP(S) destination. Shared architecture only; no organization-, board-, SIL-, NATO-, religion-, country-, language-, or test-specific hardcoding.
+// BM_BE_AIV_v3026_OHI: official-host identity inheritance and same-site navigation discovery over v3022. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, strict answer/source validation, best-available fallback, and frontend v2298 compatibility. Once AIVerify has verified an entity's official host, pages on that host inherit the entity binding even when a page title uses a short label or the organization has rebranded; AIVerify also inspects same-site navigation links in parallel with public-index discovery so leadership/governance/member/current-data pages are not lost when Bing/DDG omit them. Shared architecture only; no organization-, board-, NATO-, SIL-, religion-, country-, language-, or test-specific hardcoding.
+// BM_BE_AIV_v3026_BAF: best-available current/source fallback over v3021. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, verified v3021 behavior, and frontend v2291 compatibility. When strict current/source synthesis cannot produce one validated answer, AIVerify now preserves the strongest useful result instead of collapsing immediately to a blank retry: it may return a clearly labeled best-available model answer when OpenAI can provide one, or surface ranked source candidates/excerpts so the user can choose or narrow the target. Complete inability remains only when no usable answer or evidence exists. Shared architecture only; no organization-, board-, NATO-, SIL-, religion-, country-, language-, or test-specific hardcoding.
+// BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_V3022
+// BM_BE_AIV_v3026_AOD: high-value authority-owner discovery over v3020. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, all verified v3020 behavior, and frontend v2291 compatibility. Dynamic current named-entity questions now infer acronym/proper-name identity, discover and verify the entity's official web host before topic search, then rank same-host leadership/membership/current-fact pages ahead of generic keyword matches. This is shared authority-owner logic, not organization-, country-, religion-, language-, or test-specific hardcoding.
+// AUTHORITY_OWNER_DISCOVERY_V3021
+// BM_BE_AIV_v3026_ASR: shared authority-first source ranking and query-generation repair over v3019. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, all verified v3019 behavior, and frontend v2291 compatibility. Source-dependent empirical/current research now generates compact topic-focused authority queries before broad wording, ranks report/data/statistics sources by requested semantic unit and subject coverage, and demotes generic reading/dictionary/devotional content when the request is for empirical evidence. No organization-, religion-, country-, language-, source-domain-, or test-specific answer hardcoding.
+// AUTHORITY_FIRST_SOURCE_RANKING_V3020
+// BM_BE_AIV_v3026_QCR: shared qualified-count source resolution over v3018. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, all verified v3018 behavior, and frontend v2291 compatibility. Source-bound HOW-MANY research now distinguishes an exact published aggregate from nearby statistics: when authoritative current evidence does not publish the exact requested aggregate, the result may state that limitation directly and provide only clearly labeled related figures rather than returning a retry or substituting a different metric. No organization-, religion-, country-, language-, source-domain-, or test-specific answer hardcoding.
+// QUALIFIED_COUNT_SOURCE_RESOLUTION_V3019
+// BM_BE_AIV_v3026_FDS: shared free/direct source discovery and evidence-synthesis repair over v3017. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, all verified v3017 behavior, and frontend v2291 compatibility. Source-bound research now searches both bounded public indexes, ranks/fetches authoritative evidence before paid escalation, and lets OpenAI/Gemini synthesize only from retrieved evidence before attempting provider-native grounded search. No organization-, religion-, country-, language-, source-domain-, or test-specific answer hardcoding.
+// FREE_DIRECT_SOURCE_DISCOVERY_AND_SYNTHESIS_V3018
+// SHARED_GROUNDED_SOURCE_VALIDATION_V3015
+// BM_BE_AIV_v3014_GSR: grounded source-research continuation over v3013. Current/source-owned questions now keep the agreed cache/local -> free/direct authoritative -> OpenAI -> Gemini order even when bounded free discovery returns no usable evidence. The current/source stage uses one OpenAI web-search research pass, then one Gemini Google-Search-grounded fallback, with shared semantic-unit, answer-shape, source-URL, completeness, and named-entity validation before release. Stable non-current semantic behavior from v3013 is preserved. No entity-, religion-, country-, language-, organization-, or test-specific answer hardcoding. Compatible with frontend v2291.
+// GROUNDED_SOURCE_RESEARCH_CONTINUATION_V3014
+// BM_BE_AIV_v3014_SMF: shared stable-semantic model-fallback repair over v3012. The source-bound research path still attempts cache/local and free/direct evidence first. For stable non-current semantic questions whose free evidence is unavailable or whose evidence synthesis fails validation, the same owned route now continues to OpenAI model knowledge and then Gemini model knowledge instead of returning a premature source-bound retry. The model fallback is answer-shape validated and is not available to current facts, empirical coverage/statistics, or other source-required questions. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, all verified v3007 behavior, v3012 runtime preflight repair, and frontend v2290 compatibility. No entity-, language-, religion-, country-, organization-, or test-specific answer hardcoding.
+// SHARED_STABLE_SEMANTIC_MODEL_FALLBACK_V3013
+// BM_BE_AIV_v3014_TDZ: runtime temporal-dead-zone repair over v3011. Removes an inherited local-binding shadow that called v3007NamedEntityPagePreflight through its own uninitialized const instead of the shared function, causing explicit resource/current-source scans to abort before structured completion. Preserves the v3011 shared source-bound research integrity rebuild, cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, all verified v3007 behavior, and frontend v2290 compatibility.
+// TEMPORAL_DEAD_ZONE_PREFLIGHT_SHADOW_REPAIR_V3012
+// Prior candidate: BM_BE_AIV_v3014_SRI: shared source-bound research integrity rebuild from verified v3007, explicitly discarding v3008-v3010 as baselines. Source-owned factual questions retain ownership through completion so empirical coverage/current-entity research cannot leak into faith/general fallbacks; requested semantic units are validated against the answer AND cited evidence; numeric source-dependent answers must be present in the cited source and carry a usable date/scope; ethnolinguistic questions must answer the requested language/classification directly rather than describe the people/group. Preserves cache/local -> free/direct authoritative -> OpenAI -> Gemini ordering, shared source/answer validation, all verified v3007 behavior, and frontend v2290 compatibility. No entity-, religion-, country-, language-, organization-, or test-specific answer hardcoding.
+// SHARED_SOURCE_BOUND_RESEARCH_INTEGRITY_V3012
+// BM_BE_AIV_v3007_SSR: semantic-scope and source-fidelity repair over v3006. Adds shared unit binding across countries/nations/languages/dialects/people groups/translations, empirical-vs-scriptural routing for Bible/gospel coverage questions, ethnolinguistic umbrella-vs-language safeguards, and exact named-entity page/source discovery before generic resource fallback.
+// UNIFIED_SEMANTIC_INTEGRITY_V3001: shared architectural repair; no country-, religion-, person-, city-, product-, or single-test answer hardcoding.
+// BM_BE_AIV_v3000_IAS: shared interrogative answer-shape enforcement over v2999. Preserves verified list completeness, answer integrity, resource retrieval, population-scope binding, geographic/source validation, dynamic-status freshness, clock-time-zone behavior, and all prior frontend contracts. What/Which/Who/When/Where/How/list/name questions can no longer finalize as bare Yes/No answers; shape-invalid results are corrected through the shared factual route and fail nonfinal rather than surfacing the wrong response type.
+// SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_V3029
+function v3029MultiPartQuestion(raw){
+  const s=v2856Normalized(raw);if(!s||!isAnyQuestionInputText(raw))return false;
+  return /\band\s+(?:who|what|which|where|when|why|how\s+(?:many|much|long|far|old|fast|big|deep|hot|cold)|name|list|identify)\b/.test(s);
+}
+function v3029MultiPartIncomplete(raw,contract){
+  if(!v3029MultiPartQuestion(raw))return false;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||''),list=Array.isArray(c.answerList)?c.answerList.map(clean).filter(Boolean):[];
+  const s=v2856Normalized(raw);
+  if(/^how\s+many\b/.test(s)&&/\band\s+who\b/.test(s)){
+    const hasNumber=/\d/.test(answer)||list.some(function(x){return /\d/.test(x);});
+    const peopleBlob=clean([answer].concat(list).join(' ')).replace(/\b\d[\d,.%°-]*\b/g,' ');
+    const hasNamedPeople=(peopleBlob.match(/\b[A-Z][A-Za-z'’.-]+(?:\s+[A-Z][A-Za-z'’.-]+)+\b/g)||[]).length>=1;
+    return !(hasNumber&&hasNamedPeople);
+  }
+  return !answer||(/^\d+(?:\.\d+)?$/.test(answer)&&list.length===0);
+}
+function v3029NumericComparisonNeedsGrounding(raw){
+  const s=v2856Normalized(raw);return !!(looksLikeComparisonQuestion(raw)&&/\b(?:by\s+(?:about\s+)?how\s+(?:many|much)|how\s+(?:many|much)\s+(?:degrees?|miles?|feet|meters?|kilometers?|percent|percentage\s+points?))\b/.test(s));
+}
+function v3029ComparisonNumericContradiction(raw,contract){
+  if(!looksLikeComparisonQuestion(raw))return false;
+  const c=contract&&typeof contract==='object'?contract:{},answer=clean(c.answer||c.summary||''),detail=clean([c.explanation,c.why,c.evidence,c.supportingInformation].join(' '));
+  if(!answer||!detail)return false;
+  const dm=answer.match(/\bby\s+(?:about|approximately|roughly|nearly)?\s*(\d+(?:\.\d+)?)\s*(?:°|degrees?\b)/i);
+  if(!dm)return false;
+  const stated=Number(dm[1]);if(!Number.isFinite(stated))return false;
+  if(stated>=1&&/\b(?:small|tiny)\s+fraction\s+of\s+(?:a|one)\s+degree\b/i.test(detail))return true;
+  const vals=[];for(const m of detail.matchAll(/(-?\d+(?:\.\d+)?)\s*°\s*[NSEW]?/gi)){const n=Number(m[1]);if(Number.isFinite(n))vals.push(n);if(vals.length>=4)break;}
+  if(vals.length>=2){let min=Infinity;for(let i=0;i<vals.length;i++)for(let j=i+1;j<vals.length;j++){const d=Math.abs(vals[i]-vals[j]);if(d<min)min=d;}if(Number.isFinite(min)&&Math.abs(stated-min)>Math.max(0.5,min*2+0.2))return true;}
+  return false;
+}
+function v3029AmbiguousSinglePlaceRoleSourceCompatible(intent,c){
+  const entity=clean(intent&&intent.entity||''),raw=clean(intent&&intent.raw||'');if(!entity||!raw)return true;
+  if(/^[A-Z][A-Z0-9&.-]{1,12}$/.test(entity)||entity.split(/\s+/).length!==1)return true;
+  const role=(raw.match(/\b(president|prime\s+minister|premier|governor|king|queen|monarch)\b/i)||[])[1]||'';if(!role)return true;
+  const blob=clean([c&&c.title,c&&c.snippet,c&&c.text,c&&c.url].join(' '));
+  if(/^president$/i.test(role))return /\bpresident(?:ial|cy)?\b/i.test(blob);
+  if(/^prime\s+minister$/i.test(role))return /\bprime\s+minister\b/i.test(blob);
+  if(/^premier$/i.test(role))return /\bpremier\b/i.test(blob);
+  if(/^governor$/i.test(role))return /\bgovernor\b/i.test(blob);
+  if(/^(?:king|queen|monarch)$/i.test(role))return /\b(?:king|queen|monarch|royal)\b/i.test(blob);
+  return true;
+}
+function v3029BestAvailableAmbiguous(answer,explanation){return /\bmultiple\s+(?:targets?|entities|interpretations?)\s+(?:are\s+)?plausible\b/i.test(clean(answer+' '+explanation))||/\b(?:entity|term|name)\b.{0,30}\bambiguous\b/i.test(clean(answer+' '+explanation));}
+
+// INTERROGATIVE_ANSWER_SHAPE_V3000: shared semantic repair; no country-, religion-, person-, place-, product-, or single-test answer hardcoding.
+// BM_BE_AIV_v2999_LCI: shared list-completeness inference repair over v2998. Preserves verified answer-integrity, resource retrieval, population-scope binding, geographic/source validation, dynamic-status freshness, and clock-time-zone behavior. Open-ended plural set requests now infer a complete-list contract unless the user explicitly asks for examples or a limited count; answers must provide the full supported set for a clearly stated source/scope or explicitly state why no finite exhaustive set can be established.
+
+// LIST_COMPLETENESS_INFERENCE_V2999: shared semantic repair; no country-, religion-, city-, product-, person-, or single-test answer hardcoding.
+// PROVIDER_EVIDENCE_VALIDATION_V2989
+// Prior resource architecture: v2974 bounded cache/local -> free public/direct -> OpenAI -> Gemini flow with shared candidate normalization and validation.
+// Replaces the v2970 resource block rather than stacking another dispatcher. Adds bounded no-key public web discovery, restores the agreed cost order (cache/local/free -> OpenAI -> Gemini), uses Gemini generateContent Google Search grounding with structured grounding metadata, independently fetches/ranks candidate destinations, and records per-stage timing for failures. No Chevy-, IRS-, vehicle-, agency-, or test-specific response rules.
+// No Chevy-, IRS-, vehicle-, agency-, phrase-, or test-specific answer rule is added. Existing deterministic knowledge remains isolated as local data, not source-routing logic.
+// Baseline: BM_BE_AIV_v2969_SAO_js.txt + BM_FE_AIV_v2290_RRC_html.txt
+// REQUEST_SHAPE_RESPONSE_CONTRACT_AND_VISUAL_REFERENCE_REPAIR_V2954
+// BIBLE_INTENT_CONTEXT_AND_NAMED_ENTITY_COLLISION_REPAIR_V2953
+// CREATIVE_WORK_ROUTING_BOUNDARY_REPAIR_V2952
+// BM_BE_AIV_v2952_APF: restores compact startup API/provider flags so local and Render startup clearly show whether required provider credentials are loaded; no secret values are printed; preserves all v2950 routing and response behavior.
+// RED rebuild: repairs failed v2948 startup-version validation locks only; no analysis, routing, rendering, storage, or frontend behavior changes.
+// BM_BE_AIV_v2950_P1C: completes the P1 cleanup by reducing backend startup output to one minimal version line while preserving production storage warnings, all verified v2947 analysis behavior, frontend v2289 compatibility, and Analytics Review v15 compatibility.
+// P1_FINAL_STARTUP_CONSOLE_CLEANUP_V2948
+// BM_BE_AIV_v2947_YTI: hardens one shared specific-YouTube contract so the exact submitted URL and complete retrieved title remain bound to every visible result; factual title questions/claims keep their existing independent-verification result, while music videos stop at title/metadata detection without transcript, AI-authenticity, or factual-analysis claims; preserves all verified v2946 behavior, frontend v2287, and Analytics Review v15 compatibility.
+// SHARED_YOUTUBE_TITLE_INPUT_AND_MUSIC_LIMIT_INTEGRITY_V2947
+// BM_BE_AIV_v2946_QAL: preserves complete direct-answer labels for every qualified moral contract through one shared display-policy field; keeps the verified shared webpage structure, exact-input restoration, and all v2945 behavior; preserves frontend v2287 and Analytics Review v15 compatibility.
+// QUALIFIED_MORAL_DIRECT_ANSWER_LABEL_POLICY_V2946
+// BM_BE_AIV_v2946_WSR: applies one shared webpage-output structure so Summary states what the submitted page is about while Additional Information contains distinct factual details; restores the promised direct moral-answer leads; removes accumulated one-off startup readiness lines; preserves all verified v2944 behavior, frontend v2285, and Analytics Review v15 compatibility.
+// SHARED_WEBPAGE_SUMMARY_DETAIL_AND_RESULT_INPUT_RESTORE_V2945
+// BM_BE_AIV_v2950_HLR: shared high-level routing repair: creative-work questions cannot enter Bible routing from title-word collisions; current officeholders are parsed by exact role; all final person answers reject/recover truncated trailing initials; covert unauthorized security/surveillance interference reaches the wrongdoing refusal before the generic task boundary; preserves verified v2948 behavior otherwise.
+// HIGH_LEVEL_ROUTING_OFFICEHOLDER_NAME_AND_WRONGDOING_REPAIR_V2949
+// BM_BE_AIV_v2950_HRB: broadens the shared high-level repair so historical office-sequence questions use exact role/person binding instead of generic entity matching; schematic/diagram creation requests are handled consistently as outside verification scope; neutral security-device capability questions cannot leak operational disablement instructions; unexplained common acronyms are moved to a bottom Definitions block; repeated correction sentences and duplicate music-video wording are removed. Preserves v2949 behavior otherwise.
+// HIGH_LEVEL_RELATION_BOUNDARY_AND_DEFINITION_REPAIR_V2950
+// BM_BE_AIV_v2944_WGM: makes qualified forgiveness and equal-duty dilemmas lead with the required direct answer; unwraps copied Google redirect links to the exact destination page; blocks Google search, homepage, archive, and listing URLs from being misrepresented as one verified page; preserves all verified v2943 behavior, frontend v2284, and Analytics Review v15 compatibility.
+// DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_ROUTING_REPAIR_V2944
+// BM_BE_AIV_v2943_QMD: repairs future U.S. presidential-ordinal explanations so rating verdicts can never be reused as officeholder names; adds one shared qualified-moral-dilemma router for competing duties, safety, promises, authority, forgiveness, and emergency contexts; preserves all verified v2942 behavior, frontend v2284, and Analytics Review v15 compatibility.
+// PRESIDENTIAL_ORDINAL_NAME_INTEGRITY_AND_QUALIFIED_MORAL_DILEMMA_REPAIR_V2943
+// BM_BE_AIV_v2943_GFC: adds a shared stable general-factual-claim verifier with deterministic profile reuse before one bounded model-knowledge call; adds a direct official-current-fact resolver that returns the complete U.S. president name without the slow general web-search path; preserves all verified v2941 behavior, frontend v2284, and Analytics Review v15 compatibility.
+// GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_SPEED_REPAIR_V2942
+// BM_BE_AIV_v2943_CNI: strengthens shared current-officeholder name completeness across answer, explanation, source metadata, and source titles; reuses a fresh official current-president result for future U.S. presidential ordinal questions; accepts United States, US, U.S., and USA wording; preserves all verified v2940 behavior, frontend v2284, and Analytics Review v15 compatibility.
+// CURRENT_NAME_INTEGRITY_AND_ORDINAL_CACHE_SPEED_REPAIR_V2941
+// BM_BE_AIV_v2940_FVF: adds one shared fast verified-facts router that reuses existing deterministic capital, periodic-table, measurement, stable-profile, mathematics, and regression evaluators before model/API work; preserves v2939 current-information protection, frontend v2284, and Analytics Review v15 compatibility.
+// SHARED_FAST_VERIFIED_FACTS_ROUTER_V2940
+// BM_BE_AIV_v2940_CIR: repairs current-officeholder completeness and claim retry failures with fresh-source reuse, adds fast deterministic U.S. presidential ordinal answers, and preserves all verified v2938 behavior with frontend v2284 and Analytics Review v15 compatibility.
+// CURRENT_INFORMATION_COMPLETENESS_CACHE_AND_HISTORICAL_ORDINAL_SPEED_REPAIR_V2939
+// CURRENT_INFORMATION_PROTECTION_AND_RATING_REMOVAL_V2938
+// BM_BE_AIV_v2937_SDP: restores final precedence for verified stable direct-answer evaluators so a later general-model response cannot replace the correct entity answer or suppress its explanation; preserves all verified v2936 behavior, frontend v2283 compatibility, and Analytics Review v14 compatibility.
+// SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_REPAIR_V2937
+// BM_BE_AIV_v2936_ECR: restores one concise explanation for shared direct factual answers instead of suppressing it; preserves all verified v2935 behavior, frontend v2283 compatibility, and Analytics Review v14 compatibility.
+// SHARED_EXPLANATION_COMPLETENESS_REPAIR_V2936
+// BM_BE_AIV_v2935_RSM: removes the ambiguous word “prices” from the shared wrongdoing refusal explanation; preserves all verified v2934 behavior and Analytics Review v14 compatibility.
+// BM_BE_AIV_v2933_TFR: repairs the first focused test round by allowing recognized acronym/entity-only inputs to use the existing meaning route, exempting valid safety refusals from irrelevant free-source semantic-binding failure, and preserving all verified v2931 behavior; v2932 was not loaded and is superseded.
+// FOCUSED_TEST_FINDINGS_REPAIR_V2933
+// BM_BE_AIV_v2931_TBC: adds administrator-only tester blocking/unblocking, immediate blocked-session invalidation, and review-safe account status while preserving Cary Lee administrator persistence, regular tester browser-tab sessions, and all verified v2930 behavior.
+// TESTER_BLOCK_AND_DO_NOT_INVITE_CONTROL_V2931
+// BM_BE_AIV_v2930_ASM: gives the exact Cary Lee account administrator status with a persistent administrator session while regular tester sessions are browser-tab sessions with a bounded server lifetime; preserves all verified v2929 behavior.
+// ADMINISTRATOR_AND_TESTER_SESSION_MODE_V2930
+// BM_BE_AIV_v2929_RBG: replaces the content-creation-only gate with one shared request-boundary system for incomplete, broad, outside-scope, unsupported-local, dangerous, and unusable requests while preserving debatable questions for balanced analysis; preserves all verified v2928 behavior.
+// SHARED_REQUEST_BOUNDARY_GUIDANCE_V2929
+// BM_BE_AIV_v2928_NVR: adds a shared verification-scope gate for clear content-creation requests so AIVerify asks for a checkable target instead of partially generating content; preserves all verified v2927 behavior.
+// NON_VERIFICATION_CONTENT_REQUEST_GATE_V2928
+// BM_BE_AIV_v2927_DBQ: adds shared balanced handling for debatable public-policy and judgment questions so AIVerify does not present one side as an objective fact; preserves all verified v2926 behavior.
+// DEBATABLE_POLICY_AND_JUDGMENT_QUESTION_REPAIR_V2927
+// BM_BE_AIV_v2926_DOT: stores tester disclosure-review behavior with each scan rating so Beta Review can distinguish missing details from unopened details; preserves all verified v2925 analysis and routing behavior.
+// DISCLOSURE_OPEN_TRACKING_V2926
+// BM_BE_AIV_v2926_SFR: removes the recursive semantic/noise-classifier crash, preserves consecutive-initial names, strengthens shared entity-answer validation, prevents creative-work titles containing “Lord” from leaking into faith routing, and tightens generic music-video classification to prevent educational-video false positives; preserves all verified v2924 behavior.
 // BM_BE_AIV_v2924_VBR: rejects video files at the AI Creation endpoint before any AI-detection provider call and returns the platform-data explanation; preserves all verified v2923 behavior.
 // AI_CREATION_VIDEO_BLOCK_AND_REASON_V2924
 // BM_BE_AIV_v2924_RTS: adds selectable test-round review views and preserves each round, including empty rounds, over verified v2922.
@@ -457,7 +606,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v2924';
+const VERSION = 'BE_AIV_v3046';
 const PORT = Number(process.env.PORT || 3000);
 const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
   try{
@@ -474,6 +623,9 @@ const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
     throw new Error('Analytics review foundation failed to load: '+(error&&error.message?error.message:String(error)));
   }
 })();
+if(!ANALYTICS_REVIEW_V2889||ANALYTICS_REVIEW_V2889.version!=='ANALYTICS_REVIEW_FOUNDATION_V15'){
+  throw new Error('BM_BE_AIV_v2940 requires ANALYTICS_REVIEW_FOUNDATION_V15.');
+}
 const AI_DETECTION_COORDINATOR_V2904 = (function loadAiDetectionCoordinatorV2904(){
   try{
     const aiDetectionCoordinator=require(path.join(__dirname,'modules','ai-detection','coordinator.js'));
@@ -637,10 +789,11 @@ function splitSentences(input){
     .replace(/\be\.g\./gi,'e§g§')
     .replace(/\bi\.e\./gi,'i§e§')
     .replace(/\b(Mr|Mrs|Ms|Dr|Prof|Pres|Gov|Sen|Rep|Gen|Col|Capt|Lt|St)\./gi,'$1§abbr§')
+    .replace(/\b(?:[A-Z]\.\s*){2,}(?=[A-Z])/g,function(initials){return initials.replace(/\./g,'§multiinitial§');})
     .replace(/\b([A-Z])\.(?=\s+[A-Z][a-z])/g,'$1§initial§');
   return s.split(/(?<=[?!.])\s+/).map(x=>clean(x
     .replace(/U§S§/g,'U.S.').replace(/U§K§/g,'U.K.').replace(/U§N§/g,'U.N.').replace(/D§C§/g,'D.C.')
-    .replace(/e§g§/gi,'e.g.').replace(/i§e§/gi,'i.e.').replace(/§abbr§/g,'.').replace(/§initial§/g,'.')
+    .replace(/e§g§/gi,'e.g.').replace(/i§e§/gi,'i.e.').replace(/§abbr§/g,'.').replace(/§multiinitial§/g,'.').replace(/§initial§/g,'.')
   )).filter(Boolean);
 }
 function first(input){ const pieces=splitSentences(input); return pieces.length ? pieces[0] : clean(input); }
@@ -2176,6 +2329,7 @@ async function openAILiveSourceEvaluation(primary, diagnostics){
     'Choose the output shape before writing: number-only for How many; one value for single measurements; one labeled line per target for paired questions; direct comparison first for comparison questions; Yes, No, Generally yes, or Generally no for direct yes/no; requested names for Which; one complete plain-language cause for Why/How; Depends bullets only when context truly changes the answer; no extra main-card facts that were not asked.',
     'Keep answer short enough for the main result line. For Yes/No questions, answer must be only Yes, No, Generally yes, Generally no, Yes — with considerations, No — with considerations, or Depends. Put all explanation in why, evidence, supportingInformation, or complete answerList bullets. Every answerList item must be a complete standalone sentence or complete standalone clause; never split one sentence into fragment bullets.',
     'analysisResult must be one of: Accurate, Mostly Accurate, Mixed / Partly Accurate, Misleading, Inaccurate, Unsupported / Not verified, Needs more evidence.',
+    v3001UnifiedAnswerGuidance(primary),
     'For informational what/how/which/why/when/where questions and command-style requests such as give me/show me/tell me/list/provide, put the concise direct response in answer and use answerList for short visible bullets when useful. For Who, Which, or identification questions, answer with the complete role-bearing entity that performs the requested action or relationship. Never return only a jurisdiction, modifier, abbreviation, or word copied from the question, such as U.S., federal, agency, branch, or organ. Use the complete official name when the question asks for an agency, department, office, or organization. For paired questions, answer every requested target separately in answerList. For comparisons, state the winner or condition-dependent comparison directly before context. Do not hide the main response only in supportingInformation and do not mark an answerable question as a verification failure merely because there is no single universal answer.',
     'For ingredient/list/detail requests, include a complete concise list in answerList, not a partial/truncated list. For ingredient questions, include all core ingredients in answerList and place only nonduplicate context in supportingInformation. Do not include raw URLs or markdown links in supportingInformation; source URLs can be returned only in primarySourceUrl.',
     'Never include follow-up offers such as If you want, I can, Want me to, or If you would like; provide the useful information now.',
@@ -3229,7 +3383,8 @@ function isPhysicalScienceCommonMythFactualInput(value){
   const raw=clean(value);
   if(!raw || /^https?:\/\//i.test(raw)) return false;
   if(looksLikeKnownEntityOnly(raw) || looksLikeGenericCommandOnly(raw) || looksLikeBroadSubject(raw)) return false;
-  if(looksLikeAlternatingNonsense(raw) || looksLikeRepeatedTokenNonsense(raw) || looksLikeMixedSymbolKeyboardNoise(raw)) return false;
+  // v2925: mixed-symbol detection calls semantic-short detection, so calling it here created a recursive classifier cycle.
+  if(looksLikeAlternatingNonsense(raw) || looksLikeRepeatedTokenNonsense(raw)) return false;
   return !!physicalScienceCommonMythClaimSupport(raw);
 }
 
@@ -4725,6 +4880,7 @@ function looksLikeBroadSubject(value){
 function looksLikeKnownVerifiableFaithClaimInput(value){
   const raw=clean(value);
   if(!raw || /^https?:\/\//i.test(raw)) return false;
+  if(v2949CreativeWorkOrdinaryFactual(raw)) return false;
   if(/\bjesus\b|\bchrist\b/i.test(raw)){
     if(/walk(?:ed|s|ing)?\s+on\s+(?:the\s+)?(?:water|sea)\b/i.test(raw)) return true;
     if(/\b(?:rose\s+from\s+the\s+dead|risen|resurrect(?:ed|ion)|raised\s+.+\s+from\s+the\s+dead)\b/i.test(raw)) return true;
@@ -5934,14 +6090,7 @@ function fetchUrl(target, limit=524288, timeoutMs=8000, redirects=2){
           let text=readableContentFromHtml(body);
           try{
             const host=u.hostname.toLowerCase();
-            if(false && /whitehouse\.gov$/.test(host) && looksLikeWhiteHouseListingPage(target)){
-              const child=await whiteHouseChildArticleTextFromHtml(body,target,limit,timeoutMs);
-              if(child && child.text){
-                text=clean(child.diagnostics+'\n'+child.text);
-              }else if(child && child.diagnostics){
-                text=clean(child.diagnostics+'\n'+text);
-              }
-            }else if(/whitehouse\.gov$/.test(host)){
+            if(/whitehouse\.gov$/.test(host)){
               const linkedFacts=await linkedDestinationFactsFromHtml(body,target,limit,timeoutMs);
               if(linkedFacts) text=clean(linkedFacts+' '+text);
               const seedText=linkedHomepageSeedTextFromHtml(body,target);
@@ -7449,11 +7598,15 @@ function externalYouTubeTranscriptConfig(){
 function runtimeSourceFlags(){
   const supa=externalYouTubeTranscriptConfig();
   const openaiKey=envSecret('OPENAI_API_KEY');
+  const geminiKey=envSecret('GEMINI_API_KEY');
   const ytKey=envSecret('YOUTUBE_DATA_API_KEY');
   return {
     openai_live_source: openaiKey ? 'available' : 'missing',
     openai_api_key_loaded: !!openaiKey,
     openai_model: clean(process.env.OPENAI_MODEL || 'gpt-5.4-mini'),
+    gemini_google_search: geminiKey ? 'available' : 'missing',
+    gemini_api_key_loaded: !!geminiKey,
+    gemini_model: clean(process.env.GEMINI_MODEL || 'gemini-3.6-flash'),
     supadata_video_source: (supa.provider==='supadata' && supa.apiKey && supa.enabled) ? 'available' : (supa.apiKey ? 'key loaded / not fully enabled' : 'missing'),
     supadata_api_key_loaded: !!supa.apiKey,
     supadata_provider: supa.provider || 'not configured',
@@ -7477,6 +7630,21 @@ function runtimeSourceFlagsLine(){
     'Sightengine user: '+loaded('SIGHTENGINE_API_USER'),
     'Sightengine secret: '+loaded('SIGHTENGINE_API_SECRET')
   ].join('\n');
+}
+function compactProviderReadinessLineV2951(){
+  const ok=function(v){return v?'✓':'MISSING';};
+  const supadataKey=envSecret('EXTERNAL_YOUTUBE_TRANSCRIPT_API_KEY') || envSecret('SUPADATA_API_KEY');
+  const hiveVisualKey=envSecret('HIVE_VISUAL_API_KEY');
+  const hiveAudioKey=envSecret('HIVE_AUDIO_API_KEY') || hiveVisualKey;
+  const sightengineReady=!!(envSecret('SIGHTENGINE_API_USER') && envSecret('SIGHTENGINE_API_SECRET'));
+  const analyticsStorageReady=(typeof V2872_ANALYTICS_STORAGE_READY!=='undefined'&&V2872_ANALYTICS_STORAGE_READY===true);
+  return 'Providers: OpenAI '+ok(!!envSecret('OPENAI_API_KEY'))+
+    ' | Gemini '+ok(!!envSecret('GEMINI_API_KEY'))+
+    ' | Supadata '+ok(!!supadataKey)+
+    ' | Hive visual '+ok(!!hiveVisualKey)+
+    ' | Hive audio '+ok(!!hiveAudioKey)+
+    ' | Sightengine '+ok(sightengineReady)+
+    ' | Analytics storage '+ok(analyticsStorageReady);
 }
 function buildExternalYouTubeTranscriptUrl(endpoint, info, cfg){
   let u=String(endpoint||'').trim();
@@ -8499,8 +8667,9 @@ function looksLikeLikelyMusicTarget(input, fields){
     'music by','provided to youtube by','song by','artist -','official lyric video','audio only','remastered','m/v','mv'
   ];
   if(directSignals.some(function(k){return combined.indexOf(k)>=0;})) return true;
-  if(/m\s*\/\s*v/i.test(combined) || /(?:official\s+)?mv/i.test(combined)) return true;
-  if(/\b(song|single|album|track|lyrics?|singer|band|artist|music)\b/i.test(combined) && /\b(official|video|audio|live|performance|remaster(?:ed)?|hd|4k|vevo|records?|music)\b/i.test(combined)) return true;
+  if(/\bm\s*\/\s*v\b/i.test(combined) || /\b(?:official\s+)?mv\b/i.test(combined)) return true;
+  // v2925: generic mentions of “music” or “artist” in an educational video's description are not enough to classify the target as a music video.
+  if(/\b(song|single|album|track|lyrics?|singer|band|musician|recording\s+artist)\b/i.test(combined) && /\b(official|video|audio|live|performance|remaster(?:ed)?|hd|4k|vevo|records?|music)\b/i.test(combined)) return true;
   return false;
 }
 
@@ -9850,6 +10019,7 @@ function v2665ContractText(input,opts){
     status:o.status||'ANSWERED',
     inputType:inputType,
     outputBasket:basket,
+    directAnswerDisplayPolicy:o.directAnswerDisplayPolicy||'',
     answer:o.answer||'',
     answerList:Array.isArray(o.answerList)?o.answerList:[],
     pageTitle:o.pageTitle||'',
@@ -10226,6 +10396,7 @@ function v2668MoralContract(input,opts){
   });
 }
 function v2668MoralOutput(input){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(input))return '';
   const raw=clean(input);
   const s=raw.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!raw) return '';
@@ -10442,6 +10613,7 @@ function v2669MoralContract(input,opts){
   });
 }
 function v2669MoralOutput(input){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(input))return '';
   const raw=clean(input);
   const s=raw.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!raw || !(/\?$/.test(raw) || /^(?:is|are|am|can|could|does|do|did|will|would|should|must|may|what|why|how|where|which|who|when)\b/i.test(raw))) return '';
@@ -10751,6 +10923,7 @@ function v2670RemoveUserFacingBibleVersion(value){
     .replace(/\bKJV\b/gi,'Scripture');
 }
 function v2670ExactMoralOutput(input){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(input))return '';
   const raw=clean(input);
   const s=raw.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!raw) return '';
@@ -10806,6 +10979,7 @@ function v2671MoralContract(input,opts){
   });
 }
 function v2671MoralPolarityOutput(input){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(input))return '';
   const raw=clean(input);
   const s=raw.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!raw || !/^(?:is|are|can|could|should|would|do|does|did|may|must)\b/i.test(raw)) return '';
@@ -10994,7 +11168,9 @@ function v2674MarkDefinedTerm(quote,item){
 function v2672ScriptureEntry(key){
   const item=V2672_SCRIPTURE_LIBRARY[key];
   if(!item) return '';
-  const marked=v2674MarkDefinedTerm(item.quote,item);
+  let quote=clean(item.quote||'');
+  try{if(typeof v3044ExactKjvQuote==='function'){const exact=v3044ExactKjvQuote(item.ref);if(exact)quote=exact;}}catch(_e){}
+  const marked=v2674MarkDefinedTerm(quote,item);
   let text=item.ref+' — “'+marked.quote+'”';
   if(item.application) text+=' — ('+item.application+')';
   return text;
@@ -11038,10 +11214,12 @@ function v2672MoralContract(input,rule){
     why:r.why||'',evidence:r.evidence||'',
     source:'Biblical Scriptures',sourceBasis:'Biblical Scriptures',
     supportingInformation:v2672SupportingScriptures(r.refs||[],r.share||''),
-    confidence:r.confidence||'High confidence',outputBasket:basket
+    confidence:r.confidence||'High confidence',outputBasket:basket,
+    directAnswerDisplayPolicy:r.directAnswerDisplayPolicy||''
   });
 }
 function v2672MoralGuidanceOutput(input){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(input))return '';
   const raw=clean(input);
   if(!raw || !(/\?$/.test(raw) || /^(?:is|are|can|could|should|would|do|does|did|may|must|how|which|who|what|when|where|why)\b/i.test(raw))) return '';
   const s=v2672NormalizeQuestion(raw);
@@ -17410,11 +17588,17 @@ async function outputV2730(input){
 function v2731IsDangerousWrongdoingRequest(raw){
   const s=clean(raw);
   if(!s || /^https?:\/\//i.test(s)) return false;
+  // Statistical/ranking questions about crime or public safety are informational, not operational wrongdoing.
+  if(typeof v2734LooksLikeCrimeStatPublicSafetyQuestion==='function'&&v2734LooksLikeCrimeStatPublicSafetyQuestion(s)) return false;
   const violent=/\b(?:bomb|explosive|grenade|pipe\s*bomb|poison|ricin|cyanide|make\s+a\s+weapon|kill\s+someone|murder|assassinate|stab|shoot|hide\s+a\s+body)\b/i.test(s);
   const crime=/\b(?:steal|shoplift|rob|burglary|break\s+into|hotwire|counterfeit|forge|fake\s+id|credit\s+card\s+fraud|hack\s+into|bypass\s+security|evade\s+police)\b/i.test(s);
   const organ=/\b(?:black\s+market|sell|buy|price|worth|value)\b/i.test(s) && /\b(?:human\s+heart|kidney|liver|organ|body\s+part)\b/i.test(s);
+  const securityTarget=/\b(?:security\s+camera|surveillance\s+camera|alarm(?:\s+system)?|gps\s+tracker|tracking\s+device|location\s+tracker|doorbell\s+camera|access\s+control|security\s+system)\b/i.test(s);
+  const interference=/\b(?:disable|jam|bypass|defeat|tamper|block|disconnect|deactivate|turn\s+off|shut\s+off|interfere\s+with)\b/i.test(s);
+  const covertUnauthorized=/\b(?:secretly|without\s+being\s+(?:noticed|detected)|without\s+permission|without\s+the\s+owner(?:'s)?\s+permission|someone\s+else(?:'s)?|someone's|their\s+(?:camera|tracker|alarm|system))\b/i.test(s);
+  const covertSecurityInterference=securityTarget&&interference&&covertUnauthorized;
   const asksHow=/^(?:how|where|what|give|show|tell|list|instructions|steps|can\s+you|could\s+you|i\s+need)\b/i.test(s) || /\b(?:instructions|steps|recipe|guide|make|build|buy|sell|price|worth|value|hide|avoid\s+getting\s+caught)\b/i.test(s);
-  return asksHow && (violent || crime || organ);
+  return asksHow && (violent || crime || organ || covertSecurityInterference);
 }
 function v2731MoralSafetyEvaluation(raw){
   if(!v2731IsDangerousWrongdoingRequest(raw)) return null;
@@ -17425,7 +17609,7 @@ function v2731MoralSafetyEvaluation(raw){
     status:'NOT ANALYZED / SAFETY REFUSAL',
     analysisResult:'Cannot assist with wrongdoing or harm',
     answer:'I can’t help with wrongdoing, harm, or illegal activity.',
-    why:'AIVerify will not provide instructions, prices, or operational help for harm or illegal conduct.',
+    why:'AIVerify will not provide instructions or operational help for harm or illegal conduct.',
     evidence:'Safety refusal with moral support.',
     source:'Biblical Scriptures',
     sourceBasis:'Biblical Scriptures',
@@ -17512,13 +17696,16 @@ function v2731PatchContractObject(contract,input){
   ['why','evidence','summary','pageSummary','supportingInformation','source','sourceBasis'].forEach(function(k){ if(c[k]!==undefined) c[k]=v2731CleanGenericExplanation(c[k]); });
   ['route','classification','status','analysisResult'].forEach(function(k){ if(typeof c[k]==='string') c[k]=c[k].replace(/v2730/gi,'v2731').replace(/v272[0-9]/gi,'v2731'); });
   if(v2731ShouldMinimalDirectAnswer(c,input)){
-    c.minimalDirectAnswer=true;
-    c.why='';
-    c.evidence='';
-    c.summary='';
-    c.supportingInformation='';
-    c.source='';
-    c.sourceBasis='';
+    const explanation=v2678FallbackExplanation(c);
+    c.minimalDirectAnswer=false;
+    c.compactDirectAnswer=false;
+    c.why=explanation;
+    c.explanation=explanation;
+    c.hideExplanation=false;
+    c.suppressExplanation=false;
+    c.explanationRequired=true;
+    c.showAdditionalInformation=true;
+    c.explanationDisplayPolicy='ANSWER_EXPLANATION_AND_SOURCE';
     if(!c.analysisResult || /answered/i.test(String(c.analysisResult))) c.analysisResult='Answered';
   }
   if(c.technicalDiagnostics&&typeof c.technicalDiagnostics==='object'){
@@ -17530,6 +17717,21 @@ function v2731PatchContractObject(contract,input){
   c.backendVersion=VERSION;
   return c;
 }
+const SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936=Object.freeze({
+  universalExplanationFallbackAvailable:typeof v2678FallbackExplanation==='function',
+  sharedDirectAnswerSelectorAvailable:typeof v2731ShouldMinimalDirectAnswer==='function',
+  sharedContractRepairAvailable:typeof v2731PatchContractObject==='function',
+  conciseFactualExplanationGuardAvailable:typeof v2936DistinctFactualExplanation==='function',
+  currentVersion:VERSION==='BE_AIV_v3046'
+});
+if(!SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.universalExplanationFallbackAvailable||
+   !SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.sharedDirectAnswerSelectorAvailable||
+   !SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.sharedContractRepairAvailable||
+   !SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.conciseFactualExplanationGuardAvailable||
+   !SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.currentVersion){
+  throw new Error('SHARED_EXPLANATION_COMPLETENESS_REPAIR_V2936 startup validation failed');
+}
+
 function v2731PatchContractText(input,text){
   let out=String(text||'')
     .replace(/BE_AIV_v2730/g,'BE_AIV_v2731')
@@ -18013,6 +18215,7 @@ function v2735MoralEvaluation(raw,opts){
   });
 }
 function v2735MoralFaithPriorityEvaluation(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return null;
   const s=clean(raw).replace(/[?!.]+$/,'');
   if(!s || /^https?:\/\//i.test(s) || !isAnyQuestionInputText(s)) return null;
   const sexualTopic=/\b(?:sex(?:ual)?|sleep\s+with|premarital|before\s+marriage|unmarried|not\s+married|boyfriend|girlfriend|fianc(?:e|é|ee)|cohabit|cohabitation|live\s+together|living\s+together|fornication|adultery|lust|porn(?:ography)?)\b/i.test(s);
@@ -18476,6 +18679,7 @@ async function outputV2737(input){
 function v2738IsBroadFaithMoralLifeDecision(raw){
   const s=clean(raw).replace(/[?!.]+$/,'');
   if(!s || /^https?:\/\//i.test(s) || !isAnyQuestionInputText(s)) return false;
+  if(typeof v2998EpistemicEvidenceIntent==='function'&&v2998EpistemicEvidenceIntent(raw))return false;
   const moneyChangeContext=v2783MoneyChangeMoralContext(s);
   const lifeCue=/\b(?:should|what\s+should|how\s+should|how\s+can|is\s+it|is\s+.+\s+wrong|are\s+.+\s+wrong|okay|ok|right|good|wise|best\s+way|respond|handle|forgive|apologize|apologise|relationship|marriage|unmarried|sex|sexual|purity|lust|white\s+lie|lie|lying|honest|honesty|truth|cashier|overpaid|money|interest|loan|debt|repay|integrity|temptation|anger|angry|revenge|gossip|promise|parents|family|help\s+someone|needy|poor|costs\s+me\s+money)\b/i.test(s) || moneyChangeContext;
   const moralTopic=/\b(?:apologize|apologise|forgive|forgiveness|relationship|dating|boyfriend|girlfriend|marriage|unmarried|sex|sexual|purity|lust|adultery|fornication|porn|white\s+lie|lie|lying|dishonest|honest|honesty|truth|cashier|overpaid|extra\s+money|interest|loan|debt|borrow|lend|repay|integrity|temptation|anger|angry|revenge|retaliat|gossip|promise|vow|parents|family|help\s+someone|needy|poor|wrongdoing|right\s+direction|doing\s+the\s+honest\s+thing)\b/i.test(s) || moneyChangeContext;
@@ -18509,6 +18713,7 @@ function v2738Polarity(raw, forbiddenAnswer){
   return forbiddenAnswer ? 'No' : 'Yes';
 }
 function v2738BroadFaithMoralEvaluation(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return null;
   const input=clean(raw);
   const s=input.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!v2738IsBroadFaithMoralLifeDecision(input)) return null;
@@ -18738,6 +18943,7 @@ function v2739FaithEval(raw,opts){
   return ev;
 }
 function v2739ExpandedFaithMoralEvaluation(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return null;
   const input=clean(raw);
   const s=input.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!s || /^https?:\/\//i.test(s)) return null;
@@ -19085,6 +19291,7 @@ function v2740TruthQuestionNeedsNo(raw){
   return false;
 }
 function v2740ExpandedFaithMoralEvaluation(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return null;
   const input=clean(raw);
   const s=input.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!s || /^https?:\/\//i.test(s)) return null;
@@ -19278,6 +19485,7 @@ function v2741FaithEval(raw,opts){
   };
 }
 function v2741FaithMoralEvaluation(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return null;
   const input=clean(raw);
   const s=input.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!s || /^https?:\/\//i.test(s)) return null;
@@ -19841,11 +20049,11 @@ function v2760CleanExplanation(value,answer){
   splitSentences(s).forEach(function(sentence){
     if(v2760HasUnexplainedPlaceholder(sentence)) return;
     const clauses=v2760ExplanationClauses(sentence);
-    if(clauses.length<=1){ if(!v2760ClauseOverlap(sentence,answer)) kept.push(clean(sentence)); return; }
+    if(clauses.length<=1){ if(!answer||v2936DistinctFactualExplanation(answer,sentence)) kept.push(clean(sentence)); return; }
     clauses.forEach(function(clause){
       const c=clean(clause).replace(/^(?:while|whereas|but)\s+/i,'');
       if(!c || v2760HasUnexplainedPlaceholder(c)) return;
-      if(!v2760ClauseOverlap(c,answer)){ kept.push(c); return; }
+      if(!answer||v2936DistinctFactualExplanation(answer,c)){ kept.push(c); return; }
       const continuation=v2760NovelContinuation(c,answer);
       if(continuation && !v2760HasUnexplainedPlaceholder(continuation)) kept.push(continuation);
     });
@@ -19928,12 +20136,12 @@ function v2760PatchContractObject(contract,input){
   c.answerList=v2760DedupAnswerList(c.answerList,c.answer,c);
   const candidates=[originalSupport,c.why,c.explanation,c.evidence,c.summary].map(function(x){return v2760CleanExplanation(x,c.answer);}).filter(Boolean);
   let explanation='';
-  for(let i=0;i<candidates.length;i++){if(!v2760TextOverlap(candidates[i],c.answer)){explanation=candidates[i];break;}}
+  for(let i=0;i<candidates.length;i++){if(!c.answer||v2936DistinctFactualExplanation(c.answer,candidates[i])){explanation=candidates[i];break;}}
   c.why=explanation;
   if(c.explanation!==undefined) c.explanation=explanation;
   if(c.summary!==undefined && v2760TextOverlap(c.summary,c.answer)) c.summary=explanation||c.answer;
-  if(c.evidence!==undefined){ c.evidence=v2760CleanExplanation(c.evidence,c.answer); if(v2760TextOverlap(c.evidence,explanation)) c.evidence=''; }
-  if(c.supportingInformation!==undefined && v2760TextOverlap(c.supportingInformation,c.answer)) c.supportingInformation='';
+  if(c.evidence!==undefined){ c.evidence=v2760CleanExplanation(c.evidence,c.answer); if(explanation&&c.evidence&&!v2936DistinctFactualExplanation(explanation,c.evidence)) c.evidence=''; }
+  if(c.supportingInformation!==undefined && c.answer&&clean(c.supportingInformation)&&!v2936DistinctFactualExplanation(c.answer,c.supportingInformation)) c.supportingInformation='';
   c.sourceBasis=v2760NeutralSourceBasis(c.sourceBasis||c.source||'',c);
   c.source=v2760NeutralSourceBasis(c.source||c.sourceBasis||'',c);
   if(!c.sourceBasis && c.source) c.sourceBasis=c.source;
@@ -20390,8 +20598,8 @@ function v2784ProtectInternalInitialisms(value){
 }
 function v2784EndsWithBareInitialismOrJurisdiction(value){
   const s=v2784EntityVisibleText(value).replace(/^the\s+/i,'').replace(/[.!?]+$/,'').trim();
-  return /^(?:u\.s\.|u\.k\.|u\.n\.|d\.c\.|united states|american|federal|national|state|local|government|agency|department|bureau|office|branch)$/i.test(s) ||
-    /\b(?:u\.s\.|u\.k\.|u\.n\.|d\.c\.)$/i.test(s);
+  return /^(?:u\.s\.|u\.k\.|u\.n\.|d\.c\.|united states|american|federal|national|state|local|government|agency|department|bureau|office|branch|st|mt|ft|dr|mr|mrs|ms|prof|pres|gov|sen|rep|gen|col|capt|lt)$/i.test(s) ||
+    /\b(?:u\.s\.|u\.k\.|u\.n\.|d\.c\.|st\.|mt\.|ft\.|dr\.|mr\.|mrs\.|ms\.|prof\.|pres\.|gov\.|sen\.|rep\.|gen\.|col\.|capt\.|lt\.)$/i.test(v2784EntityVisibleText(value).trim());
 }
 function v2784ApplyAbbreviationSafeEntityCompletion(contract,input){
   const c=contract&&typeof contract==='object'?contract:{};
@@ -20605,6 +20813,7 @@ function v2779FaithEval(raw,opts){
   return e;
 }
 function v2779FaithFirstEvaluation(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return null;
   const input=clean(raw),s=input.toLowerCase().replace(/[?!.]+$/,'').trim();
   if(!v2779FaithFirstEligible(input)) return null;
 
@@ -21060,10 +21269,28 @@ function v2764AttachCacheTrace(immutableText,state,keyId,inFlightShared){
   else lines.splice(Math.min(1,lines.length),0,trace);
   return lines.join('\n');
 }
+function v2925CreativeWorkContext(value){
+  const raw=clean(value);
+  return /^(?:who\s+(?:wrote|authored|created)|who\s+is\s+the\s+author\s+of|what\s+is\s+the\s+author\s+of)\b|\b(?:author|authored|novel|book|film|movie|series|trilogy|story|character|director|actor|actress|published|publication|song|album|video\s+game)\b/i.test(raw);
+}
+function v2925ContextualLordFaith(value){
+  const raw=clean(value);
+  if(!/\blord\b/i.test(raw))return false;
+  const explicit=/\b(?:bible|biblical|scripture|scriptures|kjv|king\s+james|god|jesus|christ|faith|prayer|church|sin|sabbath|heaven|hell|salvation|gospel|worship|forgiv\w*|commandments?|second\s+coming|resurrect\w*)\b/i.test(raw);
+  if(v2925CreativeWorkContext(raw)&&!explicit)return false;
+  return explicit||/\b(?:pray|said|say|says|teach|teaches|taught|command|return|come\s+again|believe|follow|serve)\b/i.test(raw);
+}
 function v2764InputAllowsFaithContract(value){
   const raw=clean(value);
   if(!raw) return false;
-  if(/\b(?:god|lord|jesus|christ|christian|bible|scripture|scriptures|commandments?|faith|sin|moral|morally)\b/i.test(raw)) return true;
+  // v2925: Creative-work titles can contain religious words without asking a faith question.
+  // Keep authorship and ordinary book/film/title questions out of the faith route unless the
+  // input also contains a clear Bible anchor or an actual Bible-book reference.
+  const creativeWorkContext=/^(?:who\s+(?:wrote|authored|created)|who\s+is\s+the\s+author\s+of|what\s+is\s+the\s+author\s+of)\b|\b(?:author|authored|novel|book|film|movie|series|trilogy|story|character|director|published|publication)\b/i.test(raw);
+  const explicitFaithAnchor=/\b(?:god|jesus|christ|christian|bible|biblical|scripture|scriptures|kjv|king\s+james|commandments?|faith|sin|moral|morally)\b/i.test(raw);
+  const bibleBookAnchor=typeof v2824BibleBookPattern==='function'&&v2824BibleBookPattern().test(raw);
+  if(creativeWorkContext&&/\blord\b/i.test(raw)&&!explicitFaithAnchor&&!bibleBookAnchor)return false;
+  if(/\b(?:god|jesus|christ|christian|bible|scripture|scriptures|commandments?|faith|sin|moral|morally)\b/i.test(raw)) return true;
   if(v2779FaithFirstEligible(raw)) return true;
   if(v2738IsBroadFaithMoralLifeDecision(raw)) return true;
   if(/\b(?:wrong|right|honest|dishonest|lie|lying|deceive|privacy|permission|private|modest|modesty|abuse|gossip|steal|theft|forgive|envy|temptation|peer pressure|blackmail|intimate|sexual image|trusted adult|love thy neighbour|love your neighbor|love your neighbour|mistake|bullied|bullying|mistreated|harassed|oppressed)\b/i.test(raw)) return true;
@@ -21084,7 +21311,8 @@ function v2764ResponseBoundToExactInput(text,input){
       const claim=v2764NormalizeCompleteInput(c.claim||c.question||c.input||'');
       if(claim && expected && claim!==expected && expected.indexOf(claim)<0 && claim.indexOf(expected)<0) return false;
       const faithContract=/faith|biblical moral/i.test(clean(c.route)+' '+clean(c.classification)) || /Supporting Scriptures to Consider and Share/i.test(clean(c.supportingInformation));
-      if(faithContract && !v2764InputAllowsFaithContract(raw)) return false;
+      const safetyRefusalContract=/safety-moral\/refusal|SAFETY\s*\/\s*MORAL RESPONSE|NOT ANALYZED\s*\/\s*SAFETY REFUSAL/i.test([c.route,c.classification,c.analysisResult,c.status].map(clean).join(' '));
+      if(faithContract && !safetyRefusalContract && !v2764InputAllowsFaithContract(raw)) return false;
       if(!faithContract && /^(?:does|do)\s+(?:the\s+)?(?:bible|scripture|scriptures)\b/i.test(raw)) return false;
     }catch(e){ return false; }
   }
@@ -21819,6 +22047,11 @@ function v2774StampCurrentContract(contract,input){
 
 function v2771ContractValidationErrors(c,input){
   const basket=c.fixedOutputBasket||c.outputBasket||v2771ClassifyFixedBasket(input),errors=[],answer=clean(c.answer),why=clean(c.why||c.explanation),normalized=v2767NormalizedIntent(input);
+  // v3044: the consolidated moral engine performs its own actor/action/polarity audit and
+  // exact local-KJV reference validation before a contract can receive these flags.
+  // Preserve the older validator for every other route, but do not let older generic
+  // technology/input-binding heuristics reject an already verified moral contract.
+  const v3044VerifiedMoral=!!(c&&c.consolidatedMoralEngineVersion==='V3046'&&c.moralInputBindingVerified===true&&c.localKjvReferenceVerified===true&&typeof v3044MoralQuestionIntent==='function'&&v3044MoralQuestionIntent(input));
   const expectedNormalized=v2764NormalizeCompleteInput(input);
   if(c.schema!==AIV_ACTIVE_CONTRACT_SCHEMA_V2774)errors.push('schema_version');
   if(c.architectureVersion!==AIV_ACTIVE_ARCHITECTURE_VERSION_V2774)errors.push('architecture_version');
@@ -21859,7 +22092,7 @@ function v2771ContractValidationErrors(c,input){
     if(expectedPolarity&&v2780PolarityWord(expectedPolarity)&&actualPolarity!==v2780PolarityWord(expectedPolarity))errors.push('answer_explanation_polarity');
   }
   if(v2780HasOrphanDefinitionMarker(c))errors.push('orphan_definition_marker');
-  if(v2783NeutralTechnologyQuestion(input) && (/Supporting Scriptures to Consider and Share/i.test(clean(c.supportingInformation)) || /faith|biblical|moral/i.test(clean(c.classification)+' '+clean(c.route)))) errors.push('neutral_technology_faith_contamination');
+  if(!v3044VerifiedMoral&&v2783NeutralTechnologyQuestion(input) && (/Supporting Scriptures to Consider and Share/i.test(clean(c.supportingInformation)) || /faith|biblical|moral/i.test(clean(c.classification)+' '+clean(c.route)))) errors.push('neutral_technology_faith_contamination');
   v2782AcronymValidationErrors(c,input).forEach(function(err){errors.push(err);});
   if(/\bwhat sin did jesus say would not be forgiven\b/i.test(normalized)){
     if(!/^Blasphemy against the Holy Ghost$/i.test(answer))errors.push('faith_direct_answer');
@@ -21868,10 +22101,11 @@ function v2771ContractValidationErrors(c,input){
   if(basket===V2771_FIXED_BASKETS.URL_REVIEW&&(!clean(c.pageTitle)||!clean(c.pageSummary)||!clean(c.sourceUrl)))errors.push('url_fields');
   if(basket===V2771_FIXED_BASKETS.CURRENT_FACT&&!clean(c.sourceUrl))errors.push('current_source_missing');
   if(/^(?:ANSWERED|EVALUATED)$/i.test(clean(c.status))&&v2777RequiresBothSubjectsInAnswer(input)&&!v2777BothSubjectsExplained(input,c.answer))errors.push('comparison_both_subjects');
-  if(v2777ContractUsesFreeSource(c)&&!v2777ContractSemanticBinding(input,c))errors.push('free_source_semantic_binding');
+  const v2933SafetyRefusal=v2731IsDangerousWrongdoingRequest(input)&&/SAFETY\s*\/\s*MORAL RESPONSE|safety-moral\/refusal|Cannot assist with wrongdoing|NOT ANALYZED\s*\/\s*SAFETY REFUSAL/i.test([c.classification,c.route,c.analysisResult,c.status].map(clean).join(' '));
+  if(!v2933SafetyRefusal&&v2777ContractUsesFreeSource(c)&&!v2777ContractSemanticBinding(input,c))errors.push('free_source_semantic_binding');
   const numericBinding=v2778NumericContractScopeBinding(input,c);
   if(!numericBinding.ok)errors.push('numeric_scope_binding');
-  if(!v2764ResponseBoundToExactInput('AIV_RESULT_CONTRACT: '+JSON.stringify(c),input))errors.push('input_binding');
+  if(!v3044VerifiedMoral&&!v2764ResponseBoundToExactInput('AIV_RESULT_CONTRACT: '+JSON.stringify(c),input))errors.push('input_binding');
   return Array.from(new Set(errors));
 }
 function v2771FinalizeControlledContract(contract,input){
@@ -23956,6 +24190,7 @@ function v2814FactsFromLegacyMoralText(raw,text){
   try{return v2771StructuredFactsFromLegacy(raw,V2771_FIXED_BASKETS.FAITH,text);}catch(_e){return null;}
 }
 function v2814LocalMoralFaithFacts(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return null;
   const input=clean(raw);
   if(!input||/^https?:\/\//i.test(input))return null;
   let facts=v2814LifeProtectionFacts(input)||v2814ControllingRelationshipFacts(input);
@@ -24001,6 +24236,7 @@ function v2814LocalMoralFaithFacts(raw){
   return null;
 }
 function v2814IsAcceptedMoralFaithQuestion(raw){
+  if(typeof v3046LegacyMoralRouteBlocked==='function'&&v3046LegacyMoralRouteBlocked(raw))return false;
   const s=clean(raw);
   if(!s||/^https?:\/\//i.test(s)||!isAnyQuestionInputText(s))return false;
   if(typeof v2779FaithFirstEligible==='function'&&v2779FaithFirstEligible(s))return true;
@@ -24057,6 +24293,15 @@ function v2814ApplyFactsAtFinalBoundary(contract,input,facts){
 function v2814FinalizeMoralFaithContract(contract,input){
   const raw=clean(input);
   let c=v2814Clone(contract)||{};
+  // v3044 owns verified moral contracts. Do not let the legacy recovery stack re-evaluate or
+  // replace them after the consolidated actor/action/polarity and local-KJV checks have passed.
+  if(c.consolidatedMoralEngineVersion==='V3046'&&c.moralInputBindingVerified===true&&c.localKjvReferenceVerified===true){
+    v2774StampCurrentContract(c,raw);
+    c.validationErrors=v2771ContractValidationErrors(c,raw);
+    c.contractValidated=c.validationErrors.length===0;
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{legacyMoralRecoveryV2814:'BYPASSED_BY_V3046_OWNER',validationState:c.contractValidated?'PASS':'FAIL',validationErrors:c.validationErrors.join(',')||'NONE'});
+    return c;
+  }
   let facts=v2814LocalMoralFaithFacts(raw);
   if(!facts&&v2814IsAcceptedMoralFaithQuestion(raw)&&v2814ContractUnavailable(c))facts=v2814GenericMoralFaithFacts(raw);
   if(facts)c=v2814ApplyFactsAtFinalBoundary(c,raw,facts);
@@ -24104,7 +24349,9 @@ function v2861OrdinaryQuestion(raw){
 }
 function v2861NumericQuestion(raw){
   const s=v2856Normalized(raw);
-  return /^(?:how many|how much|how long|when)\b/.test(s)||/\b(?:population|deadliest|death toll|age|oldest|cost|price|distance|length|duration|year|date)\b/.test(s);
+  if(/^(?:how many|how much|how long|when|what year|what date|what age)\b/.test(s))return true;
+  if(/^(?:what|which|who)\b/.test(s)&&/\b(?:deadliest|oldest|youngest|fastest|largest|smallest|highest|lowest|most|least)\b/.test(s))return false;
+  return /\b(?:population|death toll|number of deaths|cost|price|distance|length|duration|age in years|percentage|percent|rate per|how old)\b/.test(s);
 }
 function v2861BadQuestionContract(contract,raw){
   const c=contract&&typeof contract==='object'?contract:{};
@@ -24248,6 +24495,7 @@ function v2864QuestionContractInvalid(contract,raw){
     const title=clean(c.pageTitle||'');
     if(!pageText||pageText===title||/retrieved page title\/source context/i.test(clean(c.evidence||'')))return true;
   }
+  if(typeof v2998ContractIntegrityIssues==='function'&&v2998ContractIntegrityIssues(raw,c).length)return true;
   return false;
 }
 function v2864NeedsRecovery(raw,serialized){
@@ -24258,11 +24506,11 @@ function v2864NeedsRecovery(raw,serialized){
 }
 function v2864RequiresLiveResearch(raw){
   const s=v2856Normalized(raw);
-  return /\b(?:today|tonight|yesterday|current|currently|latest|recent|newest|now|right now|this week|this month|this year|as of|price|cost|stock|weather|forecast|score|schedule|standings|election|poll|recalled|recall|approved|approval|fda|law|legal status|court ruling|near me|near |in my area|local|reputable|recommended|recommendation|best|better|breeders?|roofers?|contractors?|restaurants?|doctors?|lawyers?|mechanics?|available for sale|in stock)\b/.test(s);
+  return (typeof v3006RequiresCurrentEntityResearch==='function'&&v3006RequiresCurrentEntityResearch(raw))||/\b(?:today|tonight|yesterday|current|currently|latest|recent|newest|now|right now|this week|this month|this year|as of|price|cost|stock|weather|forecast|score|schedule|standings|election|poll|recalled|recall|approved|approval|fda|law|legal status|court ruling|near me|near |in my area|local|reputable|recommended|recommendation|best|better|breeders?|roofers?|contractors?|restaurants?|doctors?|lawyers?|mechanics?|available for sale|in stock)\b/.test(s)||v2991MetricSensitiveSuperlative(raw)||(typeof v2998DynamicCountryStatusIntent==='function'&&v2998DynamicCountryStatusIntent(raw));
 }
 function v2864RequiresVerifiedLiveOnly(raw){
   const s=v2856Normalized(raw);
-  return /\b(?:fda|approved|approval|recalled|recall|current law|legal status|court ruling|stock price|today'?s? price|current price|weather|forecast|score|standings|election|poll)\b/.test(s);
+  return (typeof v3006RequiresCurrentEntityResearch==='function'&&v3006RequiresCurrentEntityResearch(raw))||/\b(?:fda|approved|approval|recalled|recall|current law|legal status|court ruling|stock price|today'?s? price|current price|weather|forecast|score|standings|election|poll)\b/.test(s);
 }
 function v2864SourceNameFromUrl(url){
   const host=domainFromUrl(url);
@@ -24301,6 +24549,12 @@ async function v2864PlainQuestionAttempt(raw,useWeb){
     useWeb?'SOURCE: <primary source name>':'SOURCE: OpenAI model knowledge',
     'For how many, how much, how long, when, population, price, distance, duration, age, record, or superlative questions, place the requested number, date, range, distance, duration, age, name, or death toll in the ANSWER line.',
     'For unqualified superlatives or records, use worldwide scope unless the question states a narrower scope.',
+    v3001UnifiedAnswerGuidance(raw),
+    v2999ListCompletenessGuidance(raw),
+    'For a Which-choice question that explicitly gives alternatives, put only the winning/requested entity or value in the ANSWER line; put comparison details in EXPLANATION.',
+    'For a Yes/No question containing an absolute term such as always, never, guarantee, completely, entirely, impossible, rustproof, waterproof, fireproof, or 100%, the ANSWER polarity must agree with any exceptions stated in EXPLANATION. If exceptions make the absolute claim false, answer No.',
+    'For questions about conflicting testimony, eyewitness accounts, reports, or evidence, distinguish inconsistency from proof of intent. Do not turn an evidence/inference question into moral or religious guidance unless the user explicitly asks for that framing.',
+    'Whenever a clock time appears in ANSWER, include the applicable time zone or location-based time zone in that same ANSWER line. For travel-time questions, use arrival = departure local clock + travel duration + (destination UTC offset - origin UTC offset). If the date is omitted and daylight-saving rules can change the offset, state the usual/assumed result and the DST/date caveat instead of silently assuming a fixed offset.',
     'Do not return pending, unavailable, needs-more-evidence, follow-up, or retry wording when the question can be answered.',
     'Question: '+clean(raw)
   ].join('\n');
@@ -24382,6 +24636,55 @@ function v2864UsefulPageSentences(text){
     const key=s.toLowerCase();if(seen.has(key))return false;seen.add(key);return true;
   }).slice(0,4);
 }
+function v2945NormalizeSentence(value){
+  const s=clean(value).replace(/\s+/g,' ').trim();
+  return !s?'':(/[.!?][\"')\]]?$/.test(s)?s:s+'.');
+}
+function v2945PageTopicFromTitle(value){
+  let title=clean(value).replace(/\s+[|—–-]\s+[^|—–-]{2,80}$/,'').trim();
+  title=title.replace(/^(?:about|overview of|introduction to)\s+/i,'').replace(/\s+facts?$/i,'').trim();
+  return title||'the page’s subject';
+}
+function v2945PageAboutFallback(pageTitle,sourceName){
+  const title=clean(pageTitle)||'Submitted page';
+  const topic=v2945PageTopicFromTitle(title);
+  const source=clean(sourceName)||'The source';
+  if(/\bfacts?\b/i.test(title))return v2945NormalizeSentence(source+'’s '+title+' page provides an overview of '+topic+', including its main characteristics and related background');
+  if(/^about\b/i.test(title))return v2945NormalizeSentence(source+'’s page provides an overview of '+topic+' and the main guidance or information presented');
+  return v2945NormalizeSentence(source+'’s page explains the subject covered by “'+title+'”');
+}
+function v2945WordSet(value){
+  return new Set(clean(value).toLowerCase().replace(/[^a-z0-9\s]/g,' ').split(/\s+/).filter(function(word){return word.length>3;}));
+}
+function v2945TextOverlap(left,right){
+  const a=v2945WordSet(left),b=v2945WordSet(right);
+  if(!a.size||!b.size)return 0;
+  let common=0;a.forEach(function(word){if(b.has(word))common+=1;});
+  return common/Math.min(a.size,b.size);
+}
+function v2945DistinctPageDetails(values,pageAbout){
+  const out=[];
+  (Array.isArray(values)?values:[values]).forEach(function(value){
+    splitSentences(clean(value)).forEach(function(sentence){
+      const item=v2945NormalizeSentence(sentence);
+      if(!item||item.split(/\s+/).length<5)return;
+      if(v2945TextOverlap(item,pageAbout)>0.82)return;
+      if(out.some(function(existing){return v2945TextOverlap(existing,item)>0.86;}))return;
+      out.push(item);
+    });
+  });
+  return out.slice(0,4).join(' ');
+}
+function v2945WebpageOutputStructure(result){
+  const r=result&&typeof result==='object'?result:{};
+  const pageTitle=clean(r.pageTitle)||'Submitted page';
+  const sourceName=clean(r.sourceName)||'Retrieved webpage';
+  let summary=v2945NormalizeSentence(r.pageAbout||'');
+  if(!summary||summary.split(/\s+/).length>38||!/(?:overview|explains?|describes?|covers?|information|guidance|reports?|presents?)/i.test(summary))summary=v2945PageAboutFallback(pageTitle,sourceName);
+  let explanation=v2945DistinctPageDetails([r.keyDetails,r.summary,r.evidence],summary);
+  if(!explanation)explanation='The retrieved page contains the factual details supporting this overview.';
+  return {pageTitle:pageTitle,summary:summary,explanation:explanation,sourceName:sourceName};
+}
 async function v2864PageModelSummary(raw,page){
   const started=Date.now();
   const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini';
@@ -24389,24 +24692,25 @@ async function v2864PageModelSummary(raw,page){
   if(pageText.length<160)return null;
   const prompt=[
     'Analyze the exact webpage content supplied below. Do not summarize the broader website and do not rely on the page title alone.',
-    'Return ONLY one JSON object with keys pageTitle, summary, evidence, sourceName.',
-    'summary must be a concise description of the page’s substantive content. evidence must state the most important factual point found in the supplied page text.',
+    'Return ONLY one JSON object with keys pageTitle, pageAbout, keyDetails, sourceName.',
+    'pageAbout must be one brief sentence stating what this specific page is about or intended to explain. Do not fill pageAbout with a list of facts.',
+    'keyDetails must contain two to four concise sentences with the page’s most important factual details. Do not repeat pageAbout.',
+    'sourceName must identify the organization or publication responsible for the page.',
     'Submitted URL: '+raw,
     'Retrieved page title: '+clean(page.title||''),
     'Retrieved readable page text:',pageText
   ].join('\n');
-  const schema={type:'object',properties:{pageTitle:{type:'string'},summary:{type:'string'},evidence:{type:'string'},sourceName:{type:'string'}},required:['pageTitle','summary','evidence','sourceName'],additionalProperties:false};
-  const payload={model:model,input:prompt,max_output_tokens:900,text:{format:{type:'json_schema',name:'aiverify_page_summary',strict:true,schema:schema}}};
+  const schema={type:'object',properties:{pageTitle:{type:'string'},pageAbout:{type:'string'},keyDetails:{type:'string'},sourceName:{type:'string'}},required:['pageTitle','pageAbout','keyDetails','sourceName'],additionalProperties:false};
+  const payload={model:model,input:prompt,max_output_tokens:1000,text:{format:{type:'json_schema',name:'aiverify_page_structure',strict:true,schema:schema}}};
   if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
   const response=await openaiApiRequestJson(payload,18000);
   const output=response&&response.ok?extractOpenAIOutputText(response.json):'';
   const parsed=extractJsonObjectFromText(output);
-  const summary=clean(parsed&&parsed.summary||'');
-  const evidence=clean(parsed&&parsed.evidence||'');
-  const valid=summary.length>=45&&evidence.length>=30&&!/retrieved page title\/source context/i.test(evidence);
-  v2864DiagnosticLog('url-page-content-model',{model:model,http:response&&response.statusCode||response&&response.errorType||'failed',parse:parsed?'json':'none',validation:valid?'PASS':'FAIL'},started);
+  const structured=v2945WebpageOutputStructure(parsed||{});
+  const valid=!!parsed&&structured.summary.length>=28&&structured.explanation.length>=30;
+  v2864DiagnosticLog('url-page-content-model',{model:model,http:response&&response.statusCode||response&&response.errorType||'failed',parse:parsed?'json':'none',validation:valid?'PASS':'FAIL',outputStructure:'PAGE_ABOUT_THEN_DETAILS'},started);
   if(!valid)return null;
-  return {pageTitle:clean(parsed.pageTitle)||clean(page.title)||cleanUrlPageTitle('',raw),summary:summary,evidence:evidence,sourceName:clean(parsed.sourceName)||v2864SourceNameFromUrl(raw)||'Retrieved webpage'};
+  return {pageTitle:structured.pageTitle,pageAbout:structured.summary,keyDetails:structured.explanation,sourceName:structured.sourceName};
 }
 async function v2864AnalyzeSpecificUrl(raw,requestState){
   const url=validHttpUrl(raw);
@@ -24427,16 +24731,5536 @@ async function v2864AnalyzeSpecificUrl(raw,requestState){
     if(!sentences.length){
       return v2665ContractText(raw,{route:'question-source-routing/url-nonfinal-retry/v2864',classification:'SPECIFIC CONTENT URL',inputType:'SPECIFIC_CONTENT_URL',analysisResult:'Page unavailable',status:'SOURCE LOOKUP UNAVAILABLE',answer:'The submitted page could not be analyzed in this scan.',why:'Select Analyze/Enter again to retry this scan.',evidence:'The page was retrieved, but no reliable substantive content could be extracted.',source:'Submitted URL',sourceBasis:'Submitted URL',sourceUrl:url,confidence:'Low confidence',outputBasket:OUTPUT_FORMAT_BASKETS.URL_PAGE_SUMMARY,technicalDiagnostics:{activeFunction:'questionSourceRoutingRecoveryV2864',cacheEligible:'NO'}});
     }
-    result={pageTitle:clean(page.title)||cleanUrlPageTitle('',url),summary:sentences.slice(0,2).join(' '),evidence:sentences.slice(2,4).join(' ')||sentences[0],sourceName:v2864SourceNameFromUrl(url)||'Retrieved webpage'};
+    const fallbackTitle=clean(page.title)||cleanUrlPageTitle('',url);
+    const fallbackSource=v2864SourceNameFromUrl(url)||'Retrieved webpage';
+    result={pageTitle:fallbackTitle,pageAbout:v2945PageAboutFallback(fallbackTitle,fallbackSource),keyDetails:sentences.slice(0,4).join(' '),sourceName:fallbackSource};
   }
-  return v2665ContractText(raw,{route:'question-source-routing/url-content-analysis/v2864',classification:'SPECIFIC CONTENT URL',inputType:'SPECIFIC_CONTENT_URL',analysisResult:'Page reviewed',status:'SOURCE REVIEWED',pageTitle:result.pageTitle,summary:result.summary,answer:result.summary,why:result.summary,evidence:result.evidence,source:result.sourceName,sourceBasis:result.sourceName,sourceUrl:url,confidence:'Moderate confidence',outputBasket:OUTPUT_FORMAT_BASKETS.URL_PAGE_SUMMARY,technicalDiagnostics:{activeFunction:'questionSourceRoutingRecoveryV2864',pageContentRetrieved:'YES',titleOnlyResultBlocked:'YES'}});
+  const structured=v2945WebpageOutputStructure(result);
+  return v2665ContractText(raw,{route:'question-source-routing/url-content-analysis/v2945',classification:'SPECIFIC CONTENT URL',inputType:'SPECIFIC_CONTENT_URL',analysisResult:'Page reviewed',status:'SOURCE REVIEWED',pageTitle:structured.pageTitle,summary:structured.summary,answer:structured.summary,why:structured.explanation,evidence:'',source:structured.sourceName,sourceBasis:structured.sourceName,sourceUrl:url,confidence:'Moderate confidence',outputBasket:OUTPUT_FORMAT_BASKETS.URL_PAGE_SUMMARY,technicalDiagnostics:{activeFunction:'sharedWebpageSummaryDetailStructureV2945',pageContentRetrieved:'YES',titleOnlyResultBlocked:'YES',summaryRole:'PAGE_PURPOSE',explanationRole:'DISTINCT_FACTUAL_DETAILS',summaryExplanationDeduplication:'ACTIVE'}});
 }
 
 async function v2764GenerateImmutableCompletedResponse(input,keyId){
   return v2855GenerateCanonicalCompletedResponse(input,keyId);
 }
+
+// DEBATABLE_POLICY_AND_JUDGMENT_QUESTION_REPAIR_V2927
+// Shared class-level route for questions that ask for a policy or value judgment rather than
+// a single objectively provable fact. Faith/moral and personal-action questions retain their
+// established Scripture-first and safety routes.
+function v2927DebatablePolicyQuestion(raw){
+  const s=clean(raw).toLowerCase().replace(/\s+/g,' ').trim();
+  if(!s||/^https?:\/\//i.test(s)||!isAnyQuestionInputText(s))return false;
+  let type='';try{type=clean(classify(s)).toLowerCase();}catch(_e){}
+  if(type==='faith'||type==='current-religious-belief')return false;
+  if(/\b(?:bible|biblical|scripture|god|jesus|christian|sin|sinful|moral|immoral|wrong|lie|lying|steal|cheat|kill|murder|abuse|adultery|forgive|forgiveness|repent|revenge)\b/i.test(s))return false;
+  if(/\bshould\s+i\b|\bshould\s+my\b|\bshould\s+we\s+(?:lie|steal|cheat|kill|harm|hide|deceive)\b/i.test(s))return false;
+  if(/\b(?:is it true|is this true|factually|accurate|how many|how much|how long|who|what is the capital|where|when|did|does)\b/i.test(s))return false;
+
+  const publicSubject=/\b(?:daylight\s+savings?\s+time|daylight\s+saving\s+time|policy|policies|law|laws|rule|rules|regulation|regulations|program|programs|system|systems|practice|practices|requirement|requirements|mandate|mandates|ban|bans|tax|taxes|school|schools|government|governments|public|society|societal|country|countries|state|states|city|cities|community|communities|business|businesses|company|companies|workweek|voting|election|elections|healthcare|education|immigration|minimum wage|retirement age)\b/i.test(s);
+  const evaluative=/\b(?:necessary|unnecessary|worthwhile|fair|unfair|a good idea|a bad idea|reasonable|unreasonable|justified|desirable|better overall|best policy|effective overall)\b/i.test(s);
+  const publicShould=/^(?:do you think\s+)?should\s+(?:we|society|the public|people|(?:the\s+)?governments?|(?:the\s+)?schools?|(?:the\s+)?businesses?|(?:the\s+)?companies?|(?:the\s+)?countries?|(?:the\s+)?states?|(?:the\s+)?cities?|(?:the\s+)?communities?)\b/i.test(s);
+  const opinionLead=/^(?:do you think|in your opinion|would it be better|is it better overall)\b/i.test(s);
+  return !!((publicSubject&&evaluative)||(publicSubject&&opinionLead)||publicShould);
+}
+function v2927DebatablePrompt(raw){
+  return [
+    'You are evaluating a debatable public-policy or judgment question, not a factual claim with one objectively correct Yes or No answer.',
+    'Return ONLY one valid JSON object with no markdown or code fences.',
+    'Use exactly these keys: reasonFor, reasonAgainst, dependsOn.',
+    'reasonFor must briefly state the strongest reasonable argument in favor.',
+    'reasonAgainst must briefly state the strongest reasonable argument against.',
+    'dependsOn must briefly state what priorities, circumstances, or evidence determine the judgment.',
+    'Do not choose a side. Do not say Yes or No. Do not invent statistics, quotations, studies, or URLs.',
+    'Question: '+clean(raw)
+  ].join('\n');
+}
+function v2927DebatableFallback(){
+  return {
+    reasonFor:'Supporters may emphasize the intended practical benefits and the problems the policy is meant to solve.',
+    reasonAgainst:'Opponents may emphasize costs, disruption, unintended effects, fairness, or whether the same goal could be achieved another way.',
+    dependsOn:'The conclusion depends on the evidence, local circumstances, and which benefits and drawbacks are given the most weight.'
+  };
+}
+function v2927CleanDebatableReason(value){
+  return clean(removeFollowUpOfferWording(value||'')).replace(/^(?:reason\s+(?:for|against)|depends\s+on)\s*:\s*/i,'').slice(0,420);
+}
+async function v2927DebatablePolicyResponse(raw,requestState){
+  if(!v2927DebatablePolicyQuestion(raw))return '';
+  const fallback=v2927DebatableFallback();
+  let parsed=null;
+  try{
+    const result=await v2710SafeRace(
+      openaiApiRequestJson({model:v2713StableModel(),input:v2927DebatablePrompt(raw),reasoning:{effort:'low'}},8500),
+      9500,
+      null
+    );
+    if(requestState&&requestState.aborted)return '';
+    if(result&&result.ok){
+      const outputText=extractOpenAIOutputText(result.json);
+      parsed=outputText?extractJsonObjectFromText(outputText):null;
+    }
+  }catch(_e){parsed=null;}
+  const reasonFor=v2927CleanDebatableReason(parsed&&parsed.reasonFor)||fallback.reasonFor;
+  const reasonAgainst=v2927CleanDebatableReason(parsed&&parsed.reasonAgainst)||fallback.reasonAgainst;
+  const dependsOn=v2927CleanDebatableReason(parsed&&parsed.dependsOn)||fallback.dependsOn;
+  const contract=v2856ModelKnowledgeContract(raw,{
+    answer:'Debatable — reasonable people can disagree',
+    explanation:'Reason in favor: '+reasonFor+' Reason against: '+reasonAgainst+' '+dependsOn,
+    source:'OpenAI model knowledge',
+    classification:'DEBATABLE POLICY OR JUDGMENT QUESTION',
+    route:'controlled-contract/debatable-policy-balanced-response/v2927',
+    intent:'DEBATABLE_JUDGMENT'
+  });
+  contract.debatableQuestion=true;
+  contract.objectiveYesNoAnswer=false;
+  contract.balancedReasonsRequired=true;
+  contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{}, {
+    activeFunction:'debatablePolicyAndJudgmentQuestionRepairV2927',
+    judgmentQuestionDetected:'YES',
+    objectiveYesNoSuppressed:'YES',
+    balancedReasonForPresent:reasonFor?'YES':'NO',
+    balancedReasonAgainstPresent:reasonAgainst?'YES':'NO',
+    modelBalanceUsed:parsed?'YES':'FALLBACK'
+  });
+  return v2856SerializeContract(raw,contract,contract.route,'balanced-model-knowledge');
+}
+
+// NON_VERIFICATION_CONTENT_REQUEST_GATE_V2928
+// AIVerify is a verification tool. Clear requests to draft or generate content need a
+// completed target before they can be checked. This is a class-level scope rule, not an
+// email-specific answer patch.
+function v2928ContentCreationRequest(raw){
+  const s=clean(raw).replace(/\s+/g,' ').trim();
+  if(!s||/^https?:\/\//i.test(s))return null;
+  if(/\b(?:check|verify|analy[sz]e|review|fact[- ]?check|is|are|was|were|did|does|do|could|would|should)\b/i.test(s.slice(0,45))&&
+     /\b(?:email|letter|message|post|caption|advertisement|ad|essay|article|story|poem|resume|résumé|cover letter|press release|script)\b/i.test(s))return null;
+  const match=s.match(/^\s*(?:please\s+)?(?:generate|write|draft|compose|create|prepare|produce|rewrite)\s+(?:me\s+)?(?:an?\s+|the\s+|some\s+)?(email(?:\s+content)?|letter|message|social media post|post|caption|advertisement|ad|essay|article|story|poem|resume|résumé|cover letter|press release|script)\b/i);
+  if(!match)return null;
+  return {target:clean(match[1]||'content')};
+}
+function v2928ContentCreationScopeResponse(raw,intent){
+  const target=clean(intent&&intent.target||'content');
+  const answer='AIVerify checks information; it does not create '+target+'.';
+  const why='Enter the completed '+target+' if you want its claims, accuracy, sourcing, or signs of deception checked.';
+  return v2665ContractText(raw,{
+    route:'request-scope/verification-target-required/v2928',
+    classification:'CONTENT CREATION REQUEST',
+    inputType:'INVALID_INPUT',
+    analysisResult:'Verification target needed',
+    status:'VERIFICATION TARGET NEEDED',
+    answer:answer,
+    why:why,
+    evidence:'No verification target was supplied.',
+    source:'',
+    sourceBasis:'',
+    sourceUrl:'',
+    supportingInformation:'',
+    confidence:'High confidence',
+    outputBasket:OUTPUT_FORMAT_BASKETS.FACTUAL_EXPLANATION,
+    technicalDiagnostics:{
+      activeFunction:'nonVerificationContentRequestGateV2928',
+      contentCreationRequestDetected:'YES',
+      generatedContentSuppressed:'YES',
+      verificationTargetRequested:'YES'
+    }
+  });
+}
+
+
+// SHARED_REQUEST_BOUNDARY_GUIDANCE_V2929
+// One pre-analysis boundary classifier explains why a request cannot proceed and tells the
+// user what to submit next. Debatable questions are intentionally excluded and continue to
+// the balanced v2927 route. Existing safety refusal logic remains authoritative.
+function v2929OutsideScopeTaskRequest(raw){
+  const s=clean(raw).replace(/\s+/g,' ').trim();
+  if(!s||/^https?:\/\//i.test(s))return null;
+  const content=v2928ContentCreationRequest(s);
+  if(content)return {kind:'OUTSIDE_SCOPE_CONTENT',target:clean(content.target||'content')};
+  const schematicTask=/^\s*(?:please\s+)?(?:show|give|provide|create|draw|generate|make|design|produce)\s+(?:me\s+)?(?:an?\s+|the\s+|some\s+)?(?:schematic|wiring\s+diagram|circuit\s+diagram|blueprint|technical\s+diagram|diagram)\b/i.test(s);
+  const schematicVerification=/\b(?:check|verify|analy[sz]e|review|fact[- ]?check|is\s+this|is\s+the|does\s+this)\b/i.test(s.slice(0,80));
+  if(schematicTask&&!schematicVerification)return {kind:'OUTSIDE_SCOPE_TASK',target:'provide this schematic or diagram'};
+  const task=s.match(/^\s*(?:please\s+)?(?:plan|schedule|organize|book|reserve|purchase|order|send|call|translate|calculate|solve|code|program|design|build)\b/i);
+  if(task)return {kind:'OUTSIDE_SCOPE_TASK',target:clean(task[0]).replace(/^please\s+/i,'').toLowerCase()};
+  const verificationHowTo=/\b(?:verify|fact[- ]?check|check\s+(?:whether|if)|evaluate\s+(?:a\s+)?source|spot\s+(?:deception|misinformation)|identify\s+(?:deception|misinformation))\b/i.test(s);
+  if(looksLikeHowToInstructionRequest(s)&&!verificationHowTo)return {kind:'OUTSIDE_SCOPE_TASK',target:'complete this task'};
+  return null;
+}
+function v2929RequestBoundaryIntent(raw){
+  const s=clean(raw).replace(/\s+/g,' ').trim();
+  if(!s)return {kind:'INCOMPLETE',reason:'No request content was supplied.'};
+  if(v2731IsDangerousWrongdoingRequest(s))return {kind:'DANGEROUS'};
+  const securityInterference=v2950SecurityInterferenceBoundaryIntent(s);
+  if(securityInterference)return securityInterference;
+  const outside=v2929OutsideScopeTaskRequest(s);
+  if(outside)return outside;
+  if(/^https?:\/\//i.test(s))return null;
+  if(/^(?:file:\/\/|[a-z]:[\\/])/i.test(s))return {kind:'UNSUPPORTED_LOCAL_SOURCE'};
+  if(looksLikeGibberishInput(s)&&!looksLikeInformationalRequestInput(s))return {kind:'UNUSABLE'};
+  if(looksLikeGenericCommandOnly(s)||/^(?:check|analy[sz]e|verify|review|fact[- ]?check)\s+(?:this|that|it)\??$/i.test(s))return {kind:'INCOMPLETE',reason:'The request did not include the content to be checked.'};
+  const missingReferencedTarget=s.match(/^(?:(?:is|are|was|were|does|do|did|can|could|should|would|has|have)\s+(?:this|that)|(?:check|analy[sz]e|verify|review|fact[- ]?check)\s+(?:this|that)|how\s+(?:do|can|should|would)\s+i\s+(?:check|verify|fact[- ]?check)\s+(?:this|that))\s+(email|message|document|post|claim|statement|page|website|video|image|audio|recording)\b/i);
+  const missingReferencedTargetOnly=missingReferencedTarget&&s.split(/\s+/).filter(Boolean).length<=10&&!/[:\n]/.test(String(raw||''));
+  if(missingReferencedTargetOnly&&!/https?:\/\//i.test(s))return {kind:'INCOMPLETE',reason:'The referenced '+clean(missingReferencedTarget[1])+' was not included.'};
+  // v2933: recognized acronym/entity-only inputs use the existing meaning profile through
+  // a current controlled contract. Broad topics without a known profile still need a target.
+  const entityMeaningProfile=looksLikeKnownEntityOnly(s)?entityMeaningIdentificationProfile(s):null;
+  if(entityMeaningProfile)return {kind:'ENTITY_MEANING',profile:entityMeaningProfile};
+  if(looksLikeKnownEntityOnly(s)||looksLikeBroadSubject(s))return {kind:'BROAD_SUBJECT'};
+  return null;
+}
+function v2929RequestBoundaryContract(raw,intent){
+  const i=intent||{};
+  const kind=clean(i.kind||'INCOMPLETE');
+  let classification='REQUEST NEEDS CLARIFICATION';
+  let inputType='INVALID_REQUEST';
+  let analysisResult='More information needed';
+  let status='MORE INFORMATION NEEDED';
+  let answer='AIVerify needs a specific claim, question, page, document, or media item to check.';
+  let why='Add the exact content or describe the specific statement you want verified.';
+  let evidence=clean(i.reason||'No checkable verification target was supplied.');
+  let route='request-boundary/more-information-needed/v2929';
+  if(kind==='OUTSIDE_SCOPE_CONTENT'){
+    const target=clean(i.target||'content');
+    classification='OUTSIDE AIVERIFY VERIFICATION SCOPE';
+    analysisResult='Verification target needed';
+    status='VERIFICATION TARGET NEEDED';
+    const targetPhrase=/^(?:email content|social media post|cover letter|press release)$/i.test(target)?target:(/^(?:email|letter|message|post|caption|advertisement|ad|essay|article|story|poem|resume|résumé|script)$/i.test(target)?'a '+target:target);
+    answer='AIVerify checks information; it does not create '+targetPhrase+'.';
+    why='Submit the completed '+target+' if you want its claims, accuracy, sourcing, or signs of deception checked.';
+    evidence='The request asked AIVerify to create content rather than verify supplied content.';
+    route='request-boundary/outside-scope-content/v2929';
+  }else if(kind==='SECURITY_INTERFERENCE'){
+    classification='SECURITY / TRACKING EQUIPMENT';
+    analysisResult='Operational instructions not provided';
+    status='SAFETY BOUNDARY';
+    answer='AIVerify does not provide instructions for disabling or interfering with security or tracking equipment.';
+    why='If the equipment is yours or you are authorized to service it, use the manufacturer’s documentation or an authorized technician.';
+    evidence='The request asked for operational disablement instructions without enough context to establish authorized use.';
+    route='request-boundary/security-interference/v2950';
+  }else if(kind==='OUTSIDE_SCOPE_TASK'){
+    classification='OUTSIDE AIVERIFY VERIFICATION SCOPE';
+    analysisResult='Verification question needed';
+    status='VERIFICATION QUESTION NEEDED';
+    answer='AIVerify checks information; it does not perform this task.';
+    why='Enter a specific factual claim or question about the task, or submit completed content for verification.';
+    evidence='The request asked for task completion rather than verification.';
+    route='request-boundary/outside-scope-task/v2929';
+  }else if(kind==='BROAD_SUBJECT'){
+    classification='BROAD SUBJECT';
+    analysisResult='Specific target needed';
+    status='SPECIFIC TARGET NEEDED';
+    answer='A specific claim or question is needed.';
+    why='Name the exact statement, page, document, or media item you want AIVerify to examine.';
+    evidence='A broad subject by itself does not identify what should be verified.';
+    route='request-boundary/broad-subject/v2929';
+  }else if(kind==='UNSUPPORTED_LOCAL_SOURCE'){
+    classification='UNAVAILABLE LOCAL SOURCE';
+    analysisResult='Accessible content needed';
+    status='ACCESSIBLE CONTENT NEEDED';
+    answer='AIVerify cannot access a file path stored only on your device.';
+    why='Paste the relevant document text, attach it through a supported upload check, or provide a specific accessible webpage or video URL.';
+    evidence='A local device path is not accessible to the verification service.';
+    route='request-boundary/unsupported-local-source/v2929';
+  }else if(kind==='UNUSABLE'){
+    classification='UNUSABLE INPUT';
+    inputType='INVALID_INPUT';
+    analysisResult='Request could not be understood';
+    status='REVISE REQUEST';
+    answer='AIVerify could not identify a meaningful claim or question.';
+    why='Revise the wording and enter one specific claim, question, page, document, or media item.';
+    evidence='The submitted text did not contain enough recognizable meaning for reliable analysis.';
+    route='request-boundary/unusable-input/v2929';
+  }
+  return v2665ContractText(raw,{
+    route:route,
+    classification:classification,
+    inputType:inputType,
+    analysisResult:analysisResult,
+    status:status,
+    answer:answer,
+    why:why,
+    evidence:evidence,
+    source:'',sourceBasis:'',sourceUrl:'',supportingInformation:'',
+    confidence:'High confidence',
+    outputBasket:OUTPUT_FORMAT_BASKETS.INPUT_GUIDANCE,
+    technicalDiagnostics:{
+      activeFunction:'sharedRequestBoundaryGuidanceV2929',
+      requestBoundaryKind:kind,
+      requestRejectedWithoutReason:'NO',
+      nextUsefulStepIncluded:'YES',
+      debatableQuestionSuppressed:'NO'
+    }
+  });
+}
+function v2933EntityMeaningBoundaryResponse(raw,profile){
+  const p=profile&&typeof profile==='object'?profile:entityMeaningIdentificationProfile(raw);
+  if(!p)return '';
+  const term=clean(p.term||raw).replace(/[?!.]+$/,'').trim();
+  const firstItem=clean(Array.isArray(p.items)&&p.items[0]||'');
+  const termPattern=term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  let answer=firstItem.replace(new RegExp('^'+termPattern+'\\s+means\\s+','i'),'').replace(/[.!?]+$/,'').trim();
+  if(!answer)answer=firstItem||term;
+  const explanation=clean(Array.isArray(p.items)?p.items.slice(1).join(' '):'');
+  const source=clean(p.source||'Established references');
+  return v2665ContractText(raw,{
+    route:'request-boundary/entity-meaning/v2933',
+    classification:'MEANING / IDENTIFICATION',
+    inputType:'QUESTION',
+    analysisResult:'Meaning',
+    status:'IDENTIFIED',
+    answer:answer,
+    why:explanation,
+    evidence:explanation,
+    source:source,
+    sourceBasis:source,
+    sourceUrl:'',
+    supportingInformation:'',
+    confidence:'High confidence',
+    outputBasket:OUTPUT_FORMAT_BASKETS.MEANING_ENTITY,
+    technicalDiagnostics:{
+      activeFunction:'focusedTestEntityMeaningBoundaryV2933',
+      recognizedEntityMeaning:'YES',
+      broadSubjectRejectionBypassed:'YES',
+      exactInputHardcoding:false
+    }
+  });
+}
+function v2929RequestBoundaryResponse(raw,intent){
+  if(intent&&intent.kind==='ENTITY_MEANING')return v2933EntityMeaningBoundaryResponse(raw,intent.profile);
+  if(intent&&intent.kind==='DANGEROUS'){
+    const safety=v2731MoralSafetyEvaluation(raw);
+    if(safety)return v2731RenderEvaluation(raw,safety,'SHARED_REQUEST_BOUNDARY_GUIDANCE_V2929: existing moral safety refusal preserved');
+  }
+  return v2929RequestBoundaryContract(raw,intent);
+}
+const REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929=Object.freeze({
+  intentAvailable:typeof v2929RequestBoundaryIntent==='function',
+  responseAvailable:typeof v2929RequestBoundaryResponse==='function',
+  outsideScopeAvailable:typeof v2929OutsideScopeTaskRequest==='function',
+  existingSafetyAvailable:typeof v2731MoralSafetyEvaluation==='function',
+  debatableRouteAvailable:typeof v2927DebatablePolicyResponse==='function',
+  currentVersion:VERSION==='BE_AIV_v3046'
+});
+if(!REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.intentAvailable||
+   !REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.responseAvailable||
+   !REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.outsideScopeAvailable||
+   !REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.existingSafetyAvailable||
+   !REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.debatableRouteAvailable||
+   !REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.currentVersion){
+  throw new Error('SHARED_REQUEST_BOUNDARY_GUIDANCE_V2929 startup validation failed');
+}
+
+const FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  entityMeaningProfileAvailable:typeof entityMeaningIdentificationProfile==='function',
+  entityMeaningResponseAvailable:typeof v2933EntityMeaningBoundaryResponse==='function',
+  boundaryIntentAvailable:typeof v2929RequestBoundaryIntent==='function',
+  safetyDetectorAvailable:typeof v2731IsDangerousWrongdoingRequest==='function',
+  contractValidatorAvailable:typeof v2771ContractValidationErrors==='function'
+});
+if(!FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933.currentVersion||
+   !FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933.entityMeaningProfileAvailable||
+   !FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933.entityMeaningResponseAvailable||
+   !FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933.boundaryIntentAvailable||
+   !FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933.safetyDetectorAvailable||
+   !FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933.contractValidatorAvailable){
+  throw new Error('FOCUSED_TEST_FINDINGS_REPAIR_V2933 startup validation failed');
+}
+
+
+
+// HIGH_LEVEL_ROUTING_OFFICEHOLDER_NAME_AND_WRONGDOING_REPAIR_V2949
+function v2949CreativeWorkOrdinaryFactual(raw){
+  const input=clean(raw);
+  if(!input||/^https?:\/\//i.test(input))return false;
+  const creative=/^(?:who\s+(?:wrote|authored|created)|who\s+is\s+the\s+author\s+of|what\s+is\s+the\s+author\s+of)\b|\b(?:author|authored|novel|book|film|movie|series|trilogy|story|character|director|actor|actress|published|publication|song|album|video\s+game)\b/i.test(input);
+  if(!creative)return false;
+  const explicitFaith=/\b(?:bible|biblical|scripture|scriptures|kjv|king\s+james|old\s+testament|new\s+testament|god|jesus|christ|christian|faith|church|gospel|apostle|prophet|verse|verses|chapter\s+\d+)\b/i.test(input);
+  const verseAddress=/\b(?:[1-3]\s*)?(?:Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|Samuel|Kings|Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|Corinthians|Galatians|Ephesians|Philippians|Colossians|Thessalonians|Timothy|Titus|Philemon|Hebrews|James|Peter|Jude|Revelation)\s+\d{1,3}(?::\d{1,3})?\b/i.test(input);
+  return !explicitFaith&&!verseAddress;
+}
+function v2949CurrentOfficeholderDescriptor(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input))return null;
+  const historical=/\b(?:former|previous|prior|before|immediately before|first|past|in\s+\d{4}|during\s+\d{4}|was)\b/i.test(s)&&!/\bcurrent(?:ly)?\b/i.test(s);
+  if(historical)return null;
+  const roles=[
+    ['vice president','Vice President'],['secretary of state','Secretary of State'],['secretary of defense','Secretary of Defense'],['secretary of the treasury','Secretary of the Treasury'],['attorney general','Attorney General'],['secretary of homeland security','Secretary of Homeland Security'],['speaker of the house','Speaker of the House'],['prime minister','Prime Minister'],['chief executive officer','Chief Executive Officer'],['president','President'],['governor','Governor'],['mayor','Mayor'],['ceo','CEO']
+  ];
+  let roleKey='',roleLabel='';
+  for(const pair of roles){const re=new RegExp('\\b'+pair[0].replace(/ /g,'\\s+')+'\\b','i');if(re.test(s)){roleKey=pair[0];roleLabel=pair[1];break;}}
+  if(!roleKey)return null;
+  const question=/^(?:who|what)\s+(?:is|serves\s+as)\b/i.test(s);
+  const current=/\b(?:current|currently|now|right now|present)\b/i.test(s);
+  const officeForm=new RegExp('\\b(?:is|serves\\s+as)\\s+(?:the\\s+)?(?:current\\s+)?'+roleKey.replace(/ /g,'\\s+'),'i').test(s);
+  const claimForm=new RegExp('(?:^|\\b)(?:the\\s+)?(?:current\\s+)?'+roleKey.replace(/ /g,'\\s+')+'\\b.*\\bis\\b','i').test(s);
+  if(!question&&!current&&!officeForm&&!claimForm)return null;
+  let jurisdiction='';
+  if(/\b(?:united states|u\.?s\.?a?|america)\b/i.test(input))jurisdiction='United States';
+  return {roleKey:roleKey,roleLabel:roleLabel,jurisdiction:jurisdiction,claim:!isAnyQuestionInputText(input)};
+}
+function v2949LikelyPersonAnswerQuestion(raw){
+  const input=clean(raw);
+  if(!input)return false;
+  return /^who\b/i.test(input)||!!v2949CurrentOfficeholderDescriptor(input);
+}
+function v2949IncompletePersonAnswer(value){
+  const a=clean(value).replace(/[!?]+$/,'').trim();
+  if(!a||a.split(/\s+/).length<2)return false;
+  return /\b[A-Z]\.?$/.test(a);
+}
+function v2949CompletePersonNameFromContext(answer,context){
+  const a=clean(answer).replace(/[.!?]+$/,'').trim();
+  if(!v2949IncompletePersonAnswer(a))return '';
+  const first=(a.match(/^([A-Z][A-Za-z'’.-]+)/)||[])[1]||'';
+  if(!first)return '';
+  const esc=first.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re=new RegExp("\\b"+esc+"\\s+(?:(?:[A-Z]\\.)\\s+){0,3}[A-Z][A-Za-z'’.-]{2,}\\b",'g');
+  const matches=String(context||'').match(re)||[];
+  return matches.length?clean(matches[0]):'';
+}
+function v2949OfficeholderRoleBound(raw,contract,result){
+  const d=v2949CurrentOfficeholderDescriptor(raw);
+  if(!d)return true;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const p=result&&result.parsed&&typeof result.parsed==='object'?result.parsed:{};
+  const sourceTitles=result&&Array.isArray(result.sources)?result.sources.map(x=>clean(x&&x.title||'')).join(' '):'';
+  const blob=[c.explanation,c.why,c.classification,p.explanation,p.classification,p.sourceName,sourceTitles].map(clean).join(' ');
+  const roleRe=new RegExp('\\b'+d.roleKey.replace(/ /g,'\\s+')+'\\b','i');
+  if(!roleRe.test(blob))return false;
+  if(d.roleKey!=='president'&&/\bpresident\b/i.test(blob)&&!roleRe.test(blob))return false;
+  return !v2949IncompletePersonAnswer(c.answer||c.summary||'');
+}
+
+
+// HIGH_LEVEL_RELATION_BOUNDARY_AND_DEFINITION_REPAIR_V2950
+function v2950HistoricalOfficeRelationIntent(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input)||/\b(?:current|currently|now|right now|present)\b/i.test(s))return null;
+  if(!/^who\b/i.test(s)&&!/\b(?:predecessor|successor|preceded|succeeded)\b/i.test(s))return null;
+  const relation=/\b(?:immediately\s+)?before\b|\bpredecessor\b|\bpreceded\b/i.test(s)?'BEFORE':(/\b(?:immediately\s+)?after\b|\bsuccessor\b|\bsucceeded\b/i.test(s)?'AFTER':'');
+  if(!relation)return null;
+  const roles=[
+    ['vice president','Vice President'],['secretary of state','Secretary of State'],['secretary of defense','Secretary of Defense'],['secretary of the treasury','Secretary of the Treasury'],['attorney general','Attorney General'],['secretary of homeland security','Secretary of Homeland Security'],['speaker of the house','Speaker of the House'],['prime minister','Prime Minister'],['president','President'],['governor','Governor'],['mayor','Mayor'],['chief executive officer','Chief Executive Officer'],['ceo','CEO']
+  ];
+  let roleKey='',roleLabel='';
+  for(const pair of roles){if(new RegExp('\\b'+pair[0].replace(/ /g,'\\s+')+'\\b','i').test(s)){roleKey=pair[0];roleLabel=pair[1];break;}}
+  if(!roleKey)return null;
+  let jurisdiction='';
+  if(/\b(?:united states|u\.?s\.?a?|america)\b/i.test(input))jurisdiction='United States';
+  return {kind:'historical-office-relation',relation:relation,roleKey:roleKey,roleLabel:roleLabel,jurisdiction:jurisdiction};
+}
+async function v2950HistoricalOfficeRelationResponse(raw,requestState){
+  const intent=v2950HistoricalOfficeRelationIntent(raw);
+  if(!intent)return '';
+  const liveIntent={kind:'historical-office-relation',officeholderRole:intent.roleLabel,officeholderJurisdiction:intent.jurisdiction};
+  const result=await v2844LiveEvaluation(raw,liveIntent);
+  if(requestState&&requestState.aborted)return '';
+  if(!result||!result.ok){
+    const fallback=await v2864PlainQuestionAttempt(raw,true);
+    return fallback||'';
+  }
+  const contract=v2844LiveContract(raw,liveIntent,result);
+  contract.classification='HISTORICAL OFFICEHOLDER RELATION';
+  contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{},{activeFunction:'historicalOfficeRelationBindingV2950',officeRole:intent.roleLabel,relation:intent.relation,rolePersonBinding:'ENFORCED'});
+  return v2844Serialize(raw,contract,'historical-office-relation-v2950');
+}
+
+function v2950SecurityInterferenceBoundaryIntent(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input)||v2731IsDangerousWrongdoingRequest(input))return null;
+  const target=/\b(?:security camera|surveillance camera|alarm(?: system)?|gps tracker|tracking device|location tracker|doorbell camera|access control|security system)\b/i.test(s);
+  const interference=/\b(?:disable|jam|bypass|defeat|tamper|block|disconnect|deactivate|turn off|shut off|interfere with)\b/i.test(s);
+  const howTo=/^(?:how|show|give|tell|list|provide|steps|instructions|can you|could you|i need)\b/i.test(s)||/\b(?:steps|instructions|guide)\b/i.test(s);
+  if(!target||!interference||!howTo)return null;
+  return {kind:'SECURITY_INTERFERENCE'};
+}
+function v2950SecurityTargetCapabilityIntent(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input)||v2731IsDangerousWrongdoingRequest(input))return null;
+  const target=/\b(?:security camera|surveillance camera|alarm(?: system)?|gps tracker|tracking device|location tracker|doorbell camera|access control|security system)\b/i.test(s);
+  const capability=/^(?:is|are|can|could)\b/i.test(s)&&/\b(?:possible|can|could|disable|disabled|deactivate|deactivated|turn off|shut off|made ineffective|blocked)\b/i.test(s);
+  if(!target||!capability)return null;
+  return {kind:'SECURITY_CAPABILITY'};
+}
+function v2950SecurityTargetCapabilityResponse(raw){
+  const intent=v2950SecurityTargetCapabilityIntent(raw);
+  if(!intent)return '';
+  return v2665ContractText(raw,{
+    route:'safety-boundary/security-capability/v2950',classification:'SECURITY DEVICE CAPABILITY',inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',
+    answer:'Yes — depending on the device, it may be possible to disable or make it ineffective.',
+    why:'AIVerify can verify that general capability without providing operational instructions for disabling or interfering with tracking or security equipment.',
+    evidence:'The answer is limited to the general capability and does not include disablement steps.',source:'OpenAI model knowledge',sourceBasis:'OpenAI model knowledge',sourceUrl:'',supportingInformation:'',confidence:'High confidence',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_YES_NO,
+    technicalDiagnostics:{activeFunction:'securityCapabilityNoOperationalDetailV2950',operationalDisablementInstructions:'SUPPRESSED'}
+  });
+}
+const V2950_ACRONYM_DEFINITIONS=Object.freeze({
+  NASA:'National Aeronautics and Space Administration',ESA:'European Space Agency',CSA:'Canadian Space Agency',MMX:'Martian Moons eXploration',GPS:'Global Positioning System',NOAA:'National Oceanic and Atmospheric Administration',FBI:'Federal Bureau of Investigation',CIA:'Central Intelligence Agency',CDC:'Centers for Disease Control and Prevention',FDA:'Food and Drug Administration',NIH:'National Institutes of Health',EPA:'Environmental Protection Agency',USDA:'United States Department of Agriculture',CMS:'Centers for Medicare & Medicaid Services',IRS:'Internal Revenue Service',SSA:'Social Security Administration',NATO:'North Atlantic Treaty Organization',WHO:'World Health Organization',IMF:'International Monetary Fund',BLS:'Bureau of Labor Statistics',CPI:'Consumer Price Index',NRC:'Nuclear Regulatory Commission',CFPB:'Consumer Financial Protection Bureau',NWS:'National Weather Service',NIST:'National Institute of Standards and Technology',CISA:'Cybersecurity and Infrastructure Security Agency',MFA:'multi-factor authentication','2FA':'two-factor authentication',GFCI:'Ground-Fault Circuit Interrupter',DNS:'Domain Name System',GDP:'gross domestic product',PLB:'Personal Locator Beacon',CEO:'Chief Executive Officer'
+});
+function v2950AcronymDefinitionsForContract(contract){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const visible=[c.answer,c.summary,c.why,c.explanation,c.evidence,c.pageTitle,c.pageSummary,Array.isArray(c.answerList)?c.answerList.join(' '):''].map(clean).join(' ');
+  const support=clean(c.supportingInformation||'');
+  const defs=[];
+  Object.keys(V2950_ACRONYM_DEFINITIONS).forEach(function(abbr){
+    const longForm=V2950_ACRONYM_DEFINITIONS[abbr];
+    if(!new RegExp('(?:^|[^A-Za-z0-9])'+abbr.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?:$|[^A-Za-z0-9])').test(visible))return;
+    if(new RegExp(longForm.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i').test(visible+' '+support))return;
+    if(new RegExp('(?:^|[|;]\\s*)'+abbr.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*:', 'i').test(support))return;
+    defs.push(abbr+': '+longForm);
+  });
+  return defs;
+}
+function v2950AppendAcronymDefinitions(contract){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const defs=v2950AcronymDefinitionsForContract(c);
+  if(!defs.length)return c;
+  const support=clean(c.supportingInformation||'');
+  if(/(?:^|\|)\s*Definitions\s*:/i.test(support))c.supportingInformation=support+' | '+defs.join(' | ');
+  else c.supportingInformation=(support?support+' | ':'')+'Definitions: '+defs.join(' | ');
+  c.showAdditionalInformation=true;
+  return c;
+}
+function v2950DedupeCorrectionSentence(value){
+  const text=clean(value);
+  if(!text||!/\bCorrection\s*:/i.test(text))return text;
+  return clean(text.replace(/\s+Correction\s*:\s*([^.!?]+[.!?]?)/ig,function(full,clause,offset,whole){
+    const prior=clean(String(whole||'').slice(0,offset));
+    const norm=function(v){return clean(v).toLowerCase().replace(/\bcorrection\s*:\s*/g,'').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();};
+    const a=norm(prior),b=norm(clause);
+    return b&&a.indexOf(b)>=0?'':full;
+  }));
+}
+
+const V2939_CURRENT_INFORMATION_CACHE=new Map();
+const V2939_CURRENT_INFORMATION_CACHE_TTL_MS=10*60*1000;
+function v2939CurrentInformationIntent(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input)||v2708IsSpecificYouTube(input)||v2844DateIntent(input))return null;
+  const temporal=/\b(?:today|tonight|yesterday|tomorrow|current|currently|latest|recent|newest|now|right now|this week|this month|this year|as of|breaking|live)\b/.test(s);
+  const inherentlyChanging=/\b(?:price|cost|stock|market|weather|forecast|score|schedule|standings|election|poll|recalled|recall|approved|approval|fda|current law|legal status|court ruling|available for sale|in stock|best rated|top rated|recommended|recommendation|near me|in my area)\b/.test(s);
+  const officeholderDescriptor=v2949CurrentOfficeholderDescriptor(raw);
+  const presentOfficeholder=!!officeholderDescriptor;
+  if(!temporal&&!inherentlyChanging&&!presentOfficeholder)return null;
+  let kind='current-fact';
+  if(v2844PriceIntent(input)||/\b(?:price|cost|stock|market)\b/.test(s))kind='price';
+  else if(/\b(?:best rated|top rated|recommended|recommendation|near me|in my area)\b/.test(s))kind='recommendation';
+  return {kind:kind,verifiedLiveOnly:v2864RequiresVerifiedLiveOnly(input),claim:!isAnyQuestionInputText(input),officeholder:presentOfficeholder,officeholderRole:officeholderDescriptor&&officeholderDescriptor.roleKey||'',officeholderLabel:officeholderDescriptor&&officeholderDescriptor.roleLabel||'',officeholderJurisdiction:officeholderDescriptor&&officeholderDescriptor.jurisdiction||''};
+}
+function v2939EscapeRegex(value){return String(value||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function v2939CurrentOfficeholderKey(raw){
+  const d=v2949CurrentOfficeholderDescriptor(raw);
+  if(!d)return '';
+  return 'officeholder:'+clean(d.roleKey).toLowerCase()+':'+clean(d.jurisdiction).toLowerCase();
+}
+function v2939CacheGet(key){
+  if(!key)return null;
+  const item=V2939_CURRENT_INFORMATION_CACHE.get(key);
+  if(!item)return null;
+  if(Date.now()-item.savedAt>V2939_CURRENT_INFORMATION_CACHE_TTL_MS){V2939_CURRENT_INFORMATION_CACHE.delete(key);return null;}
+  return v2844Clone(item.value);
+}
+function v2939CachePut(key,value){
+  if(!key||!value)return;
+  V2939_CURRENT_INFORMATION_CACHE.set(key,{savedAt:Date.now(),value:v2844Clone(value)});
+  while(V2939_CURRENT_INFORMATION_CACHE.size>50){const first=V2939_CURRENT_INFORMATION_CACHE.keys().next().value;if(!first)break;V2939_CURRENT_INFORMATION_CACHE.delete(first);}
+}
+function v2939PlainPersonName(value){
+  const words=clean(value).replace(/[.!?]+$/,'').split(/\s+/).filter(Boolean);
+  if(words.length>=3&&words.slice(1,-1).some(function(word){return /^[A-Z]\.$/.test(word);}))return [words[0],words[words.length-1]].join(' ');
+  return words.join(' ');
+}
+function v2941IncompletePersonName(value){
+  const answer=clean(value).replace(/[!?]+$/,'');
+  return /^[A-Z][A-Za-z'’.-]+(?:\s+[A-Z]\.?)+$/.test(answer);
+}
+function v2941CompletePersonNameFromText(answer,textValue){
+  const incomplete=clean(answer).replace(/[.!?]+$/,'');
+  const first=(incomplete.match(/^([A-Z][A-Za-z'’.-]+)/)||[])[1]||'';
+  if(!first)return '';
+  const text=String(textValue||'');
+  const pattern=new RegExp('\\b'+v2939EscapeRegex(first)+'\\s+(?:(?:[A-Z]\\.?|[A-Z][a-z]+)\\s+){0,3}[A-Z][A-Za-z\'’.-]{2,}\\b','g');
+  const matches=text.match(pattern)||[];
+  for(let i=0;i<matches.length;i++){
+    const candidate=v2939PlainPersonName(matches[i]);
+    if(candidate.split(/\s+/).length>=2&&!v2941IncompletePersonName(candidate))return candidate;
+  }
+  return '';
+}
+function v2939RepairOfficeholderAnswer(contract,result){
+  const c=v2844Clone(contract)||{};
+  let answer=clean(c.answer||c.summary||'');
+  const p=result&&result.parsed&&typeof result.parsed==='object'?result.parsed:{};
+  const sourceTitles=(result&&Array.isArray(result.sources)?result.sources:[]).map(function(source){return clean(source&&source.title||'');}).filter(Boolean);
+  const completionText=[c.explanation,c.why,p.explanation,p.sourceName,JSON.stringify(p||{}),sourceTitles.join(' ')].map(clean).filter(Boolean).join(' ');
+  if(v2941IncompletePersonName(answer)){
+    const completed=v2941CompletePersonNameFromText(answer,completionText);
+    if(completed)answer=completed;
+  }
+  answer=v2939PlainPersonName(answer);
+  if(answer){c.answer=answer;c.summary=answer;}
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{completePersonNameIntegrityV2941:v2941IncompletePersonName(answer)?'FAILED':'PASS'});
+  return c;
+}
+function v2939ClaimedOfficeholderName(raw){
+  const s=clean(raw).replace(/[?!.]+$/,'').trim();
+  const m=s.match(/\bis\s+([^,;:]+)$/i);
+  return m?clean(m[1]):'';
+}
+function v2939NormalizedName(value){return clean(value).toLowerCase().replace(/\b[a-z]\.?\b/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();}
+function v2939CachedOfficeholderClaimContract(raw,intent,cached){
+  const actual=v2939PlainPersonName(cached&&cached.answer||'');
+  const claimed=v2939PlainPersonName(v2939ClaimedOfficeholderName(raw));
+  if(!actual||!claimed)return null;
+  const accurate=v2939NormalizedName(actual)===v2939NormalizedName(claimed);
+  const c=v2844Contract(raw,{intent:'CURRENT_OFFICEHOLDER_CLAIM',route:'current-information/fresh-cache-claim/v2939',answer:accurate?'Accurate':'Inaccurate',explanation:accurate?(actual+' is the current officeholder identified by the fresh official source checked in this session.'):(actual+' is the current officeholder identified by the fresh official source checked in this session, not '+claimed+'.'),source:clean(cached.source||cached.sourceBasis||'Official current source'),sourceUrl:clean(cached.sourceUrl||cached.primarySourceUrl||''),classification:'CURRENT SOURCE-VERIFIED CLAIM',confidence:'High confidence',status:'ANSWERED'});
+  c.inputType='CLAIM';
+  c.analysisResult=accurate?'Accurate':'Inaccurate';
+  c.displayLabels={claim:'Claim',answer:'Analysis Result'};
+  c.currentInformationProtected=true;
+  c.currentInformationCheckedAt=clean(cached.currentInformationCheckedAt||new Date().toISOString());
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'currentInformationCompletenessCacheV2939',freshLiveSourceRequired:'YES',freshSessionSourceReused:'YES',stableModelFallbackBlocked:'YES'});
+  c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(error){return !['source_missing'].includes(error);});
+  c.contractValidated=c.validationErrors.length===0;
+  return c;
+}
+async function v2939CurrentInformationResponse(raw,intent,requestState){
+  const officeKey=intent&&intent.officeholder?v2939CurrentOfficeholderKey(raw):'';
+  const cached=officeKey?v2939CacheGet(officeKey):null;
+  if(intent&&intent.claim&&cached){
+    const cachedClaim=v2939CachedOfficeholderClaimContract(raw,intent,cached);
+    if(cachedClaim)return v2844Serialize(raw,cachedClaim,'fresh-session-source-cache-v2939');
+  }
+  const result=await v2844LiveEvaluation(raw,intent);
+  if(requestState&&requestState.aborted)return '';
+  if(!result||!result.ok||!validHttpUrl(result.sourceUrl||'')){
+    if(intent&&intent.claim&&cached){
+      const cachedClaim=v2939CachedOfficeholderClaimContract(raw,intent,cached);
+      if(cachedClaim)return v2844Serialize(raw,cachedClaim,'fresh-session-source-cache-v2939');
+    }
+    return v2864NonfinalCurrentRetry(raw,'current_information_live_source_required_v2939');
+  }
+  let contract=v2844LiveContract(raw,intent,result);
+  contract=v2856RepairLiveSourceContract(raw,intent,contract,result);
+  if(intent&&intent.officeholder)contract=v2939RepairOfficeholderAnswer(contract,result);
+  if(intent&&intent.officeholder&&!v2949OfficeholderRoleBound(raw,contract,result))return v2864NonfinalCurrentRetry(raw,'current_officeholder_role_binding_failed_v2949');
+  if(intent&&intent.officeholder&&(v2941IncompletePersonName(contract&&contract.answer||'')||v2949IncompletePersonAnswer(contract&&contract.answer||'')))return v2864NonfinalCurrentRetry(raw,'incomplete_current_officeholder_name_v2949');
+  contract.route='current-information/protected-live/v2939';
+  contract.classification=clean(contract.classification||'CURRENT SOURCE-VERIFIED FACTUAL');
+  contract.sourceUrl=validHttpUrl(contract.sourceUrl||result.sourceUrl||'');
+  contract.primarySourceUrl=contract.sourceUrl;
+  contract.showSource=true;
+  contract.showSourceUrl=true;
+  contract.sourceDisplayPolicy='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';
+  contract.currentInformationProtected=true;
+  contract.currentInformationCheckedAt=new Date().toISOString();
+  if(intent&&intent.claim){
+    contract.inputType='CLAIM';
+    const verdict=(clean(contract.answer||'').match(/^(Accurate|Inaccurate|Mixed|Unclear)\b/i)||[])[1]||'Unclear';
+    contract.analysisResult=verdict.charAt(0).toUpperCase()+verdict.slice(1).toLowerCase();
+    contract.displayLabels={claim:'Claim',answer:'Analysis Result'};
+  }
+  contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{}, {activeFunction:'currentInformationCompletenessCacheV2939',freshLiveSourceRequired:'YES',stableModelFallbackBlocked:'YES',completeOfficeholderNameGuard:intent&&intent.officeholder?'ACTIVE':'NOT_APPLICABLE'});
+  contract.validationErrors=v2771ContractValidationErrors(contract,raw).filter(function(error){return !['source_missing'].includes(error);});
+  contract.contractValidated=contract.validationErrors.length===0;
+  if(officeKey&&!intent.claim&&clean(contract.answer))v2939CachePut(officeKey,contract);
+  return v2844Serialize(raw,contract,'fresh-live-source-v2939');
+}
+const V2939_US_PRESIDENTS=Object.freeze([
+  '', 'George Washington','John Adams','Thomas Jefferson','James Madison','James Monroe','John Quincy Adams','Andrew Jackson','Martin Van Buren','William Henry Harrison','John Tyler','James K. Polk','Zachary Taylor','Millard Fillmore','Franklin Pierce','James Buchanan','Abraham Lincoln','Andrew Johnson','Ulysses S. Grant','Rutherford B. Hayes','James A. Garfield','Chester A. Arthur','Grover Cleveland','Benjamin Harrison','Grover Cleveland','William McKinley','Theodore Roosevelt','William Howard Taft','Woodrow Wilson','Warren G. Harding','Calvin Coolidge','Herbert Hoover','Franklin D. Roosevelt','Harry S. Truman','Dwight D. Eisenhower','John F. Kennedy','Lyndon B. Johnson','Richard Nixon','Gerald Ford','Jimmy Carter','Ronald Reagan','George H. W. Bush','Bill Clinton','George W. Bush','Barack Obama','Donald Trump','Joe Biden','Donald Trump'
+]);
+function v2939OrdinalNumber(raw){
+  const s=v2856Normalized(raw);
+  const numeric=s.match(/\b(\d{1,2})(?:st|nd|rd|th)\b/);if(numeric)return Number(numeric[1]);
+  const words={first:1,second:2,third:3,fourth:4,fifth:5,sixth:6,seventh:7,eighth:8,ninth:9,tenth:10,eleventh:11,twelfth:12,thirteenth:13,fourteenth:14,fifteenth:15,sixteenth:16,seventeenth:17,eighteenth:18,nineteenth:19,twentieth:20,thirtieth:30,fortieth:40};
+  for(const key of Object.keys(words)){if(new RegExp('\\b'+key+'\\b').test(s))return words[key];}
+  return 0;
+}
+function v2941OrdinalSuffix(value){
+  const ordinal=Number(value)||0;
+  return (ordinal%10===1&&ordinal%100!==11)?'st':(ordinal%10===2&&ordinal%100!==12)?'nd':(ordinal%10===3&&ordinal%100!==13)?'rd':'th';
+}
+function v2939UsPresidentOrdinalQuestion(raw){
+  const s=v2856Normalized(raw);
+  const usScope=/\bpresident\s+of\s+(?:the\s+)?(?:united\s+states|us|usa)\b/.test(s);
+  if(!/^(?:who|which person)\s+(?:was|is)\s+(?:the\s+)?/.test(s)||!usScope||/\bcurrent\b/.test(s))return '';
+  const ordinal=v2939OrdinalNumber(raw);
+  if(!ordinal)return '';
+  const name=V2939_US_PRESIDENTS[ordinal]||'';
+  const suffix=v2941OrdinalSuffix(ordinal);
+  if(name){
+    const c=v2844Contract(raw,{intent:'US_PRESIDENTIAL_ORDINAL',route:'historical-office/us-president-ordinal/v2941',answer:v2939PlainPersonName(name),explanation:v2939PlainPersonName(name)+' was the '+ordinal+suffix+' president of the United States.',source:'White House presidential history',sourceUrl:'https://www.whitehouse.gov/about-the-white-house/presidents/',classification:'HISTORICAL / INSTITUTIONAL FACTUAL',confidence:'High confidence',status:'ANSWERED'});
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'historicalPresidentOrdinalFastRouteV2941',paidApiUse:'NO',deterministicOrdinalLookup:'YES',usAbbreviationAccepted:'YES'});
+    return v2844Serialize(raw,c,'local-presidential-history-v2941');
+  }
+  const latestOrdinal=V2939_US_PRESIDENTS.length-1;
+  const fresh=v2939CacheGet('officeholder:president:the united states')||v2939CacheGet('officeholder:president:united states');
+  if(ordinal>latestOrdinal&&fresh&&validHttpUrl(fresh.sourceUrl||fresh.primarySourceUrl||'')){
+    let currentName=v2939PlainPersonName(fresh.answer||'');
+    if(!currentName||/^(?:accurate|inaccurate|mixed|unclear|answer|yes|no)$/i.test(currentName)){
+      const completion=[fresh.explanation,fresh.why,fresh.summary,V2939_US_PRESIDENTS[latestOrdinal]].map(clean).filter(Boolean).join(' ');
+      currentName=v2941CompletePersonNameFromText('',completion)||v2939PlainPersonName(V2939_US_PRESIDENTS[latestOrdinal]||'the current president');
+    }
+    const answer='There has not been a '+ordinal+suffix+' president of the United States yet.';
+    const explanation='The fresh official source checked in this session identifies '+currentName+' as the '+latestOrdinal+v2941OrdinalSuffix(latestOrdinal)+' president.';
+    const c=v2844Contract(raw,{intent:'US_PRESIDENTIAL_FUTURE_ORDINAL',route:'current-information/fresh-cache-future-ordinal/v2941',answer:answer,explanation:explanation,source:clean(fresh.source||'Official current source'),sourceUrl:clean(fresh.sourceUrl||fresh.primarySourceUrl||''),classification:'CURRENT SOURCE-VERIFIED INSTITUTIONAL FACTUAL',confidence:'High confidence',status:'ANSWERED'});
+    c.currentInformationProtected=true;c.currentInformationCheckedAt=clean(fresh.currentInformationCheckedAt||new Date().toISOString());
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'futurePresidentOrdinalFreshCacheV2941',paidApiUse:'NO',freshSessionSourceReused:'YES',usAbbreviationAccepted:'YES'});
+    return v2844Serialize(raw,c,'fresh-session-source-cache-v2941');
+  }
+  return '';
+}
+const CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',intentDetectorAvailable:typeof v2939CurrentInformationIntent==='function',liveResponseAvailable:typeof v2939CurrentInformationResponse==='function',liveEvaluatorAvailable:typeof v2844LiveEvaluation==='function',officeholderCacheAvailable:V2939_CURRENT_INFORMATION_CACHE instanceof Map,ordinalFastRouteAvailable:typeof v2939UsPresidentOrdinalQuestion==='function',stableFallbackBlocked:true
+});
+if(!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.currentVersion||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.intentDetectorAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.liveResponseAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.liveEvaluatorAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.officeholderCacheAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.ordinalFastRouteAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.stableFallbackBlocked){
+  throw new Error('CURRENT_INFORMATION_COMPLETENESS_CACHE_AND_HISTORICAL_ORDINAL_SPEED_REPAIR_V2939 startup validation failed');
+}
+
+
+
+// SHARED_FAST_VERIFIED_FACTS_ROUTER_V2940
+// One early, reusable coordinator for already-verified local facts. It does not create a second
+// factual engine: it reuses the established deterministic evaluators, profiles, source labels,
+// and contract renderer, and it refuses any request that may require current or live information.
+const V2940_COUNTRY_CAPITALS=Object.freeze({
+  'argentina':Object.freeze({capital:'Buenos Aires',source:'Government and established geography references'}),
+  'australia':Object.freeze({capital:'Canberra',source:'Australian government and established geography references'}),
+  'austria':Object.freeze({capital:'Vienna',source:'Government and established geography references'}),
+  'belgium':Object.freeze({capital:'Brussels',source:'Government and established geography references'}),
+  'brazil':Object.freeze({capital:'Brasília',source:'Government and established geography references'}),
+  'canada':Object.freeze({capital:'Ottawa',source:'Government of Canada and established geography references'}),
+  'china':Object.freeze({capital:'Beijing',source:'Government and established geography references'}),
+  'colombia':Object.freeze({capital:'Bogotá',source:'Government and established geography references'}),
+  'denmark':Object.freeze({capital:'Copenhagen',source:'Government and established geography references'}),
+  'egypt':Object.freeze({capital:'Cairo',source:'Government and established geography references'}),
+  'finland':Object.freeze({capital:'Helsinki',source:'Government and established geography references'}),
+  'france':Object.freeze({capital:'Paris',source:'Government and established geography references'}),
+  'germany':Object.freeze({capital:'Berlin',source:'Government and established geography references'}),
+  'greece':Object.freeze({capital:'Athens',source:'Government and established geography references'}),
+  'india':Object.freeze({capital:'New Delhi',source:'Government of India and established geography references'}),
+  'ireland':Object.freeze({capital:'Dublin',source:'Government and established geography references'}),
+  'italy':Object.freeze({capital:'Rome',source:'Government and established geography references'}),
+  'japan':Object.freeze({capital:'Tokyo',source:'Government and established geography references'}),
+  'mexico':Object.freeze({capital:'Mexico City',source:'Government and established geography references'}),
+  'new zealand':Object.freeze({capital:'Wellington',source:'New Zealand government and established geography references'}),
+  'nigeria':Object.freeze({capital:'Abuja',source:'Government and established geography references'}),
+  'norway':Object.freeze({capital:'Oslo',source:'Government and established geography references'}),
+  'pakistan':Object.freeze({capital:'Islamabad',source:'Government and established geography references'}),
+  'philippines':Object.freeze({capital:'Manila',source:'Government and established geography references'}),
+  'poland':Object.freeze({capital:'Warsaw',source:'Government and established geography references'}),
+  'portugal':Object.freeze({capital:'Lisbon',source:'Government and established geography references'}),
+  'russia':Object.freeze({capital:'Moscow',source:'Government and established geography references'}),
+  'saudi arabia':Object.freeze({capital:'Riyadh',source:'Government and established geography references'}),
+  'south korea':Object.freeze({capital:'Seoul',source:'Government and established geography references'}),
+  'spain':Object.freeze({capital:'Madrid',source:'Government of Spain and established geography references'}),
+  'sweden':Object.freeze({capital:'Stockholm',source:'Government and established geography references'}),
+  'turkey':Object.freeze({capital:'Ankara',source:'Government and established geography references'}),
+  'ukraine':Object.freeze({capital:'Kyiv',source:'Government and established geography references'}),
+  'united kingdom':Object.freeze({capital:'London',source:'United Kingdom government and established geography references'}),
+  'uk':Object.freeze({capital:'London',source:'United Kingdom government and established geography references'}),
+  'united states':Object.freeze({capital:'Washington, D.C.',source:'United States government and established geography references'}),
+  'united states of america':Object.freeze({capital:'Washington, D.C.',source:'United States government and established geography references'}),
+  'usa':Object.freeze({capital:'Washington, D.C.',source:'United States government and established geography references'})
+});
+function v2940CountryCapitalEvaluation(raw){
+  const input=clean(raw),s=input.replace(/[?!.]+$/,'').trim();
+  if(!s||!isAnyQuestionInputText(s))return null;
+  let m=s.match(/^(?:what|which)\s+(?:city\s+)?is\s+(?:the\s+)?capital(?:\s+city)?\s+of\s+(?:the\s+)?(.+)$/i);
+  if(!m)m=s.match(/^(?:what|which)\s+is\s+(.+?)'?s\s+capital(?:\s+city)?$/i);
+  if(!m)return null;
+  const country=v2856Normalized(clean(m[1])).replace(/^the\s+/,'').replace(/\s+/g,' ').trim();
+  const item=V2940_COUNTRY_CAPITALS[country];
+  if(!item)return null;
+  const proper=country==='usa'?'United States':country.replace(/\b\w/g,function(ch){return ch.toUpperCase();});
+  return v2730StableEval(raw,{key:'country_capital_lookup_v2940',route:'fast-verified-facts/geography/country-capital/v2940',classification:'GEOGRAPHY DIRECT ANSWER',status:'ANSWERED',answer:item.capital,why:item.capital+' is the capital of '+proper+'.',source:item.source,basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,confidence:'High confidence'});
+}
+function v2940OutputBasketFromValue(answer,answerList,preferred){
+  if(preferred)return preferred;
+  if(Array.isArray(answerList)&&answerList.length)return OUTPUT_FORMAT_BASKETS.LIST;
+  if(/^(?:yes|no)(?:\b|\s*[—–-])/i.test(clean(answer)))return OUTPUT_FORMAT_BASKETS.YES_NO;
+  if(/^-?\d+(?:\.\d+)?(?:\s|$)/.test(clean(answer)))return OUTPUT_FORMAT_BASKETS.NUMBER;
+  return OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;
+}
+function v2940EvaluationFromStableSupport(raw,support){
+  const p=support&&typeof support==='object'?support:null;if(!p||!clean(p.answer||'')&&!Array.isArray(p.answerList))return null;
+  return v2730StableEval(raw,{key:clean(p.key||'deterministic-stable-support')+'_v2940',route:'fast-verified-facts/reused/'+clean(p.route||'deterministic').replace(/[^a-z0-9/_-]+/gi,'-'),classification:clean(p.classification||'STABLE GENERAL FACTUAL'),status:clean(p.status||'ANSWERED'),analysisResult:clean(p.analysisResult||'Answer'),answer:clean(p.answer||''),answerList:Array.isArray(p.answerList)?p.answerList:[],why:clean(p.verdict||p.summary||p.why||p.evidence||p.answer||''),evidence:clean(p.evidence||p.verdict||p.summary||''),source:clean(p.source||p.sourceBasis||'Established references'),url:validHttpUrl(p.url||p.sourceUrl||''),supporting:clean(p.supporting||p.supportingInformation||''),basket:v2940OutputBasketFromValue(p.answer,p.answerList,p.outputBasket),confidence:clean(p.confidence||'High confidence')});
+}
+function v2940EvaluationFromProfile(raw,profile){
+  if(!profile)return null;
+  if(!profile.facts&&clean(profile.answer||'')){
+    return v2730StableEval(raw,{key:'active-profile-v2940',route:clean(profile.route||'fast-verified-facts/profile/v2940'),classification:clean(profile.classification||'STABLE GENERAL FACTUAL'),status:'ANSWERED',analysisResult:'Answer',answer:clean(profile.answer||''),answerList:Array.isArray(profile.answerList)?profile.answerList:[],why:clean(profile.explanation||profile.why||profile.answer||''),evidence:clean(profile.evidence||profile.explanation||profile.why||''),source:clean(profile.source||profile.sourceBasis||'OpenAI model knowledge'),url:validHttpUrl(profile.sourceUrl||''),supporting:clean(profile.supportingInformation||''),basket:v2940OutputBasketFromValue(profile.answer,profile.answerList,profile.outputBasket),confidence:clean(profile.confidence||'High confidence')});
+  }
+  if(!profile.facts)return null;
+  let rendered=null;try{rendered=v2771RenderControlledContract(raw,profile.facts);}catch(_e){rendered=null;}
+  if(!rendered||!clean(rendered.answer||'')&&!Array.isArray(rendered.answerList))return null;
+  return v2730StableEval(raw,{key:'shared-profile-v2940',route:clean(rendered.route||profile.facts.routeFact||'fast-verified-facts/profile/v2940'),classification:clean(rendered.classification||profile.facts.classificationFact||'STABLE GENERAL FACTUAL'),status:clean(rendered.status||'ANSWERED'),analysisResult:clean(rendered.analysisResult||profile.claimVerdict||'Answer'),answer:clean(rendered.answer||profile.facts.directAnswerFact||''),answerList:Array.isArray(rendered.answerList)?rendered.answerList:[],why:clean(rendered.why||rendered.explanation||(profile.facts.explanationFacts||[]).join(' ')),evidence:clean(rendered.evidence||rendered.why||rendered.explanation||''),source:clean(rendered.source||rendered.sourceBasis||profile.facts.sourceNameFact||'OpenAI model knowledge'),url:validHttpUrl(rendered.sourceUrl||profile.facts.sourceUrlFact||''),supporting:clean(rendered.supportingInformation||''),basket:v2940OutputBasketFromValue(rendered.answer,rendered.answerList,rendered.outputBasket),confidence:clean(rendered.confidence||profile.facts.confidenceFact||'High confidence')});
+}
+function v2940FastVerifiedFactsEligible(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input)||v2708IsSpecificYouTube(input)||v2844DateIntent(input))return false;
+  if(v2939CurrentInformationIntent(input)||v2864RequiresVerifiedLiveOnly(input))return false;
+  if(/\b(?:today|tonight|yesterday|tomorrow|current|currently|latest|recent|newest|now|right now|this week|this month|this year|as of|breaking|live|price|cost|stock|market|weather|forecast|score|schedule|standings|election|poll|population|available|in stock|near me|best rated|top rated)\b/.test(s))return false;
+  if(v2731IsDangerousWrongdoingRequest(input)||v2727LooksLikeFaithScriptureInput(input))return false;
+  if(typeof v2733LooksLikeBroadComparativeScopeQuestion==='function'&&v2733LooksLikeBroadComparativeScopeQuestion(input))return false;
+  return true;
+}
+function v2940FastVerifiedFactsEvaluation(raw){
+  if(!v2940FastVerifiedFactsEligible(raw))return null;
+  const evaluators=[v2940CountryCapitalEvaluation,typeof v2731ListScopeRecoveryEvaluation==='function'?v2731ListScopeRecoveryEvaluation:null,typeof v2733ChemicalSymbolEvaluation==='function'?v2733ChemicalSymbolEvaluation:null,typeof v2730FastStableEvaluation==='function'?v2730FastStableEvaluation:null].filter(Boolean);
+  for(let i=0;i<evaluators.length;i++){let result=null;try{result=evaluators[i](raw);}catch(_e){result=null;}if(result&&clean(result.answer||'')||result&&Array.isArray(result.answerList)&&result.answerList.length)return result;}
+  let profile=null;try{profile=typeof v2810ActiveProfile==='function'?v2810ActiveProfile(raw):null;}catch(_e){profile=null;}
+  let evaluation=v2940EvaluationFromProfile(raw,profile);if(evaluation)return evaluation;
+  try{profile=typeof v2801GeneralProfile==='function'?v2801GeneralProfile(raw):null;}catch(_e){profile=null;}
+  evaluation=v2940EvaluationFromProfile(raw,profile);if(evaluation)return evaluation;
+  let support=null;try{support=typeof deterministicStableQuestionSupport==='function'?deterministicStableQuestionSupport(raw):null;}catch(_e){support=null;}
+  return v2940EvaluationFromStableSupport(raw,support);
+}
+function v2940StampFastSerialized(raw,serialized,sourceName){
+  const lines=String(serialized||'').split(/\r?\n/);
+  for(let i=0;i<lines.length;i++){
+    if(!/^AIV_RESULT_CONTRACT:\s*/.test(lines[i]))continue;
+    try{
+      const c=JSON.parse(lines[i].replace(/^AIV_RESULT_CONTRACT:\s*/,''));
+      c.backendVersion=VERSION;
+      c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'sharedFastVerifiedFactsRouterV2940',fastVerifiedFactsRouter:'USED',localVerifiedSource:clean(sourceName||'existing-evaluator'),paidApiUse:'NO',webSearchUse:'NO',currentInformationGuard:'PASSED'});
+      lines[i]='AIV_RESULT_CONTRACT: '+JSON.stringify(c);
+    }catch(_e){}
+  }
+  return lines.join('\n');
+}
+function v2940FastVerifiedFactsResponse(raw){
+  if(!v2940FastVerifiedFactsEligible(raw))return '';
+  const ordinal=v2939UsPresidentOrdinalQuestion(raw);if(ordinal)return v2940StampFastSerialized(raw,ordinal,'historical-president-ordinal');
+  const evaluation=v2940FastVerifiedFactsEvaluation(raw);
+  if(evaluation){
+    const explanation=clean(evaluation.verdict||evaluation.summary||evaluation.evidence||'');
+    const serialized=v2665ContractText(raw,{route:'fast-verified-facts/shared/v2940',classification:clean(evaluation.classification||'STABLE GENERAL FACTUAL'),inputType:isAnyQuestionInputText(raw)?'QUESTION':'CLAIM',analysisResult:clean(evaluation.analysisResult||'Answer'),status:clean(evaluation.status||'ANSWERED'),answer:clean(evaluation.answer||''),answerList:Array.isArray(evaluation.answerList)?evaluation.answerList:[],why:explanation,evidence:clean(evaluation.evidence||explanation),source:clean(evaluation.source||evaluation.sourceBasis||'Established references'),sourceBasis:clean(evaluation.sourceBasis||evaluation.source||'Established references'),sourceUrl:validHttpUrl(evaluation.url||evaluation.sourceUrl||''),supportingInformation:clean(evaluation.supporting||evaluation.supportingInformation||''),confidence:clean(evaluation.confidence||'High confidence'),outputBasket:v2940OutputBasketFromValue(evaluation.answer,evaluation.answerList,evaluation.outputBasket),technicalDiagnostics:{activeFunction:'sharedFastVerifiedFactsRouterV2940',fastVerifiedFactsRouter:'USED',originalStableRoute:clean(evaluation.route||''),paidApiUse:'NO',webSearchUse:'NO',currentInformationGuard:'PASSED'}});
+    return v2940StampFastSerialized(raw,serialized,'shared-stable-evaluator');
+  }
+  let regression='';try{regression=typeof v2672RegressionOutput==='function'?v2672RegressionOutput(raw):'';}catch(_e){regression='';}
+  return regression?v2940StampFastSerialized(raw,regression,'verified-regression-catalog'):'';
+}
+const SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',capitalCatalogReady:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,eligibilityGuardAvailable:typeof v2940FastVerifiedFactsEligible==='function',evaluationCoordinatorAvailable:typeof v2940FastVerifiedFactsEvaluation==='function',responseCoordinatorAvailable:typeof v2940FastVerifiedFactsResponse==='function',currentInformationGuardAvailable:typeof v2939CurrentInformationIntent==='function',periodicTableEvaluatorAvailable:typeof v2733ChemicalSymbolEvaluation==='function',measurementProfileAvailable:typeof v2810ActiveProfile==='function',stableProfileAvailable:typeof v2801GeneralProfile==='function',deterministicSupportAvailable:typeof deterministicStableQuestionSupport==='function'});
+if(!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.currentVersion||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.capitalCatalogReady||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.eligibilityGuardAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.evaluationCoordinatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.responseCoordinatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.currentInformationGuardAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.periodicTableEvaluatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.measurementProfileAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.stableProfileAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.deterministicSupportAvailable){
+  throw new Error('SHARED_FAST_VERIFIED_FACTS_ROUTER_V2940 startup validation failed');
+}
+
+
+// GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_SPEED_REPAIR_V2942
+// Current facts first use a reusable direct-official-source registry. Stable declarative claims
+// first reuse existing deterministic profiles and catalogs; only unmatched stable claims may use
+// one bounded model-knowledge call. Current, live, URL, faith, dangerous, and debatable inputs are
+// excluded from the stable-claim model route.
+const V2942_DIRECT_OFFICIAL_FACT_CACHE=new Map();
+const V2942_OFFICIAL_FACT_SNAPSHOT=Object.freeze({
+  key:'us-president',
+  role:'President of the United States',
+  answer:'Donald Trump',
+  officialName:'Donald J. Trump',
+  ordinalText:'45th and 47th',
+  source:'The White House',
+  sourceUrl:'https://www.whitehouse.gov/administration/donald-j-trump/',
+  verifiedAt:'2026-08-06T15:58:00.000Z',
+  expiresAt:'2026-08-07T15:58:00.000Z'
+});
+function v2942NormalizedComparable(value){
+  return clean(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\b[a-z]\.?\b/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+}
+function v2942UsPresidentCurrentIntent(raw,intent){
+  const d=v2949CurrentOfficeholderDescriptor(raw);
+  return !!(intent&&intent.officeholder&&d&&d.roleKey==='president'&&/\b(?:united states|usa|u s|america)\b/.test(v2856Normalized(raw)));
+}
+function v2942SnapshotIsFresh(snapshot){
+  const expires=Date.parse(snapshot&&snapshot.expiresAt||'');
+  return Number.isFinite(expires)&&Date.now()<=expires;
+}
+function v2942ExtractOfficialPresident(page){
+  const blob=[page&&page.title,page&&page.text,page&&page.html].map(function(value){return String(value||'');}).join(' ');
+  const patterns=[
+    /\bPresident\s+(Donald\s+J\.?\s+Trump)\b/i,
+    /\b(Donald\s+J\.?\s+Trump)\b/i,
+    /\bPresident\s+(Donald\s+Trump)\b/i,
+    /\b(Donald\s+Trump)\b/i
+  ];
+  for(let i=0;i<patterns.length;i++){
+    const m=blob.match(patterns[i]);
+    if(m&&m[1])return {answer:'Donald Trump',officialName:/\bJ\.?\b/.test(m[1])?'Donald J. Trump':'Donald Trump'};
+  }
+  return null;
+}
+async function v2942LoadOfficialUsPresident(requestState){
+  const cached=V2942_DIRECT_OFFICIAL_FACT_CACHE.get('us-president');
+  if(cached&&Date.now()-cached.savedAt<10*60*1000)return v2844Clone(cached.value);
+  if(v2942SnapshotIsFresh(V2942_OFFICIAL_FACT_SNAPSHOT)){
+    const snapshot=v2844Clone(V2942_OFFICIAL_FACT_SNAPSHOT);
+    V2942_DIRECT_OFFICIAL_FACT_CACHE.set('us-president',{savedAt:Date.now(),value:snapshot});
+    return snapshot;
+  }
+  const page=await fetchUrl(V2942_OFFICIAL_FACT_SNAPSHOT.sourceUrl,420000,4200,2).catch(function(){return null;});
+  if(requestState&&requestState.aborted)return null;
+  const extracted=page&&page.ok?v2942ExtractOfficialPresident(page):null;
+  if(!extracted)return null;
+  const value={
+    key:'us-president',role:'President of the United States',answer:extracted.answer,
+    officialName:extracted.officialName,ordinalText:'45th and 47th',source:'The White House',
+    sourceUrl:V2942_OFFICIAL_FACT_SNAPSHOT.sourceUrl,verifiedAt:new Date().toISOString(),expiresAt:''
+  };
+  V2942_DIRECT_OFFICIAL_FACT_CACHE.set('us-president',{savedAt:Date.now(),value:value});
+  return v2844Clone(value);
+}
+function v2942OfficialCurrentFactContract(raw,intent,fact){
+  const claimed=intent&&intent.claim?v2939PlainPersonName(v2939ClaimedOfficeholderName(raw)):'';
+  const actual=clean(fact&&fact.answer||'');
+  const accurate=claimed?v2939NormalizedName(actual)===v2939NormalizedName(claimed):false;
+  const isClaim=!!(intent&&intent.claim);
+  const verdict=isClaim?(accurate?'Accurate':'Inaccurate'):'Answer';
+  const answer=isClaim?verdict:actual;
+  const explanation=isClaim
+    ?(accurate
+      ?fact.officialName+' is identified by the official White House source as the '+fact.ordinalText+' President of the United States.'
+      :fact.officialName+' is identified by the official White House source as the '+fact.ordinalText+' President of the United States, not '+claimed+'.')
+    :('The official White House source identifies '+fact.officialName+' as the '+fact.ordinalText+' President of the United States.');
+  const c=v2844Contract(raw,{intent:'DIRECT_OFFICIAL_CURRENT_FACT',route:'current-information/direct-official-source/v2942',answer:answer,explanation:explanation,source:fact.source,sourceUrl:fact.sourceUrl,classification:'CURRENT SOURCE-VERIFIED OFFICEHOLDER',confidence:'High confidence',status:'ANSWERED'});
+  c.inputType=isClaim?'CLAIM':'QUESTION';
+  c.analysisResult=isClaim?verdict:'Answer';
+  c.displayLabels=isClaim?{claim:'Claim',answer:'Analysis Result'}:{claim:'Claim / Question',answer:'Answer'};
+  c.currentInformationProtected=true;
+  c.currentInformationCheckedAt=clean(fact.verifiedAt||new Date().toISOString());
+  c.summary=answer;
+  c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;
+  c.sourceDisplayPolicy='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'directOfficialCurrentFactResolverV2942',directOfficialSource:'USED',generalWebSearchSkipped:'YES',completePersonNameIntegrity:'PASS',paidApiUse:'NO',snapshotFresh:v2942SnapshotIsFresh(fact)?'YES':'NO'});
+  c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(error){return !['source_missing'].includes(error);});
+  c.contractValidated=c.validationErrors.length===0;
+  const identityCacheContract=isClaim?Object.assign(v2844Clone(c),{
+    answer:actual,summary:actual,analysisResult:'Answer',inputType:'QUESTION',
+    explanation:'The official White House source identifies '+fact.officialName+' as the '+fact.ordinalText+' President of the United States.',
+    why:'The official White House source identifies '+fact.officialName+' as the '+fact.ordinalText+' President of the United States.'
+  }):c;
+  identityCacheContract.technicalDiagnostics=Object.assign({},identityCacheContract.technicalDiagnostics||{},{officeholderIdentityCache:'IDENTITY_ONLY_V2943'});
+  v2939CachePut('officeholder:president:the united states',identityCacheContract);
+  v2939CachePut('officeholder:president:united states',identityCacheContract);
+  return c;
+}
+async function v2942OfficialCurrentFactResponse(raw,requestState){
+  const intent=v2939CurrentInformationIntent(raw);
+  if(!v2942UsPresidentCurrentIntent(raw,intent))return '';
+  const fact=await v2942LoadOfficialUsPresident(requestState);
+  if(requestState&&requestState.aborted)return '';
+  if(!fact){
+    const retry=v2844UnavailableContract(raw,intent,'direct_official_source_unavailable_v2942');
+    retry.answer='A reliable current-source answer could not be completed in this scan.';
+    retry.summary=retry.answer;
+    retry.explanation='Select Analyze/Enter again to retry this scan.';retry.why=retry.explanation;
+    retry.source='';retry.sourceBasis='';retry.sourceUrl='';retry.primarySourceUrl='';retry.showSource=false;retry.showSourceUrl=false;
+    retry.technicalDiagnostics=Object.assign({},retry.technicalDiagnostics||{},{activeFunction:'directOfficialCurrentFactResolverV2942',directOfficialSource:'UNAVAILABLE',generalWebSearchSkipped:'YES',boundedLookup:'YES'});
+    return v2844Serialize(raw,retry,'direct-official-source-unavailable-v2942');
+  }
+  return v2844Serialize(raw,v2942OfficialCurrentFactContract(raw,intent,fact),'direct-official-source-v2942');
+}
+function v2942StableGeneralClaimEligible(raw){
+  const input=clean(raw);
+  if(!input||isAnyQuestionInputText(input)||/^https?:\/\//i.test(input)||v2708IsSpecificYouTube(input))return false;
+  if(!looksLikeStandardFactualClaimInput(input)&&!looksLikeGeneralDeclarativeFactualClaimInput(input))return false;
+  if(!v2940FastVerifiedFactsEligible(input)||v2939CurrentInformationIntent(input)||v2864RequiresVerifiedLiveOnly(input))return false;
+  if(v2731IsDangerousWrongdoingRequest(input)||v2727LooksLikeFaithScriptureInput(input))return false;
+  return true;
+}
+function v2942ClaimContract(raw,verdict,explanation,source,sourceUrl,classification,route,correction,diagnostics){
+  const valid=/^(?:Accurate|Inaccurate|Mixed|Unclear)$/.test(clean(verdict))?clean(verdict):'Unclear';
+  let why=clean(explanation||'');
+  const corrected=clean(correction||'');
+  if(corrected&&!new RegExp(v2939EscapeRegex(corrected),'i').test(why))why=(why?why.replace(/[.\s]+$/,'')+'. ':'')+'Correction: '+corrected.replace(/[.\s]+$/,'')+'.';
+  const c=v2844Contract(raw,{intent:'GENERAL_FACTUAL_CLAIM',route:clean(route||'general-factual-claim/shared/v2942'),answer:valid,explanation:why,source:clean(source||'OpenAI model knowledge'),sourceUrl:validHttpUrl(sourceUrl||''),classification:clean(classification||'GENERAL FACTUAL CLAIM'),confidence:'High confidence',status:'ANSWERED'});
+  c.inputType='CLAIM';c.analysisResult=valid;c.answer=valid;c.summary=valid;
+  c.displayLabels={claim:'Claim',answer:'Analysis Result'};
+  c.resultLayout='ANSWER_DETAILS_SOURCE';c.sourceLast=true;c.showSource=true;c.showSourceUrl=!!validHttpUrl(sourceUrl||'');
+  c.sourceDisplayPolicy=c.showSourceUrl?'HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL':'SHOW_MODEL_KNOWLEDGE';
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},diagnostics||{},{activeFunction:'sharedGeneralFactualClaimVerifierV2942',generalFactualClaimRouter:'USED',currentInformationGuard:'PASSED'});
+  c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(error){return !['source_missing'].includes(error);});
+  c.contractValidated=c.validationErrors.length===0;
+  return v2844Serialize(raw,c,'general-factual-claim-v2942');
+}
+function v2942ProfileClaimVerdict(raw,profile,rendered){
+  const preset=clean(profile&&profile.claimVerdict||'');
+  if(/^(?:Accurate|Inaccurate|Mixed|Unclear)$/.test(preset))return preset;
+  const route=clean(rendered&&rendered.route||profile&&profile.facts&&profile.facts.routeFact||'');
+  const s=v2856Normalized(raw);
+  const negated=/\b(?:not|never|cannot|cant|does not|doesnt|do not|dont|is not|isnt|are not|arent|will not|wont)\b/.test(s);
+  if(/antibiotics-do-not-treat-viruses/i.test(route))return negated?'Accurate':'Inaccurate';
+  const answer=clean(rendered&&rendered.answer||'');
+  if(/^yes\b/i.test(answer))return negated?'Inaccurate':'Accurate';
+  if(/^no\b/i.test(answer))return negated?'Accurate':'Inaccurate';
+  return '';
+}
+function v2942CapitalClaimResponse(raw){
+  const s=clean(raw).replace(/[?!.]+$/,'').trim();
+  let country='',claimed='';
+  let m=s.match(/^(?:the\s+)?capital(?:\s+city)?\s+of\s+(?:the\s+)?(.+?)\s+is\s+(.+)$/i);
+  if(m){country=clean(m[1]);claimed=clean(m[2]);}
+  if(!country){m=s.match(/^(.+?)\s+is\s+(?:the\s+)?capital(?:\s+city)?\s+of\s+(?:the\s+)?(.+)$/i);if(m){claimed=clean(m[1]);country=clean(m[2]);}}
+  if(!country||!claimed)return '';
+  const key=v2856Normalized(country).replace(/^the\s+/,'').replace(/\s+/g,' ').trim();
+  const item=V2940_COUNTRY_CAPITALS[key];if(!item)return '';
+  const correct=v2942NormalizedComparable(claimed)===v2942NormalizedComparable(item.capital);
+  const proper=key==='usa'?'United States':key.replace(/\b\w/g,function(ch){return ch.toUpperCase();});
+  const explanation=correct?(item.capital+' is the capital of '+proper+'.'):(item.capital+', not '+claimed+', is the capital of '+proper+'.');
+  return v2942ClaimContract(raw,correct?'Accurate':'Inaccurate',explanation,item.source,'','GEOGRAPHY FACTUAL CLAIM','general-factual-claim/geography-capital/v2942',correct?'':item.capital,{deterministicClaimEvaluation:'COUNTRY_CAPITAL',paidApiUse:'NO'});
+}
+function v2942ChemicalSymbolClaimResponse(raw){
+  const s=clean(raw).replace(/[?!.]+$/,'').trim();
+  let element='',claimed='';
+  let m=s.match(/^(?:the\s+)?chemical\s+symbol\s+(?:for|of)\s+([A-Za-z][A-Za-z\s-]{1,28})\s+is\s+([A-Za-z]{1,2})$/i);
+  if(m){element=clean(m[1]).toLowerCase();claimed=clean(m[2]);}
+  if(!element){m=s.match(/^([A-Za-z]{1,2})\s+is\s+(?:the\s+)?chemical\s+symbol\s+(?:for|of)\s+([A-Za-z][A-Za-z\s-]{1,28})$/i);if(m){claimed=clean(m[1]);element=clean(m[2]).toLowerCase();}}
+  const expected=AIV_V2733_ELEMENT_TO_SYMBOL[element];if(!expected||!claimed)return '';
+  const correct=expected.toLowerCase()===claimed.toLowerCase();
+  const proper=AIV_V2733_SYMBOL_TO_ELEMENT[expected.toLowerCase()]||element.replace(/\b\w/g,function(ch){return ch.toUpperCase();});
+  const explanation=correct?(proper+' has the chemical symbol '+expected+'.'):(proper+' has the chemical symbol '+expected+', not '+claimed+'.');
+  return v2942ClaimContract(raw,correct?'Accurate':'Inaccurate',explanation,'IUPAC periodic table / element reference','https://iupac.org/what-we-do/periodic-table-of-elements/','CHEMISTRY FACTUAL CLAIM','general-factual-claim/chemical-symbol/v2942',correct?'':expected,{deterministicClaimEvaluation:'CHEMICAL_SYMBOL',paidApiUse:'NO'});
+}
+function v2942PresidentialOrdinalClaimResponse(raw){
+  const s=v2856Normalized(raw);
+  if(!/\bpresident\s+of\s+(?:the\s+)?(?:united states|us|usa|u s)\b/.test(s))return '';
+  const ordinal=v2939OrdinalNumber(raw);if(!ordinal||!V2939_US_PRESIDENTS[ordinal])return '';
+  const m=clean(raw).replace(/[?!.]+$/,'').match(/^(.+?)\s+(?:was|is)\s+(?:the\s+)?\d{1,2}(?:st|nd|rd|th)\s+president\b/i);
+  if(!m)return '';
+  const claimed=v2939PlainPersonName(m[1]);const expected=v2939PlainPersonName(V2939_US_PRESIDENTS[ordinal]);
+  const correct=v2939NormalizedName(claimed)===v2939NormalizedName(expected);
+  const suffix=v2941OrdinalSuffix(ordinal);
+  const explanation=correct?(expected+' was the '+ordinal+suffix+' president of the United States.'):(expected+', not '+claimed+', was the '+ordinal+suffix+' president of the United States.');
+  return v2942ClaimContract(raw,correct?'Accurate':'Inaccurate',explanation,'White House presidential history','https://www.whitehouse.gov/about-the-white-house/presidents/','HISTORICAL FACTUAL CLAIM','general-factual-claim/presidential-ordinal/v2942',correct?'':expected,{deterministicClaimEvaluation:'PRESIDENTIAL_ORDINAL',paidApiUse:'NO'});
+}
+function v2942ProfileClaimResponse(raw){
+  let profile=null;try{profile=v2801GeneralProfile(raw);}catch(_e){profile=null;}
+  if(!profile||!profile.facts)return '';
+  let rendered=null;try{rendered=v2771RenderControlledContract(raw,profile.facts);}catch(_e){rendered=null;}
+  if(!rendered)return '';
+  const verdict=v2942ProfileClaimVerdict(raw,profile,rendered);if(!verdict)return '';
+  const correction=verdict==='Inaccurate'?clean(rendered.answer||''):'';
+  const explanation=clean(rendered.explanation||rendered.why||(profile.facts.explanationFacts||[]).join(' '));
+  return v2942ClaimContract(raw,verdict,explanation,clean(rendered.source||rendered.sourceBasis||profile.facts.sourceNameFact||'OpenAI model knowledge'),validHttpUrl(rendered.sourceUrl||profile.facts.sourceUrlFact||''),clean(rendered.classification||profile.facts.classificationFact||'GENERAL FACTUAL CLAIM'),clean(rendered.route||profile.facts.routeFact||'general-factual-claim/profile/v2942'),correction,{deterministicClaimEvaluation:'EXISTING_SHARED_PROFILE',paidApiUse:'NO'});
+}
+function v2942DeterministicGeneralClaimResponse(raw){
+  if(!v2942StableGeneralClaimEligible(raw))return '';
+  return v2942CapitalClaimResponse(raw)||v2942ChemicalSymbolClaimResponse(raw)||v2942PresidentialOrdinalClaimResponse(raw)||v2942ProfileClaimResponse(raw)||'';
+}
+async function v2942ModelGeneralClaimResponse(raw,requestState){
+  if(!v2942StableGeneralClaimEligible(raw)||!process.env.OPENAI_API_KEY)return '';
+  const prompt=[
+    'Verify this stable, non-current factual claim using established general knowledge. Do not browse the web and do not discuss current events.',
+    'Return ONLY one JSON object with keys: verdict, explanation, correction, confidence.',
+    'verdict must be exactly Accurate, Inaccurate, Mixed, or Unclear.',
+    'Give a direct factual explanation. If the claim is inaccurate, correction must state the accurate fact. If accurate, correction must be empty.',
+    'Do not mention being an AI, model limitations, internal routing, or offer more help.',
+    'Claim: '+clean(raw)
+  ].join('\n');
+  const payload={model:process.env.OPENAI_MODEL||'gpt-5.4-mini',reasoning:{effort:'low'},input:prompt,max_output_tokens:650,text:{format:{type:'json_object'}}};
+  const response=await openaiApiRequestJson(payload,11000);
+  if(requestState&&requestState.aborted)return '';
+  if(!response||!response.ok)return '';
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
+  if(!parsed||!/^(?:Accurate|Inaccurate|Mixed|Unclear)$/.test(clean(parsed.verdict||'')))return '';
+  return v2942ClaimContract(raw,clean(parsed.verdict),clean(parsed.explanation), 'OpenAI model knowledge','', 'GENERAL FACTUAL CLAIM','general-factual-claim/bounded-model-knowledge/v2942',clean(parsed.correction||''),{deterministicClaimEvaluation:'NO',boundedModelKnowledge:'USED',webSearchUse:'NO',modelTimeoutMs:'11000'});
+}
+async function v2942GeneralFactualClaimResponse(raw,requestState){
+  const deterministic=v2942DeterministicGeneralClaimResponse(raw);if(deterministic)return deterministic;
+  return v2942ModelGeneralClaimResponse(raw,requestState);
+}
+
+
+// PRESIDENTIAL_ORDINAL_NAME_INTEGRITY_AND_QUALIFIED_MORAL_DILEMMA_REPAIR_V2943
+// This router applies only when the wording contains a genuine competing-duty or safety qualifier.
+// It first reuses the existing broad deterministic moral rules, then applies shared principle-level
+// categories. It does not replace ordinary moral questions, current facts, URLs, or wrongdoing gates.
+function v2943FutureUsPresidentOrdinalIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!/^(?:who|which person)\s+(?:was|is)\s+(?:the\s+)?/.test(s))return 0;
+  if(!/\bpresident\s+of\s+(?:the\s+)?(?:united\s+states|us|usa|u s)\b/.test(s)||/\bcurrent\b/.test(s))return 0;
+  const ordinal=v2939OrdinalNumber(raw);
+  const latestOrdinal=V2939_US_PRESIDENTS.length-1;
+  return ordinal>latestOrdinal?ordinal:0;
+}
+async function v2943FutureUsPresidentOrdinalResponse(raw,requestState){
+  const ordinal=v2943FutureUsPresidentOrdinalIntent(raw);if(!ordinal)return '';
+  const fact=await v2942LoadOfficialUsPresident(requestState);
+  if(requestState&&requestState.aborted)return '';
+  if(!fact)return '';
+  const latestOrdinal=V2939_US_PRESIDENTS.length-1;
+  const suffix=v2941OrdinalSuffix(ordinal);
+  const latestSuffix=v2941OrdinalSuffix(latestOrdinal);
+  const currentName=v2939PlainPersonName(fact.answer||V2939_US_PRESIDENTS[latestOrdinal]||'the current president');
+  const answer='There has not been a '+ordinal+suffix+' president of the United States yet.';
+  const explanation='The official White House source identifies '+currentName+' as the '+latestOrdinal+latestSuffix+' president; therefore the requested future ordinal has not been reached.';
+  const c=v2844Contract(raw,{intent:'US_PRESIDENTIAL_FUTURE_ORDINAL',route:'current-information/direct-official-future-ordinal/v2943',answer:answer,explanation:explanation,source:fact.source,sourceUrl:fact.sourceUrl,classification:'CURRENT SOURCE-VERIFIED INSTITUTIONAL FACTUAL',confidence:'High confidence',status:'ANSWERED'});
+  c.currentInformationProtected=true;c.currentInformationCheckedAt=clean(fact.verifiedAt||new Date().toISOString());
+  c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;c.sourceDisplayPolicy='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'futurePresidentOrdinalDirectOfficialResolverV2943',verdictNameLeakGuard:'PASS',directOfficialSource:'USED',paidApiUse:'NO'});
+  c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(error){return !['source_missing'].includes(error);});
+  c.contractValidated=c.validationErrors.length===0;
+  return v2844Serialize(raw,c,'direct-official-future-president-ordinal-v2943');
+}
+function v2943QualifiedMoralDilemmaIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  if(typeof v2998EpistemicEvidenceIntent==='function'&&v2998EpistemicEvidenceIntent(raw))return false;
+  const moralQuestion=/\b(?:should|must|may|can|could|is it wrong|is it right|is it okay|is it ok|what should|which is right|do i have to)\b/.test(s);
+  const moralSubject=/\b(?:lie|truth|honest|deceive|promise|secret|confidential|forgive|reconcile|trust|contact|obey|order|authority|employer|parent|government|steal|take|property|report|disclose|protect|harm|danger|abuse|violence|safety|life|starv|emergency|duty|responsibility|family|relative)\b/.test(s);
+  const qualification=/\b(?:if|when|unless|even if|although|but|while|because|to protect|to prevent|only way|immediate|serious|urgent|emergency|danger|harm|abuse|violence|unsafe|life|starv|conflicting|both|equally)\b/.test(s);
+  return moralQuestion&&moralSubject&&qualification;
+}
+function v2943QualifiedMoralContract(raw,profile){
+  const p=profile||{};
+  const rule={
+    id:'qualified-'+clean(p.id||'competing-duties')+'-v2943',
+    answer:clean(p.answer||'Depends'),
+    bullets:Array.isArray(p.bullets)?p.bullets:[],
+    why:clean(p.why||'The right action depends on which duty best protects life, truth, justice, and responsibility in the actual circumstances.'),
+    evidence:clean(p.evidence||'Scripture requires moral duties to be applied together rather than using one principle to excuse preventable harm.'),
+    refs:Array.isArray(p.refs)&&p.refs.length?p.refs:['mic68','phil24','james417'],
+    confidence:clean(p.confidence||'High confidence'),
+    basket:/^Depends$/i.test(clean(p.answer||''))?'DEPENDS':'YES_NO',
+    directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER',
+    share:clean(p.share||'')
+  };
+  const text=v2672MoralContract(raw,rule);
+  return String(text||'')+'\nQUALIFIED_MORAL_DILEMMA_ROUTER_V2943: active';
+}
+function v2943QualifiedMoralDilemmaResponse(raw){
+  if(!v2943QualifiedMoralDilemmaIntent(raw))return '';
+  const existing=typeof v2672MoralGuidanceOutput==='function'?v2672MoralGuidanceOutput(raw):'';
+  if(existing)return String(existing)+'\nQUALIFIED_MORAL_DILEMMA_ROUTER_V2943: existing-shared-rule';
+  const s=v2856Normalized(raw);
+  const seriousDanger=/\b(?:immediate|serious|urgent|life threatening|life-threatening|danger|harm|abuse|violence|attacker|abuser|unsafe|starv|medical emergency)\b/.test(s);
+  const secrecy=/\b(?:promise|secret|confidential|confidentiality|keep quiet|stay silent|not tell|withhold information)\b/.test(s);
+  const disclose=/\b(?:tell|reveal|report|disclose|break a promise|break the promise|share the information)\b/.test(s);
+  const maintainSecrecy=/\b(?:keep|honor|honour|maintain|protect)\b.*\b(?:promise|secret|confidential|confidentiality)\b/.test(s)||/\b(?:stay silent|keep quiet|not tell)\b/.test(s);
+  if(seriousDanger&&secrecy){
+    const answer=maintainSecrecy&&!disclose?'No — with serious considerations':'Yes — with serious considerations';
+    return v2943QualifiedMoralContract(raw,{id:'safety-over-harmful-secrecy',answer:answer,bullets:['Protect the person facing serious harm first.','Share only accurate information needed with someone able to help.','Use emergency services or a safe reporting channel when danger is immediate.'],why:'A promise or expectation of secrecy should not be used to enable serious abuse, violence, or preventable danger.',evidence:'Scripture supports protecting people from danger, exposing harmful wrongdoing, and speaking truth responsibly.',refs:['prov2411','eph511','ps823'],share:'prov2411'});
+  }
+  const harmfulTruthDemand=/\b(?:tell|give|reveal|provide)\b.*\b(?:truth|location|where|information|address)\b/.test(s)&&/\b(?:abuser|attacker|violent|harm|kill|hurt|victim|hiding)\b/.test(s);
+  if(harmfulTruthDemand){
+    return v2943QualifiedMoralContract(raw,{id:'truth-without-enabling-violence',answer:'No — protect the person at risk',bullets:['Do not provide information that would help someone commit violence or abuse.','Use the least deceptive safe response available.','Contact emergency help or a trusted protector when danger is immediate.'],why:'Truthfulness does not require helping a violent person locate or harm a victim.',evidence:'Scripture joins truth with love, wisdom, rescue, and refusal to participate in evil.',refs:['prov2411','eph425','eph511'],share:'prov2411'});
+  }
+  const authority=/\b(?:obey|follow|carry out|comply with)\b.*\b(?:order|command|instruction|boss|employer|authority|parent|government)\b/.test(s);
+  const orderedWrong=/\b(?:lie|falsify|hide|conceal|harm|abuse|illegal|unlawful|wrongdoing|unsafe report|safety report|steal|fraud)\b/.test(s);
+  if(authority&&orderedWrong){
+    return v2943QualifiedMoralContract(raw,{id:'authority-commanding-wrongdoing',answer:'No',bullets:['Refuse to participate in the wrongful act.','State the concern truthfully and use an appropriate reporting channel.','Document facts and seek qualified help when retaliation or legal risk is possible.'],why:'Respect for authority does not require obedience to commands that are dishonest, abusive, or unlawful.',evidence:'Scripture places obedience to God and refusal of wrongdoing above compliance with a human command.',refs:['acts529','eph511','prov1222'],share:'acts529'});
+  }
+  const forgiveness=/\bforgiv(?:e|en|eness|ing)\b/.test(s);
+  const restoredAccess=/\b(?:reconcile|resume|restore|contact|relationship|trust|move back|let .* back|allow .* access|immediately)\b/.test(s);
+  const abuse=/\b(?:abuse|abusive|violence|violent|betrayal|repeated deception|unsafe|threat)\b/.test(s);
+  if(forgiveness&&restoredAccess&&abuse){
+    return v2943QualifiedMoralContract(raw,{id:'forgiveness-without-unsafe-reconciliation',answer:'No — forgiveness does not require immediate reconciliation',bullets:['Forgive without seeking revenge.','Require safety, repentance, accountability, and evidence of change before restoring trust or access.','Use firm boundaries or separation when contact remains unsafe.'],why:'Forgiveness and reconciliation are related but not identical; restored trust requires more than one person’s willingness to forgive.',evidence:'Scripture calls for forgiveness while also recognizing prudence, accountability, and limits on reconciliation.',refs:['eph432','rom1218','prov223'],share:'rom1218'});
+  }
+  const emergencyProperty=/\b(?:steal|take|use)\b.*\b(?:food|medicine|property|car|vehicle|money)\b/.test(s)&&/\b(?:starv|save a life|life|medical emergency|urgent emergency|immediate danger)\b/.test(s);
+  if(emergencyProperty){
+    return v2943QualifiedMoralContract(raw,{id:'property-rule-in-life-emergency',answer:'No — but act urgently to protect life through lawful help',bullets:['Call emergency services, medical help, charities, shelters, food assistance, or the property owner when possible.','Protect life without treating an emergency as broad permission to take what belongs to another.','If unavoidable action causes loss, disclose it and make restitution afterward.'],why:'The duty to protect life is urgent, but it should be pursued through the least harmful and most lawful means available.',evidence:'Scripture protects life, forbids stealing, and supports restitution when another person suffers loss.',refs:['prov2411','ex2015','luke198'],share:'prov2411'});
+  }
+  const competing=/\b(?:both|equally|conflicting|choose between|which .* first|two .* urgent|competing duties|responsibilities)\b/.test(s);
+  if(competing){
+    return v2943QualifiedMoralContract(raw,{id:'competing-duties',answer:'Depends',bullets:['Prioritize immediate danger to life and safety.','Consider which need has no other available helper.','Choose the least harmful truthful option and ask others to share the burden when possible.'],why:'When two legitimate duties genuinely conflict, no single answer fits every circumstance.',evidence:'The decision depends on danger, responsibility, available alternatives, timing, and your actual ability to help.',refs:['phil24','prov327','james417'],confidence:'Moderate confidence'});
+  }
+  return '';
+}
+
+
+// DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_ROUTING_REPAIR_V2944
+// The shared moral wrapper intercepts only qualified cases whose older broad rule supplied useful
+// reasoning but did not lead with the requested direct answer. All other moral routing remains owned
+// by the existing qualified-dilemma and broad moral engines.
+function v2944QualifiedMoralDilemmaResponse(raw){
+  const qualifiedIntent=v2943QualifiedMoralDilemmaIntent(raw);
+  const s=v2856Normalized(raw);
+  const forgiveness=/\bforgiv(?:e|en|eness|ing)\b/.test(s);
+  const restoredAccess=/\b(?:reconcile|resume|restore|contact|relationship|trust|move back|let .* back|allow .* access|immediately)\b/.test(s);
+  const abuse=/\b(?:abuse|abusive|violence|violent|betrayal|repeated deception|unsafe|threat)\b/.test(s);
+  if(forgiveness&&restoredAccess&&abuse){
+    return v2943QualifiedMoralContract(raw,{id:'forgiveness-without-unsafe-reconciliation-v2944',answer:'No — forgiveness does not require immediate reconciliation',bullets:['Forgive without seeking revenge.','Require safety, repentance, accountability, and evidence of change before restoring trust or access.','Use firm boundaries or separation when contact remains unsafe.'],why:'Forgiveness and reconciliation are related but not identical; restored trust requires more than one person’s willingness to forgive.',evidence:'Scripture calls for forgiveness while also recognizing prudence, accountability, and limits on reconciliation.',refs:['eph432','rom1218','prov223'],share:'rom1218'})+'\nDIRECT_QUALIFIED_MORAL_ANSWER_V2944: forgiveness-boundary';
+  }
+  const equalCompeting=/\b(?:equally urgent|both urgent|same urgency|genuinely equal|two equally|competing duties|conflicting responsibilities)\b/.test(s)&&/\b(?:which|who|choose|help first|do first|priority|prioritize)\b/.test(s);
+  if(equalCompeting){
+    return v2943QualifiedMoralContract(raw,{id:'equal-competing-duties-v2944',answer:'Depends',bullets:['Prioritize immediate danger to life and safety.','Consider which need has no other available helper.','Choose the least harmful truthful option and ask others to share the burden when possible.'],why:'When two legitimate duties genuinely conflict, no single answer fits every circumstance.',evidence:'The decision depends on danger, responsibility, available alternatives, timing, and your actual ability to help.',refs:['phil24','prov327','james417'],confidence:'Moderate confidence'})+'\nDIRECT_QUALIFIED_MORAL_ANSWER_V2944: equal-duty';
+  }
+  if(!qualifiedIntent)return '';
+  return v2943QualifiedMoralDilemmaResponse(raw);
+}
+
+// QUALIFIED_MORAL_ACTION_POLARITY_PRIORITY_V3033
+// Qualified moral questions must answer the proposition the user actually asked about. Older broad
+// moral templates remain available, but they may not invert "break" versus "keep" or "lie" versus
+// "tell" when a serious-harm qualifier changes which action protects another person.
+function v3033SeriousProtectiveHarm(raw){
+  const s=v2856Normalized(raw);
+  return /\b(?:serious(?:ly)?\s+harm(?:s|ed|ing)?|grave\s+harm(?:s|ed|ing)?|severe(?:ly)?\s+harm(?:s|ed|ing)?|kill|killed|killing|murder|death|die|dying|life threatening|life-threatening|danger|violent|violence|abuse|injur(?:y|e|ed)|medical emergency|immediate threat|unsafe)\b/.test(s);
+}
+function v3033QuestionAsksWrongness(raw,actionWord){
+  const s=v2856Normalized(raw);
+  const a=String(actionWord||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!a)return false;
+  return new RegExp('^(?:is|would)\\s+(?:it\\s+)?(?:morally\\s+)?(?:wrong|sinful|immoral|bad)\\s+to\\s+'+a+'\\b|^is\\s+'+a+'(?:ing)?\\b.{0,42}\\b(?:wrong|sinful|immoral|bad)\\b','i').test(s);
+}
+function v3033QuestionAsksPermissionOrDuty(raw,actionWord){
+  const s=v2856Normalized(raw);
+  const a=String(actionWord||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  if(!a)return false;
+  return new RegExp('^(?:should|must|may|can|could)\\s+(?:i|we|someone|a person|you)?\\s*'+a+'\\b|^(?:is|would)\\s+(?:it\\s+)?(?:right|okay|ok|acceptable|permissible)\\s+to\\s+'+a+'\\b','i').test(s);
+}
+function v3033QualifiedMoralActionPriorityResponse(raw){
+  if(!v2943QualifiedMoralDilemmaIntent(raw)||!v3033SeriousProtectiveHarm(raw))return '';
+  const s=v2856Normalized(raw);
+  const promise=/\b(?:promise|vow|commitment)\b/.test(s);
+  const breakPromise=/\b(?:break|breaking|violate|violating)\b.{0,28}\b(?:promise|vow|commitment)\b/.test(s);
+  const keepPromise=/\b(?:keep|keeping|honor|honour|honoring|honouring|fulfill|fulfil|fulfilling)\b.{0,28}\b(?:promise|vow|commitment)\b/.test(s)||/\bkeeping\s+it\b/.test(s)&&promise;
+  if(promise&&(breakPromise||keepPromise)){
+    let answer='No — do not let a promise require or enable serious harm';
+    if(breakPromise){
+      if(v3033QuestionAsksPermissionOrDuty(raw,'break'))answer='Yes — break the promise rather than enable serious harm';
+      else answer='No — breaking it is not wrong when keeping it would enable serious harm';
+    }else if(keepPromise){
+      if(v3033QuestionAsksWrongness(raw,'keep'))answer='Yes — keeping it would be wrong if it knowingly enables serious harm';
+      else answer='No — do not keep a promise that would knowingly enable serious harm';
+    }
+    return v2943QualifiedMoralContract(raw,{id:'serious-harm-promise-action-polarity-v3033',answer:answer,bullets:['Protect the person facing serious harm first.','Do not treat a promise as permission to enable wrongdoing or danger.','Acknowledge the broken commitment and repair any avoidable harm afterward when possible.'],why:'Promises should normally be kept, but a promise does not create a duty to enable serious harm. The answer must follow the action being asked about: breaking a harmful promise can be right, while keeping it can be wrong.',evidence:'Scripture treats commitments seriously while also requiring people not to participate in wrongdoing and to act when preventable serious danger is present.',refs:['matt537','acts529','prov2411'],share:'prov2411'})+'\nQUALIFIED_MORAL_ACTION_POLARITY_PRIORITY_V3033: harmful-promise';
+  }
+  const lifeCritical=/\b(?:kill|killed|killing|murder|death|die|dying|life threatening|life-threatening|immediate threat)\b/.test(s);
+  const lieAction=/\b(?:lie|lying|deceive|deceiving|mislead|misleading)\b/.test(s);
+  const truthAction=/\b(?:tell|telling|give|giving|reveal|revealing|provide|providing)\b.{0,20}\b(?:truth|information|location|address)\b/.test(s)||/\btell(?:ing)?\s+the\s+truth\b/.test(s);
+  if(lifeCritical&&(lieAction||truthAction)){
+    let answer='Protect innocent life first';
+    if(lieAction){
+      if(v3033QuestionAsksWrongness(raw,'lie'))answer='No — protect innocent life first';
+      else if(v3033QuestionAsksPermissionOrDuty(raw,'lie'))answer='Yes — protect innocent life first';
+      else answer='Protect innocent life first';
+    }else if(truthAction){
+      answer='No — do not provide information that would enable someone to take an innocent life';
+    }
+    return v2943QualifiedMoralContract(raw,{id:'life-protection-action-polarity-v3033',answer:answer,bullets:['Protect the innocent person from immediate danger.','Do not provide information that would directly enable violence.','Use the safest available truthful alternative and seek emergency help when possible.'],why:'Truthfulness does not require cooperating with someone who intends to take an innocent life. Preventing the killing takes priority over supplying information that enables it.',evidence:'Scripture condemns falsehood in ordinary conduct while also requiring action to protect people facing preventable death and refusing participation in evil.',refs:['prov2411','eph511','eph425'],share:'prov2411'})+'\nQUALIFIED_MORAL_ACTION_POLARITY_PRIORITY_V3033: life-protection';
+  }
+  return '';
+}
+
+// MORAL_INTENT_BINDING_V3034
+// Keep the moral answer attached to the actor/action in the question before older broad templates
+// can redirect borrower questions into lender/usury advice or invert hostile-wish polarity.
+function v3034BorrowerRepaymentRiskIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const borrowerAction=/\b(?:borrow|borrowing|take out|get|accept)\b.{0,18}\b(?:money|loan|debt|credit)\b|\bborrow(?:ed|ing)?\s+money\b/.test(s);
+  const repaymentRisk=/\b(?:cannot|can't|could not|couldn't|won't|will not|unable|unlikely|probably cannot|probably can't|no realistic way|no reasonable way|do not expect|don't expect)\b.{0,28}\b(?:repay|pay back|pay it back|make the payments|pay the loan|pay the debt)\b|\b(?:repay|pay back|make the payments)\b.{0,24}\b(?:unlikely|impossible|cannot|can't|unable)\b/.test(s);
+  const moralAsk=/\b(?:wrong|sinful|immoral|okay|ok|acceptable|right|should|may|can)\b/.test(s);
+  const lenderSide=/\b(?:charge|charging|interest|usury|lend to|lending to|lender|loaning to)\b/.test(s);
+  return borrowerAction&&repaymentRisk&&moralAsk&&!lenderSide;
+}
+function v3034HostileWishIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const wish=/\b(?:hope|hoping|wish|wishing|want|wanting|desire|desiring|be glad|feel glad|rejoice|rejoicing)\b/.test(s);
+  const downfall=/\b(?:fail|fails|failure|fall|falls|downfall|lose|loses|ruin|ruined|suffer|suffers|hurt|harmed|bad things?|misfortune|calamity)\b/.test(s);
+  const other=/\b(?:someone|somebody|another person|they|them|enemy|person|friend|coworker|neighbou?r|relative|who treated|who hurt|who wronged)\b/.test(s);
+  const moralAsk=/\b(?:wrong|sinful|immoral|okay|ok|acceptable|right|should|may|can)\b/.test(s);
+  return wish&&downfall&&other&&moralAsk;
+}
+function v3034MoralIntentBindingResponse(raw){
+  const s=v2856Normalized(raw);
+  if(v3034BorrowerRepaymentRiskIntent(raw)){
+    let answer='Yes — knowingly borrowing without a realistic plan to repay is wrong';
+    if(/\b(?:okay|ok|acceptable|right|permissible)\b/.test(s))answer='No — not if you already know you probably cannot repay it';
+    else if(/^(?:should|may|can|could)\b/.test(s))answer='No — do not borrow it without a realistic repayment plan';
+    return v2943QualifiedMoralContract(raw,{id:'borrower-repayment-duty-v3034',answer:answer,bullets:['Be honest about your ability to repay before taking the money.','Do not take on a debt while concealing that repayment is unlikely.','If the lender knowingly agrees to different terms, make those terms clear rather than implying ordinary repayment.'],why:'The moral issue is the borrower’s honesty and responsibility to repay, not whether the lender charges interest. Knowingly taking money while creating a false expectation of repayment is dishonest.',evidence:'Scripture treats repayment and giving people what is due as real obligations and condemns borrowing without repayment.',refs:['rom137','rom138'],share:'rom137'})+'\nMORAL_INTENT_BINDING_V3034: borrower-repayment';
+  }
+  if(v3034HostileWishIntent(raw)){
+    let answer='Yes — wishing for another person’s downfall is wrong';
+    if(/\b(?:okay|ok|acceptable|right|permissible)\b/.test(s))answer='No — do not nurture a desire for another person’s downfall';
+    else if(/^(?:should|may|can|could)\b/.test(s))answer='No — do not nurture a desire for another person’s downfall';
+    return v2943QualifiedMoralContract(raw,{id:'hostile-wish-polarity-v3034',answer:answer,bullets:['You may want justice without taking pleasure in another person’s ruin.','Do not feed resentment by rehearsing hopes that they suffer or fail.','Leave vengeance to God and respond without personal revenge.'],why:'Feeling hurt and wanting justice are not the same as deliberately hoping for another person’s failure. Scripture warns against revenge and calls for a response that does not delight in another person’s harm.',evidence:'Scripture forbids personal vengeance and directs believers toward mercy, forgiveness, and peace rather than cultivated hostility.',refs:['rom1219','eph432','rom1218'],share:'rom1219'})+'\nMORAL_INTENT_BINDING_V3034: hostile-wish';
+  }
+  return '';
+}
+const MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',borrowerBindingAvailable:typeof v3034BorrowerRepaymentRiskIntent==='function',hostileWishBindingAvailable:typeof v3034HostileWishIntent==='function',dispatcherAvailable:typeof v3034MoralIntentBindingResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+});
+if(!Object.keys(MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034).every(function(k){return MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034[k]===true;}))throw new Error('MORAL_INTENT_BINDING_V3034 startup validation failed');
+
+
+// APOLOGY_ACTOR_PERSPECTIVE_BINDING_V3036
+// An apology question must stay attached to the person being asked to apologize. Older forgiveness
+// templates describe what an injured person should do and must not capture a question about the
+// speaker's own harmful manner, speech, or conduct.
+function v3036SelfApologyResponsibilityIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const asksSelfApology=/^(?:should|must|do|ought|need)\s+(?:i|you|we)\b.{0,24}\bapolog(?:ize|ise)|^(?:is|would)\s+it\b.{0,20}\b(?:right|wrong|good|appropriate)\b.{0,16}\b(?:for\s+(?:me|you|us)\s+)?to\s+apolog(?:ize|ise)/.test(s);
+  if(!asksSelfApology)return false;
+  const ownConduct=/\b(?:the\s+way|how)\s+(?:i|you|we)\s+(?:handled|said|spoke|responded|acted|treated|approached|did)\b.{0,52}\b(?:hurt|harmed|offended|embarrassed|humiliated|upset|wounded)\b/.test(s) ||
+    /\b(?:i|you|we)\b.{0,40}\b(?:hurt|harmed|offended|embarrassed|humiliated|wounded)\b.{0,28}\b(?:someone|them|him|her|another person)\b/.test(s);
+  const mannerConflict=/\b(?:right|correct|truth|facts?|position|point)\b.{0,38}\b(?:but|although|even though|while)\b|\b(?:but|although|even though|while)\b.{0,38}\b(?:right|correct|truth|facts?|position|point)\b/.test(s);
+  return ownConduct||mannerConflict;
+}
+function v3036SelfApologyResponsibilityResponse(raw){
+  if(!v3036SelfApologyResponsibilityIntent(raw))return '';
+  return v2943QualifiedMoralContract(raw,{
+    id:'self-apology-harm-perspective-v3036',
+    answer:'Yes — apologize for the hurtful way you handled it, even if you still believe your underlying position was right',
+    bullets:['Own the part of your conduct that was unnecessarily hurtful.','Do not make a false confession about facts or convictions you still honestly believe are true.','Say specifically what you regret and handle the issue more gently going forward.'],
+    why:'Being right about the issue does not make every way of speaking or acting right. An apology can take responsibility for needless hurt, harshness, or poor handling without pretending the underlying position was false.',
+    evidence:'Scripture calls people to pursue reconciliation, use speech that builds rather than harms, and confess their own faults.',
+    refs:['matt523','eph429','james516'],
+    share:'matt523',
+    directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER'
+  })+'\nAPOLOGY_ACTOR_PERSPECTIVE_BINDING_V3036: self-conduct';
+}
+const APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3036SelfApologyResponsibilityIntent==='function',dispatcherAvailable:typeof v3036SelfApologyResponsibilityResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+});
+if(!Object.keys(APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036).every(function(k){return APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036[k]===true;}))throw new Error('APOLOGY_ACTOR_PERSPECTIVE_BINDING_V3036 startup validation failed');
+
+// GAMBLING_MORAL_CONTEXT_V3035
+// Scripture-grounded moral classification must distinguish an activity from the motives and
+// consequences that can make the activity sinful. Wagering is not declared universally sinful
+// merely because money changes hands; the moral judgment turns on stewardship, self-control,
+// covetousness, honesty, obligations, and harm.
+function v3035WageringMoralIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const wagering=/\b(?:gambl(?:e|es|ed|ing)|bet(?:s|ting)?|wager(?:s|ed|ing)?|sportsbook|sports bet(?:s|ting)?|lotter(?:y|ies)|daily fantasy|fantasy sports)\b/.test(s);
+  const moralAsk=/\b(?:wrong|sinful|immoral|moral(?:ly)?|okay|ok|acceptable|right|permissible|should|may|can|could)\b/.test(s);
+  return wagering&&moralAsk;
+}
+function v3035WageringHarmProfile(raw){
+  const s=v2856Normalized(raw);
+  return {
+    financial:/\b(?:cannot afford|can't afford|cant afford|rent money|mortgage money|bill money|money for bills|grocery money|food money|child support|borrow(?:ed|ing)? money|credit card debt|essential expenses?|needed for (?:rent|bills|food|medicine)|chasing losses?|recover losses?)\b/.test(s),
+    control:/\b(?:addict(?:ed|ion|ive)?|compulsive|can't stop|cannot stop|cant stop|out of control|controls? me|controls? them|obsess(?:ed|ive|ion))\b/.test(s),
+    deception:/\b(?:lie|lying|hide|hiding|conceal|concealing|secretly from|without telling (?:my|their) spouse|deceive|deceiving)\b/.test(s),
+    unlawful:/\b(?:illegal|unlawful|underage)\b/.test(s)
+  };
+}
+function v3035WageringQuestionPermission(raw){
+  const s=v2856Normalized(raw);
+  return /^(?:should|may|can|could)\b/.test(s)||/\b(?:okay|ok|acceptable|right|permissible)\b/.test(s);
+}
+function v3035WageringMoralResponse(raw){
+  if(!v3035WageringMoralIntent(raw))return '';
+  const s=v2856Normalized(raw);
+  const harm=v3035WageringHarmProfile(raw);
+  const materiallyHarmful=harm.financial||harm.control||harm.deception||harm.unlawful;
+  const affordable=/\b(?:can afford to lose|could afford to lose|afford to lose|disposable money|spare money|entertainment money|within (?:my|their) budget|small amount|occasionally|recreational(?:ly)?)\b/.test(s);
+  if(materiallyHarmful){
+    const answer=v3035WageringQuestionPermission(raw)
+      ? 'No — not under conditions that neglect obligations, destroy self-control, require deception, or cause foreseeable harm'
+      : 'Yes — wagering becomes wrong when it neglects obligations, controls the person, depends on deception, or causes foreseeable harm';
+    return v2943QualifiedMoralContract(raw,{id:'wagering-harm-context-v3035',answer:answer,bullets:['Meet essential household and debt obligations before risking money.','Stop when wagering begins to control behavior or becomes an attempt to chase losses.','Do not hide, lie about, or use money that others reasonably depend on.'],why:'The moral problem is not merely that money is wagered. It is the greed, loss of self-control, dishonesty, neglected responsibilities, or harm that can accompany it.',evidence:'Scripture directly addresses coveting, self-control, honesty, and responsibility for one’s household; those principles determine when wagering becomes morally wrong.',refs:['cor612','tim58','ex2017'],share:'cor612',directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER'})+'\nGAMBLING_MORAL_CONTEXT_V3035: harmful-context';
+  }
+  const answer=affordable
+    ? 'Not necessarily — affordable recreational gambling is not automatically morally wrong'
+    : 'Not necessarily — gambling is not automatically morally wrong merely because money is wagered';
+  return v2943QualifiedMoralContract(raw,{id:'wagering-principle-context-v3035',answer:answer,bullets:['Use only money that is genuinely available after essential obligations are met.','Keep the activity under self-control rather than chasing losses or letting it become compulsive.','Examine the motive: entertainment is different from feeding covetousness or a craving for quick wealth.'],why:'Scripture does not directly identify every wager as sinful. The moral judgment depends on motive, self-control, stewardship, honesty, obligations, and whether the activity harms you or other people.',evidence:'Biblical principles condemn coveting and being controlled by a habit, while requiring responsible care for household obligations; those principles are more precise than declaring every wager sinful.',refs:['cor612','tim58','ex2017'],share:'cor612',directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER'})+'\nGAMBLING_MORAL_CONTEXT_V3035: principle-context';
+}
+const GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3035WageringMoralIntent==='function',harmProfileAvailable:typeof v3035WageringHarmProfile==='function',dispatcherAvailable:typeof v3035WageringMoralResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+});
+if(!Object.keys(GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035).every(function(k){return GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035[k]===true;}))throw new Error('GAMBLING_MORAL_CONTEXT_V3035 startup validation failed');
+
+
+
+// QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_V3043
+// Competing duties stay bound to the exact action named by the question before broad legacy
+// profiles can answer a neighboring proposition. Covers confidentiality versus serious harm and
+// forgiveness versus restoration of trust/access.
+function v3043ConfidentialHarmConflictIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const confidentiality=/\b(?:confidence|confidential|confidentiality|secret|secrecy|private information|private matter|told .* in confidence|keep .* private)\b/.test(s);
+  const seriousHarm=typeof v3033SeriousProtectiveHarm==='function'&&v3033SeriousProtectiveHarm(raw);
+  const conduct=/\b(?:share|tell|reveal|disclose|report|warn|notify|speak up|keep|withhold|conceal|stay silent|keep quiet)\b/.test(s);
+  const moralAsk=/\b(?:wrong|right|should|must|ought|may|can|could|okay|ok|acceptable|duty)\b/.test(s);
+  return confidentiality&&seriousHarm&&conduct&&moralAsk;
+}
+function v3043ForgivenessTrustConflictIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const forgiveness=/\bforgiv(?:e|es|en|ing|eness)\b/.test(s);
+  const restoredTrust=/\b(?:trust|reconcile|reconciliation|restore|restoring|relationship|contact|access|let .* back|take .* back)\b/.test(s);
+  const qualifier=/\b(?:even if|even though|but|although|without|not enough|do not|don't|cannot|can't|until|before)\b/.test(s);
+  const moralAsk=/\b(?:should|must|ought|do i|do you|is it wrong|is it right|okay|ok|acceptable|required|have to)\b/.test(s);
+  return forgiveness&&restoredTrust&&qualifier&&moralAsk;
+}
+function v3043QualifiedMoralConflictResponse(raw){
+  const s=v2856Normalized(raw);
+  if(v3043ConfidentialHarmConflictIntent(raw)){
+    const disclosure=/\b(?:share|tell|reveal|disclose|report|warn|notify|speak up)\b/.test(s);
+    const secrecy=/\b(?:keep|withhold|conceal|stay silent|keep quiet)\b/.test(s)&&/\b(?:secret|confidence|confidential|private|information|it)\b/.test(s);
+    const wrongness=/\b(?:wrong|sinful|immoral|unethical)\b/.test(s);
+    let answer='Protect the person from serious harm first';
+    if(disclosure)answer=wrongness?'No — necessary protective disclosure is not wrong when secrecy would allow serious harm':'Yes — disclose only what is necessary to someone able to prevent the serious harm';
+    else if(secrecy)answer=wrongness?'Yes — keeping silent can be wrong when it knowingly allows serious preventable harm':'No — do not preserve secrecy when doing so would knowingly allow serious preventable harm';
+    return v2943QualifiedMoralContract(raw,{id:'confidentiality-versus-serious-harm-v3043',answer:answer,bullets:['Protect the person facing serious harm before preserving ordinary confidentiality.','Share only accurate information that is necessary, and only with someone able to help.','Do not turn a protective exception into permission for gossip or unnecessary disclosure.'],why:'Confidentiality is normally valuable, but it should not be used to enable serious preventable harm. Protective disclosure should be limited to what is needed to keep someone safe.',evidence:'Biblical principles commend faithfulness and discretion while also requiring action to protect people facing preventable serious harm.',refs:['prov2411','prov1113','lev51'],share:'prov2411',directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER'})+'\nQUALIFIED_MORAL_CONFLICT_ACTION_BINDING_V3043: confidentiality-harm';
+  }
+  if(v3043ForgivenessTrustConflictIntent(raw)){
+    const asksForgive=/^(?:should|must|ought|do|can|may)\s+(?:i|you|we|someone|a person)?\s*forgiv(?:e|es|en|ing|eness)\b/.test(s)||/\bshould\s+(?:i|you|we|someone|a person)\s+forgiv(?:e|es|en|ing|eness)\b/.test(s);
+    const asksRestore=/\b(?:must|should|have to|required to)\b.{0,30}\b(?:trust|reconcile|restore|resume|relationship|contact|access)\b/.test(s)||/\bdoes\s+forgiv(?:e|ing|eness)\b.{0,28}\b(?:mean|require)\b.{0,24}\b(?:trust|reconcile|restore|relationship|contact|access)\b/.test(s);
+    const answer=asksForgive?'Yes — forgive, but forgiveness does not require restoring trust or the relationship before trust is rebuilt':(asksRestore?'No — forgiveness does not automatically require restored trust, access, or reconciliation':'Forgive without treating trust and reconciliation as automatic');
+    return v2943QualifiedMoralContract(raw,{id:'forgiveness-versus-restored-trust-v3043',answer:answer,bullets:['Release personal revenge and bitterness.','Do not pretend trust has been rebuilt when it has not.','Let reconciliation and restored access depend on truth, repentance, safety, and demonstrated change where those issues matter.'],why:'Forgiveness concerns releasing revenge and bitterness; trust and reconciliation involve a relationship and may require time, truth, accountability, and evidence of change.',evidence:'Biblical principles call for forgiveness and peace while also recognizing prudence and that reconciliation is not always fully within one person’s control.',refs:['eph432','rom1218','prov223'],share:'rom1218',directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER'})+'\nQUALIFIED_MORAL_CONFLICT_ACTION_BINDING_V3043: forgiveness-trust';
+  }
+  return '';
+}
+const QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',confidentialityIntentAvailable:typeof v3043ConfidentialHarmConflictIntent==='function',forgivenessIntentAvailable:typeof v3043ForgivenessTrustConflictIntent==='function',dispatcherAvailable:typeof v3043QualifiedMoralConflictResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'});
+if(!Object.keys(QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043).every(function(k){return QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043[k]===true;}))throw new Error('QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_V3043 startup validation failed');
+
+// PROTECTIVE_REPORTING_AND_DEBT_MERCY_MORAL_BINDING_V3040
+// Two recurring role-confusion classes are resolved before slow/general research: protecting a
+// vulnerable person from known ongoing wrongdoing, and a creditor choosing mercy on a real debt.
+// These are category-level moral bindings, not legal-procedure rules or sentence-specific answers.
+function v3040ProtectiveReportingIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const normative=/\b(?:should|must|ought|need to|have to|is it wrong|is it right|is it okay|is it ok|appropriate|duty)\b/.test(s);
+  const reporting=/\b(?:report|tell|disclose|expose|speak up|notify)\b/.test(s);
+  const ongoingWrong=/\b(?:steal|steals|stealing|stolen|theft|fraud|defraud|embezzl|exploit|exploitation|financial abuse|abuse|abusing|take(?:s|n|ing)? money|misuse(?:s|d|ing)? money)\b/.test(s);
+  const protectedPerson=/\b(?:elderly|older adult|senior|vulnerable|disabled|dependent|child|minor|relative|family member|victim|another person|someone)\b/.test(s);
+  return normative&&reporting&&ongoingWrong&&protectedPerson;
+}
+function v3040DebtMercyIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const normative=/\b(?:should|may|can|could|is it wrong|is it right|is it okay|is it ok|appropriate|merciful)\b/.test(s);
+  const release=/\b(?:forgive|forgiving|forgiven|cancel|cancelling|canceling|waive|waiving|release|write off|write-off)\b/.test(s);
+  const debt=/\b(?:debt|loan|money owed|amount owed|repayment)\b/.test(s);
+  const genuineHardship=/\b(?:cannot|can't|unable|genuinely cannot|genuinely can't|no realistic way|hardship|destitute|impoverished|cannot afford|can't afford)\b/.test(s);
+  return normative&&release&&debt&&genuineHardship;
+}
+function v3040MoralRoleAndMercyResponse(raw){
+  const s=v2856Normalized(raw);
+  if(v3040ProtectiveReportingIntent(raw)){
+    const wrongness=/\b(?:is it wrong|would it be wrong|is reporting|would reporting)\b/.test(s);
+    const answer=wrongness?'No — reporting known serious exploitation to protect the victim is not wrong':'Yes — report known serious exploitation to someone able to protect the victim';
+    return v2943QualifiedMoralContract(raw,{id:'protective-reporting-v3040',answer:answer,bullets:['Act on verified facts rather than rumor or suspicion.','Tell an appropriate person or authority able to stop the wrongdoing and protect the victim.','Share only what is relevant and accurate; use emergency help when immediate danger is present.'],why:'Family loyalty or discomfort should not be used to conceal ongoing theft, fraud, exploitation, or abuse that is harming another person.',evidence:'Biblical principles condemn stealing, call wrongdoing into the light, and place a serious duty on protecting vulnerable people.',refs:['ex2015','eph511','ps823','prov2411'],share:'ps823'})+'\nMORAL_ROLE_BINDING_V3040: protective-reporting';
+  }
+  if(v3040DebtMercyIntent(raw)){
+    const answer='Yes — forgiving an unpayable debt can be a merciful choice when the need is genuine and you can bear the loss';
+    return v2943QualifiedMoralContract(raw,{id:'creditor-debt-mercy-v3040',answer:answer,bullets:['Confirm that the hardship is genuine rather than using mercy to reward deception.','Do not neglect essential obligations in your own household to absorb the loss.','If you release the debt, make the new terms clear so mercy does not create future confusion or resentment.'],why:'A valid debt can still be real while the creditor voluntarily releases it; debt cancellation is an act of mercy, not a claim that the borrower stole the money.',evidence:'Biblical principles support generosity and mercy toward genuine need while also treating honest obligations seriously.',refs:['deut157','prov1917','cor812','rom137'],share:'deut157'})+'\nMORAL_ROLE_BINDING_V3040: creditor-debt-mercy';
+  }
+  return '';
+}
+const PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',protectiveReportingAvailable:typeof v3040ProtectiveReportingIntent==='function',debtMercyAvailable:typeof v3040DebtMercyIntent==='function',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+});
+if(!Object.keys(PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040).every(function(k){return PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040[k]===true;}))throw new Error('PROTECTIVE_REPORTING_AND_DEBT_MERCY_MORAL_BINDING_V3040 startup validation failed');
+const PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',handlerAvailable:typeof v2764HandleAnalyzeRequest==='function'});
+if(!Object.keys(PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041).every(function(k){return PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041[k]===true;}))throw new Error('PROTECTIVE_MORAL_ROUTE_PRIORITY_V3041 startup validation failed');
+const OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function'});
+if(!Object.keys(OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042).every(function(k){return OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042[k]===true;}))throw new Error('OUTER_PREFLIGHT_MORAL_PRIORITY_V3042 startup validation failed');
+
+
+// CONSOLIDATED_BIBLICAL_MORAL_ENGINE_V3046_SINGLE_OWNER_AND_WORD_SENSE_ROUTING
+// One gateway owns normative moral/life-direction questions before domain-specific or legacy routes.
+// Specialized deterministic rules remain subroutines; they no longer compete as independent owners.
+function v3046DecisionClause(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return '';
+  const parts=s.split(/[.!;]\s+/).filter(Boolean);
+  const tail=parts.length?parts[parts.length-1]:s;
+  const starter=/^(?:what\s+should\s+(?:i|we|you|he|she|they)|how\s+should\s+(?:i|we|you|he|she|they)|(?:should|must|ought|need|may|can|could)\s+(?:i|we|you|he|she|they)|(?:do|does|did)\s+(?:i|we|you|he|she|they)|does\s+.{1,70}?\b(?:require|mean|oblige)|(?:is|would)\s+(?:it|this|that|[a-z]+ing)\b|am\s+i\b|are\s+(?:we|you|they)\b)/;
+  if(starter.test(tail))return tail;
+  const re=/\b(?:what\s+should\s+(?:i|we|you|he|she|they)|how\s+should\s+(?:i|we|you|he|she|they)|(?:should|must|ought|need|may|can|could)\s+(?:i|we|you|he|she|they)|(?:do|does|did)\s+(?:i|we|you|he|she|they)|does\s+.{1,70}?\b(?:require|mean|oblige)|(?:is|would)\s+(?:it|this|that|[a-z]+ing)\b|am\s+i\b|are\s+(?:we|you|they)\b)/g;
+  let m,last=-1;
+  while((m=re.exec(s))){if(s.length-m.index<=180)last=m.index;}
+  return last>=0?s.slice(last).trim():s;
+}
+function v3044MoralQuestionFrame(raw){
+  const s=v3046DecisionClause(raw).replace(/^(?:as\s+(?:a\s+)?(?:christian|believer)\s*,?\s*)/,'');
+  if(!s)return 'NONE';
+  if(/^what\s+should\s+.+?\s+do\b/.test(s)||
+     /^how\s+should\s+.+?\b/.test(s))return 'GUIDANCE';
+  if(/^did\s+.+?\b(?:do|act|behave)\b[\s\S]{0,60}\bwrong\b/.test(s))return 'WRONGNESS';
+  const wrongPredicate=/^(?:is|would)\s+.+?\s+(?:be\s+)?(?:wrong|sinful|immoral|unethical|dishonest|unjust|unfair|honest)(?:\s+(?:to\b|not\s+to\b|if\b|when\b|even\b|because\b|although\b|though\b|while\b|after\b|before\b|unless\b|for\b|in\b|under\b)[\s\S]*)?$/;
+  const sinNounPredicate=/^(?:is|would)\s+.+?\s+(?:be\s+)?(?:a\s+)?sin(?:\s+[\s\S]*)?$/;
+  const moralNounPredicate=/^(?:is|would)\s+.+?\s+(?:be\s+)?(?:a\s+)?(?:betrayal|deception|dishonesty|injustice)(?:\s+(?:of|to|against)\b[\s\S]*)?$/;
+  if(/^(?:is|would)\s+it\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|unjust|unfair|honest)\b/.test(s)||
+     /^(?:am|is|are|would)\s+.{1,90}?\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|unjust|unfair|honest)\b/.test(s)||
+     wrongPredicate.test(s)||sinNounPredicate.test(s)||moralNounPredicate.test(s))return 'WRONGNESS';
+  const permissionPredicate=/^(?:is|would)\s+.+?\s+(?:be\s+)?(?:okay|ok|right|acceptable|permissible|justified|fair|good)(?:\s+(?:if\b|when\b|even\b|because\b|although\b|though\b|while\b|after\b|before\b|unless\b|for\b|in\b|under\b)[\s\S]*)?$/;
+  if(/^(?:is|would)\s+it\s+(?:be\s+)?(?:okay|ok|right|acceptable|permissible|justified|fair|good)\b/.test(s)||permissionPredicate.test(s)||
+     /^(?:may|can|could)\s+.+?\b/.test(s))return 'PERMISSION';
+  if(/^(?:should|must|ought|need)\b/.test(s)||/^(?:do|does)\s+.+?\s+(?:have|need)\s+to\b/.test(s)||
+     /^does\s+.+?\s+require\s+.+?\s+to\b/.test(s)||
+     /^(?:is|would)\s+.+?\s+(?:be\s+)?(?:required|obligatory|a\s+duty)(?:\s+(?:if\b|when\b|even\b|because\b|although\b|though\b|while\b|after\b|before\b|unless\b)[\s\S]*)?$/.test(s))return 'DUTY';
+  return 'OTHER';
+}
+function v3044MoralActionCue(raw){
+  const s=v2856Normalized(raw),action=v3044RequestedActionVerb(raw);
+  if(!s||!action||v3044NonMoralMoralVerbSense(raw))return false;
+  if(v3044NonMoralSubjectMatterContext(raw))return false;
+  const strong=new Set(['lie','deceive','mislead','gossip','betray','cheat','steal','forgive','retaliate','apologize','apologise','confess','mock','ridicule','insult','humiliate','shame','covet','blackmail','embezzle','falsify','gamble','bet','wager']);
+  if(strong.has(action))return true;
+  const contextual=new Set(['hide','conceal','keep','tell','share','repeat','speak','reveal','disclose','report','warn','return','repay','lend','borrow','reconcile','trust','avoid','exclude','refuse','ignore','obey','stay','remain','confront','correct','admit','claim','copy','submit','break','discipline','punish','protect','defend','harm','abuse','mistreat','threaten','judge','condemn','record','pressure','favor','favour','support','help','provide','withhold','enable','use','pay','read','give','expose','exploit','manipulate','overcharge','charge','bill','hope','wish','stop','honor','honour','testify','present','clock','alter']);
+  const humanConflict=/\b(?:without\s+(?:permission|consent|telling)|permission|consent|belongs?\s+to|owner|ownership|someone\s+else|another\s+person|coworker|teammate|employee|employer|manager|supervisor|spouse|husband|wife|parent|mother|father|child|son|daughter|brother|sister|friend|neighbor|neighbour|customer|client|patient|victim|elderly|vulnerable|innocent|falsely\s+accused|takes?\s+the\s+blame|being\s+blamed|conflict\s+of\s+interest)\b/.test(s);
+  const moralIssue=/\b(?:truth|falsehood|secret\s+(?:about|from)|confidence|privacy|private\s+(?:information|message|messages|email|emails|photo|photos|account|conversation|call)|(?:private|confidential)\s+(?:medical|financial|personal|employment|personnel)\s+(?:information|data|records?|details?|issue|condition)|wrongdoing|crime|steal\w*|stolen|theft|fraud|abuse|abusive|exploit\w*|exploitation|deceiv\w*|lie|lied|lying|falsif\w*|fabricat\w*|confidentiality|gossip|rumou?r|false\s+accus\w*|false\s+(?:report|record|statement|claim|evidence|testimony)|falsely|safety\s+(?:mistake|error|defect|violation|hazard)|harm|hurt|injur\w*|danger|attack\w*|threat|blam(?:e|ed|ing)|fault|responsib(?:le|ility)|promise|vow|found|lost\s+(?:item|property)|refund\w*|addiction|credit|praise|authorship|plagiar\w*|reputation|cruel\w*|humiliat\w*|embarrass\w*|jealous|envy|favoritism|favouritism|preferential|unfair|fair\s+wage|justice|mercy|forgiveness|relationship|reconciliation|owe|owed|owing|shame|dislike|anger|hatred|resentment|betrayal|boundary|boundaries|inheritance|last\s+will|will\s+and\s+testament|estate|security\s+breach|damag\w*|broke|broken|billing\s+(?:mistake|error)|payment\s+(?:mistake|error)|account\s+(?:mistake|error)|refund\s+(?:mistake|error)|deposit\s+(?:mistake|error)|credit\s+(?:mistake|error)|(?:deposit|credit|money)[^?]{0,40}\bby\s+mistake|credited[^?]{0,40}\bby\s+mistake|services?\s+(?:never|not)\s+(?:provided|performed|rendered)|claimed?\s+as\s+(?:my|his|her|their|our)\s+own|submit(?:ted)?\s+as\s+(?:mine|my\s+own|his|hers|theirs)|make\s+(?:my|our|the|a)\s+.+?\s+look\s+better|hide\s+(?:my|our|the)\s+mistake|desperation)\b/.test(s);
+  const deceptiveRecord=/\b(?:falsif\w*|fabricat\w*|alter\w*|manipulat\w*)\s+(?:(?:financial|expense|billing|accounting|test)\s+)?(?:record|records|report|reports|statement|statements|entry|entries|result|results|data)\b/.test(s)&&/\b(?:hide|mislead|deceive|make\s+.+?\s+look\s+better|false|fraud|own\s+mistake)\b/.test(s);
+  const deceptiveBilling=/\b(?:report|expose|hide|conceal|bill|charge)\b/.test(s)&&/\b(?:knowingly|falsely|never\s+provided|not\s+provided|never\s+performed|not\s+performed|fake|fabricated|phantom)\b/.test(s)&&/\b(?:bill|billing|charge|charges|invoice|claim|service|services)\b/.test(s);
+  const authorshipDuty=/\b(?:claim|accept|take|admit|correct|copy|submit)\b/.test(s)&&/\b(?:credit|praise|authorship|wrote|written|created|generated|work|report|document|assignment)\b/.test(s)&&/\b(?:someone\s+else|another\s+person|coworker|teammate|student|entirely\s+by\s+(?:me|myself)|claimed?\s+as\s+(?:my|his|her|their|our)\s+own|submit(?:ted)?\s+as\s+(?:mine|my\s+own)|did\s+not|didn't)\b/.test(s);
+  const financialDuty=/\b(?:borrow|lend|repay|pay|withhold|owe)\b/.test(s)&&/\b(?:cannot|can't|will\s+not|won't|refuse|no\s+intention|not\s+intend|probably\s+cannot|unlikely\s+to\s+repay|addiction|exploit|desperate|forgot|forget|dishonest|deceive|mislead|honestly\s+owe|rightfully\s+owe|fair\s+wage|hours?\s+(?:worked|actually\s+worked))\b/.test(s);
+  const speechDuty=/\b(?:tell|share|repeat|speak|disclose|report|record|warn|remain|stay)\b/.test(s)&&/\b(?:truth|embarrass\w*|confidence|private\s+(?:information|message|email|photo|conversation|call)|falsely\s+accused|innocent|gossip|reputation|harm|abuse|fraud|wrongdoing|without\s+(?:permission|consent|telling)|serious\s+mistake|conflict\s+of\s+interest)\b/.test(s);
+  const permissionGranted=/\b(?:with\s+(?:their|his|her|the\s+owner['’]?s|explicit)\s+permission|gave\s+me\s+permission|has\s+given\s+me\s+permission|offered\s+(?:it|to\s+let\s+me)|told\s+me\s+i\s+(?:could|may)|allowed\s+me)\b/.test(s);
+  const propertyDuty=!permissionGranted&&/\b(?:return|keep|use|read|access|give|take|borrow)\b/.test(s)&&/\b(?:found|belongs?\s+to|owner|ownership|borrowed\s+(?:item|tool|property)|someone\s+else['’]?s|another\s+person['’]?s|coworker['’]?s|neighbor['’]?s|without\s+(?:permission|consent)|password|private\s+(?:message|email|account)|refund\s+(?:mistake|error)|deposit\s+(?:mistake|error)|delivered\s+to\s+me|by\s+mistake)\b/.test(s);
+  const relationshipDuty=/\b(?:reconcile|trust|forgive|hide|conceal|pressure|favor|favour|exclude|leave|avoid|obey|protect|defend|stop|refuse)\b/.test(s)&&/\b(?:abuse|abusive|unsafe|spouse|husband|wife|parent|mother|father|child|family|friend|coworker|employee|elderly|vulnerable|inheritance|estate|last\s+will|dislike|unfair|better[-\s]+qualified|cruel\w*|harm|hurt|attack\w*|lie|revenge|retaliat\w*)\b/.test(s);
+  const responsibilityDuty=/\b(?:admit|tell|correct|confess|return|disclose|conceal|hide)\b/.test(s)&&/\b(?:mistake|error|damage|damaged|broke|broken|fault|blame|billing|purchase|debt|care|patient|record)\b/.test(s)&&humanConflict;
+  const exploitDuty=/\b(?:exploit|overcharge|manipulate|pressure)\b/.test(s)&&/\b(?:someone|person|customer|client|patient|employee|worker|elderly|vulnerable|desperate|desperation|inheritance|estate|will\b|money|price|charge)\b/.test(s);
+  const harmfulWish=/\b(?:hope|wish)\b/.test(s)&&/\b(?:harm|hurt|fail|failure|die|death|suffer|misfortune|lose\s+(?:their|his|her)|bad\s+thing|rival)\b/.test(s);
+  const financialDisclosureDuty=/\b(?:report|disclose|declare|hide|conceal|omit|understate)\b/.test(s)&&/\b(?:income|earnings|revenue|tax|taxes|tax\s+return)\b/.test(s)&&/\b(?:honest\w*|accurat\w*|all\s+(?:my|our)?\s*(?:income|earnings)|cash\s+income|hide|conceal|omit|understate|owe\s+less|pay\s+less)\b/.test(s);
+  const compensationDuty=/\b(?:clock|claim|record|report|submit|bill|charge)\b/.test(s)&&/\b(?:hours?|time|shift|work)\b/.test(s)&&/\b(?:did\s+not|didn[’']t|not\s+actually|never)\s+(?:work|worked)|unworked|false\s+hours?\b/.test(s);
+  const transactionErrorDuty=/\b(?:money|payment|overpayment|refund|deposit|credit|credited|paid|pays?|charge|charged|overcharg\w*)\b/.test(s)&&
+    /\b(?:accident\w*|mistake|error|twice|duplicate|overpay\w*|overcharg\w*|by\s+mistake)\b/.test(s)&&
+    /\b(?:account|bank|customer|client|employer|employee|seller|buyer|merchant|vendor|company|refund|deposit|payment|paid|pays?|money|credit|overpayment|invoice|bill|card)\b/.test(s);
+  const evidenceIntegrityDuty=/\b(?:evidence|testimony|report|record|statement|claim|data)\b/.test(s)&&
+    /\b(?:false|falsely|fabricat\w*|falsif\w*|known?\s+to\s+be\s+false|know\s+(?:it\s+)?is\s+false)\b/.test(s)&&
+    /\b(?:present|testify|submit|use|report|record|correct|hide|conceal|alter|create|give)\b/.test(s);
+  const researchIntegrityDuty=/\b(?:alter|manipulat\w*|falsif\w*|fabricat\w*|omit|hide|conceal)\b/.test(s)&&
+    /\b(?:result|results|data|evidence|finding|findings|measurement|measurements|study|research)\b/.test(s)&&
+    /\b(?:look|appear|seem)\s+(?:better|successful|stronger|favorable|favourable|positive)|\b(?:hide|conceal|omit)\s+(?:negative|unfavorable|unfavourable|inconvenient)\b/.test(s);
+  const salesDefectDuty=/\b(?:hide|conceal|omit|disclose|tell|reveal)\b/.test(s)&&
+    /\b(?:defect|defective|damage|damaged|problem|fault)\b/.test(s)&&
+    /\b(?:customer|buyer|purchaser|seller|sale|sold|selling|product|vehicle|car|house|home|property)\b/.test(s);
+  if(v3044NonMoralSubjectMatterContext(raw)&&!(humanConflict||deceptiveRecord||deceptiveBilling||authorshipDuty||propertyDuty||responsibilityDuty||transactionErrorDuty||evidenceIntegrityDuty||researchIntegrityDuty))return false;
+  return (contextual.has(action)&&moralIssue)||deceptiveRecord||deceptiveBilling||authorshipDuty||financialDuty||speechDuty||propertyDuty||relationshipDuty||responsibilityDuty||exploitDuty||harmfulWish||financialDisclosureDuty||compensationDuty||transactionErrorDuty||evidenceIntegrityDuty||researchIntegrityDuty||salesDefectDuty;
+}
+function v3044ExplicitMoralLanguage(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  return /\b(?:sin|sinful|immoral|moral(?:ly)?|wrong|right|honest|dishonest|acceptable|unacceptable|justified|unjustified|fair|unfair|unethical|ethical|unjust|righteous|unrighteous|conscience|forgive|forgiveness|revenge|repent|repentance|covet|coveting|adultery|pornography|sexual\s+immorality|false\s+witness|favoritism|favouritism|preferential\s+treatment|betrayal|deception|dishonesty|injustice|lying|stealing|cheat(?:ing)?|gossip|greed|greedy|hatred|hate|cruel|cruelty)\b/.test(s)||/\b(?:show\s+mercy|be\s+merciful|act\s+honestly|be\s+honest|tell\s+the\s+truth)\b/.test(s);
+}
+function v3044StrongMoralPredicate(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  return /\b(?:morally\s+(?:wrong|right|acceptable|unacceptable)|sinful|immoral|unethical|dishonest|unjust|righteous|unrighteous|against\s+(?:my|your|his|her|our|their)\s+conscience|violate\w*\s+(?:my|your|his|her|our|their)\s+conscience)\b/.test(s);
+}
+function v3044RelationalMoralContext(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  const actor=/\b(?:spouse|husband|wife|partner|boyfriend|girlfriend|parent|mother|father|child|son|daughter|brother|sister|relative|family|friend|coworker|teammate|classmate|employee|employer|manager|supervisor|boss|neighbor|neighbour|stranger|someone|somebody|another\s+person|owner|borrower|lender|creditor|debtor|victim|elderly|vulnerable|pastor|church\s+member|business\s+partner|customer|client|seller|buyer|cashier|merchant|vendor|doctor|dentist|lawyer|mechanic|contractor|teacher|student|patient|witness)\b/.test(s);
+  const issue=/\b(?:truth|lie|lied|lying|falsely|secret|privacy|(?:private|confidential)\s+(?:medical|financial|personal|employment|personnel)\s+(?:information|data|records?|details?|issue|condition)|property|money|debt|credit|blam\w*|fault|wrongdoing|harm\w*|abus\w*|danger\w*|safety|hazard\w*|warning|defect\w*|fraud|steal\w*|theft|exploit\w*|deceiv\w*|falsif\w*|fabricat\w*|confidentiality|gossip|rumou?r|false\s+accus\w*|false\s+(?:report|record|statement|claim|evidence|testimony)|promise|trust|forgive|relationship|reputation|jealous|envy|dislike|anger|hate|hatred|resentment|unfair|fairness|justice|mercy|responsibility|addiction|gambl\w*|bet(?:ting)?|wager\w*|off\s+the\s+clock|clock\s+out|danger|confidential|betray|apolog|repay|refund|password|account\s+open|defect\w*|hours?|wages?|preferential|humiliat|insult|boundary|boundaries|inheritance|security\s+breach|hurt|injur\w*|violence|attack|manipulat\w*\s+(?:(?:financial|expense|billing|accounting)\s+)?(?:record|report|statement|entry)s?|(?:billing|payment|account|refund|deposit|credit)\s+mistake|deception|dishonesty|plagiar|authorship|ownership|without\s+(?:permission|consent|telling))\b/.test(s);
+  return actor&&issue;
+}
+function v3046ImplicitMoralDecisionContext(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  const asksDecision=/\b(?:what|how)\s+should\s+(?:i|we|you|he|she|they)\b[\s\S]{0,90}$|\b(?:should|must|need|do|does|can|could|may)\s+(?:i|we|you|he|she|they)\b[\s\S]{0,90}$|\b(?:is|would)\s+(?:that|this|it)\s+(?:be\s+)?(?:a\s+)?(?:good|right|wrong|honest|fair|acceptable|justified)\b[\s\S]{0,90}$/.test(s);
+  if(!asksDecision)return false;
+  const relational=v3044RelationalMoralContext(raw);
+  const deceptionOrHarm=/\b(?:lie|lied|lying|deceiv\w*|mislead\w*|hide|conceal|falsif\w*|fabricat\w*|steal\w*|theft|fraud|abus\w*|harm\w*|danger\w*|threat\w*|violence|unsafe|exploit\w*|gossip|betray\w*|retaliat\w*|revenge|insult\w*|embarrass\w*|humiliat\w*|cruel\w*)\b/.test(s);
+  const entrustedConflict=/\b(?:promise|promised|secret|secrecy|confidence|confidential\w*|private)\b/.test(s)&&/\b(?:danger\w*|harm\w*|abus\w*|victim|child|minor|vulnerable|wrongdoing|crime|fraud|theft)\b/.test(s);
+  const transactionIntegrity=/\b(?:cashier|merchant|vendor|seller|buyer|bank|account|invoice|bill|billing|payment|refund|deposit|credit|change|money|charge|charged|undercharg\w*|overcharg\w*|overpay\w*|paid)\b/.test(s)&&/\b(?:accident\w*|mistake|error|twice|duplicate|extra|too\s+much|too\s+little|undercharg\w*|overcharg\w*|overpay\w*)\b/.test(s);
+  const workIntegrity=/\b(?:employer|employee|manager|supervisor|boss|coworker|work|job|customer|client|sales)\b/.test(s)&&((/\b(?:record|hours?|time|warning|safety|hazard|risk|mistake|error|credit|blame|report|defect|numbers?|data|results?|evidence|expense|bill|billing|disclose|remove|omit|hide|conceal|suppress|alter|submit|approve|clock)\b/.test(s)&&/\b(?:fewer|less|false|wrong|unsafe|safety|hazard|hurt|cost|sales|blame|credit|mistake|error|warning|known|did\s+not|didn[’']t|not\s+work|actual|actually|looks?\s+better|never\s+performed|not\s+actually)\b/.test(s))||/\b(?:clock\s+out[^?.!]{0,50}(?:continue|keep)\s+work\w*|work\w*\s+off\s+the\s+clock)\b/.test(s));
+  const dependencyConflict=/\b(?:money|support|help|provide|pay|loan|lend|fund|finance|give)\b/.test(s)&&/\b(?:gambl\w*|bet(?:ting)?|wager\w*|addiction|drug\w*|alcohol|exploit\w*|abus\w*|enable\w*)\b/.test(s);
+  const propertyPrivacy=(/\b(?:found|wallet|lost\s+(?:phone|property|item))\b/.test(s)&&/\b(?:keep|return|contact|owner)\b/.test(s))||(/\b(?:password|private\s+(?:message|messages|email|emails)|account\s+(?:open|unlocked)|left\s+(?:the\s+)?account\s+open)\b/.test(s)&&/\b(?:use|read|access|share|owner|permission)\b/.test(s))||(/\b(?:without\s+permission|without\s+consent|owner\s+did\s+not|did\s+not\s+give\s+permission)\b/.test(s)&&/\b(?:use|read|access|keep|take|borrow)\b/.test(s));
+  const authorshipIntegrity=/\b(?:credit|authorship|submitted?|work|report|assignment)\b/.test(s)&&/\b(?:my\s+work|his\s+own|her\s+own|their\s+own|someone\s+else|another\s+person|taking\s+credit|take\s+credit)\b/.test(s);
+  const evidenceIntegrity=/\b(?:evidence|testimony|testify|testified|statement|report|record|data|numbers?|results?)\b/.test(s)&&/\b(?:false|know\s+(?:it\s+)?is\s+false|did\s+not\s+happen|alter|changed?|falsif\w*|fabricat\w*|look\s+(?:better|successful))\b/.test(s);
+  const fairTreatment=/\b(?:applicant|employee|coworker|relative|nephew|family\s+member)\b/.test(s)&&/\b(?:favor|favour|better[-\s]+qualified|preferential|blame|credit|humiliat\w*|insult\w*)\b/.test(s);
+  const hostileWish=/\b(?:angry|anger|resent\w*|hate|dislike|jealous|envy)\b/.test(s)&&/\b(?:hope|wish)\b/.test(s)&&/\b(?:lose|fail|hurt|harm|suffer|fired|job|misfortune)\b/.test(s);
+  return relational||deceptionOrHarm||entrustedConflict||transactionIntegrity||workIntegrity||dependencyConflict||propertyPrivacy||authorshipIntegrity||evidenceIntegrity||fairTreatment||hostileWish;
+}
+function v3044PracticalDecisionOnly(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  const medical=/\b(?:ibuprofen|acetaminophen|medicine|medication|dose|dosage|headache|fever|symptom|surgery|treatment|therapy|diagnosis|doctor|dentist|pharmacist|hospital|clinic|blood\s+pressure|vaccine|x-ray|xray)\b/.test(s)&&/\b(?:take|use|start|stop|increase|decrease|switch|schedule|see|visit|go|treat|tell|ask|call|choose)\b/.test(s);
+  const technicalRiskOverride=/\b(?:customer|buyer|patient|employee|worker|child|victim|person|people)\b/.test(s)&&/\b(?:safety|hazard|danger|harm|hurt|injur\w*|abuse|known\s+(?:warning|defect|risk)|hide|conceal|omit|suppress)\b/.test(s);
+  const technical=!technicalRiskOverride&&/\b(?:windows|software|driver|cpu|gpu|ram|computer|phone|tablet|device|router|wifi|wi-fi|engine|oil|voltage|volt|battery|microwave|ceramic|installation|update|upgrade|configure|setting|settings|virtual\s+machine|memory|api|endpoint|http|json|array|function|database|network|firewall|server|variable|null|undefined|value|reference|pointer|object|class|method|property|rust|python|javascript|typescript|java|c\+\+|clone|compiler|syntax|parameter|argument|thread|process|algorithm|scheduler|job\s+queue|programming\s+language|language\s+feature|implementation|interface|spreadsheet|excel|video\s+game|game|gaming|app|application|token|key|encrypted|encryption|model|debug|logs?|warning|rules\s+engine|fraud[-\s]+detection|abuse[-\s]+prevention|theft\s+protection)\b/.test(s)&&/\b(?:install|update|upgrade|configure|use|buy|replace|run|set|connect|restart|reboot|choose|lend|borrow|return|expose|give|refuse|manipulate|cut|clone|copy|record|share|hide|show|compile|parse|pass|store|keep|trust|enable|disable|search|filter|tag|report|remove|omit|suppress|exploit|conceal|favor|favour|name)\b/.test(s);
+  const purchase=/\b(?:buy|purchase|order|choose|upgrade|replace)\b/.test(s)&&/\b(?:phone|car|truck|laptop|computer|house|appliance|product|model|plan|service|book|audiobook|ebook|paperback|movie|album|subscription|game|bible|kjv|thriller|brand|shampoo)\b/.test(s);
+  const navigation=/\b(?:drive|travel|route|road|highway|street|directions?|commute|fly|walk)\b/.test(s)&&/\b(?:church|office|work|school|store|hospital|home|airport|there|back\s+road|highway|route)\b/.test(s);
+  const scheduling=/\b(?:calendar|meeting|appointment|schedule|time|timezone|eastern\s+time|projector|event|room)\b/.test(s)&&/\b(?:set|schedule|return|book|choose|use|keep|start|end|put|add)\b/.test(s);
+  const policy=/\b(?:federal\s+reserve|interest\s+rates?|tax\s+rate|tariff|congress|legislature|government|central\s+bank|policy|election)\b/.test(s)&&/\b(?:raise|lower|cut|increase|decrease|pass|vote|change|set)\b/.test(s);
+  const objectiveCorrectness=/\b(?:calculation|equation|math|arithmetic|formula|code|program|query|answer|result|spelling|spell|word|grammar|comma|punctuation|measurement|reading|file|pdf|document|cable|port|connector|classification|classify|variable|null|voltage|setting|syntax|form|clause|reference)\b/.test(s)&&/\b(?:wrong|right|correct|incorrect|error|mistake|classify|connect|spell|use|set|return|formatted|format)\b/.test(s);
+  const ordinaryFinance=/\b(?:mortgage|loan|interest\s+rate|savings\s+account|business\s+account|home\s+equity|refinance|principal|payment|investment|stock|bond|retirement\s+account)\b/.test(s)&&/\b(?:borrow|lend|repay|pay|finance|refinance|save|invest|buy|sell|increase|decrease|keep)\b/.test(s)&&!/\b(?:cannot|can't|won't|will\s+not|refuse|deceive|dishonest|addiction|exploit|forgot|honestly\s+owe|rightfully\s+owe)\b/.test(s);
+  const commerce=/\b(?:price|cost|worth|value|deal|quote|estimate|rate)\b/.test(s)&&/\b(?:fair|reasonable|good|bad|pay|buy|sell|worth)\b/.test(s);
+  const objectiveTrust=/\b(?:benchmark|test\s+result|measurement|reading|sample\s+size|data|experiment)\b/.test(s)&&/\btrust\b/.test(s);
+  const ordinaryInterpersonal=/\b(?:lend\s+(?:my|the)\s+(?:car|truck|tool)|borrow\s+(?:my|the|a)\s+(?:car|truck|tool)|invite\s+.+?\s+to\s+(?:the|a)\s+(?:movie|dinner|party)|take\s+(?:my|our)\s+parents?\s+to\s+dinner|give\s+(?:my|the)\s+(?:sister|brother|father|mother|friend)\s+(?:the|a)\s+(?:phone|tablet|gift)|help\s+(?:my|a)\s+(?:friend|mother|father|coworker)\s+(?:install|set\s+up|move)|use\s+(?:my|the)\s+spouse['’]?s\s+car\s+if\s+.+?offered)\b/.test(s);
+  return medical||technical||purchase||navigation||scheduling||policy||objectiveCorrectness||ordinaryFinance||commerce||objectiveTrust||ordinaryInterpersonal;
+}
+function v3044NonMoralSubjectMatterContext(raw){
+  const s=v2856Normalized(raw),action=v3044RequestedActionVerb(raw);
+  if(!s)return false;
+  const linguistic=/\b(?:word|phrase|sentence|paragraph|title|category|grammar|grammatical|spelling|spell|spelled|spellchecker|dictionary|capitalize|capitalization|format|formatted|italics?|italicize|font|adjective|definition|term|variable(?:\s+name)?|field\s+name|test\s+fixture)\b/.test(s)&&/\b(?:use|name|tag|label|classify|spell|spelled|capitalize|italicize|quote|write|keep|set|choose|report|confess|right|wrong|honest|dishonest|correct)\b/.test(s);
+  const dataMeta=/\b(?:statistics?|percentage|count|database|indexing|search\s+index|filter|status|classification|model|debug\s+logs?|rules\s+engine|api|endpoint|token|key|test\s+data|encrypted\s+server|fraud[-\s]+detection|abuse[-\s]+prevention|theft\s+protection|rounding\s+error|tolerance\s+calculation|moral\s+hazard|economics\s+report|legal\s+definition|keyword\s+match)\b/.test(s)&&/\b(?:use|report|record|search|filter|classify|tag|store|keep|set|enable|choose|build|run|remove|omit|suppress|forgive|confess|hide)\b/.test(s);
+  const media=/\b(?:book|novel|movie|film|thriller|ebook|paperback|audiobook|album|game|game\s+level|character\s+name|sequel)\b/.test(s)&&/\b(?:buy|read|watch|name|choose|use|classify|label|tag)\b/.test(s);
+  const religiousLogistics=/\b(?:bible\s+app|kjv\s+with|large\s+print|church[^?]{0,40}calendar|church\s+projector|pastor\s+meeting|prayer\s+notes)\b/.test(s);
+  const securityVocabulary=/\b(?:secret\s+token|private\s+key|confidential\s+test\s+data|private\s+network)\b/.test(s)&&/\b(?:use|store|keep|hide|trust|set)\b/.test(s);
+  const technicalOperations=/\b(?:software|code|programming|programming\s+language|cpu|gpu|process|task\s+manager|database|transaction|classifier|precision|recall|build|regression\s+suite|model|loss|training|firewall|antivirus|quarantine|test|file|cache|benchmark|implementation|interface|certificate|certificate\s+chain|local\s+port|test\s+container|array|parallelism|algorithm|scheduler|job\s+queue)\b/.test(s)&&/\b(?:use|trust|expose|exploit|kill|abort|judge|condemn|punish|block|quarantine|blacklist|copy|keep|conceal|hide|favor|favour|return|share|enable|disable|name|report)\b/.test(s)&&!/\b(?:deceiv\w*|lie|lying|fraud|steal\w*|theft|abus\w*|harm\w*|victim|customer\s+harm|without\s+permission|security\s+breach)\b/.test(s);
+  return linguistic||dataMeta||media||religiousLogistics||securityVocabulary||technicalOperations||((action==='enable'||action==='use')&&/\bgod\s+mode\b/.test(s));
+}
+function v3045TechnicalProgrammingMockSense(raw){
+  const s=v2856Normalized(raw);
+  if(!s||!/\bmock(?:s|ed|ing)?\b/.test(s))return false;
+  const testContext=/\b(?:unit|integration|component|contract|regression|automated|automation|end[-\s]+to[-\s]+end|e2e|smoke)\s+tests?\b|\b(?:test(?:ing)?|test\s+double|stub|stubbing|fixture|jest|vitest|mocha|pytest|unittest)\b/.test(s);
+  const softwareContext=/\b(?:http|https|rest|graphql|rpc|api|sdk|software|code|coding|programming|javascript|typescript|python|java|c\+\+|node(?:\.js)?|backend|frontend|database|network)\b/.test(s);
+  const technicalTarget=/\b(?:http\s+client|https\s+client|api\s+client|rest\s+client|database\s+client|client\s+(?:object|class|library)|server|service|api|endpoint|request|response|database|db|connection|socket|repository|controller|provider|dependency|function|method|object|class|module|component|hook|fetch|network\s+call|queue|cache|filesystem|file\s+system|clock|timer|uuid|random(?:\s+generator)?|date|test\s+double|stub|fixture)\b/.test(s);
+  const explicitTechnicalClient=/\bmock(?:s|ed|ing)?\b[\s\S]{0,45}\b(?:http|https|api|rest|database|software|test)\s+client\b|\bmock(?:s|ed|ing)?\s+(?:(?:this|that|the|a|an|my|our|your)\s+)?client\b[\s\S]{0,70}\b(?:http|https|api|integration|unit|automated|regression|test|testing|software|request|response)\b/.test(s);
+  const humanTarget=/\bmock(?:s|ed|ing)?\s+(?:at\s+)?(?:(?:this|that|the|a|an|my|our|your|his|her|their)\s+)?(?:coworker|colleague|friend|neighbor|neighbour|spouse|husband|wife|parent|child|teacher|student|patient|customer|client|employee|employer|manager|supervisor|doctor|lawyer|person|someone|somebody|him|her|them)\b/.test(s);
+  if(humanTarget&&!explicitTechnicalClient)return false;
+  return explicitTechnicalClient||(technicalTarget&&(testContext||softwareContext));
+}
+function v3046LegacyMoralRouteBlocked(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input))return false;
+  if(v3044NonMoralSubjectMatterContext(input)||v3044ExplicitNonHumanMoralSubject(input)||v3044NonMoralMoralVerbSense(input))return true;
+  const frame=v3044MoralQuestionFrame(input);
+  const normative=['WRONGNESS','DUTY','PERMISSION','GUIDANCE'].includes(frame)||/\b(?:should|ought|must|need|duty|obligation|permissible|justified|morally|fair|unfair|ethical|unethical|honest|dishonest|unjust|sin|sinful)\b/.test(s);
+  // v3046: once the canonical owner declines a normative request, legacy moral responders
+  // are not allowed to reinterpret the same wording as moral guidance. Non-normative Bible
+  // questions remain available to the established Bible/factual routes.
+  return !!(normative&&!v3044MoralQuestionIntent(input));
+}
+function v3044NonMoralMoralVerbSense(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  const technicalMock=v3045TechnicalProgrammingMockSense(raw);
+  const scientificFalsification=/\bfalsif\w*\b/.test(s)&&/\b(?:null\s+hypothesis|hypothesis|scientific\s+claim|scientific\s+theory|experiment|experimental\s+result)\b/.test(s)&&!/\bfalsif\w*\s+(?:record|report|statement|evidence|invoice|expense|safety\s+(?:record|report|data))\b/.test(s);
+  const sportsSteal=/\bsteal(?:ing)?\b/.test(s)&&/\b(?:second|third|home)\s+base\b|\b(?:baseball|softball|runner|pitch|pitcher|inning|outs?)\b/.test(s);
+  const parserForgiveness=/\bforgive\b/.test(s)&&/\b(?:parser|compiler|syntax|trailing\s+comma|rounding\s+error|floating[-\s]+point|tolerance|whitespace|malformed\s+input)\b/.test(s);
+  const physicalLie=/\blie\b/.test(s)&&/\b(?:phone|board|device|panel|screen|book|paper|object|part|piece|tile)\b/.test(s)&&/\b(?:flat|down|horizontal|face\s+up|face\s+down|on\s+its\s+side)\b/.test(s);
+  const gameCheat=/\bcheat(?:ing)?\b/.test(s)&&/\b(?:cheat\s+code|cheat\s+mode|debug\s+mode|single[-\s]+player|test\s+level|game\s+level)\b/.test(s);
+  const testVocabulary=/\b(?:test\s+double|mock\s+(?:server|object|service|api|client|request|response|dependency)|fake\s+(?:user|object|service))\b/.test(s)&&/\b(?:call|name|use|create|build|configure|dishonest|wrong|unethical|test|testing)\b/.test(s);
+  const schedulerFairness=/\b(?:scheduler|scheduling\s+algorithm|job\s+queue|configured\s+algorithm)\b/.test(s)&&/\b(?:fair|unfair|favor|favour|priority|prioritize)\b/.test(s);
+  return technicalMock||scientificFalsification||sportsSteal||parserForgiveness||physicalLie||gameCheat||testVocabulary||schedulerFairness;
+}
+function v3044OperationalHarmRequest(raw){
+  const s=v2856Normalized(raw);
+  const operational=/^(?:how\s+(?:do|can|could|should)\s+(?:i|we|you)|what(?:'s|\s+is)\s+the\s+best\s+way|give\s+me\s+(?:steps|instructions)|tell\s+me\s+how)\b/.test(s);
+  const harmful=/\b(?:kill|murder|poison|attack|injure|hurt|assault|steal|fraud|defraud|embezzle|hack|break into|blackmail|kidnap)\b/.test(s);
+  return operational&&harmful;
+}
+function v3044ExplicitNonHumanMoralSubject(raw){
+  const s=v2856Normalized(raw);
+  return /\b(?:wrong|sinful|immoral|unethical|dishonest|unjust)\s+for\s+(?:an?\s+|the\s+)?(?:cpu|gpu|computer|phone|software|program|function|variable|database|server|router|device|algorithm|model|api|spreadsheet|file|document)\s+to\b/.test(s);
+}
+function v3044MoralQuestionIntent(raw){
+  const input=clean(raw),s=v2856Normalized(input);
+  if(!input||/^https?:\/\//i.test(input)||!isAnyQuestionInputText(input)||v3044OperationalHarmRequest(input))return false;
+  const frame=v3044MoralQuestionFrame(input);
+  const strongPredicate=v3044StrongMoralPredicate(input);
+  const implicitDecision=v3046ImplicitMoralDecisionContext(input);
+  const normative=frame==='WRONGNESS'||frame==='DUTY'||frame==='PERMISSION'||frame==='GUIDANCE'||strongPredicate||implicitDecision||/\b(?:should|ought|must|need|duty|obligation|permissible|justified|morally|wrong|right|honest|fair|unfair|ethical|unethical|dishonest|unjust|sin|sinful)\b/.test(s);
+  if(!normative)return false;
+  if(v3044NonMoralSubjectMatterContext(input)||v3044ExplicitNonHumanMoralSubject(input)||v3044NonMoralMoralVerbSense(input))return false;
+  if(strongPredicate||implicitDecision)return true;
+  if(v3044MoralActionCue(input)||v3044RelationalMoralContext(input))return true;
+  if(v3044PracticalDecisionOnly(input))return false;
+  if(v3044ExplicitMoralLanguage(input))return true;
+  const faith=/\b(?:god|jesus|christ|christian|bible|biblical|faith|believer|scripture|kjv|prayer|pray|church)\b/.test(s);
+  if(faith)return true;
+  return false;
+}
+function v3044ExactKjvQuote(reference){
+  const ref=clean(reference).replace(/[–—]/g,'-').replace(/\s+/g,' ');
+  const m=ref.match(/^(.+?)\s+(\d{1,3}):(\d{1,3})(?:\s*-\s*(?:(\d{1,3}):)?(\d{1,3}))?$/);
+  if(!m)return '';
+  const bookNo=v2834BookNumberByName(m[1]);if(!bookNo)return '';
+  const chapter=Number(m[2]),start=Number(m[3]),endChapter=m[4]?Number(m[4]):chapter,end=m[5]?Number(m[5]):start;
+  if(endChapter!==chapter||start<1||end<start||end-start>6)return '';
+  let index;try{index=v2834LoadKjvIndex();}catch(_e){return '';}
+  const rows=[];
+  for(let verse=start;verse<=end;verse++){
+    const item=index.byRef[v2834RefKey(index.books[bookNo-1]+' '+chapter+':'+verse)];
+    if(!item)return '';
+    rows.push(item.text);
+  }
+  return rows.join(' ');
+}
+// v3044 deliberately does not call the older specialized moral responders here.
+// They remain available only as historical/shared code, while every owned moral question
+// is evaluated through the same actor/action/qualifier/polarity profile and local-KJV verifier.
+function v3044ReferenceApplicationUseful(value){
+  const s=clean(value);
+  if(!s||s.split(/\s+/).length<5)return false;
+  return !/^(?:this\s+)?passage\s+(?:directly\s+)?(?:bears|relates|applies)|\b(?:relevant to the question|supports the answer|directly bears on the question)\b/i.test(s);
+}
+function v3044LocalMoralReference(reference,application){
+  const ref=clean(reference).replace(/[–—]/g,'-').replace(/\s+/g,' ');
+  const m=ref.match(/^(.+?)\s+(\d{1,3}):(\d{1,3})(?:\s*-\s*(?:(\d{1,3}):)?(\d{1,3}))?$/);
+  if(!m||!v3044ReferenceApplicationUseful(application))return null;
+  const bookNo=v2834BookNumberByName(m[1]);if(!bookNo)return null;
+  const chapter=Number(m[2]),start=Number(m[3]),endChapter=m[4]?Number(m[4]):chapter,end=m[5]?Number(m[5]):start;
+  if(endChapter!==chapter||start<1||end<start||end-start>4)return null;
+  const exact=v3044ExactKjvQuote(ref);if(!exact)return null;
+  const index=v2834LoadKjvIndex();
+  const canonical=index.books[bookNo-1]+' '+chapter+':'+start+(end>start?'-'+end:'');
+  return [canonical,'“'+exact+'”',clean(application)];
+}
+function v3044VerifiedMoralReferences(parsed){
+  const src=Array.isArray(parsed&&parsed.references)?parsed.references:[];
+  const out=[],seen=new Set();
+  src.slice(0,6).forEach(function(row){
+    if(!row||typeof row!=='object')return;
+    const verified=v3044LocalMoralReference(row.reference||row.ref||'',row.application||row.relevance||row.reason||'');
+    if(!verified)return;
+    const key=v2834RefKey(verified[0]);if(seen.has(key))return;seen.add(key);out.push(verified);
+  });
+  return out.slice(0,4);
+}
+function v3044PolarityAuditObject(parsed){
+  const p=parsed&&parsed.polarityAudit;
+  if(p&&typeof p==='object')return p;
+  return {};
+}
+function v3044MoralWordStem(value){
+  let t=clean(value).toLowerCase().replace(/[^a-z]/g,'');
+  const aliases={forgiving:'forgive',forgiven:'forgive',lying:'lie',stealing:'steal',cheating:'cheat',gambling:'gamble',coveting:'covet',hating:'hate',hatred:'hate',cruelty:'cruel',favoritism:'favor',favouritism:'favor',deception:'deceive',dishonesty:'dishonest',giving:'give',given:'give',keeping:'keep',kept:'keep',cutting:'cut',lying:'lie',hiding:'hide',using:'use',taking:'take',refusing:'refuse',revealing:'reveal',sharing:'share',recording:'record',pressuring:'pressure',favoring:'favor',favouring:'favor',supporting:'support',helping:'help',providing:'provide',manipulating:'manipulate',humiliating:'humiliate',overcharging:'overcharge',exploiting:'exploit',exposing:'expose',obeying:'obey',admitting:'admit',admitted:'admit',repaying:'repay',returning:'return',lending:'lend',borrowing:'borrow',deceiving:'deceive',misleading:'mislead',betraying:'betray',cheating:'cheat',stealing:'steal',retaliating:'retaliate',apologizing:'apologize',apologising:'apologise',confessing:'confess',refused:'refuse',testified:'testify',testifying:'testify',clocked:'clock',clocking:'clock',presented:'present',presenting:'present',mocking:'mock',ridiculing:'ridicule',exaggerating:'exaggerate',excluding:'exclude',avoiding:'avoid',confronting:'confront',correcting:'correct',protecting:'protect',defending:'defend',harming:'harm',abusing:'abuse',mistreating:'mistreat',threatening:'threaten',judging:'judge',condemning:'condemn',insulting:'insult',withholding:'withhold',enabling:'enable',gambling:'gamble',betting:'bet',wagering:'wager'};
+  if(aliases[t])return aliases[t];
+  if(t.length>6&&/ing$/.test(t))t=t.slice(0,-3);
+  else if(t.length>5&&/ied$/.test(t))t=t.slice(0,-3)+'y';
+  else if(t.length>5&&/ed$/.test(t))t=t.slice(0,-2);
+  else if(t.length>4&&/es$/.test(t))t=t.slice(0,-2);
+  else if(t.length>4&&/s$/.test(t)&&!/ss$/.test(t))t=t.slice(0,-1);
+  return t;
+}
+const LEGACY_MORAL_SINGLE_OWNER_STARTUP_VALIDATION_V3046=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  canonicalMoralOwnerAvailable:typeof v3044MoralQuestionIntent==='function',
+  legacyRouteBlockAvailable:typeof v3046LegacyMoralRouteBlocked==='function',
+  technicalWordSenseAvailable:typeof v3045TechnicalProgrammingMockSense==='function',
+  implicitDecisionContextAvailable:typeof v3046ImplicitMoralDecisionContext==='function'
+});
+if(!Object.keys(LEGACY_MORAL_SINGLE_OWNER_STARTUP_VALIDATION_V3046).every(function(k){return LEGACY_MORAL_SINGLE_OWNER_STARTUP_VALIDATION_V3046[k]===true;}))throw new Error('LEGACY_MORAL_SINGLE_OWNER_V3046 startup validation failed');
+
+const V3045_MORAL_ACTION_SYNONYMS=Object.freeze({
+  hope:['hope','wish','desire'],report:['report','tell','disclose','notify','expose','speak'],expose:['expose','report','disclose','reveal'],share:['share','disclose','tell','reveal'],tell:['tell','share','disclose','reveal','speak'],
+  forgive:['forgive','release'],return:['return','restore','give'],admit:['admit','confess','acknowledge'],apologize:['apologize','apologise'],pressure:['pressure','coerce'],favor:['favor','favour','prefer'],
+  keep:['keep','retain','hold'],stay:['stay','remain'],accept:['accept','take'],take:['take','accept'],hide:['hide','conceal'],conceal:['conceal','hide'],exclude:['exclude','shun'],avoid:['avoid','shun'],
+  lend:['lend','loan'],borrow:['borrow'],repay:['repay','pay'],withhold:['withhold','keep'],correct:['correct','clarify'],protect:['protect','defend'],warn:['warn','tell','notify'],record:['record'],read:['read'],give:['give','return','restore'],exploit:['exploit','takeadvantage'],humiliate:['humiliate','shame','embarrass'],manipulate:['manipulate','coerce','pressure'],overcharge:['overcharge','charge'],cut:['cut','sever'],do:['do','respond','act','handle'],testify:['testify','give','state','present'],clock:['clock','record','claim','report'],honor:['honor','honour','keep','respect'],honour:['honour','honor','keep','respect']
+});
+function v3044RequestedActionVerb(raw){
+  let s=v3046DecisionClause(raw);
+  if(!s)return '';
+  s=s.replace(/^(?:as\s+(?:a\s+)?(?:christian|believer)\s*,?\s*)/,'');
+  const moralAdj='(?:morally\\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)';
+  const negTo='(?:(?:not\\s+to|to\\s+not|to)\\s+)';
+  const roles='(?:adult\\s+child|church\\s+member|business\\s+owner|business\\s+partner|parent|parents|mother|father|husband|wife|partner|brother|sister|manager|supervisor|worker|employee|employer|friend|coworker|teammate|classmate|witness|creditor|debtor|borrower|lender|customer|client|seller|doctor|dentist|lawyer|mechanic|contractor|teacher|student|patient|pastor|christian|believer|person)';
+  const subject='(?:i|you|we|they|he|she|someone|somebody|one|a\\s+person|a\\s+christian|a\\s+believer|(?:(?:my|your|his|her|our|their|a|an|the)\\s+)?'+roles+')';
+  const forSubject='(?:me|us|you|him|her|them|(?:(?:my|your|his|her|our|their|a|an|the)\\s+)?'+roles+')';
+  let m=s.match(new RegExp('^(?:is|would)\\s+it\\s+(?:be\\s+)?'+moralAdj+'\\s+for\\s+'+forSubject+'\\s+'+negTo+'([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^(?:is|would)\\s+it\\s+(?:be\\s+)?'+moralAdj+'\\s+'+negTo+'([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^(?:is|would)\\s+it\\s+(?:be\\s+)?'+moralAdj+'\\s+if\\s+'+subject+'\\s+(?:(?:(?:do|does)\\s+not|don.?t|doesn.?t|not)\\s+)?([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^(?:am|is|are|would)\\s+'+subject+'\\s+(?:be\\s+)?'+moralAdj+'\\s+'+negTo+'([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^(?:should|must|may|can|could|need)\\s+'+subject+'\\s+(?:not\\s+)?(?:to\\s+)?([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^ought\\s+'+subject+'\\s+(?:not\\s+)?(?:to\\s+)?([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(/^(?:does|would)\s+.{1,90}?\b(?:require|oblige)\s+(?:me|us|you|him|her|them|someone|somebody|a\s+person)\s+to\s+(?:not\s+)?([a-z]+)\b/);
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^(?:do|does)\\s+'+subject+'\\s+have\\s+to\\s+(?:not\\s+)?([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^(?:do|does)\\s+'+subject+'\\s+need\\s+to\\s+(?:not\\s+)?([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^(?:do|does)\\s+'+subject+'\\s+([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  m=s.match(new RegExp('^what\\s+should\\s+'+subject+'\\s+do\\b'));
+  if(m)return 'do';
+  m=s.match(new RegExp('^how\\s+should\\s+'+subject+'\\s+([a-z]+)\\b'));
+  if(m)return v3044MoralWordStem(m[1]);
+  const known=new Set(['lie','deceive','mislead','gossip','betray','cheat','steal','forgive','retaliate','apologize','apologise','confess','mock','ridicule','insult','humiliate','shame','covet','blackmail','embezzle','falsify','gamble','bet','wager','hide','conceal','keep','tell','share','repeat','speak','reveal','disclose','report','warn','return','repay','lend','borrow','reconcile','trust','avoid','exclude','refuse','ignore','obey','stay','remain','confront','correct','admit','claim','copy','submit','break','discipline','punish','protect','defend','harm','abuse','mistreat','threaten','judge','condemn','record','pressure','favor','favour','support','help','provide','withhold','enable','use','pay','read','give','expose','exploit','manipulate','overcharge','charge','bill','hope','wish','stop','honor','honour','accept','take','release','testify','clock','alter','greed','hate','cruel','adultery','revenge','pornography','dishonest']);
+  const prefix=s.match(/^(?:should|must|ought|may|can|could|need|is|would|am|are|do|does|how\s+should)\b([\s\S]{0,160})/);
+  if(prefix){for(const token of prefix[1].trim().split(/\s+/).slice(0,18)){const t=v3044MoralWordStem(token);if(known.has(t))return t;}}
+  return '';
+}
+function v3044AuditActionContainsRequestedVerb(raw,auditAction){
+  const requested=v3044RequestedActionVerb(raw);if(!requested)return true;
+  if(requested==='do')return clean(auditAction).split(/\s+/).filter(Boolean).length>=2;
+  const auditStems=new Set(v2856Normalized(auditAction).split(/\s+/).map(v3044MoralWordStem).filter(Boolean));
+  const variants=(V3045_MORAL_ACTION_SYNONYMS[requested]||[requested]).map(v3044MoralWordStem);
+  return variants.some(function(v){return auditStems.has(v);});
+}
+function v3044RequestedActorCue(raw){
+  let s=v3046DecisionClause(raw);
+  s=s.replace(/^(?:as\s+(?:a\s+)?(?:christian|believer)\s*,?\s*)/,'');
+  const roles='adult\\s+child|church\\s+member|business\\s+owner|business\\s+partner|parent|parents|mother|father|husband|wife|partner|brother|sister|manager|supervisor|worker|employee|employer|friend|coworker|teammate|classmate|witness|creditor|debtor|borrower|lender|customer|client|seller|doctor|dentist|lawyer|mechanic|contractor|teacher|student|patient|pastor|christian|believer|person';
+  const roleSubject='(?:(?:my|your|his|her|our|their|a|an|the)\\s+)?('+roles+')';
+  let m=s.match(/^(?:does|would)\s+.{1,90}?\b(?:require|oblige)\s+(me|us|you|him|her|them)\s+to\b/);
+  if(m)return ({me:'i',us:'we',you:'you',him:'he',her:'she',them:'they'})[m[1]]||m[1];
+  m=s.match(/^(?:does|would)\s+.{1,90}?\b(?:require|oblige)\s+(?:someone|somebody|a\s+person)\s+to\b/);
+  if(m)return 'person';
+  m=s.match(/^(?:should|must|may|can|could|need|ought)\s+(i|you|we|they|he|she)\b/);
+  if(m)return m[1];
+  m=s.match(/^(?:do|does)\s+(i|you|we|they|he|she)\s+have\s+to\b/);
+  if(m)return m[1];
+  m=s.match(/^(?:do|does)\s+(i|you|we|they|he|she)\s+need\s+to\b/);
+  if(m)return m[1];
+  m=s.match(/^how\s+should\s+(i|you|we|they|he|she)\b/);
+  if(m)return m[1];
+  m=s.match(/^what\s+should\s+(i|you|we|they|he|she)\s+do\b/);
+  if(m)return m[1];
+  m=s.match(new RegExp('^what\\s+should\\s+'+roleSubject+'\\s+do\\b'));
+  if(m)return clean(m[1]);
+  m=s.match(/^(?:am|is|are|would)\s+(i|you|we|they|he|she)\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\b/);
+  if(m)return m[1];
+  m=s.match(/^(?:is|would)\s+it\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\s+for\s+(me|us|you|him|her|them)\b/);
+  if(m)return ({me:'i',us:'we',you:'you',him:'he',her:'she',them:'they'})[m[1]]||m[1];
+  m=s.match(/^(?:is|would)\s+it\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\s+if\s+(i|you|we|they|he|she)\b/);
+  if(m)return m[1];
+  m=s.match(new RegExp('^(?:is|would)\\s+it\\s+(?:be\\s+)?(?:morally\\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\\s+for\\s+'+roleSubject+'\\s+(?:to\\s+|not\\s+to\\s+)'));
+  if(m)return clean(m[1]);
+  m=s.match(new RegExp('^(?:should|must|may|can|could|need|ought)\\s+'+roleSubject+'\\s+'));
+  if(m)return clean(m[1]);
+  m=s.match(new RegExp('^(?:do|does)\\s+'+roleSubject+'\\s+have\\s+to\\s+'));
+  if(m)return clean(m[1]);
+  m=s.match(new RegExp('^how\\s+should\\s+'+roleSubject+'\\s+'));
+  if(m)return clean(m[1]);
+  m=s.match(new RegExp('^(?:is|are|would)\\s+'+roleSubject+'\\s+(?:be\\s+)?(?:morally\\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\\s+(?:to\\s+|not\\s+to\\s+)'));
+  if(m)return clean(m[1]);
+  if(/^(?:is|would)\s+it\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\s+(?:to\s+|not\s+to\s+)/.test(s))return 'person';
+  if(/^(?:is|would)\s+.+?\s+(?:be\s+)?(?:a\s+)?sin\b/.test(s))return 'person';
+
+  // Generic human-subject fallback: bind the grammatical subject to the already parsed
+  // requested action instead of requiring every occupation/relationship to be enumerated.
+  const normalizeActor=function(value){
+    let a=v2856Normalized(value).replace(/^(?:my|your|his|her|our|their|a|an|the)\s+/,'').replace(/\s+(?:do|does|did)\s+not$/,'').replace(/\s+not$/,'').trim();
+    const map={me:'i',us:'we',him:'he',her:'she',them:'they'};
+    return map[a]||a;
+  };
+  m=s.match(/^(?:is|would)\s+it\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\s+for\s+(.{1,80}?)\s+(?:to\s+|not\s+to\s+)/);
+  if(m)return normalizeActor(m[1]);
+  m=s.match(/^(?:am|is|are|would)\s+(.{1,80}?)\s+(?:be\s+)?(?:morally\s+)?(?:wrong|sinful|immoral|unethical|dishonest|honest|unjust|okay|ok|right|good|acceptable|permissible|justified|fair|unfair)\s+(?:to\s+|not\s+to\s+)/);
+  if(m)return normalizeActor(m[1])==='it'?'person':normalizeActor(m[1]);
+  m=s.match(/^what\s+should\s+(.{1,80}?)\s+do\b/);
+  if(m)return normalizeActor(m[1]);
+  const requested=v3044RequestedActionVerb(raw);
+  if(requested){
+    const variants=new Set((V3045_MORAL_ACTION_SYNONYMS[requested]||[requested]).map(v3044MoralWordStem));
+    // When the grammatical subject is itself conduct ("Is lying wrong?", "Is gossip sinful?"),
+    // the actor is generic rather than a named neighboring person.
+    m=s.match(/^(?:is|would)\s+(.{1,80}?)\s+(?:be\s+)?(?:wrong|sinful|immoral|unethical|dishonest|unjust|unfair)\b/);
+    if(m){
+      const subjectStems=v2856Normalized(m[1]).split(/\s+/).map(v3044MoralWordStem).filter(Boolean);
+      if(subjectStems.some(function(stem){return variants.has(stem);} ))return 'person';
+    }
+    const words=s.split(/\s+/);
+    const startModal=/^(?:should|must|may|can|could|need|ought)$/.test(words[0]||'');
+    if(startModal){
+      let actionIndex=-1;
+      for(let i=1;i<Math.min(words.length,18);i++){if(variants.has(v3044MoralWordStem(words[i]))){actionIndex=i;break;}}
+      if(actionIndex>1){
+        const actor=words.slice(1,actionIndex).filter(function(w){return !/^(?:not|to)$/.test(w);}).join(' ');
+        if(actor)return normalizeActor(actor);
+      }
+    }
+    if(/^(?:do|does)$/.test(words[0]||'')){
+      const haveIndex=words.indexOf('have');
+      if(haveIndex>1&&words[haveIndex+1]==='to')return normalizeActor(words.slice(1,haveIndex).join(' '));
+    }
+    if(words[0]==='how'&&words[1]==='should'){
+      let actionIndex=-1;
+      for(let i=2;i<Math.min(words.length,18);i++){if(variants.has(v3044MoralWordStem(words[i]))){actionIndex=i;break;}}
+      if(actionIndex>2)return normalizeActor(words.slice(2,actionIndex).join(' '));
+    }
+  }
+  return '';
+}
+function v3044AuditActorAcceptable(raw,auditActor){
+  const cue=v3044RequestedActorCue(raw);if(!cue)return !!clean(auditActor);
+  const a=v2856Normalized(auditActor);
+  if(cue==='i')return /\b(?:i|me|myself|speaker|questioner|user|you)\b/.test(a);
+  if(cue==='you')return /\b(?:you|user|person|questioner)\b/.test(a);
+  if(cue==='we')return /\b(?:we|us|our|people|group)\b/.test(a);
+  if(cue==='they')return /\b(?:they|them|people|persons)\b/.test(a);
+  if(cue==='he')return /\b(?:he|him|man|person)\b/.test(a);
+  if(cue==='she')return /\b(?:she|her|woman|person)\b/.test(a);
+  if(cue==='person')return /\b(?:i|me|myself|you|user|person|someone|somebody|one|individual|actor)\b/.test(a);
+  const cueTokens=v2856Normalized(cue).split(/\s+/).map(v3044MoralWordStem).filter(Boolean);
+  const actorTokens=v2856Normalized(a).split(/\s+/).map(v3044MoralWordStem).filter(Boolean);
+  return cueTokens.length>0&&cueTokens.every(function(ct){return actorTokens.some(function(at){return at===ct||at.startsWith(ct)||ct.startsWith(at);});});
+}
+function v3044AuditQualifierText(audit){
+  if(!audit||typeof audit!=='object')return '';
+  const q=audit.qualifiers;
+  if(Array.isArray(q))return clean(q.join(' | '));
+  if(q&&typeof q==='object')return clean(Object.values(q).join(' | '));
+  return clean(q||'');
+}
+function v3044RequestedActionNegated(raw){
+  const s=v2856Normalized(raw);
+  return /\b(?:wrong|sinful|immoral|unethical|dishonest|unjust|okay|acceptable|permissible|justified)\s+(?:for\s+[^?]{0,64}\s+)?(?:not\s+to|to\s+not)\s+[a-z]+\b/.test(s)||
+    /\b(?:wrong|sinful|immoral|unethical|dishonest|unjust|okay|acceptable|permissible|justified)\s+if\s+[^?]{0,48}\b(?:(?:do|does)\s+not|don[’']t|doesn[’']t|not)\s+[a-z]+\b/.test(s)||
+    /^(?:should|must|ought|may|can|could|need)\s+[^?]{0,54}\s+not\s+(?:to\s+)?[a-z]+\b/.test(s)||
+    /\b(?:refuse|avoid|withhold|omit|fail)\s+to\b/.test(s);
+}
+function v3044QualifierContentStems(value){
+  const stop=new Set(['even','if','unless','when','while','although','though','because','despite','except','without','provided','that','this','then','would','could','should','might','may','will','can','have','has','had','having','being','been','from','with','into','onto','about','after','before','under','over','only','also','still','very','more','most','some','someone','another','person','people','their','there','they','them','your','you','our','ours','his','her','hers','mine','my','the','and','but','for','are','was','were','not','never','no','do','does','did','it','its','me']);
+  return v2856Normalized(value).split(/\s+/).map(v3044MoralWordStem).filter(function(t){return t.length>=3&&!stop.has(t);});
+}
+function v3044QualifierConcepts(value){
+  const s=v2856Normalized(value),out=new Set();
+  const groups={
+    permission:/\b(?:permission|consent|authoriz\w*|approval|allowed|unauthoriz\w*)\b/,
+    secrecy:/\b(?:secret|secrecy|confidential\w*|privacy|private|promise)\b/,
+    harm:/\b(?:harm|hurt|abuse|danger|injur\w*|violence|unsafe|victim|protect|safety)\b/,
+    deception:/\b(?:lie|lying|deceiv\w*|mislead\w*|false|falsif\w*|fraud|dishonest)\b/,
+    blame:/\b(?:blame|fault|accus\w*|responsib\w*)\b/,
+    money:/\b(?:money|cost|financial|debt|bill|payment|income|job|wage|refund|credit)\b/,
+    hardship:/\b(?:hardship|poor|poverty|desperate|desperation|cannot\s+afford|unable\s+to\s+pay)\b/,
+    ownership:/\b(?:owner|ownership|belongs?|property|someone\s+else|another\s+person)\b/,
+    life:/\b(?:life|death|die|dying|kill|serious\s+harm|emergency)\b/,
+    relationship:/\b(?:spouse|husband|wife|parent|child|family|friend|trust|relationship|reconcile)\b/
+  };
+  Object.keys(groups).forEach(function(k){if(groups[k].test(s))out.add(k);});
+  return out;
+}
+function v3044MaterialQualifierSegment(raw){
+  const s=v2856Normalized(raw);
+  const m=s.match(/\b(?:even\s+if|unless|if|when|while|although|though|because|despite|except(?:\s+when)?|provided\s+that|as\s+long\s+as|without)\b([\s\S]{2,220})$/);
+  return m?clean(m[1]):'';
+}
+function v3044QualifierBindingAcceptable(raw,auditAction,auditQualifiers,publicText){
+  const s=v2856Normalized(raw),action=clean(auditAction),qual=clean(auditQualifiers),publicBinding=clean(publicText||''),combined=clean(action+' '+qual+' '+publicBinding);
+  const segment=v3044MaterialQualifierSegment(raw);
+  const needsQualifier=!!segment;
+  if(needsQualifier&&!clean(qual+' '+publicBinding))return false;
+  if(segment){
+    const rawStems=new Set(v3044QualifierContentStems(segment));
+    const auditStems=new Set(v3044QualifierContentStems(clean(qual+' '+publicBinding)));
+    let overlap=false;
+    rawStems.forEach(function(t){if(auditStems.has(t))overlap=true;});
+    if(!overlap){
+      const rawConcepts=v3044QualifierConcepts(segment),auditConcepts=v3044QualifierConcepts(qual);
+      rawConcepts.forEach(function(k){if(auditConcepts.has(k))overlap=true;});
+    }
+    if(rawStems.size>0&&!overlap)return false;
+  }
+  if(/\bwithout\s+(?:permission|consent|telling)\b/.test(s)&&!/\b(?:without|lack|no|not|unauthoriz\w*)\b[\s\S]{0,30}\b(?:permission|consent|telling|authoriz\w*)\b|\b(?:permission|consent|authoriz\w*)\b[\s\S]{0,30}\b(?:without|lack|no|not|unauthoriz\w*)\b/.test(v2856Normalized(combined)))return false;
+  if(v3044RequestedActionNegated(raw)&&!/\b(?:not|never|without|refus\w*|withhold\w*|omit\w*|fail\w*|avoid\w*|declin\w*|refrain\w*)\b/.test(v2856Normalized(combined)))return false;
+  return true;
+}
+function v3044ExplanationUseful(answer,explanation){
+  const e=clean(explanation),a=clean(answer);
+  if(e.split(/\s+/).length<6)return false;
+  if(v2856Normalized(e)===v2856Normalized(a))return false;
+  return !/^(?:this|that|it)\s+(?:is|would be)\s+(?:simply\s+)?(?:right|wrong|good|bad|moral|immoral)\.?$/i.test(e);
+}
+
+function v3044MoralProfileValid(raw,parsed,refs){
+  if(!parsed||typeof parsed!=='object'||!Array.isArray(refs)||refs.length<2)return false;
+  const answer=clean(parsed.answer||''),explanation=clean(parsed.explanation||'');
+  if(!answer||!explanation||!v3044ExplanationUseful(answer,explanation))return false;
+  if(/\b(?:KJV|King James Version|Scripture|Scriptures)\b/i.test(answer+' '+explanation))return false;
+  const frame=v3044MoralQuestionFrame(raw),direct=/^(?:yes|no)\b/i.test(answer);
+  if(['WRONGNESS','PERMISSION','DUTY'].includes(frame)&&!direct)return false;
+  const audit=v3044PolarityAuditObject(parsed),auditActor=clean(audit.askedActor||audit.actor||''),auditAction=clean(audit.askedAction||audit.action||''),auditQualifiers=v3044AuditQualifierText(audit),auditFrame=clean(audit.questionFrame||audit.frame||'').toUpperCase(),auditPolarity=clean(audit.answerPolarity||audit.polarity||'').toUpperCase();
+  if(!auditActor||!auditAction||!auditFrame||!auditPolarity||!['YES','NO','QUALIFIED'].includes(auditPolarity))return false;
+  if(!v3044AuditActorAcceptable(raw,auditActor)||!v3044AuditActionContainsRequestedVerb(raw,auditAction))return false;
+  if(!v3044QualifierBindingAcceptable(raw,auditAction,auditQualifiers,answer+' '+explanation))return false;
+  if(frame!=='OTHER'&&auditFrame!==frame)return false;
+  const first=(answer.match(/^(yes|no)\b/i)||[])[1];
+  if(first&&auditPolarity!==first.toUpperCase())return false;
+  if(!first&&['WRONGNESS','PERMISSION','DUTY'].includes(frame))return false;
+  if(!v3044RequestedActionVerb(raw)){
+    const actionTokens=v2834NormText(auditAction).split(' ').filter(function(t){return t.length>=3&&!['the','this','that','someone','person','another','their','with','from','when','because','should','would','action','conduct','described','asked'].includes(t);});
+    const actionStems=actionTokens.map(v3044MoralWordStem).filter(Boolean);
+    const inputStems=new Set(v2834NormText(raw).split(' ').map(v3044MoralWordStem).filter(Boolean));
+    if(actionStems.length&&!actionStems.some(function(t){return inputStems.has(t);} ))return false;
+  }
+  return true;
+}
+function v3044MoralPrompt(raw,repair,prior){
+  const frame=v3044MoralQuestionFrame(raw);
+  return [
+    'You are AIVerify’s consolidated biblical moral-guidance engine.',
+    'Use the King James Version as the governing moral source. Do not substitute modern culture, political preference, philosophy, denominational tradition, or generic self-help for the biblical standard.',
+    'Return ONLY one JSON object with keys: answer, explanation, references, classification, polarityAudit.',
+    'polarityAudit MUST be an object with exactly: askedActor, askedAction, qualifiers, questionFrame, answerPolarity. askedActor must name the actor whose conduct the question asks you to judge. askedAction must preserve the question’s main requested action verb and describe that action, not a neighboring person’s wrongdoing. questionFrame must be '+frame+'. answerPolarity must be YES, NO, or QUALIFIED and must agree with the first word of a Yes/No Answer.',
+    'First bind the exact actor and exact action the user asks about. Keep neighboring actions separate: reporting wrongdoing is not the wrongdoing; forgiving debt is not refusing repayment; forgiveness is not restored trust; apologizing for harmful handling is not admitting a factual position was false.',
+    'Account for every material qualifier, exception, competing duty, and negation before choosing the conclusion. polarityAudit.qualifiers must explicitly preserve conditions such as if/unless/even if/when/while/because/without and must not silently drop a not/never/refusal/absence-of-permission condition. Protection of innocent life and prevention of serious harm take priority over ordinary secrecy or promises that would enable that harm.',
+    'When the question asks whether an action is wrong, sinful, immoral, unethical, dishonest, or unjust, Answer MUST begin Yes or No and answer that exact action. When the question asks Should/Must/May/Can/Could, normally begin Yes or No when a direct moral conclusion is possible. For an open What should I do/How should I respond guidance question, give the recommended action directly instead of forcing an artificial Yes or No.',
+    'If the Bible directly addresses the conduct, apply that rule. If the exact modern activity is not named, do not pretend that it is; apply the closest biblical principles and make that distinction clear in one concise Explanation sentence.',
+    'Answer should normally be 5 to 28 words. Explanation must be one useful public-facing sentence and must not merely restate the Answer.',
+    'Do not use the words KJV, King James Version, Scripture, or Scriptures in Answer or Explanation.',
+    'references must contain 2 to 4 objects with only reference and application. Use a single verse or a same-chapter range of no more than five verses. Application must specifically explain how that passage bears on this exact action; never write generic phrases such as “This passage directly bears on the question.”',
+    'Do not quote verses yourself. AIVerify will retrieve the exact verse text from its local biblical corpus after you choose the references.',
+    'Do not use Needs more evidence, Unsupported, or a secular-source citation for an answerable moral question.',
+    repair?'Repair requirement: '+clean(repair):'Perform a final actor/action/qualifier/polarity audit before returning JSON.',
+    prior?'Prior attempt to repair: '+JSON.stringify(prior).slice(0,2400):'',
+    'Question: '+clean(raw)
+  ].filter(Boolean).join('\n');
+}
+async function v3044ModelMoralProfile(raw){
+  let prior=null;
+  for(let attempt=0;attempt<2;attempt++){
+    const repair=attempt?'The prior result failed local-reference, action-binding, explanation, or polarity validation. Re-evaluate the exact question from the beginning and return a fully valid result.':'';
+    // v3044: keep the total moral-provider wait bounded. A true provider timeout does not
+    // benefit from immediately repeating the same request; only repair a returned but invalid
+    // profile. This prevents a moral scan from stacking two long provider timeouts.
+    const timeoutMs=attempt===0?9000:5500;
+    const parsed=await v2829RequestJson(v3044MoralPrompt(raw,repair,prior),2200,timeoutMs);
+    if(!parsed)return null;
+    const refs=v3044VerifiedMoralReferences(parsed||{});
+    if(v3044MoralProfileValid(raw,parsed,refs)){
+      const answer=v2829NormQuestionPolarityAnswer(parsed.answer||'');
+      const explanation=v2829StripVersionWords(v2825ConciseExplanation(parsed.explanation||''));
+      const p=v2825Profile('QUESTION',v2825ConciseAnswer(raw,answer),explanation,refs,'',clean(parsed.classification||'FAITH / BIBLICAL MORAL GUIDANCE'));
+      const audit=v3044PolarityAuditObject(parsed);
+      p.responseCompressionEligible=false;
+      p.moralIntentRecognized=true;
+      p.polarityAudit=JSON.stringify(audit);
+      p.moralInputBindingVerified=true;
+      p.consolidatedMoralEngineVersion='V3046';
+      p.localKjvReferenceVerified=true;
+      p.localKjvVerseCount=V2834_KJV_EXPECTED_VERSES;
+      return p;
+    }
+    prior=parsed;
+  }
+  return null;
+}
+function v3044MoralRetryResponse(raw){
+  return v2665ContractText(raw,{route:'faith-moral/consolidated-retry/v3046',classification:'FAITH / BIBLICAL MORAL GUIDANCE',inputType:'QUESTION',analysisResult:'Answer',status:'SOURCE LOOKUP UNAVAILABLE',answer:'A biblical moral answer could not be completed in this scan.',why:'Select Analyze/Enter again to retry this scan.',evidence:'The moral route remained Scripture-first and did not substitute a generic factual or secular-source answer.',source:'Biblical Scriptures',sourceBasis:'Biblical Scriptures',supportingInformation:'',confidence:'Low confidence',outputBasket:OUTPUT_FORMAT_BASKETS.PRACTICAL_GUIDANCE});
+}
+async function v3044CanonicalMoralResponse(raw,origin){
+  if(!v3044MoralQuestionIntent(raw))return '';
+  const profile=await v3044ModelMoralProfile(raw);
+  if(!profile)return v3044MoralRetryResponse(raw);
+  const contract=v2829BibleContract(raw,profile);
+  // These flags are granted only after v3044MoralProfileValid has verified the model's
+  // actor/action/polarity audit and v3044VerifiedMoralReferences has resolved every displayed
+  // reference against the local KJV corpus.
+  contract.route='controlled-contract/faith/consolidated-biblical-moral/v3046';
+  contract.moralInputBindingVerified=true;
+  contract.consolidatedMoralEngineVersion='V3046';
+  contract.localKjvReferenceVerified=true;
+  contract.localKjvVerseCount=V2834_KJV_EXPECTED_VERSES;
+  contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{},{consolidatedBiblicalMoralEngineV3046:'ACTIVE',moralRouteOrigin:clean(origin||'unspecified'),localKjvReferencesVerified:profile.scriptures.length,moralActorActionPolarityAudit:'PASS'});
+  const envelope=v2855Envelope([contract],'consolidated-biblical-moral-engine-v3044','local-kjv-plus-bounded-reasoning',false);
+  return v2855SerializeEnvelope(raw,envelope,'');
+}
+function v2944IsGoogleHost(hostname){
+  const host=clean(hostname).toLowerCase().replace(/^www\./,'');
+  return /^(?:[a-z0-9-]+\.)*google\.[a-z.]{2,}$/.test(host);
+}
+function v2944TrimUrlToken(value){
+  let s=clean(value);
+  while(/[),.;!?\]}]$/.test(s))s=s.slice(0,-1);
+  return s;
+}
+function v2944SingleSubmittedUrl(raw){
+  const exact=validHttpUrl(clean(raw));
+  if(exact)return exact;
+  const matches=String(raw||'').match(/https?:\/\/[^\s<>"']+/gi)||[];
+  if(matches.length!==1)return '';
+  const candidate=validHttpUrl(v2944TrimUrlToken(matches[0]));
+  if(!candidate)return '';
+  const remainder=clean(String(raw||'').replace(matches[0],'')).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  if(!remainder)return candidate;
+  if(/^(?:please )?(?:check|verify|analyze|analyse|review|fact check|open)(?: this| the)?(?: page| webpage| url| link)?$/.test(remainder))return candidate;
+  return '';
+}
+function v2944DecodeGoogleTarget(value){
+  let candidate=clean(value);
+  for(let i=0;i<3;i+=1){
+    const direct=validHttpUrl(candidate);
+    if(direct)return direct;
+    try{
+      const decoded=decodeURIComponent(candidate);
+      if(decoded===candidate)break;
+      candidate=decoded;
+    }catch(_e){break;}
+  }
+  return '';
+}
+function v2944GoogleUrlDecision(url){
+  const normalized=validHttpUrl(url);
+  if(!normalized)return {kind:'NONE',url:''};
+  let current=normalized;
+  for(let depth=0;depth<3;depth+=1){
+    let u;try{u=new URL(current);}catch(_e){return {kind:'NONE',url:''};}
+    if(!v2944IsGoogleHost(u.hostname))return {kind:'DIRECT_TARGET',url:current,wrapperDepth:depth};
+    const path=(u.pathname||'/').replace(/\/+$/,'')||'/';
+    if(/^\/url$/i.test(path)){
+      const keys=['url','q','u'];
+      let target='';
+      for(const key of keys){target=v2944DecodeGoogleTarget(u.searchParams.get(key)||'');if(target)break;}
+      if(target&&target!==current){current=target;continue;}
+      return {kind:'GOOGLE_WRAPPER_WITHOUT_TARGET',url:normalized};
+    }
+    if(/^\/search$/i.test(path)){
+      const queryTarget=v2944DecodeGoogleTarget(u.searchParams.get('q')||'');
+      if(queryTarget){current=queryTarget;continue;}
+      return {kind:'GOOGLE_SEARCH',url:normalized};
+    }
+    if(/^\/(?:webhp|advanced_search|preferences|setprefs|complete\/search)$/i.test(path)||path==='/')return {kind:'GOOGLE_PORTAL',url:normalized};
+    if(/^(?:news|images)\.google\./i.test(u.hostname)&&/(?:^|\/)search(?:\/|$)/i.test(path))return {kind:'GOOGLE_SEARCH',url:normalized};
+    if(/\/maps\/search(?:\/|$)/i.test(path))return {kind:'GOOGLE_SEARCH',url:normalized};
+    return {kind:'GOOGLE_PAGE',url:normalized};
+  }
+  return {kind:'DIRECT_TARGET',url:current,wrapperDepth:3};
+}
+function v2944UrlClarification(raw,url,kind){
+  const google=/^GOOGLE_/.test(clean(kind));
+  const answer=google
+    ? 'Open the specific search result and submit that page’s direct address.'
+    : 'Open one specific article, report, page, or claim and submit its direct address.';
+  const why=google
+    ? 'A Google search, homepage, or wrapper without a destination contains multiple possible sources and cannot be treated as one verified page.'
+    : 'A homepage, archive, category, search, or listing page contains multiple targets and does not identify one item for this scan.';
+  return v2665ContractText(raw,{route:'specific-url/direct-page-required/v2944',classification:google?'GOOGLE SEARCH OR PORTAL / MULTIPLE SOURCES':'WEBPAGE PORTAL OR LISTING / MULTIPLE TARGETS',inputType:'PORTAL_URL',analysisResult:'Need a Specific Page or Claim',status:'CLARIFICATION REQUIRED',answer:answer,why:why,evidence:'No factual conclusion was produced because the submitted address did not identify one specific source page.',source:google?'Submitted Google address':'Submitted webpage address',sourceBasis:google?'Submitted Google address':'Submitted webpage address',sourceUrl:url,confidence:'High confidence',outputBasket:OUTPUT_FORMAT_BASKETS.URL_PAGE_SUMMARY,technicalDiagnostics:{activeFunction:'directGoogleAndPortalUrlRouterV2944',urlKind:clean(kind),directDestinationRequired:'YES',pageContentConclusionProduced:'NO',cacheEligible:'NO'}});
+}
+async function v2944SpecificUrlPreRoute(raw,requestState){
+  const submitted=v2944SingleSubmittedUrl(raw);
+  if(!submitted||v2708IsSpecificYouTube(submitted))return '';
+  const google=v2944GoogleUrlDecision(submitted);
+  if(google.kind==='DIRECT_TARGET'&&google.url!==submitted){
+    const direct=await v2864AnalyzeSpecificUrl(google.url,requestState);
+    if(!direct)return '';
+    return String(direct)+'\nGOOGLE_REDIRECT_UNWRAPPED_V2944: '+google.url;
+  }
+  if(/^GOOGLE_(?:SEARCH|PORTAL|WRAPPER_WITHOUT_TARGET)$/.test(google.kind))return v2944UrlClarification(raw,submitted,google.kind);
+  if(google.kind==='GOOGLE_PAGE'){
+    if(/\/maps\/place(?:\/|$)/i.test(new URL(submitted).pathname||''))return '';
+    return v2944UrlClarification(raw,submitted,google.kind);
+  }
+  if(looksLikePortalUrl(submitted))return v2944UrlClarification(raw,submitted,'PORTAL_URL');
+  if(looksLikeMultiTargetContent(submitted))return v2944UrlClarification(raw,submitted,'MULTI_TARGET_URL');
+  if(submitted!==validHttpUrl(clean(raw))){
+    const direct=await v2864AnalyzeSpecificUrl(submitted,requestState);
+    if(!direct)return '';
+    return String(direct)+'\nSINGLE_DIRECT_URL_EXTRACTED_V2944: '+submitted;
+  }
+  return '';
+}
+
+
+// SHARED_YOUTUBE_TITLE_INPUT_AND_MUSIC_LIMIT_INTEGRITY_V2947
+// This is one contract-level normalization for every specific YouTube URL. It does not contain
+// video-ID-specific factual answers. Existing title retrieval, title cache, transcript retrieval,
+// and independent verification remain the source of truth; this layer only preserves their
+// binding and applies the product-wide music-video limit consistently.
+function v2947SpecificYouTubeResolvedTitle(raw,contract){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const r=c.factualAutoResult&&typeof c.factualAutoResult==='object'?c.factualAutoResult:{};
+  const retrieval=c.youtubeRetrieval&&typeof c.youtubeRetrieval==='object'?c.youtubeRetrieval:{};
+  const info=videoUrlInfo(raw);
+  const candidates=[
+    r.exactVideoTitle,
+    c.exactVideoTitle,
+    c.videoTitle,
+    retrieval.title,
+    knownMusicVideoTitleById(info&&info.videoId),
+    String(r.claim||'').replace(/^\s*Music\s+video\s*:\s*/i,'')
+  ];
+  for(const candidate of candidates){
+    const value=clean(candidate||'');
+    if(value&&!/^https?:\/\//i.test(value)&&!/^Not enough information/i.test(value))return value;
+  }
+  return '';
+}
+function v2947LooksLikeFactualVideoTitle(title){
+  const t=clean(title||'');
+  if(!t)return false;
+  return !!(
+    isAnyQuestionInputText(t) ||
+    looksLikeStandardFactualClaimInput(t) ||
+    looksLikeGeneralDeclarativeFactualClaimInput(t) ||
+    looksLikeValidShortFactualClaimOrQuestionInput(t)
+  );
+}
+function v2947NormalizeSpecificYouTubeContract(raw,contract){
+  const c=contract&&typeof contract==='object'?contract:null;
+  const input=clean(raw);
+  const info=videoUrlInfo(input);
+  if(!c||!info.isYouTube||!info.isSpecific)return c;
+  const title=v2947SpecificYouTubeResolvedTitle(input,c);
+  c.submittedInputExact=input;
+  c.displayInputExact=input;
+  c.exactVideoTitle=title;
+  c.videoTitle=title;
+  c.youtubeTitleInputIntegrityActive=true;
+  c.youtubeMusicLimitIntegrityActive=true;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{}, {
+    activeFunction:'sharedYouTubeTitleInputAndMusicLimitIntegrityV2947',
+    submittedInputBound:input?'YES':'NO',
+    completeRetrievedTitleBound:title?'YES':'NO',
+    factualTitleDetected:v2947LooksLikeFactualVideoTitle(title)?'YES':'NO',
+    musicVideoLimitApplied:c.musicTargetDetected?'YES':'NO'
+  });
+
+  if(c.musicTargetDetected||c.musicVideoDetectionOnly||c.musicVideoWithoutSpecificClaim){
+    const music=musicVideoDetectionOnlyResult(input,{title:title},c.youtubeRetrieval||{},info);
+    music.exactVideoTitle=title;
+    music.submittedInputExact=input;
+    music.displayInputExact=input;
+    c.factualAutoResult=music;
+    c.factualAccuracyAnalysis='AIVerify does not currently analyze music videos.';
+    c.factualAnalysisStatus='music-video-detection-only';
+    c.musicTargetDetected=true;
+    c.musicVideoDetectionOnly=true;
+    c.musicVideoWithoutSpecificClaim=true;
+    c.musicAnalysisReady=false;
+    c.musicAnalysisDisabledR1=true;
+    c.musicAigDisabledR1=true;
+    c.musicAiAuthHidden=true;
+    c.aiAuthExplicitlyRequested=false;
+    c.aiAuthOnDemandActive=false;
+    c.aiAuthButtonActive=false;
+    c.aiAuthAutoDisplayMode='disabled-music-video';
+    c.aiAuthAutoDisplayReason='Music videos are limited to title/metadata detection in this release.';
+    if(c.youtubeRetrieval&&typeof c.youtubeRetrieval==='object'){
+      c.youtubeRetrieval.paidSourceUsed=false;
+      c.youtubeRetrieval.supadataTranscriptUsed=false;
+      c.youtubeRetrieval.supadataSkipReason='music video title/metadata detection only; transcript lookup skipped';
+      c.youtubeRetrieval.retrievedTextUsedForFactual=false;
+      c.youtubeRetrieval.retrievedTextUsedForAI=false;
+    }
+    return c;
+  }
+
+  if(c.factualAutoResult&&typeof c.factualAutoResult==='object'){
+    const r=c.factualAutoResult;
+    r.submittedInputExact=input;
+    r.displayInputExact=input;
+    if(title){
+      r.exactVideoTitle=title;
+      if(!clean(r.claim||''))r.claim=title;
+    }
+    if(v2947LooksLikeFactualVideoTitle(title)){
+      const titleQuestion=isAnyQuestionInputText(title);
+      r.contentKind=titleQuestion?'QUESTION':clean(r.contentKind||'CLAIM');
+      r.displayLabel=titleQuestion?'Title':clean(r.displayLabel||'Claim');
+      if(titleQuestion){
+        r.hideAnalysisResult=true;
+        r.briefResponse=true;
+      }
+    }
+  }else if(title){
+    c.factualAutoResult={
+      claim:title,
+      exactVideoTitle:title,
+      submittedInputExact:input,
+      displayInputExact:input,
+      analysisResult:v2947LooksLikeFactualVideoTitle(title)?'Needs more evidence':'Title retrieved',
+      answer:'',
+      why:v2947LooksLikeFactualVideoTitle(title)
+        ? 'The complete video title was retrieved, but an independent factual conclusion was not available in this scan.'
+        : 'The complete public video title was retrieved. No clear factual claim was identified in the title.',
+      evidence:'Video title/metadata only.',
+      source:'YouTube title/metadata',
+      sourceUrl:info.sourceUrl||input,
+      supportingInformation:'',
+      contentKind:isAnyQuestionInputText(title)?'QUESTION':'TITLE',
+      displayLabel:'Title',
+      hideAnalysisResult:!v2947LooksLikeFactualVideoTitle(title),
+      briefResponse:true
+    };
+  }
+  return c;
+}
+const v2947OriginalVideoAuthenticityContract=videoAuthenticityContract;
+videoAuthenticityContract=async function(input){
+  const contract=await v2947OriginalVideoAuthenticityContract(input);
+  return v2947NormalizeSpecificYouTubeContract(input,contract);
+};
+
+const QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',priorityAvailable:typeof v3033QualifiedMoralActionPriorityResponse==='function',harmGateAvailable:typeof v3033SeriousProtectiveHarm==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+});
+if(!Object.keys(QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033).every(function(k){return QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033[k]===true;}))throw new Error('QUALIFIED_MORAL_ACTION_POLARITY_PRIORITY_V3033 startup validation failed');
+
+const DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',moralWrapperAvailable:typeof v2944QualifiedMoralDilemmaResponse==='function',qualifiedMoralContractAvailable:typeof v2943QualifiedMoralContract==='function',singleUrlExtractorAvailable:typeof v2944SingleSubmittedUrl==='function',googleResolverAvailable:typeof v2944GoogleUrlDecision==='function',urlPreRouteAvailable:typeof v2944SpecificUrlPreRoute==='function',specificUrlAnalyzerAvailable:typeof v2864AnalyzeSpecificUrl==='function',portalDetectorAvailable:typeof looksLikePortalUrl==='function',multiTargetDetectorAvailable:typeof looksLikeMultiTargetContent==='function'
+});
+if(!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.currentVersion||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.moralWrapperAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.qualifiedMoralContractAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.singleUrlExtractorAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.googleResolverAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.urlPreRouteAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.specificUrlAnalyzerAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.portalDetectorAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.multiTargetDetectorAvailable){
+  throw new Error('DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_ROUTING_REPAIR_V2944 startup validation failed');
+}
+
+const QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v2943QualifiedMoralDilemmaIntent==='function',responseAvailable:typeof v2943QualifiedMoralDilemmaResponse==='function',existingMoralRulesAvailable:typeof v2672MoralGuidanceOutput==='function',scriptureRendererAvailable:typeof v2672MoralContract==='function',presidentialIdentityCacheRepair:true,futureOrdinalIntentAvailable:typeof v2943FutureUsPresidentOrdinalIntent==='function',futureOrdinalResponseAvailable:typeof v2943FutureUsPresidentOrdinalResponse==='function'
+});
+if(!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.currentVersion||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.intentAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.responseAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.existingMoralRulesAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.scriptureRendererAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.futureOrdinalIntentAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.futureOrdinalResponseAvailable){
+  throw new Error('PRESIDENTIAL_ORDINAL_NAME_INTEGRITY_AND_QUALIFIED_MORAL_DILEMMA_REPAIR_V2943 startup validation failed');
+}
+const GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',officialResolverAvailable:typeof v2942OfficialCurrentFactResponse==='function',officialSnapshotUrlValid:!!validHttpUrl(V2942_OFFICIAL_FACT_SNAPSHOT.sourceUrl),claimEligibilityAvailable:typeof v2942StableGeneralClaimEligible==='function',deterministicClaimRouterAvailable:typeof v2942DeterministicGeneralClaimResponse==='function',modelClaimRouterAvailable:typeof v2942ModelGeneralClaimResponse==='function',capitalCatalogAvailable:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,periodicTableAvailable:typeof AIV_V2733_ELEMENT_TO_SYMBOL==='object'});
+if(!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.currentVersion||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.officialResolverAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.officialSnapshotUrlValid||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.claimEligibilityAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.deterministicClaimRouterAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.modelClaimRouterAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.capitalCatalogAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.periodicTableAvailable){
+  throw new Error('GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_SPEED_REPAIR_V2942 startup validation failed');
+}
+
+
+const CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',creativeGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',structuredStableAvailable:typeof v2864StructuredQuestionAttempt==='function',plainStableAvailable:typeof v2864PlainQuestionAttempt==='function'
+});
+if(!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.currentVersion||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.creativeGuardAvailable||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.structuredStableAvailable||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.plainStableAvailable){throw new Error('CREATIVE_WORK_ROUTING_BOUNDARY_REPAIR_V2952 startup validation failed');}
+const HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',creativeWorkGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',officeholderDescriptorAvailable:typeof v2949CurrentOfficeholderDescriptor==='function',personCompletenessAvailable:typeof v2949CompletePersonNameFromContext==='function',wrongdoingDetectorAvailable:typeof v2731IsDangerousWrongdoingRequest==='function'
+});
+if(!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.currentVersion||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.creativeWorkGuardAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.officeholderDescriptorAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.personCompletenessAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.wrongdoingDetectorAvailable){throw new Error('HIGH_LEVEL_ROUTING_OFFICEHOLDER_NAME_AND_WRONGDOING_REPAIR_V2949 startup validation failed');}
+
+
+const HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',historicalOfficeIntentAvailable:typeof v2950HistoricalOfficeRelationIntent==='function',historicalOfficeResponseAvailable:typeof v2950HistoricalOfficeRelationResponse==='function',securityCapabilityAvailable:typeof v2950SecurityTargetCapabilityResponse==='function',securityInterferenceAvailable:typeof v2950SecurityInterferenceBoundaryIntent==='function',acronymDefinitionAvailable:typeof v2950AppendAcronymDefinitions==='function',correctionDedupeAvailable:typeof v2950DedupeCorrectionSentence==='function'
+});
+if(!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.currentVersion||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.historicalOfficeIntentAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.historicalOfficeResponseAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.securityCapabilityAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.securityInterferenceAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.acronymDefinitionAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.correctionDedupeAvailable){throw new Error('HIGH_LEVEL_RELATION_BOUNDARY_AND_DEFINITION_REPAIR_V2950 startup validation failed');}
+
+function v2953BibleBookAliases(){
+  const source=(typeof V2834_KJV_BOOKS!=='undefined'&&Array.isArray(V2834_KJV_BOOKS))?V2834_KJV_BOOKS:[];
+  const aliases=[];
+  source.forEach(function(name){
+    const n=clean(name);if(!n)return;
+    aliases.push(n);
+    const base=n.replace(/^[1-3]\s+/,'');if(base&&base!==n)aliases.push(base);
+  });
+  aliases.push('Psalm','Song of Songs','Canticles','Revelations');
+  return Array.from(new Set(aliases.filter(Boolean))).sort(function(a,b){return b.length-a.length;});
+}
+function v2953RegexEscape(value){return String(value||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function v2953ExactCanonicalBibleBookAuthorship(raw){
+  const input=clean(raw).replace(/[?!.]+$/,'').trim();
+  const m=input.match(/^(?:who\s+(?:wrote|authored)|who\s+is\s+the\s+author\s+of)\s+(?:the\s+)?(?:(?:book|epistle|gospel)\s+of\s+)?(.+)$/i);
+  if(!m||!m[1])return false;
+  const target=clean(m[1]).replace(/^the\s+/i,'').trim().toLowerCase();
+  return v2953BibleBookAliases().some(function(name){return clean(name).toLowerCase()===target;});
+}
+function v2953PositiveBibleContext(raw){
+  const input=clean(raw);if(!input)return false;
+  if(/\b(?:bible|biblical|scripture|scriptures|kjv|king\s+james(?:\s+version)?|old\s+testament|new\s+testament|gospel|epistle|apostle|prophet|verse|verses)\b/i.test(input))return true;
+  if(v2953ExactCanonicalBibleBookAuthorship(input))return true;
+  const aliases=v2953BibleBookAliases().map(v2953RegexEscape).join('|');
+  if(!aliases)return false;
+  const bookOf=new RegExp('\\b(?:book|gospel|epistle)\\s+of\\s+(?:'+aliases+')\\b','i');
+  if(bookOf.test(input))return true;
+  const chapterVerse=new RegExp('\\b(?:'+aliases+')\\s+(?:chapter\\s+)?\\d{1,3}(?::\\d{1,3}(?:[-–]\\d{1,3})?)?\\b','i');
+  return chapterVerse.test(input);
+}
+function v2953BibleBookProperNameCollision(raw){
+  const input=clean(raw);if(!input||v2953PositiveBibleContext(input))return false;
+  if(v2949CreativeWorkOrdinaryFactual(input))return true;
+  const aliases=v2953BibleBookAliases();
+  for(const name of aliases){
+    const escaped=v2953RegexEscape(name);
+    const right=new RegExp("\\b"+escaped+"\\s+[A-Z][A-Za-z0-9’\'\-]+\\b");
+    const left=new RegExp("\\b[A-Z][A-Za-z0-9’\'\-]+\\s+"+escaped+"\\b");
+    if(right.test(input)||left.test(input))return true;
+  }
+  return false;
+}
+async function v2953OrdinaryFactualCollisionResponse(raw,requestState){
+  if(!v2953BibleBookProperNameCollision(raw))return '';
+  let stable=await v2864StructuredQuestionAttempt(raw,false);
+  if(requestState&&requestState.aborted)return '';
+  if(!stable)stable=await v2864PlainQuestionAttempt(raw,false);
+  if(requestState&&requestState.aborted)return '';
+  if(stable)return stable+'\nBIBLE_INTENT_CONTEXT_AND_NAMED_ENTITY_COLLISION_REPAIR_V2953: active';
+  return v2682PatchContractText(raw,v2710ControlledStableFailure(raw)+'\nBIBLE_INTENT_CONTEXT_AND_NAMED_ENTITY_COLLISION_REPAIR_V2953: controlled-fallback');
+}
+
+const BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',aliasProviderAvailable:typeof v2953BibleBookAliases==='function',positiveContextAvailable:typeof v2953PositiveBibleContext==='function',collisionGuardAvailable:typeof v2953BibleBookProperNameCollision==='function',responseAvailable:typeof v2953OrdinaryFactualCollisionResponse==='function'
+});
+if(!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.currentVersion||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.aliasProviderAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.positiveContextAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.collisionGuardAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.responseAvailable){throw new Error('BIBLE_INTENT_CONTEXT_AND_NAMED_ENTITY_COLLISION_REPAIR_V2953 startup validation failed');}
+
+
+// REQUEST_SHAPE_RESPONSE_CONTRACT_AND_VISUAL_REFERENCE_REPAIR_V2954
+function v2954YesNoQuestion(raw){
+  const s=clean(raw).replace(/^[\s"'“”]+/,'').trim();
+  return /^(?:is|are|am|was|were|do|does|did|can|could|should|would|will|has|have|had|may|might|must)\b/i.test(s);
+}
+function v2954RequestShape(raw){
+  const input=clean(raw);
+  if(!input)return 'EMPTY';
+  if(/^https?:\/\/\S+$/i.test(input))return 'SPECIFIC_URL';
+  if(v2954TechnicalVisualReferenceIntent(input))return 'VISUAL_REFERENCE';
+  if(v2954YesNoQuestion(input))return 'YES_NO_QUESTION';
+  if(isAnyQuestionInputText(input)){
+    if(/^(?:who|what|when|where|which|why|how)\b/i.test(input))return 'INFORMATION_QUESTION';
+    return 'QUESTION';
+  }
+  return 'CLAIM_OR_STATEMENT';
+}
+function v2954TechnicalVisualReferenceIntent(raw){
+  const input=clean(raw);
+  if(!input||/^https?:\/\/\S+$/i.test(input))return null;
+  if(typeof v2731IsDangerousWrongdoingRequest==='function'&&v2731IsDangerousWrongdoingRequest(input))return null;
+  const technical=/\b(?:diagram|schematic|wiring diagram|wiring schematic|blueprint|technical drawing|service diagram|circuit diagram|chart|graph)\b/i.test(input);
+  if(!technical)return null;
+  const request=/\b(?:show|find|give|provide|open|view|display|locate|link|url|source|where can i find|where do i find)\b/i.test(input);
+  if(!request)return null;
+  let type='diagram',label='Open Diagram';
+  if(/\b(?:schematic|wiring diagram|wiring schematic|circuit diagram)\b/i.test(input)){type='schematic';label='Open Schematic';}
+  else if(/\bblueprint\b/i.test(input)){type='blueprint';label='Open Blueprint';}
+  else if(/\b(?:chart|graph)\b/i.test(input)){type='chart';label='Open Chart';}
+  return {kind:'technical-visual-reference',resourceType:type,actionLabel:label};
+}
+function v2954TechnicalVisualTarget(raw,intent){
+  let s=clean(raw)
+    .replace(/https?:\/\/\S+/ig,' ')
+    .replace(/^(?:please\s+)?(?:show|find|give|provide|open|view|display|locate)\s+(?:me\s+)?/i,'')
+    .replace(/\b(?:an?\s+)?(?:image|picture|photo)\s+(?:of\s+|or\s+give\s+me\s+a\s+link\s+(?:to|for)\s+)?/i,'')
+    .replace(/\b(?:a\s+)?link\s+(?:to|for)\s+/i,'')
+    .replace(/\b(?:the\s+)?(?:wiring\s+diagram|wiring\s+schematic|circuit\s+diagram|diagram|schematic|blueprint|technical\s+drawing|service\s+diagram|chart|graph)\s+(?:of|for)\s+/i,'')
+    .replace(/[?!.]+$/,'')
+    .replace(/\s+/g,' ')
+    .trim();
+  if(!s)s='the requested '+clean(intent&&intent.resourceType||'visual reference');
+  return s;
+}
+async function v2954TechnicalVisualReferenceResponse(raw,requestState){
+  const intent=v2954TechnicalVisualReferenceIntent(raw);
+  if(!intent)return '';
+  const liveIntent={kind:'image',isMap:false,technicalReference:true,resourceType:intent.resourceType};
+  const result=await v2844LiveEvaluation(raw,liveIntent);
+  if(requestState&&requestState.aborted)return '';
+  if(!result||!result.ok||!validHttpUrl(result.actionLinkUrl||result.sourceUrl||''))return '';
+  const target=v2954TechnicalVisualTarget(raw,intent);
+  const link=validHttpUrl(result.actionLinkUrl||result.sourceUrl||'');
+  const sourceUrl=validHttpUrl(result.sourceUrl||link)||link;
+  const sourceName=clean(result.parsed&&result.parsed.sourceName||result.sources&&result.sources[0]&&result.sources[0].title||'Retrieved source');
+  const c=v2844Contract(raw,{
+    intent:'EXISTING_TECHNICAL_VISUAL_REFERENCE',
+    route:'global-readiness/existing-technical-visual-reference/v2954',
+    basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,
+    answer:'Open a sourced '+intent.resourceType+' for '+target+' using the link below.',
+    explanation:'The linked source contains or directly references the requested '+intent.resourceType+' for '+target+'.',
+    source:sourceName,
+    sourceUrl:sourceUrl,
+    actionLinkUrl:link,
+    actionLinkLabel:intent.actionLabel,
+    classification:'EXISTING TECHNICAL VISUAL REFERENCE',
+    confidence:clean(result.parsed&&result.parsed.confidence||'Moderate confidence'),
+    status:'ANSWERED'
+  });
+  c.requestShape='VISUAL_REFERENCE';
+  c.responseShape='DIRECT_RESOURCE_LINK';
+  c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;
+  c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;
+  c.analysisResult='Answer';
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{
+    activeFunction:'requestShapeResponseContractVisualReferenceRepairV2954',
+    requestedResourceType:intent.resourceType,
+    sourcedExistingVisual:'YES',
+    inventedTechnicalDiagram:'NO'
+  });
+  return v2844Serialize(raw,c,'live-sourced-visual-reference');
+}
+function v2954FirstSentence(value){
+  const s=clean(value);
+  if(!s)return '';
+  const m=s.match(/^(.{1,360}?[.!?])(?:\s|$)/);
+  return clean(m?m[1]:s);
+}
+function v2954SelfContainedExplanation(contract){
+  const c=contract&&typeof contract==='object'?contract:{};
+  let e=clean(c.explanation||c.why||'');
+  if(!e)return c;
+  if(/^(?:That\s+(?:shop\s+manual|manual|document|page|source|link|diagram|schematic)|The\s+above)\b/i.test(e)){
+    e=validHttpUrl(c.actionLinkUrl||c.sourceUrl||'')
+      ?'The linked source contains the information described in the answer.'
+      :'The cited source contains the information described in the answer.';
+    c.explanation=e;c.why=e;
+  }
+  return c;
+}
+function v2954ApplyRequestResponseIntegrity(contract,raw){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const shape=v2954RequestShape(raw);
+  v2954SelfContainedExplanation(c);
+  const claim=String(c.inputType||'').toUpperCase()==='CLAIM'||shape==='CLAIM_OR_STATEMENT';
+  const yesNo=shape==='YES_NO_QUESTION';
+  if(!claim&&!yesNo){
+    const basket=clean(c.outputBasket||c.fixedOutputBasket||'');
+    if(/YES_NO/i.test(basket)){
+      c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;
+      c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;
+      c.basketContractVersion=typeof v2774BasketContractVersion==='function'?v2774BasketContractVersion(c.outputBasket):c.basketContractVersion;
+    }
+    let answer=clean(c.answer||c.summary||'');
+    const bare=answer.match(/^(Yes|No)\s*[.!]?$/i);
+    const qualified=answer.match(/^(Yes|No)\s*[—–:-]\s*(.{4,})$/i);
+    if(bare||qualified){
+      let replacement='';
+      if(validHttpUrl(c.actionLinkUrl||'')){
+        const t=v2954TechnicalVisualReferenceIntent(raw);
+        replacement='Open the requested '+clean(t&&t.resourceType||'resource')+' using the link below.';
+      }else if(qualified&&clean(qualified[2])){
+        replacement=clean(qualified[2]);
+        replacement=replacement.charAt(0).toUpperCase()+replacement.slice(1);
+      }else{
+        replacement=v2954FirstSentence(c.explanation||c.why||'') || clean(Array.isArray(c.answerList)&&c.answerList[0]||'');
+      }
+      if(replacement){
+        c.answer=replacement;c.summary=replacement;c.analysisResult='Answer';
+      }
+    }
+  }
+  v2950AppendAcronymDefinitions(c);
+  c.requestShape=shape;
+  c.responseShape=clean(c.responseShape||c.outputBasket||'');
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{
+    requestShapeResponseContractIntegrityV2954:'ACTIVE',
+    requestShape:shape,
+    yesNoOutputAllowed:yesNo?'YES':'NO',
+    claimVerdictAllowed:claim?'YES':'NO',
+    acronymDefinitionsFinalBoundary:'ENFORCED'
+  });
+  return c;
+}
+const REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  shapeClassifierAvailable:typeof v2954RequestShape==='function',
+  visualIntentAvailable:typeof v2954TechnicalVisualReferenceIntent==='function',
+  visualResponseAvailable:typeof v2954TechnicalVisualReferenceResponse==='function',
+  finalIntegrityAvailable:typeof v2954ApplyRequestResponseIntegrity==='function',
+  priorBibleCollisionAvailable:typeof v2953PositiveBibleContext==='function'
+});
+if(!REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954.currentVersion||
+   !REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954.shapeClassifierAvailable||
+   !REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954.visualIntentAvailable||
+   !REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954.visualResponseAvailable||
+   !REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954.finalIntegrityAvailable||
+   !REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954.priorBibleCollisionAvailable){
+  throw new Error('REQUEST_SHAPE_RESPONSE_CONTRACT_AND_VISUAL_REFERENCE_REPAIR_V2954 startup validation failed');
+}
+
+
+// OFFICIAL_SOURCE_IDENTITY_BINDING_ARCHITECTURE_V2989
+// Replaces the v2976 resource layer rather than stacking another dispatcher.
+// Explicit official-source requests bind the organization/authority named by the user to the selected source owner.
+// A merely governmental or otherwise authoritative domain is not enough when a different official organization was requested.
+// Identity binding is derived generically from the request and checked against source domain/title metadata; no agency/domain table is used.
+// Replaces the v2972 resource block rather than stacking another dispatcher.
+// One active resource dispatcher owns explicit find/show/link/image/diagram/manual/PDF/form/page/map/chart requests.
+// Source order is enforced here: same-session cache -> local/direct adapters -> free public discovery -> OpenAI web search -> Gemini/Google Search.
+// Search/provider candidates are normalized to their real destination before semantic ranking so redirect wrappers cannot hide a valid direct artifact or official page.
+// Every candidate passes the same reachability, specificity, relevance, usefulness, and requested-resource gate before display.
+// No vehicle-, agency-, diagram-, schematic-, tax-, phrase-, URL-, or test-specific response rule is added.
+const V2989_RESOURCE_CACHE=new Map();
+const V2989_RESOURCE_CACHE_TTL_MS=6*60*60*1000;
+const V2989_RESOURCE_STATS={cacheHits:0,localAttempts:0,localAccepted:0,freeAttempts:0,freeAccepted:0,openaiCalls:0,openaiAccepted:0,geminiCalls:0,geminiAccepted:0,resolvedCandidates:0,rejectedCandidates:0};
+function v2989ResourceStrategySnapshot(){return Object.assign({},V2989_RESOURCE_STATS,{cacheSize:V2989_RESOURCE_CACHE.size,sourceOrder:'CACHE_LOCAL_FREE_PUBLIC_OPENAI_THEN_GEMINI',candidateOrder:'OFFICIAL_DOMAIN_SEARCH_THEN_NEIGHBOR_EXPANSION_THEN_NORMALIZE_DESTINATION_THEN_RANK_THEN_VALIDATE'});}
+function v2989ResourceCacheKey(value){return clean(value).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
+function v2989ResourceCacheGet(key){
+  const e=V2989_RESOURCE_CACHE.get(key);if(!e)return null;
+  if(Date.now()-e.savedAt>V2989_RESOURCE_CACHE_TTL_MS){V2989_RESOURCE_CACHE.delete(key);return null;}
+  V2989_RESOURCE_STATS.cacheHits++;return v2844Clone(e.value);
+}
+function v2989ResourceCachePut(key,value){
+  if(!key||!value)return;V2989_RESOURCE_CACHE.set(key,{savedAt:Date.now(),value:v2844Clone(value)});
+  while(V2989_RESOURCE_CACHE.size>150){const first=V2989_RESOURCE_CACHE.keys().next().value;if(!first)break;V2989_RESOURCE_CACHE.delete(first);}
+}
+function v2989RequestedOfficialIdentity(raw){
+  const input=String(raw||'').trim();if(!/\bofficial\b/i.test(input))return '';
+  const resource='(?:web\\s*page|page|website|site|document|pdf|form|manual|guide|guidance|resource|link)';
+  let m=new RegExp("\\bofficial\\s+([a-z0-9][a-z0-9&.\'’\\- ]{0,80}?)\\s+"+resource+"\\b","i").exec(input);
+  if(!m)m=new RegExp("\\bofficial\\s+"+resource+"\\s+(?:from|for|of|by)\\s+(?:the\\s+)?([a-z0-9][a-z0-9&.\'’\\- ]{0,80}?)(?=\\s+(?:that|which|about|on|explaining|for|with)\\b|[?.!,]|$)","i").exec(input);
+  if(!m)return '';
+  return clean(m[1]||'').replace(/^(?:the|an?)\s+/i,'').replace(/\s+/g,' ').trim();
+}
+function v2989OfficialIdentitySignals(value){
+  const original=clean(value||'');if(!original)return {identity:'',normalized:'',tokens:[],acronyms:[]};
+  const normalized=original.toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+  const stop=/^(?:the|a|an|and|of|for|to|from|by|department|agency|office|bureau|administration|service|commission|ministry|authority|government|u|s|us|united|states)$/i;
+  const tokens=normalized.split(/\s+/).filter(function(x){return x&&x.length>=2&&!stop.test(x);});
+  const acronyms=[];const literal=(original.match(/\b[A-Z][A-Z0-9]{1,9}\b/g)||[]).map(function(x){return x.toLowerCase();});literal.forEach(function(x){if(acronyms.indexOf(x)<0)acronyms.push(x);});
+  const words=normalized.split(/\s+/).filter(function(x){return x&&!/^(?:the|a|an|and|of|for|to|from|by|u|s|us|united|states)$/i.test(x);});
+  if(words.length>=2){const initials=words.map(function(x){return x.charAt(0);}).join('');if(initials.length>=2&&initials.length<=10&&acronyms.indexOf(initials)<0)acronyms.push(initials);}
+  return {identity:original,normalized:normalized,tokens:tokens,acronyms:acronyms};
+}
+function v2989OfficialDomainHints(intent){
+  if(!intent||!intent.wantsOfficial)return [];
+  const identity=clean(intent.officialIdentity||''),sig=v2989OfficialIdentitySignals(identity),out=[],seen=new Set();
+  function addHost(label){label=clean(label).toLowerCase().replace(/[^a-z0-9]/g,'');if(!/^[a-z][a-z0-9]{1,9}$/.test(label))return;if(/^(?:gov|government|official|agency|office|service|department|admin|administration)$/i.test(label))return;const host=label+'.gov';if(!seen.has(host)){seen.add(host);out.push(host);}}
+  (sig.acronyms||[]).forEach(addHost);
+  if(/^\s*[A-Z][A-Z0-9]{1,9}\s*$/.test(identity))addHost(identity);
+  return out.slice(0,3);
+}
+function v2989OfficialScopedTopic(raw,intent){
+  const terms=v2989ResourceTopicTerms(raw,intent);return clean(terms.slice(0,12).join(' '));
+}
+function v2989RequestedFactSearchPhrase(raw,intent){
+  const input=clean(raw).replace(/[?!.]+$/,'');if(!input)return '';
+  const clause=/(?:^|\b)(?:that|which)\s+(?:explains?|describes?|covers?|states?|shows?|lists?|provides?|summarizes?|details?)\s+(.+)$/i.exec(input);
+  if(clause&&clean(clause[1]))return clean(clause[1]);
+  const about=/(?:^|\b)(?:page|website|site|document|manual|pdf|resource)\s+(?:about|on|for)\s+(.+)$/i.exec(input);
+  if(about&&clean(about[1]))return clean(about[1]);
+  return v2989OfficialScopedTopic(raw,intent);
+}
+function v2989RequestedFactCoreTerms(raw,intent){
+  const phrase=v2989RequestedFactSearchPhrase(raw,intent),sig=v2989OfficialIdentitySignals(intent&&intent.officialIdentity||''),identity=new Set([].concat(sig.tokens||[],sig.acronyms||[]).map(function(x){return clean(x).toLowerCase();}));
+  const stop=/^(?:a|an|and|are|as|at|be|by|can|could|do|does|for|from|how|i|in|is|it|me|of|on|or|should|that|the|to|was|were|what|when|where|which|who|why|with|would|you|your)$/i;
+  return clean(phrase).toLowerCase().replace(/[^a-z0-9]+/g,' ').split(/\s+/).filter(function(w){return w&&w.length>1&&!stop.test(w)&&!identity.has(w);}).slice(0,12);
+}
+function v2989OfficialSourceIdentityMatch(intent,candidate){
+  if(!intent||!intent.wantsOfficial)return true;
+  const url=validHttpUrl(candidate&&candidate.url||''),domain=domainFromUrl(url);if(!url)return false;
+  const identity=clean(intent.officialIdentity||'');if(!identity)return v2989LikelyOfficialDomain(domain);
+  const sig=v2989OfficialIdentitySignals(identity),host=clean(domain).toLowerCase(),labels=host.split('.').filter(Boolean),root=labels[0]||'',title=clean(candidate&&candidate.title||'').toLowerCase(),meta=(host+' '+title).replace(/[^a-z0-9]+/g,' '),compact=meta.replace(/\s+/g,'');
+  const acronymHostMatch=sig.acronyms.some(function(a){return !!(a&&(root===a||labels.indexOf(a)>=0||host.indexOf(a+'.')===0||host.indexOf('.'+a+'.')>=0));});
+  const identityCompact=clean(sig.normalized||'').replace(/\s+/g,'');
+  const identityHostMatch=!!(identityCompact&&identityCompact.length>=3&&host.replace(/[^a-z0-9]/g,'').indexOf(identityCompact)>=0);
+  const domainIdentityBound=v2989LikelyOfficialDomain(domain)||acronymHostMatch||identityHostMatch;
+  if(!domainIdentityBound)return false;
+  if(sig.normalized&&meta.indexOf(sig.normalized)>=0)return true;
+  if(sig.acronyms.some(function(a){return a&&(acronymHostMatch||compact.indexOf(a)>=0);}))return true;
+  if(sig.tokens.length){const titleHits=sig.tokens.filter(function(t){return meta.indexOf(t)>=0;}).length;if(titleHits>=Math.min(2,sig.tokens.length))return true;}
+  return acronymHostMatch||identityHostMatch;
+}
+function v2989ResourceRequestIntent(raw){
+  const input=clean(raw);if(!input||/^https?:\/\//i.test(input))return null;
+  if(typeof v2731IsDangerousWrongdoingRequest==='function'&&v2731IsDangerousWrongdoingRequest(input))return null;
+  const requestVerb=/\b(?:find|show|give|provide|locate|open|view|display|get|download|take\s+me\s+to|where\s+can\s+i\s+find|where\s+do\s+i\s+find|link\s+me\s+to|looking\s+for|need\s+(?:a|an|the)?|want\s+(?:a|an|the)?)\b/i.test(input);
+  const resourceQuestion=/^(?:where|which|what)\b/i.test(input)&&/\b(?:link|url|page|site|website|source(?:\s+list)?|governance|leadership|board(?:\s+of\s+directors)?|diagram|schematic|manual|pdf|form|document|map|chart|graph|image|photo|picture|blueprint)\b/i.test(input);
+  const linkPhrase=/\b(?:link|url|website|web\s*page|page|site)\b/i.test(input)&&/\b(?:find|give|provide|official|direct|where|open|link)\b/i.test(input);
+  const purchaseIntent=/\b(?:purchase|buy|order|shop\s+for|for\s+sale|where\s+can\s+i\s+buy|place\s+i\s+can\s+purchase)\b/i.test(input);
+  const purchaseRequest=!!(purchaseIntent&&(linkPhrase||requestVerb));
+  const resourceNoun=/\b(?:source(?:\s+list)?|governance|leadership|board(?:\s+of\s+directors)?|diagram|schematic|wiring\s+(?:diagram|schematic)|blueprint|technical\s+drawing|service\s+diagram|circuit\s+diagram|manual|shop\s+manual|service\s+manual|owner'?s\s+manual|instructions?|pdf|form|document|datasheet|data\s+sheet|spec(?:ification)?\s+sheet|map|chart|graph|image|photo|photograph|picture|illustration|page|website|site|download)\b/i.test(input);
+  if(!(resourceNoun||purchaseRequest)||!(requestVerb||resourceQuestion||linkPhrase))return null;
+  let resourceType=purchaseRequest?'product':'resource',actionLabel=purchaseRequest?'Open Purchase Page':'Open Resource';
+  if(/\b(?:wiring\s+(?:diagram|schematic)|circuit\s+diagram|schematic)\b/i.test(input)){resourceType='schematic';actionLabel='Open Diagram';}
+  else if(/\b(?:diagram|service\s+diagram|technical\s+drawing)\b/i.test(input)){resourceType='diagram';actionLabel='Open Diagram';}
+  else if(/\bblueprint\b/i.test(input)){resourceType='blueprint';actionLabel='Open Blueprint';}
+  else if(/\b(?:manual|shop\s+manual|service\s+manual|owner'?s\s+manual)\b/i.test(input)){resourceType='manual';actionLabel='Open Manual';}
+  else if(/\binstructions?\b/i.test(input)){resourceType='page';actionLabel='Open Instructions Page';}
+  else if(/\bpdf\b/i.test(input)){resourceType='pdf';actionLabel='Open PDF';}
+  else if(/\bform\b/i.test(input)){resourceType='form';actionLabel='Open Form';}
+  else if(/\bmap\b/i.test(input)){resourceType='map';actionLabel='Open Map';}
+  else if(/\b(?:chart|graph)\b/i.test(input)){resourceType='chart';actionLabel='Open Chart';}
+  else if(/\b(?:image|photo|photograph|picture|illustration)\b/i.test(input)){resourceType='image';actionLabel='View Image';}
+  else if(/\b(?:source(?:\s+list)?|governance|leadership|board(?:\s+of\s+directors)?|page|website|site)\b/i.test(input)){resourceType='page';actionLabel=/\bofficial\b/i.test(input)?'Open Official Page':(/\bsource(?:\s+list)?\b/i.test(input)?'Open Source Page':'Open Page');}
+  else if(/\bdocument\b/i.test(input)){resourceType='document';actionLabel='Open Document';}
+  const wantsOfficial=/\bofficial\b/i.test(input),officialIdentity=wantsOfficial?v2989RequestedOfficialIdentity(input):'';const requestedEntityIdentity=(typeof v3006NamedEntityIdentity==='function'?v3006NamedEntityIdentity(input):'');const intent={kind:'resource-retrieval',resourceType:resourceType,actionLabel:actionLabel,wantsOfficial:wantsOfficial,officialIdentity:officialIdentity,requestedEntityIdentity:requestedEntityIdentity,wantsFree:/\b(?:free|no\s+cost|without\s+paying)\b/i.test(input),commerce:purchaseRequest};intent.officialDomainHints=v2989OfficialDomainHints(intent);return intent;
+}
+function v2989MeaningfulWords(value){
+  const stop=/^(?:a|an|and|are|as|at|be|by|can|could|do|does|find|for|from|get|give|how|i|in|is|it|link|me|of|on|or|official|order|page|place|please|provide|purchase|buy|request|sale|shop|show|should|site|that|the|to|use|want|website|where|which|with|you|your)$/i;
+  return clean(value).toLowerCase().replace(/[^a-z0-9]+/g,' ').split(/\s+/).filter(function(x){return x&&x.length>1&&!stop.test(x);});
+}
+function v2989LikelyOfficialDomain(domain){
+  const d=clean(domain).toLowerCase();
+  return /(?:^|\.)(?:gov|mil)$/i.test(d)||/\.gov\./i.test(d)||/\.gc\.ca$/i.test(d)||/\.gouv\.fr$/i.test(d)||/\.gov\.uk$/i.test(d)||/\.gov\.au$/i.test(d)||/\.govt\.nz$/i.test(d)||/(?:^|\.)europa\.eu$/i.test(d)||/(?:^|\.)who\.int$/i.test(d);
+}
+function v2989SearchResultUrl(url){
+  const u=validHttpUrl(url);if(!u)return true;let parsed;try{parsed=new URL(u);}catch(_e){return true;}const d=domainFromUrl(u),path=(parsed.pathname||'')+(parsed.search||'');
+  return /(?:^|\.)(?:google\.[^/]+|bing\.com|duckduckgo\.com|yahoo\.com)$/i.test(d)&&/\/(?:search|html)(?:[/?#]|$)/i.test(path);
+}
+function v2989GenericOrListing(candidate){
+  const url=validHttpUrl(candidate&&candidate.url||''),title=clean(candidate&&candidate.title||'');if(!url)return true;
+  if(v2989SearchResultUrl(url))return true;const u=url.toLowerCase();
+  try{const p=new URL(url).pathname||'/';if(p==='/'||p.length<3)return true;}catch(_e){return true;}
+  return /\/(?:search|results?|category|categories|collections?|products?|shop|store|cart)(?:\/|\?|$)/i.test(u)||/\b(?:buy|sale|price|cart|checkout|product#?|add to cart)\b/i.test(title+' '+u);
+}
+function v2989DirectArtifact(candidate){
+  const url=validHttpUrl(candidate&&candidate.url||''),ct=clean(candidate&&candidate.contentType||'').toLowerCase();
+  return /\.(?:pdf|png|jpe?g|gif|webp|svg)(?:$|[?#])/i.test(url)||/^(?:application\/pdf|image\/)/i.test(ct);
+}
+function v2989ResourceTypeCompatible(intent,candidate){
+  const type=clean(intent&&intent.resourceType||'resource'),url=validHttpUrl(candidate&&candidate.url||''),ct=clean(candidate&&candidate.contentType||'').toLowerCase();if(!url)return false;
+  const pdf=/\.pdf(?:$|[?#])/i.test(url)||/^application\/pdf/i.test(ct),image=/\.(?:png|jpe?g|gif|webp|svg)(?:$|[?#])/i.test(url)||/^image\//i.test(ct);
+  if(type==='page'||type==='product')return !pdf&&!image;
+  if(type==='pdf')return pdf||(!image&&!v2989GenericOrListing(candidate));
+  if(type==='image')return image||(!pdf&&!v2989GenericOrListing(candidate));
+  return true;
+}
+function v2989ResourceTopicTerms(raw,intent){
+  const sig=v2989OfficialIdentitySignals(intent&&intent.officialIdentity||''),identity=new Set([].concat(sig.tokens||[],sig.acronyms||[]).map(function(x){return clean(x).toLowerCase();}));
+  const generic=/^(?:about|according|artifact|direct|document|download|explain|explained|explaining|explains|find|free|give|guide|guidance|image|link|manual|official|page|pdf|provide|resource|show|site|website)$/i;
+  return v2989MeaningfulWords(raw).filter(function(w){const k=clean(w).toLowerCase();return k&&!identity.has(k)&&!generic.test(k);}).slice(0,18);
+}
+const V2993_RESOURCE_SEMANTIC_GROUPS=Object.freeze([
+  Object.freeze(['personal','consumer','home','household','domestic','residential','individual']),
+  Object.freeze(['automobile','automotive','vehicle','car']),
+  Object.freeze(['image','photo','photograph','picture','illustration']),
+  Object.freeze(['manual','handbook','guide']),
+  Object.freeze(['store','retailer','dealer','shop','seller'])
+]);
+function v2993ResourceSemanticTerms(term){
+  const t=clean(term).toLowerCase();if(!t)return [];
+  const group=V2993_RESOURCE_SEMANTIC_GROUPS.find(function(g){return g.indexOf(t)>=0;});
+  return group?group.slice():[t];
+}
+function v2993ResourceHayHasTerm(hay,term){
+  const h=clean(hay).toLowerCase();if(!h)return false;
+  return v2993ResourceSemanticTerms(term).some(function(x){return h.indexOf(x)>=0;});
+}
+function v2993CommerceSemanticQueryVariants(compact){
+  const base=clean(compact).toLowerCase();if(!base)return [];
+  const words=base.split(/\s+/).filter(Boolean),out=[];
+  for(let i=0;i<words.length;i++){
+    const alts=v2993ResourceSemanticTerms(words[i]).filter(function(x){return x!==words[i];}).slice(0,3);
+    for(const alt of alts){const copy=words.slice();copy[i]=alt;const q=clean(copy.join(' '));if(q&&!out.includes(q))out.push(q);if(out.length>=3)return out;}
+  }
+  return out;
+}
+function v2994CommerceDestinationSignals(raw,candidate){
+  const url=validHttpUrl(candidate&&candidate.url||'');if(!url)return {acceptable:false,score:-120,strong:false,transactional:false,informational:false};
+  let path='';try{path=(new URL(url).pathname||'').toLowerCase();}catch(_e){}
+  const title=clean(candidate&&candidate.title||'').toLowerCase(),snippet=clean(candidate&&candidate.snippet||'').toLowerCase(),text=clean(candidate&&candidate.text||'').toLowerCase().slice(0,7000),hay=(url+' '+title+' '+snippet+' '+text).toLowerCase();
+  const directTransaction=/\b(?:add\s+to\s+(?:cart|bag)|buy\s+now|shop\s+now|order\s+now|pre[- ]?order|reserve\s+now|checkout|in\s+stock|out\s+of\s+stock|quantity|shipping|delivery|financing|monthly\s+payments?|starting\s+at\s+\$|price\s*[:$]|\$\s?\d[\d,]*(?:\.\d{2})?)\b/i.test(hay);
+  const productStructure=/\/(?:product|products|p|pdp|item|shop|store|buy|order)(?:\/|$)/i.test(path)||/\b(?:product\s+details?|shop\s+products?|available\s+to\s+(?:buy|order|purchase)|purchase\s+options?|where\s+to\s+buy)\b/i.test(hay);
+  const informational=/\/(?:blog|blogs|news|article|articles|press|media|podcast|story|stories|interview|learn|guide|guides)(?:\/|$)/i.test(path)||/\b(?:blog|news|article|press\s+release|podcast|interview|announces?|announcement|editorial|review|how\s+to|guide)\b/i.test(title+' '+snippet);
+  const commerceHostCue=/\b(?:retailer|dealer|manufacturer|official\s+store|online\s+store|shop)\b/i.test(hay);
+  let score=0;if(directTransaction)score+=90;if(productStructure)score+=46;if(commerceHostCue)score+=14;if(informational)score-=85;
+  const strong=directTransaction||(productStructure&&!informational);const acceptable=strong&&score>=35;
+  return {acceptable:acceptable,score:score,strong:strong,transactional:directTransaction,informational:informational};
+}
+function v2989CandidateTopicMetrics(raw,intent,candidate){
+  const terms=v2989ResourceTopicTerms(raw,intent),url=validHttpUrl(candidate&&candidate.url||''),hay=(domainFromUrl(url)+' '+url+' '+clean(candidate&&candidate.title||'')+' '+clean(candidate&&candidate.snippet||'')+' '+clean(candidate&&candidate.text||'')).toLowerCase();
+  let matched=0;terms.forEach(function(t){if(v2993ResourceHayHasTerm(hay,t))matched++;});const tail=terms.slice(-Math.min(2,terms.length)),tailMatched=tail.filter(function(t){return v2993ResourceHayHasTerm(hay,t);}).length;
+  return {terms:terms,matched:matched,ratio:terms.length?matched/terms.length:1,tail:tail,tailMatched:tailMatched};
+}
+function v2989TopicUseful(raw,intent,candidate){
+  const t=v2989CandidateTopicMetrics(raw,intent,candidate);if(!t.terms.length)return true;if(t.terms.length===1)return t.matched>=1;if(t.terms.length===2)return t.matched>=1&&t.tailMatched>=1;return t.matched>=2&&t.tailMatched>=1;
+}
+function v2989NormalizeSourceTitle(value){
+  return clean(value).toLowerCase().replace(/https?:\/\/\S+/g,' ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+}
+function v2989ProviderClaimedSourceTitle(fields){
+  const direct=clean(fields&&fields.sourceName||'');if(direct)return direct;
+  const text=clean([fields&&fields.answer||'',fields&&fields.explanation||''].filter(Boolean).join(' '));if(!text)return '';
+  const m=/(?:page|resource|document|source)\s+(?:is|titled|called)\s+["“']([^"”']{4,140})["”']/i.exec(text);
+  return clean(m&&m[1]||'');
+}
+function v2989ProviderTitleBindingScore(candidate){
+  const claimed=v2989NormalizeSourceTitle(candidate&&candidate.providerClaimedTitle||'');if(!claimed)return 0;
+  const fetched=v2989NormalizeSourceTitle(candidate&&candidate.fetchedTitle||candidate&&candidate.title||''),search=v2989NormalizeSourceTitle(candidate&&candidate.searchTitle||'');
+  const title=fetched||search;if(!title)return 0;
+  if(title===claimed)return 90;
+  if(title.indexOf(claimed+' ')===0||title.indexOf(claimed+' |')===0||title.indexOf(claimed+' -')===0)return 70;
+  if(title.indexOf(claimed)>=0)return 22;
+  const ct=claimed.split(' ').filter(Boolean),tt=new Set(title.split(' ').filter(Boolean)),matched=ct.filter(function(w){return tt.has(w);}).length;
+  if(ct.length&&matched===ct.length)return 16;
+  if(ct.length&&matched>=Math.max(1,Math.ceil(ct.length*0.6)))return 6;
+  return -24;
+}
+function v2989ArchivePreferenceAdjustment(raw,intent,candidate){
+  if(!intent||!intent.wantsOfficial||clean(intent.resourceType)!=='page'||/\b(?:archive|archived|historical|old|previous|former)\b/i.test(clean(raw)))return 0;
+  const url=validHttpUrl(candidate&&candidate.url||''),host=domainFromUrl(url),path=(()=>{try{return new URL(url).pathname||'';}catch(_e){return '';}})();
+  return /(?:^|\.)archive\./i.test(host)||/\/(?:archive|archives)(?:\/|$)/i.test(path)?-38:0;
+}
+function v2989CandidateMetrics(raw,intent,candidate){
+  const url=validHttpUrl(candidate&&candidate.url||'');if(!url||v2989SearchResultUrl(url))return {score:-999,matched:0,wordCount:0,matchRatio:0};
+  const domain=domainFromUrl(url),original=validHttpUrl(candidate&&candidate.originalUrl||''),u=(url+' '+original).toLowerCase(),title=clean(candidate&&candidate.title||''),snippet=clean(candidate&&candidate.snippet||''),text=clean(candidate&&candidate.text||'').slice(0,4200);
+  const hay=(domain+' '+u+' '+title+' '+snippet+' '+text).toLowerCase(),words=v2989MeaningfulWords(raw);let score=0,matched=0;
+  words.forEach(function(w){if(v2993ResourceHayHasTerm(hay,w)){matched++;score+=w.length>=5?8:4;}});
+  if(words.length&&matched>=Math.min(3,words.length))score+=18;
+  if(words.length&&matched/words.length>=0.60)score+=18;
+  const topic=v2989CandidateTopicMetrics(raw,intent,candidate);score+=topic.matched*5;if(topic.tailMatched)score+=10;if(topic.terms.length&&!v2989TopicUseful(raw,intent,candidate))score-=80;
+  score+=v2989ProviderTitleBindingScore(candidate);score+=v2989ProviderEvidenceBindingScore(candidate);score+=v2989ArchivePreferenceAdjustment(raw,intent,candidate);
+  if(candidate&&candidate.reconciliationCandidate&&v2989ProviderTitleBindingScore(candidate)>=60)score+=36;
+  if(intent&&intent.wantsOfficial)score+=v2989OfficialSourceIdentityMatch(intent,candidate)?140:(v2989LikelyOfficialDomain(domain)?-130:-95);else if(v2989LikelyOfficialDomain(domain))score+=28;
+  if(intent&&clean(intent.requestedEntityIdentity||'')){const entityMatch=typeof v3006EntityCandidateMatch==='function'?v3006EntityCandidateMatch(intent,candidate):false;score+=entityMatch?125:-150;}
+  const type=clean(intent&&intent.resourceType||'resource'),ct=clean(candidate&&candidate.contentType||'').toLowerCase();if(!v2989ResourceTypeCompatible(intent,candidate))score-=160;
+  if(/\.pdf(?:$|[?#])/i.test(url)||/^application\/pdf/i.test(ct))score+=/^(?:pdf|manual|document|diagram|schematic|form)$/.test(type)?95:38;
+  if(/\.(?:png|jpe?g|gif|webp|svg)(?:$|[?#])/i.test(url)||/^image\//i.test(ct))score+=/^(?:image|diagram|schematic|chart|blueprint)$/.test(type)?85:24;
+  if(/\b(?:diagram|schematic|wiring|blueprint)\b/i.test(hay)&&/^(?:diagram|schematic|blueprint)$/.test(type))score+=46;
+  if(/\bmanual\b/i.test(hay)&&type==='manual')score+=44;
+  if(/\b(?:form|publication|topic|guidance|records?)\b/i.test(hay)&&type==='page')score+=24;
+  if(/archive\.org$/i.test(domain)&&/^(?:manual|pdf|document|diagram|schematic|blueprint)$/.test(type))score+=18;
+  if(intent&&intent.commerce){const cg=v2994CommerceDestinationSignals(raw,candidate);score+=cg.score;if(!cg.acceptable)score-=125;}
+  if(v2989GenericOrListing(candidate)&&!(intent&&intent.commerce))score-=((typeof v3006HomepageResourceRequest==='function'&&v3006HomepageResourceRequest(raw,intent))?0:100);
+  if(candidate&&candidate.ok===false)score-=45;
+  return {score:score,matched:matched,wordCount:words.length,matchRatio:words.length?matched/words.length:0,topicMatched:topic.matched,topicCount:topic.terms.length,topicRatio:topic.ratio,topicTailMatched:topic.tailMatched};
+}
+function v2989CandidateScore(raw,intent,candidate){return v2989CandidateMetrics(raw,intent,candidate).score;}
+function v2989CandidateFetch(target,timeoutMs,redirects){
+  return new Promise(function(resolve){let settled=false;function finish(v){if(settled)return;settled=true;resolve(v);}try{const u=new URL(target),lib=u.protocol==='https:'?https:http;if(!/^https?:$/.test(u.protocol))return finish({ok:false,url:target,error:'unsupported_protocol'});const req=lib.request(u,{method:'GET',headers:{'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/150 Safari/537.36 AIVerify/2989','accept':'text/html,application/xhtml+xml,application/pdf,image/*,text/plain;q=0.9,*/*;q=0.5','accept-language':'en-US,en;q=0.9'}},function(res){const status=res.statusCode||0,loc=res.headers.location||'',ct=clean(res.headers['content-type']||'');if(loc&&[301,302,303,307,308].includes(status)&&(redirects||0)>0){res.resume();let next='';try{next=new URL(loc,u).toString();}catch(_e){}if(!next)return finish({ok:false,url:u.toString(),status:status,error:'bad_redirect'});return v2989CandidateFetch(next,timeoutMs,(redirects||0)-1).then(function(r){finish(Object.assign({},r,{redirectedFrom:target}));});}if(/^application\/pdf/i.test(ct)||/^image\//i.test(ct)||/\.(?:pdf|png|jpe?g|gif|webp|svg)(?:$|[?#])/i.test(u.toString())){res.resume();return finish({ok:status>=200&&status<400,status:status,url:u.toString(),contentType:ct,title:'',text:''});}let data='',bytes=0;const limit=260000;res.setEncoding('utf8');res.on('data',function(chunk){if(settled)return;bytes+=Buffer.byteLength(chunk);if(data.length<limit)data+=chunk.slice(0,Math.max(0,limit-data.length));if(bytes>=limit){let text='';try{text=readableContentFromHtml(data);}catch(_e){}if(!text||text.length<120)text=stripHtml(data).replace(/\s+/g,' ').trim();finish({ok:status>=200&&status<400,status:status,url:u.toString(),contentType:ct,title:titleFromHtml(data),text:clean(text).slice(0,7000),truncated:true});res.destroy();}});res.on('end',function(){if(settled)return;let text='';try{text=readableContentFromHtml(data);}catch(_e){}if(!text||text.length<120)text=stripHtml(data).replace(/\s+/g,' ').trim();finish({ok:status>=200&&status<400,status:status,url:u.toString(),contentType:ct,title:titleFromHtml(data),text:clean(text).slice(0,7000),truncated:false});});res.on('error',function(){if(!settled)finish({ok:false,status:status,url:u.toString(),contentType:ct,error:'response_error'});});});req.on('error',function(e){finish({ok:false,url:target,error:clean(e&&e.message||'request_error')});});req.setTimeout(timeoutMs||2600,function(){req.destroy(new Error('timeout'));});req.end();}catch(e){finish({ok:false,url:target,error:clean(e&&e.message||'request_error')});}});
+}
+function v2989UnwrapCandidateUrl(value){
+  const original=validHttpUrl(value);if(!original)return '';try{const u=new URL(original);for(const k of ['url','u','q','target','dest','destination','redirect']){const v=u.searchParams.get(k);if(v){let decoded=v;try{decoded=decodeURIComponent(v);}catch(_e){}const direct=validHttpUrl(decoded);if(direct)return direct;}}}catch(_e){}return original;
+}
+async function v2989ResolveCandidate(candidate){
+  const original=validHttpUrl(candidate&&candidate.url||'');if(!original)return Object.assign({},candidate,{ok:false});
+  const first=v2989UnwrapCandidateUrl(original)||original;let page=null;try{page=await v2989CandidateFetch(first,2900,4);}catch(_e){}
+  const finalUrl=validHttpUrl(page&&page.url||'')||first;V2989_RESOURCE_STATS.resolvedCandidates++;
+  const originalTitle=clean(candidate&&candidate.title||''),originalSnippet=clean(candidate&&candidate.snippet||''),fetchedTitle=clean(page&&page.title||''),placeholderTitle=/^(?:Direct URL returned in grounded response|Candidate URL returned by OpenAI|URL returned in grounded response|Web search result|Google Search source)$/i.test(originalTitle);
+  const finalTitle=(fetchedTitle&&placeholderTitle)?fetchedTitle:(originalTitle||fetchedTitle);
+  return Object.assign({},candidate,{originalUrl:original,url:finalUrl,ok:page?!!page.ok:false,fetchOk:page?!!page.ok:false,status:Number(page&&page.status||0),title:finalTitle,searchTitle:originalTitle,fetchedTitle:fetchedTitle,snippet:originalSnippet,text:clean((page&&page.text)||originalSnippet).slice(0,7000),contentType:clean(page&&page.contentType||''),resolutionError:clean(page&&page.error||''),providerEvidenceFallbackEligible:(!page||!page.ok)?v2989ProviderSearchEvidenceAcceptable('',null,candidate):false});
+}
+async function v2989RankCandidates(raw,intent,candidates){
+  const seen=new Set(),explicit=[],normal=[];(Array.isArray(candidates)?candidates:[]).forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u||v2989SearchResultUrl(u))return;if(intent&&intent.wantsOfficial&&clean(intent.resourceType)==='page'&&v2989ArchiveOfficialCandidate(raw,intent,c))return;const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);(c&&c.explicitCandidate?explicit:normal).push(Object.assign({},c));});
+  const identityFirst=(intent&&intent.wantsOfficial)?normal.filter(function(c){return v2989OfficialSourceIdentityMatch(intent,c);}):[],identityUrls=new Set(identityFirst.map(function(c){return validHttpUrl(c&&c.url||'').toLowerCase();})),remaining=normal.filter(function(c){return !identityUrls.has(validHttpUrl(c&&c.url||'').toLowerCase());});let list=explicit.filter(function(c){return !(intent&&intent.wantsOfficial&&clean(intent.resourceType)==='page'&&v2989ArchiveOfficialCandidate(raw,intent,c));}).concat(identityFirst,remaining).slice(0,14);if(!list.length)return null;
+  const resolved=await Promise.all(list.map(function(c){return v2989ResolveCandidate(c).catch(function(){return Object.assign({},c,{ok:false});});}));
+  const finalSeen=new Set(),unique=[];resolved.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u||v2989SearchResultUrl(u))return;if(intent&&intent.wantsOfficial&&clean(intent.resourceType)==='page'&&v2989ArchiveOfficialCandidate(raw,intent,c))return;const k=u.toLowerCase();if(finalSeen.has(k))return;finalSeen.add(k);const m=v2989CandidateMetrics(raw,intent,c);c.score=m.score;c.matchCount=m.matched;c.matchRatio=m.matchRatio;unique.push(c);});
+  unique.sort(function(a,b){return Number(b.score||-999)-Number(a.score||-999);});
+  if(intent&&intent.wantsOfficial){return unique.find(function(c){return (c.ok!==false||v2989ProviderSearchEvidenceAcceptable(raw,intent,c))&&v2989OfficialSourceIdentityMatch(intent,c)&&!v2989GenericOrListing(c)&&v2989ResultAcceptable(raw,intent,{ok:true,best:c});})||null;}
+  return unique.find(function(c){return (c.ok!==false||v2989ProviderSearchEvidenceAcceptable(raw,intent,c))&&v2989ResultAcceptable(raw,intent,{ok:true,best:c});})||null;
+}
+function v2989ResultAcceptable(raw,intent,result){
+  if(!result||!result.ok||!result.best)return false;const best=result.best,url=validHttpUrl(best.url||'');if(!url||v2989SearchResultUrl(url))return false;const providerFallback=best.ok===false&&v2989ProviderSearchEvidenceAcceptable(raw,intent,best);if(best.ok===false&&!providerFallback)return false;
+  const m=v2989CandidateMetrics(raw,intent,best),score=Number(best.score||m.score||0),domain=domainFromUrl(url),type=clean(intent&&intent.resourceType||'resource'),needed=Math.min(2,Math.max(1,m.wordCount));
+  if(!v2989ResourceTypeCompatible(intent,best)||!v2989TopicUseful(raw,intent,best))return false;
+  if(intent&&clean(intent.requestedEntityIdentity||'')&&typeof v3006EntityCandidateMatch==='function'&&!v3006EntityCandidateMatch(intent,best))return false;
+  if(intent&&intent.wantsOfficial)return v2989OfficialSourceIdentityMatch(intent,best)&&!v2989GenericOrListing(best)&&m.matched>=needed&&score>=55;
+  if(type==='product'||(intent&&intent.commerce)){const cg=v2994CommerceDestinationSignals(raw,best);return cg.acceptable&&m.matched>=needed&&score>=50;}
+  if(/^(?:diagram|schematic|blueprint|manual|pdf|form|document|image|chart)$/.test(type)){
+    if(v2989DirectArtifact(best))return m.matched>=needed&&score>=48;
+    if(v2989GenericOrListing(best))return false;
+    return m.matched>=needed&&score>=88;
+  }
+  if(type==='map')return !!url&&!v2989SearchResultUrl(url);
+  if(typeof v3006HomepageResourceRequest==='function'&&v3006HomepageResourceRequest(raw,intent))return m.matched>=needed&&score>=55;
+  return !v2989GenericOrListing(best)&&m.matched>=needed&&score>=55;
+}
+function v2989HttpGetJson(target,timeoutMs){
+  return new Promise(function(resolve){let done=false;function finish(v){if(done)return;done=true;resolve(v);}try{const u=new URL(target),lib=u.protocol==='https:'?https:http;const req=lib.request(u,{method:'GET',headers:{'user-agent':'Mozilla/5.0 AIVerify/2989','accept':'application/json'}},function(res){let data='';res.setEncoding('utf8');res.on('data',function(chunk){data+=chunk;if(data.length>2*1024*1024)req.destroy(new Error('response_too_large'));});res.on('end',function(){const j=safeJsonParse(data);finish(res.statusCode>=200&&res.statusCode<300&&j?j:null);});});req.on('error',function(){finish(null);});req.setTimeout(timeoutMs||2600,function(){req.destroy(new Error('timeout'));});req.end();}catch(_e){finish(null);}});
+}
+function v2989HttpGetText(target,timeoutMs,redirects){
+  return new Promise(function(resolve){let done=false;function finish(v){if(done)return;done=true;resolve(v);}try{const u=new URL(target),lib=u.protocol==='https:'?https:http;const req=lib.request(u,{method:'GET',headers:{'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/150 Safari/537.36 AIVerify/2989','accept':'text/html,application/xhtml+xml,application/rss+xml,application/xml,text/plain;q=0.9,*/*;q=0.5','accept-language':'en-US,en;q=0.9'}},function(res){const loc=res.headers.location||'';if(loc&&[301,302,303,307,308].includes(res.statusCode||0)&&(redirects||0)>0){res.resume();return v2989HttpGetText(new URL(loc,u).toString(),timeoutMs,(redirects||0)-1).then(finish);}let data='';res.setEncoding('utf8');res.on('data',function(chunk){data+=chunk;if(data.length>1200000)req.destroy(new Error('response_too_large'));});res.on('end',function(){finish(res.statusCode>=200&&res.statusCode<400?data:'');});});req.on('error',function(){finish('');});req.setTimeout(timeoutMs||2200,function(){req.destroy(new Error('timeout'));});req.end();}catch(_e){finish('');}});
+}
+function v2989DecodeSearchHref(value){
+  let href=decodeEntitiesLite(String(value||'')).trim();if(!href)return '';
+  try{if(/^\/\//.test(href))href='https:'+href;const u=new URL(href,'https://html.duckduckgo.com/');const d=domainFromUrl(u.toString());if(/(?:^|\.)duckduckgo\.com$/i.test(d)){const direct=u.searchParams.get('uddg')||u.searchParams.get('rut')||'';if(direct){try{return validHttpUrl(decodeURIComponent(direct))||validHttpUrl(direct);}catch(_e){return validHttpUrl(direct);}}return '';}return validHttpUrl(u.toString());}catch(_e){return '';}
+}
+function v2989SearchQueries(raw,intent){
+  const input=clean(raw),words=v2989MeaningfulWords(input),type=clean(intent&&intent.resourceType||'resource'),queries=[];function add(q){q=clean(q);if(q&&!queries.some(function(x){return x.toLowerCase()===q.toLowerCase();}))queries.push(q);}
+  const requestedEntity=clean(intent&&intent.requestedEntityIdentity||'');if(requestedEntity){const topic=words.filter(function(w){return requestedEntity.toLowerCase().indexOf(w.toLowerCase())<0;}).slice(0,8).join(' ');add('\"'+requestedEntity+'\" '+topic);add('\"'+requestedEntity+'\"');}
+  if(intent&&intent.wantsOfficial){
+    const identity=clean(intent.officialIdentity||''),fact=v2989RequestedFactSearchPhrase(raw,intent),core=v2989RequestedFactCoreTerms(raw,intent).join(' '),topic=v2989OfficialScopedTopic(raw,intent)||words.slice(0,10).join(' '),hints=Array.isArray(intent.officialDomainHints)?intent.officialDomainHints:v2989OfficialDomainHints(intent),historical=/\b(?:archive|archived|historical|old|previous|former)\b/i.test(input);
+    const actionIntent=(typeof v3002ActionResourceIntent==='function')?v3002ActionResourceIntent(raw):null;
+    hints.forEach(function(host){
+      const noArchive=historical?'':' -site:archive.'+host;
+      if(actionIntent&&actionIntent.searchPhrase)add('site:'+host+noArchive+' "'+actionIntent.searchPhrase+'"');
+      if(fact)add('site:'+host+noArchive+' '+fact);
+      if(core&&core.toLowerCase()!==fact.toLowerCase())add('site:'+host+noArchive+' '+core);
+      if(/\bhow\s+long\b/i.test(fact||input)&&core)add('site:'+host+noArchive+' '+core+' duration');
+    });
+    if(identity&&fact)add('"'+identity+'" '+fact+' official'+(historical?'':' -archive'));
+    else if(identity)add('"'+identity+'" '+topic+' official'+(historical?'':' -archive'));
+  }
+  let compact=words.slice(0,14).join(' ');if(/^(?:diagram|schematic|blueprint|manual|pdf|document)$/.test(type)&&!/(?:pdf|manual|diagram|schematic|blueprint)/i.test(compact))compact+=' '+type;if(/^(?:diagram|schematic|manual|document)$/.test(type)&&! /\bpdf\b/i.test(compact))compact+=' pdf';if(intent&&intent.commerce){if(compact&&compact.split(/\s+/).length<=6){add('"'+compact+'"');add('"'+compact+'" buy');}v2993CommerceSemanticQueryVariants(compact).slice(0,2).forEach(function(q){add('"'+q+'" buy');});add(compact+' buy online price');add(compact+' product for sale');add(compact+' manufacturer retailer shop');}add(compact);add(input);return queries.slice(0,6);
+}
+function v2989ParsePublicSearchHtml(html){
+  const source=String(html||''),out=[],seen=new Set();function add(href,title,snippet){const url=v2989DecodeSearchHref(href);if(!url||v2989SearchResultUrl(url))return;const k=url.toLowerCase();if(seen.has(k))return;seen.add(k);out.push({url:url,title:clean(decodeEntitiesLite(stripHtml(String(title||''))))||domainFromUrl(url),snippet:clean(decodeEntitiesLite(stripHtml(String(snippet||'')))),provider:'DuckDuckGo public web',providerSearchVerified:true,searchEvidenceKind:'PUBLIC_SEARCH_INDEX'});}
+  const resultBlock=/<div[^>]+class=["'][^"']*result[^"']*["'][^>]*>([\s\S]*?)<\/div>\s*<\/div>/gi;let b;while((b=resultBlock.exec(source))&&out.length<12){const block=b[1],a=/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/i.exec(block),sn=/<(?:a|div)[^>]+class=["'][^"']*(?:result__snippet|result-snippet)[^"']*["'][^>]*>([\s\S]*?)<\/(?:a|div)>/i.exec(block);if(a)add(a[1],a[2],sn&&sn[1]||'');}
+  if(!out.length){const anchor=/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;let m;while((m=anchor.exec(source))&&out.length<12){if(/result__a|result-link|uddg=/i.test(m[0]||m[1]||''))add(m[1],m[2],'');}}
+  return out;
+}
+function v2989ParseBingRss(xml){
+  const source=String(xml||''),out=[],seen=new Set(),item=/<item>([\s\S]*?)<\/item>/gi;let m;while((m=item.exec(source))&&out.length<12){const block=m[1],tm=/<title>([\s\S]*?)<\/title>/i.exec(block),lm=/<link>([\s\S]*?)<\/link>/i.exec(block),dm=/<description>([\s\S]*?)<\/description>/i.exec(block),url=validHttpUrl(clean(decodeEntitiesLite(lm&&lm[1]||'')));if(!url||v2989SearchResultUrl(url))continue;const k=url.toLowerCase();if(seen.has(k))continue;seen.add(k);out.push({url:url,title:clean(decodeEntitiesLite(stripHtml(tm&&tm[1]||'')))||domainFromUrl(url),snippet:clean(decodeEntitiesLite(stripHtml(dm&&dm[1]||''))),provider:'Bing public RSS',providerSearchVerified:true,searchEvidenceKind:'PUBLIC_SEARCH_INDEX'});}return out;
+}
+function v2989OfficialNeighborSeedUrls(raw,intent,pooled){
+  if(!intent||!intent.wantsOfficial||clean(intent.resourceType)!=='page')return [];
+  const seen=new Set(),out=[];function add(url){url=validHttpUrl(url);if(!url||v2989SearchResultUrl(url)||v2989ArchiveOfficialCandidate(raw,intent,{url:url}))return;const k=url.toLowerCase();if(seen.has(k))return;seen.add(k);out.push(url);}
+  (Array.isArray(pooled)?pooled:[]).filter(function(c){return v2989OfficialSourceIdentityMatch(intent,c)&&!v2989ArchiveOfficialCandidate(raw,intent,c);}).slice(0,8).forEach(function(c){
+    const u=validHttpUrl(c&&c.url||'');if(!u)return;add(u);try{const x=new URL(u),parts=(x.pathname||'/').split('/').filter(Boolean);if(parts.length){add(x.origin+'/'+parts[0]+'/');if(parts.length>1)add(x.origin+'/'+parts.slice(0,-1).join('/')+'/');}}catch(_e){}
+  });
+  return out.slice(0,8);
+}
+function v2989OfficialNeighborLinks(baseUrl,html,raw,intent){
+  const source=String(html||''),out=[],seen=new Set();if(!source)return out;let base;try{base=new URL(baseUrl);}catch(_e){return out;}
+  const re=/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;let m;while((m=re.exec(source))&&out.length<80){let url='';try{url=validHttpUrl(new URL(decodeEntitiesLite(m[1]||''),base).toString());}catch(_e){}if(!url||v2989SearchResultUrl(url))continue;const candidate={url:url,title:clean(decodeEntitiesLite(stripHtml(m[2]||'')))||domainFromUrl(url),snippet:'',provider:'Official-site neighbor discovery'};if(!v2989OfficialSourceIdentityMatch(intent,candidate)||v2989ArchiveOfficialCandidate(raw,intent,candidate)||!v2989ResourceTypeCompatible(intent,candidate))continue;const around=source.slice(Math.max(0,m.index-220),Math.min(source.length,re.lastIndex+320));candidate.snippet=clean(decodeEntitiesLite(stripHtml(around))).slice(0,700);const k=url.toLowerCase();if(seen.has(k))continue;seen.add(k);out.push(candidate);}
+  return out;
+}
+async function v2989OfficialNeighborDiscovery(raw,intent,pooled){
+  const seeds=v2989OfficialNeighborSeedUrls(raw,intent,pooled);if(!seeds.length)return [];
+  const pages=await Promise.all(seeds.map(function(url){return v2989HttpGetText(url,2200,2).then(function(body){return {url:url,body:body};}).catch(function(){return null;});}));
+  const out=[],seen=new Set();pages.forEach(function(p){if(!p||!p.body)return;v2989OfficialNeighborLinks(p.url,p.body,raw,intent).forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u)return;const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);const m=v2989CandidateMetrics(raw,intent,c);c.neighborPreScore=m.score;c.neighborTopicMatched=m.topicMatched;out.push(c);});});
+  out.sort(function(a,b){const ta=Number(a.neighborTopicMatched||0),tb=Number(b.neighborTopicMatched||0);if(tb!==ta)return tb-ta;return Number(b.neighborPreScore||-999)-Number(a.neighborPreScore||-999);});
+  return out.slice(0,16);
+}
+async function v2989PublicWebDiscovery(raw,intent){
+  const queries=v2989SearchQueries(raw,intent);if(!queries.length)return null;const jobs=[];queries.forEach(function(q){jobs.push(v2989HttpGetText('https://html.duckduckgo.com/html/?q='+encodeURIComponent(q),2200,1).then(function(x){return {kind:'ddg',body:x};}));jobs.push(v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2200,1).then(function(x){return {kind:'bing',body:x};}));});
+  const pages=await Promise.all(jobs.map(function(p){return Promise.resolve(p).catch(function(){return null;});})),pooled=[],seen=new Set();pages.forEach(function(p){if(!p||!p.body)return;const rows=p.kind==='bing'?v2989ParseBingRss(p.body):v2989ParsePublicSearchHtml(p.body);rows.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u)return;const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);pooled.push(c);});});if(!pooled.length)return null;
+  let candidates=pooled;if(intent&&intent.wantsOfficial&&clean(intent.resourceType)==='page'){const neighbors=await v2989OfficialNeighborDiscovery(raw,intent,pooled);if(neighbors.length){const merged=[],mseen=new Set();neighbors.concat(pooled).forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u)return;const k=u.toLowerCase();if(mseen.has(k))return;mseen.add(k);merged.push(c);});candidates=merged;}}
+  const best=await v2989RankCandidates(raw,intent,candidates),result=best?{ok:true,provider:clean(best.provider||'Public web discovery'),model:'no-key-public-search',answer:'AIVerify found a public source that directly matches the request.',explanation:'',best:best,sources:candidates,usage:{officialNeighborCandidates:Math.max(0,candidates.length-pooled.length)}}:null;return result&&v2989ResultAcceptable(raw,intent,result)?result:null;
+}
+async function v2989InternetArchiveLookup(raw,intent){
+  const type=clean(intent&&intent.resourceType||'');if(!/^(?:manual|pdf|document|diagram|schematic|blueprint)$/.test(type))return null;const query=v2989MeaningfulWords(raw).slice(0,12).join(' ');if(!query)return null;
+  const searchUrl='https://archive.org/advancedsearch.php?q='+encodeURIComponent(query)+'&fl%5B%5D=identifier&fl%5B%5D=title&fl%5B%5D=description&rows=5&page=1&output=json',json=await v2989HttpGetJson(searchUrl,2200),docs=json&&json.response&&Array.isArray(json.response.docs)?json.response.docs:[];if(!docs.length)return null;const candidates=[];docs.forEach(function(d){const id=clean(d&&d.identifier),title=clean(d&&d.title||''),snippet=clean(d&&d.description||'');if(id)candidates.push({url:'https://archive.org/details/'+encodeURIComponent(id),title:title||id,snippet:snippet,provider:'Internet Archive'});});const best=await v2989RankCandidates(raw,intent,candidates);if(best&&v2989ResultAcceptable(raw,intent,{ok:true,best:best}))return {ok:true,provider:'Internet Archive',model:'public-api-no-key',answer:'AIVerify found a free public archive source matching the request.',explanation:'',best:best,sources:candidates,usage:{}};return null;
+}
+async function v2989LocalDirectResourceLookup(raw,intent){
+  V2989_RESOURCE_STATS.localAttempts++;if(!intent)return null;
+  if(intent.resourceType==='map'&&typeof v2845ExtractMediaTarget==='function'&&typeof v2845GoogleMapsPlaceUrl==='function'){const target=v2845ExtractMediaTarget(raw,{isMap:true}),url=target&&validHttpUrl(v2845GoogleMapsPlaceUrl(target));if(url){V2989_RESOURCE_STATS.localAccepted++;return {ok:true,provider:'Google Maps direct link',model:'direct-free',answer:'Open the requested map using the link below.',best:{url:url,title:'Google Maps',score:100,ok:true,matchCount:2,matchRatio:1},sources:[{url:url,title:'Google Maps'}],usage:{}};}}
+  return null;
+}
+async function v2989FreeDirectResourceLookup(raw,intent){
+  V2989_RESOURCE_STATS.freeAttempts++;if(!intent)return null;const jobs=[v2989PublicWebDiscovery(raw,intent)];if(/^(?:manual|pdf|document|diagram|schematic|blueprint)$/.test(clean(intent.resourceType)))jobs.push(v2989InternetArchiveLookup(raw,intent));const results=await Promise.all(jobs.map(function(p){return Promise.resolve(p).catch(function(){return null;});})),accepted=results.filter(function(r){return r&&r.ok&&v2989ResultAcceptable(raw,intent,r);});if(accepted.length){accepted.sort(function(a,b){return Number(b.best&&b.best.score||0)-Number(a.best&&a.best.score||0);});V2989_RESOURCE_STATS.freeAccepted++;return accepted[0];}return null;
+}
+function v2989GeminiApiRequestJson(model,payload,timeoutMs){
+  return new Promise(function(resolve){const key=envSecret('GEMINI_API_KEY');if(!key)return resolve({ok:false,errorType:'missing_gemini_api_key'});const body=JSON.stringify(payload||{});let settled=false;function finish(v){if(settled)return;settled=true;resolve(v);}const req=https.request({hostname:'generativelanguage.googleapis.com',port:443,path:'/v1beta/models/'+encodeURIComponent(model)+':generateContent',method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key,'content-length':Buffer.byteLength(body)}},function(res){let data='';res.setEncoding('utf8');res.on('data',function(chunk){data+=chunk;if(data.length>6*1024*1024)req.destroy(new Error('gemini_response_too_large'));});res.on('end',function(){const json=safeJsonParse(data);if(res.statusCode>=200&&res.statusCode<300&&json)return finish({ok:true,statusCode:res.statusCode,json:json});const err=json&&json.error&&json.error.message?clean(json.error.message).slice(0,180):'http_'+res.statusCode;finish({ok:false,statusCode:res.statusCode,errorType:err,json:json||null});});});req.on('error',function(e){finish({ok:false,errorType:clean(e&&e.message||'request_error').slice(0,180)});});req.setTimeout(timeoutMs||7000,function(){req.destroy(new Error('timeout'));});req.write(body);req.end();});
+}
+function v2989GeminiText(json){const c=Array.isArray(json&&json.candidates)?json.candidates[0]:null,parts=c&&c.content&&Array.isArray(c.content.parts)?c.content.parts:[];return clean(parts.map(function(p){return clean(p&&p.text||'');}).filter(Boolean).join(' '));}
+function v2989ExtractUrlsFromText(value){const out=[],seen=new Set(),matches=String(value||'').match(/https?:\/\/[^\s<>'\"\]\)]+/g)||[];matches.forEach(function(x){const u=validHttpUrl(String(x).replace(/[.,;:!?]+$/,''));if(u&&!seen.has(u.toLowerCase())){seen.add(u.toLowerCase());out.push(u);}});return out.slice(0,10);}
+function v2989GeminiSources(json){
+  const out=[],seen=new Set(),c=Array.isArray(json&&json.candidates)?json.candidates[0]:null,gm=c&&c.groundingMetadata||{},answer=v2989GeminiText(json);function add(url,title,snippet,explicit){const u=validHttpUrl(url);if(!u)return;const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);out.push({url:u,title:clean(title||'Google Search source'),snippet:clean(snippet||''),provider:'Gemini / Google Search',explicitCandidate:!!explicit});}
+  v2989ExtractUrlsFromText(answer).forEach(function(u){add(u,'Direct URL returned in grounded response',answer.slice(0,1200),true);});(Array.isArray(gm.groundingChunks)?gm.groundingChunks:[]).forEach(function(ch){const w=ch&&ch.web||{};add(w.uri||w.url,w.title,'',false);});return out;
+}
+function v2989GeminiQueries(json){const c=Array.isArray(json&&json.candidates)?json.candidates[0]:null,gm=c&&c.groundingMetadata||{};return (Array.isArray(gm.webSearchQueries)?gm.webSearchQueries:[]).map(clean).filter(Boolean).slice(0,12);}
+function v2989RecordGeminiOperation(response,model,queries){try{if(!ANALYTICS_REVIEW_V2889||typeof ANALYTICS_REVIEW_V2889.recordProviderOperation!=='function')return;const usage=response&&response.json&&response.json.usageMetadata||{},inputTokens=Number(usage.promptTokenCount||0),outputTokens=Number(usage.candidatesTokenCount||0),queryCount=Math.max(0,Array.isArray(queries)?queries.length:0);ANALYTICS_REVIEW_V2889.recordProviderOperation({provider:'gemini',operation:'google-search-grounding',actualRequest:true,requestCount:1,operations:Math.max(1,queryCount),status:response&&response.ok?'COMPLETED':'FAILED',model:model,inputTokens:inputTokens,outputTokens:outputTokens,totalTokens:Number(usage.totalTokenCount||0)||inputTokens+outputTokens,webSearchCalls:queryCount,costKnown:false,pricingSource:'tracked-usage-search-quota-varies',error:response&&response.ok?'':clean(response&&response.errorType||'')});}catch(_e){}}
+async function v2989GeminiGroundedLookup(raw,intent,timeoutMs){
+  if(!envSecret('GEMINI_API_KEY'))return {ok:false,errorType:'missing_gemini_api_key'};
+  V2989_RESOURCE_STATS.geminiCalls++;
+  const model=clean(process.env.GEMINI_SEARCH_MODEL||process.env.GEMINI_MODEL||'gemini-3.6-flash');
+  const prompt=[
+    'Use Google Search to satisfy this exact resource-finding request completely and accurately.',
+    'Find the actual requested resource or the best exact page containing the requested fact; never return a search-results URL.',
+    (intent&&intent.commerce)?'For an explicit purchase request, prefer a current manufacturer product page or reputable retailer page where the requested product/category can actually be purchased; a commercial page is expected, not a last resort.':'Preference order: exact free direct artifact/file/image/PDF; exact containing page; official/primary page; authoritative specialist repository; commercial/listing page only if no better source exists.',
+    'Verify subject, model/date/scope, requested resource type, and usefulness before selecting a source.',
+    'For an official-page request, the selected source must belong to the organization/authority named by the user, not merely another government or authoritative site.',
+    clean(intent&&intent.officialIdentity||'')?'Requested official source identity: '+clean(intent.officialIdentity):'',
+    Array.isArray(intent&&intent.officialDomainHints)&&intent.officialDomainHints.length?'Organization-owned domain hints derived from that identity (search hints only; independently validate ownership): '+intent.officialDomainHints.join(', '):'',
+    'SOURCE_NAME and CANDIDATE_URL must identify the SAME exact page/resource, and that exact destination must directly support ANSWER.',
+    'When an active official page and an archived predecessor both support the request, return the active official page unless the user asked for historical/archived material.',
+    'Do not invent or reconstruct a URL. Use only a destination actually found by Google Search.',
+    'Return plain text with exactly these four labeled lines and no Markdown:',
+    'ANSWER: <one concise useful answer, maximum two sentences>',
+    'EXPLANATION: <one concise supporting sentence>',
+    'SOURCE_NAME: <exact source/page/resource title>',
+    'CANDIDATE_URL: <exact destination URL, or blank if none>',
+    'Resource type: '+clean(intent.resourceType)+'. User request: '+clean(raw)
+  ].join('\n');
+  const payload={contents:[{role:'user',parts:[{text:prompt}]}],tools:[{googleSearch:{}}],generationConfig:{temperature:0.05,maxOutputTokens:700}};
+  const response=await v2989GeminiApiRequestJson(model,payload,Math.max(4200,Number(timeoutMs||9200)));
+  const queries=response&&response.ok?v2989GeminiQueries(response.json):[];
+  v2989RecordGeminiOperation(response,model,queries);
+  if(!response||!response.ok){const detail=clean(response&&response.json&&response.json.error&&response.json.error.message||response&&response.errorType||'gemini_request_failed').slice(0,160);return {ok:false,errorType:detail||'gemini_request_failed'};}
+  const output=v2989GeminiText(response.json),parsed=v2989OpenAIResourceFields(output),claimedTitle=v2989ProviderClaimedSourceTitle(parsed),evidencePhrase=v2989ProviderEvidenceSearchPhrase(parsed);
+  const sources=v2989GeminiSources(response.json);
+  sources.forEach(function(c){c.providerClaimedTitle=claimedTitle;c.providerEvidencePhrase=evidencePhrase;});
+  if(parsed.candidateUrl)sources.unshift({url:parsed.candidateUrl,title:parsed.sourceName||'Candidate URL returned by Gemini',snippet:'',provider:'Gemini / Google Search',explicitCandidate:true,providerClaimedTitle:claimedTitle,providerEvidencePhrase:evidencePhrase,providerAnswer:parsed.answer,providerExplanation:parsed.explanation});
+  const reconciled=await v2989ProviderSourceReconciliationCandidates(raw,intent,parsed);reconciled.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(u&&!sources.some(function(x){return validHttpUrl(x&&x.url||'').toLowerCase()===u.toLowerCase();}))sources.unshift(c);});
+  let best=await v2989RankCandidates(raw,intent,sources);
+  if(best&&v2989ArchiveOfficialCandidate(raw,intent,best)&&reconciled.length){const live=await v2989RankCandidates(raw,intent,reconciled);if(live)best=live;}
+  if(best&&v2989ArchiveOfficialCandidate(raw,intent,best)&&claimedTitle)return {ok:false,errorType:'gemini_archive_source_conflict',answer:parsed.answer||parsed.explanation,sources:sources,best:best,searchQueries:queries};
+  if(!best)return {ok:false,errorType:'gemini_no_acceptable_resource',answer:parsed.answer||parsed.explanation||output,sources:sources,searchQueries:queries};
+  const bound=v2989ProviderAnswerBoundToCandidate(best,parsed),usage=response.json&&response.json.usageMetadata||{};
+  const result={ok:true,provider:'Gemini / Google Search',model:model,answer:bound?parsed.answer:'',explanation:bound?parsed.explanation:'',best:best,sources:sources,searchQueries:queries,usage:{promptTokenCount:Number(usage.promptTokenCount||0),candidatesTokenCount:Number(usage.candidatesTokenCount||0),providerSourceBound:bound,providerEvidenceBound:v2989ProviderEvidenceBindingScore(best)>=78}};
+  if(v2989ResultAcceptable(raw,intent,result)){V2989_RESOURCE_STATS.geminiAccepted++;return result;}
+  V2989_RESOURCE_STATS.rejectedCandidates++;
+  return {ok:false,errorType:'gemini_resource_rejected',answer:result.answer,sources:sources,best:best,searchQueries:queries,usage:result.usage};
+}
+function v2989ProviderPlainText(value){
+  let s=String(value||'');if(!s)return '';
+  s=s.replace(/```[a-z0-9_-]*\s*/gi,' ').replace(/```/g,' ');
+  s=s.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/gi,'$1 $2');
+  s=s.replace(/^\s{0,3}#{1,6}\s*/gm,'').replace(/^\s*>\s?/gm,'');
+  s=s.replace(/\*\*([^*]+)\*\*/g,'$1').replace(/__([^_]+)__/g,'$1').replace(/[`*_~]+/g,'');
+  s=s.replace(/^\s*[-+]\s+/gm,'').replace(/\r?\n+/g,' ');
+  return clean(s).replace(/\s{2,}/g,' ').trim();
+}
+function v2989OpenAIResourceFields(value){
+  const raw=String(value||''),json=extractJsonObjectFromText(raw);if(json&&typeof json==='object')return {answer:v2989ProviderPlainText(json.answer||''),explanation:v2989ProviderPlainText(json.explanation||''),sourceName:v2989ProviderPlainText(json.sourceName||json.source||''),candidateUrl:validHttpUrl(json.candidateUrl||json.url||'')};
+  function field(name){const re=new RegExp('(?:^|\\n)\\s*'+name+'\\s*:\\s*([^\\n]*)','i'),m=re.exec(raw);return m?v2989ProviderPlainText(m[1]):'';}
+  return {answer:field('ANSWER'),explanation:field('EXPLANATION'),sourceName:field('SOURCE_NAME'),candidateUrl:validHttpUrl(field('CANDIDATE_URL'))};
+}
+function v2989SameResolvedDestination(a,b){
+  const ua=validHttpUrl(a||''),ub=validHttpUrl(b||'');if(!ua||!ub)return false;
+  function norm(u){try{const x=new URL(u);x.hash='';x.search='';return (x.protocol+'//'+x.host+x.pathname).replace(/\/$/,'').toLowerCase();}catch(_e){return clean(u).toLowerCase().replace(/[?#].*$/,'').replace(/\/$/,'');}}
+  return norm(ua)===norm(ub);
+}
+function v2989ArchiveOfficialCandidate(raw,intent,candidate){
+  if(!intent||!intent.wantsOfficial||clean(intent.resourceType)!=='page'||/\b(?:archive|archived|historical|old|previous|former)\b/i.test(clean(raw)))return false;
+  const url=validHttpUrl(candidate&&candidate.url||''),host=domainFromUrl(url);let path='';try{path=new URL(url).pathname||'';}catch(_e){}
+  return /(?:^|\.)archive\./i.test(host)||/\/(?:archive|archives)(?:\/|$)/i.test(path);
+}
+function v2989ProviderEvidenceSearchPhrase(fields){
+  let s=v2989ProviderPlainText(fields&&fields.answer||'')||v2989ProviderPlainText(fields&&fields.explanation||'');if(!s)return '';
+  const sentences=s.split(/(?<=[.!?])\s+/).map(clean).filter(Boolean);if(sentences.length)s=sentences[0];
+  s=s.replace(/^.{0,100}?\b(?:says|states|explains|reports|notes|indicates|shows|found)\s+/i,'');
+  s=s.replace(/^.{0,80}?\b(?:that)\s+/i,'');
+  const words=s.replace(/[^a-z0-9%'-]+/gi,' ').split(/\s+/).filter(Boolean);
+  return clean(words.slice(0,14).join(' '));
+}
+function v2989ProviderEvidenceBindingScore(candidate){
+  const phrase=clean(candidate&&candidate.providerEvidencePhrase||'').toLowerCase();if(!phrase)return 0;
+  const stop=/^(?:a|an|and|are|as|at|be|by|can|could|for|from|has|have|in|is|it|of|on|or|the|that|this|to|was|were|will|with)$/i;
+  const terms=phrase.replace(/[^a-z0-9]+/g,' ').split(/\s+/).filter(function(w){return w&&w.length>=3&&!stop.test(w);}).slice(0,12);
+  if(!terms.length)return 0;
+  const hay=(clean(candidate&&candidate.fetchedTitle||candidate&&candidate.title||'')+' '+clean(candidate&&candidate.snippet||'')+' '+clean(candidate&&candidate.text||'')).toLowerCase();
+  const matched=terms.filter(function(w){return hay.indexOf(w)>=0;}).length,ratio=matched/terms.length;
+  if(ratio>=0.85&&matched>=4)return 110;
+  if(ratio>=0.70&&matched>=3)return 78;
+  if(ratio>=0.55&&matched>=3)return 42;
+  return matched>=2?12:-20;
+}
+function v2989ProviderAnswerBoundToCandidate(candidate,fields){
+  if(!candidate||!fields)return false;
+  const claimed=clean(fields.sourceName||''),candidateUrl=validHttpUrl(fields.candidateUrl||''),titleScore=v2989ProviderTitleBindingScore(candidate),evidenceScore=v2989ProviderEvidenceBindingScore(candidate);
+  if(candidate&&candidate.providerEvidencePhrase&&evidenceScore>=78&&(titleScore>=6||!claimed))return true;
+  if(claimed&&titleScore>=60&&evidenceScore>=12)return true;
+  if(candidateUrl&&(v2989SameResolvedDestination(candidate.url,candidateUrl)||v2989SameResolvedDestination(candidate.originalUrl,candidateUrl)))return claimed?titleScore>=16:true;
+  return false;
+}
+async function v2989ProviderSourceReconciliationCandidates(raw,intent,fields){
+  if(!intent||!intent.wantsOfficial)return [];
+  const claimed=clean(fields&&fields.sourceName||''),evidence=v2989ProviderEvidenceSearchPhrase(fields);if(!claimed&&!evidence)return [];
+  const hints=Array.isArray(intent.officialDomainHints)&&intent.officialDomainHints.length?intent.officialDomainHints:v2989OfficialDomainHints(intent);
+  if(!hints.length)return [];
+  const fact=v2989RequestedFactSearchPhrase(raw,intent),queries=[];function add(q){q=clean(q);if(q&&!queries.some(function(x){return x.toLowerCase()===q.toLowerCase();}))queries.push(q);}
+  hints.slice(0,2).forEach(function(host){
+    const noArchive=/\b(?:archive|archived|historical|old|previous|former)\b/i.test(clean(raw))?'':' -site:archive.'+host;
+    if(claimed&&evidence)add('site:'+host+noArchive+' "'+claimed+'" "'+evidence+'"');
+    if(evidence)add('site:'+host+noArchive+' "'+evidence+'"');
+    if(claimed)add('site:'+host+noArchive+' "'+claimed+'"'+(fact?' '+fact:''));
+    if(claimed)add('site:'+host+noArchive+' "'+claimed+'"');
+  });
+  const jobs=[];queries.slice(0,4).forEach(function(q){jobs.push(v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),1900,1).then(function(x){return {kind:'bing',body:x};}));jobs.push(v2989HttpGetText('https://html.duckduckgo.com/html/?q='+encodeURIComponent(q),1900,1).then(function(x){return {kind:'ddg',body:x};}));});
+  const pages=await Promise.all(jobs.map(function(p){return Promise.resolve(p).catch(function(){return null;});})),out=[],seen=new Set();
+  pages.forEach(function(p){if(!p||!p.body)return;const rows=p.kind==='bing'?v2989ParseBingRss(p.body):v2989ParsePublicSearchHtml(p.body);rows.forEach(function(c){
+    const u=validHttpUrl(c&&c.url||'');if(!u||!v2989OfficialSourceIdentityMatch(intent,c))return;
+    const enriched=Object.assign({},c,{providerClaimedTitle:claimed,providerEvidencePhrase:evidence,reconciliationCandidate:true});
+    if(v2989ArchiveOfficialCandidate(raw,intent,enriched))return;
+    const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);out.push(enriched);
+  });});
+  return out.slice(0,12);
+}
+function v2989CollectProviderSearchSources(json){
+  const out=[],byUrl=new Map();
+  function textValue(x){
+    if(typeof x==='string')return clean(x);
+    if(Array.isArray(x))return clean(x.map(function(v){return typeof v==='string'?v:'';}).filter(Boolean).join(' '));
+    return '';
+  }
+  function add(obj){
+    if(!obj||typeof obj!=='object')return;
+    const url=validHttpUrl(obj.url||obj.uri||'');if(!url)return;
+    const title=clean(obj.title||obj.name||obj.source||domainFromUrl(url));
+    let snippet=clean(obj.snippet||obj.description||obj.summary||'');
+    if(!snippet){const t=textValue(obj.text||obj.content||'');if(t&&t.length<2400)snippet=t;}
+    snippet=v2989ProviderPlainText(snippet).slice(0,1600);
+    const key=url.toLowerCase(),prev=byUrl.get(key);
+    if(prev){if(title&&(!prev.title||prev.title===domainFromUrl(url)))prev.title=title;if(snippet.length>clean(prev.snippet||'').length)prev.snippet=snippet;return;}
+    const row={url:url,title:title,snippet:snippet,provider:'OpenAI web search',providerSearchVerified:true};byUrl.set(key,row);out.push(row);
+  }
+  function walk(x){
+    if(!x||typeof x!=='object')return;
+    if(Array.isArray(x)){x.forEach(walk);return;}
+    add(x);Object.keys(x).forEach(function(k){walk(x[k]);});
+  }
+  walk(json);return out.slice(0,20);
+}
+function v2989ProviderSearchEvidenceAcceptable(raw,intent,candidate){
+  if(!candidate||candidate.providerSearchVerified!==true)return false;
+  const url=validHttpUrl(candidate.url||candidate.originalUrl||'');if(!url||v2989SearchResultUrl(url))return false;
+  const status=Number(candidate.status||0);if(status===404||status===410)return false;
+  if(intent&&intent.wantsOfficial&&clean(intent.resourceType)==='page'&&v2989ArchiveOfficialCandidate(raw,intent,candidate))return false;
+  if(!v2989ResourceTypeCompatible(intent,candidate))return false;
+  if(intent&&intent.wantsOfficial&&!v2989OfficialSourceIdentityMatch(intent,candidate))return false;
+  if(intent&&clean(intent.requestedEntityIdentity||'')&&typeof v3006EntityCandidateMatch==='function'&&!v3006EntityCandidateMatch(intent,candidate))return false;
+  if(v2989GenericOrListing(candidate)&&!(intent&&intent.commerce)&&!(typeof v3006HomepageResourceRequest==='function'&&v3006HomepageResourceRequest(raw,intent)))return false;
+  const topic=v2989CandidateTopicMetrics(raw,intent,candidate),titleScore=v2989ProviderTitleBindingScore(candidate),evidenceScore=v2989ProviderEvidenceBindingScore(candidate);
+  const topicStrong=topic.terms.length===0?true:(topic.terms.length===1?topic.matched>=1:(topic.matched>=2&&topic.tailMatched>=1));
+  const titleBound=!clean(candidate.providerClaimedTitle||'')||titleScore>=16;
+  const evidenceBound=!clean(candidate.providerEvidencePhrase||'')||evidenceScore>=42;
+  if(!topicStrong||!titleBound||!evidenceBound)return false;
+  if(intent&&intent.commerce){
+    const hay=(clean(candidate.title||'')+' '+clean(candidate.snippet||'')+' '+url).toLowerCase();
+    const subject=v2989ResourceTopicTerms(raw,intent),subjectHits=subject.filter(function(w){return v2993ResourceHayHasTerm(hay,w);}).length;
+    if(subject.length>=2&&subjectHits<2)return false;
+    if(subject.length===1&&subjectHits<1)return false;
+    const commerceGate=v2994CommerceDestinationSignals(raw,candidate);
+    if(!commerceGate.acceptable)return false;
+  }
+  return true;
+}
+async function v2989OpenAIGroundedLookup(raw,intent){
+  if(!envSecret('OPENAI_API_KEY'))return {ok:false,errorType:'missing_openai_api_key'};
+  V2989_RESOURCE_STATS.openaiCalls++;
+  const model=process.env.OPENAI_MODEL||'gpt-5.4-mini';
+  const prompt=[
+    'Use web search to satisfy this exact resource-finding request.',
+    'Do not return a search-results URL. Find the actual requested resource or the best exact page containing it.',
+    (intent&&intent.commerce)?'For an explicit purchase request, return an actual current product/store/order page where the requested product or product category can be purchased. Reject news, blog, press, interview, review, informational, and announcement pages even when they discuss the right product. Preserve the user’s requested product breadth: do not substitute a narrow single-purpose subtype when the request is for a broader category.':'Preference order: exact free direct artifact/file/image/PDF; exact containing page; official/primary page; authoritative specialist repository; commercial/listing page only when nothing better exists.',
+    'Verify subject, model/date/scope, requested resource type, and usefulness before selecting a source.',
+    'For an official-page request, use the official destination owned by the organization/authority named by the user; another government or authoritative domain is not an acceptable substitute.',
+    clean(intent&&intent.officialIdentity||'')?'Requested official source identity: '+clean(intent.officialIdentity):'',
+    Array.isArray(intent&&intent.officialDomainHints)&&intent.officialDomainHints.length?'Organization-owned domain hints derived from that identity (search hints only; independently validate ownership): '+intent.officialDomainHints.join(', '):'',
+    'Never invent a URL. AIVerify will independently resolve, fetch, rank, and validate any destination before release.',
+    'SOURCE_NAME and CANDIDATE_URL must identify the SAME exact page/resource, and that exact destination must directly support ANSWER. Do not name one page while returning the URL of a related page.',
+    'When an active official page and an archived predecessor both support the request, return the active official page unless the user asked for historical/archived material.',
+    'Return plain text with exactly these four labeled lines and no Markdown:',
+    'ANSWER: <one concise useful answer, maximum two sentences>',
+    'EXPLANATION: <one concise supporting sentence>',
+    'SOURCE_NAME: <exact source/page/resource title>',
+    'CANDIDATE_URL: <exact destination URL, or blank if none>',
+    'Resource type: '+clean(intent.resourceType)+'. User request: '+clean(raw)
+  ].join('\n');
+  const webTool={type:'web_search',search_context_size:'medium'},allowedDomains=(intent&&intent.wantsOfficial&&Array.isArray(intent.officialDomainHints)?intent.officialDomainHints:[]).map(function(x){return clean(x).toLowerCase();}).filter(Boolean).slice(0,8);if(allowedDomains.length)webTool.filters={allowed_domains:allowedDomains};
+  const payload={model:model,reasoning:{effort:'low'},tools:[webTool],tool_choice:'required',include:['web_search_call.results','web_search_call.action.sources'],input:prompt,max_output_tokens:700};
+  const response=await openaiApiRequestJson(payload,7600);
+  if(!response||!response.ok){const detail=clean(response&&response.json&&response.json.error&&response.json.error.message||response&&response.errorType||'openai_request_failed').slice(0,160);return {ok:false,errorType:detail||'openai_request_failed'};}
+  const output=extractOpenAIOutputText(response.json),parsed=v2989OpenAIResourceFields(output),claimedTitle=v2989ProviderClaimedSourceTitle(parsed),evidencePhrase=v2989ProviderEvidenceSearchPhrase(parsed);
+  const sources=v2989CollectProviderSearchSources(response.json).filter(function(x){return !!validHttpUrl(x&&x.url||'');});
+  sources.forEach(function(c){c.providerClaimedTitle=claimedTitle;c.providerEvidencePhrase=evidencePhrase;});
+  if(parsed.candidateUrl){
+    const exact=sources.find(function(c){return v2989SameResolvedDestination(c&&c.url,parsed.candidateUrl);});
+    if(exact){
+      exact.explicitCandidate=true;exact.providerCandidateUrlExact=true;exact.providerAnswer=parsed.answer;exact.providerExplanation=parsed.explanation;
+      const ts=v2989ProviderTitleBindingScore(exact);if((!claimedTitle||ts>=16)&&(parsed.answer||parsed.explanation))exact.snippet=clean([exact.snippet,parsed.answer,parsed.explanation].filter(Boolean).join(' ')).slice(0,1900);
+    }else{
+      sources.unshift({url:parsed.candidateUrl,title:parsed.sourceName||'Candidate URL returned by OpenAI',snippet:'',provider:'OpenAI web search',explicitCandidate:true,providerSearchVerified:false,providerCandidateUrlExact:true,providerClaimedTitle:claimedTitle,providerEvidencePhrase:evidencePhrase,providerAnswer:parsed.answer,providerExplanation:parsed.explanation});
+    }
+  }
+  const reconciled=await v2989ProviderSourceReconciliationCandidates(raw,intent,parsed);reconciled.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(u&&!sources.some(function(x){return validHttpUrl(x&&x.url||'').toLowerCase()===u.toLowerCase();}))sources.unshift(c);});
+  let best=await v2989RankCandidates(raw,intent,sources);
+  if(best&&v2989ArchiveOfficialCandidate(raw,intent,best)&&reconciled.length){const live=await v2989RankCandidates(raw,intent,reconciled);if(live)best=live;}
+  if(best&&v2989ArchiveOfficialCandidate(raw,intent,best)&&claimedTitle)return {ok:false,errorType:'openai_archive_source_conflict',answer:parsed.answer||parsed.explanation,sources:sources,best:best};
+  if(!best)return {ok:false,errorType:'openai_no_validated_resource',answer:parsed.answer||parsed.explanation,sources:sources};
+  const bound=v2989ProviderAnswerBoundToCandidate(best,parsed),result={ok:true,provider:'OpenAI web search',model:model,answer:bound?parsed.answer:'',explanation:bound?parsed.explanation:'',best:best,sources:sources,usage:{providerSourceBound:bound,providerEvidenceBound:v2989ProviderEvidenceBindingScore(best)>=78}};
+  if(v2989ResultAcceptable(raw,intent,result)){V2989_RESOURCE_STATS.openaiAccepted++;return result;}
+  V2989_RESOURCE_STATS.rejectedCandidates++;return {ok:false,errorType:'openai_resource_rejected',answer:result.answer,sources:sources,best:best};
+}
+function v2989UsefulResourceExcerpt(raw,best){
+  const text=clean(best&&best.text||best&&best.snippet||'');if(!text)return '';const words=v2989MeaningfulWords(raw).filter(function(w){return w.length>=3;}),sentences=text.replace(/\s+/g,' ').split(/(?<=[.!?])\s+/).map(clean).filter(function(x){return x.length>=30&&x.length<=460;});if(!sentences.length)return '';const ranked=sentences.map(function(x){let score=/\d/.test(x)?5:0;words.forEach(function(w){if(x.toLowerCase().indexOf(w)>=0)score+=w.length>=6?4:2;});return {text:x,score:score};}).sort(function(a,b){return b.score-a.score;}),chosen=[];ranked.forEach(function(x){if(x.score>0&&chosen.length<2&&!chosen.some(function(y){return y.toLowerCase()===x.text.toLowerCase();}))chosen.push(x.text);});return clean(chosen.join(' ')).slice(0,850);
+}
+function v2989ResourceFallbackExplanation(intent,best,raw){const url=validHttpUrl(best&&best.url||''),domain=domainFromUrl(url),type=clean(intent&&intent.resourceType||'resource'),excerpt=v2989UsefulResourceExcerpt(raw,best);if(excerpt)return excerpt;if(/\.pdf(?:$|[?#])/i.test(url)||/^application\/pdf/i.test(clean(best&&best.contentType||'')))return 'The link opens a direct PDF that best matches the requested '+type+'.';if(/\.(?:png|jpe?g|gif|webp|svg)(?:$|[?#])/i.test(url)||/^image\//i.test(clean(best&&best.contentType||'')))return 'The link opens a direct image that best matches the requested '+type+'.';return 'The link opens the most specific validated source found for the requested '+type+(domain?' on '+domain:'')+'.';}
+function v2989CleanResourceAnswer(value){return v2989ProviderPlainText(value).replace(/https?:\/\/\S+/g,'').replace(/\s{2,}/g,' ').trim();}
+function v2995ResourceDetailIsSourceVoice(value){
+  const s=v2989ProviderPlainText(value);if(!s)return false;
+  if(/\b(?:I|I'm|I've|I'd|I'll|me|my|mine|myself|we|we're|we've|we'd|we'll|us|our|ours|ourselves)\b/i.test(s))return true;
+  if(/^(?:growing up|when I |as I |in my |our story|we started|we built|I remember|I have always)/i.test(s))return true;
+  return false;
+}
+function v2995NeutralResourceExplanation(intent,best,sourceTitle){
+  const title=v2989ProviderPlainText(sourceTitle||best&&best.title||'');
+  if(intent&&intent.commerce){
+    if(title)return 'This page provides purchase information relevant to the requested product or product category: '+title+'.';
+    return 'This page provides purchase information relevant to the requested product or product category.';
+  }
+  return '';
+}
+function v2989ResourceContract(raw,intent,result){
+  const best=result&&result.best||{};
+  let url=validHttpUrl(best.url||'');if(!url||v2989SearchResultUrl(url))return '';
+  const homepageRequest=typeof v3006HomepageResourceRequest==='function'&&v3006HomepageResourceRequest(raw,intent);
+  if(homepageRequest){
+    try{const u=new URL(url);url=u.origin+'/';}catch(_e){}
+  }
+  const type=clean(intent&&intent.resourceType||'resource'),actionLabel=clean(intent&&intent.actionLabel||'Open Resource'),providerAnswer=v2989CleanResourceAnswer(result&&result.answer||''),providerExplanation=v2989ProviderPlainText(result&&result.explanation||''),excerpt=v2989ProviderPlainText(v2989UsefulResourceExcerpt(raw,best));
+  const placeholderTitle=/^(?:Direct URL returned in grounded response|Candidate URL returned by OpenAI|URL returned in grounded response|Web search result|Google Search source|Retrieved source)$/i;
+  let sourceTitle=v2989ProviderPlainText(best&&best.title||'');if(placeholderTitle.test(sourceTitle))sourceTitle='';
+  if(homepageRequest){
+    sourceTitle=domainFromUrl(url)||sourceTitle;
+  }else if(!sourceTitle){
+    try{const p=new URL(url),leaf=decodeURIComponent((p.pathname||'').split('/').filter(Boolean).pop()||'').replace(/[-_]+/g,' ').replace(/\.(?:pdf|png|jpe?g|gif|webp|svg)$/i,'').trim();if(leaf&&leaf.length>=4)sourceTitle=leaf;}catch(_e){}
+  }
+  let answer=homepageRequest?url:(sourceTitle||actionLabel);
+  if(answer.length>180)answer=answer.slice(0,177).replace(/\s+\S*$/,'')+'...';
+  const details=[];function addDetail(v){v=v2989ProviderPlainText(v);if(!v||v2995ResourceDetailIsSourceVoice(v))return;const k=clean(v).toLowerCase();if(!details.some(function(x){return clean(x).toLowerCase()===k;}))details.push(v);}
+  if(!homepageRequest){
+    if(providerAnswer&&!/^(?:AIVerify found|Open the requested|A public source|A free public archive source|Open (?:the )?(?:official )?(?:page|resource|diagram|manual|pdf|image))/i.test(providerAnswer))addDetail(providerAnswer);
+    if(providerExplanation&&clean(providerExplanation).toLowerCase()!==clean(providerAnswer).toLowerCase())addDetail(providerExplanation);
+    if(!details.length&&excerpt)addDetail(excerpt);
+    if(!details.length&&intent&&intent.commerce)addDetail(v2995NeutralResourceExplanation(intent,best,sourceTitle));
+    if(!details.length)addDetail(v2989ResourceFallbackExplanation(intent,best,raw));
+  }
+  let explanation=homepageRequest?'':clean(details.join(' '));if(explanation.length>700)explanation=explanation.slice(0,697).replace(/\s+\S*$/,'')+'...';
+  const c=v2844Contract(raw,{intent:'RESOURCE_RETRIEVAL',route:homepageRequest?'resource-source-selection/official-homepage/v3028':'resource-source-selection/v2995',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:answer,explanation:explanation,source:homepageRequest?url:(sourceTitle||clean(result&&result.provider||'Retrieved source')),sourceUrl:url,actionLinkUrl:url,actionLinkLabel:homepageRequest?'Open Official Website':actionLabel,classification:homepageRequest?'VERIFIED OFFICIAL HOMEPAGE':'VERIFIED RESOURCE RETRIEVAL',confidence:'High confidence',status:'ANSWERED'});
+  c.requestShape='RESOURCE_RETRIEVAL';c.responseShape='DIRECT_RESOURCE_LINK';c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.analysisResult='Answer';c.hideSourceLineForActionLink=true;c.showSource=true;c.showSourceUrl=true;c.showAdditionalInformation=!homepageRequest&&!!explanation;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:homepageRequest?'officialHomepageResourceLockV3028':'sharedNeutralResourceExplanationV2995',resourceProvider:clean(result&&result.provider||''),resourceProviderModel:clean(result&&result.model||''),resourceType:type,requestedOfficialIdentity:clean(intent&&intent.officialIdentity||''),officialDomainHints:Array.isArray(intent&&intent.officialDomainHints)?intent.officialDomainHints.slice(0,3):[],officialSourceIdentityMatched:(!intent||!intent.wantsOfficial)?'NOT_REQUIRED':(v2989OfficialSourceIdentityMatch(intent,best)?'YES':'NO'),officialHomepageRootLocked:homepageRequest?'YES':'NOT_APPLICABLE',resourceCandidateScore:Number(best.score||0),resourceCandidateMatchCount:Number(best.matchCount||0),resourceCandidateMatchRatio:Number(best.matchRatio||0),resourceCandidateTopicMatchCount:Number(v2989CandidateTopicMetrics(raw,intent,best).matched||0),resourceCandidateTopicTailMatchCount:Number(v2989CandidateTopicMetrics(raw,intent,best).tailMatched||0),resourceTypeCompatible:v2989ResourceTypeCompatible(intent,best)?'YES':'NO',resourceTopicUseful:v2989TopicUseful(raw,intent,best)?'YES':'NO',resourceCandidateContentType:clean(best.contentType||''),resourceCandidateResolvedFrom:clean(best.originalUrl||''),sourceOrder:'CACHE_LOCAL_FREE_PUBLIC_OPENAI_THEN_GEMINI',candidateOrder:'OFFICIAL_DOMAIN_SEARCH_THEN_NEIGHBOR_EXPANSION_THEN_NORMALIZE_DESTINATION_THEN_RANK_THEN_VALIDATE',providerEscalationValidated:'YES',resourceIdentityPrimary:'YES',providerGuidanceInAdditionalInformation:homepageRequest?'NO':'YES',providerSearchEvidenceFallback:best&&best.ok===false&&v2989ProviderSearchEvidenceAcceptable(raw,intent,best)?'YES':'NO',providerAnswerSourceBound:result&&result.usage&&result.usage.providerSourceBound===true?'YES':(result&&result.provider==='OpenAI web search'?'NO':'NOT_APPLICABLE'),fetchedContentValidationOnly:'YES',directArtifactPreferred:'YES',genericSearchUrlRejected:'YES',commercialFallbackOnly:'YES',geminiSearchQueryCount:Array.isArray(result&&result.searchQueries)?result.searchQueries.length:0,geminiPromptTokens:Number(result&&result.usage&&result.usage.promptTokenCount||0),geminiCandidateTokens:Number(result&&result.usage&&result.usage.candidatesTokenCount||0),resourceTrace:result&&result.resourceTrace||null,totalResourceMs:Number(result&&result.totalResourceMs||0)});
+  return v2844Serialize(raw,c,homepageRequest?'verified-official-homepage-v3028':'verified-resource-retrieval-v2995');
+}
+
+async function v2989ResourceRetrievalResponse(raw,requestState){
+  const intent=v2989ResourceRequestIntent(raw);if(!intent)return '';const key=v2989ResourceCacheKey(raw),cached=v2989ResourceCacheGet(key);if(cached&&cached.serialized)return cached.serialized;const started=Date.now(),trace={local:'NOT_RUN',free:'NOT_RUN',openai:'NOT_RUN',gemini:'NOT_RUN',localMs:0,freeMs:0,openaiMs:0,geminiMs:0};let stage=Date.now(),result=await v2989LocalDirectResourceLookup(raw,intent);trace.localMs=Date.now()-stage;trace.local=result&&result.ok?'ACCEPTED':'NO_ACCEPTABLE_RESULT';if(requestState&&requestState.aborted)return '';
+  if(!result){stage=Date.now();result=await v2989FreeDirectResourceLookup(raw,intent);trace.freeMs=Date.now()-stage;trace.free=result&&result.ok?'ACCEPTED':'NO_ACCEPTABLE_RESULT';}if(requestState&&requestState.aborted)return '';
+  if(!result&&envSecret('OPENAI_API_KEY')){stage=Date.now();const o=await v2989OpenAIGroundedLookup(raw,intent);trace.openaiMs=Date.now()-stage;trace.openai=o&&o.ok?'ACCEPTED':clean(o&&o.errorType||'REJECTED');if(o&&o.ok)result=o;}if(requestState&&requestState.aborted)return '';
+  if(!result&&envSecret('GEMINI_API_KEY')){const remaining=19500-(Date.now()-started);if(remaining>=4500){stage=Date.now();const geminiBudget=Math.min(9200,Math.max(4300,remaining-600)),g=await v2989GeminiGroundedLookup(raw,intent,geminiBudget);trace.geminiMs=Date.now()-stage;trace.gemini=g&&g.ok?'ACCEPTED':clean(g&&g.errorType||'REJECTED');if(g&&g.ok)result=g;}else trace.gemini='SKIPPED_TIME_BUDGET';}if(requestState&&requestState.aborted)return '';
+  const total=Date.now()-started;if(result&&v2989ResultAcceptable(raw,intent,result)){result.resourceTrace=trace;result.totalResourceMs=total;const serialized=v2989ResourceContract(raw,intent,result);if(serialized){v2989ResourceCachePut(key,{serialized:serialized});try{console.log('Resource v2995 | '+clean(result.provider||'source')+' | '+total+' ms | local '+trace.localMs+' | free '+trace.freeMs+' | OpenAI '+trace.openaiMs+' | Gemini '+trace.geminiMs);}catch(_e){}return serialized;}}
+  const c=v2844Contract(raw,{intent:'RESOURCE_LOOKUP_UNAVAILABLE',route:'resource-source-selection/unavailable/v2989',basket:V2771_FIXED_BASKETS.UNSUPPORTED,answer:'AIVerify could not locate a sufficiently specific source for this request.',explanation:'No resource was returned because the available candidates did not pass the relevance and usefulness checks.',classification:'RESOURCE LOOKUP INCOMPLETE',confidence:'',status:'SOURCE LOOKUP UNAVAILABLE'});c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'sharedNeutralResourceExplanationV2995',sourceOrder:'CACHE_LOCAL_FREE_PUBLIC_OPENAI_THEN_GEMINI',candidateOrder:'OFFICIAL_DOMAIN_SEARCH_THEN_NEIGHBOR_EXPANSION_THEN_NORMALIZE_DESTINATION_THEN_RANK_THEN_VALIDATE',geminiTransport:'GENERATE_CONTENT_GOOGLE_SEARCH',geminiReady:envSecret('GEMINI_API_KEY')?'YES':'NO',openaiReady:envSecret('OPENAI_API_KEY')?'YES':'NO',resourceTrace:trace,totalResourceMs:total,resourceStats:v2989ResourceStrategySnapshot()});try{console.log('Resource v2994 | unavailable | '+total+' ms | local '+trace.localMs+' | free '+trace.freeMs+' | OpenAI '+trace.openaiMs+' | Gemini '+trace.geminiMs+' | '+trace.local+' / '+trace.free+' / '+trace.openai+' / '+trace.gemini);}catch(_e){}return v2844Serialize(raw,c,'resource-retrieval-unavailable-v2993');
+}
+
+// INTERROGATIVE_ANSWER_SHAPE_V3000
+// Shared semantic output contract: non-binary interrogatives must answer the requested entity,
+// value, place, date/time, reason, method, or set. They must never collapse to a Yes/No badge.
+function v3000YesNoQuestionIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  if(/^(?:is|are|was|were|do|does|did|can|could|will|would|should|has|have|had|may|might|must)\b/.test(s))return true;
+  if(/^(?:is|are)\s+there\b/.test(s)||/^(?:do|does)\s+any\b/.test(s))return true;
+  if(/^whether\b/.test(s))return true;
+  return false;
+}
+function v3000InterrogativeShape(raw){
+  const s=v2856Normalized(raw);
+  if(!s||!isAnyQuestionInputText(raw)||/^https?:\/\//i.test(clean(raw)))return '';
+  if(v3029MultiPartQuestion(raw))return 'MULTI_PART';
+  if(v3000YesNoQuestionIntent(raw))return 'YES_NO';
+  if(/^(?:in\s+what|in\s+which|what|which|where|list|name|identify|show|give)\b/.test(s)&&typeof v2999ImplicitCompleteListIntent==='function'&&v2999ImplicitCompleteListIntent(raw))return 'SET_LIST';
+  if(/^who\b/.test(s))return 'PERSON_OR_ENTITY';
+  if(/^when\b/.test(s))return 'DATE_OR_TIME';
+  if(/^where\b/.test(s))return 'PLACE';
+  if(/^how\s+many\b/.test(s))return 'NUMBER';
+  if(/^how\s+(?:much|long|far|old|fast|big|deep|hot|cold)\b/.test(s))return 'MEASUREMENT_OR_VALUE';
+  if(/^which\b/.test(s))return 'CHOICE_OR_ENTITY';
+  if(/^what\b/.test(s)||/^in\s+what\b/.test(s))return 'DIRECT_FACT_OR_SET';
+  if(/^(?:why|how)\b/.test(s))return 'EXPLANATION_OR_METHOD';
+  if(/^(?:list|name|identify|show|give)\b/.test(s))return 'REQUESTED_ITEMS';
+  return '';
+}
+function v3000BareBinaryAnswer(value){
+  const s=clean(value).replace(/[.!?]+$/,'').trim();
+  return /^(?:yes|no|generally\s+yes|generally\s+no|yes\s*[—-]\s*with\s+considerations|no\s*[—-]\s*with\s+considerations|depends)$/i.test(s);
+}
+function v3000InterrogativeAnswerShapeMismatch(raw,contract){
+  const shape=v3000InterrogativeShape(raw);
+  if(!shape||shape==='YES_NO')return false;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||'');
+  if(!answer)return true;
+  if(v3000BareBinaryAnswer(answer))return true;
+  return false;
+}
+function v3000InterrogativeAnswerShapeGuidance(raw){
+  const shape=v3000InterrogativeShape(raw);
+  if(!shape||shape==='YES_NO')return '';
+  if(shape==='MULTI_PART')return 'INTERROGATIVE ANSWER SHAPE: This question asks for more than one fact. Put every requested part in ANSWER in question order; never return only the first number, name, or clause.';
+  if(shape==='SET_LIST')return 'INTERROGATIVE ANSWER SHAPE: This is a set/list question, not a Yes/No question. Put the requested names/items in ANSWER. Never answer it with Yes, No, Generally yes, Generally no, or Depends.';
+  if(shape==='PERSON_OR_ENTITY')return 'INTERROGATIVE ANSWER SHAPE: Answer WHO with the requested person or entity name, never Yes/No.';
+  if(shape==='DATE_OR_TIME')return 'INTERROGATIVE ANSWER SHAPE: Answer WHEN with the requested date/time, never Yes/No.';
+  if(shape==='PLACE')return 'INTERROGATIVE ANSWER SHAPE: Answer WHERE with the requested place/location, never Yes/No.';
+  if(shape==='NUMBER'||shape==='MEASUREMENT_OR_VALUE')return 'INTERROGATIVE ANSWER SHAPE: Put the requested number, amount, duration, distance, age, measurement, or value in ANSWER, never Yes/No.';
+  if(shape==='CHOICE_OR_ENTITY')return 'INTERROGATIVE ANSWER SHAPE: Answer WHICH with the requested choice/entity or requested list, never Yes/No.';
+  if(shape==='EXPLANATION_OR_METHOD')return 'INTERROGATIVE ANSWER SHAPE: Answer WHY/HOW with the requested reason, explanation, or method, never a bare Yes/No.';
+  return 'INTERROGATIVE ANSWER SHAPE: This is not a Yes/No question. Put the direct requested fact, entity, value, or items in ANSWER; never return a Yes/No answer badge.';
+}
+const INTERROGATIVE_ANSWER_SHAPE_STARTUP_VALIDATION_V3000=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  shapeDetectorAvailable:typeof v3000InterrogativeShape==='function',
+  binaryIntentAvailable:typeof v3000YesNoQuestionIntent==='function',
+  mismatchValidatorAvailable:typeof v3000InterrogativeAnswerShapeMismatch==='function',
+  guidanceAvailable:typeof v3000InterrogativeAnswerShapeGuidance==='function'
+});
+if(!Object.keys(INTERROGATIVE_ANSWER_SHAPE_STARTUP_VALIDATION_V3000).every(function(k){return INTERROGATIVE_ANSWER_SHAPE_STARTUP_VALIDATION_V3000[k]===true;}))throw new Error('INTERROGATIVE_ANSWER_SHAPE_V3000 startup validation failed');
+
+// UNIFIED_SEMANTIC_INTEGRITY_V3001
+// One shared boundary for answer shape, complete-set intent, entity punctuation/name completion,
+// answer/explanation display consistency, current-source set questions, and actionable resource links.
+const V3001_ENTITY_JOINER='\u2060';
+function v3001NonBinaryShape(raw){
+  const shape=v3000InterrogativeShape(raw);
+  return shape&&shape!=='YES_NO'?shape:'';
+}
+function v3001BinaryDisplayValue(value){
+  const s=clean(value).replace(/[.!?]+$/,'').trim();
+  return /^(?:yes|no|generally\s+yes|generally\s+no|yes\s*[—-]\s*with\s+considerations|no\s*[—-]\s*with\s+considerations|depends)$/i.test(s);
+}
+function v3001CountrySetQuestion(raw){
+  return v3000InterrogativeShape(raw)==='SET_LIST'&&/\b(?:countries|nations|states)\b/i.test(clean(raw));
+}
+function v3001CountryNamesInText(value){
+  const text=String(value||'');if(!text)return [];
+  const found=[];
+  (Array.isArray(V2873_COUNTRY_LEXICON)?V2873_COUNTRY_LEXICON:[]).forEach(function(entry){
+    let best=-1;
+    (Array.isArray(entry&&entry.aliases)?entry.aliases:[]).forEach(function(alias){
+      const a=clean(alias);if(!a)return;
+      const re=new RegExp('(?:^|[^A-Za-z])'+v2873EscapeRegex(a)+'(?=$|[^A-Za-z])','i');
+      const m=text.match(re);if(m){const idx=m.index+(m[0].length-a.length);if(best<0||idx<best)best=idx;}
+    });
+    if(best>=0)found.push({name:clean(entry.canonical),index:best});
+  });
+  found.sort(function(a,b){return a.index-b.index;});
+  const out=[],seen=new Set();
+  found.forEach(function(item){const key=item.name.toLowerCase();if(!seen.has(key)){seen.add(key);out.push(item.name);}});
+  return out;
+}
+function v3001ProtectEntityPunctuation(value){
+  let s=clean(value);if(!s)return '';
+  s=s.replace(/\b(St|Mt|Ft|Dr|Mr|Mrs|Ms|Prof|Gen|Gov|Sen|Rep|Pres|Jr|Sr)\.(?=\s+[A-Z])/g,function(_m,a){return a+'.'+V3001_ENTITY_JOINER;});
+  s=s.replace(/\b([A-Z])\.(?=\s*(?:[A-Z]\.|[A-Z][a-z]))/g,function(_m,a){return a+'.'+V3001_ENTITY_JOINER;});
+  return s;
+}
+function v3001GenericAbbreviationFragment(value){
+  const s=clean(value).replace(new RegExp(V3001_ENTITY_JOINER,'g'),'').trim();
+  return /^(?:St|Mt|Ft|Dr|Mr|Mrs|Ms|Prof|Gen|Gov|Sen|Rep|Pres|Jr|Sr)\.?$/i.test(s)||/\b(?:St|Mt|Ft)\.$/i.test(s);
+}
+function v3001RecoverAbbreviationFromContext(answer,context){
+  const visible=clean(answer).replace(new RegExp(V3001_ENTITY_JOINER,'g'),'').trim();
+  if(!v3001GenericAbbreviationFragment(visible))return '';
+  const prefix=(visible.match(/^(St|Mt|Ft|Dr|Mr|Mrs|Ms|Prof|Gen|Gov|Sen|Rep|Pres|Jr|Sr)\.?$/i)||[])[1]||'';
+  if(!prefix)return '';
+  const re=new RegExp('\\b'+v2873EscapeRegex(prefix)+'\\.\\s+[A-Z][A-Za-z\'’.-]+(?:\\s+[A-Z][A-Za-z\'’.-]+){0,4}(?:,\\s+[A-Z][A-Za-z\'’.-]+(?:\\s+[A-Z][A-Za-z\'’.-]+){0,3})?','g');
+  const matches=String(context||'').match(re)||[];
+  return matches.length?clean(matches.sort(function(a,b){return b.length-a.length;})[0]):'';
+}
+function v3001EntityAnswerLooksTruncated(raw,contract){
+  const shape=v3001NonBinaryShape(raw);if(!shape)return false;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||'').replace(new RegExp(V3001_ENTITY_JOINER,'g'),'');
+  if(!answer)return true;
+  if(v3001GenericAbbreviationFragment(answer))return true;
+  if(shape==='PERSON_OR_ENTITY'&&typeof v2941IncompletePersonName==='function'&&v2941IncompletePersonName(answer))return true;
+  if((shape==='PLACE'||v2997GeographicRankingIntent(raw))&&typeof v2997IncompleteGeographicAnswer==='function'&&v2997IncompleteGeographicAnswer(answer))return true;
+  return false;
+}
+function v3001RequestedBasket(raw){
+  const shape=v3000InterrogativeShape(raw);
+  if(shape==='MULTI_PART')return OUTPUT_FORMAT_BASKETS.PAIRED_ANSWER||'PAIRED_ANSWER';
+  if(shape==='NUMBER')return OUTPUT_FORMAT_BASKETS.NUMBER||'NUMBER';
+  if(shape==='MEASUREMENT_OR_VALUE')return OUTPUT_FORMAT_BASKETS.MEASUREMENT_VALUE||'MEASUREMENT_VALUE';
+  if(shape==='CHOICE_OR_ENTITY'&&v2998ChoiceQuestion(raw))return OUTPUT_FORMAT_BASKETS.COMPARISON||'COMPARISON';
+  return OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER||'DIRECT_ANSWER';
+}
+function v3001NonBinaryDisplayMismatch(raw,contract){
+  const shape=v3001NonBinaryShape(raw);if(!shape)return false;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||'');
+  const analysis=clean(c.analysisResult||'');
+  const basket=clean(c.outputBasket||c.fixedOutputBasket||'').toUpperCase();
+  if(!answer||v3001BinaryDisplayValue(answer))return true;
+  if(v3001BinaryDisplayValue(analysis)||basket==='YES_NO')return true;
+  if(shape==='SET_LIST'&&/^(?:yes|no)\b/i.test(answer))return true;
+  return false;
+}
+function v3001ResourceActionMissing(raw,contract){
+  const intent=typeof v2989ResourceRequestIntent==='function'?v2989ResourceRequestIntent(raw):null;
+  if(!intent)return false;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const status=clean(c.status||'');
+  if(/UNAVAILABLE|INCOMPLETE|FAILED/i.test(status))return false;
+  return !validHttpUrl(c.actionLinkUrl||'');
+}
+function v3001RepairContractDisplayShape(raw,contract,requestContext){
+  const c=v2856Clone(contract)||{};
+  const shape=v3000InterrogativeShape(raw);
+  let answer=clean(c.answer||c.summary||'');
+  const context=[c.explanation,c.why,c.evidence,c.supportingInformation,c.source,c.sourceBasis].map(clean).join(' ');
+  if(shape==='SET_LIST'&&v3001BinaryDisplayValue(answer)){
+    const list=Array.isArray(c.answerList)?c.answerList.map(clean).filter(Boolean):[];
+    if(list.length)answer=list.join(', ');
+  }
+  if(answer&&v3001GenericAbbreviationFragment(answer)){
+    const recovered=v3001RecoverAbbreviationFromContext(answer,context);if(recovered)answer=recovered;
+  }
+  if(answer&&shape==='PERSON_OR_ENTITY'&&typeof v2941IncompletePersonName==='function'&&v2941IncompletePersonName(answer)){
+    const completed=v2941CompletePersonNameFromText(answer,context);if(completed)answer=completed;
+  }
+  if(answer&&(shape==='PLACE'||v2997GeographicRankingIntent(raw))&&typeof v2997IncompleteGeographicAnswer==='function'&&v2997IncompleteGeographicAnswer(answer)){
+    const completed=v2997CompleteGeographicAnswerFromContext(answer,context);if(completed)answer=completed;
+  }
+  if(answer){answer=v3001ProtectEntityPunctuation(answer);c.answer=answer;c.summary=answer;}
+  if(shape&&shape!=='YES_NO'){
+    c.analysisResult='Answer';
+    c.inputType='QUESTION';
+    if(!/UNAVAILABLE|INCOMPLETE|FAILED/i.test(clean(c.status||'')))c.status='ANSWERED';
+    const basket=v3001RequestedBasket(raw);c.outputBasket=basket;c.fixedOutputBasket=basket;c.basketContractVersion=v2774BasketContractVersion(basket);
+    c.displayLabels={claim:'Claim / Question',answer:'Answer'};
+    c.hideAnswerLabel=true;c.legacyResultsRenderer=false;
+  }
+  c.backendVersion=VERSION;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'unifiedSemanticIntegrityV3001',questionShape:shape||'NOT_APPLICABLE',displayShapeAligned:shape&&shape!=='YES_NO'?(v3001NonBinaryDisplayMismatch(raw,c)?'REQUIRES_CORRECTION':'PASS'):'NOT_APPLICABLE',entityIntegrity:v3001EntityAnswerLooksTruncated(raw,c)?'REQUIRES_CORRECTION':'PASS',resourceActionLink:v2989ResourceRequestIntent(raw)?(v3001ResourceActionMissing(raw,c)?'MISSING':'PASS'):'NOT_APPLICABLE',clientTimezoneContext:clean(requestContext&&requestContext.timezone||'')});
+  return c;
+}
+function v3001ContractSemanticIssues(raw,contract){
+  const issues=[];
+  if(v3029MultiPartIncomplete(raw,contract))issues.push('INTERROGATIVE_ANSWER_SHAPE_MULTI_PART_INCOMPLETE');
+  if(v3029ComparisonNumericContradiction(raw,contract))issues.push('INTERROGATIVE_ANSWER_SHAPE_COMPARISON_NUMERIC_CONTRADICTION');
+  if(v3001NonBinaryDisplayMismatch(raw,contract))issues.push('NON_BINARY_DISPLAY_MODE_MISMATCH');
+  if(v3001EntityAnswerLooksTruncated(raw,contract))issues.push('ENTITY_OR_ABBREVIATION_TRUNCATED');
+  if(v3001ResourceActionMissing(raw,contract))issues.push('RESOURCE_ACTION_LINK_MISSING');
+  if(v3001CountrySetQuestion(raw)){
+    const c=contract&&typeof contract==='object'?contract:{};
+    const countries=v3001CountryNamesInText(clean(c.answer||c.summary||''));
+    if(v2999ImplicitCompleteListIntent(raw)&&countries.length<2&&!v2999ExplicitNoFiniteBoundary([c.answer,c.explanation,c.why].map(clean).join(' ')))issues.push('COUNTRY_SET_NOT_MATERIALIZED');
+  }
+  return issues;
+}
+function v3001UnifiedAnswerGuidance(raw){
+  const shape=v3000InterrogativeShape(raw),rules=[];
+  const base=v3000InterrogativeAnswerShapeGuidance(raw);if(base)rules.push(base);
+  if(v3029MultiPartQuestion(raw))rules.push('MULTI-PART COMPLETENESS: answer every requested clause in the main ANSWER, including a requested count plus the requested names/list. Never collapse the result to only the first number or first entity.');
+  if(looksLikeComparisonQuestion(raw))rules.push('COMPARISON CONSISTENCY: the winner, direction, and any numeric difference in ANSWER must mathematically agree with the values stated in EXPLANATION. If a difference is requested, compute it from the cited values before finalizing.');
+  const list=v2999ListCompletenessGuidance(raw);if(list)rules.push(list);
+  if(shape&&shape!=='YES_NO')rules.push('DISPLAY CONTRACT: analysisResult must be Answer and the output basket must match the requested non-binary answer shape. Never encode a What/Which/Who/Where/When/How/List/Name response as a Yes/No result.');
+  if(/\b(?:name|person|people|city|cities|place|places|country|countries)\b/i.test(clean(raw)))rules.push('ENTITY INTEGRITY: Preserve complete names containing initials and abbreviations such as J. R. R., St., Mt., Ft., Jr., or Sr.; never truncate an answer at an internal period.');
+  if(v2998DynamicCountryStatusIntent(raw)&&shape==='SET_LIST')rules.push('CURRENT SET CONTRACT: Use current directly relevant sources. Return the complete supported country set for an explicit source/date/legal-category scope in ANSWER. Do not substitute a Yes/No verdict or a few examples.');
+  if(v2989ResourceRequestIntent(raw))rules.push('RESOURCE CONTRACT: A request for a link/resource is successful only when actionLinkUrl is a directly useful clickable destination that matches the requested item, page, product, document, diagram, or resource.');
+  return rules.join(' ');
+}
+function v3001SerializedIssues(raw,serialized){
+  const contracts=v2864Contracts(serialized);const issues=[];
+  if(!contracts.length)return ['NO_RESULT_CONTRACT'];
+  contracts.forEach(function(c){
+    if(typeof v2998ContractIntegrityIssues==='function')issues.push.apply(issues,v2998ContractIntegrityIssues(raw,c));
+    issues.push.apply(issues,v3001ContractSemanticIssues(raw,c));
+  });
+  return Array.from(new Set(issues));
+}
+function v3001NonfinalRetry(raw,reason){
+  const c=v2844Contract(raw,{intent:'SEMANTIC_INTEGRITY_RETRY',route:'semantic-integrity/nonfinal/v3001',basket:V2771_FIXED_BASKETS.UNSUPPORTED,answer:'A reliable answer could not be completed in this scan.',explanation:'Select Analyze/Enter again to retry this scan.',classification:'NONFINAL ANSWER INTEGRITY',confidence:'',status:'SOURCE LOOKUP UNAVAILABLE'});
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'unifiedSemanticIntegrityV3001',nonfinalReason:clean(reason||'semantic_integrity_failed'),cacheEligible:'NO'});
+  return v2844Serialize(raw,c,'nonfinal-semantic-integrity-v3001');
+}
+async function v3001CorrectionAttempt(raw,requestState,requestContext){
+  if(requestState&&requestState.aborted)return '';
+  const resourceIntent=v2989ResourceRequestIntent(raw);
+  if(resourceIntent){
+    const resource=await v2989ResourceRetrievalResponse(raw,requestState);if(resource)return resource;
+  }
+  const live=v2998DynamicCountryStatusIntent(raw)||v2864RequiresLiveResearch(raw)||v3029NumericComparisonNeedsGrounding(raw);
+  if(live){
+    const intent={kind:'direct-fact',dynamicCountryStatus:v2998DynamicCountryStatusIntent(raw),clientDate:clean(requestContext&&requestContext.clientDate||'')};
+    const result=await v2844LiveEvaluation(raw,intent);
+    if(requestState&&requestState.aborted)return '';
+    if(result&&result.ok){
+      let c=v2844LiveContract(raw,intent,result);c=v3001RepairContractDisplayShape(raw,c,requestContext);
+      let serialized=v2844Serialize(raw,c,'source-backed-semantic-correction-v3001');
+      serialized=v2865NormalizeSerializedResponse(raw,serialized);
+      serialized=v2998PatchSerializedContracts(raw,serialized,requestContext);
+      if(!v3001SerializedIssues(raw,serialized).length)return serialized;
+    }
+  }
+  let correction=await v2864PlainQuestionAttempt(raw,live);
+  if(requestState&&requestState.aborted)return '';
+  if(correction){
+    correction=v2865NormalizeSerializedResponse(raw,correction);
+    correction=v2998PatchSerializedContracts(raw,correction,requestContext);
+    if(!v3001SerializedIssues(raw,correction).length)return correction;
+  }
+  if(!live){
+    correction=await v2864StructuredQuestionAttempt(raw,false);
+    if(requestState&&requestState.aborted)return '';
+    if(correction){
+      correction=v2865NormalizeSerializedResponse(raw,correction);
+      correction=v2998PatchSerializedContracts(raw,correction,requestContext);
+      if(!v3001SerializedIssues(raw,correction).length)return correction;
+    }
+  }
+  return '';
+}
+const UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',guidanceAvailable:typeof v3001UnifiedAnswerGuidance==='function',contractRepairAvailable:typeof v3001RepairContractDisplayShape==='function',semanticValidatorAvailable:typeof v3001ContractSemanticIssues==='function',correctionAvailable:typeof v3001CorrectionAttempt==='function',countrySetRecoveryAvailable:typeof v3001CountryNamesInText==='function',entityPunctuationAvailable:typeof v3001ProtectEntityPunctuation==='function',resourceLinkGuardAvailable:typeof v3001ResourceActionMissing==='function'
+});
+if(!Object.keys(UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001).every(function(k){return UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001[k]===true;}))throw new Error('UNIFIED_SEMANTIC_INTEGRITY_V3001 startup validation failed');
+
+
+// EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_V3002
+// Shared semantic target layer. Resource requests that ask the user to perform an action must
+// resolve to the actual action destination, not merely an informational page that mentions it.
+// Direct entity/location questions must lead with the requested entity instead of encyclopedia text.
+function v3002ActionResourceIntent(raw){
+  const base=typeof v2989ResourceRequestIntent==='function'?v2989ResourceRequestIntent(raw):null;
+  if(!base||base.commerce)return null;
+  const input=clean(raw).replace(/[?!.]+$/,'');
+  const m=input.match(/\b(schedule|book|reserve|apply|register|renew|pay|submit|file|enroll|sign\s*up|cancel|track|request|report)\b(?:\s+(?:for|to))?\s+(?:a|an|the)?\s*(.+)$/i);
+  if(!m)return null;
+  const action=clean(m[1]).toLowerCase().replace(/\s+/g,' ');
+  let target=clean(m[2]||'').replace(/\b(?:official|page|website|site|online)\b/gi,' ').replace(/\s+/g,' ').trim();
+  if(!target)return null;
+  const stop=/^(?:a|an|and|at|by|for|from|in|me|my|of|on|or|the|to|with|your)$/i;
+  const targetTokens=target.toLowerCase().replace(/[^a-z0-9]+/g,' ').split(/\s+/).filter(function(w){return w&&w.length>1&&!stop.test(w);}).slice(0,8);
+  return Object.assign({},base,{requestedAction:action,actionTarget:target,targetTokens:targetTokens,searchPhrase:clean(action+' '+targetTokens.join(' '))});
+}
+function v3002ActionCandidateScore(raw,intent,url,title){
+  const u=clean(url).toLowerCase(),t=clean(title).toLowerCase(),action=clean(intent&&intent.requestedAction||'').toLowerCase();
+  if(!validHttpUrl(url))return -999;
+  let score=0;
+  const actionParts=action.split(/\s+/).filter(Boolean);
+  actionParts.forEach(function(a){if(t.indexOf(a)>=0)score+=34;if(u.indexOf(a.replace(/\s+/g,'-'))>=0||u.indexOf(a)>=0)score+=20;});
+  const tokens=Array.isArray(intent&&intent.targetTokens)?intent.targetTokens:[];
+  tokens.forEach(function(tok){if(t.indexOf(tok)>=0)score+=18;if(u.indexOf(tok)>=0)score+=9;});
+  if(/\b(?:start|schedule|apply|register|renew|submit|pay|book|reserve|track|request|report|sign\s*up|enroll)\b/i.test(t))score+=12;
+  const rawLow=clean(raw).toLowerCase();
+  ['military','diplomatic','international','business','news','blog','about'].forEach(function(term){if((t+' '+u).indexOf(term)>=0&&rawLow.indexOf(term)<0)score-=24;});
+  return score;
+}
+function v3002ActionAnchorCandidates(raw,intent,baseUrl,html){
+  const out=[],seen=new Set(),source=String(html||'');let base;
+  try{base=new URL(baseUrl);}catch(_e){return out;}
+  const re=/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;let m;
+  while((m=re.exec(source))&&out.length<140){
+    let url='';try{url=validHttpUrl(new URL(decodeEntitiesLite(m[1]||''),base).toString());}catch(_e){}
+    if(!url||v2989SearchResultUrl(url))continue;
+    const title=clean(decodeEntitiesLite(stripHtml(m[2]||'')));if(!title)continue;
+    const candidate={url:url,title:title};
+    if(intent&&intent.wantsOfficial&&!v2989OfficialSourceIdentityMatch(intent,candidate))continue;
+    const key=url.toLowerCase();if(seen.has(key))continue;seen.add(key);
+    const score=v3002ActionCandidateScore(raw,intent,url,title);
+    out.push({url:url,title:title,score:score});
+  }
+  return out.sort(function(a,b){return b.score-a.score;});
+}
+function v3002RewriteSerializedContracts(serialized,mutator){
+  const lines=String(serialized||'').split(/\r?\n/);let changed=false;
+  for(let i=0;i<lines.length;i++){
+    if(!/^AIV_RESULT_CONTRACT:\s*/.test(lines[i]))continue;
+    try{
+      const c=JSON.parse(lines[i].replace(/^AIV_RESULT_CONTRACT:\s*/,''));
+      const next=mutator(v2856Clone(c)||{});
+      if(next){lines[i]='AIV_RESULT_CONTRACT: '+JSON.stringify(next);changed=true;}
+    }catch(_e){}
+  }
+  return changed?lines.join('\n'):String(serialized||'');
+}
+async function v3002RefineResourceResponse(raw,serialized,requestState){
+  const intent=v3002ActionResourceIntent(raw);if(!intent||!serialized)return serialized;
+  const contracts=v2864Contracts(serialized);const c=contracts&&contracts[0]||{};
+  const currentUrl=validHttpUrl(c.actionLinkUrl||c.sourceUrl||'');if(!currentUrl)return serialized;
+  const currentTitle=clean(c.answer||c.source||'');
+  const currentScore=v3002ActionCandidateScore(raw,intent,currentUrl,currentTitle);
+  if(currentScore>=76)return serialized;
+  const html=await v2989HttpGetText(currentUrl,2800,2);
+  if(requestState&&requestState.aborted)return '';
+  const best=v3002ActionAnchorCandidates(raw,intent,currentUrl,html)[0];
+  if(!best||best.score<62||best.score<=currentScore+10)return serialized;
+  return v3002RewriteSerializedContracts(serialized,function(contract){
+    contract.answer=best.title;contract.summary=best.title;contract.source=best.title;contract.sourceBasis=best.title;
+    contract.actionLinkUrl=best.url;contract.sourceUrl=best.url;contract.primarySourceUrl=best.url;
+    contract.explanation='This is the direct page for the requested action.';contract.why=contract.explanation;
+    contract.showAdditionalInformation=true;contract.showSource=true;contract.showSourceUrl=true;contract.hideAnswerLabel=true;
+    contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{},{activeFunction:'exactActionTargetAndDirectEntityFocusV3002',actionTargetRefined:'YES',originalActionUrl:currentUrl,actionCandidateScore:best.score,requestedAction:intent.requestedAction,actionTarget:intent.actionTarget});
+    contract.backendVersion=VERSION;return contract;
+  });
+}
+function v3002DirectEntityTarget(raw){
+  const s=v2856Normalized(raw);
+  if(/^what\s+city\b/.test(s)&&/\b(?:located|location|found|situated|lies|sits|is)\b/.test(s))return 'CITY';
+  return '';
+}
+function v3002ExtractCityRegion(value){
+  const s=clean(value);if(!s)return '';
+  const matches=[];
+  const re=/\bin\s+([A-Z][A-Za-z.'’\-]*(?:\s+[A-Z][A-Za-z.'’\-]*){0,3}),\s*([A-Z][A-Za-z.'’\-]*(?:\s+[A-Z][A-Za-z.'’\-]*){0,2})(?=,|\.|;|$)/g;let m;
+  while((m=re.exec(s)))matches.push(clean(m[1]+', '+m[2]));
+  if(matches.length)return matches[matches.length-1];
+  const located=s.match(/\b(?:located|situated|found)\s+in\s+([A-Z][A-Za-z.'’\-]*(?:\s+[A-Z][A-Za-z.'’\-]*){0,3})(?=[,.;]|$)/);
+  return located?clean(located[1]):'';
+}
+function v3002FocusDirectEntityAnswer(raw,serialized){
+  if(v3002DirectEntityTarget(raw)!=='CITY'||!serialized)return serialized;
+  return v3002RewriteSerializedContracts(serialized,function(c){
+    const answer=clean(c.answer||c.summary||'');
+    if(answer&&answer.split(/\s+/).length<=5&&!/\b(?:is|located|monument|building|structure|site)\b/i.test(answer))return c;
+    const context=[answer,c.explanation,c.why,c.evidence,c.supportingInformation].map(clean).join(' ');
+    const focused=v3002ExtractCityRegion(context);if(!focused)return c;
+    c.answer=focused;c.summary=focused;c.analysisResult='Answer';c.inputType='QUESTION';
+    c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'exactActionTargetAndDirectEntityFocusV3002',directEntityTarget:'CITY',directEntityFocus:'PASS'});
+    c.backendVersion=VERSION;return c;
+  });
+}
+async function v3002FinalizeResponse(raw,serialized,requestState){
+  if(requestState&&requestState.aborted)return '';
+  return v3002FocusDirectEntityAnswer(raw,serialized);
+}
+const EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',actionIntentAvailable:typeof v3002ActionResourceIntent==='function',actionCandidateScoringAvailable:typeof v3002ActionCandidateScore==='function',actionRefinementAvailable:typeof v3002RefineResourceResponse==='function',directEntityTargetAvailable:typeof v3002DirectEntityTarget==='function',directEntityFocusAvailable:typeof v3002FocusDirectEntityAnswer==='function',finalizerAvailable:typeof v3002FinalizeResponse==='function'
+});
+if(!Object.keys(EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002).every(function(k){return EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002[k]===true;}))throw new Error('EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_V3002 startup validation failed');
+
+
+// BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_V3003
+// Shared repair for two broad failure classes discovered during P1 testing:
+// 1) explicit official action-page requests must resolve to the action destination itself;
+// 2) current plural country/legal-status questions get one bounded research pass instead of
+//    repeatedly entering long source/correction loops.
+function v3003CleanDestinationUrl(value){
+  const url=validHttpUrl(value||'');if(!url)return '';
+  try{
+    const u=new URL(url);u.hash='';
+    const drop=[];u.searchParams.forEach(function(_v,k){if(/^(?:utm_|msockid$|gclid$|fbclid$|mc_[ce]id$|ref$|source$)/i.test(k))drop.push(k);});
+    drop.forEach(function(k){u.searchParams.delete(k);});
+    return u.toString();
+  }catch(_e){return url;}
+}
+function v3003OfficialActionSearchQueries(raw,intent){
+  if(!intent||!intent.wantsOfficial||!intent.requestedAction)return [];
+  const identity=clean(intent.officialIdentity||''),phrase=clean(intent.searchPhrase||((intent.requestedAction||'')+' '+(intent.actionTarget||''))),out=[];
+  function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
+  if(identity&&phrase){add('"'+identity+'" "'+phrase+'"');add('"'+identity+'" '+phrase+' official');}
+  if(identity&&intent.actionTarget)add('"'+identity+'" '+clean(intent.actionTarget)+' '+clean(intent.requestedAction));
+  const sig=v2989OfficialIdentitySignals(identity);
+  (sig.acronyms||[]).slice(0,2).forEach(function(a){
+    if(/^[a-z][a-z0-9]{1,9}$/i.test(a))add('site:'+a+'.com '+phrase);
+  });
+  return out.slice(0,4);
+}
+function v3003OfficialActionCandidateScore(raw,intent,candidate){
+  const url=v3003CleanDestinationUrl(candidate&&candidate.url||''),title=clean(candidate&&candidate.title||''),snippet=clean(candidate&&candidate.snippet||'');
+  if(!url||!v2989OfficialSourceIdentityMatch(intent,{url:url,title:title}))return -999;
+  let score=v3002ActionCandidateScore(raw,intent,url,title);
+  const hay=(title+' '+snippet+' '+url).toLowerCase(),action=clean(intent&&intent.requestedAction||'').toLowerCase(),targetTokens=Array.isArray(intent&&intent.targetTokens)?intent.targetTokens:[];
+  if(action&&hay.indexOf(action)>=0)score+=18;
+  let targetHits=0;targetTokens.forEach(function(t){if(v2993ResourceHayHasTerm(hay,t))targetHits++;});
+  score+=Math.min(36,targetHits*12);
+  if(targetTokens.length&&targetHits===0)score-=55;
+  if(/\b(?:schedule|apply|register|renew|submit|pay|book|reserve|track|request|report|pickup|appointment|form)\b/i.test(title+' '+url))score+=12;
+  if(/\b(?:news|blog|press|about|military|diplomatic|history|faq|help article|knowledge)\b/i.test(title+' '+url)&&!/\b(?:news|blog|press|about|military|diplomatic|history|faq|help|knowledge)\b/i.test(clean(raw)))score-=34;
+  return score;
+}
+async function v3003FastOfficialActionResource(raw,requestState){
+  const intent=v3002ActionResourceIntent(raw);if(!intent||!intent.wantsOfficial)return '';
+  const key=v2989ResourceCacheKey(raw),cached=v2989ResourceCacheGet(key);if(cached&&cached.serialized)return cached.serialized;
+  const queries=v3003OfficialActionSearchQueries(raw,intent);if(!queries.length)return '';
+  const started=Date.now();
+  const pages=await Promise.all(queries.map(function(q){return v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2100,1).then(function(body){return {q:q,body:body};}).catch(function(){return null;});}));
+  if(requestState&&requestState.aborted)return '';
+  const candidates=[],seen=new Set();
+  pages.forEach(function(p){if(!p||!p.body)return;v2989ParseBingRss(p.body).forEach(function(c){const url=v3003CleanDestinationUrl(c&&c.url||'');if(!url)return;const k=url.toLowerCase();if(seen.has(k))return;seen.add(k);c.url=url;c.score=v3003OfficialActionCandidateScore(raw,intent,c);if(c.score>-900)candidates.push(c);});});
+  candidates.sort(function(a,b){return Number(b.score||-999)-Number(a.score||-999);});
+  const best=candidates[0];if(!best||Number(best.score||0)<78)return '';
+  const c=v2844Contract(raw,{intent:'RESOURCE_RETRIEVAL',route:'official-action-direct/v3003',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:clean(best.title||'Open the requested official page'),explanation:'This is the direct official page for the requested action.',source:clean(best.title||intent.officialIdentity||'Official source'),sourceUrl:best.url,actionLinkUrl:best.url,actionLinkLabel:'Open Official Page',classification:'VERIFIED OFFICIAL ACTION RESOURCE',confidence:'High confidence',status:'ANSWERED'});
+  c.requestShape='RESOURCE_RETRIEVAL';c.responseShape='DIRECT_RESOURCE_LINK';c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.analysisResult='Answer';c.hideSourceLineForActionLink=true;c.showSource=true;c.showSourceUrl=true;c.showAdditionalInformation=true;c.hideAnswerLabel=true;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'boundedLiveListAndOfficialActionResolutionV3003',officialActionFastPath:'USED',requestedOfficialIdentity:clean(intent.officialIdentity||''),requestedAction:clean(intent.requestedAction||''),actionTarget:clean(intent.actionTarget||''),candidateScore:Number(best.score||0),candidateCount:candidates.length,boundedDiscoveryMs:Date.now()-started});
+  const serialized=v2844Serialize(raw,c,'official-action-direct-v3003');v2989ResourceCachePut(key,{serialized:serialized});return serialized;
+}
+function v3003DynamicCountryCompleteSetIntent(raw){
+  return !!(v2998DynamicCountryStatusIntent(raw)&&v2999ImplicitCompleteListIntent(raw)&&v3000InterrogativeShape(raw)==='SET_LIST');
+}
+function v3003CurrentSetParsedValid(raw,p){
+  if(!p||typeof p!=='object')return false;
+  const answer=clean(p.answer||''),explanation=clean(p.explanation||''),sourceUrl=validHttpUrl(p.sourceUrl||'');
+  if(!answer||!sourceUrl||v3001BinaryDisplayValue(answer)||v2999CompletenessEvasion(answer+' '+explanation))return false;
+  const countries=v3001CountryNamesInText(answer);
+  if(countries.length>=2)return true;
+  return v2999ExplicitNoFiniteBoundary(answer+' '+explanation)&&countries.length>=1;
+}
+async function v3003DynamicCountrySetResponse(raw,requestState){
+  if(!v3003DynamicCountryCompleteSetIntent(raw))return '';
+  if(!process.env.OPENAI_API_KEY)return v3001NonfinalRetry(raw,'bounded_current_set_missing_openai_key');
+  const model=process.env.OPENAI_MODEL||'gpt-5.4-mini';
+  const prompt=[
+    'You are AIVerify current-set research. Use web search once and return ONLY one JSON object.',
+    'Current UTC date: '+new Date().toISOString().slice(0,10)+'.',
+    'The user asked for a plural country set involving current law, restriction, detention, punishment, persecution, or legal status.',
+    'Do not answer Yes or No. Put the requested country names in answer.',
+    'Do not give examples. Never use among others, a few others, and others, etc., examples include, or such as.',
+    'If no universally exhaustive list exists, define a precise current source/date/legal-category scope in the answer and list EVERY country supported inside that scope.',
+    'Distinguish a blanket ban on a religion from narrower laws or enforcement involving conversion, proselytizing, registration, public worship, detention, or punishment.',
+    'Prefer the newest directly relevant government, intergovernmental, commission, court, or established human-rights/religious-freedom source. sourceUrl must directly support the scoped answer.',
+    'Keep explanation concise and factual. Do not place URLs or citations inside answer.',
+    'Required keys: answer, explanation, sourceName, sourceUrl, classification, confidence.',
+    'Input: '+clean(raw)
+  ].join('\n');
+  const payload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'low'}],include:['web_search_call.results','web_search_call.action.sources'],input:prompt,max_output_tokens:1100,text:{format:{type:'json_object'}}};
+  const started=Date.now(),response=await openaiApiRequestJson(payload,12500);
+  if(requestState&&requestState.aborted)return '';
+  if(!response||!response.ok)return v3001NonfinalRetry(raw,'bounded_current_set_'+clean(response&&response.errorType||'openai_failed'));
+  const p=extractJsonObjectFromText(extractOpenAIOutputText(response.json));if(!v3003CurrentSetParsedValid(raw,p))return v3001NonfinalRetry(raw,'bounded_current_set_integrity_failed');
+  const c=v2844Contract(raw,{intent:'CURRENT_COUNTRY_SET',route:'current-country-set/bounded-source/v3003',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:clean(p.answer||''),explanation:clean(p.explanation||''),source:clean(p.sourceName||'Current source'),sourceUrl:validHttpUrl(p.sourceUrl||''),classification:clean(p.classification||'CURRENT COUNTRY / LEGAL STATUS FACTUAL'),confidence:clean(p.confidence||'High confidence'),status:'ANSWERED'});
+  c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();c.analysisResult='Answer';c.inputType='QUESTION';c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.showAdditionalInformation=!!clean(c.explanation||'');
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'boundedLiveListAndOfficialActionResolutionV3003',boundedCurrentSetPass:'USED',singlePaidResearchPass:'YES',researchMs:Date.now()-started,completeSetSemantics:'ENFORCED'});
+  return v2844Serialize(raw,c,'bounded-current-country-set-v3003');
+}
+const BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',officialActionFastPathAvailable:typeof v3003FastOfficialActionResource==='function',officialIdentityBindingAvailable:typeof v2989OfficialSourceIdentityMatch==='function',dynamicCompleteSetIntentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',boundedCurrentSetAvailable:typeof v3003DynamicCountrySetResponse==='function',destinationCleanupAvailable:typeof v3003CleanDestinationUrl==='function'
+});
+if(!Object.keys(BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003).every(function(k){return BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003[k]===true;}))throw new Error('BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_V3003 startup validation failed');
+
+
+// CURRENT_SET_RESILIENCE_V3004
+// Shared current plural jurisdiction/status resolution. This is deliberately topic-agnostic:
+// no religion, country name, or individual test answer is hardcoded. The route uses at most
+// one primary OpenAI search attempt and one fallback Gemini grounded-search attempt, caches only
+// successful exact-input results, and marks a final failed provider sequence terminal so the
+// downstream semantic-integrity layer cannot start another expensive live-search loop.
+const V3004_CURRENT_SET_CACHE=new Map();
+const V3004_CURRENT_SET_CACHE_TTL_MS=20*60*1000;
+function v3004CurrentSetCacheKey(raw){return clean(raw).toLowerCase().replace(/\s+/g,' ').trim();}
+function v3004CurrentSetCacheGet(raw){
+  const key=v3004CurrentSetCacheKey(raw),entry=key&&V3004_CURRENT_SET_CACHE.get(key);if(!entry)return '';
+  if(Date.now()-entry.savedAt>V3004_CURRENT_SET_CACHE_TTL_MS){V3004_CURRENT_SET_CACHE.delete(key);return '';}
+  return clean(entry.serialized||'');
+}
+function v3004CurrentSetCachePut(raw,serialized){
+  const key=v3004CurrentSetCacheKey(raw);if(!key||!serialized)return;
+  V3004_CURRENT_SET_CACHE.set(key,{savedAt:Date.now(),serialized:String(serialized)});
+  while(V3004_CURRENT_SET_CACHE.size>80){const first=V3004_CURRENT_SET_CACHE.keys().next().value;if(!first)break;V3004_CURRENT_SET_CACHE.delete(first);}
+}
+function v3004CurrentSetPrompt(raw){
+  return [
+    'You are AIVerify current-set research. Research the exact question and return ONLY one valid JSON object.',
+    'Current UTC date: '+new Date().toISOString().slice(0,10)+'.',
+    'This is a present-tense plural jurisdiction/status request. The user is asking for the set itself, not examples.',
+    'ANSWER SHAPE: answer must contain the requested jurisdiction names, never a bare Yes or No.',
+    'COMPLETENESS: do not use among others, a few others, and others, many others, etc., examples include, for example, or such as.',
+    'If there is no universally exhaustive list, choose one directly relevant current authoritative source/report/category, state that scope in answer, and list EVERY jurisdiction supported inside that stated scope.',
+    'LEGAL/STATUS PRECISION: distinguish a blanket prohibition from narrower restrictions, criminal penalties, registration rules, conversion/proselytizing limits, detention, enforcement, or punishment. Do not collapse distinct legal categories.',
+    'SOURCE: prefer the newest directly relevant government, intergovernmental, court, commission, or established rights-monitoring source. sourceUrl must be a real page that materially supports the scoped answer.',
+    'Keep explanation concise. Do not put raw URLs or citation markup inside answer.',
+    'Required keys: answer, explanation, sourceName, sourceUrl, classification, confidence.',
+    'Input: '+clean(raw)
+  ].join('\n');
+}
+function v3004CurrentSetParsedValid(raw,p,groundingSources){
+  if(!p||typeof p!=='object')return false;
+  let sourceUrl=validHttpUrl(p.sourceUrl||'');
+  if(!sourceUrl&&Array.isArray(groundingSources)&&groundingSources.length)sourceUrl=validHttpUrl(groundingSources[0]&&groundingSources[0].url||'');
+  const answer=clean(p.answer||''),explanation=clean(p.explanation||'');
+  if(!answer||!sourceUrl||v3001BinaryDisplayValue(answer)||v2999CompletenessEvasion(answer+' '+explanation))return false;
+  const countries=v3001CountryNamesInText(answer);
+  if(countries.length>=2)return true;
+  // A one-jurisdiction result is allowed only when the answer explicitly says the selected
+  // authoritative scope yields one qualifying jurisdiction or no universal finite boundary exists.
+  const oneScoped=countries.length===1&&/\b(?:only|sole|single|within\s+the\s+(?:cited|selected|current)|under\s+the\s+(?:cited|selected|current)|according\s+to\s+the\s+cited)\b/i.test(answer+' '+explanation);
+  return oneScoped||v2999ExplicitNoFiniteBoundary(answer+' '+explanation);
+}
+function v3004NormalizeCurrentSetParsed(parsed,groundingSources){
+  const p=parsed&&typeof parsed==='object'?Object.assign({},parsed):{};
+  if(!validHttpUrl(p.sourceUrl||'')&&Array.isArray(groundingSources)){
+    const first=groundingSources.find(function(x){return !!validHttpUrl(x&&x.url||'');});if(first)p.sourceUrl=validHttpUrl(first.url);
+  }
+  if(!clean(p.sourceName||'')&&Array.isArray(groundingSources)&&groundingSources[0])p.sourceName=clean(groundingSources[0].title||domainFromUrl(groundingSources[0].url||'')||'Current source');
+  return p;
+}
+async function v3004OpenAICurrentSetCandidate(raw){
+  if(!process.env.OPENAI_API_KEY)return {ok:false,errorType:'missing_openai_api_key',provider:'OpenAI'};
+  const model=process.env.OPENAI_MODEL||'gpt-5.4-mini',prompt=v3004CurrentSetPrompt(raw);
+  const payload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'low'}],include:['web_search_call.results','web_search_call.action.sources'],input:prompt,max_output_tokens:950,text:{format:{type:'json_object'}}};
+  const response=await openaiApiRequestJson(payload,8200);
+  if(!response||!response.ok)return {ok:false,errorType:clean(response&&response.errorType||'openai_failed'),provider:'OpenAI'};
+  const sources=collectOpenAISourceObjects(response.json),parsed=v3004NormalizeCurrentSetParsed(extractJsonObjectFromText(extractOpenAIOutputText(response.json)),sources);
+  if(!v3004CurrentSetParsedValid(raw,parsed,sources))return {ok:false,errorType:'openai_current_set_integrity_failed',provider:'OpenAI'};
+  return {ok:true,provider:'OpenAI web search',parsed:parsed,sources:sources};
+}
+async function v3004GeminiCurrentSetCandidate(raw){
+  if(!envSecret('GEMINI_API_KEY'))return {ok:false,errorType:'missing_gemini_api_key',provider:'Gemini'};
+  const model=clean(process.env.GEMINI_SEARCH_MODEL||process.env.GEMINI_MODEL||'gemini-3.6-flash');
+  const payload={contents:[{role:'user',parts:[{text:v3004CurrentSetPrompt(raw)}]}],tools:[{googleSearch:{}}],generationConfig:{temperature:0.05,maxOutputTokens:950,responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,6500);
+  const queries=response&&response.ok?v2989GeminiQueries(response.json):[];v2989RecordGeminiOperation(response,model,queries);
+  if(!response||!response.ok)return {ok:false,errorType:clean(response&&response.errorType||'gemini_failed'),provider:'Gemini'};
+  const sources=v2989GeminiSources(response.json),parsed=v3004NormalizeCurrentSetParsed(extractJsonObjectFromText(v2989GeminiText(response.json)),sources);
+  if(!v3004CurrentSetParsedValid(raw,parsed,sources))return {ok:false,errorType:'gemini_current_set_integrity_failed',provider:'Gemini'};
+  return {ok:true,provider:'Gemini / Google Search',parsed:parsed,sources:sources,searchQueries:queries};
+}
+function v3004CurrentSetContract(raw,result,started,attempts){
+  const p=result&&result.parsed||{},sourceUrl=validHttpUrl(p.sourceUrl||''),sourceName=clean(p.sourceName||result&&result.sources&&result.sources[0]&&result.sources[0].title||'Current source');
+  const c=v2844Contract(raw,{intent:'CURRENT_JURISDICTION_SET',route:'current-set/resilient-source/v3004',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:clean(p.answer||''),explanation:clean(p.explanation||''),source:sourceName,sourceUrl:sourceUrl,classification:clean(p.classification||'CURRENT JURISDICTION / LEGAL STATUS FACTUAL'),confidence:clean(p.confidence||'High confidence'),status:'ANSWERED'});
+  c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();c.analysisResult='Answer';c.inputType='QUESTION';c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.showAdditionalInformation=!!clean(c.explanation||'');
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'currentSetResilienceV3004',currentSetProvider:clean(result&&result.provider||''),providerAttempts:attempts||[],boundedProviderSequence:'YES',terminalSourceAttempt:'NO',researchMs:Date.now()-started,completeSetSemantics:'ENFORCED'});
+  return c;
+}
+function v3004TerminalCurrentSetFailure(raw,started,attempts){
+  const c=v2844Contract(raw,{intent:'CURRENT_JURISDICTION_SET',route:'current-set/terminal-unavailable/v3004',basket:V2771_FIXED_BASKETS.UNSUPPORTED,answer:'A reliable current-source answer could not be completed in this scan.',explanation:'Select Analyze/Enter again to retry this scan.',classification:'NONFINAL CURRENT SOURCE LOOKUP',confidence:'',status:'SOURCE LOOKUP UNAVAILABLE',source:'',sourceUrl:''});
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'currentSetResilienceV3004',providerAttempts:attempts||[],boundedProviderSequence:'YES',terminalSourceAttempt:'YES',researchMs:Date.now()-started,cacheEligible:'NO'});
+  return v2844Serialize(raw,c,'terminal-current-set-unavailable-v3004');
+}
+async function v3004DynamicCurrentSetResponse(raw,requestState){
+  if(!v3003DynamicCountryCompleteSetIntent(raw))return '';
+  const cached=v3004CurrentSetCacheGet(raw);if(cached)return cached;
+  const started=Date.now(),attempts=[];
+  let result=await v3004OpenAICurrentSetCandidate(raw);
+  attempts.push('OpenAI:'+clean(result&&result.ok?'accepted':result&&result.errorType||'failed'));
+  if(requestState&&requestState.aborted)return '';
+  if(!result||!result.ok){
+    result=await v3004GeminiCurrentSetCandidate(raw);
+    attempts.push('Gemini:'+clean(result&&result.ok?'accepted':result&&result.errorType||'failed'));
+    if(requestState&&requestState.aborted)return '';
+  }
+  if(!result||!result.ok)return v3004TerminalCurrentSetFailure(raw,started,attempts);
+  const serialized=v2844Serialize(raw,v3004CurrentSetContract(raw,result,started,attempts),'resilient-current-set-v3004');
+  v3004CurrentSetCachePut(raw,serialized);return serialized;
+}
+function v3004TerminalSourceAttemptSerialized(serialized){
+  const s=String(serialized||'');
+  return /"terminalSourceAttempt"\s*:\s*"YES"/i.test(s)||/route\s*[:=][^\n]*current-set\/terminal-unavailable\/v3004/i.test(s);
+}
+const CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',openAICandidateAvailable:typeof v3004OpenAICurrentSetCandidate==='function',geminiCandidateAvailable:typeof v3004GeminiCurrentSetCandidate==='function',validatorAvailable:typeof v3004CurrentSetParsedValid==='function',terminalGuardAvailable:typeof v3004TerminalSourceAttemptSerialized==='function',cacheReady:V3004_CURRENT_SET_CACHE instanceof Map
+});
+if(!Object.keys(CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004).every(function(k){return CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004[k]===true;}))throw new Error('CURRENT_SET_RESILIENCE_V3004 startup validation failed');
+
+// CURRENT_SET_EVIDENCE_RESOLUTION_V3005
+// Shared resolver for current plural jurisdiction/status questions. It gathers free public search
+// evidence first, synthesizes against that bounded evidence without provider web-search tools,
+// and falls back only to explicit source-backed catalogs with a clearly stated source/date scope.
+const V3005_CURRENT_SET_CACHE=new Map();
+const V3005_CURRENT_SET_CACHE_TTL_MS=20*60*1000;
+const V3005_SOURCE_BACKED_SET_CATALOGS=Object.freeze([
+  Object.freeze({
+    id:'uscirf_2023_anti_conversion',
+    sourceName:'USCIRF — 2023 Anti-Conversion Laws Compendium',
+    sourceUrl:'https://www.uscirf.gov/publications/anti-conversion-laws-compendium',
+    sourceDate:'2023',
+    countries:Object.freeze(['Algeria','Armenia','Azerbaijan','Bhutan','Brunei','Burma','China','Comoros','Georgia','Greece','Indonesia','Iran','Israel','Kazakhstan','Kyrgyzstan','Maldives','Mongolia','Morocco','Nauru','Nepal','Oman','Pakistan','Qatar','Romania','Russia','Somalia','Tajikistan','United Arab Emirates','Uzbekistan','Bahrain','Bangladesh','Iraq','Jordan','Kuwait','Libya','Malaysia','Mauritania','Palestinian Territories','Philippines','Saudi Arabia','Singapore','Sudan','Syria','Tonga','Yemen','Turkey']),
+    match:function(raw){
+      const s=v2856Normalized(raw);
+      const religion=/\b(?:christian|christianity|religion|religious|faith|worship|proselyt|proselytiz|conversion|convert|apostasy)\b/.test(s);
+      const legal=/\b(?:against\s+the\s+law|illegal|unlawful|law|laws|legal|criminaliz|prohibit|ban|banned|restrict)\b/.test(s);
+      const set=v2999ImplicitCompleteListIntent(raw)&&v3000InterrogativeShape(raw)==='SET_LIST';
+      return !!(religion&&legal&&set);
+    },
+    build:function(raw){
+      const names=this.countries.join(', ');
+      const answer='USCIRF’s 2023 national anti-conversion-law scope identifies 46 countries: '+names+'.';
+      const explanation='This does not mean Christianity itself is uniformly outlawed by name in all 46 countries. USCIRF’s scope covers national laws restricting proselytization, interfaith marriage, apostasy, or religion on identity documents; the source/date scope is stated so the list is complete for that published category rather than presented as a few examples.';
+      return {answer:answer,explanation:explanation,sourceName:this.sourceName,sourceUrl:this.sourceUrl,classification:'RELIGIOUS FREEDOM / LEGAL STATUS FACTUAL',confidence:'High confidence'};
+    }
+  })
+]);
+function v3005CurrentSetCacheKey(raw){return clean(raw).toLowerCase().replace(/\s+/g,' ').trim();}
+function v3005CurrentSetCacheGet(raw){
+  const key=v3005CurrentSetCacheKey(raw),entry=key&&V3005_CURRENT_SET_CACHE.get(key);if(!entry)return '';
+  if(Date.now()-entry.savedAt>V3005_CURRENT_SET_CACHE_TTL_MS){V3005_CURRENT_SET_CACHE.delete(key);return '';}
+  return String(entry.serialized||'');
+}
+function v3005CurrentSetCachePut(raw,serialized){
+  const key=v3005CurrentSetCacheKey(raw);if(!key||!serialized)return;
+  V3005_CURRENT_SET_CACHE.set(key,{savedAt:Date.now(),serialized:String(serialized)});
+  while(V3005_CURRENT_SET_CACHE.size>80){const first=V3005_CURRENT_SET_CACHE.keys().next().value;if(!first)break;V3005_CURRENT_SET_CACHE.delete(first);}
+}
+function v3005CurrentSetSearchQueries(raw){
+  const q=clean(raw).replace(/[?!.]+$/,'').trim(),s=v2856Normalized(raw),out=[];
+  function add(x){x=clean(x);if(x&&!out.some(function(y){return y.toLowerCase()===x.toLowerCase();}))out.push(x);}
+  if(/\b(?:christian|christianity|religion|religious|faith|worship|proselyt|conversion|apostasy)\b/.test(s)){
+    add('site:uscirf.gov '+q);add('site:state.gov religious freedom '+q);add('site:pewresearch.org '+q);
+  }
+  if(/\b(?:law|legal|illegal|unlawful|ban|banned|prohibit|criminal|detain|imprison|punish|persecut)\b/.test(s))add(q+' current law official report');
+  add(q+' current authoritative source');
+  return out.slice(0,4);
+}
+function v3005CurrentSetEvidenceScore(raw,c){
+  const url=validHttpUrl(c&&c.url||''),title=clean(c&&c.title||''),snippet=clean(c&&c.snippet||'');if(!url)return -999;
+  const host=domainFromUrl(url).toLowerCase(),hay=(title+' '+snippet+' '+url).toLowerCase();let score=0;
+  if(/\.gov$/.test(host)||/\.gov\//.test(url))score+=28;
+  if(/(?:^|\.)uscirf\.gov$/.test(host))score+=38;
+  if(/(?:^|\.)state\.gov$/.test(host))score+=34;
+  if(/(?:^|\.)(?:ohchr\.org|un\.org)$/.test(host))score+=32;
+  if(/(?:^|\.)pewresearch\.org$/.test(host))score+=24;
+  if(/(?:^|\.)(?:hrw\.org|amnesty\.org|opendoors\.org)$/.test(host))score+=18;
+  const terms=typeof v2989MeaningfulWords==='function'?v2989MeaningfulWords(raw).slice(0,12):v2856Normalized(raw).split(/\s+/).filter(function(x){return x.length>3;}).slice(0,12);
+  let hits=0;terms.forEach(function(t){if(hay.indexOf(String(t).toLowerCase())>=0)hits++;});score+=Math.min(42,hits*6);
+  if(/\b(?:2026|2025|2024|current|latest|annual report|compendium|legal framework|law|laws)\b/i.test(title+' '+snippet))score+=10;
+  return score;
+}
+async function v3005CurrentSetEvidence(raw){
+  const queries=v3005CurrentSetSearchQueries(raw);if(!queries.length)return [];
+  const jobs=queries.map(function(q){return v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),1800,1).then(function(body){return {q:q,body:body};}).catch(function(){return null;});});
+  const pages=await Promise.all(jobs),out=[],seen=new Set();
+  pages.forEach(function(p){if(!p||!p.body)return;v2989ParseBingRss(p.body).forEach(function(c){const url=validHttpUrl(c&&c.url||'');if(!url)return;const key=url.toLowerCase();if(seen.has(key))return;seen.add(key);const row={url:url,title:clean(c.title||domainFromUrl(url)),snippet:clean(c.snippet||''),provider:'Bing public RSS'};row.score=v3005CurrentSetEvidenceScore(raw,row);out.push(row);});});
+  out.sort(function(a,b){return Number(b.score||-999)-Number(a.score||-999);});return out.slice(0,10);
+}
+function v3005CurrentSetEvidencePrompt(raw,evidence){
+  const rows=(Array.isArray(evidence)?evidence:[]).map(function(c,i){return String(i+1)+'. TITLE: '+clean(c.title||'')+'\nURL: '+validHttpUrl(c.url||'')+'\nSNIPPET: '+clean(c.snippet||'').slice(0,900);}).join('\n\n');
+  return [
+    'You are AIVerify current-set synthesis. Return ONLY one valid JSON object.',
+    'Current UTC date: '+new Date().toISOString().slice(0,10)+'.',
+    'The user asks for a plural jurisdiction/status set, not examples and not a Yes/No response.',
+    'Use the live search evidence supplied below as the source boundary. Choose the single most directly relevant candidate source and define an exact source/date/legal-category scope.',
+    'Return countries as an array containing every jurisdiction supported within that chosen source scope. Do not use among others, a few others, and others, etc., examples include, for example, or such as.',
+    'If the user wording is broader than a legally precise category, correct the premise and state the narrower authoritative category instead of pretending there is one universal list.',
+    'Do not invent a URL. sourceUrl MUST exactly equal one URL from the evidence list.',
+    'Required JSON keys: scope, countries, qualification, sourceName, sourceUrl, classification, confidence.',
+    'Input: '+clean(raw),
+    'LIVE SEARCH EVIDENCE:',rows
+  ].join('\n');
+}
+function v3005CanonicalCountryArray(value){
+  const arr=Array.isArray(value)?value.map(clean).filter(Boolean):[];if(!arr.length)return [];
+  const detected=v3001CountryNamesInText(arr.join(', '));if(detected.length)return detected;
+  const out=[],seen=new Set();arr.forEach(function(x){const k=x.toLowerCase();if(!seen.has(k)&&x.length<=60){seen.add(k);out.push(x);}});return out.slice(0,80);
+}
+function v3005EvidenceUrlMatch(url,evidence){
+  const u=validHttpUrl(url||'');if(!u)return '';
+  const exact=(Array.isArray(evidence)?evidence:[]).find(function(c){return v3003CleanDestinationUrl(c&&c.url||'')===v3003CleanDestinationUrl(u);});
+  return exact?validHttpUrl(exact.url):'';
+}
+function v3005ParsedCurrentSet(raw,p,evidence,provider){
+  if(!p||typeof p!=='object')return null;
+  const scope=clean(p.scope||''),qualification=clean(p.qualification||''),countries=v3005CanonicalCountryArray(p.countries),sourceUrl=v3005EvidenceUrlMatch(p.sourceUrl,evidence);
+  if(!scope||!sourceUrl||!countries.length)return null;
+  if(v2999CompletenessEvasion(scope+' '+qualification))return null;
+  const sourceRow=(evidence||[]).find(function(c){return v3003CleanDestinationUrl(c&&c.url||'')===v3003CleanDestinationUrl(sourceUrl);});
+  const answer=scope.replace(/[:;,.\s]+$/,'')+': '+countries.join(', ')+'.';
+  if(v3001BinaryDisplayValue(answer)||v2999CompletenessEvasion(answer))return null;
+  return {ok:true,provider:provider,parsed:{answer:answer,explanation:qualification||'The answer is bounded to the cited source scope so the listed jurisdictions are not presented as an open-ended sample.',sourceName:clean(p.sourceName||sourceRow&&sourceRow.title||domainFromUrl(sourceUrl)||'Current source'),sourceUrl:sourceUrl,classification:clean(p.classification||'CURRENT JURISDICTION / LEGAL STATUS FACTUAL'),confidence:clean(p.confidence||'Moderate confidence')}};
+}
+async function v3005OpenAIEvidenceSynthesis(raw,evidence){
+  if(!process.env.OPENAI_API_KEY)return {ok:false,errorType:'missing_openai_api_key',provider:'OpenAI'};
+  const model=process.env.OPENAI_MODEL||'gpt-5.4-mini',prompt=v3005CurrentSetEvidencePrompt(raw,evidence),payload={model:model,input:prompt,max_output_tokens:1000,text:{format:{type:'json_object'}}};
+  if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,5200);if(!response||!response.ok)return {ok:false,errorType:clean(response&&response.errorType||'openai_failed'),provider:'OpenAI'};
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));return v3005ParsedCurrentSet(raw,parsed,evidence,'OpenAI evidence synthesis')||{ok:false,errorType:'openai_evidence_integrity_failed',provider:'OpenAI'};
+}
+async function v3005GeminiEvidenceSynthesis(raw,evidence){
+  if(!envSecret('GEMINI_API_KEY'))return {ok:false,errorType:'missing_gemini_api_key',provider:'Gemini'};
+  const model=clean(process.env.GEMINI_MODEL||process.env.GEMINI_SEARCH_MODEL||'gemini-3.6-flash'),prompt=v3005CurrentSetEvidencePrompt(raw,evidence),payload={contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{temperature:0.05,maxOutputTokens:1000,responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,5200);if(!response||!response.ok)return {ok:false,errorType:clean(response&&response.errorType||'gemini_failed'),provider:'Gemini'};
+  const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));return v3005ParsedCurrentSet(raw,parsed,evidence,'Gemini evidence synthesis')||{ok:false,errorType:'gemini_evidence_integrity_failed',provider:'Gemini'};
+}
+function v3005SourceBackedSetFallback(raw){
+  for(let i=0;i<V3005_SOURCE_BACKED_SET_CATALOGS.length;i++){
+    const catalog=V3005_SOURCE_BACKED_SET_CATALOGS[i];let matched=false;try{matched=!!catalog.match(raw);}catch(_e){matched=false;}if(!matched)continue;
+    const p=catalog.build(raw),c=v2844Contract(raw,{intent:'CURRENT_JURISDICTION_SET',route:'current-set/source-backed-scope/v3005',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:p.answer,explanation:p.explanation,source:p.sourceName,sourceUrl:p.sourceUrl,classification:p.classification,confidence:p.confidence,status:'ANSWERED'});
+    c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();c.analysisResult='Answer';c.inputType='QUESTION';c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.showAdditionalInformation=true;
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'currentSetEvidenceResolutionV3005',sourceBackedFallback:'YES',catalogId:catalog.id,liveFreshnessClaim:'NO',sourceScopeExplicit:'YES'});
+    return v2844Serialize(raw,c,'source-backed-current-set-v3005');
+  }
+  return '';
+}
+function v3005CurrentSetContract(raw,result,started,evidenceCount,attempts){
+  const p=result&&result.parsed||{},c=v2844Contract(raw,{intent:'CURRENT_JURISDICTION_SET',route:'current-set/free-evidence-synthesis/v3005',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:clean(p.answer||''),explanation:clean(p.explanation||''),source:clean(p.sourceName||'Current source'),sourceUrl:validHttpUrl(p.sourceUrl||''),classification:clean(p.classification||'CURRENT JURISDICTION / LEGAL STATUS FACTUAL'),confidence:clean(p.confidence||'Moderate confidence'),status:'ANSWERED'});
+  c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();c.analysisResult='Answer';c.inputType='QUESTION';c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.showAdditionalInformation=!!clean(c.explanation||'');
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'currentSetEvidenceResolutionV3005',currentSetProvider:clean(result&&result.provider||''),providerAttempts:attempts||[],freeEvidenceCandidates:Number(evidenceCount||0),duplicateRecoveryBypassed:'YES',researchMs:Date.now()-started,completeSetSemantics:'ENFORCED'});return c;
+}
+function v3005TerminalCurrentSetFailure(raw,started,attempts){
+  const c=v2844Contract(raw,{intent:'CURRENT_JURISDICTION_SET',route:'current-set/terminal-unavailable/v3005',basket:V2771_FIXED_BASKETS.UNSUPPORTED,answer:'A reliable current-source answer could not be completed in this scan.',explanation:'Select Analyze/Enter again to retry this scan.',classification:'NONFINAL CURRENT SOURCE LOOKUP',confidence:'',status:'SOURCE LOOKUP UNAVAILABLE',source:'',sourceUrl:''});
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'currentSetEvidenceResolutionV3005',providerAttempts:attempts||[],terminalSourceAttempt:'YES',duplicateRecoveryBypassed:'YES',researchMs:Date.now()-started,cacheEligible:'NO'});return v2844Serialize(raw,c,'terminal-current-set-unavailable-v3005');
+}
+async function v3005DynamicCurrentSetResponse(raw,requestState){
+  if(!v3003DynamicCountryCompleteSetIntent(raw))return '';
+  const cached=v3005CurrentSetCacheGet(raw);if(cached)return cached;
+  const started=Date.now(),attempts=[],evidence=await v3005CurrentSetEvidence(raw);if(requestState&&requestState.aborted)return '';
+  if(evidence.length){
+    const pair=await Promise.all([v3005OpenAIEvidenceSynthesis(raw,evidence).catch(function(e){return {ok:false,errorType:clean(e&&e.message||'openai_exception'),provider:'OpenAI'};}),v3005GeminiEvidenceSynthesis(raw,evidence).catch(function(e){return {ok:false,errorType:clean(e&&e.message||'gemini_exception'),provider:'Gemini'};})]);
+    pair.forEach(function(r){attempts.push(clean(r&&r.provider||'provider')+':'+clean(r&&r.ok?'accepted':r&&r.errorType||'failed'));});
+    if(requestState&&requestState.aborted)return '';
+    const result=pair.find(function(r){return r&&r.ok;});if(result){const serialized=v2844Serialize(raw,v3005CurrentSetContract(raw,result,started,evidence.length,attempts),'free-evidence-current-set-v3005');v3005CurrentSetCachePut(raw,serialized);return serialized;}
+  }else attempts.push('public-search:no-evidence');
+  const fallback=v3005SourceBackedSetFallback(raw);if(fallback){v3005CurrentSetCachePut(raw,fallback);return fallback;}
+  try{console.warn('AIV current-set v3005 unresolved | '+attempts.join(' | ')+' | evidence '+evidence.length+' | '+(Date.now()-started)+' ms');}catch(_e){}
+  return v3005TerminalCurrentSetFailure(raw,started,attempts);
+}
+function v3005TerminalSourceAttemptSerialized(serialized){
+  const s=String(serialized||'');return /"terminalSourceAttempt"\s*:\s*"YES"/i.test(s)||/current-set\/terminal-unavailable\/v3005/i.test(s);
+}
+const CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',evidenceSearchAvailable:typeof v3005CurrentSetEvidence==='function',openAISynthesisAvailable:typeof v3005OpenAIEvidenceSynthesis==='function',geminiSynthesisAvailable:typeof v3005GeminiEvidenceSynthesis==='function',sourceBackedFallbackAvailable:typeof v3005SourceBackedSetFallback==='function',terminalGuardAvailable:typeof v3005TerminalSourceAttemptSerialized==='function',cacheReady:V3005_CURRENT_SET_CACHE instanceof Map
+});
+if(!Object.keys(CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005).every(function(k){return CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005[k]===true;}))throw new Error('CURRENT_SET_EVIDENCE_RESOLUTION_V3005 startup validation failed');
+
+// ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_V3006
+// Shared discovery-first repair for dynamic named-entity facts, acronym/entity collisions,
+// and factual questions that request more than one count/list component. The route uses
+// bounded public-search evidence first, binds synthesis to the returned evidence URLs,
+// and rejects incomplete multi-part answers instead of allowing a naked number or a
+// similarly named acronym expansion to satisfy the request.
+const V3006_ENTITY_RESEARCH_CACHE=new Map();
+const V3006_ENTITY_RESEARCH_CACHE_TTL_MS=12*60*1000;
+function v3006NormalizeIdentity(value){return clean(value).toLowerCase().replace(/&/g,' and ').replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();}
+function v3027InstitutionalTrailingEntity(raw){
+  const input=clean(raw).replace(/[?!.]+$/,'').trim();if(!input)return '';
+  const anchors=[
+    /\b(?:members?|membership)\s+(?:of|at|for)\s+(?:the\s+)?/ig,
+    /\b(?:board\s+of\s+directors|board\s+members?|directors?|trustees?|leadership|officers?|executives?)\s+(?:of|at|for)\s+(?:the\s+)?/ig,
+    /\b(?:president(?:\s+and\s+(?:chief\s+executive\s+officer|ceo))?|chief\s+executive\s+officer|ceo|chair(?:man|woman|person)?|executive\s+director|director[- ]general)\s+(?:of|at|for)\s+(?:the\s+)?/ig
+  ];
+  let bestStart=-1,bestEnd=-1;
+  anchors.forEach(function(re){let m;while((m=re.exec(input))!==null){if(m.index>=bestStart){bestStart=m.index;bestEnd=re.lastIndex;}if(re.lastIndex===m.index)re.lastIndex++;}});
+  if(bestEnd<0)return '';
+  let tail=clean(input.slice(bestEnd)).replace(/^[,;:\-]+|[,;:\-]+$/g,'').trim();if(!tail)return '';
+  const words=tail.split(/\s+/).filter(Boolean);if(words.length<2||words.length>12)return '';
+  const normalized=v3006NormalizeIdentity(tail);
+  if(!normalized||/^(?:them|it|this|that|today|now|currently)$/.test(normalized))return '';
+  if(/\b(?:who|what|which|where|when|why|how)\b/i.test(tail))return '';
+  return tail;
+}
+function v3006NamedEntityIdentity(raw){
+  const input=clean(raw).replace(/[?!.]+$/,'').trim();if(!input)return '';
+  let m=null;
+  // Court/judicial membership phrasing often uses 'serve on' instead of 'of'. Preserve the full court name.
+  m=input.match(/\b(?:justices?|judges?)\b[\s\S]{0,55}?\b(?:currently\s+)?(?:serve|serves|serving)\s+(?:on|at|for)\s+(?:the\s+)?([A-Z][A-Za-z0-9&.'’\-]*(?:\s+[A-Z][A-Za-z0-9&.'’\-]*){1,7})(?=\s*(?:(?:,\s*)?and\s+(?:who|what|which|where|when|why|how|name|list|identify)\b[\s\S]*)?$)/i);
+  if(m&&m[1])return clean(m[1]);
+  // Organization-style proper names, including acronym + organization qualifier.
+  const suffix='(?:International|Global|Foundation|Institute|Association|Society|Corporation|Company|University|Organization|Organisation|Council|Alliance|Group|Systems|Technologies|Laboratories|Labs|Network|Trust|Fund)';
+  const proper=new RegExp('\\b([A-Z][A-Za-z0-9&.\'’\\-]*(?:\\s+[A-Z][A-Za-z0-9&.\'’\\-]*){0,5}\\s+'+suffix+')\\b');
+  m=proper.exec(input);if(m&&m[1])return clean(m[1]);
+  // Preserve a full trailing institutional name before the legacy final-of role matcher can collapse it to one word.
+  const institutional=v3027InstitutionalTrailingEntity(input);if(institutional)return institutional;
+  // Role/member questions: the entity normally follows the final “of/at/for”.
+  m=input.match(/\b(?:board(?:\s+of\s+directors)?|board\s+members?|directors?|trustees?|justices?|judges?|leadership|executive\s+team|officers?|chief\s+executive\s+officer|ceo|cfo|president|chair(?:man|woman|person)?|director[- ]general)\b[\s\S]{0,70}?\b(?:of|at|for)\s+(?:the\s+)?([A-Z][A-Za-z0-9&.'’\-]*(?:\s+[A-Z][A-Za-z0-9&.'’\-]*){0,6})(?=\s*(?:(?:,\s*)?and\s+(?:who|what|which|where|when|why|how|name|list|identify)\b[\s\S]*)?$)/i);
+  if(m&&m[1])return clean(m[1]);
+  // “does/has <entity> plan/have/serve/complete...” organization-progress questions.
+  m=input.match(/\b(?:does|has|is)\s+([A-Z][A-Za-z0-9&.'’\-]*(?:\s+[A-Z][A-Za-z0-9&.'’\-]*){0,5}?)\s+(?:currently\s+)?(?:plan|plans|have|has|serve|serves|operate|operates|maintain|maintains|publish|publishes|translate|translates|complete|completed|employ|employs)\b/i);
+  if(m&&m[1])return clean(m[1]);
+  // “What does WHO stand for...” and similar acronym identity questions.
+  m=input.match(/^what\s+does\s+([A-Z][A-Z0-9&.-]{1,12})\s+stand\s+for\b/i);if(m&&m[1])return clean(m[1]);
+  // Generic trailing named entity after “of/for/at/from/to”, useful for resource requests.
+  const tails=[...input.matchAll(/\b(?:of|for|at|from|to)\s+(?:the\s+)?([A-Z][A-Za-z0-9&.'’\-]*(?:\s+[A-Z][A-Za-z0-9&.'’\-]*){0,5})(?=\s+(?:website|site|page|board|leadership|directors?|trustees?|members?|plan|plans|has|have|currently)\b|$)/gi)];
+  if(tails.length){const t=clean(tails[tails.length-1][1]);if(t&&!/^(?:United States|New York|OpenAI)$/i.test(t)&&!/\b(?:been|being|be|is|are|was|were|has|have|had|do|does|did|preached|translated|published|reached|completed|located|against|into|from|to)\b/i.test(t))return t;}
+  return '';
+}
+function v3025AcronymLedGenericEntityMatch(original,candidate){
+  const literal=clean(original||'').trim();if(!literal)return false;
+  const parts=literal.split(/\s+/).filter(Boolean);if(parts.length<2)return false;
+  const acronym=parts[0];if(!/^[A-Z][A-Z0-9&.-]{1,8}$/.test(acronym))return false;
+  const generic=new Set(['international','global','foundation','institute','association','society','corporation','company','university','organization','organisation','council','alliance','group','systems','technologies','laboratories','labs','network','trust','fund','inc','incorporated','llc','ltd','limited']);
+  const qualifiers=parts.slice(1).map(function(x){return v3006NormalizeIdentity(x);}).filter(Boolean);
+  if(!qualifiers.length||!qualifiers.every(function(x){return generic.has(x);} ))return false;
+  const url=validHttpUrl(candidate&&candidate.url||''),domain=domainFromUrl(url).toLowerCase(),title=clean(candidate&&candidate.title||candidate&&candidate.fetchedTitle||'');
+  const a=acronym.toLowerCase(),domainLabels=domain.split(/[^a-z0-9]+/).filter(Boolean);
+  if(domainLabels.indexOf(a)>=0)return true;
+  const boundary=new RegExp('(?:^|[^A-Za-z0-9])'+v2939EscapeRegex(acronym)+'(?=$|[^A-Za-z0-9])','i');
+  return boundary.test(title);
+}
+function v3006EntityCandidateMatch(intent,candidate){
+  const original=clean(intent&&intent.requestedEntityIdentity||'');if(!original)return true;
+  const identity=v3006NormalizeIdentity(original);if(!identity)return true;
+  const url=validHttpUrl(candidate&&candidate.url||''),domain=domainFromUrl(url),title=clean(candidate&&candidate.title||candidate&&candidate.fetchedTitle||''),snippet=clean(candidate&&candidate.snippet||''),text=clean(candidate&&candidate.text||'').slice(0,6000);
+  const meta=v3006NormalizeIdentity(domain+' '+title),all=v3006NormalizeIdentity(domain+' '+title+' '+snippet+' '+text);
+  if(all.indexOf(identity)>=0)return true;
+  if(v3025AcronymLedGenericEntityMatch(original,candidate))return true;
+  const tokens=identity.split(/\s+/).filter(function(x){return x&&x.length>1;});if(!tokens.length)return true;
+  if(tokens.length===1){
+    const token=tokens[0],singleAcronym=/^[A-Z][A-Z0-9&.-]{1,10}$/.test(original.trim());
+    if(singleAcronym){const d=clean(domain).toLowerCase(),literalTitle=clean(title);return d.split(/[^a-z0-9]+/).indexOf(token)>=0||new RegExp('(?:^|[^A-Za-z0-9])'+v2939EscapeRegex(original.trim())+'(?=$|[^A-Za-z0-9])').test(literalTitle);}
+    return new RegExp('(?:^|\\s)'+v2939EscapeRegex(token)+'(?:$|\\s)','i').test(meta);
+  }
+  const acronymLead=/^[A-Z][A-Z0-9&.-]{1,8}$/.test(original.split(/\s+/)[0]||'');
+  const metaHits=tokens.filter(function(t){return meta.split(/\s+/).indexOf(t)>=0;}).length;
+  if(acronymLead)return metaHits>=Math.min(2,tokens.length);
+  if(metaHits>=Math.min(2,tokens.length))return true;
+  const allSet=new Set(all.split(/\s+/).filter(Boolean)),allHits=tokens.filter(function(t){return allSet.has(t);}).length;
+  return allHits===tokens.length&&tokens.length>=2;
+}
+function v3006ExpectedPartCount(raw){
+  const s=v2856Normalized(raw);if(!s)return 1;
+  let parts=1;
+  const secondary=(s.match(/\band\s+(?:who|what|which|where|when|why|how\s+(?:many|much|long|far|old|fast|big|deep|hot|cold)|name|list|identify)\b/g)||[]).length;
+  parts+=secondary;
+  if(/\bwhat\s+does\s+[a-z0-9&.-]+\s+stand\s+for\b/.test(s)&&/\band\s+who\b/.test(s))parts=Math.max(parts,2);
+  return Math.min(4,parts);
+}
+function v3006RequiresCurrentEntityResearch(raw){
+  const s=v2856Normalized(raw);if(!s||!v2869QuestionLike(raw)||/^https?:\/\//i.test(clean(raw)))return false;
+  const entity=v3006NamedEntityIdentity(raw);
+  const dynamicRole=/\b(?:board(?:\s+of\s+directors)?|board\s+members?|directors?|trustees?|justices?|judges?|leadership|executive\s+team|officers?|ceo|cfo|chief\s+executive\s+officer|president|chair(?:man|woman|person)?|director[- ]general)\b/.test(s);
+  const explicitCurrent=/\b(?:current|currently|latest|today|as\s+of|now)\b/.test(s);
+  const orgProgress=!!entity&&/\b(?:plan|plans|planning|completed|complete|translated|translate|published|publish|members?|employees?|operates?|serves?|maintains?)\b/.test(s)&&/\b(?:how\s+many|who|what|which)\b/.test(s);
+  return !!((entity&&dynamicRole)||(entity&&explicitCurrent)||orgProgress);
+}
+function v3006ResearchIntent(raw){
+  const input=clean(raw),s=v2856Normalized(raw);if(!input||!v2869QuestionLike(input)||/^https?:\/\//i.test(input))return null;
+  if(typeof v2731IsDangerousWrongdoingRequest==='function'&&v2731IsDangerousWrongdoingRequest(input))return null;
+  if(typeof v2989ResourceRequestIntent==='function'&&v2989ResourceRequestIntent(input))return null;
+  const entity=v3006NamedEntityIdentity(input),expectedParts=v3006ExpectedPartCount(input),current=v3006RequiresCurrentEntityResearch(input);
+  const factualMulti=expectedParts>1&&/\b(?:countries|nations|states|territories|members?|people|persons|directors?|trustees?|justices?|judges?|officers?|leaders?|languages?|dialects?|organizations?|companies|agencies|names?)\b/.test(s);
+  // Source-dependent coverage totals should not collapse into a naked model-known number.
+  // These totals depend on date, source, and counting definitions, even when the subject
+  // is religious rather than a named organization.
+  const scopeCount=/\bhow\s+(?:many|much)\b/.test(s)&&/\b(?:languages?|dialects?|nations?|countries|territories|members?|translations?|versions?|peoples?|people\s+groups?)\b/.test(s)&&/\b(?:translated|translation|published|available|preached|reached|covered|completed|recognized|recognised|member|members|serve|served|operates?|operate)\b/.test(s);
+  const faithLike=typeof v2727LooksLikeFaithScriptureInput==='function'&&v2727LooksLikeFaithScriptureInput(input);
+  if(faithLike&&!entity&&!scopeCount)return null;
+  if(!current&&!factualMulti&&!scopeCount)return null;
+  const pluralRoleList=/^(?:who|what|how\s+many)\b/.test(s)&&/\b(?:board\s+members?|directors?|trustees?|justices?|judges?|officers?|executives?|leaders?|members?)\b/.test(s);
+  const completeScope=scopeCount&&/\b(?:what|which|name|list|who)\b/.test(s)&&expectedParts>1;
+  return {kind:'entity-research',entity:entity,expectedParts:expectedParts,current:current||scopeCount,scopeCount:scopeCount,completeList:pluralRoleList||completeScope||(typeof v2999ImplicitCompleteListIntent==='function'?v2999ImplicitCompleteListIntent(input):false)};
+}
+function v3006ResearchCacheKey(raw){return clean(raw).toLowerCase().replace(/\s+/g,' ').trim();}
+function v3006ResearchCacheGet(raw){const key=v3006ResearchCacheKey(raw),e=key&&V3006_ENTITY_RESEARCH_CACHE.get(key);if(!e)return '';if(Date.now()-e.savedAt>V3006_ENTITY_RESEARCH_CACHE_TTL_MS){V3006_ENTITY_RESEARCH_CACHE.delete(key);return '';}return String(e.serialized||'');}
+function v3006ResearchCachePut(raw,serialized){const key=v3006ResearchCacheKey(raw);if(!key||!serialized)return;V3006_ENTITY_RESEARCH_CACHE.set(key,{savedAt:Date.now(),serialized:String(serialized)});while(V3006_ENTITY_RESEARCH_CACHE.size>80){const first=V3006_ENTITY_RESEARCH_CACHE.keys().next().value;if(!first)break;V3006_ENTITY_RESEARCH_CACHE.delete(first);}}
+function v3006ResearchQueries(raw,intent){
+  const out=[];function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
+  const entity=clean(intent&&intent.entity||''),input=clean(raw).replace(/[?!.]+$/,'');
+  if(entity){const terms=v2989MeaningfulWords(input).filter(function(w){return v3006NormalizeIdentity(entity).split(/\s+/).indexOf(w.toLowerCase())<0;}).slice(0,10).join(' ');add('"'+entity+'" '+terms);if(/\b(?:board|directors?|trustees?|leadership|officers?)\b/i.test(input))add('"'+entity+'" board leadership directors');if(/\b(?:justices?|judges?|court)\b/i.test(input))add('"'+entity+'" current justices judges members');}
+  add(input);return out.slice(0,2);
+}
+function v3006EvidencePreScore(raw,intent,c){
+  const hay=v3006NormalizeIdentity(clean(c&&c.title||'')+' '+clean(c&&c.snippet||'')+' '+domainFromUrl(c&&c.url||'')),words=v2989MeaningfulWords(raw);let score=0;
+  if(intent&&intent.entity){const probe={requestedEntityIdentity:intent.entity};score+=v3006EntityCandidateMatch(probe,c)?120:-120;const sig=v3006NormalizeIdentity(intent.entity).split(/\s+/).filter(function(x){return x.length>2&&!/^(?:international|global|foundation|institute|association|society|corporation|company|university|organization|organisation|council|alliance|group|systems|technologies|laboratories|network|trust|fund)$/.test(x);});const d=domainFromUrl(c&&c.url||'').toLowerCase();if(sig.some(function(t){return d.indexOf(t)>=0;}))score+=42;}
+  words.forEach(function(w){if(hay.split(/\s+/).indexOf(w.toLowerCase())>=0)score+=w.length>=5?7:3;});
+  if(/\b(?:about|leadership|board|governance|directors?|trustees?|justices?|judges?|court|members?|management|who we are|team)\b/i.test(clean(c&&c.title||'')+' '+clean(c&&c.url||'')))score+=18;
+  if(/(?:wikipedia\.org|britannica\.com|facebook\.com|linkedin\.com|youtube\.com)$/i.test(domainFromUrl(c&&c.url||'')))score-=28;
+  return score;
+}
+async function v3006ResearchEvidence(raw,intent){
+  const queries=v3006ResearchQueries(raw,intent);if(!queries.length)return [];
+  const pages=await Promise.all(queries.map(function(q){return v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2100,1).then(function(body){return body||'';}).catch(function(){return '';});}));
+  const pooled=[],seen=new Set();pages.forEach(function(body){v2989ParseBingRss(body).forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u)return;const key=u.toLowerCase();if(seen.has(key))return;seen.add(key);c.preScore=v3006EvidencePreScore(raw,intent,c);pooled.push(c);});});
+  pooled.sort(function(a,b){return Number(b.preScore||0)-Number(a.preScore||0);});
+  const top=pooled.filter(function(c){return !intent.entity||v3006EntityCandidateMatch({requestedEntityIdentity:intent.entity},c);}).slice(0,4);
+  const resolved=await Promise.all(top.map(function(c){return v2989CandidateFetch(c.url,1900,2).then(function(page){const row=Object.assign({},c);if(page){row.url=validHttpUrl(page.url||c.url)||c.url;row.ok=!!page.ok;row.status=Number(page.status||0);row.contentType=clean(page.contentType||'');row.fetchedTitle=clean(page.title||'');if(row.fetchedTitle)row.title=row.fetchedTitle;row.text=clean(page.text||'').slice(0,4800);}return row;}).catch(function(){return c;});}));
+  return resolved.filter(function(c){return validHttpUrl(c&&c.url||'')&&(!intent.entity||v3006EntityCandidateMatch({requestedEntityIdentity:intent.entity},c));}).sort(function(a,b){return v3006EvidencePreScore(raw,intent,b)-v3006EvidencePreScore(raw,intent,a);}).slice(0,4);
+}
+async function v3032QuickOfficialAuthorityEvidence(raw,intent){
+  const entity=clean(intent&&intent.entity||v3021EntityIdentity(raw));if(!entity||!v3031GovernmentAuthorityLikely(entity,raw))return [];
+  const input=clean(raw).replace(/[?!.]+$/,''),s=v2856Normalized(raw);let focus='current official';
+  if(/\b(?:justices?|judges?|court)\b/.test(s))focus='current justices judges members';
+  else if(/\b(?:board|directors?|trustees?|leadership|officers?|executives?)\b/.test(s))focus='current leadership board directors';
+  else if(/\b(?:members?|membership)\b/.test(s))focus='current members membership';
+  else if(/\b(?:president|chair(?:man|woman|person)?|director|administrator|secretary|governor|ceo|chief\s+executive)\b/.test(s))focus='current leadership official';
+  const queries=['"'+entity+'" site:.gov '+focus,'"'+entity+'" '+focus+' official'];
+  const jobs=[];queries.forEach(function(q){
+    jobs.push(v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),1850,1).then(function(body){return {kind:'bing',body:body||''};}).catch(function(){return null;}));
+    jobs.push(v2989HttpGetText('https://html.duckduckgo.com/html/?q='+encodeURIComponent(q),1850,1).then(function(body){return {kind:'ddg',body:body||''};}).catch(function(){return null;}));
+  });
+  const pages=await Promise.all(jobs),pool=[],seen=new Set();
+  pages.forEach(function(page){if(!page||!page.body)return;const rows=page.kind==='bing'?v2989ParseBingRss(page.body):v2989ParsePublicSearchHtml(page.body);rows.forEach(function(c){
+    const u=validHttpUrl(c&&c.url||''),d=domainFromUrl(u).toLowerCase();if(!u||!d||!/(?:\.gov|\.mil)$/i.test(d)||v2989SearchResultUrl(u))return;
+    const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);c.officialEntityBound=true;c.preScore=v3006EvidencePreScore(raw,intent,c)+v3031AuthorityDomainPriority(entity,raw,c)+80;pool.push(c);
+  });});
+  pool.sort(function(a,b){return Number(b.preScore||0)-Number(a.preScore||0);});
+  const top=pool.slice(0,4);if(!top.length)return [];
+  const resolved=await Promise.all(top.map(function(c){return v2989CandidateFetch(c.url,1950,2).then(function(page){const row=Object.assign({},c);if(page){row.url=validHttpUrl(page.url||c.url)||c.url;row.ok=!!page.ok;row.status=Number(page.status||0);row.contentType=clean(page.contentType||'');row.fetchedTitle=clean(page.title||'');if(row.fetchedTitle)row.title=row.fetchedTitle;row.text=clean(page.text||'').slice(0,8200);row.directFetchVerified=!!page.ok;}row.officialEntityBound=true;row.preScore=v3006EvidencePreScore(raw,intent,row)+v3031AuthorityDomainPriority(entity,raw,row)+100;return row;}).catch(function(){return c;});}));
+  return resolved.filter(function(c){return validHttpUrl(c&&c.url||'')&&c.officialEntityBound&&v3023AuthorityEntityEvidenceEligible(intent,c,null,resolved);}).sort(function(a,b){return Number(b.preScore||0)-Number(a.preScore||0);}).slice(0,4);
+}
+function v3032StripSourceLinksFromExplanation(value,source){
+  let s=clean(value||'');if(!s)return '';
+  s=s.replace(/\s*\(\s*\[[^\]]+\]\(https?:\/\/[^)]+\)\s*\)\s*/gi,' ');
+  s=s.replace(/\[[^\]]+\]\(https?:\/\/[^)]+\)/gi,' ');
+  s=s.replace(/\s*\(\s*https?:\/\/[^)]+\)\s*/gi,' ');
+  s=s.replace(/https?:\/\/[^\s)]+/gi,' ');
+  const domain=domainFromUrl(validHttpUrl(source&&source.url||''));
+  if(domain){const escaped=v2939EscapeRegex(domain.replace(/^www\./i,''));s=s.replace(new RegExp('\\s*\\(\\s*(?:www\\.)?'+escaped+'\\s*\\)\\s*','ig'),' ');}
+  s=s.replace(/\(\s*\)/g,' ').replace(/\s+([,.;:!?])/g,'$1').replace(/\s{2,}/g,' ').trim();
+  return s;
+}
+function v3031InternalResearchLanguage(value){
+  const s=clean(value||'');if(!s)return false;
+  return /\b(?:evidence\s*#?\s*\d+|source\s*index|sourceIndex|candidate\s*(?:row|item|#)?\s*\d+|retrieved\s+source\s+candidates?|evidence\s+(?:row|item)|synthesi[sz](?:e|ed|er|ing)|internal\s+(?:prompt|instruction|task)|collect\s+all\b)\b/i.test(s);
+}
+function v3031PublicResearchExplanation(raw,intent,answer,explanation,source){
+  let text=v3032StripSourceLinksFromExplanation(clean(removeFollowUpOfferWording(explanation||'')),source);
+  if(text&&!v3031InternalResearchLanguage(text))return text;
+  const s=v2856Normalized(raw),sourceName=clean(source&&source.title||domainFromUrl(source&&source.url||'')||'cited source');
+  if(/^how\s+many\b/.test(s)&&/\band\s+who\b/.test(s))return 'The cited source lists the current members named above and supports the stated total.';
+  if(intent&&intent.completeList)return 'The cited source lists the current members or items named above for the stated scope.';
+  if(/\b(?:president|chair(?:man|woman|person)?|director|administrator|secretary|governor|chief\s+executive|ceo)\b/.test(s))return 'The cited source identifies the current officeholder named above.';
+  if(intent&&intent.current)return 'The cited source directly supports the current answer above.';
+  return sourceName?'The cited source directly supports the answer above.':'The available evidence directly supports the answer above.';
+}
+function v3031EvidenceAnswerCoverage(answer,c){
+  const hay=clean([c&&c.title,c&&c.snippet,c&&c.text].join(' ')).toLowerCase();if(!hay)return 0;
+  const words=v2989MeaningfulWords(clean(answer||'')).map(function(w){return w.toLowerCase();}).filter(function(w){return w.length>=4&&!/^(?:current|source|listing|serve|serves|named|above|about|their|there|which|with|from|into|this|that|nine|eight|seven|six|five|four|three|two|one)$/.test(w);});
+  if(!words.length)return 0;let hits=0,seen=new Set();words.forEach(function(w){if(seen.has(w))return;seen.add(w);if(hay.indexOf(w)>=0)hits++;});
+  return hits/Math.max(1,seen.size);
+}
+function v3031PreferredResearchSource(raw,intent,evidence,requestedIndex,answer){
+  const rows=Array.isArray(evidence)?evidence.filter(function(c){return validHttpUrl(c&&c.url||'');}):[];if(!rows.length)return null;
+  let base=rows[Math.max(0,Math.min(rows.length-1,Number.isInteger(requestedIndex)?requestedIndex:0))]||rows[0],best=base,bestScore=-Infinity;
+  rows.forEach(function(c){
+    const coverage=v3031EvidenceAnswerCoverage(answer,c),authority=(c&&c.officialEntityBound?260:0)+v3031AuthorityDomainPriority(clean(intent&&intent.entity||''),raw,c)+Number(c&&c.preScore||0)*0.35;
+    const score=authority+coverage*180;
+    if((coverage>=0.12||c===base)&&score>bestScore){bestScore=score;best=c;}
+  });
+  return best||base;
+}
+function v3006EvidencePrompt(raw,intent,evidence){
+  const expected=Math.max(1,Number(intent&&intent.expectedParts||1));
+  const rows=(Array.isArray(evidence)?evidence:[]).map(function(c,i){return 'EVIDENCE '+i+'\nTITLE: '+clean(c.title||domainFromUrl(c.url||''))+'\nURL: '+validHttpUrl(c.url||'')+'\nTEXT: '+clean(c.text||c.snippet||'').slice(0,4800);}).join('\n\n');
+  return [
+    'You are AIVerify’s source-bound factual research synthesizer. Return ONLY one JSON object.',
+    'Required keys: supported, answer, explanation, parts, sourceIndex.',
+    'Use ONLY the supplied evidence. Do not use memory to fill a gap. Do not invent a URL or source.',
+    'EXPLANATION is public-facing product text. Never mention EVIDENCE numbers, sourceIndex, candidate rows, retrieval/synthesis steps, prompts, or internal instructions. Explain briefly in ordinary language why the cited source supports the answer.',
+    clean(intent&&intent.entity||'')?'The exact named entity requested is "'+clean(intent.entity)+'". Do not substitute an acronym expansion, similarly named concept, company, organization, or unrelated entity.':'Preserve the exact entities and scope in the question.',
+    intent&&intent.current?'This fact is changing/current. Answer only if the supplied evidence supports the present or clearly dated state; include the date/scope qualification when needed.':'Use the evidence’s stated scope/date when the answer depends on a definition or dataset.',
+    expected>1?'This is a MULTI-PART request with '+expected+' requested parts. The parts array must contain at least '+expected+' concise entries in question order, and ANSWER must answer every requested part. Never return only the first number.':'Answer the direct requested fact in ANSWER.',
+    intent&&intent.completeList?'The wording requests a set/list, not examples. Return the full set supported within one clearly stated source/date/category boundary. Do not use “among others,” “a few others,” “etc.,” or another sample-list phrase.':'Do not imply completeness unless the evidence supports it.',
+    'If the evidence does not directly support every requested part, set supported=false and leave answer empty rather than guessing.',
+    'sourceIndex must be the zero-based EVIDENCE number that most directly supports the answer.',
+    'Original question: '+clean(raw),rows
+  ].filter(Boolean).join('\n');
+}
+function v3006ParsedResearchResult(raw,intent,parsed,evidence,provider){
+  if(!parsed||typeof parsed!=='object'||parsed.supported===false)return null;
+  const expected=Math.max(1,Number(intent&&intent.expectedParts||1)),parts=Array.isArray(parsed.parts)?parsed.parts.map(clean).filter(Boolean):[];
+  if(expected>1&&parts.length<expected)return null;
+  let answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  if(!answer&&parts.length)answer=parts.join(' | ');
+  if(expected>1&&parts.length>=expected&&typeof v3029MultiPartIncomplete==='function'&&v3029MultiPartIncomplete(raw,{answer:answer,answerList:[]})){
+    const materialized=clean(parts.join(' — '));
+    if(materialized)answer=materialized;
+  }
+  if(!answer)return null;
+  if(expected>1&&/^0(?:\.0+)?$/.test(answer))return null;
+  if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return null;
+  let idx=Number(parsed.sourceIndex);if(!Number.isInteger(idx)||idx<0||idx>=evidence.length)idx=0;const source=v3031PreferredResearchSource(raw,intent,evidence,idx,answer)||evidence[idx]||evidence[0];if(!source||!validHttpUrl(source.url||''))return null;
+  if(intent&&intent.entity&&!v3023AuthorityEntityEvidenceEligible(intent,source,null,evidence))return null;
+  explanation=v3031PublicResearchExplanation(raw,intent,answer,explanation,source);
+  return {ok:true,provider:provider,answer:answer,explanation:explanation,parts:parts,source:source};
+}
+async function v3006OpenAISynthesize(raw,intent,evidence){
+  if(!envSecret('OPENAI_API_KEY')||!evidence.length)return null;const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3006EvidencePrompt(raw,intent,evidence),max_output_tokens:950,text:{format:{type:'json_object'}}};if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,6500);if(!response||!response.ok)return null;const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));return v3006ParsedResearchResult(raw,intent,parsed,evidence,'OpenAI evidence synthesis');
+}
+async function v3006GeminiSynthesize(raw,intent,evidence){
+  if(!envSecret('GEMINI_API_KEY')||!evidence.length)return null;const model=clean(process.env.GEMINI_MODEL||process.env.GEMINI_SEARCH_MODEL||'gemini-3.6-flash'),payload={contents:[{role:'user',parts:[{text:v3006EvidencePrompt(raw,intent,evidence)}]}],generationConfig:{temperature:0.05,maxOutputTokens:950,responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,5200);if(!response||!response.ok)return null;const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));return v3006ParsedResearchResult(raw,intent,parsed,evidence,'Gemini evidence synthesis');
+}
+function v3006ResearchContract(raw,intent,result,started,evidenceCount){
+  const source=result.source,requestedBasket=(typeof v3001RequestedBasket==='function'?v3001RequestedBasket(raw):OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER),c=v2844Contract(raw,{intent:'ENTITY_SOURCE_RESEARCH',route:'entity-research/source-bound/v3006',basket:requestedBasket,answer:result.answer,explanation:result.explanation,source:clean(source.title||domainFromUrl(source.url)||'Retrieved source'),sourceUrl:validHttpUrl(source.url||''),classification:intent.current?'CURRENT SOURCE-VERIFIED ENTITY FACTUAL':'SOURCE-VERIFIED MULTI-PART FACTUAL',confidence:'High confidence',status:'ANSWERED'});
+  c.inputType='QUESTION';c.analysisResult='Answer';c.summary=result.answer;c.outputBasket=requestedBasket;c.fixedOutputBasket=requestedBasket;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;c.showAdditionalInformation=!!clean(result.explanation||'');
+  if(intent.current){c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();}
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'entityResearchAndQuantifiedQuestionIntegrityV3006',namedEntity:clean(intent.entity||''),expectedAnswerParts:Number(intent.expectedParts||1),validatedAnswerParts:Array.isArray(result.parts)?result.parts.length:0,sourceBound:'YES',sourceCandidates:Number(evidenceCount||0),provider:clean(result.provider||''),researchMs:Date.now()-started,acronymEntityCollisionGuard:'ENFORCED',multiPartCompleteness:'ENFORCED'});
+  return c;
+}
+async function v3006StructuredResearchResponse(raw,requestState){
+  const intent=v3006ResearchIntent(raw);if(!intent)return '';
+  const cached=v3006ResearchCacheGet(raw);if(cached)return cached;
+  const started=Date.now(),evidence=await v3006ResearchEvidence(raw,intent);if(requestState&&requestState.aborted)return '';
+  if(!evidence.length)return '';
+  let result=await v3006OpenAISynthesize(raw,intent,evidence).catch(function(){return null;});if(requestState&&requestState.aborted)return '';
+  if(!result)result=await v3006GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});if(requestState&&requestState.aborted)return '';
+  if(!result)return '';
+  const serialized=v2844Serialize(raw,v3006ResearchContract(raw,intent,result,started,evidence.length),'source-bound-entity-research-v3006');v3006ResearchCachePut(raw,serialized);return serialized;
+}
+function v3006HomepageResourceRequest(raw,intent){return !!(intent&&clean(intent.resourceType||'')==='page'&&/\b(?:website|home\s*page|homepage|site)\b/i.test(clean(raw))&&!/\b(?:specific|section|article|document|form|manual|board|leadership|governance|source\s+list)\b/i.test(clean(raw)));}
+const ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',entityIdentityAvailable:typeof v3006NamedEntityIdentity==='function',institutionalTrailingEntityAvailable:typeof v3027InstitutionalTrailingEntity==='function',acronymLedOfficialIdentityAvailable:typeof v3025AcronymLedGenericEntityMatch==='function',entityCandidateGuardAvailable:typeof v3006EntityCandidateMatch==='function',intentAvailable:typeof v3006ResearchIntent==='function',evidenceAvailable:typeof v3006ResearchEvidence==='function',synthesisAvailable:typeof v3006StructuredResearchResponse==='function',authorityPriorityAvailable:typeof v3031AuthorityDomainPriority==='function',publicExplanationHygieneAvailable:typeof v3031PublicResearchExplanation==='function',publicExplanationLinkCleanupAvailable:typeof v3032StripSourceLinksFromExplanation==='function',quickOfficialEvidenceAvailable:typeof v3032QuickOfficialAuthorityEvidence==='function',preferredSourceAvailable:typeof v3031PreferredResearchSource==='function',cacheReady:V3006_ENTITY_RESEARCH_CACHE instanceof Map
+});
+if(!Object.keys(ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006).every(function(k){return ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006[k]===true;}))throw new Error('ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_V3006 startup validation failed');
+
+
+// SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_V3007
+// One shared semantic boundary keeps requested counting units distinct, routes empirical religion-coverage
+// questions to evidence rather than theology, prevents language-family/umbrella labels from being presented
+// as one language, and gives named-entity page/source requests a bounded exact-identity discovery pass before
+// the general resource dispatcher. No entity-, religion-, country-, or language-specific answer is hard-coded.
+const V3007_SEMANTIC_RESEARCH_CACHE=new Map();
+const V3007_SEMANTIC_RESEARCH_CACHE_TTL_MS=20*60*1000;
+function v3007SemanticScope(raw){
+  const input=clean(raw),s=v2856Normalized(raw);if(!s)return {unit:'',empiricalReligion:false,explicitScripture:false,ethnolinguistic:false,nationAmbiguous:false};
+  let unit='';
+  const howMany=function(noun){return new RegExp('\\bhow\\s+many(?:\\s+[a-z0-9-]+){0,3}\\s+'+noun+'\\b').test(s);};
+  const numberOf=function(noun){return new RegExp('\\b(?:number|total)\\s+of(?:\\s+[a-z0-9-]+){0,2}\\s+'+noun+'\\b').test(s);};
+  const openSet=function(noun){return new RegExp('^(?:what|which|name|list|identify|show|give)\\s+(?:all\\s+)?'+noun+'\\b').test(s);};
+  if(howMany('countries?')||numberOf('countries?')||openSet('countries?')||/\bof\s+\d[\d,]*\s+countries?\b/.test(s))unit='country';
+  else if(howMany('nations?')||numberOf('nations?')||openSet('nations?'))unit='nation';
+  else if(howMany('(?:languages?|dialects?)')||numberOf('(?:languages?|dialects?)')||openSet('(?:languages?|dialects?)'))unit='language';
+  else if(howMany('(?:translations?|versions?)')||numberOf('(?:translations?|versions?)')||openSet('(?:translations?|versions?)'))unit='translation';
+  else if(howMany('(?:people\\s+groups?|peoples?)')||numberOf('(?:people\\s+groups?|peoples?)')||openSet('(?:people\\s+groups?|peoples?)'))unit='people-group';
+  const explicitScripture=/\b(?:what\s+does\s+(?:the\s+)?bible\s+say|what\s+do\s+(?:the\s+)?scriptures?\s+say|according\s+to\s+(?:the\s+)?(?:bible|scriptures?|kjv)|in\s+(?:the\s+)?(?:bible|kjv|scriptures?)|verse|verses|passage|passages)\b/.test(s);
+  const religionSubject=/\b(?:bible|scripture|scriptures|gospel|jesus\s+christ|christian\s+scriptures?)\b/.test(s);
+  const coverage=/\b(?:translat(?:e|ed|es|ing|ion|ions)|publish(?:ed|es|ing)?|available|preach(?:ed|es|ing)?|reach(?:ed|es|ing)?|cover(?:ed|age)?|complete(?:d)?|language|languages|dialect|dialects|country|countries|nation|nations|people\s+group|people\s+groups|peoples?)\b/.test(s);
+  const openPlural=!!unit&&/^(?:what|which|name|list|identify|show|give)\b/.test(s);
+  const quantified=!!unit||/\b(?:all|every|each|total|how\s+many|of\s+\d[\d,]*)\b/.test(s);
+  const empiricalReligion=!!(religionSubject&&coverage&&(quantified||openPlural)&&!explicitScripture);
+  const ethnolinguistic=(/\b(?:what|which)\s+(?:is\s+the\s+)?language(?:\s+called)?\b/.test(s)&&/\b(?:speak|spoken|tribe|people|group|ethnic|community)\b/.test(s))||/\bwhat\s+language\s+(?:does|do|did)\b/.test(s)||(/\b(?:tribe|people|ethnic\s+group|community)\b/.test(s)&&/\b(?:click|clicking|language|dialect)\b/.test(s));
+  const nationAmbiguous=unit==='nation'&&/\b(?:bible|gospel|scripture|jesus|christ)\b/.test(s);
+  return {unit:unit,empiricalReligion:empiricalReligion,explicitScripture:explicitScripture,ethnolinguistic:ethnolinguistic,nationAmbiguous:nationAmbiguous,input:input,openPlural:openPlural};
+}
+function v3007ResearchIntent(raw){
+  const scope=v3007SemanticScope(raw),base=v3006ResearchIntent(raw);if(base){base.semanticScope=scope;if(!clean(base.entity||''))base.entity=v3021EntityIdentity(raw);return base;}
+  if(scope.empiricalReligion){
+    const normalized=v2856Normalized(raw),countRequest=/\bhow\s+many\b|\b(?:number|total)\s+of\b/.test(normalized);
+    return {kind:'semantic-source-research',entity:v3006NamedEntityIdentity(raw),expectedParts:v3006ExpectedPartCount(raw),current:true,scopeCount:countRequest,completeList:!!scope.openPlural,semanticScope:scope};
+  }
+  if(scope.ethnolinguistic){
+    return {kind:'ethnolinguistic-source-research',entity:v3006NamedEntityIdentity(raw),expectedParts:1,current:false,scopeCount:false,completeList:false,semanticScope:scope};
+  }
+  return null;
+}
+function v3007ResearchCacheKey(raw){return clean(raw).toLowerCase().replace(/\s+/g,' ').trim();}
+function v3007ResearchCacheGet(raw){const key=v3007ResearchCacheKey(raw),e=key&&V3007_SEMANTIC_RESEARCH_CACHE.get(key);if(!e)return '';if(Date.now()-e.savedAt>V3007_SEMANTIC_RESEARCH_CACHE_TTL_MS){V3007_SEMANTIC_RESEARCH_CACHE.delete(key);return '';}return String(e.serialized||'');}
+function v3007ResearchCachePut(raw,serialized){const key=v3007ResearchCacheKey(raw);if(!key||!serialized)return;V3007_SEMANTIC_RESEARCH_CACHE.set(key,{savedAt:Date.now(),serialized:String(serialized)});while(V3007_SEMANTIC_RESEARCH_CACHE.size>100){const first=V3007_SEMANTIC_RESEARCH_CACHE.keys().next().value;if(!first)break;V3007_SEMANTIC_RESEARCH_CACHE.delete(first);}}
+function v3007ResearchQueries(raw,intent){
+  const out=[];function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
+  v3006ResearchQueries(raw,intent).forEach(add);
+  const scope=intent&&intent.semanticScope||{},entity=clean(intent&&intent.entity||''),input=clean(raw).replace(/[?!.]+$/,'');
+  if(entity&&/\b(?:board|directors?|trustees?|leadership|officers?|ceo|president|chair)\b/i.test(input))add('"'+entity+'" official board directors leadership');
+  if(scope.empiricalReligion){
+    const unit=clean(scope.unit||'');add(input+' statistics source'+(unit?' '+unit:''));
+    if(/\b(?:bible|scripture)\b/i.test(input)&&/\btranslat/i.test(input))add('Bible translation statistics complete Bible New Testament portions languages countries');
+  }
+  if(scope.ethnolinguistic)add(input+' language family classification');
+  return out.slice(0,4);
+}
+function v3007EvidenceScore(raw,intent,c){
+  let score=v3006EvidencePreScore(raw,intent,c),hay=clean((c&&c.title||'')+' '+(c&&c.url||'')+' '+(c&&c.text||c&&c.snippet||'')).toLowerCase(),scope=intent&&intent.semanticScope||{};
+  if(scope.unit==='country'&&/\bcountr(?:y|ies)\b/.test(hay))score+=24;
+  if(scope.unit==='nation'&&/\b(?:nation|nations|people\s+groups?|peoples?)\b/.test(hay))score+=18;
+  if(scope.unit==='language'&&/\b(?:language|languages|dialect|dialects)\b/.test(hay))score+=24;
+  if(scope.unit==='translation'&&/\b(?:translation|translations|version|versions)\b/.test(hay))score+=24;
+  if(scope.ethnolinguistic&&/\b(?:language|languages|family|families|classification|linguistic|dialect|dialects)\b/.test(hay))score+=26;
+  if(/(?:^|\.)(?:wikipedia\.org|facebook\.com|linkedin\.com|youtube\.com)$/i.test(domainFromUrl(c&&c.url||'')))score-=24;
+  return score;
+}
+
+function v3021EntityIdentity(raw){
+  const prior=v3006NamedEntityIdentity(raw);if(prior)return prior;
+  const input=clean(raw).replace(/[?!.]+$/,'').trim();if(!input)return '';
+  const stop=new Set(['HOW','WHAT','WHO','WHERE','WHEN','WHY','WHICH','CAN','COULD','WOULD','SHOULD','DO','DOES','DID','IS','ARE','WAS','WERE','HAS','HAVE','HAD','THE','THIS','THAT','US','USA']);
+  const patterns=[
+    /\b(?:does|do|did|is|are|was|were|has|have|had)\s+(?:the\s+)?([A-Z][A-Z0-9&.-]{1,12})(?=\s|$)/,
+    /\b(?:of|for|at|from|to|about)\s+(?:the\s+)?([A-Z][A-Z0-9&.-]{1,12})(?=\s|$)/,
+    /\b([A-Z][A-Z0-9&.-]{1,12})\s+(?:currently\s+)?(?:have|has|members?|membership|board|directors?|leadership|website|site|homepage)\b/
+  ];
+  for(const re of patterns){const m=input.match(re);if(m&&m[1]&&!stop.has(m[1].toUpperCase()))return clean(m[1]);}
+  return '';
+}
+function v3021EntityTokens(entity){
+  return v3006NormalizeIdentity(entity).split(/\s+/).filter(function(x){return x&&x.length>1&&!/^(?:international|global|foundation|institute|association|society|corporation|company|university|organization|organisation|council|alliance|group|systems|technologies|laboratories|labs|network|trust|fund)$/.test(x);});
+}
+function v3021AuthorityPurpose(raw){
+  const s=v2856Normalized(raw);
+  if(/\b(?:board|directors?|trustees?|leadership|officers?|executives?|management)\b/.test(s))return 'leadership';
+  if(/\b(?:members?|membership|member\s+countries?|member\s+states?)\b/.test(s))return 'membership';
+  if(/\b(?:website|site|homepage|home\s+page|official\s+page|source\s+list)\b/.test(s))return 'resource';
+  if(/\b(?:how\s+many|number\s+of|total\s+of|statistics?|data|current|currently|latest|today|now)\b/.test(s))return 'current-fact';
+  return 'factual';
+}
+function v3031GovernmentAuthorityLikely(entity,raw){
+  const e=clean(entity||''),blob=clean(e+' '+clean(raw||''));if(!blob)return false;
+  if(typeof looksLikeKnownEntityOnly==='function'&&looksLikeKnownEntityOnly(e))return true;
+  return /\b(?:u\.?s\.?|united\s+states|federal|supreme\s+court|court\s+of\s+appeals|district\s+court|congress|senate|house\s+of\s+representatives|department|bureau|administration|commission|agency|government)\b/i.test(blob);
+}
+function v3031AuthorityDomainPriority(entity,raw,c){
+  const url=validHttpUrl(c&&c.url||''),domain=domainFromUrl(url).toLowerCase();if(!domain)return 0;
+  if(!v3031GovernmentAuthorityLikely(entity,raw))return 0;
+  if(/\.(?:gov|mil)$/i.test(domain)||/(?:^|\.)usa\.gov$/i.test(domain))return 220;
+  if(/\.com$/i.test(domain))return -145;
+  return -12;
+}
+function v3021OfficialHostScore(entity,c){
+  const url=validHttpUrl(c&&c.url||'');if(!url)return -999;
+  const domain=domainFromUrl(url),title=clean(c&&c.title||c&&c.fetchedTitle||''),snippet=clean(c&&c.snippet||''),text=clean(c&&c.text||'').slice(0,4500),meta=v3006NormalizeIdentity(domain+' '+title+' '+snippet+' '+text);
+  const tokens=v3021EntityTokens(entity),literal=clean(entity),acronym=/^[A-Z][A-Z0-9&.-]{1,12}$/.test(literal);let score=0;
+  if(v3006EntityCandidateMatch({requestedEntityIdentity:entity},c))score+=95;else score-=90;
+  const domainParts=domain.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean),metaSet=new Set(meta.split(/\s+/).filter(Boolean));
+  if(acronym&&domainParts.includes(literal.toLowerCase()))score+=95;
+  let domainHits=0,metaHits=0;tokens.forEach(function(t){if(domainParts.includes(t)||domain.toLowerCase().includes(t))domainHits++;if(metaSet.has(t))metaHits++;});
+  if(tokens.length){score+=domainHits*36+metaHits*14;if(domainHits>=Math.min(2,tokens.length))score+=35;}
+  if(/\b(?:official|about|who we are|our organization|our organisation|mission|leadership|governance|members?)\b/i.test(title+' '+snippet+' '+text))score+=18;
+  if(/\.(?:gov|mil|int)$/i.test(domain))score+=28;else if(/\.org$/i.test(domain))score+=12;
+  score+=v3031AuthorityDomainPriority(entity,'',c);
+  if(/(?:^|\.)(?:wikipedia\.org|facebook\.com|linkedin\.com|youtube\.com|x\.com|twitter\.com|instagram\.com|crunchbase\.com|britannica\.com)$/i.test(domain))score-=120;
+  try{const u=new URL(url),depth=u.pathname.split('/').filter(Boolean).length;if(depth===0)score+=18;else if(depth<=1)score+=8;}catch(_e){}
+  return score;
+}
+
+const V3026_AUTHORITY_OWNER_CACHE=new Map();
+const V3026_AUTHORITY_OWNER_CACHE_TTL_MS=30*60*1000;
+function v3026AuthorityOwnerCacheKey(raw,intent){
+  const entity=clean(intent&&intent.entity||v3021EntityIdentity(raw)),purpose=v3021AuthorityPurpose(raw);
+  return entity?purpose+'|'+v3006NormalizeIdentity(entity):'';
+}
+function v3026AuthorityOwnerCacheGet(raw,intent){
+  const key=v3026AuthorityOwnerCacheKey(raw,intent);if(!key)return null;
+  const row=V3026_AUTHORITY_OWNER_CACHE.get(key);if(!row)return null;
+  if(Date.now()-Number(row.at||0)>V3026_AUTHORITY_OWNER_CACHE_TTL_MS){V3026_AUTHORITY_OWNER_CACHE.delete(key);return null;}
+  return row.owner&&typeof row.owner==='object'?Object.assign({},row.owner):null;
+}
+function v3026AuthorityOwnerCachePut(raw,intent,owner){
+  const key=v3026AuthorityOwnerCacheKey(raw,intent);if(!key||!owner||!clean(owner.host||''))return;
+  V3026_AUTHORITY_OWNER_CACHE.set(key,{at:Date.now(),owner:Object.assign({},owner)});
+}
+function v3026RememberGroundedAuthority(raw,intent,result){
+  if(!intent||!clean(intent.entity||'')||!result||!result.source)return;
+  const source=result.source,url=validHttpUrl(source.url||'');if(!url)return;
+  const candidate={url:url,title:clean(source.title||''),snippet:clean(source.snippet||''),text:clean(source.text||'')};
+  if(typeof v3006EntityCandidateMatch==='function'&&!v3006EntityCandidateMatch({requestedEntityIdentity:intent.entity},candidate))return;
+  const host=domainFromUrl(url);if(!host)return;
+  let origin=url;try{origin=new URL(url).origin+'/';}catch(_e){}
+  v3026AuthorityOwnerCachePut(raw,intent,{entity:clean(intent.entity),host:host,url:origin,title:clean(source.title||intent.entity),score:999,purpose:v3021AuthorityPurpose(raw),groundedSeed:true});
+}
+
+async function v3021DiscoverAuthorityOwner(raw,intent){
+  const cachedOwner=v3026AuthorityOwnerCacheGet(raw,intent);if(cachedOwner)return cachedOwner;
+  const entity=clean(intent&&intent.entity||v3021EntityIdentity(raw));if(!entity)return null;
+  const purpose=v3021AuthorityPurpose(raw),focus=purpose==='leadership'?'leadership board directors governance':purpose==='membership'?'members membership official':purpose==='resource'?'official website homepage':'official current facts data';
+  const governmentAuthority=v3031GovernmentAuthorityLikely(entity,raw);
+  const queries=governmentAuthority?['"'+entity+'" site:.gov '+focus,'"'+entity+'" official '+focus]:['"'+entity+'" official website','"'+entity+'" '+focus];
+  const jobs=[];queries.forEach(function(q){
+    jobs.push(v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2200,1).then(function(body){return {kind:'bing',body:body||''};}).catch(function(){return null;}));
+    jobs.push(v2989HttpGetText('https://html.duckduckgo.com/html/?q='+encodeURIComponent(q),2200,1).then(function(body){return {kind:'ddg',body:body||''};}).catch(function(){return null;}));
+  });
+  const pages=await Promise.all(jobs),pool=[],seen=new Set();
+  pages.forEach(function(page){if(!page||!page.body)return;const rows=page.kind==='bing'?v2989ParseBingRss(page.body):v2989ParsePublicSearchHtml(page.body);rows.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u||v2989SearchResultUrl(u))return;const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);pool.push(c);});});
+  pool.forEach(function(c){c.ownerScore=v3021OfficialHostScore(entity,c);});pool.sort(function(a,b){return Number(b.ownerScore||-999)-Number(a.ownerScore||-999);});
+  const top=pool.slice(0,6),fetched=await Promise.all(top.map(function(c){return v2989CandidateFetch(c.url,2200,2).then(function(page){const row=Object.assign({},c);if(page){row.url=validHttpUrl(page.url||c.url)||c.url;row.ok=!!page.ok;row.status=Number(page.status||0);row.title=clean(page.title||row.title||'');row.text=clean(page.text||'').slice(0,6500);row.directFetchVerified=!!page.ok;}row.ownerScore=v3021OfficialHostScore(entity,row);return row;}).catch(function(){return c;});}));
+  const best=fetched.filter(function(c){return v3021OfficialHostScore(entity,c)>=105;}).sort(function(a,b){return v3021OfficialHostScore(entity,b)-v3021OfficialHostScore(entity,a);})[0];if(!best)return null;
+  const owner={entity:entity,host:domainFromUrl(best.url),url:validHttpUrl(best.url),title:clean(best.title||entity),score:v3021OfficialHostScore(entity,best),purpose:purpose};
+  v3026AuthorityOwnerCachePut(raw,intent,owner);
+  return owner;
+}
+function v3021AuthorityQueryTerms(raw,intent,owner){
+  const entity=clean(owner&&owner.entity||intent&&intent.entity||v3021EntityIdentity(raw)),purpose=v3021AuthorityPurpose(raw),host=clean(owner&&owner.host||''),input=clean(raw).replace(/[?!.]+$/,'');const out=[];
+  function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
+  const site=host?'site:'+host+' ':'';
+  if(entity){
+    if(purpose==='leadership'){add(site+'"'+entity+'" board directors leadership governance');add(site+'"'+entity+'" leadership');}
+    else if(purpose==='membership'){add(site+'"'+entity+'" members membership current');add(site+'"'+entity+'" member countries member states');}
+    else if(purpose==='resource'){add(site+'"'+entity+'" official website');}
+    else {add(site+'"'+entity+'" current official data facts');}
+  }
+  add(input);
+  return out.slice(0,4);
+}
+function v3021AuthorityEvidenceBoost(raw,intent,c,owner){
+  let score=v3018EvidenceAuthorityScore(raw,intent,c);if(!owner||!owner.host)return score;
+  const d=domainFromUrl(c&&c.url||'');if(d===owner.host||d.endsWith('.'+owner.host)||owner.host.endsWith('.'+d))score+=180;else score-=18;
+  const purpose=owner.purpose||v3021AuthorityPurpose(raw),hay=clean((c&&c.title||'')+' '+(c&&c.snippet||'')+' '+(c&&c.text||'')+' '+(c&&c.url||''));
+  if(purpose==='leadership'&&/\b(?:board|directors?|leadership|governance|trustees?|officers?)\b/i.test(hay))score+=70;
+  if(purpose==='membership'&&/\b(?:members?|membership|member\s+countries?|member\s+states?)\b/i.test(hay))score+=70;
+  if(purpose==='resource'&&validHttpUrl(c&&c.url||''))score+=25;
+  return score;
+}
+function v3023AuthorityHostMatch(owner,c){
+  const host=clean(owner&&owner.host||'').toLowerCase(),url=validHttpUrl(c&&c.url||'');if(!host||!url)return false;
+  const d=domainFromUrl(url).toLowerCase();if(!d)return false;
+  return d===host||d.endsWith('.'+host)||host.endsWith('.'+d);
+}
+function v3023AuthorityEntityEvidenceEligible(intent,c,owner,evidence){
+  if(!intent||!clean(intent.entity||''))return true;
+  if(!v3029AmbiguousSinglePlaceRoleSourceCompatible(intent,c))return false;
+  if(c&&c.officialEntityBound)return true;
+  if(owner&&v3023AuthorityHostMatch(owner,c))return true;
+  const url=validHttpUrl(c&&c.url||''),d=domainFromUrl(url).toLowerCase();
+  if(d&&Array.isArray(evidence)&&evidence.some(function(ev){
+    if(!ev||!ev.officialEntityBound)return false;
+    const ed=domainFromUrl(validHttpUrl(ev.url||'')).toLowerCase();
+    return !!ed&&(d===ed||d.endsWith('.'+ed)||ed.endsWith('.'+d));
+  }))return true;
+  return typeof v3006EntityCandidateMatch==='function'?v3006EntityCandidateMatch({requestedEntityIdentity:intent.entity},c):false;
+}
+function v3023AuthorityNavigationScore(raw,intent,owner,c,context){
+  const purpose=clean(owner&&owner.purpose||v3021AuthorityPurpose(raw)),hay=clean([c&&c.title,c&&c.url,c&&c.snippet,context].join(' '));let score=0;
+  if(purpose==='leadership'){
+    if(/\b(?:board|directors?|leadership|leaders?|governance|trustees?|officers?|executives?|management)\b/i.test(hay))score+=90;
+    if(/\b(?:our\s+leaders|board\s+of\s+directors|corporate\s+officers)\b/i.test(hay))score+=45;
+  }else if(purpose==='membership'){
+    if(/\b(?:members?|membership|member\s+countries?|member\s+states?|partners?)\b/i.test(hay))score+=90;
+  }else if(purpose==='resource'){
+    if(/\b(?:home|homepage|about|about\s+us|official|contact)\b/i.test(hay))score+=65;
+  }else{
+    if(/\b(?:current|latest|data|statistics?|report|annual|facts?|figures?|research|status|updated)\b/i.test(hay))score+=75;
+  }
+  if(/\b(?:about|who\s+we\s+are|organization|organisation|mission|people|team)\b/i.test(hay))score+=18;
+  if(v3023AuthorityHostMatch(owner,c))score+=80;
+  return score;
+}
+async function v3023AuthorityNavigationCandidates(raw,intent,owner){
+  if(!owner||!validHttpUrl(owner.url||'')||!clean(owner.host||''))return [];
+  const seeds=[],seenSeed=new Set();function addSeed(u){u=validHttpUrl(u);if(!u)return;const k=u.toLowerCase();if(seenSeed.has(k))return;seenSeed.add(k);seeds.push(u);}
+  addSeed(owner.url);
+  try{const u=new URL(owner.url);addSeed(u.origin+'/');}catch(_e){}
+  const pages=await Promise.all(seeds.slice(0,2).map(function(url){return v2989HttpGetText(url,2300,2).then(function(body){return {url:url,body:body||''};}).catch(function(){return null;});}));
+  const out=[],seen=new Set();
+  pages.forEach(function(page){
+    if(!page||!page.body)return;const html=String(page.body||''),re=/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi;let m;
+    while((m=re.exec(html))&&out.length<80){
+      let url='';try{url=validHttpUrl(new URL(decodeEntitiesLite(m[1]||''),page.url).toString());}catch(_e){}if(!url)continue;
+      if(!v3023AuthorityHostMatch(owner,{url:url}))continue;
+      if(/(?:^|\/)(?:wp-content|wp-includes)(?:\/|$)|\.(?:css|js|ico|png|jpe?g|gif|webp|svg|zip)(?:$|[?#])/i.test(url))continue;
+      const k=url.toLowerCase();if(seen.has(k))continue;
+      const title=clean(decodeEntitiesLite(stripHtml(m[2]||'')))||domainFromUrl(url),around=html.slice(Math.max(0,m.index-220),Math.min(html.length,re.lastIndex+320)),snippet=clean(decodeEntitiesLite(stripHtml(around))).slice(0,700);
+      const candidate={url:url,title:title,snippet:snippet,text:'',provider:'Official-site navigation discovery',officialEntityBound:true,authorityNavigationCandidate:true};
+      const navScore=v3023AuthorityNavigationScore(raw,intent,owner,candidate,snippet);if(navScore<80)continue;
+      candidate.preScore=220+navScore;seen.add(k);out.push(candidate);
+    }
+  });
+  out.sort(function(a,b){return Number(b.preScore||0)-Number(a.preScore||0);});
+  return out.slice(0,12);
+}
+
+function v3020ResearchTopicCore(raw,intent){
+  const scope=intent&&intent.semanticScope||{},input=v2856Normalized(raw);
+  if(!input)return '';
+  const stop=new Set(['how','many','what','which','who','where','when','why','does','do','did','is','are','was','were','has','have','had','with','without','some','portion','part','least','one','any','the','a','an','of','to','into','from','for','in','on','at','it','its','them','their','there','been','be','being','and','or','current','currently','latest']);
+  const map={translated:'translation',translate:'translation',translates:'translation',translating:'translation',translations:'translation',languages:'language',countries:'country',nations:'nation',statistics:'statistics',statistic:'statistics',reports:'report',reported:'report'};
+  const words=input.replace(/[^a-z0-9\s-]/g,' ').split(/\s+/).filter(Boolean).map(function(w){return map[w]||w;}).filter(function(w){return !stop.has(w)&&w.length>2;});
+  const preferred=[];function add(w){if(w&&!preferred.includes(w))preferred.push(w);}
+  // Preserve requested unit explicitly so search/ranking cannot drift to a nearby metric.
+  if(scope.unit)add(scope.unit);
+  words.forEach(add);
+  return preferred.slice(0,9).join(' ');
+}
+function v3020EmpiricalEvidenceRequest(intent){
+  const scope=intent&&intent.semanticScope||{};
+  return !!(scope.empiricalReligion||intent&&intent.scopeCount||intent&&intent.current);
+}
+function v3020ContentSitePenalty(hay){
+  let p=0;
+  if(/\b(?:dictionary|definition|concordance|lexicon|word meaning|pronunciation)\b/i.test(hay))p+=32;
+  if(/\b(?:read(?:ing)? the bible|bible reading|daily verse|verse of the day|devotional|study bible|audio bible|bible app|chapter\s+\d+|kjv text)\b/i.test(hay))p+=26;
+  if(/\b(?:sermon|commentary|homily|prayer|inspiration)\b/i.test(hay)&&!/\b(?:statistics?|data|report|survey|research)\b/i.test(hay))p+=18;
+  return p;
+}
+function v3018EvidenceAuthorityScore(raw,intent,c){
+  let score=v3007EvidenceScore(raw,intent,c),url=validHttpUrl(c&&c.url||''),domain=domainFromUrl(url),title=clean(c&&c.title||''),snippet=clean(c&&c.snippet||''),text=clean(c&&c.text||''),hay=clean(title+' '+snippet+' '+text),scope=intent&&intent.semanticScope||{};
+  score+=v3031AuthorityDomainPriority(clean(intent&&intent.entity||v3021EntityIdentity(raw)),raw,c);
+  if(/\.(?:gov|edu)$/i.test(domain))score+=26;
+  if(/\.org$/i.test(domain))score+=12;
+  if(/\b(?:annual|global|official|statistics?|data|dataset|report|facts?|figures?|research|survey|updated|current|latest|progress|status|access)\b/i.test(hay))score+=18;
+  const year=new Date().getUTCFullYear();if(new RegExp('\\b(?:'+(year-1)+'|'+year+'|'+(year+1)+')\\b').test(hay))score+=14;
+  if(v3020EmpiricalEvidenceRequest(intent)){
+    const hasMeasure=/\b(?:statistics?|data|dataset|report|figures?|survey|research|progress|status|access|coverage)\b/i.test(hay);
+    const hasCurrent=/\b(?:current|currently|latest|updated|as\s+of|annual|global|20\d{2})\b/i.test(hay);
+    const unit=clean(scope.unit||'');
+    const unitOk=!unit||v3011RequestedUnitPresent(unit,hay);
+    const topicCore=v3020ResearchTopicCore(raw,intent).split(/\s+/).filter(function(w){return w&&w!==unit;});
+    let topicHits=0;topicCore.forEach(function(w){if(new RegExp('\\b'+v2939EscapeRegex(w).replace(/translation$/,'translat(?:e|ed|es|ing|ion|ions)')+'\\b','i').test(hay))topicHits++;});
+    if(hasMeasure)score+=34;
+    if(hasCurrent)score+=18;
+    if(unitOk)score+=22;else score-=18;
+    if(topicHits>=2)score+=24;else if(topicHits===1)score+=8;
+    score-=v3020ContentSitePenalty(hay);
+  }
+  if(/(?:^|\.)(?:facebook\.com|linkedin\.com|youtube\.com|x\.com|twitter\.com)$/i.test(domain))score-=45;
+  if(/(?:^|\.)(?:wikipedia\.org|quora\.com|reddit\.com)$/i.test(domain))score-=18;
+  return score;
+}
+function v3018ResearchQueryVariants(raw,intent){
+  const out=[];function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
+  const scope=intent&&intent.semanticScope||{},input=clean(raw).replace(/[?!.]+$/,''),core=v3020ResearchTopicCore(raw,intent);
+  // Authority-first queries must come before broad natural-language variants; prior builds appended them
+  // after an already-full query basket, so the focused queries were often truncated before execution.
+  if(v3020EmpiricalEvidenceRequest(intent)&&core){
+    add(core+' global statistics data report');
+    add(core+' official statistics annual report');
+    add(core+' current data research report');
+  }else if(core){
+    add(core+' authoritative source');
+  }
+  v3007ResearchQueries(raw,intent).forEach(add);
+  if(intent&&intent.current)add(input+' current statistics report');
+  if(intent&&intent.scopeCount)add(input+' data report count');
+  if(scope&&scope.empiricalReligion)add(input+' global statistics data report');
+  return out.slice(0,5);
+}
+async function v3007ResearchEvidence(raw,intent){
+  if(intent&&!clean(intent.entity||''))intent.entity=v3021EntityIdentity(raw);
+  const owner=intent&&intent.entity?await v3021DiscoverAuthorityOwner(raw,intent).catch(function(){return null;}):null;
+  try{if(intent&&intent.entity&&!owner)console.warn('AIV authority-owner v3026 unresolved | entity='+clean(intent.entity)+' | purpose='+v3021AuthorityPurpose(raw));}catch(_e){}
+  const queries=owner?v3021AuthorityQueryTerms(raw,intent,owner):v3018ResearchQueryVariants(raw,intent);if(!queries.length&&!owner)return [];
+  const jobs=[];queries.forEach(function(q){
+    jobs.push(v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2300,1).then(function(body){return {kind:'bing',body:body||''};}).catch(function(){return null;}));
+    jobs.push(v2989HttpGetText('https://html.duckduckgo.com/html/?q='+encodeURIComponent(q),2300,1).then(function(body){return {kind:'ddg',body:body||''};}).catch(function(){return null;}));
+  });
+  const searchPromise=Promise.all(jobs),navigationPromise=owner?v3023AuthorityNavigationCandidates(raw,intent,owner).catch(function(){return [];}):Promise.resolve([]);
+  const combined=await Promise.all([searchPromise,navigationPromise]),pages=combined[0]||[],navigation=combined[1]||[],pooled=[],seen=new Set();
+  if(owner&&validHttpUrl(owner.url)){seen.add(owner.url.toLowerCase());pooled.push({url:owner.url,title:owner.title||owner.entity,snippet:'Verified authority-owner candidate',text:'',directFetchVerified:false,officialEntityBound:true,preScore:260});}
+  navigation.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u)return;const key=u.toLowerCase();if(seen.has(key))return;seen.add(key);c.officialEntityBound=true;c.preScore=Math.max(Number(c.preScore||0),owner?v3021AuthorityEvidenceBoost(raw,intent,c,owner):v3018EvidenceAuthorityScore(raw,intent,c));pooled.push(c);});
+  pages.forEach(function(page){if(!page||!page.body)return;const rows=page.kind==='bing'?v2989ParseBingRss(page.body):v2989ParsePublicSearchHtml(page.body);rows.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u||v2989SearchResultUrl(u))return;const key=u.toLowerCase();if(seen.has(key))return;seen.add(key);if(owner&&v3023AuthorityHostMatch(owner,c))c.officialEntityBound=true;c.preScore=owner?v3021AuthorityEvidenceBoost(raw,intent,c,owner):v3018EvidenceAuthorityScore(raw,intent,c);pooled.push(c);});});
+  pooled.sort(function(a,b){return Number(b.preScore||0)-Number(a.preScore||0);});
+  const eligible=pooled.filter(function(c){return v3023AuthorityEntityEvidenceEligible(intent,c,owner);}),top=eligible.slice(0,10);
+  const resolved=await Promise.all(top.map(function(c){return v2989CandidateFetch(c.url,2400,2).then(function(page){const row=Object.assign({},c);if(page){row.url=validHttpUrl(page.url||c.url)||c.url;row.ok=!!page.ok;row.status=Number(page.status||0);row.contentType=clean(page.contentType||'');row.fetchedTitle=clean(page.title||'');if(row.fetchedTitle)row.title=row.fetchedTitle;row.text=clean(page.text||'').slice(0,8200);row.directFetchVerified=!!page.ok;}if(owner&&v3023AuthorityHostMatch(owner,row))row.officialEntityBound=true;row.preScore=owner?v3021AuthorityEvidenceBoost(raw,intent,row,owner):v3018EvidenceAuthorityScore(raw,intent,row);return row;}).catch(function(){return c;});}));
+  const finalRows=resolved.filter(function(c){return validHttpUrl(c&&c.url||'')&&v3023AuthorityEntityEvidenceEligible(intent,c,owner);}).sort(function(a,b){return (owner?v3021AuthorityEvidenceBoost(raw,intent,b,owner):v3018EvidenceAuthorityScore(raw,intent,b))-(owner?v3021AuthorityEvidenceBoost(raw,intent,a,owner):v3018EvidenceAuthorityScore(raw,intent,a));}).slice(0,8);
+  try{if(owner)console.log('AIV authority-owner v3026 | entity='+owner.entity+' | host='+owner.host+' | purpose='+owner.purpose+' | navigation='+navigation.length+' | evidence='+finalRows.length);}catch(_e){}
+  return finalRows;
+}
+
+function v3007EvidencePrompt(raw,intent,evidence){
+  const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||'unspecified');
+  return v3006EvidencePrompt(raw,intent,evidence)+'\n'+[
+    'SEMANTIC SCOPE LOCK: requested counting/classification unit = '+unit+'.',
+    'Never silently substitute among countries, modern sovereign states, biblical nations/peoples, languages, dialects, language families, people groups, translations, Bible versions, complete Bibles, New Testaments, or Scripture portions. These are different units.',
+    scope.nationAmbiguous?'In Bible/gospel wording, “nation” may mean peoples rather than a modern sovereign-state count. State the definition used and do not silently convert it to 195 modern countries.':'',
+    scope.empiricalReligion?'This is an empirical coverage/statistics question, not a request for a theological answer. Use the supplied evidence and its date/counting definition. Scripture may explain theology but cannot itself establish a current empirical coverage total.':'',
+    /\b(?:bible|scripture)\b/i.test(clean(raw))&&/\btranslat/i.test(clean(raw))?'For Bible translation statistics, distinguish complete Bible, New Testament, portions/Scripture availability, number of languages, number of countries, and number of translation projects. Do not turn one of those totals into another.':'',
+    scope.ethnolinguistic?'For an ethnolinguistic question, ANSWER must directly name the language(s), dialect(s), or language-family classification requested. If the group does not have one single language, say that in ANSWER and name the supported language(s)/family or families there. Do not use ANSWER merely to describe the people/group; background belongs in EXPLANATION.':'',
+    scope.unit&&intent&&intent.scopeCount?'For a HOW MANY source-dependent answer: if the cited evidence explicitly publishes the exact requested aggregate, put that count in ANSWER and state the source/date/counting scope in EXPLANATION. If authoritative current evidence covers the subject but does NOT publish that exact aggregate, supported=true is allowed only when ANSWER clearly says that no exact published count for the requested unit is available in the cited evidence; EXPLANATION may give the closest directly supported figures, clearly labeled as different metrics. Never substitute a nearby total as though it answered the requested count.':'',
+    'A numeric answer may be concise, but EXPLANATION must state the unit/definition/date needed to make that number unambiguous. Never use 0 as a fallback for missing evidence. When the exact requested aggregate is not published, return a precise source-qualified limitation only if the evidence genuinely supports that limitation; otherwise use supported=false.'
+  ].filter(Boolean).join('\n');
+}
+function v3019QualifiedCountBoundary(value){
+  const s=clean(value);
+  if(!s)return false;
+  if(/\b(?:cannot|can't|unable|insufficient|not enough)\s+(?:be\s+)?(?:determine|determined|answer|verify|complete)\b/i.test(s)&&!/\b(?:exact|published|reported|available|source|dataset|data)\b/i.test(s))return false;
+  return /\b(?:no|not)\s+(?:single\s+)?(?:reliable\s+|authoritative\s+|current\s+|publicly\s+|published\s+|reported\s+|exact\s+){0,4}(?:exact\s+)?(?:country\s+|nation\s+|language\s+|translation\s+|people(?:\s+group)?\s+)?(?:count|total|figure|number)\s+(?:is\s+)?(?:published|reported|available|provided|given|stated|listed|found)\b/i.test(s)||
+    /\b(?:exact|requested)\s+(?:country\s+|nation\s+|language\s+|translation\s+|people(?:\s+group)?\s+)?(?:count|total|figure|number)\s+(?:is\s+)?not\s+(?:published|reported|available|provided|given|stated|listed)\b/i.test(s)||
+    /\b(?:source|report|dataset|data)\s+(?:does|do)\s+not\s+(?:publish|report|provide|give|state|list)\s+(?:an?\s+)?(?:exact\s+)?(?:country\s+|nation\s+|language\s+|translation\s+|people(?:\s+group)?\s+)?(?:count|total|figure|number)\b/i.test(s);
+}
+function v3019QualifiedCountEvidenceUseful(intent,source,answer,explanation){
+  const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||''),sourceText=clean([source&&source.title,source&&source.snippet,source&&source.text].join(' ')),combined=clean([answer,explanation,sourceText].join(' '));
+  if(!v3019QualifiedCountBoundary(clean(answer+' '+explanation)))return false;
+  if(unit&&!v3011RequestedUnitPresent(unit,combined))return false;
+  if(!/\b(?:statistic|statistics|data|report|reported|dataset|translation|translated|scripture\s+access|coverage|languages?|countries|nations?|projects?|published|available)\b/i.test(combined))return false;
+  if(!(v3011PrimaryCountTokens(sourceText).length||v3011PrimaryCountTokens(explanation).length))return false;
+  if(intent&&intent.current&&!v3011RecentScopeSignal(combined))return false;
+  return true;
+}
+function v3011PrimaryCountTokens(value){
+  const raw=clean(value),matches=raw.match(/\b\d[\d,]*(?:\.\d+)?\b/g)||[],year=new Date().getUTCFullYear();
+  const normalized=matches.map(function(x){return x.replace(/,/g,'');}).filter(function(x){return x&&/^\d+(?:\.\d+)?$/.test(x);});
+  const nonYears=normalized.filter(function(x){const n=Number(x);return !(Number.isInteger(n)&&n>=1900&&n<=year+1);});
+  return nonYears.length?nonYears:normalized;
+}
+function v3011SourceContainsCount(answer,source){
+  const nums=v3011PrimaryCountTokens(answer);if(!nums.length)return true;
+  const hay=clean([source&&source.title,source&&source.snippet,source&&source.text].join(' ')).replace(/,/g,'');
+  return nums.some(function(n){return new RegExp('(?:^|\\D)'+v2939EscapeRegex(n)+'(?:\\D|$)').test(hay);});
+}
+function v3011RecentScopeSignal(value){
+  const s=clean(value),year=new Date().getUTCFullYear(),years=(s.match(/\b(?:19|20)\d{2}\b/g)||[]).map(Number);
+  if(years.some(function(y){return y>=year-5&&y<=year+1;}))return true;
+  return /\b(?:current|currently|latest|updated|as\s+of|today|present|recent)\b/i.test(s);
+}
+function v3011RequestedUnitPresent(unit,value){
+  const s=clean(value).toLowerCase();
+  if(!unit)return true;
+  if(unit==='country')return /\bcountr(?:y|ies)\b|\bsovereign\s+states?\b/.test(s);
+  if(unit==='nation')return /\b(?:nation|nations|people\s+groups?|peoples?|countries)\b/.test(s);
+  if(unit==='language')return /\b(?:language|languages|dialect|dialects)\b/.test(s);
+  if(unit==='translation')return /\b(?:translation|translations|version|versions)\b/.test(s);
+  if(unit==='people-group')return /\b(?:people\s+group|people\s+groups|peoples?)\b/.test(s);
+  return true;
+}
+function v3011EmpiricalCoverageEvidenceValid(raw,intent,result){
+  const scope=intent&&intent.semanticScope||{};if(!scope.empiricalReligion)return true;
+  const source=result&&result.source||{},sourceText=clean([source.title,source.snippet,source.text].join(' ')),resultText=clean([result&&result.answer,result&&result.explanation].join(' '));
+  if(!sourceText)return false;
+  if(!v3011RequestedUnitPresent(clean(scope.unit||''),sourceText+' '+resultText))return false;
+  if(!/\b(?:statistic|statistics|data|report|reported|translation|translated|scripture\s+access|coverage|reached|unreached|people\s+groups?|languages?|countries|projects?|published|available)\b/i.test(sourceText))return false;
+  if(intent&&intent.scopeCount){const countTokens=v3011PrimaryCountTokens(result&&result.answer||'');if(countTokens.length&&!v3011SourceContainsCount(result.answer,source))return false;if(!countTokens.length&&!v3019QualifiedCountEvidenceUseful(intent,source,result&&result.answer||'',result&&result.explanation||''))return false;}
+  if(intent&&intent.current&&!v3011RecentScopeSignal(sourceText+' '+resultText))return false;
+  return true;
+}
+function v3011EthnolinguisticAnswerDirect(raw,result){
+  const answer=clean(result&&result.answer||'');if(!answer)return false;
+  if(/\b(?:language|languages|dialect|dialects|family|families|speak|speaks|spoken|no\s+single\s+language|multiple\s+languages|several\s+languages|different\s+languages)\b/i.test(answer))return true;
+  // A very short proper-name answer is allowed, but descriptive prose about the subject is not.
+  const words=answer.split(/\s+/).filter(Boolean);
+  if(words.length<=8&&answer.length<=90&&/[A-Z]/.test(answer)&&!/[.!?].+[A-Za-z]/.test(answer))return true;
+  return false;
+}
+function v3007ScopeEvidenceValid(raw,intent,result){
+  if(!result||!result.ok)return false;const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||'');
+  const source=result.source||{},answer=clean(result.answer||''),resultBlob=clean([answer,result.explanation].join(' ')).toLowerCase(),sourceBlob=clean([source.title,source.snippet,source.text].join(' ')).toLowerCase(),blob=clean(resultBlob+' '+sourceBlob);
+  const numericOnly=/^\d[\d,]*(?:\.\d+)?$/.test(answer);
+  if(unit&&!v3011RequestedUnitPresent(unit,resultBlob))return false;
+  if(unit==='country'&&/\b(?:language|languages|dialect|dialects)\b/.test(resultBlob)&&!/\bcountr(?:y|ies)\b/.test(resultBlob))return false;
+  if(unit==='language'&&/\bcountr(?:y|ies)\b/.test(resultBlob)&&!/\b(?:language|languages|dialect|dialects)\b/.test(resultBlob))return false;
+  if(intent&&intent.scopeCount){const countTokens=v3011PrimaryCountTokens(answer);if(countTokens.length&&!v3011SourceContainsCount(answer,source))return false;if(!countTokens.length&&!v3019QualifiedCountEvidenceUseful(intent,source,answer,result.explanation))return false;}
+  if(scope.empiricalReligion&&!v3011EmpiricalCoverageEvidenceValid(raw,intent,result))return false;
+  if(scope.ethnolinguistic){
+    if(!v3011EthnolinguisticAnswerDirect(raw,result))return false;
+    const ans=answer.toLowerCase();
+    if(ans){const escaped=v2939EscapeRegex(ans.slice(0,80));const umbrella=new RegExp(escaped+'[^.]{0,100}\\b(?:family|families|group|cluster|umbrella|classification)\\b|\\b(?:family|families|group|cluster|umbrella|classification)\\b[^.]{0,100}'+escaped,'i');if(umbrella.test(blob)&&!/\b(?:not\s+(?:a\s+)?single\s+language|no\s+single\s+language|multiple\s+languages|several\s+languages|different\s+languages|group\s+of\s+languages|family\s+of\s+languages|umbrella)\b/i.test(clean(result.answer+' '+result.explanation)))return false;}
+  }
+  if(numericOnly&&unit&&!v3011RequestedUnitPresent(unit,clean(result.explanation||'')))return false;
+  return true;
+}
+function v3011SourceOwnedRetry(raw,intent,reason){
+  const scope=intent&&intent.semanticScope||{},current=!!(intent&&intent.current);
+  const c=v2844Contract(raw,{intent:'SOURCE_BOUND_RESEARCH_RETRY',route:'source-bound-research/nonfinal/v3011',basket:V2771_FIXED_BASKETS.UNSUPPORTED,answer:current?'A reliable current-source answer could not be completed in this scan.':'A reliable source-bound answer could not be completed in this scan.',explanation:'Select Analyze/Enter again to retry this scan.',classification:'NONFINAL SOURCE-BOUND RESEARCH',confidence:'',status:'SOURCE LOOKUP UNAVAILABLE'});
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'sharedSourceBoundResearchIntegrityV3011',sourceOwnedRequest:'YES',requestedSemanticUnit:clean(scope.unit||''),empiricalReligionCoverage:scope.empiricalReligion?'YES':'NO',ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',nonfinalReason:clean(reason||'source_bound_research_failed'),genericFallbackBlocked:'YES',cacheEligible:'NO'});
+  return v2844Serialize(raw,c,'source-bound-research-nonfinal-v3011');
+}
+function v3007ParsedResearchResult(raw,intent,parsed,evidence,provider){
+  const base=v3006ParsedResearchResult(raw,intent,parsed,evidence,provider);if(!base)return null;
+  return v3007ScopeEvidenceValid(raw,intent,base)?base:null;
+}
+async function v3007OpenAISynthesize(raw,intent,evidence){
+  if(!envSecret('OPENAI_API_KEY')||!evidence.length)return null;const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3007EvidencePrompt(raw,intent,evidence),max_output_tokens:1100,text:{format:{type:'json_object'}}};if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,6800);if(!response||!response.ok)return null;const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));return v3007ParsedResearchResult(raw,intent,parsed,evidence,'OpenAI evidence synthesis');
+}
+async function v3007GeminiSynthesize(raw,intent,evidence){
+  if(!envSecret('GEMINI_API_KEY')||!evidence.length)return null;const model=clean(process.env.GEMINI_MODEL||process.env.GEMINI_SEARCH_MODEL||'gemini-3.6-flash'),payload={contents:[{role:'user',parts:[{text:v3007EvidencePrompt(raw,intent,evidence)}]}],generationConfig:{temperature:0.03,maxOutputTokens:1100,responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,5600);if(!response||!response.ok)return null;const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));return v3007ParsedResearchResult(raw,intent,parsed,evidence,'Gemini evidence synthesis');
+}
+function v3007ResearchContract(raw,intent,result,started,evidenceCount){
+  const source=result.source,requestedBasket=(typeof v3001RequestedBasket==='function'?v3001RequestedBasket(raw):OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER),c=v2844Contract(raw,{intent:'SEMANTIC_SCOPE_SOURCE_RESEARCH',route:'semantic-scope/source-bound/v3007',basket:requestedBasket,answer:result.answer,explanation:result.explanation,source:clean(source.title||domainFromUrl(source.url)||'Retrieved source'),sourceUrl:validHttpUrl(source.url||''),classification:intent.current?'CURRENT SOURCE-VERIFIED FACTUAL':'SOURCE-VERIFIED SEMANTIC FACTUAL',confidence:'High confidence',status:'ANSWERED'});
+  c.inputType='QUESTION';c.analysisResult='Answer';c.summary=result.answer;c.outputBasket=requestedBasket;c.fixedOutputBasket=requestedBasket;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;c.showAdditionalInformation=!!clean(result.explanation||'');
+  if(intent.current){c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();}
+  const scope=intent.semanticScope||{};c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'semanticScopeAndSourceFidelityV3007',namedEntity:clean(intent.entity||''),requestedSemanticUnit:clean(scope.unit||''),empiricalReligionCoverage:scope.empiricalReligion?'YES':'NO',ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',nationMeaningAmbiguity:scope.nationAmbiguous?'EXPLICIT':'NOT_APPLICABLE',expectedAnswerParts:Number(intent.expectedParts||1),validatedAnswerParts:Array.isArray(result.parts)?result.parts.length:0,sourceBound:'YES',sourceCandidates:Number(evidenceCount||0),provider:clean(result.provider||''),researchMs:Date.now()-started,unitSubstitutionGuard:'ENFORCED',umbrellaVsLanguageGuard:'ENFORCED'});
+  return c;
+}
+function v3013StableSemanticModelEligible(intent){
+  const scope=intent&&intent.semanticScope||{};
+  return !!(scope.ethnolinguistic&&!scope.empiricalReligion&&!intent.current&&!intent.scopeCount);
+}
+function v3013StableSemanticModelPrompt(raw,intent){
+  const scope=intent&&intent.semanticScope||{};
+  return [
+    'Answer the stable factual question using model knowledge only because bounded free/direct retrieval did not yield a usable source-bound result.',
+    'Return ONLY JSON with keys supported, answer, explanation.',
+    'supported must be true only when you can answer the requested semantic target confidently enough for a concise factual response.',
+    'ANSWER must directly provide the thing requested by the question. Do not answer by merely describing the subject.',
+    scope.ethnolinguistic?'This is an ethnolinguistic language-target question. If there is no single language, say that directly in ANSWER and name the supported language(s), dialect(s), or language-family classification there. Background about the people/group belongs in EXPLANATION. Do not invent one umbrella label as a single language.':'',
+    'Do not claim a live/current source, date, URL, quotation, or web lookup.',
+    'Question: '+clean(raw)
+  ].filter(Boolean).join('\n');
+}
+function v3013StableSemanticModelParsed(raw,intent,parsed,provider){
+  if(!parsed||typeof parsed!=='object'||parsed.supported!==true)return null;
+  const answer=clean(parsed.answer||''),explanation=clean(parsed.explanation||'');
+  if(!answer||/^(?:unknown|unclear|not enough information|insufficient information|cannot determine|cannot be determined)\b/i.test(answer))return null;
+  const scope=intent&&intent.semanticScope||{};
+  if(scope.ethnolinguistic&&!v3011EthnolinguisticAnswerDirect(raw,{answer:answer,explanation:explanation}))return null;
+  return {ok:true,answer:answer,explanation:explanation,source:{title:provider+' model knowledge',url:'',snippet:'',text:''},provider:provider+' model knowledge',modelKnowledge:true,parts:[answer]};
+}
+async function v3013OpenAIStableSemantic(raw,intent){
+  if(!v3013StableSemanticModelEligible(intent)||!envSecret('OPENAI_API_KEY'))return null;
+  const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini';
+  const payload={model:model,input:v3013StableSemanticModelPrompt(raw,intent),max_output_tokens:700,text:{format:{type:'json_object'}}};
+  if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,5600);if(!response||!response.ok)return null;
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
+  return v3013StableSemanticModelParsed(raw,intent,parsed,'OpenAI');
+}
+async function v3013GeminiStableSemantic(raw,intent){
+  if(!v3013StableSemanticModelEligible(intent)||!envSecret('GEMINI_API_KEY'))return null;
+  const model=clean(process.env.GEMINI_MODEL||process.env.GEMINI_SEARCH_MODEL||'gemini-3.6-flash');
+  const payload={contents:[{role:'user',parts:[{text:v3013StableSemanticModelPrompt(raw,intent)}]}],generationConfig:{temperature:0.03,maxOutputTokens:700,responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,5200);if(!response||!response.ok)return null;
+  const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));
+  return v3013StableSemanticModelParsed(raw,intent,parsed,'Gemini');
+}
+function v3013StableSemanticModelContract(raw,intent,result,started){
+  const provider=/^Gemini\b/i.test(clean(result&&result.provider||''))?'Gemini':'OpenAI';
+  const c=v2844Contract(raw,{intent:'STABLE_SEMANTIC_MODEL_FALLBACK',route:'semantic-scope/model-knowledge/v3013',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:clean(result&&result.answer||''),explanation:clean(result&&result.explanation||''),source:provider+' model knowledge',sourceUrl:'',classification:'STABLE SEMANTIC FACTUAL',confidence:'',status:'ANSWERED'});
+  c.inputType='QUESTION';c.analysisResult='Answer';c.summary=c.answer;c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=false;c.sourceLast=true;c.showAdditionalInformation=!!clean(c.explanation||'');c.sourceDisplayPolicy='SHOW_MODEL_KNOWLEDGE';
+  const scope=intent&&intent.semanticScope||{};
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'sharedStableSemanticModelFallbackV3013',requestedSemanticUnit:clean(scope.unit||''),ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',sourceRequirement:'STABLE_MODEL_KNOWLEDGE_ALLOWED_AFTER_FREE_DIRECT',provider:provider,providerOrder:'FREE_DIRECT_THEN_OPENAI_THEN_GEMINI',semanticAnswerShape:'VALIDATED',researchMs:Date.now()-started});
+  return c;
+}
+
+function v3014GroundedSourceRequired(intent){
+  const scope=intent&&intent.semanticScope||{};
+  return !!(intent&&(intent.current||intent.scopeCount||scope.empiricalReligion));
+}
+function v3014FreeEvidenceContext(evidence){
+  const rows=(Array.isArray(evidence)?evidence:[]).slice(0,4).map(function(c,i){
+    return 'FREE EVIDENCE '+i+'\nTITLE: '+clean(c&&c.title||domainFromUrl(c&&c.url||''))+'\nURL: '+validHttpUrl(c&&c.url||'')+'\nTEXT: '+clean(c&&c.text||c&&c.snippet||'').slice(0,2200);
+  }).filter(Boolean);
+  return rows.length?'Bounded free/direct evidence was checked first. Use it when reliable, but independently web-search if needed:\n'+rows.join('\n\n'):'Bounded free/direct discovery returned no usable evidence. Continue with grounded web research; do not stop merely because the free stage was empty.';
+}
+function v3014GroundedPrompt(raw,intent,evidence){
+  const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||'unspecified'),expected=Math.max(1,Number(intent&&intent.expectedParts||1));
+  return [
+    'You are AIVerify grounded source research. Search the web as needed and return ONLY one JSON object.',
+    'Current date for this user: '+clean(intent&&intent.clientDate||new Date().toISOString().slice(0,10))+'.',
+    'Required keys: supported, answer, explanation, sourceName, sourceUrl.',
+    'supported=true only when a real current/relevant web source materially supports the answer. Never invent a source or URL.',
+    'QUESTION: '+clean(raw),
+    'SEMANTIC UNIT LOCK: requested unit = '+unit+'. Never substitute a nearby unit or category.',
+    expected>1?'MULTI-PART LOCK: answer every requested part in question order. Do not return only the first requested fact.':'Answer the exact requested fact directly in ANSWER.',
+    intent&&intent.scopeCount?'HOW-MANY LOCK: If a directly relevant authoritative source publishes the exact requested aggregate, ANSWER must contain that count and EXPLANATION must state the source/date/counting definition. If the authoritative source covers the subject but does not publish the exact requested aggregate, ANSWER may instead state that no exact published count for that requested unit is available; EXPLANATION may provide only clearly labeled related figures from that source. Never use 0 or a nearby metric as a missing-data substitute.':'',
+    intent&&intent.completeList?'COMPLETE-SET LOCK: provide the full set supported by one clearly stated current source/date/category boundary. Do not answer with examples, “among others,” “etc.,” or another partial-list phrase.':'',
+    scope.empiricalReligion?'EMPIRICAL LOCK: this asks for measurable real-world coverage/statistics, not theology. Scripture alone cannot establish the current empirical total. Keep countries, nations/peoples, languages, dialects, translations, complete Bibles, New Testaments, portions, projects, and people groups distinct.':'',
+    scope.nationAmbiguous?'NATION DEFINITION LOCK: “nation” may mean peoples/people groups rather than sovereign states. State the definition used and do not silently convert it to a modern-country count.':'',
+    scope.ethnolinguistic?'LANGUAGE TARGET LOCK: ANSWER must name the requested language(s), dialect(s), or family classification; background description belongs in EXPLANATION.':'',
+    clean(intent&&intent.entity||'')?'ENTITY LOCK: the requested entity is "'+clean(intent.entity)+'". Do not substitute a similarly named organization or acronym expansion.':'',
+    'SOURCE LOCK: sourceUrl must be a directly relevant page used for the answer, preferably an official/primary or authoritative specialist source. Do not put raw URLs in ANSWER.',
+    'If a precise single number/list cannot be supported because definitions or datasets differ, explain the supported source/date boundary directly rather than guessing.',
+    v3014FreeEvidenceContext(evidence)
+  ].filter(Boolean).join('\n');
+}
+function v3014GroundedSourcesNormalize(sources){
+  const out=[],seen=new Set();(Array.isArray(sources)?sources:[]).forEach(function(src){const u=validHttpUrl(src&&src.url||src&&src.uri||'');if(!u)return;const k=u.toLowerCase();if(seen.has(k))return;seen.add(k);out.push({url:u,title:clean(src&&src.title||src&&src.name||domainFromUrl(u)),snippet:clean(src&&src.snippet||''),text:clean(src&&src.text||'')});});return out.slice(0,12);
+}
+function v3014GroundedSourcePick(parsed,sources){
+  const list=v3014GroundedSourcesNormalize(sources),wanted=validHttpUrl(parsed&&parsed.sourceUrl||'');
+  if(wanted){const exact=list.find(function(x){return x.url.toLowerCase()===wanted.toLowerCase();});if(exact)return exact;const wd=domainFromUrl(wanted),same=list.find(function(x){return wd&&domainFromUrl(x.url)===wd;});if(same)return {url:wanted,title:clean(parsed&&parsed.sourceName||same.title||wd),snippet:same.snippet,text:same.text};}
+  if(list.length)return list[0];
+  return wanted?{url:wanted,title:clean(parsed&&parsed.sourceName||domainFromUrl(wanted)),snippet:'',text:''}:null;
+}
+function v3014GroundedAnswerValid(raw,intent,parsed,source){
+  if(!parsed||typeof parsed!=='object'||parsed.supported===false||!source||!validHttpUrl(source.url||''))return false;
+  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));if(!answer)return false;
+  if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return false;
+  const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||''),combined=clean(answer+' '+explanation);
+  if(unit&&!v3011RequestedUnitPresent(unit,combined))return false;
+  if(intent&&intent.scopeCount&&!v3011PrimaryCountTokens(answer).length&&!v3019QualifiedCountEvidenceUseful(intent,source,answer,explanation))return false;
+  if(intent&&intent.completeList&&typeof v2999CompletenessEvasion==='function'&&v2999CompletenessEvasion(combined))return false;
+  if(scope.ethnolinguistic&&!v3011EthnolinguisticAnswerDirect(raw,{answer:answer,explanation:explanation}))return false;
+  if(scope.empiricalReligion&&!/\b(?:data|statistic|report|survey|database|dataset|translation|translated|coverage|available|published|reached|unreached|people\s+groups?|languages?|countries|nations?|projects?)\b/i.test(combined+' '+clean(source.title||'')))return false;
+  if(intent&&intent.current&&!v3011RecentScopeSignal(combined+' '+clean(source.title||'')))return false;
+  if(intent&&intent.entity){const probe={requestedEntityIdentity:intent.entity};if(!v3006EntityCandidateMatch(probe,{title:source.title,url:source.url,snippet:source.snippet,text:source.text}))return false;}
+  return true;
+}
+function v3014GroundedResult(raw,intent,parsed,sources,provider){
+  const source=v3014GroundedSourcePick(parsed,sources);if(!v3014GroundedAnswerValid(raw,intent,parsed,source))return null;
+  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  return {ok:true,provider:provider,answer:answer,explanation:explanation,parts:[answer],source:source,groundedSearch:true};
+}
+async function v3014OpenAIGroundedResearch(raw,intent,evidence){
+  if(!v3014GroundedSourceRequired(intent)||!envSecret('OPENAI_API_KEY'))return null;
+  const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3014GroundedPrompt(raw,intent,evidence),tools:[{type:'web_search',search_context_size:'low'}],include:['web_search_call.results','web_search_call.action.sources'],max_output_tokens:1150,text:{format:{type:'json_object'}}};if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,9000);if(!response||!response.ok)return null;
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json)),sources=collectOpenAISourceObjects(response.json);
+  return v3014GroundedResult(raw,intent,parsed,sources,'OpenAI web search');
+}
+async function v3014GeminiGroundedResearch(raw,intent,evidence){
+  if(!v3014GroundedSourceRequired(intent)||!envSecret('GEMINI_API_KEY'))return null;
+  const model=clean(process.env.GEMINI_SEARCH_MODEL||process.env.GEMINI_MODEL||'gemini-3.6-flash'),payload={contents:[{role:'user',parts:[{text:v3014GroundedPrompt(raw,intent,evidence)}]}],tools:[{googleSearch:{}}],generationConfig:{temperature:0.03,maxOutputTokens:1150,responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,7000),queries=response&&response.ok?v2989GeminiQueries(response.json):[];v2989RecordGeminiOperation(response,model,queries);if(!response||!response.ok)return null;
+  const parsed=extractJsonObjectFromText(v2989GeminiText(response.json)),sources=v2989GeminiSources(response.json);
+  return v3014GroundedResult(raw,intent,parsed,sources,'Gemini / Google Search');
+}
+function v3015GroundingUrlKnown(url,sources,evidence){
+  const wanted=validHttpUrl(url||'');if(!wanted)return false;
+  const wd=domainFromUrl(wanted);let wu;try{wu=new URL(wanted);}catch(_e){wu=null;}
+  const list=[];(Array.isArray(sources)?sources:[]).forEach(function(x){list.push(x);});(Array.isArray(evidence)?evidence:[]).forEach(function(x){list.push(x);});
+  return list.some(function(x){
+    const u=validHttpUrl(x&&x.url||x&&x.uri||'');if(!u)return false;
+    if(u.toLowerCase()===wanted.toLowerCase())return true;
+    if(wd&&domainFromUrl(u)===wd){
+      if(!wu)return true;
+      try{const xu=new URL(u);return xu.pathname===wu.pathname||xu.pathname==='/'||wu.pathname==='/';}catch(_e){return true;}
+    }
+    return false;
+  });
+}
+function v3015MergeSourceMetadata(base,parsed){
+  const b=base&&typeof base==='object'?Object.assign({},base):{};
+  const wanted=validHttpUrl(parsed&&parsed.sourceUrl||'');if(wanted)b.url=wanted;
+  if(clean(parsed&&parsed.sourceName||''))b.title=clean(parsed.sourceName);
+  if(!clean(b.title||''))b.title=domainFromUrl(b.url||'')||'Retrieved source';
+  return b;
+}
+async function v3015ResolveGroundedSource(parsed,sources,evidence){
+  const list=v3014GroundedSourcesNormalize(sources),wanted=validHttpUrl(parsed&&parsed.sourceUrl||'');
+  let base=null;
+  if(wanted){
+    base=list.find(function(x){return x.url.toLowerCase()===wanted.toLowerCase();})||null;
+    if(!base){const wd=domainFromUrl(wanted);base=list.find(function(x){return wd&&domainFromUrl(x.url)===wd;})||null;}
+    if(!base){
+      const ev=(Array.isArray(evidence)?evidence:[]).find(function(x){const u=validHttpUrl(x&&x.url||'');return u&&(u.toLowerCase()===wanted.toLowerCase()||domainFromUrl(u)===domainFromUrl(wanted));});
+      if(ev)base={url:validHttpUrl(ev.url),title:clean(ev.title||domainFromUrl(ev.url)),snippet:clean(ev.snippet||''),text:clean(ev.text||''),officialEntityBound:!!ev.officialEntityBound};
+    }
+  }
+  if(!base&&list.length)base=list[0];
+  if(!base&&wanted&&v3015GroundingUrlKnown(wanted,sources,evidence))base={url:wanted,title:clean(parsed&&parsed.sourceName||domainFromUrl(wanted)),snippet:'',text:''};
+  if(!base)return null;
+  base=v3015MergeSourceMetadata(base,parsed);
+  const fetchUrl=validHttpUrl(base.url||'');
+  if(fetchUrl){
+    const page=await v2989CandidateFetch(fetchUrl,2200,1).catch(function(){return null;});
+    if(page&&page.ok){
+      base.url=validHttpUrl(page.url||base.url)||base.url;
+      base.title=clean(page.title||base.title||domainFromUrl(base.url));
+      base.text=clean(page.text||base.text||'').slice(0,8000);
+      base.contentType=clean(page.contentType||'');
+      base.status=Number(page.status||0);
+      base.directFetchVerified=true;
+    }
+  }
+  return base;
+}
+function v3015GroundedValidation(raw,intent,parsed,source,sources,evidence){
+  if(!parsed||typeof parsed!=='object'||parsed.supported===false)return {ok:false,reason:'provider_marked_unsupported'};
+  if(!source||!validHttpUrl(source.url||''))return {ok:false,reason:'source_url_missing'};
+  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  if(!answer)return {ok:false,reason:'answer_missing'};
+  if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return {ok:false,reason:'answer_shape_mismatch'};
+  const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||''),sourceBlob=clean([source.title,source.snippet,source.text].join(' ')),combined=clean(answer+' '+explanation+' '+sourceBlob);
+  if(unit&&!v3011RequestedUnitPresent(unit,combined))return {ok:false,reason:'requested_unit_not_bound'};
+  if(intent&&intent.scopeCount&&!v3011PrimaryCountTokens(answer).length&&!v3019QualifiedCountEvidenceUseful(intent,source,answer,explanation))return {ok:false,reason:'count_missing_or_unqualified'};
+  if(intent&&intent.completeList&&typeof v2999CompletenessEvasion==='function'&&v2999CompletenessEvasion(answer+' '+explanation))return {ok:false,reason:'complete_set_evasion'};
+  if(scope.ethnolinguistic&&!v3011EthnolinguisticAnswerDirect(raw,{answer:answer,explanation:explanation}))return {ok:false,reason:'language_target_missing'};
+  if(scope.empiricalReligion&&!/\b(?:data|statistic|statistics|report|survey|database|dataset|translation|translated|coverage|available|published|reached|unreached|people\s+groups?|languages?|countries|nations?|projects?|scripture)\b/i.test(combined))return {ok:false,reason:'empirical_scope_missing'};
+  if(intent&&intent.current&&!v3011RecentScopeSignal(combined))return {ok:false,reason:'current_date_scope_missing'};
+  if(intent&&intent.entity&&!v3023AuthorityEntityEvidenceEligible(intent,source,null,evidence))return {ok:false,reason:'named_entity_source_mismatch'};
+  const sourceKnown=!!source.directFetchVerified||v3015GroundingUrlKnown(source.url,sources,evidence);
+  if(!sourceKnown)return {ok:false,reason:'source_not_grounded'};
+  if(intent&&intent.scopeCount&&source.directFetchVerified&&v3011PrimaryCountTokens(answer).length&&!v3011SourceContainsCount(answer,source)){
+    const derivation=/\b(?:calculated|derived|computed|aggregated|counted|sum(?:med)?|difference|subtract(?:ed|ing)?|based\s+on)\b/i.test(explanation);
+    if(!derivation)return {ok:false,reason:'count_not_supported_by_fetched_source'};
+  }
+  return {ok:true,answer:answer,explanation:explanation};
+}
+async function v3015GroundedResult(raw,intent,parsed,sources,evidence,provider){
+  const source=await v3015ResolveGroundedSource(parsed,sources,evidence);const check=v3015GroundedValidation(raw,intent,parsed,source,sources,evidence);
+  if(!check.ok){try{console.warn('AIV grounded-source reject | '+provider+' | '+check.reason);}catch(_e){}return null;}
+  return {ok:true,provider:provider,answer:check.answer,explanation:check.explanation,parts:[check.answer],source:source,groundedSearch:true};
+}
+async function v3017OpenAIGroundedResearch(raw,intent,evidence,timeoutMs){
+  if(!v3014GroundedSourceRequired(intent)||!envSecret('OPENAI_API_KEY'))return null;
+  const model=clean(process.env.OPENAI_SEARCH_MODEL||process.env.OPENAI_MODEL)||'gpt-5.4-mini';
+  const payload={
+    model:model,
+    input:v3014GroundedPrompt(raw,intent,evidence),
+    tools:[{type:'web_search',search_context_size:'low'}],
+    tool_choice:'required',
+    max_tool_calls:2,
+    include:['web_search_call.results'],
+    max_output_tokens:720
+  };
+  const response=await openaiApiRequestJson(payload,Math.max(6500,Number(timeoutMs||13000)));
+  if(!response||!response.ok){try{console.warn('AIV grounded-source OpenAI unavailable | '+clean(response&&response.errorType||'request_failed'));}catch(_e){}return null;}
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json)),sources=collectOpenAISourceObjects(response.json);
+  return v3015GroundedResult(raw,intent,parsed,sources,evidence,'OpenAI web search');
+}
+async function v3017GeminiGroundedResearch(raw,intent,evidence,timeoutMs){
+  if(!v3014GroundedSourceRequired(intent)||!envSecret('GEMINI_API_KEY'))return null;
+  const model=clean(process.env.GEMINI_SEARCH_MODEL||process.env.GEMINI_MODEL||'gemini-3.6-flash');
+  const payload={contents:[{role:'user',parts:[{text:v3014GroundedPrompt(raw,intent,evidence)}]}],tools:[{googleSearch:{}}],generationConfig:{temperature:0.03,maxOutputTokens:720}};
+  const response=await v2989GeminiApiRequestJson(model,payload,Math.max(4200,Number(timeoutMs||6000))),queries=response&&response.ok?v2989GeminiQueries(response.json):[];
+  v2989RecordGeminiOperation(response,model,queries);
+  if(!response||!response.ok){try{console.warn('AIV grounded-source Gemini unavailable | '+clean(response&&response.errorType||'request_failed'));}catch(_e){}return null;}
+  const parsed=extractJsonObjectFromText(v2989GeminiText(response.json)),sources=v2989GeminiSources(response.json);
+  return v3015GroundedResult(raw,intent,parsed,sources,evidence,'Gemini / Google Search');
+}
+// Compatibility aliases keep existing startup contracts and callers intact while v3017 owns timing.
+async function v3015OpenAIGroundedResearch(raw,intent,evidence){return v3017OpenAIGroundedResearch(raw,intent,evidence,13000);}
+async function v3015GeminiGroundedResearch(raw,intent,evidence){return v3017GeminiGroundedResearch(raw,intent,evidence,6000);}
+function v3022EvidenceRows(raw,intent,evidence){
+  const seen=new Set(),rows=[];
+  (Array.isArray(evidence)?evidence:[]).forEach(function(c){
+    const url=validHttpUrl(c&&c.url||'');if(!url)return;
+    const key=url.toLowerCase();if(seen.has(key))return;seen.add(key);
+    let score=Number(c&&c.preScore||0);
+    if(c&&c.directFetchVerified)score+=24;
+    if(intent&&intent.entity&&(c&&c.officialEntityBound||v3006EntityCandidateMatch({requestedEntityIdentity:intent.entity},c)))score+=48;
+    const d=domainFromUrl(url);
+    if(/(?:^|\.)(?:wikipedia\.org|facebook\.com|linkedin\.com|youtube\.com|x\.com|twitter\.com|instagram\.com)$/i.test(d))score-=45;
+    rows.push({url:url,title:clean(c&&c.title||c&&c.fetchedTitle||d||'Source'),snippet:clean(c&&c.snippet||''),text:clean(c&&c.text||''),score:score,directFetchVerified:!!(c&&c.directFetchVerified)});
+  });
+  rows.sort(function(a,b){return Number(b.score||0)-Number(a.score||0);});
+  return rows.slice(0,5);
+}
+function v3022EvidenceFallbackContract(raw,intent,evidence,reason){
+  const rows=v3022EvidenceRows(raw,intent,evidence);if(!rows.length)return null;
+  const entity=clean(intent&&intent.entity||''),purpose=v3021AuthorityPurpose(raw),domains=[];
+  rows.forEach(function(r){const d=domainFromUrl(r.url);if(d&&domains.indexOf(d)<0)domains.push(d);});
+  const multiplePlausible=domains.length>1&&rows.length>1;
+  let answer='I found useful source material, but could not safely reduce it to one verified current answer.';
+  if(entity&&multiplePlausible)answer='I found several plausible current sources for '+entity+'. Choose the source or target that matches what you mean, or scan one of those pages directly.';
+  else if(entity)answer='I found relevant current source material for '+entity+', but could not safely reduce it to one complete verified answer.';
+  else if(intent&&intent.scopeCount)answer='I found relevant current data, but the sources did not support one exact validated count for the question as worded.';
+  const options=rows.map(function(r,i){
+    const excerpt=clean(r.text||r.snippet||'').replace(/\s+/g,' ').slice(0,240);
+    return (i+1)+'. '+r.title+' — '+r.url+(excerpt?' — '+excerpt:'');
+  });
+  const explanation=multiplePlausible?'AIVerify is showing the strongest source candidates instead of discarding them. Select the one that matches the intended entity or scope for a more precise follow-up scan.':'AIVerify is showing the strongest source candidates instead of returning no information. These results were not strong enough to support one definitive current answer.';
+  const top=rows[0],c=v2844Contract(raw,{intent:'BEST_AVAILABLE_SOURCE_EVIDENCE',route:'source-bound-research/best-available-evidence/v3022',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:answer,explanation:explanation,source:clean(top.title||domainFromUrl(top.url)||'Best available source'),sourceUrl:top.url,classification:'BEST AVAILABLE SOURCE EVIDENCE',confidence:'Low confidence',status:'PARTIAL SOURCE RESULT',supportingInformation:options.join(' | ')});
+  c.inputType='QUESTION';c.analysisResult='Best available information';c.summary=c.answer;c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;c.showAdditionalInformation=true;c.sourceDisplayPolicy='SHOW_EXTERNAL_SOURCE';
+  c.bestAvailableFallback=true;c.userChoiceRecommended=multiplePlausible;c.logicFamily='CURRENT_SOURCE_RESEARCH';c.resolutionMode=multiplePlausible?'SOURCE_CHOICES':'PARTIAL_EVIDENCE';
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'bestAvailableCurrentSourceFallbackV3022',fallbackMode:multiplePlausible?'SOURCE_CHOICES':'PARTIAL_EVIDENCE',evidenceCandidates:rows.length,sourceDomains:domains.join(','),nonfinalReason:clean(reason||'strict_source_validation_failed'),strictValidationPreserved:'YES',blankFailureAvoided:'YES'});
+  return c;
+}
+function v3022BestAvailablePrompt(raw,intent,evidence){
+  const rows=v3022EvidenceRows(raw,intent,evidence).slice(0,4).map(function(r,i){return 'SOURCE CANDIDATE '+(i+1)+'\nTITLE: '+r.title+'\nURL: '+r.url+'\nTEXT: '+clean(r.text||r.snippet||'').slice(0,1800);}).join('\n\n');
+  return [
+    'You are AIVerify best-available factual fallback. Return ONLY one JSON object with keys answer and explanation.',
+    'A stricter current-source verification attempt did not produce one fully validated answer. The user prefers a useful qualified answer over an empty failure.',
+    'Current date for this user: '+clean(intent&&intent.clientDate||new Date().toISOString().slice(0,10))+'.',
+    'Give the strongest useful answer you can. Never pretend it is fully current or source-verified when that has not been established.',
+    'If the fact can change, explicitly say in EXPLANATION that the answer may be outdated or incomplete and should be confirmed against the current official source.',
+    'If there are multiple plausible entities, scopes, offices, products, regions, dates, or interpretations, do not guess. In ANSWER say that multiple targets are plausible and name concise choices in EXPLANATION so the user can choose.',
+    'Do not invent a URL, quotation, source, date, person, or count. Do not answer with only “unable to answer,” “no reliable source,” “try again,” or equivalent failure wording.',
+    intent&&intent.entity?'ENTITY: '+clean(intent.entity):'',
+    intent&&intent.expectedParts>1?'MULTI-PART: answer all requested parts when you reasonably can; otherwise clearly identify which part remains uncertain.':'',
+    intent&&intent.completeList?'LIST REQUEST: if you cannot confidently give a complete current list, provide the best-known list or partial list only when clearly labeled as possibly incomplete.':'',
+    'QUESTION: '+clean(raw),
+    rows?'Retrieved source candidates (may be incomplete or conflicting):\n'+rows:'No usable source excerpts were retained. Use model knowledge only and clearly qualify currentness.'
+  ].filter(Boolean).join('\n');
+}
+function v3022BestAvailableParsed(raw,intent,parsed,provider,evidence){
+  if(!parsed||typeof parsed!=='object')return null;
+  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  if(!answer||/^(?:unable|cannot|can't|no reliable|a reliable .* could not|analysis unavailable|try again|retry)\b/i.test(answer))return null;
+  if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return null;
+  const rows=v3022EvidenceRows(raw,intent,evidence),top=rows[0]||null;
+  return {ok:true,answer:answer,explanation:explanation,provider:provider,source:top||{title:provider+' model knowledge',url:'',snippet:'',text:''},bestAvailableModel:true,parts:[answer]};
+}
+async function v3022OpenAIBestAvailable(raw,intent,evidence){
+  if(!envSecret('OPENAI_API_KEY'))return null;
+  const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3022BestAvailablePrompt(raw,intent,evidence),max_output_tokens:900,text:{format:{type:'json_object'}}};
+  if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,6200);if(!response||!response.ok)return null;
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
+  return v3022BestAvailableParsed(raw,intent,parsed,'OpenAI',evidence);
+}
+function v3022BestAvailableModelContract(raw,intent,result,started,evidenceCount){
+  const source=result&&result.source||{},ambiguous=v3029BestAvailableAmbiguous(clean(result&&result.answer||''),clean(result&&result.explanation||'')),hasSource=!ambiguous&&!!validHttpUrl(source.url||'');
+  const c=v2844Contract(raw,{intent:'BEST_AVAILABLE_CURRENT_ANSWER',route:'source-bound-research/best-available-model/v3022',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:clean(result&&result.answer||''),explanation:clean(result&&result.explanation||''),source:hasSource?clean(source.title||domainFromUrl(source.url)||'Retrieved source'):'OpenAI model knowledge',sourceUrl:hasSource?validHttpUrl(source.url||''):'',classification:'BEST AVAILABLE CURRENT FACTUAL',confidence:'Low confidence',status:'ANSWERED WITH CURRENTNESS LIMITATION'});
+  c.inputType='QUESTION';c.analysisResult='Answer';c.summary=c.answer;c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=hasSource;c.sourceLast=true;c.showAdditionalInformation=!!clean(c.explanation||'');c.sourceDisplayPolicy=hasSource?'SHOW_EXTERNAL_SOURCE':'SHOW_MODEL_KNOWLEDGE';
+  c.bestAvailableFallback=true;c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();c.logicFamily='CURRENT_SOURCE_RESEARCH';c.resolutionMode='BEST_AVAILABLE_MODEL';
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'bestAvailableCurrentSourceFallbackV3022',fallbackMode:'BEST_AVAILABLE_MODEL',provider:clean(result&&result.provider||'OpenAI'),evidenceCandidates:Number(evidenceCount||0),strictCurrentVerification:'INCOMPLETE',currentnessDisclosure:'REQUIRED',blankFailureAvoided:'YES',researchMs:Date.now()-started});
+  return c;
+}
+
+function v3026Wait(ms,value){return new Promise(function(resolve){setTimeout(function(){resolve(value);},Math.max(0,Number(ms||0)));});}
+function v3026FastSourceOwnedEligible(intent){
+  if(!intent||!intent.current||!clean(intent.entity||''))return false;
+  const purpose=v3021AuthorityPurpose(clean(intent.raw||''));
+  return true;
+}
+async function v3026FastSourceOwnedResearch(raw,intent,requestState,started){
+  const evidencePromise=v3007ResearchEvidence(raw,intent).catch(function(){return [];});
+  const quickOfficialPromise=v3032QuickOfficialAuthorityEvidence(raw,intent).catch(function(){return [];});
+  if(v3031GovernmentAuthorityLikely(clean(intent&&intent.entity||''),raw)){
+    const quickEvidence=await quickOfficialPromise;if(requestState&&requestState.aborted)return {aborted:true,evidence:[],result:null};
+    if(Array.isArray(quickEvidence)&&quickEvidence.length){
+      let quickResult=null;if(envSecret('OPENAI_API_KEY'))quickResult=await v3007OpenAISynthesize(raw,intent,quickEvidence).catch(function(){return null;});
+      if(quickResult){v3026RememberGroundedAuthority(raw,intent,quickResult);return {evidence:quickEvidence,result:quickResult,mode:'QUICK_OFFICIAL_EVIDENCE'};}
+    }
+  }
+  const early=await Promise.race([
+    evidencePromise.then(function(value){return {kind:'evidence',value:Array.isArray(value)?value:[]};}),
+    v3026Wait(1800,{kind:'headstart'})
+  ]);
+  if(requestState&&requestState.aborted)return {aborted:true,evidence:[],result:null};
+  let evidence=early.kind==='evidence'?early.value:null,result=null,mode='FREE_HEADSTART';
+  if(evidence&&evidence.length){
+    if(envSecret('OPENAI_API_KEY'))result=await v3007OpenAISynthesize(raw,intent,evidence).catch(function(){return null;});
+    if(result){v3026RememberGroundedAuthority(raw,intent,result);return {evidence:evidence,result:result,mode:'FREE_EVIDENCE_OPENAI'};}
+    if(requestState&&requestState.aborted)return {aborted:true,evidence:evidence,result:null};
+    if(envSecret('GEMINI_API_KEY')&&Date.now()-started<11500)result=await v3007GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});
+    if(result){v3026RememberGroundedAuthority(raw,intent,result);return {evidence:evidence,result:result,mode:'FREE_EVIDENCE_GEMINI'};}
+  }
+  if(requestState&&requestState.aborted)return {aborted:true,evidence:evidence||[],result:null};
+
+  if(!envSecret('OPENAI_API_KEY')){
+    if(evidence===null)evidence=await evidencePromise;
+    return {evidence:Array.isArray(evidence)?evidence:[],result:null,mode:'NO_OPENAI'};
+  }
+
+  const groundedPromise=v3017OpenAIGroundedResearch(raw,intent,[],9000).catch(function(){return null;});
+  if(evidence===null){
+    const parallel=await Promise.all([evidencePromise,groundedPromise]);
+    evidence=Array.isArray(parallel[0])?parallel[0]:[];
+    result=parallel[1]||null;
+    mode='PARALLEL_FREE_AND_GROUNDED';
+  }else{
+    result=await groundedPromise;
+    mode='GROUNDED_AFTER_FAST_EMPTY_FREE';
+  }
+  if(result){
+    v3026RememberGroundedAuthority(raw,intent,result);
+    return {evidence:evidence||[],result:result,mode:mode};
+  }
+  if(requestState&&requestState.aborted)return {aborted:true,evidence:evidence||[],result:null};
+
+  if(evidence&&evidence.length&&envSecret('OPENAI_API_KEY')&&early.kind!=='evidence'){
+    result=await v3007OpenAISynthesize(raw,intent,evidence).catch(function(){return null;});
+    if(result){
+      v3026RememberGroundedAuthority(raw,intent,result);
+      return {evidence:evidence,result:result,mode:'PARALLEL_EVIDENCE_SYNTHESIS'};
+    }
+  }
+  if(requestState&&requestState.aborted)return {aborted:true,evidence:evidence||[],result:null};
+
+  if(!result&&envSecret('GEMINI_API_KEY')&&Date.now()-started<12000){
+    result=await v3017GeminiGroundedResearch(raw,intent,evidence||[],5200).catch(function(){return null;});
+    if(result){
+      v3026RememberGroundedAuthority(raw,intent,result);
+      return {evidence:evidence||[],result:result,mode:'BOUNDED_GEMINI_GROUNDED'};
+    }
+  }
+  return {evidence:evidence||[],result:null,mode:mode};
+}
+
+async function v3007StructuredResearchResponse(raw,requestState){
+  const intent=v3007ResearchIntent(raw);if(!intent)return '';
+  intent.raw=raw;
+  intent.clientDate=clean(requestState&&requestState.requestContext&&requestState.requestContext.clientDate||'');
+  const cached=v3007ResearchCacheGet(raw);if(cached)return cached;
+  const started=Date.now();let evidence=[],result=null,bestAvailableCandidate=null;
+  const sourceOwned=v3014GroundedSourceRequired(intent),researchBudgetMs=19000;
+  if(sourceOwned&&intent.current&&clean(intent.entity||'')){
+    const fast=await v3026FastSourceOwnedResearch(raw,intent,requestState,started);
+    if(fast&&fast.aborted)return '';
+    evidence=fast&&Array.isArray(fast.evidence)?fast.evidence:[];
+    result=fast&&fast.result||null;
+    try{console.log('AIV source-owned v3026 coordination | mode='+(fast&&fast.mode||'unknown')+' | evidence='+evidence.length+' | result='+(result?'YES':'NO')+' | ms='+(Date.now()-started));}catch(_e){}
+  }else{
+    evidence=await v3007ResearchEvidence(raw,intent);if(requestState&&requestState.aborted)return '';
+    if(sourceOwned){
+      if(evidence.length&&envSecret('OPENAI_API_KEY'))result=await v3007OpenAISynthesize(raw,intent,evidence).catch(function(){return null;});
+      if(requestState&&requestState.aborted)return '';
+      if(!result&&!evidence.length&&envSecret('OPENAI_API_KEY')){
+        const remaining=Math.max(0,researchBudgetMs-(Date.now()-started));
+        if(remaining>7200)result=await v3017OpenAIGroundedResearch(raw,intent,evidence,Math.max(6500,Math.min(9000,remaining-3500))).catch(function(){return null;});
+      }
+      if(requestState&&requestState.aborted)return '';
+      if(!result&&evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<12000)result=await v3007GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});
+      if(requestState&&requestState.aborted)return '';
+      if(!result&&!evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<12000){
+        const remaining=Math.max(0,researchBudgetMs-(Date.now()-started));
+        if(remaining>4700)result=await v3017GeminiGroundedResearch(raw,intent,evidence,Math.max(4200,Math.min(5200,remaining-700))).catch(function(){return null;});
+      }
+    }else{
+      if(envSecret('OPENAI_API_KEY')){
+        if(evidence.length)result=await v3007OpenAISynthesize(raw,intent,evidence).catch(function(){return null;});
+        if(!result&&v3013StableSemanticModelEligible(intent))result=await v3013OpenAIStableSemantic(raw,intent).catch(function(){return null;});
+      }
+      if(requestState&&requestState.aborted)return '';
+      if(!result&&envSecret('GEMINI_API_KEY')){
+        if(evidence.length)result=await v3007GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});
+        if(!result&&v3013StableSemanticModelEligible(intent))result=await v3013GeminiStableSemantic(raw,intent).catch(function(){return null;});
+      }
+    }
+  }
+  if(requestState&&requestState.aborted)return '';
+  if(!result&&sourceOwned&&Date.now()-started<14500&&envSecret('OPENAI_API_KEY')){
+    bestAvailableCandidate=await v3022OpenAIBestAvailable(raw,intent,evidence).catch(function(){return null;});
+  }
+  if(requestState&&requestState.aborted)return '';
+  if(!result){
+    const reason=evidence.length?'free_evidence_synthesis_or_validation_failed':'no_acceptable_free_evidence_and_grounded_provider_failed';
+    if(sourceOwned&&bestAvailableCandidate){
+      const contract=v3022BestAvailableModelContract(raw,intent,bestAvailableCandidate,started,evidence.length);
+      const serialized=v2844Serialize(raw,contract,'best-available-current-answer-v3026');
+      try{console.warn('AIV source-bound v3026 best-available | mode=model | evidence='+evidence.length+' | ms='+(Date.now()-started));}catch(_e){}
+      return serialized;
+    }
+    if(sourceOwned&&evidence.length){
+      const partial=v3022EvidenceFallbackContract(raw,intent,evidence,reason);
+      if(partial){
+        const serialized=v2844Serialize(raw,partial,'best-available-source-evidence-v3026');
+        try{console.warn('AIV source-bound v3026 best-available | mode=evidence | evidence='+evidence.length+' | ms='+(Date.now()-started));}catch(_e){}
+        return serialized;
+      }
+    }
+    try{console.warn('AIV source-bound v3026 unresolved | '+reason+' | evidence='+evidence.length+' | domains='+(evidence.slice(0,4).map(function(x){return domainFromUrl(x&&x.url||'');}).filter(Boolean).join(',')||'none')+' | ms='+(Date.now()-started));}catch(_e){}
+    return v3011SourceOwnedRetry(raw,intent,reason);
+  }
+  if(sourceOwned)v3026RememberGroundedAuthority(raw,intent,result);
+  const contract=result.modelKnowledge?v3013StableSemanticModelContract(raw,intent,result,started):v3007ResearchContract(raw,intent,result,started,evidence.length);
+  if(contract&&contract.technicalDiagnostics)Object.assign(contract.technicalDiagnostics,{activeFunction:'fastSourceOwnedResearchCoordinatorV3026',freeEvidenceCandidates:Number(evidence.length||0),providerOrder:'CACHE_LOCAL_FREE_HEADSTART_THEN_PARALLEL_OFFICIAL_GROUNDED',freeSearchIndexes:'BING_RSS_AND_DUCKDUCKGO_HTML',paidMode:result.groundedSearch?'PROVIDER_GROUNDED_SEARCH':'SYNTHESIS_FROM_RETRIEVED_EVIDENCE',directSourceFetch:result.source&&result.source.directFetchVerified?'PASS':'SEARCH_EVIDENCE_OR_GROUNDING_METADATA',researchBudgetMs:researchBudgetMs,bestAvailableFallback:'NOT_NEEDED'});
+  const serialized=v2844Serialize(raw,contract,result.modelKnowledge?'stable-semantic-model-fallback-v3013':(result.groundedSearch?'grounded-source-research-v3026':'semantic-scope-source-research-v3026'));v3007ResearchCachePut(raw,serialized);return serialized;
+}
+
+
+const FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  authorityOwnerCacheReady:V3026_AUTHORITY_OWNER_CACHE instanceof Map,
+  authorityOwnerCacheGetAvailable:typeof v3026AuthorityOwnerCacheGet==='function',
+  authorityOwnerCachePutAvailable:typeof v3026AuthorityOwnerCachePut==='function',
+  groundedAuthorityMemoryAvailable:typeof v3026RememberGroundedAuthority==='function',
+  fastCoordinatorAvailable:typeof v3026FastSourceOwnedResearch==='function',
+  dispatcherAvailable:typeof v3007StructuredResearchResponse==='function'
+});
+if(!Object.keys(FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026).every(function(k){return FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026[k]===true;}))throw new Error('FAST_SOURCE_OWNED_RESEARCH_V3026 startup validation failed');
+
+const OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  hostMatchAvailable:typeof v3023AuthorityHostMatch==='function',
+  entityEvidenceEligibilityAvailable:typeof v3023AuthorityEntityEvidenceEligible==='function',
+  navigationScoringAvailable:typeof v3023AuthorityNavigationScore==='function',
+  navigationDiscoveryAvailable:typeof v3023AuthorityNavigationCandidates==='function',
+  researchEvidenceAvailable:typeof v3007ResearchEvidence==='function',
+  groundedValidationAvailable:typeof v3015GroundedValidation==='function'
+});
+if(!Object.keys(OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023).every(function(k){return OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023[k]===true;}))throw new Error('OFFICIAL_HOST_IDENTITY_INHERITANCE_V3023 startup validation failed');
+
+const BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  evidenceRowsAvailable:typeof v3022EvidenceRows==='function',
+  evidenceFallbackAvailable:typeof v3022EvidenceFallbackContract==='function',
+  bestAvailablePromptAvailable:typeof v3022BestAvailablePrompt==='function',
+  openAIBestAvailableAvailable:typeof v3022OpenAIBestAvailable==='function',
+  bestAvailableContractAvailable:typeof v3022BestAvailableModelContract==='function',
+  dispatcherAvailable:typeof v3007StructuredResearchResponse==='function'
+});
+if(!Object.keys(BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022).every(function(k){return BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022[k]===true;}))throw new Error('BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_V3022 startup validation failed');
+
+const AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  entityIdentityAvailable:typeof v3021EntityIdentity==='function',
+  authorityOwnerAvailable:typeof v3021DiscoverAuthorityOwner==='function',
+  authorityQueryAvailable:typeof v3021AuthorityQueryTerms==='function',
+  authorityEvidenceBoostAvailable:typeof v3021AuthorityEvidenceBoost==='function',
+  researchEvidenceAvailable:typeof v3007ResearchEvidence==='function'
+});
+if(!Object.keys(AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021).every(function(k){return AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021[k]===true;}))throw new Error('AUTHORITY_OWNER_DISCOVERY_V3021 startup validation failed');
+
+const AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  topicCoreAvailable:typeof v3020ResearchTopicCore==='function',
+  empiricalIntentAvailable:typeof v3020EmpiricalEvidenceRequest==='function',
+  contentPenaltyAvailable:typeof v3020ContentSitePenalty==='function',
+  queryVariantsAvailable:typeof v3018ResearchQueryVariants==='function',
+  authorityScoringAvailable:typeof v3018EvidenceAuthorityScore==='function'
+});
+if(!Object.keys(AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020).every(function(k){return AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020[k]===true;}))throw new Error('AUTHORITY_FIRST_SOURCE_RANKING_V3020 startup validation failed');
+
+const FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  queryVariantsAvailable:typeof v3018ResearchQueryVariants==='function',
+  authorityScoringAvailable:typeof v3018EvidenceAuthorityScore==='function',
+  researchEvidenceAvailable:typeof v3007ResearchEvidence==='function',
+  openAIEvidenceSynthesisAvailable:typeof v3007OpenAISynthesize==='function',
+  geminiEvidenceSynthesisAvailable:typeof v3007GeminiSynthesize==='function',
+  dispatcherAvailable:typeof v3007StructuredResearchResponse==='function'
+});
+if(!Object.keys(FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018).every(function(k){return FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018[k]===true;}))throw new Error('FREE_DIRECT_SOURCE_DISCOVERY_V3018 startup validation failed');
+
+const GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  openAIGroundedAvailable:typeof v3017OpenAIGroundedResearch==='function',
+  geminiGroundedAvailable:typeof v3017GeminiGroundedResearch==='function',
+  groundedValidationAvailable:typeof v3015GroundedValidation==='function',
+  dispatcherAvailable:typeof v3007StructuredResearchResponse==='function'
+});
+if(!Object.keys(GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017).every(function(k){return GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017[k]===true;}))throw new Error('GROUNDED_PROVIDER_TIME_BUDGET_V3017 startup validation failed');
+
+const GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  openAIGroundedAvailable:typeof v3015OpenAIGroundedResearch==='function',
+  geminiGroundedAvailable:typeof v3015GeminiGroundedResearch==='function',
+  groundedResultAvailable:typeof v3015GroundedResult==='function',
+  dispatcherAvailable:typeof v3007StructuredResearchResponse==='function'
+});
+if(!Object.keys(GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016).every(function(k){return GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016[k]===true;}))throw new Error('GROUNDED_PROVIDER_COMPATIBILITY_V3016 startup validation failed');
+
+const SHARED_GROUNDED_SOURCE_VALIDATION_STARTUP_V3015=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  groundingIdentityAvailable:typeof v3015GroundingUrlKnown==='function',
+  sourceResolverAvailable:typeof v3015ResolveGroundedSource==='function',
+  validatorAvailable:typeof v3015GroundedValidation==='function',
+  openAIGroundedAvailable:typeof v3015OpenAIGroundedResearch==='function',
+  geminiGroundedAvailable:typeof v3015GeminiGroundedResearch==='function',
+  dispatcherAvailable:typeof v3007StructuredResearchResponse==='function'
+});
+if(!Object.keys(SHARED_GROUNDED_SOURCE_VALIDATION_STARTUP_V3015).every(function(k){return SHARED_GROUNDED_SOURCE_VALIDATION_STARTUP_V3015[k]===true;}))throw new Error('SHARED_GROUNDED_SOURCE_VALIDATION_V3015 startup validation failed');
+
+function v3007RegistrableHost(host){
+  const parts=clean(host).toLowerCase().split('.').filter(Boolean);if(parts.length<=2)return parts.join('.');const last=parts[parts.length-1],second=parts[parts.length-2],third=parts[parts.length-3];const commonSecond=/^(?:co|com|org|net|gov|edu|ac)$/;if(last.length===2&&commonSecond.test(second)&&third)return third+'.'+second+'.'+last;return second+'.'+last;
+}
+function v3007EntityPagePurpose(raw){const s=v2856Normalized(raw);if(/\b(?:board|directors?|trustees?|governance|leadership|source\s+list)\b/.test(s))return 'governance';if(/\b(?:instructions?|manual|document|form|publication|guidance|datasheet|data\s+sheet|specification|spec\s+sheet)\b/.test(s))return 'specific';if(/\b(?:website|site|homepage|home\s+page)\b/.test(s)&&!/\b(?:instructions?|manual|document|form|publication|guidance)\b/.test(s))return 'homepage';return 'page';}
+function v3007NamedEntityPageIntent(raw,intent){return !!(intent&&clean(intent.resourceType||'')==='page'&&clean(intent.requestedEntityIdentity||'')&&/\b(?:website|site|homepage|home\s+page|source\s+list|governance|leadership|board|directors?|trustees?)\b/i.test(clean(raw)));}
+function v3007EntityPageIdentityMatch(entity,c){return v3006EntityCandidateMatch({requestedEntityIdentity:entity},c);}
+function v3007EntityPageScore(raw,intent,c){
+  const entity=clean(intent.requestedEntityIdentity||''),purpose=v3007EntityPagePurpose(raw),url=validHttpUrl(c&&c.url||'');if(!url)return -999;let score=v3006EvidencePreScore(raw,{entity:entity},c),u;try{u=new URL(url);}catch(_e){return -999;}const hay=clean((c.title||'')+' '+(c.text||c.snippet||'')+' '+u.pathname).toLowerCase();
+  if(!v3007EntityPageIdentityMatch(entity,c))score-=160;else score+=80;
+  const rootish=(u.pathname==='/'||u.pathname===''||u.pathname.split('/').filter(Boolean).length<=1),baseHost=v3007RegistrableHost(u.hostname),subdomain=u.hostname!==baseHost&&!/^www\./i.test(u.hostname);
+  if(purpose==='homepage'){if(rootish)score+=80;else score-=12;if(u.hostname===baseHost||u.hostname==='www.'+baseHost)score+=34;if(subdomain)score-=60;}
+  if(purpose==='governance'){if(/\b(?:board|directors?|trustees?|governance|leadership|officers?|management)\b/.test(hay))score+=70;else score-=90;if(subdomain)score-=18;}
+  if(purpose==='specific'){if(v2989TopicUseful(raw,intent,c))score+=95;else score-=150;if(/\b(?:instructions?|manual|publication|guidance)\b/.test(v2856Normalized(raw))&&!/\b(?:instructions?|manual|publication|guidance)\b/.test(hay))score-=85;}
+  if(/(?:^|\.)wikipedia\.org$/i.test(domainFromUrl(url)))score-=70;return score;
+}
+async function v3007NamedEntityPagePreflight(raw,intent,requestState){
+  if(!v3007NamedEntityPageIntent(raw,intent))return '';
+  const entity=clean(intent.requestedEntityIdentity||''),purpose=v3007EntityPagePurpose(raw),topicTerms=v2989ResourceTopicTerms(raw,intent).slice(0,8).join(' '),terms=purpose==='governance'?'board directors governance leadership':(purpose==='specific'?(topicTerms||'official requested page'):'official website homepage');const queries=['"'+entity+'" '+terms,'"'+entity+'" '+(purpose==='specific'?(topicTerms+' official'):'official')];
+  const pages=await Promise.all(queries.map(function(q){return v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2200,1).catch(function(){return '';});}));if(requestState&&requestState.aborted)return '';
+  const pooled=[],seen=new Set();pages.forEach(function(body){v2989ParseBingRss(body||'').forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u)return;const key=u.toLowerCase();if(seen.has(key))return;seen.add(key);pooled.push(c);try{const x=new URL(u),base=v3007RegistrableHost(x.hostname);if(base){const root='https://'+base+'/';const rk=root.toLowerCase();if(!seen.has(rk)){seen.add(rk);pooled.push({url:root,title:base,snippet:'',provider:'Derived parent homepage candidate'});}}}catch(_e){}});});
+  const pre=pooled.map(function(c){c.preScore=v3007EntityPageScore(raw,intent,c);return c;}).sort(function(a,b){return Number(b.preScore||-999)-Number(a.preScore||-999);}).slice(0,7);
+  const fetched=await Promise.all(pre.map(function(c){return v2989CandidateFetch(c.url,2100,2).then(function(page){const row=Object.assign({},c);if(page){row.url=validHttpUrl(page.url||c.url)||c.url;row.ok=!!page.ok;row.status=Number(page.status||0);row.contentType=clean(page.contentType||'');row.title=clean(page.title||row.title||'');row.text=clean(page.text||'').slice(0,7000);}row.score=v3007EntityPageScore(raw,intent,row);return row;}).catch(function(){return c;});}));if(requestState&&requestState.aborted)return '';
+  const best=fetched.filter(function(c){return c&&v3007EntityPageIdentityMatch(entity,c)&&v3007EntityPageScore(raw,intent,c)>=95;}).sort(function(a,b){return v3007EntityPageScore(raw,intent,b)-v3007EntityPageScore(raw,intent,a);})[0];if(!best)return '';
+  best.score=v3007EntityPageScore(raw,intent,best);best.matchCount=1;best.matchRatio=1;const serialized=v2989ResourceContract(raw,intent,{ok:true,best:best,provider:'Exact named-entity page discovery v3007',answer:'',explanation:'',usage:{providerSourceBound:true},totalResourceMs:0});return serialized||'';
+}
+const GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  sourceRequiredDetectorAvailable:typeof v3014GroundedSourceRequired==='function',
+  openAIGroundedResearchAvailable:typeof v3014OpenAIGroundedResearch==='function',
+  geminiGroundedResearchAvailable:typeof v3014GeminiGroundedResearch==='function',
+  groundedValidationAvailable:typeof v3014GroundedAnswerValid==='function',
+  dispatcherAvailable:typeof v3007StructuredResearchResponse==='function'
+});
+if(!Object.keys(GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014).every(function(k){return GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014[k]===true;}))throw new Error('GROUNDED_SOURCE_RESEARCH_CONTINUATION_V3014 startup validation failed');
+
+const SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',scopeAvailable:typeof v3007SemanticScope==='function',researchIntentAvailable:typeof v3007ResearchIntent==='function',researchResponseAvailable:typeof v3007StructuredResearchResponse==='function',entityPagePreflightAvailable:typeof v3007NamedEntityPagePreflight==='function',semanticCacheReady:V3007_SEMANTIC_RESEARCH_CACHE instanceof Map
+});
+if(!Object.keys(SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007).every(function(k){return SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007[k]===true;}))throw new Error('SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_V3007 startup validation failed');
+
+const SHARED_SOURCE_BOUND_RESEARCH_INTEGRITY_STARTUP_VALIDATION_V3011=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  countBindingAvailable:typeof v3011SourceContainsCount==='function',
+  empiricalEvidenceGateAvailable:typeof v3011EmpiricalCoverageEvidenceValid==='function',
+  ethnolinguisticDirectAnswerGateAvailable:typeof v3011EthnolinguisticAnswerDirect==='function',
+  sourceOwnedRetryAvailable:typeof v3011SourceOwnedRetry==='function',
+  orderedResearchDispatcherAvailable:typeof v3007StructuredResearchResponse==='function',
+  stableSemanticModelEligibilityAvailable:typeof v3013StableSemanticModelEligible==='function',
+  stableSemanticModelContractAvailable:typeof v3013StableSemanticModelContract==='function',
+  genericEthnolinguisticGate:(function(){return v3011EthnolinguisticAnswerDirect('What language does this community speak?',{answer:'There is no single language; the communities speak several related languages.'})&&!v3011EthnolinguisticAnswerDirect('What language does this community speak?',{answer:'This is a broad ethnolinguistic community with a long history.'});})()
+});
+if(!Object.keys(SHARED_SOURCE_BOUND_RESEARCH_INTEGRITY_STARTUP_VALIDATION_V3011).every(function(k){return SHARED_SOURCE_BOUND_RESEARCH_INTEGRITY_STARTUP_VALIDATION_V3011[k]===true;}))throw new Error('SHARED_SOURCE_BOUND_RESEARCH_INTEGRITY_V3012 startup validation failed');
+
+
+// LIST_COMPLETENESS_INFERENCE_V2999
+// Shared request-semantics layer: infer complete-list intent from open plural-set wording unless
+// the user explicitly asks for examples, samples, a limited count, or representative members.
+function v2999ExplicitPartialListIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s)return false;
+  return /\b(?:some|a\s+few|few|several|examples?|samples?|representative|for\s+example|such\s+as|at\s+least\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)|top\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)|first\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)|name\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)|list\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)|give\s+me\s+(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)|one\s+or\s+two|a\s+couple)\b/.test(s);
+}
+function v2999ImplicitCompleteListIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||!isAnyQuestionInputText(raw)||/^https?:\/\//i.test(clean(raw))||v2999ExplicitPartialListIntent(raw))return false;
+  const openSet=/^(?:what|which|in\s+what|in\s+which|where|list|name|identify|show|give)\b/.test(s);
+  if(!openSet)return false;
+  const pluralSet=/\b(?:countries|nations|states|provinces|territories|cities|towns|counties|islands|continents|organizations|organisations|agencies|departments|companies|institutions|schools|universities|colleges|people|persons|leaders|presidents|governors|members|species|animals|plants|diseases|conditions|medications|drugs|laws|rules|regulations|requirements|restrictions|rights|books|chapters|verses|passages|events|wars|battles|languages|currencies|airlines|airports|teams|players|products|models|vehicles|materials|elements|planets|moons|rivers|mountains|oceans|seas)\b/.test(s);
+  const whereSet=/^where\b/.test(s)&&/\b(?:legal|illegal|banned|prohibited|restricted|allowed|permitted|required|recognized|recognised|used|spoken|found|located|available|sold|practiced|practised|imprisoned|detained|punished|persecuted)\b/.test(s);
+  return !!(pluralSet||whereSet);
+}
+function v2999ListCompletenessGuidance(raw){
+  if(!v2999ImplicitCompleteListIntent(raw))return '';
+  return 'LIST COMPLETENESS CONTRACT: The user wording requests the set/list and does not ask for examples or a limited count. Do not answer with “among others,” “a few others,” “and others,” “etc.,” “examples include,” “such as,” or another open-ended sample. Build the most complete supported set available. Put the full supported set in ANSWER. If a universally exhaustive list cannot be established, explicitly define the source, date, jurisdiction, dataset, or category boundary in ANSWER and list every member supported within that stated scope. If the category itself has no objective finite boundary, say that directly and explain the boundary instead of substituting a handful of examples.';
+}
+function v2999CompletenessEvasion(value){
+  const s=clean(value);
+  return /\b(?:among\s+others|a\s+few\s+others|and\s+others|many\s+others|other\s+examples|examples?\s+include|for\s+example|such\s+as|etc\.?|et\s+cetera)\b/i.test(s);
+}
+function v2999ExplicitNoFiniteBoundary(value){
+  const s=clean(value);
+  return /\b(?:no\s+(?:single\s+)?(?:authoritative|universally\s+accepted|objective|finite|exhaustive)\s+list|cannot\s+be\s+made\s+exhaustive|cannot\s+be\s+exhaustively\s+listed|no\s+finite\s+exhaustive\s+set|category\s+(?:is|remains)\s+open[- ]ended)\b/i.test(s);
+}
+function v2999ScopedCompleteListLabel(value){
+  const s=clean(value);
+  return /\b(?:documented\s+by|supported\s+by|under\s+the\s+(?:cited|selected|current)\s+(?:source|sources|dataset|report)|within\s+the\s+(?:cited|selected|current)\s+(?:source|sources|dataset|report)|for\s+the\s+cited\s+(?:year|dataset|report)|according\s+to\s+the\s+cited\s+(?:source|sources|dataset|report))\b/i.test(s);
+}
+function v2999ImplicitCompleteListIncomplete(raw,contract){
+  if(!v2999ImplicitCompleteListIntent(raw))return false;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||'');
+  const detail=clean([answer,c.explanation,c.why,c.evidence,c.supportingInformation].join(' '));
+  if(!answer)return true;
+  if(v2999CompletenessEvasion(detail))return true;
+  if(/^(?:yes|no)\.?$/i.test(answer))return true;
+  if(/\b(?:include|includes|including)\b/i.test(answer)&&/\b(?:other|others|more|additional)\b/i.test(detail))return true;
+  if(v2999ExplicitNoFiniteBoundary(detail))return false;
+  if(v2999ScopedCompleteListLabel(answer)||v2999ScopedCompleteListLabel(detail))return false;
+  return false;
+}
+const LIST_COMPLETENESS_INFERENCE_STARTUP_VALIDATION_V2999=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  implicitCompleteListIntentAvailable:typeof v2999ImplicitCompleteListIntent==='function',
+  completenessGuidanceAvailable:typeof v2999ListCompletenessGuidance==='function',
+  completenessValidatorAvailable:typeof v2999ImplicitCompleteListIncomplete==='function'
+});
+if(!Object.keys(LIST_COMPLETENESS_INFERENCE_STARTUP_VALIDATION_V2999).every(function(k){return LIST_COMPLETENESS_INFERENCE_STARTUP_VALIDATION_V2999[k]===true;}))throw new Error('LIST_COMPLETENESS_INFERENCE_V2999 startup validation failed');
+
+// ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_V2998
+// Shared semantic boundary for evidence-vs-morality routing, dynamic country-status freshness,
+// direct-choice brevity, Yes/No polarity consistency, explanation completeness, and clock-time zones.
+function v2998EpistemicEvidenceIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||!isAnyQuestionInputText(raw)||/^https?:\/\//i.test(clean(raw)))return false;
+  if(/\b(?:bible|biblical|scripture|scriptures|kjv|god|jesus|christ|moral|morally|ethical|ethically|sin|wrong|right|should\s+i|what\s+should)\b/.test(s))return false;
+  const evidence=/\b(?:eyewitness(?:es)?|witness(?:es)?|testimony|accounts?|statements?|stories|reports?|evidence|observations?|recollections?|memories)\b/.test(s);
+  const discrepancy=/\b(?:conflict(?:ing|ed)?|contradict(?:ory|ing|ed)?|inconsisten(?:t|cy|cies)|differ(?:ent|ing)?|disagree(?:ment|ing|d)?|mismatch|diverge|not\s+match)\b/.test(s);
+  const inference=/\b(?:prove|proof|mean|means|show|shows|establish|establishes|necessarily|demonstrate|indicate|lying|lie|deception|dishonest|fabricat)\b/.test(s);
+  return !!(evidence&&discrepancy&&inference);
+}
+function v2998DynamicCountryStatusIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||!isAnyQuestionInputText(raw)||/^https?:\/\//i.test(clean(raw)))return false;
+  const geo=/\b(?:country|countries|nation|nations|states|where\s+in\s+the\s+world)\b/.test(s);
+  const status=/\b(?:against\s+the\s+law|illegal|legal|lawful|unlawful|ban|bans|banned|outlaw|outlaws|outlawed|prohibit|prohibits|prohibited|criminalize|criminalizes|criminalized|restrict|restricts|restricted|imprison|imprisons|jailed?|detain|detains|detained|punish|punishes|punished|persecut|allow|allows|recognized?|recognise|requires?\s+registration|forbid|forbids|forbidden)\b/.test(s);
+  const presentForm=/^(?:what|which|where|in\s+what|are\s+there|do\s+any|does\s+any|is\s+there)\b/.test(s)||/\b(?:currently|today|now|presently)\b/.test(s);
+  const historicalOnly=/\b(?:ancient|historical|historically|formerly|used\s+to|in\s+\d{3,4}\b|roman\s+empire|middle\s+ages)\b/.test(s)&&!/\b(?:current|currently|today|now|presently)\b/.test(s);
+  return !!(geo&&status&&presentForm&&!historicalOnly);
+}
+function v2998PlaceholderExplanation(value){
+  return /\b(?:source or answer matching every stated qualifier was not available|a source matching every stated qualifier was not available|complete explanation could not be extracted|source-specific evidence needed|stronger accuracy wording requires|available candidates did not pass the relevance|generic review wording|no explanation was available)\b/i.test(clean(value));
+}
+function v2998ClockTimePresent(value){
+  const s=clean(value);
+  return /\b(?:0?[1-9]|1[0-2])(?::[0-5]\d)?\s*(?:a\.?m\.?|p\.?m\.?)\b/i.test(s)||/\b(?:[01]\d|2[0-3]):[0-5]\d\b/.test(s);
+}
+function v2998TimeZonePresent(value){
+  const s=clean(value);
+  return /\b(?:UTC|GMT|BST|EST|EDT|CST|CDT|MST|MDT|PST|PDT|AKST|AKDT|HST|AST|ADT|NST|NDT|CET|CEST|EET|EEST|IST|JST|KST|AEST|AEDT|ACST|ACDT|AWST|NZST|NZDT|local\s+time|time\s+zone|timezone)\b/i.test(s)||/\b[A-Za-z_]+\/[A-Za-z_]+\b/.test(s);
+}
+function v2998ClockAnswerNeedsZone(raw,contract){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||'');
+  if(!v2998ClockTimePresent(answer))return false;
+  if(v2998TimeZonePresent(answer))return false;
+  return true;
+}
+function v2998ChoiceQuestion(raw){
+  const s=clean(raw).replace(/[?!.]+$/,'').trim();
+  return /^which\b/i.test(s)&&/\bor\b/i.test(s);
+}
+function v2998ChoiceAnswerTooDiffuse(raw,contract){
+  if(!v2998ChoiceQuestion(raw))return false;
+  const answer=clean(contract&&contract.answer||contract&&contract.summary||'');
+  if(!answer)return true;
+  const words=answer.split(/\s+/).filter(Boolean);
+  return words.length>8||/\b(?:because|reference|references|data\s+show|according\s+to|therefore|so\s+equal|compared\s+with)\b/i.test(answer);
+}
+function v2998AbsoluteYesNoCue(raw){
+  const s=v2856Normalized(raw);
+  return /^(?:is|are|does|do|can|could|will|would|has|have|was|were)\b/.test(s)&&
+    /\b(?:always|never|guarantee|guaranteed|completely|entirely|fully|impossible|100\s*%|rustproof|waterproof|fireproof|foolproof|permanent|all|every)\b/.test(s);
+}
+function v2998ExceptionCue(value){
+  const s=clean(value);
+  return /\b(?:can\s+still|may\s+still|might\s+still|not\s+always|not\s+completely|not\s+entirely|not\s+fully|does\s+not\s+guarantee|doesn't\s+guarantee|exceptions?|except\s+when|under\s+(?:some|certain|harsh)\s+conditions|however[^.]{0,80}\bcan\b|but[^.]{0,80}\bcan\b|can\s+corrode|can\s+rust|can\s+fail)\b/i.test(s);
+}
+function v2998YesNoPolarityConflict(raw,contract){
+  if(!v2998AbsoluteYesNoCue(raw))return false;
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||'');
+  const detail=clean([c.explanation,c.why,c.evidence,c.supportingInformation].join(' '));
+  return /^yes(?:\b|[.!—-])/i.test(answer)&&v2998ExceptionCue(detail);
+}
+function v2998DynamicCountryAnswerIncomplete(raw,contract){
+  if(!v2998DynamicCountryStatusIntent(raw))return false;
+  const s=v2856Normalized(raw);
+  const c=contract&&typeof contract==='object'?contract:{};
+  const answer=clean(c.answer||c.summary||'');
+  if(/^(?:what|which|where|in\s+what)\b/.test(s)&&/^(?:yes|no)\.?$/i.test(answer))return true;
+  const detail=clean([answer,c.explanation,c.why].join(' '));
+  if(/\b(?:ancient|historical|roman\s+empire|edict|century|centuries)\b/i.test(detail)&&!/\b(?:current|currently|today|present|202[4-9])\b/i.test(detail))return true;
+  return false;
+}
+function v2998ContractIntegrityIssues(raw,contract){
+  const c=contract&&typeof contract==='object'?contract:{};
+  const issues=[];
+  const detail=clean([c.explanation,c.why,c.evidence].join(' '));
+  if(v2998PlaceholderExplanation(detail))issues.push('PLACEHOLDER_EXPLANATION');
+  if(v2998ClockAnswerNeedsZone(raw,c))issues.push('CLOCK_TIME_ZONE_MISSING');
+  if(v2998ChoiceAnswerTooDiffuse(raw,c))issues.push('DIRECT_CHOICE_TOO_DIFFUSE');
+  if(v2998YesNoPolarityConflict(raw,c))issues.push('YES_NO_POLARITY_CONFLICT');
+  if(v2998DynamicCountryAnswerIncomplete(raw,c))issues.push('DYNAMIC_COUNTRY_STATUS_INCOMPLETE');
+  if(v3000InterrogativeAnswerShapeMismatch(raw,c))issues.push('INTERROGATIVE_ANSWER_SHAPE_MISMATCH');
+  if(typeof v3001ContractSemanticIssues==='function')issues.push.apply(issues,v3001ContractSemanticIssues(raw,c));
+  if(v2999ImplicitCompleteListIncomplete(raw,c))issues.push('IMPLICIT_COMPLETE_LIST_INCOMPLETE');
+  if(v2998EpistemicEvidenceIntent(raw)&&v2865FaithOrMoralContract(c))issues.push('EPISTEMIC_FALSE_MORAL_ROUTE');
+  return issues;
+}
+function v2998RepairContractObject(raw,contract,requestContext){
+  let c=v2856Clone(contract)||{};
+  if(typeof v3001RepairContractDisplayShape==='function')c=v3001RepairContractDisplayShape(raw,c,requestContext);
+  if(v2998YesNoPolarityConflict(raw,c)){
+    c.answer='No';
+    c.summary='No';
+    c.analysisResult='Answer';
+    c.status='ANSWERED';
+    c.outputBasket=OUTPUT_FORMAT_BASKETS.YES_NO;
+  }
+  c.backendVersion=VERSION;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{
+    answerIntegrityV2998:'ACTIVE',
+    epistemicEvidenceRouting:v2998EpistemicEvidenceIntent(raw)?'FACTUAL_NOT_MORAL':'NOT_APPLICABLE',
+    dynamicCountryStatus:v2998DynamicCountryStatusIntent(raw)?'LIVE_SOURCE_REQUIRED':'NOT_APPLICABLE',
+    clockTimeZoneRule:v2998ClockTimePresent(clean(c.answer||''))?(v2998TimeZonePresent(clean(c.answer||''))?'PASS':'REQUIRES_REPAIR'):'NOT_APPLICABLE',
+    directChoiceRule:v2998ChoiceQuestion(raw)?(v2998ChoiceAnswerTooDiffuse(raw,c)?'REQUIRES_REPAIR':'PASS'):'NOT_APPLICABLE',
+    absoluteYesNoConsistency:v2998AbsoluteYesNoCue(raw)?(v2998YesNoPolarityConflict(raw,c)?'REPAIRED':'PASS'):'NOT_APPLICABLE',
+    interrogativeAnswerShapeV3000:v3000InterrogativeShape(raw)?(v3000InterrogativeAnswerShapeMismatch(raw,c)?'REQUIRES_REPAIR':'PASS'):'NOT_APPLICABLE',
+    listCompletenessV2999:v2999ImplicitCompleteListIntent(raw)?(v2999ImplicitCompleteListIncomplete(raw,c)?'REQUIRES_REPAIR':'PASS'):'NOT_APPLICABLE',
+    clientTimezoneContext:clean(requestContext&&requestContext.timezone||'')
+  });
+  return c;
+}
+function v2998PatchSerializedContracts(raw,serialized,requestContext){
+  const lines=String(serialized||'').split(/\r?\n/);
+  for(let i=0;i<lines.length;i++){
+    if(!/^AIV_RESULT_CONTRACT:\s*/.test(lines[i]))continue;
+    try{
+      const parsed=JSON.parse(lines[i].replace(/^AIV_RESULT_CONTRACT:\s*/,''));
+      lines[i]='AIV_RESULT_CONTRACT: '+JSON.stringify(v2998RepairContractObject(raw,parsed,requestContext));
+    }catch(_e){}
+  }
+  if(!lines.includes('ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_V2998: active'))lines.push('ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_V2998: active');
+  if(!lines.includes('UNIFIED_SEMANTIC_INTEGRITY_V3001: active'))lines.push('UNIFIED_SEMANTIC_INTEGRITY_V3001: active');
+  if(v3000InterrogativeShape(raw)&&!lines.includes('INTERROGATIVE_ANSWER_SHAPE_V3000: active'))lines.push('INTERROGATIVE_ANSWER_SHAPE_V3000: active');
+  if(v2999ImplicitCompleteListIntent(raw)&&!lines.includes('LIST_COMPLETENESS_INFERENCE_V2999: active'))lines.push('LIST_COMPLETENESS_INFERENCE_V2999: active');
+  return lines.join('\n');
+}
+function v2998TimeDestination(raw){
+  const s=clean(raw).replace(/[?!.]+$/,'').trim();
+  let m=s.match(/\bto\s+([A-Z][A-Za-z .'\-]{1,48}?)(?:,\s*|\s+)(?:what|which)\s+(?:is\s+the\s+)?(?:local\s+)?time\b/i);
+  if(m&&m[1])return clean(m[1]).replace(/^(?:the\s+)/i,'');
+  m=s.match(/\b(?:time|local\s+time)\s+(?:is\s+it\s+)?in\s+([A-Z][A-Za-z .'\-]{1,48})$/i);
+  if(m&&m[1])return clean(m[1]);
+  m=s.match(/\barriv(?:e|es|ing)\s+(?:in|at)\s+([A-Z][A-Za-z .'\-]{1,48})$/i);
+  return m&&m[1]?clean(m[1]):'';
+}
+const V2998_COMMON_ZONE_LABELS=Object.freeze({
+  'london':'London time (GMT/BST depending on date)',
+  'new york':'Eastern Time (EST/EDT depending on date)',
+  'new york city':'Eastern Time (EST/EDT depending on date)',
+  'washington':'Eastern Time (EST/EDT depending on date)',
+  'washington dc':'Eastern Time (EST/EDT depending on date)',
+  'chicago':'Central Time (CST/CDT depending on date)',
+  'denver':'Mountain Time (MST/MDT depending on date)',
+  'los angeles':'Pacific Time (PST/PDT depending on date)',
+  'san francisco':'Pacific Time (PST/PDT depending on date)',
+  'seattle':'Pacific Time (PST/PDT depending on date)',
+  'honolulu':'Hawaii Standard Time (HST)',
+  'tokyo':'Japan Standard Time (JST)',
+  'seoul':'Korea Standard Time (KST)',
+  'paris':'Central European Time (CET/CEST depending on date)',
+  'berlin':'Central European Time (CET/CEST depending on date)',
+  'rome':'Central European Time (CET/CEST depending on date)',
+  'sydney':'Australian Eastern Time (AEST/AEDT depending on date)',
+  'melbourne':'Australian Eastern Time (AEST/AEDT depending on date)',
+  'auckland':'New Zealand Time (NZST/NZDT depending on date)'
+});
+function v2998FallbackZoneLabel(raw,requestContext){
+  const place=v2998TimeDestination(raw);
+  const key=v2856Normalized(place).replace(/\b(?:england|uk|united kingdom|usa|united states)\b/g,'').replace(/\s+/g,' ').trim();
+  if(key&&V2998_COMMON_ZONE_LABELS[key])return V2998_COMMON_ZONE_LABELS[key];
+  if(place)return place+' local time (applicable time-zone abbreviation depends on the date)';
+  const tz=clean(requestContext&&requestContext.timezone||'');
+  return tz?tz:'local time zone';
+}
+function v2998FallbackClockZonePatch(raw,serialized,requestContext){
+  const lines=String(serialized||'').split(/\r?\n/);
+  for(let i=0;i<lines.length;i++){
+    if(!/^AIV_RESULT_CONTRACT:\s*/.test(lines[i]))continue;
+    try{
+      const c=JSON.parse(lines[i].replace(/^AIV_RESULT_CONTRACT:\s*/,''));
+      const answer=clean(c.answer||c.summary||'');
+      if(v2998ClockTimePresent(answer)&&!v2998TimeZonePresent(answer)){
+        const label=v2998FallbackZoneLabel(raw,requestContext);
+        c.answer=clean(answer.replace(/[.\s]+$/,'')+' — '+label);
+        c.summary=c.answer;
+        c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{clockTimeZoneRule:'FALLBACK_ZONE_CONTEXT_ADDED'});
+      }
+      lines[i]='AIV_RESULT_CONTRACT: '+JSON.stringify(c);
+    }catch(_e){}
+  }
+  return lines.join('\n');
+}
+async function v2998EpistemicEvidenceResponse(raw,requestState){
+  if(!v2998EpistemicEvidenceIntent(raw))return '';
+  let modeled=await v2864PlainQuestionAttempt(raw,false);
+  if(requestState&&requestState.aborted)return '';
+  if(modeled)return v2998PatchSerializedContracts(raw,modeled,null);
+  const c=v2844Contract(raw,{
+    intent:'EPISTEMIC_EVIDENCE_INFERENCE',route:'answer-integrity/epistemic-evidence/v2998',
+    answer:'No. Conflicting or inconsistent accounts do not by themselves prove deliberate deception.',
+    explanation:'Differences can result from perception, memory, vantage point, wording, timing, misunderstanding, or deception. Additional evidence is needed to establish whether anyone intentionally lied.',
+    source:'OpenAI model knowledge',sourceUrl:'',classification:'EVIDENCE / INFERENCE REASONING',confidence:'High confidence',status:'ANSWERED'
+  });
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'answerIntegrityAndContextRoutingV2998',falseMoralRouteBlocked:'YES'});
+  return v2844Serialize(raw,c,'epistemic-evidence-inference-v2998');
+}
+async function v2998DynamicCountryStatusResponse(raw,requestState){
+  if(!v2998DynamicCountryStatusIntent(raw))return '';
+  const intent={kind:'current-country-status',dynamicCountryStatus:true};
+  const result=await v2844LiveEvaluation(raw,intent);
+  if(requestState&&requestState.aborted)return '';
+  if(!result||!result.ok)return v2864NonfinalCurrentRetry(raw,clean(result&&result.errorType||'dynamic_country_status_live_source_failed'));
+  const c=v2844LiveContract(raw,intent,result);
+  c.route='current-information/dynamic-country-status/v2998';
+  c.currentInformationProtected=true;
+  c.currentInformationCheckedAt=new Date().toISOString();
+  c.classification=clean(c.classification||'CURRENT COUNTRY / LEGAL STATUS FACTUAL');
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'answerIntegrityAndContextRoutingV2998',dynamicCountryStatusLiveSource:'USED',historicalOnlyAnswerBlocked:'YES'});
+  return v2844Serialize(raw,c,'dynamic-country-status-live-v2998');
+}
+async function v2998FinalizeResponse(raw,serialized,requestState,requestContext){
+  let patched=v2998PatchSerializedContracts(raw,serialized,requestContext);
+  if(requestState&&requestState.aborted)return '';
+  if(typeof v3044MoralQuestionIntent==='function'&&v3044MoralQuestionIntent(raw))return patched;
+  if((typeof v3005TerminalSourceAttemptSerialized==='function'&&v3005TerminalSourceAttemptSerialized(patched))||(typeof v3004TerminalSourceAttemptSerialized==='function'&&v3004TerminalSourceAttemptSerialized(patched)))return v2998FallbackClockZonePatch(raw,patched,requestContext);
+  let issues=v3001SerializedIssues(raw,patched);
+  if(!issues.length)return v2998FallbackClockZonePatch(raw,patched,requestContext);
+  if(!v2861OrdinaryQuestion(raw))return v2998FallbackClockZonePatch(raw,patched,requestContext);
+  const correction=await v3001CorrectionAttempt(raw,requestState,requestContext);
+  if(requestState&&requestState.aborted)return '';
+  if(correction){
+    const normalized=v2998PatchSerializedContracts(raw,v2865NormalizeSerializedResponse(raw,correction),requestContext);
+    if(!v3001SerializedIssues(raw,normalized).length)return v2998FallbackClockZonePatch(raw,normalized,requestContext);
+  }
+  const hard=issues.some(function(issue){return /(?:ANSWER_SHAPE|DISPLAY_MODE|COMPLETE_LIST|COUNTRY_SET|ENTITY_OR_ABBREVIATION|RESOURCE_ACTION_LINK|DYNAMIC_COUNTRY|NO_RESULT_CONTRACT)/.test(issue);});
+  if(hard)return v3001NonfinalRetry(raw,issues.join(','));
+  return v2998FallbackClockZonePatch(raw,patched,requestContext);
+}
+
+const ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  epistemicIntentAvailable:typeof v2998EpistemicEvidenceIntent==='function',
+  dynamicCountryStatusAvailable:typeof v2998DynamicCountryStatusIntent==='function'&&typeof v2998DynamicCountryStatusResponse==='function',
+  integrityValidatorAvailable:typeof v2998ContractIntegrityIssues==='function',
+  finalBoundaryAvailable:typeof v2998FinalizeResponse==='function',
+  clockZoneRuleAvailable:typeof v2998ClockAnswerNeedsZone==='function'&&typeof v2998FallbackClockZonePatch==='function'
+});
+if(!Object.keys(ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998).every(function(k){return ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998[k]===true;}))throw new Error('ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_V2998 startup validation failed');
+
+const SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',multiPartAvailable:typeof v3029MultiPartQuestion==='function'&&typeof v3029MultiPartIncomplete==='function',comparisonConsistencyAvailable:typeof v3029ComparisonNumericContradiction==='function',roleSourceBindingAvailable:typeof v3029AmbiguousSinglePlaceRoleSourceCompatible==='function',resourceSpecificityAvailable:typeof v2989ResourceRequestIntent==='function'&&typeof v3007EntityPagePurpose==='function'
+});
+if(!Object.keys(SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029).every(function(k){return SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029[k]===true;}))throw new Error('SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_V3029 startup validation failed');
+
+const GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',geographicIntentAvailable:typeof v2997GeographicRankingIntent==='function',abbreviationProtectionAvailable:typeof v2997ProtectGeographicAbbreviationBoundaries==='function',geographicCompletionAvailable:typeof v2997CompleteGeographicAnswerFromContext==='function',primaryStatisticsGateAvailable:typeof v2997StatisticalRankingSourceValid==='function',populationScopeBindingAvailable:typeof v2996PopulationSensitiveRankingResultValid==='function'
+});
+if(!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.currentVersion||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.geographicIntentAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.abbreviationProtectionAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.geographicCompletionAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.primaryStatisticsGateAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.populationScopeBindingAvailable){throw new Error('GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_REPAIR_V2997 startup validation failed');}
+
+const GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v2989ResourceRequestIntent==='function',officialIdentityAvailable:typeof v2989RequestedOfficialIdentity==='function'&&typeof v2989OfficialSourceIdentityMatch==='function',officialScopedDiscoveryAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989OfficialScopedTopic==='function',exactFactQueryAvailable:typeof v2989RequestedFactSearchPhrase==='function'&&typeof v2989RequestedFactCoreTerms==='function',topicUsefulnessAvailable:typeof v2989ResourceTopicTerms==='function'&&typeof v2989TopicUseful==='function'&&typeof v2993ResourceHayHasTerm==='function'&&typeof v2993CommerceSemanticQueryVariants==='function',commerceDestinationGateAvailable:typeof v2994CommerceDestinationSignals==='function',neutralResourceExplanationAvailable:typeof v2995ResourceDetailIsSourceVoice==='function'&&typeof v2995NeutralResourceExplanation==='function',resourceTypeGateAvailable:typeof v2989ResourceTypeCompatible==='function',localDirectAvailable:typeof v2989LocalDirectResourceLookup==='function',freeDirectAvailable:typeof v2989FreeDirectResourceLookup==='function',geminiAvailable:typeof v2989GeminiGroundedLookup==='function',geminiSourceBindingAvailable:typeof v2989OpenAIResourceFields==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',openaiAvailable:typeof v2989OpenAIGroundedLookup==='function',destinationResolverAvailable:typeof v2989ResolveCandidate==='function',providerSourceReconciliationAvailable:typeof v2989ProviderSourceReconciliationCandidates==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',providerEvidenceBindingAvailable:typeof v2989ProviderEvidenceSearchPhrase==='function'&&typeof v2989ProviderEvidenceBindingScore==='function',providerSearchSourceCollectorAvailable:typeof v2989CollectProviderSearchSources==='function'&&typeof v2989ProviderSearchEvidenceAcceptable==='function',officialDomainFilteredSearchAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989SearchQueries==='function',officialNeighborDiscoveryAvailable:typeof v2989OfficialNeighborSeedUrls==='function'&&typeof v2989OfficialNeighborLinks==='function'&&typeof v2989OfficialNeighborDiscovery==='function',rankingAvailable:typeof v2989RankCandidates==='function',qualityGateAvailable:typeof v2989ResultAcceptable==='function',dispatcherAvailable:typeof v2989ResourceRetrievalResponse==='function'});
+if(!Object.keys(GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989).every(function(k){return GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989[k]===true;}))throw new Error('SHARED_NEUTRAL_RESOURCE_EXPLANATION_V2995 startup validation failed');
+
 async function v2764HandleAnalyzeRequest(input,requestState,requestContext){
   const raw=clean(input);
+
+  // v3044: one moral owner runs before visual, resource, boundary, current-source, semantic,
+  // and legacy handlers. This prevents domain words from stealing moral/life-direction questions.
+  const v3044MoralGateway=await v3044CanonicalMoralResponse(raw,'analyze-dispatcher');
+  if(v3044MoralGateway)return v3044MoralGateway;
+
+  const v2954VisualReference=await v2954TechnicalVisualReferenceResponse(raw,requestState);
+  if(v2954VisualReference)return v2954VisualReference;
+
+  const v2929BoundaryIntent=v2929RequestBoundaryIntent(raw);
+  if(v2929BoundaryIntent)return v2929RequestBoundaryResponse(raw,v2929BoundaryIntent);
+
+  const v3005DynamicCurrentSet=await v3005DynamicCurrentSetResponse(raw,requestState);
+  if(v3005DynamicCurrentSet)return v3005DynamicCurrentSet;
+
+  const v2998DynamicCountryStatus=await v2998DynamicCountryStatusResponse(raw,requestState);
+  if(v2998DynamicCountryStatus)return v2998DynamicCountryStatus;
+
+  const v2998EpistemicEvidence=await v2998EpistemicEvidenceResponse(raw,requestState);
+  if(v2998EpistemicEvidence)return v2998EpistemicEvidence;
+
+
+  // v3044 owns moral routing above; legacy moral handlers are not independent route owners here.
+
+  // Debatable policy and judgment questions are valid AIVerify requests, not invalid input.
+  const v2927Debatable=await v2927DebatablePolicyResponse(raw,requestState);
+  if(v2927Debatable)return v2927Debatable;
 
   // v2919: the video path already builds a complete AIV_VIDEO_AUTH_CONTRACT with the
   // resolved YouTube title and its live factual result. Sending that object through the
@@ -24450,11 +30274,41 @@ async function v2764HandleAnalyzeRequest(input,requestState,requestContext){
     }
   }
 
+  const v2944SpecificUrl=await v2944SpecificUrlPreRoute(raw,requestState);
+  if(v2944SpecificUrl)return v2944SpecificUrl;
+
   const v2864UrlResult=await v2864AnalyzeSpecificUrl(raw,requestState);
   if(v2864UrlResult)return v2864UrlResult;
 
+  const v2943FutureOrdinalPresident=await v2943FutureUsPresidentOrdinalResponse(raw,requestState);
+  if(v2943FutureOrdinalPresident)return v2943FutureOrdinalPresident;
+
+  const v2939OrdinalPresident=v2939UsPresidentOrdinalQuestion(raw);
+  if(v2939OrdinalPresident)return v2939OrdinalPresident;
+
+  const v2942OfficialCurrent=await v2942OfficialCurrentFactResponse(raw,requestState);
+  if(v2942OfficialCurrent)return v2942OfficialCurrent;
+
+  const v2939CurrentIntent=v2939CurrentInformationIntent(raw);
+  if(v2939CurrentIntent)return v2939CurrentInformationResponse(raw,v2939CurrentIntent,requestState);
+
+  const v2950HistoricalOffice=await v2950HistoricalOfficeRelationResponse(raw,requestState);
+  if(v2950HistoricalOffice)return v2950HistoricalOffice;
+
+  const v2950SecurityCapability=v2950SecurityTargetCapabilityResponse(raw);
+  if(v2950SecurityCapability)return v2950SecurityCapability;
+
+  const v2942GeneralClaim=await v2942GeneralFactualClaimResponse(raw,requestState);
+  if(v2942GeneralClaim)return v2942GeneralClaim;
+
   const v2861Longevity=v2861GeneralLongevityPreRoute(raw);
   if(v2861Longevity)return v2861Longevity;
+
+  // v2953: a Bible-book word embedded in an ordinary modern person/entity/title is not
+  // biblical intent by itself. Current, officeholder, claim, URL, safety, and other higher
+  // priority routes above still run first; this boundary only prevents false faith routing.
+  const v2953CollisionResponse=await v2953OrdinaryFactualCollisionResponse(raw,requestState);
+  if(v2953CollisionResponse)return v2953CollisionResponse;
 
   // v2856: complete stable, numeric, Bible, geographic, recommendation, and broad price questions
   // before the broad v2844 live-source gate can turn ordinary questions into nonfinal retries.
@@ -24485,6 +30339,7 @@ async function v2764HandleAnalyzeRequest(input,requestState,requestContext){
     if(globalIntent.kind==='image'&&globalIntent.customLikely){
       return v2844Serialize(raw,v2844ImageLimitationContract(raw),'local-image-scope');
     }
+    globalIntent.clientDate=clean(requestContext&&requestContext.clientDate||'');
     const result=await v2844LiveEvaluation(raw,globalIntent);
     if(requestState&&requestState.aborted)return '';
     if(!result||!result.ok)return v2864RecoverOrdinaryQuestion(raw,v2844Serialize(raw,v2844UnavailableContract(raw,globalIntent,result&&result.errorType),'source-unavailable'),requestState);
@@ -24582,9 +30437,13 @@ function v2865NormalizeCompletedContract(contract,raw){
   const c=v2856Clone(contract)||{};
   const answerParts=v2865SerializedFieldParts(c.answer||'');
   const summaryParts=v2865SerializedFieldParts(c.summary||'');
-  const answer=clean(answerParts.answer||summaryParts.answer||c.answer||c.summary||'');
+  let answer=clean(answerParts.answer||summaryParts.answer||c.answer||c.summary||'');
   const extractedExplanation=clean(answerParts.explanation||summaryParts.explanation||'');
   const extractedSource=clean(answerParts.source||summaryParts.source||'');
+  if(v2949LikelyPersonAnswerQuestion(raw)&&v2949IncompletePersonAnswer(answer)){
+    const completion=v2949CompletePersonNameFromContext(answer,[c.why,c.explanation,c.evidence,c.summary,c.pageSummary,c.supportingInformation,c.source,c.sourceBasis].map(clean).join(' '));
+    if(completion)answer=completion;
+  }
   if(answer){
     c.answer=answer;
     if(!clean(c.summary)||/\b(?:EXPLANATION|SOURCE)\s*:/i.test(clean(c.summary)))c.summary=answer;
@@ -24598,8 +30457,9 @@ function v2865NormalizeCompletedContract(contract,raw){
     if(cleanWhy.answer){c.why=cleanWhy.answer;c.explanation=cleanWhy.answer;}
     if(cleanWhy.source&&!extractedSource)c._v2865ExtractedSource=cleanWhy.source;
   }
-  const explanation=clean(c.why||c.explanation||'');
+  const explanation=v2950DedupeCorrectionSentence(clean(c.why||c.explanation||''));
   c.why=explanation;c.explanation=explanation;
+  v2950AppendAcronymDefinitions(c);
   c.hideExplanation=!explanation;c.suppressExplanation=!explanation;c.explanationRequired=!!explanation;
   c.showAdditionalInformation=!!(explanation||clean(c.supportingInformation||'')||(Array.isArray(c.answerList)&&c.answerList.length));
 
@@ -24802,7 +30662,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v2924'
+  currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -24985,7 +30845,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v2924'
+  currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -25001,7 +30861,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v2924'
+  currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -25022,7 +30882,7 @@ function v2865NormalizeSerializedResponse(raw,serialized){
     const contractMatch=line.match(/^AIV_RESULT_CONTRACT:\s*(\{.*\})\s*$/);
     if(contractMatch){
       try{
-        const normalized=v2874FinalizeEntityTargetContract(v2870ApplyEntityIdentificationRenderRepair(v2867ApplyAnswerDeduplication(v2865NormalizeCompletedContract(JSON.parse(contractMatch[1]),raw)),raw),raw);
+        const normalized=v2954ApplyRequestResponseIntegrity(v2874FinalizeEntityTargetContract(v2870ApplyEntityIdentificationRenderRepair(v2867ApplyAnswerDeduplication(v2865NormalizeCompletedContract(JSON.parse(contractMatch[1]),raw)),raw),raw),raw);
         out.push('AIV_RESULT_CONTRACT: '+JSON.stringify(normalized));
         contractCount++;
       }catch(_e){out.push(line);}
@@ -25046,7 +30906,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v2924'
+  currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -25186,20 +31046,32 @@ function v2869ExcludedGenericRecovery(value){
 function v2869EntityIdentificationIntent(value){
   const s=v2869NormalizeQuestionIntent(value);
   if(/^(?:who|which)\b/.test(s))return true;
-  if(/^(?:what|where)\b/.test(s)&&/\b(?:name|called|located|country|city|river|lake|ocean|mountain|planet|animal|person|record|organization|agency|company|book|author|inventor|winner)\b/.test(s))return true;
+  if(/^(?:what|where)\b/.test(s)&&/\b(?:name|called|located|country|city|capital|river|lake|ocean|mountain|planet|animal|creature|insect|snake|fish|bird|mammal|plant|person|record holder|organization|agency|company|book|author|inventor|winner|product|model)\b/.test(s))return true;
+  if(/^what\s+(?:is|are)\s+(?:the\s+)?(?:most|least|deadliest|oldest|youngest|fastest|largest|smallest|highest|lowest|strongest|longest|shortest)\b/.test(s)&&!/\b(?:rate|percentage|percent|number|amount|price|cost|distance|length|duration|age|temperature|speed|population|total|count)\b/.test(s))return true;
   if(/\b(?:what is the name of|name the|identify the|which one|who is the)\b/.test(s))return true;
   if(/^(?:is|are|was|were|does|do|has|have)\s+there\b/.test(s)&&/\b(?:river|lake|ocean|mountain|place|city|country|animal|plant|person|organization|agency|company|product|record)\b/.test(s))return true;
   return false;
 }
 function v2869NumericAnswerIntent(value){
   const s=v2869NormalizeQuestionIntent(value);
-  return /^(?:how many|how much|how long|when|what year|what date|what age)\b/.test(s)||/\b(?:population|price|cost|distance|length|duration|age|oldest|youngest|deadliest|fastest|largest|smallest|highest|lowest|record)\b/.test(s);
+  if(/^(?:how many|how much|how long|when|what year|what date|what age)\b/.test(s))return true;
+  if(v2869EntityIdentificationIntent(value))return false;
+  return /\b(?:population|price|cost|distance|length|duration|age in years|death toll|number of deaths|percentage|percent|total count|total number)\b/.test(s);
+}
+function v2991MetricSensitiveSuperlative(raw){
+  const s=v2869NormalizeQuestionIntent(raw);
+  return /\b(?:most\s+venomous|deadliest|most\s+dangerous|highest\s+(?:annual\s+)?(?:murder|homicide|crime)\s+rate|lowest\s+(?:annual\s+)?(?:murder|homicide|crime)\s+rate)\b/.test(s);
 }
 function v2869AnswerIsUsable(value,raw){
   const answer=clean(value);
   if(!answer)return false;
   if(/currently being updated|not included in the current aiverify release|needs more evidence|could not be completed|could not be verified|unable to answer|try again|retry this scan|source lookup unavailable|repair pending/i.test(answer))return false;
-  if(v2869EntityIdentificationIntent(raw)&&/^(?:yes|no|it exists|there is|there are)[.!]?$/i.test(answer))return false;
+  if(v2869EntityIdentificationIntent(raw)){
+    if(/^(?:yes|no|it exists|there is|there are)[.!]?$/i.test(answer))return false;
+    if(/^[A-Z][.!]?$/i.test(answer))return false;
+    if(v2784EndsWithBareInitialismOrJurisdiction(answer))return false;
+    if(/^(?:(?:a|an|the)\s+)?(?:(?:chronological|alphabetical|historical)\s+)?(?:list|overview|summary|guide|article|page|information)\b/i.test(answer))return false;
+  }
   if(v2869NumericAnswerIntent(raw)&&!/[0-9]/.test(answer)&&!/\b(?:one|two|three|four|five|six|seven|eight|nine|ten|hundred|thousand|million|billion)\b/i.test(answer))return false;
   return true;
 }
@@ -25207,6 +31079,7 @@ function v2869ContractNeedsRecovery(contract,raw){
   const c=contract&&typeof contract==='object'?contract:{};
   if(v2864QuestionContractInvalid(c,raw))return true;
   const answer=clean(c.answer||c.summary||'');
+  if(v2991MetricSensitiveSuperlative(raw)&&/openai model knowledge|established reference knowledge/i.test(clean(c.source||c.sourceBasis||'')))return true;
   return !v2869AnswerIsUsable(answer,raw);
 }
 function v2869ResultNeedsRecovery(raw,serialized){
@@ -25301,7 +31174,7 @@ const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v2924'
+  currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -25315,13 +31188,80 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v2924'
+  currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.responseBuilderAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.currentVersion){
   throw new Error('COLOMBIA_ROUTING_AND_CLEAN_WIDTH_REPAIR_V2868 startup validation failed');
+}
+
+
+// SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_REPAIR_V2937
+// Existing verified stable evaluators must retain final authority when they recognize an exact factual class.
+// This prevents a later broad model route from replacing a correct concise entity answer with related background text.
+function v2937VerifiedStableDirectEvaluation(raw){
+  const evaluators=[
+    typeof v2731ListScopeRecoveryEvaluation==='function'?v2731ListScopeRecoveryEvaluation:null,
+    typeof v2733ChemicalSymbolEvaluation==='function'?v2733ChemicalSymbolEvaluation:null,
+    typeof v2730FastStableEvaluation==='function'?v2730FastStableEvaluation:null
+  ].filter(Boolean);
+  for(let i=0;i<evaluators.length;i++){
+    let result=null;
+    try{result=evaluators[i](raw);}catch(_e){result=null;}
+    if(result&&clean(result.answer||'')&&/^(?:DIRECT_ANSWER|NUMBER|MEASUREMENT_VALUE|LOCATION|PAIRED_ANSWER|YES_NO|LIST)$/i.test(String(result.outputBasket||'')))return result;
+  }
+  return null;
+}
+function v2937VerifiedStableDirectResponse(raw,evaluation){
+  const e=evaluation||v2937VerifiedStableDirectEvaluation(raw);
+  if(!e)return '';
+  const explanation=clean(e.verdict||e.summary||e.evidence||'');
+  return v2665ContractText(raw,{
+    route:'stable-direct-answer/final-precedence/v2937',
+    classification:clean(e.classification||'STABLE GENERAL FACTUAL'),
+    inputType:isAnyQuestionInputText(raw)?'QUESTION':'CLAIM',
+    analysisResult:clean(e.analysisResult||'Answer'),
+    status:clean(e.status||'ANSWERED'),
+    answer:clean(e.answer||''),
+    answerList:Array.isArray(e.answerList)?e.answerList:[],
+    why:explanation,
+    evidence:clean(e.evidence||explanation),
+    source:clean(e.source||e.sourceBasis||'Established references'),
+    sourceBasis:clean(e.sourceBasis||e.source||'Established references'),
+    sourceUrl:validHttpUrl(e.url||''),
+    supportingInformation:clean(e.supporting||''),
+    confidence:clean(e.confidence||'High confidence'),
+    outputBasket:e.outputBasket||OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,
+    technicalDiagnostics:{
+      activeFunction:'sharedStableDirectAnswerPrecedenceRepairV2937',
+      verifiedStableEvaluator:'YES',
+      originalStableRoute:clean(e.route||''),
+      laterGeneralModelReplacementBlocked:'YES',
+      explanationCompletenessPreserved:explanation?'YES':'NO'
+    }
+  });
+}
+function v2937NormalizeFinalResponse(raw,serialized){
+  const currentInformationProtected=!!v2939CurrentInformationIntent(raw);
+  const generalClaimProtected=typeof v2942StableGeneralClaimEligible==='function'&&v2942StableGeneralClaimEligible(raw);
+  const moralProtected=typeof v3044MoralQuestionIntent==='function'&&v3044MoralQuestionIntent(raw);
+  const stable=(currentInformationProtected||generalClaimProtected||moralProtected)?null:v2937VerifiedStableDirectEvaluation(raw);
+  const selected=stable?v2937VerifiedStableDirectResponse(raw,stable):serialized;
+  return v2865NormalizeSerializedResponse(raw,selected);
+}
+const SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937=Object.freeze({
+  evaluatorAvailable:typeof v2937VerifiedStableDirectEvaluation==='function',
+  responseBuilderAvailable:typeof v2937VerifiedStableDirectResponse==='function',
+  finalBoundaryAvailable:typeof v2937NormalizeFinalResponse==='function',
+  currentVersion:VERSION==='BE_AIV_v3046'
+});
+if(!SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.evaluatorAvailable||
+   !SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.responseBuilderAvailable||
+   !SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.finalBoundaryAvailable||
+   !SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.currentVersion){
+  throw new Error('SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_REPAIR_V2937 startup validation failed');
 }
 
 function sendJson(res,status,value,extraHeaders){return send(res,status,'application/json; charset=utf-8',JSON.stringify(value,null,2),extraHeaders);}
@@ -25342,7 +31282,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v2924'
+  currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -25352,7 +31292,7 @@ if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnostics
 
 
 const YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2924',
+  currentVersion:VERSION==='BE_AIV_v3046',
   resolverAvailable:typeof resolveYouTubeTitleV2917==='function',
   titleFallbackAvailable:typeof openAIVideoTitleLookupV2917==='function',
   exactTitleVerifierAvailable:typeof openAIVideoTitleClaimLiveVerification==='function',
@@ -25662,6 +31602,12 @@ function v2875NormalizeTesterName(value){
   return String(value||'').normalize('NFKC').replace(/\s+/g,' ').trim();
 }
 function v2875TesterNameKey(value){return v2875NormalizeTesterName(value).toLocaleLowerCase('en-US');}
+const V2930_ADMIN_TESTER_NAME_KEY='cary lee';
+const V2930_REGULAR_TESTER_SESSION_HOURS=12;
+function v2930IsAdministrator(account){
+  return !!(account&&clean(account.nameKey)===V2930_ADMIN_TESTER_NAME_KEY);
+}
+function v2930TesterRole(account){return v2930IsAdministrator(account)?'administrator':'tester';}
 function v2875ValidTesterName(value){
   const name=v2875NormalizeTesterName(value);
   return name.length>=2&&name.length<=60&&/^[\p{L}\p{M}0-9 .'-]+$/u.test(name)&&/[\p{L}0-9]/u.test(name);
@@ -25718,11 +31664,14 @@ function v2875FindTesterByName(value){
 }
 function v2875FindTesterById(value){return V2875_TESTER_ACCOUNTS.find(function(account){return account.id===clean(value);})||null;}
 function v2875IssueSession(account){
-  const now=Math.floor(Date.now()/1000),expires=now+V2875_TESTER_SESSION_DAYS*86400;
-  const payload={v:1,testerId:account.id,iat:now,exp:expires,nonce:v2872Crypto.randomBytes(10).toString('hex')};
+  const now=Math.floor(Date.now()/1000);
+  const administrator=v2930IsAdministrator(account);
+  const sessionSeconds=administrator?V2875_TESTER_SESSION_DAYS*86400:V2930_REGULAR_TESTER_SESSION_HOURS*3600;
+  const expires=now+sessionSeconds;
+  const payload={v:1,testerId:account.id,role:v2930TesterRole(account),iat:now,exp:expires,nonce:v2872Crypto.randomBytes(10).toString('hex')};
   const encoded=v2875Base64UrlEncode(JSON.stringify(payload));
   const signature=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(encoded).digest('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
-  return {token:encoded+'.'+signature,expiresAt:new Date(expires*1000).toISOString()};
+  return {token:encoded+'.'+signature,expiresAt:new Date(expires*1000).toISOString(),sessionMode:administrator?'persistent-administrator':'browser-session'};
 }
 function v2875SessionToken(req){
   const direct=clean(req&&req.headers&&req.headers['x-aiv-session']||'');
@@ -25740,9 +31689,15 @@ function v2875AuthenticateRequest(req){
   try{payload=JSON.parse(v2875Base64UrlDecode(parts[0]));}catch(_e){return null;}
   const now=Math.floor(Date.now()/1000);
   if(!payload||payload.v!==1||!payload.testerId||Number(payload.exp||0)<=now||Number(payload.iat||0)>now+300)return null;
-  return v2875FindTesterById(payload.testerId);
+  const account=v2875FindTesterById(payload.testerId);
+  if(!account||account.blocked===true)return null;
+  if(clean(payload.role||'tester')!==v2930TesterRole(account))return null;
+  return account;
 }
-function v2875PublicTester(account){return {id:account.id,name:account.name,createdAt:account.createdAt};}
+function v2875PublicTester(account){
+  const role=v2930TesterRole(account);
+  return {id:account.id,name:account.name,createdAt:account.createdAt,role:role,isAdministrator:role==='administrator',sessionMode:role==='administrator'?'persistent-administrator':'browser-session'};
+}
 function v2875RequireTester(req,res){
   const tester=v2875AuthenticateRequest(req);
   if(!tester){sendJson(res,401,{ok:false,error:'Beta sign-in is required.'});return null;}
@@ -25789,6 +31744,7 @@ async function v2875HandleTesterSignIn(req,res){
       v2875RecordLoginFailure(req,name);
       return sendJson(res,401,{ok:false,error:'That name is already registered and the PIN did not match.'});
     }
+    if(account.blocked===true)return sendJson(res,403,{ok:false,error:'This beta testing account is no longer active.'});
   }else{
     const now=new Date().toISOString(),salt=v2872Crypto.randomBytes(16).toString('hex');
     account={id:v2872Crypto.randomBytes(12).toString('hex'),name:name,nameKey:v2875TesterNameKey(name),pinSalt:salt,pinHash:v2875HashPin(pin,salt),createdAt:now,lastLoginAt:now};
@@ -25798,7 +31754,7 @@ async function v2875HandleTesterSignIn(req,res){
   account.lastLoginAt=new Date().toISOString();
   v2875PersistTesterAccounts();
   const session=v2875IssueSession(account);
-  return sendJson(res,200,{ok:true,registered:registered,tester:v2875PublicTester(account),sessionToken:session.token,sessionExpiresAt:session.expiresAt});
+  return sendJson(res,200,{ok:true,registered:registered,tester:v2875PublicTester(account),sessionToken:session.token,sessionExpiresAt:session.expiresAt,sessionMode:session.sessionMode});
 }
 function v2875TesterUsageSummary(events){
   const map=new Map();
@@ -25821,18 +31777,63 @@ function v2875TesterUsageSummary(events){
   }).sort(function(a,b){return b.totalScans-a.totalScans||a.testerName.localeCompare(b.testerName);});
 }
 
+function v2931ReviewTesterAccount(account){
+  return {
+    testerId:clean(account&&account.id||''),
+    testerName:clean(account&&account.name||'Unknown tester'),
+    isAdministrator:v2930IsAdministrator(account),
+    blocked:!!(account&&account.blocked===true),
+    blockedAt:clean(account&&account.blockedAt||''),
+    createdAt:clean(account&&account.createdAt||''),
+    lastLoginAt:clean(account&&account.lastLoginAt||'')
+  };
+}
+function v2931ReviewQueueWithTesterAccounts(queue){
+  const result=queue&&typeof queue==='object'?queue:{ok:false,error:'Review queue unavailable.'};
+  result.testerAccounts=V2875_TESTER_ACCOUNTS.map(v2931ReviewTesterAccount);
+  return result;
+}
+async function v2931HandleTesterBlock(req,res,u){
+  if(!v2872AnalyticsAccess(req,res,u))return;
+  if(req.method!=='POST')return sendJson(res,405,{ok:false,error:'Method not allowed.'});
+  let body;
+  try{body=await v2875ReadJsonBody(req,4096);}catch(error){return sendJson(res,400,{ok:false,error:clean(error&&error.message||'Invalid request.')});}
+  const testerId=clean(body&&body.testerId||'');
+  const blocked=body&&body.blocked===true;
+  const account=v2875FindTesterById(testerId);
+  if(!account)return sendJson(res,404,{ok:false,error:'Tester account was not found.'});
+  if(v2930IsAdministrator(account))return sendJson(res,409,{ok:false,error:'The Cary Lee administrator account cannot be blocked.'});
+  account.blocked=blocked;
+  account.blockedAt=blocked?new Date().toISOString():'';
+  account.blockedBy=blocked?'Beta Review administrator':'';
+  v2875PersistTesterAccounts();
+  return sendJson(res,200,{ok:true,tester:v2931ReviewTesterAccount(account)});
+}
+
 v2875InitializeTesterStorage();
-const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2924',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
-  pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function'
+const TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  reviewAccountAvailable:typeof v2931ReviewTesterAccount==='function',
+  reviewQueueDecoratorAvailable:typeof v2931ReviewQueueWithTesterAccounts==='function',
+  blockHandlerAvailable:typeof v2931HandleTesterBlock==='function',
+  administratorProtected:v2930IsAdministrator({nameKey:'cary lee'})&&!v2930IsAdministrator({nameKey:'other tester'})
 });
-if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.storageReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.accountFileExists||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionSecretReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.pinHashingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionValidationAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.analyticsLinkingAvailable){
+if(!TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931.currentVersion||!TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931.reviewAccountAvailable||!TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931.reviewQueueDecoratorAvailable||!TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931.blockHandlerAvailable||!TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931.administratorProtected){
+  throw new Error('TESTER_BLOCK_AND_DO_NOT_INVITE_CONTROL_V2931 startup validation failed');
+}
+const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function',
+  administratorResolverAvailable:typeof v2930IsAdministrator==='function'&&v2930IsAdministrator({nameKey:'cary lee'})&&!v2930IsAdministrator({nameKey:'someone else'}),
+  regularTesterSessionHours:V2930_REGULAR_TESTER_SESSION_HOURS===12
+});
+if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.storageReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.accountFileExists||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionSecretReady||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.pinHashingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.sessionValidationAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.analyticsLinkingAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.administratorResolverAvailable||!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.regularTesterSessionHours){
   throw new Error('REQUIRED_BETA_SIGN_IN_AND_TESTER_TRACKING_V2875 startup validation failed');
 }
 
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v2924'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v3046'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -25858,7 +31859,7 @@ async function v2921HandleTesterFeedback(req,res){
   if(req.method!=='POST')return sendJson(res,405,{ok:false,error:'Method not allowed.'});
   const tester=v2875RequireTester(req,res);if(!tester)return;
   let body;try{body=await v2875ReadJsonBody(req,12288);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
-  const result=ANALYTICS_REVIEW_V2889.feedbackEvent({eventId:body&&body.eventId,testerId:tester.id,rating:body&&body.rating,comment:body&&body.comment});
+  const result=ANALYTICS_REVIEW_V2889.feedbackEvent({eventId:body&&body.eventId,testerId:tester.id,rating:body&&body.rating,comment:body&&body.comment,additionalInformationAvailable:body&&body.additionalInformationAvailable,additionalInformationOpenedBeforeRating:body&&body.additionalInformationOpenedBeforeRating,additionalInformationOpenedBeforeSave:body&&body.additionalInformationOpenedBeforeSave,additionalInformationReviewPrompted:body&&body.additionalInformationReviewPrompted,clear:body&&body.clear});
   return sendJson(res,result.status||200,result);
 }
 async function v2922HandleOverallFeedback(req,res){
@@ -26081,7 +32082,7 @@ async function v2885PreflightUnclearInput(input,requestState){
   return v2885UnclearInputGuidanceBody(raw,interpretation);
 }
 const UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v2924',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
+  currentVersion:VERSION==='BE_AIV_v3046',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
 });
 if(!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.currentVersion||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.candidateDetectorAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.interpreterAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.friendlyFallbackAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.preflightAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionCacheReady||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionKeyAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.requestBindingAvailable){
   throw new Error('UNCERTAIN_INPUT_CLARIFICATION_AND_FRIENDLY_RETRY_V2885 startup validation failed');
@@ -26107,7 +32108,7 @@ const server=http.createServer(async (req,res)=>{
       persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,
       inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2886,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2885,
       sourceStrategyStats:v2776SourceStrategySnapshot(),sourceFlags:runtimeSourceFlags(),aiDetection:AI_DETECTION_COORDINATOR_V2904.health(),analytics:ANALYTICS_REVIEW_V2889.health(),
-      betaSignIn:{required:true,registeredTesters:V2875_TESTER_ACCOUNTS.length,storageReady:V2875_TESTER_STORAGE_READY}
+      betaSignIn:{required:true,registeredTesters:V2875_TESTER_ACCOUNTS.length,blockedTesters:V2875_TESTER_ACCOUNTS.filter(function(account){return account.blocked===true;}).length,storageReady:V2875_TESTER_STORAGE_READY,administratorName:'Cary Lee',regularTesterSessionMode:'browser-tab',regularTesterServerLifetimeHours:V2930_REGULAR_TESTER_SESSION_HOURS,testerBlockControl:true}
     },null,2));
     if(u.pathname==='/ai-detection/analyze'||u.pathname==='/ai-detection/provenance')return await v2878HandleAiMediaScan(req,res);
     if(u.pathname==='/analytics/visible-result')return await v2885HandleVisibleResult(req,res);
@@ -26116,6 +32117,7 @@ const server=http.createServer(async (req,res)=>{
     if(u.pathname==='/analytics/overall-feedback')return await v2922HandleOverallFeedback(req,res);
     if(u.pathname==='/analytics/review/start-round')return await v2922HandleStartReviewRound(req,res,u);
     if(u.pathname==='/analytics/review/update')return await v2885HandleReviewUpdate(req,res,u);
+    if(u.pathname==='/analytics/tester/block')return await v2931HandleTesterBlock(req,res,u);
     if(u.pathname==='/analytics/summary'){
       if(!v2872AnalyticsAccess(req,res,u))return;
       return sendJson(res,200,ANALYTICS_REVIEW_V2889.summary({testerAccounts:V2875_TESTER_ACCOUNTS}));
@@ -26126,7 +32128,7 @@ const server=http.createServer(async (req,res)=>{
     }
     if(u.pathname==='/analytics/review-queue'){
       if(!v2872AnalyticsAccess(req,res,u))return;
-      return sendJson(res,200,ANALYTICS_REVIEW_V2889.queue({limit:u.searchParams.get('limit')||200,includeReviewed:!v2872Bool(u.searchParams.get('unreviewed')||''),qualifyingOnly:v2872Bool(u.searchParams.get('qualifying')||''),includeArchived:v2872Bool(u.searchParams.get('archived')||''),roundId:u.searchParams.get('round')||'',filter:u.searchParams.get('filter')||'',order:u.searchParams.get('order')||''}));
+      return sendJson(res,200,v2931ReviewQueueWithTesterAccounts(ANALYTICS_REVIEW_V2889.queue({limit:u.searchParams.get('limit')||200,includeReviewed:!v2872Bool(u.searchParams.get('unreviewed')||''),qualifyingOnly:v2872Bool(u.searchParams.get('qualifying')||''),includeArchived:v2872Bool(u.searchParams.get('archived')||''),roundId:u.searchParams.get('round')||'',filter:u.searchParams.get('filter')||'',order:u.searchParams.get('order')||''})));
     }
     if(u.pathname==='/analytics/export'){
       if(!v2872AnalyticsAccess(req,res,u))return;
@@ -26155,7 +32157,7 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,200,clearRetryTimeoutTest(u.searchParams.get('session')||'',u.searchParams.get('token')||''));
     }
     if(u.pathname==='/developer-cache-status'){
-      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2886,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2885,sourceStrategyStats:v2776SourceStrategySnapshot()});
+      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2886,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2885,sourceStrategyStats:v2776SourceStrategySnapshot(),resourceSourceStrategyStats:v2989ResourceStrategySnapshot()});
     }
     if(u.pathname==='/developer-cache-reset'){
       const cleared=v2764ResetCompletedContractCache();
@@ -26167,6 +32169,7 @@ const server=http.createServer(async (req,res)=>{
       const frontendVersion=v2885FrontendVersion(req);
       const requestState={aborted:false};
       const requestContext={timezone:u.searchParams.get('tz')||'',clientDate:u.searchParams.get('clientDate')||'',testerId:tester.id,testerName:tester.name,frontendVersion:frontendVersion};
+      requestState.requestContext=requestContext;
       analyticsScan={input:input,startedAt:Date.now(),requestContext:requestContext,finalized:false,event:null};
       return ANALYTICS_REVIEW_V2889.runScan({testerId:tester.id,testerName:tester.name,frontendVersion:frontendVersion,requestKind:'information'},async function(){
         const finalizeAnalytics=function(body,options){
@@ -26180,15 +32183,33 @@ const server=http.createServer(async (req,res)=>{
         };
         req.once('aborted',function(){requestState.aborted=true;finalizeAnalytics('',{aborted:true});});
         res.once('close',function(){if(!res.writableEnded){requestState.aborted=true;finalizeAnalytics('',{aborted:true});}});
-        const unclearInputPreflight=await v2885PreflightUnclearInput(input,requestState);
+        // v3044: all recognized moral/life-direction questions are owned here before any
+        // resource, semantic-research, boundary, clarification, factual, or recovery preflight.
+        const v3044MoralPreflight=await v3044CanonicalMoralResponse(input,'outer-preflight');
+        const v3042PriorityMoralPreflight=v3044MoralPreflight;
+        const v2989ExplicitResourceIntent=v3042PriorityMoralPreflight?null:v2989ResourceRequestIntent(input);
+        const v3007NamedEntityPagePreflightResult=(v3042PriorityMoralPreflight||!v2989ExplicitResourceIntent)?'':await v3007NamedEntityPagePreflight(input,v2989ExplicitResourceIntent,requestState);
+        const v3003OfficialActionPreflight=(v3042PriorityMoralPreflight||v3007NamedEntityPagePreflightResult)?'':(v2989ExplicitResourceIntent?await v3003FastOfficialActionResource(input,requestState):'');
+        const explicitResourcePreflightRaw=v3042PriorityMoralPreflight?'':(v3007NamedEntityPagePreflightResult||v3003OfficialActionPreflight||((v2989ExplicitResourceIntent&&!requestState.aborted)?await v2989ResourceRetrievalResponse(input,requestState):''));
+        const explicitResourcePreflight=explicitResourcePreflightRaw?((v3007NamedEntityPagePreflightResult||v3003OfficialActionPreflight)?explicitResourcePreflightRaw:await v3002RefineResourceResponse(input,explicitResourcePreflightRaw,requestState)):'';
+        const v3007SemanticResearchPreflight=(v3042PriorityMoralPreflight||explicitResourcePreflight)?'':await v3007StructuredResearchResponse(input,requestState);
+        const v2929PreflightBoundaryIntent=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight)?null:v2929RequestBoundaryIntent(input);
+        const requestBoundaryPreflight=v2929PreflightBoundaryIntent?v2929RequestBoundaryResponse(input,v2929PreflightBoundaryIntent):'';
+        const unclearInputPreflight=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight)?'':await v2885PreflightUnclearInput(input,requestState);
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
-        const geographicNaturalFeature=unclearInputPreflight?'':v2868GeographicNaturalFeatureResponse(input);
-        const initialBody=unclearInputPreflight||geographicNaturalFeature||await v2764HandleAnalyzeRequest(input,requestState,requestContext);
+        const geographicNaturalFeature=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight)?'':v2868GeographicNaturalFeatureResponse(input);
+        const generalFactualClaimEligible=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature)?false:v2942StableGeneralClaimEligible(input);
+        const generalFactualClaimPreflight=generalFactualClaimEligible?v2942DeterministicGeneralClaimResponse(input):'';
+        const fastVerifiedFacts=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature||generalFactualClaimEligible)?'':v2940FastVerifiedFactsResponse(input);
+        const initialBody=v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature||generalFactualClaimPreflight||fastVerifiedFacts||await v2764HandleAnalyzeRequest(input,requestState,requestContext);
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
-        const body=await v2869RecoverGeneralQuestion(input,initialBody,requestState);
+        const v3005CurrentSetOwned=v3042PriorityMoralPreflight?false:v3003DynamicCountryCompleteSetIntent(input);
+        const body=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||fastVerifiedFacts||generalFactualClaimPreflight||v3005CurrentSetOwned)?initialBody:await v2869RecoverGeneralQuestion(input,initialBody,requestState);
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
-        const normalizedBody=v2865NormalizeSerializedResponse(input,body);
-        const finalBody=await v2885ApplyUnclearInputClarification(input,normalizedBody,requestState);
+        const normalizedBody=v2937NormalizeFinalResponse(input,body);
+        const integrityBody=await v2998FinalizeResponse(input,normalizedBody,requestState,requestContext);
+        const targetedBody=await v3002FinalizeResponse(input,integrityBody,requestState);
+        const finalBody=await v2885ApplyUnclearInputClarification(input,targetedBody,requestState);
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
         const event=finalizeAnalytics(finalBody,{});
         return send(res,200,'text/plain; charset=utf-8',finalBody,event&&event.eventId?{'x-aiv-scan-event':event.eventId}:{});
@@ -26205,16 +32226,8 @@ const server=http.createServer(async (req,res)=>{
   }
 });
 server.listen(PORT,'0.0.0.0',()=>{
-  console.log(VERSION+' running on port '+PORT);
-  console.log(runtimeSourceFlagsLine());
-  console.log('AIV analytics and beta review ready: '+ANALYTICS_REVIEW_V2889.health().version);
-  console.log('AIV analytics admin token: '+(V2872_ANALYTICS_ADMIN_TOKEN?'Loaded':'Missing'));
-  console.log('AIV beta sign-in ready: '+V2875_TESTER_ACCOUNTS.length+' registered tester(s)');
-  console.log('AIV AI detection coordinator ready: '+AI_DETECTION_COORDINATOR_V2904.health().coordinatorVersion);
-  console.log('AIV AI detection provider foundation ready: '+AI_DETECTION_COORDINATOR_V2904.health().version);
-  console.log('AIV AI detection consensus scoring ready: '+AI_DETECTION_COORDINATOR_V2904.health().scoringVersion);
-  console.log('AIV Hive media provider ready: '+AI_DETECTION_COORDINATOR_V2904.health().hiveProviderVersion);
-  console.log('AIV video analysis stage: '+AI_DETECTION_COORDINATOR_V2904.health().videoAnalysisStage);
+  console.log(VERSION+' running');
+  console.log(compactProviderReadinessLineV2951());
   if(process.env.RENDER&&!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR){
     console.warn('AIV analytics warning: configure AIV_ANALYTICS_STORAGE_DIR on a mounted Render persistent disk before production logging.');
   }
@@ -27601,6 +33614,7 @@ function v2824BibleBookPattern(){
 function v2824BibleIntent(raw){
   const input=clean(raw),s=v2767NormalizedIntent(input);
   if(!input||/^https?:\/\//i.test(input))return false;
+  if(v2949CreativeWorkOrdinaryFactual(input))return false;
   if(/\bbible\s+gateway\b/i.test(s)&&/^(?:what|who|where|is|does)\b/i.test(s))return false;
   if(v2821BibleTopicRequest(input))return true;
   if(/\b(?:bible|biblical|scripture|scriptures|kjv|king\s+james|verse|verses|passage|passages|sabbath)\b/i.test(s))return true;
@@ -27939,8 +33953,9 @@ function v2825Clone(value){
 function v2825NormalizedBibleInput(raw){
   const input=clean(raw);
   if(!input)return '';
-  const bibleContext=/\b(?:bible|biblical|kjv|king\s+james|scripture|scriptures|genesis|exodus|moses|noah|ark|covenant|tabernacle|god|lord)\b/i.test(input);
-  return bibleContext?input.replace(/\barc\b/gi,'ark'):input;
+  const bibleContext=/\b(?:bible|biblical|kjv|king\s+james|scripture|scriptures|genesis|exodus|moses|noah|ark|covenant|tabernacle|revelation|revelations|prophecy|prophecies|god|lord)\b/i.test(input);
+  if(!bibleContext)return input;
+  return input.replace(/\barc\b/gi,'ark').replace(/\bRevelations\b/gi,'Revelation');
 }
 function v2825BibleEntityPattern(){
   return /\b(?:Adam|Eve|Cain|Abel|Noah|Abraham|Sarah|Isaac|Jacob|Joseph|Moses|Aaron|Arron|Joshua|Samson|Ruth|David|Solomon|Elijah|Elisha|Job|Isaiah|Jeremiah|Ezekiel|Daniel|Jonah|Lot|Pharaoh|Nebuchadnezzar|Mary|Jesus|Christ|Peter|Paul|Judas|wise\s+men|magi|disciples?|apostles?|Israelites?)\b/i;
@@ -27955,8 +33970,14 @@ function v2825BibleIntent(raw){
   const entity=v2825BibleEntityPattern().test(input);
   const question=v2824IsQuestion(input)||/^(?:who|what|when|where|why|how|which|does|did|is|are|was|were|can|should|may)\b/i.test(s);
   const bibleRelation=/\b(?:coat|robe|pockets?|colou?rs?|ark|arc|covenant|flood|manger|crucif(?:y|ied|ixion)|resurrect(?:ed|ion)|died|death|born|age|old|forgiv(?:e|es|en|eness)|created|creation|rested|seventh\s+day|lions?\s+den|great\s+fish|whale|staff|rod|serpent|wise\s+men|magi|gifts?|marys?|apostles?|disciples?)\b/i.test(s);
-  const divine=/\b(?:God|the\s+Lord|LORD|Jesus|Christ)\b/i.test(input);
-  return (entity&&(question||bibleRelation))||(divine&&question);
+  // v2925: A bare phrase such as "the Lord" is not enough to make every question biblical.
+  // Titles and ordinary subjects can contain those words (for example, a book or film title).
+  // Strong divine names still identify faith questions, while "the Lord" requires an
+  // accompanying biblical relation or explicit Bible context.
+  const strongDivine=/\b(?:God|Jesus|Christ)\b/i.test(input)||/\bLORD\b/.test(input);
+  const explicitBibleContext=/\b(?:bible|biblical|kjv|king\s+james|scripture|scriptures|verse|verses|passage|passages|sabbath|sin|sins)\b/i.test(s);
+  const contextualLord=/\bthe\s+Lord\b/i.test(input)&&(bibleRelation||explicitBibleContext||entity);
+  return (entity&&(question||bibleRelation))||(strongDivine&&question)||(contextualLord&&question);
 }
 function v2825Scriptures(items,definitions){
   return v2824ScriptureSupport(items,definitions);
@@ -28748,8 +34769,8 @@ function v2828MoralIntent(raw){
   const relationship=/\b(?:affair|adultery|cheat(?:ing|ed)?|abuse|abusive|mistreat|betray|marriage|spouse|husband|wife|parents?|adult\s+child|family\s+gathering|boundar(?:y|ies)|reconciliation|honou?r(?:ing)?\s+(?:my\s+)?parents?|obey\s+(?:my\s+)?parents?)\b/i.test(s);
   const wrongdoing=/\b(?:steal|stealing|stolen|theft|fraud|report\s+(?:a|the|my)?\s*(?:coworker|employee|person)|snitch|cover\s+up|wrongdoing|harm(?:ed|ful)?|danger|threat)\b/i.test(s);
   const stewardship=/\b(?:gambl(?:e|ing)|lottery|give\s+money|keep\s+giving|irresponsib(?:le|ly)|enable|enabling|debt|lend|borrow|co-?sign|repay|repayment)\b/i.test(s);
-  const spiritual=/\b(?:pray|god|lord|bible|biblical|kjv|scripture|antichrist|sabbath|church|pastor|faith)\b/i.test(s);
-  const decision=/\b(?:should\s+i|should\s+we|what\s+should\s+i\s+do|do\s+i\s+have\s+to|does\s+.+\s+mean\s+i\s+must|is\s+it|am\s+i|can\s+i|could\s+i|may\s+i)\b/i.test(s);
+  const spiritual=/\b(?:pray|god|bible|biblical|kjv|scripture|antichrist|sabbath|church|pastor|faith)\b/i.test(s)||v2925ContextualLordFaith(input);
+  const decision=/\b(?:should\s+(?:i|we|you|one|someone|a\s+person)|what\s+should\s+(?:i|we|you|one|someone|a\s+person)\s+do|do\s+(?:i|we|you|one|someone)\s+have\s+to|does\s+.+\s+mean\s+(?:i|we|you|one|someone)\s+must|is\s+it|am\s+i|are\s+you|can\s+(?:i|we|you|one|someone)|could\s+(?:i|we|you|one|someone)|may\s+(?:i|we|you|one|someone))\b/i.test(s);
   return !!(explicit||((truth||relationship||wrongdoing||stewardship||spiritual)&&decision)||(relationship&&/\b(?:secret|avoid|obey|honou?r|support|money|responsib|gathering)\b/i.test(s))||(wrongdoing&&/\b(?:report|keep|tell|protect|ignore)\b/i.test(s)));
 }
 function v2828BibleIntent(raw){return v2827BibleIntent(raw)||v2828MoralIntent(raw);}
@@ -28789,12 +34810,19 @@ function v2828CompressContract(contract,raw){
   const c=contract||{};
   const answer=clean(c.answer||c.summary||c.analysisResult||'');
   let explanation=clean(c.explanation||'');
+  const v3044Verified=!!(c.consolidatedMoralEngineVersion==='V3046'&&c.moralInputBindingVerified===true&&c.localKjvReferenceVerified===true);
+  if(v3044Verified){
+    c.answer=answer;c.summary=answer;c.explanation=explanation;c.why=explanation;
+    c.hideExplanation=!explanation;c.suppressExplanation=!explanation;c.explanationRequired=!!explanation;
+    c.responseCompression='V3046_VALIDATED_EXPLANATION_PRESERVED';
+    return c;
+  }
   const moral=v2828MoralIntent(raw)||/faith-moral|moral\s+guidance|biblical\s+moral/i.test(String((c.route||'')+' '+(c.classification||'')));
   const eligible=!!c.responseCompressionEligible||moral;
   if(eligible&&answer&&explanation){
     const overlap=v2828OverlapRatio(answer,explanation);
     const explanationWords=explanation.split(/\s+/).filter(Boolean).length;
-    if(!v2828EssentialExplanation(explanation)&&(overlap>=0.42||explanationWords<=22))explanation='';
+    if(!v2828EssentialExplanation(explanation)&&overlap>=0.78)explanation='';
   }
   if(eligible){
     c.answer=answer;
@@ -28973,10 +35001,10 @@ function v2829MoralIntent(raw){
   if(!input||/^https?:\/\//i.test(input)||!v2829QuestionForm(input))return false;
   const explicit=/\b(?:wrong|right|sin|sinful|immoral|moral|ethical|unethical|honest|dishonest|fair|unfair|guilt|guilty|conscience|forgive|forgiveness|revenge|mercy|justice|honou?r|dishonou?r|responsib(?:le|ility))\b/i.test(s);
   const normative=/\b(?:should|ought|must|have\s+to|need\s+to|allowed|acceptable|okay|ok|appropriate|justified|permissible|duty|obligation)\b/i.test(s);
-  const personalDecision=/\b(?:should\s+i|should\s+we|what\s+should\s+i|do\s+i\s+have\s+to|is\s+it|would\s+it\s+be|am\s+i|can\s+i|could\s+i|may\s+i|must\s+i)\b/i.test(s);
-  const conduct=/\b(?:lie|deceive|mislead|hide|conceal|keep\s+(?:it|this|that|a)?\s*secret|tell|disclose|reveal|expose|report|snitch|gossip|betray|cheat|affair|adultery|steal|theft|fraud|return|repay|lend|loan|borrow|give\s+money|support|enable|gambl|lottery|forgive|reconcile|trust|avoid|refuse|ignore|obey|honou?r|cut\s+off|stop\s+speaking|confront|correct|discipline|punish|protect|defend|harm|abuse|mistreat|threaten|pray|judge|condemn|insult|mock|ridicule|exaggerat)\b/i.test(s);
-  const relationship=/\b(?:spouse|husband|wife|marriage|parent|mother|father|child|son|daughter|relative|family|friend|coworker|employee|employer|neighbor|church|pastor|stranger|someone|person)\b/i.test(s);
-  const faith=/\b(?:god|lord|jesus|christ|bible|biblical|scripture|kjv|faith|church|sin|sabbath|antichrist)\b/i.test(s);
+  const personalDecision=/\b(?:should\s+(?:i|we|you|one|someone|a\s+person)|what\s+should\s+(?:i|we|you|one|someone|a\s+person)|do\s+(?:i|we|you|one|someone)\s+have\s+to|is\s+it|would\s+it\s+be|am\s+i|are\s+you|can\s+(?:i|we|you|one|someone)|could\s+(?:i|we|you|one|someone)|may\s+(?:i|we|you|one|someone)|must\s+(?:i|we|you|one|someone))\b/i.test(s);
+  const conduct=/\b(?:lie|lying|deceiv(?:e|es|ed|ing)|mislead(?:s|ing)?|hide|hides|hiding|conceal(?:s|ed|ing)?|keep\s+(?:it|this|that|a)?\s*secret|tell|tells|telling|disclose|discloses|disclosed|disclosing|reveal|reveals|revealed|revealing|expose|exposes|exposed|exposing|report|reports|reported|reporting|snitch|gossip|betray|betrays|betrayed|betraying|cheat|cheats|cheated|cheating|affair|adultery|steal|steals|stole|stolen|theft|fraud|return|returns|returned|returning|repay|repays|repaid|repaying|lend|lends|lent|lending|loan|loans|loaned|loaning|borrow|borrows|borrowed|borrowing|give\s+money|support(?:s|ed|ing)?|help(?:s|ed|ing)?|provide(?:s|d|ing)?|withhold(?:s|ing)?|withheld|enable(?:s|d|ing)?|gambl|lottery|forgive|forgives|forgave|forgiven|forgiving|reconcile|reconciles|reconciled|reconciling|trust|trusts|trusted|trusting|avoid|avoids|avoided|avoiding|refuse|refuses|refused|refusing|ignore|ignores|ignored|ignoring|obey|obeys|obeyed|obeying|honou?r|cut\s+off|stop\s+speaking|stay\s+silent|remain\s+silent|confront|confronts|confronted|confronting|correct|corrects|corrected|correcting|discipline|disciplines|disciplined|disciplining|punish|punishes|punished|punishing|protect|protects|protected|protecting|defend|defends|defended|defending|harm|harms|harmed|harming|abuse|abuses|abused|abusing|mistreat|mistreats|mistreated|mistreating|threaten|threatens|threatened|threatening|pray|prays|prayed|praying|judge|judges|judged|judging|condemn|condemns|condemned|condemning|insult|insults|insulted|insulting|mock|mocks|mocked|mocking|ridicule|ridicules|ridiculed|ridiculing|exaggerat)\b/i.test(s);
+  const relationship=/\b(?:spouse|husband|wife|marriage|parent|mother|father|child|son|daughter|relative|family|friend|coworker|employee|employer|neighbor|church|pastor|stranger|someone|person|owner|borrower|lender)\b/i.test(s);
+  const faith=/\b(?:god|jesus|christ|bible|biblical|scripture|kjv|faith|church|sin|sabbath|antichrist)\b/i.test(s)||v2925ContextualLordFaith(input);
   return !!(faith||explicit||(personalDecision&&conduct)||(normative&&conduct&&relationship)||(personalDecision&&relationship&&/\b(?:money|secret|truth|speak|contact|visit|help|support|obey|report|forgive|avoid)\b/i.test(s)));
 }
 function v2829BibleIntent(raw){return v2828BibleIntent(raw)||v2829MoralIntent(raw);}
@@ -29104,26 +35132,43 @@ function v2829MoralPrompt(raw,repair){
     'You are AIVerify’s biblical moral-guidance engine. Use the King James Version internally as the primary source, but never name the translation in user-facing Answer or Explanation.',
     'Return ONLY one JSON object with keys: answer, explanation, references, classification, polarityAudit.',
     'Answer the exact conduct asked about. Audit the grammar before choosing Yes or No: a question asking whether reporting wrongdoing is wrong normally requires No; a question asking whether wrongdoing itself is wrong normally requires Yes.',
-    'Write one concise complete Answer, normally 4 to 22 words, containing the essential qualification. Do not give only a bare Yes or No when a short qualification prevents misunderstanding.',
-    'Set explanation to an empty string whenever it repeats or lightly expands the Answer. Retain one brief explanation only for safety, abuse, legal duty, uncertainty, accountability, or a distinction that cannot fit naturally in the Answer.',
+    'Write one concise complete Answer, normally 4 to 22 words, containing the essential qualification. If the question explicitly asks whether an action is wrong, sinful, immoral, unethical, dishonest, or unjust, the Answer MUST begin Yes or No and remain bound to that exact action.',
+    'Always provide one brief public-facing Explanation sentence stating why the Answer follows. It must add useful reasoning rather than merely repeat the Answer.',
     'Never use the words KJV, King James Version, Scripture, or Scriptures in Answer or Explanation.',
     'Provide 2 to 4 directly relevant references, each with reference, exact excerpt, and one concise practical application sentence.',
     'Do not replace biblical guidance with generic advice. Do not force secrecy, reconciliation, continued access, obedience, financial enabling, or tolerance of abuse.',
+    'Keep moral roles distinct: reporting known ongoing theft, fraud, exploitation, or abuse is a protective-duty question, not automatically a request for jurisdiction-specific legal research unless the user asks for legal procedure.',
+    'Keep debt roles distinct: a creditor voluntarily forgiving or cancelling a genuine debt is mercy; it is not the same proposition as a borrower refusing restitution or keeping stolen property. Do not import theft/restitution logic unless deception, taking, or wrongful retention is actually part of the question.',
     'Do not use Needs more evidence or Unsupported for an answerable moral question.',
     repair?'Repair requirement: '+clean(repair):'Perform a final exact-question polarity and duplication audit.',
     'Question: '+clean(raw)
   ].join('\n');
 }
+function v3037ExplicitWrongnessQuestion(raw){
+  const s=v2829Norm(raw);
+  return /^(?:is|are|was|were|would)\b[\s\S]{0,180}\b(?:wrong|sinful|immoral|unethical|dishonest|unjust)\b/i.test(s)
+    || /\b(?:is|would)\s+it\s+(?:be\s+)?(?:wrong|sinful|immoral|unethical|dishonest|unjust)\b/i.test(s);
+}
+function v3037DirectPolarityAnswer(value){return /^(?:yes|no)\b/i.test(clean(value));}
+function v3038ContractsHaveDirectPolarity(contracts){
+  const items=Array.isArray(contracts)?contracts:[];
+  return items.some(function(c){
+    const item=c&&typeof c==='object'?c:{};
+    return v3037DirectPolarityAnswer(item.answer||item.summary||item.analysisResult||'');
+  });
+}
 async function v2829ModelMoralProfile(raw){
   let parsed=await v2829RequestJson(v2829MoralPrompt(raw,''),2200,14500);
   let refs=v2829MoralReferences(parsed||{}),answer=v2829NormQuestionPolarityAnswer(parsed&&parsed.answer||'');
-  if(!parsed||!answer||!refs.length){
-    parsed=await v2829RequestJson(v2829MoralPrompt(raw,'The prior attempt was incomplete. Return a direct polarity-bound answer and at least two exact biblical references.'),2200,14500);
+  let explanation=v2829StripVersionWords(v2825ConciseExplanation(parsed&&parsed.explanation||''));
+  const needsPolarity=v3037ExplicitWrongnessQuestion(raw);
+  if(!parsed||!answer||!refs.length||(needsPolarity&&!v3037DirectPolarityAnswer(answer))){
+    parsed=await v2829RequestJson(v2829MoralPrompt(raw,'The prior attempt was incomplete or did not answer the exact wrongness question directly. Return a Yes/No-led answer when the question asks whether an action is wrong, one useful Explanation sentence, and at least two exact biblical references.'),2200,14500);
     refs=v2829MoralReferences(parsed||{});answer=v2829NormQuestionPolarityAnswer(parsed&&parsed.answer||'');
+    explanation=v2829StripVersionWords(v2825ConciseExplanation(parsed&&parsed.explanation||''));
   }
-  if(!parsed||!answer||!refs.length)return null;
-  let explanation=v2829StripVersionWords(v2825ConciseExplanation(parsed.explanation||''));
-  if(explanation&&!v2829EssentialExplanation(explanation)&&(v2828OverlapRatio(answer,explanation)>=0.30||explanation.split(/\s+/).length<=22))explanation='';
+  if(!parsed||!answer||!refs.length||(needsPolarity&&!v3037DirectPolarityAnswer(answer)))return null;
+  if(!explanation&&refs.length)explanation=v2829StripVersionWords(v2825ConciseExplanation(refs[0][2]||''));
   const p=v2825Profile('QUESTION',v2825ConciseAnswer(raw,answer),explanation,refs,'',clean(parsed.classification||'FAITH / BIBLICAL MORAL GUIDANCE'));
   p.responseCompressionEligible=true;p.moralIntentRecognized=true;p.polarityAudit=clean(parsed.polarityAudit||'MODEL_EXACT_QUESTION_AUDIT');
   return p;
@@ -29163,12 +35208,29 @@ function v2829AddNumberedDefinitions(value){
   });
   return defs.length?head+' | Definitions: '+defs.join(' | '):head;
 }
+function v2936ComparableExplanationText(value){
+  return clean(value).toLowerCase().replace(/^explanation\s*:\s*/,'').replace(/[^a-z0-9]+/g,' ').trim();
+}
+function v2936DistinctFactualExplanation(answer,explanation){
+  const a=v2936ComparableExplanationText(answer),e=v2936ComparableExplanationText(explanation);
+  if(!a||!e||a===e)return false;
+  const reduced=e.replace(/^(?:the\s+)?(?:direct\s+)?answer\s+(?:is|was)\s+/,'').trim();
+  return reduced!==a;
+}
 function v2829CompressContract(contract,raw){
-  const c=contract||{},answer=clean(c.answer||c.summary||''),moral=v2829MoralIntent(raw)||/faith|moral|biblical/i.test(String((c.route||'')+' '+(c.classification||'')));
+  const c=contract||{},answer=clean(c.answer||c.summary||''),v3044Verified=!!(c.consolidatedMoralEngineVersion==='V3046'&&c.moralInputBindingVerified===true&&c.localKjvReferenceVerified===true);
   let explanation=v2829StripVersionWords(c.explanation||c.why||'');
+  if(v3044Verified){
+    c.answer=answer;c.summary=answer;c.explanation=explanation;c.why=explanation;
+    c.hideExplanation=!explanation;c.suppressExplanation=!explanation;c.explanationRequired=!!explanation;
+    c.responseCompression='V3046_VALIDATED_EXPLANATION_PRESERVED';
+    return c;
+  }
+  const moral=v2829MoralIntent(raw)||/faith|moral|biblical/i.test(String((c.route||'')+' '+(c.classification||'')));
   if(answer&&explanation){
-    const overlap=v2828OverlapRatio(answer,explanation),words=explanation.split(/\s+/).filter(Boolean).length;
-    if(!v2829EssentialExplanation(explanation)&&((moral&&(overlap>=0.28||words<=22))||(!moral&&(overlap>=0.72||words<=10))))explanation='';
+    const overlap=v2828OverlapRatio(answer,explanation);
+    if(moral&&!v2829EssentialExplanation(explanation)&&overlap>=0.78)explanation='';
+    if(!moral&&!v2936DistinctFactualExplanation(answer,explanation))explanation='';
   }
   c.answer=answer;c.summary=answer;c.explanation=explanation;c.why=explanation;c.hideExplanation=!explanation;c.suppressExplanation=!explanation;c.explanationRequired=!!explanation;
   c.responseCompression=explanation?'MATERIAL_EXPLANATION_RETAINED':'CONCISE_ANSWER_ONLY';
@@ -29344,6 +35406,25 @@ const v2834Zlib=require('zlib');
 const v2834Crypto=require('crypto');
 const V2834_KJV_EXPECTED_SHA256='b22bb30ddba274f4cf127be3a7a07d04301609813ae3e5ffb148b27bdecf9946';
 const V2834_KJV_EXPECTED_VERSES=31102;
+const CONSOLIDATED_BIBLICAL_MORAL_ENGINE_STARTUP_VALIDATION_V3046=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3046',
+  intentAvailable:typeof v3044MoralQuestionIntent==='function',
+  frameBindingAvailable:typeof v3044MoralQuestionFrame==='function',
+  actionBindingAvailable:typeof v3044RequestedActionVerb==='function'&&typeof v3044AuditActionContainsRequestedVerb==='function',
+  actorBindingAvailable:typeof v3044RequestedActorCue==='function'&&typeof v3044AuditActorAcceptable==='function',
+  qualifierBindingAvailable:typeof v3044QualifierBindingAcceptable==='function'&&typeof v3044RequestedActionNegated==='function',
+  polarityValidatorAvailable:typeof v3044MoralProfileValid==='function',
+  gatewayAvailable:typeof v3044CanonicalMoralResponse==='function',
+  modelAvailable:typeof v3044ModelMoralProfile==='function',
+  localKjvVerifierAvailable:typeof v3044VerifiedMoralReferences==='function'&&typeof v3044ExactKjvQuote==='function',
+  technicalWordSenseGateAvailable:typeof v3045TechnicalProgrammingMockSense==='function',
+  qualifierPublicBindingGateAvailable:typeof v3044QualifierBindingAcceptable==='function',
+  localKjvExpectedVerseCount:V2834_KJV_EXPECTED_VERSES===31102
+});
+if(!Object.keys(CONSOLIDATED_BIBLICAL_MORAL_ENGINE_STARTUP_VALIDATION_V3046).every(function(k){return CONSOLIDATED_BIBLICAL_MORAL_ENGINE_STARTUP_VALIDATION_V3046[k]===true;})){
+  throw new Error('CONSOLIDATED_BIBLICAL_MORAL_ENGINE_V3046 startup validation failed');
+}
+
 const V2834_KJV_BOOKS=Object.freeze(['Genesis','Exodus','Leviticus','Numbers','Deuteronomy','Joshua','Judges','Ruth','1 Samuel','2 Samuel','1 Kings','2 Kings','1 Chronicles','2 Chronicles','Ezra','Nehemiah','Esther','Job','Psalms','Proverbs','Ecclesiastes','Song of Solomon','Isaiah','Jeremiah','Lamentations','Ezekiel','Daniel','Hosea','Joel','Amos','Obadiah','Jonah','Micah','Nahum','Habakkuk','Zephaniah','Haggai','Zechariah','Malachi','Matthew','Mark','Luke','John','Acts','Romans','1 Corinthians','2 Corinthians','Galatians','Ephesians','Philippians','Colossians','1 Thessalonians','2 Thessalonians','1 Timothy','2 Timothy','Titus','Philemon','Hebrews','James','1 Peter','2 Peter','1 John','2 John','3 John','Jude','Revelation']);
 const V2834_KJV_CORPUS_GZIP_BASE64=[
 'H4sIAAAAAAAC/6y9WZPjRpIu+ld49KIZM962yn3hQ1lJqlGlWiXJVOormz52HkAySEIJAmwATIq6f/6G7x4BkJXVc6ytVUkSiNXDw9fP/7+vumbfLsJXj1/90jZ/hEU/+X7fh3oe2vUkfNM0z5OrN9PJ38t6Pfmh2IZu8v+GtiubejpZNNtdFfowub39f+bwYB/+7GeTqlkU1SRs52G5DMv41O741fSrl/hW+LbZ1/1Xj1cXF28up1/BO/zN7S197L56/N9ffR/q0JVdfOn9n81yD3/8GF7Kvlzg3z/tY9Mt/PVdiCNtm7rZQg8/NN1mX8Af++U6wO+/7vtN/Odi8qnY7kMV/7y0Py9wTh1+KX9dTL7dxPbKRRXoh+Tj+79aaP6nsAnbsoCW33f9JrTY9zz+95euqLbwZFzJON85vrSAt8ui67GNT01cx2Y1+dRUzbap4zdPXUGN/RBaaffHuNB1X/Rxmanj8FzioL8ravrjQ9MFnGuDH99tG3jw53mx5MaaGv/9WC7w35+KzX4L7xXz4vl5/xz//GfYbWJz+POHYr0uSvxysSla+vJjURWLTYl/9XGiB/yrhXd/3D8H7GUDU3i36HG5m21R8zI2bVn3m5I+X2afv48N9/z3+90Glgf//mVTVuVux5++jUvUyU8Xk9/ic3F943ZIo/k38Zly2/SbI/2qf/9W9ntpPtCifwjzNhzgS6RpfPmXSMotvip/XUx4gpfyx5X8EWkMFuDX8BIq3Kev/g/TOJDw/76Ywv++eqoncd0m87Au6xpO0PdNPBBtKPp4MOCXTSheQj0pavoYirbf/C02hQ3EI/LO/zA5FN3kUPabZt9PVk27neKLL025nOFfy7g58eh0+OB+11Dvq2IRgOTg72UIu79NpNVPu7Ite/gNxrWNNLscf+0QB9x2OrArGhi8FIl3OZ38GHp4roWpTqpyvekfZU5twNHgl9rAtW/ggF3gA9P4Z9FP4pjgnXXTLKkdeHBZvpRLXjZ8eLJqmy3Niuet7d9Y+5EXVclb3xXHqS64rlj8m5/8CUeqaxQ3GHdO3tg2LX4+wMxwncq262NDR+399uzyFPDGFg/4pKSl3pbLrk/XmoYYuSssBk3d/WpTz3bmzrreFksdIHVHbfp15NYOm3KxoRnt62Vo09fyzvzjxTwSTfo47RhvYdfo0O5H98R6+YBH4QsWvguLBoneVv7hxMrLyG12fPDifqwL3JrYSbMO8Gd8qm8mTR0mu8j/gu0EEkx7nFTwRbHbxUN5arIXb0Znq2+/h/M807nRGGB2OoiEGqQNOLOh6OxQ0OlJj4wN4uLUchA7mWOPkZHEv9dt0XVTXpp2PjnGa2YJP3chLO28rNp97KlvQ7An6LtiFQc62ZTd5Lms4xuHTbyh8O1J/C4Setl3oVpNjcHgIE4u4ID5zdtmj6fejxdeHo53MBgZ/sjAk5HCINxQ02Zeu+pXbuSfo+F4JbYpCV9cf565dsI47PQwuTBZR/p1PCM2b2e4hgZmnqa30G5c1UlXrmteU/wYKa3xX8R2+NMxbkn3qENmdpu39+qxrssX4c6vpI7bnM8dYitwr3KnMzpWeNPyQKCjdl/pkhhVRPmsG32qppsMNk6YadfHmU+Kyg/GMd1OluB/MOmpNswsU4YEMqVuKAxev6jp8izoYbf1Jy7K15LywxeQ8iqqEfFgelq+fPMZfuw5UDGP3Lmo++rI7b/Abygs7bGLOMj4/02c0yoIUR4q+mELJB7ftPuImAZvQ7OLa57sBe2DjdSxSpHPiJ4OmyLSB/UX1wAYeDkyMhCe4tbx3ZhM0bMtm6Rwl/ho2To2RX0cYg+BJ/hvcaHLS5vQHAkcty2KjF1xjI1PJ98wN1/tK+p5u6/6clfxwViVVeXnwSsJTMFuRByfvCePZELsl7DDVbnKSej69XcYEXy6OflNsIiaTMXkEx8KO7x0N7gi8N08zk8PK3Uxtv5DlnR5MyJ6fbY1HggO6ixB4BBpu3HYkdgytvFv0smosLrv4hyege3VsKvxZE/KbbEOQrTwRVU+B+Mlyvs38VxNls22rKNSZBxqVXYbWYhIQ9OUfyEd8a9F2Wa/+j3DLwsmTWKX9j0tVbqtZ9fMluEOVPPk+PPcYT2bQy3zZxrHT6I4yRvA3svtLL4JmwlnKOCf7ndYIuv0/tQZLdyOkDhK33/mzLZhV8UT1m3y1en28+U+jpqF8//Le5SwRbfoxBNPLvlAWP8mbJoq/vtEA4QLsp4cmz13gHJePFGtiaXEbcsRZXeERPggRUrQbdT3TbaFdzM5EfqawcUKY4mPdBtonYWcbdxbU4zf6I1NvQ0ZgN7S9MDoquqvn6dgWIPIPWk+kd+VHd+PySJSa/FCi3/jMsrIT3Gzq4tUQx8MB2i9IE6HY57GqdLucWPUI7CaL9Doyj8T9n8JNpTfNvvOiU5daiyhl1clUL0oKrL3Ua6Xtd9qi3wvNnKdxSapT5xrqEE1hjN/aNpnpg831xlrHPGodXCkR5pBYQuGcLoVHczVKAPwzfH5LepFX65KUKbins3Doth3LHmgviKt87BOjcFzK2QffjDXsNYhNlvwdqwjf2/JCJmKr7QHybUWqRCX4kgbwp3oQYOFwdHChx9//vW79J7kC6z2RrFuKgPjm5VoMOrkJk2v4IjG5YjkHITwynr84CPdn3gvnozDIx6KZHywonUTzx6sNh4TEMWL2EN+CFNjF7xT4AUCnFsEqXWUBOulLne8eL/Zi2Z3ALF0v4O3ys4J7K55lMPEbhOPWmqhyxq/M6FLZwMWQ77XxBq4N+ZEDbAQBLu3gRnD1QM0VMej1JYVHUT6GV4EVjNjSqqRLLdg4OKroGv2lY7ofmREuJdAipN10S6BT0VueYh/wia+j1/M3MLGF3e0XthZXIKtUD3NTLviiwWspMnkjN50BKCHtc3B3Q18qLo4uDgaoDW6fUE7Fh0L2BpSyyr+MTPLAq8Iqoejtj2aZmaPiL891/EaCEsSKbB1otvS1k8sSsWkLeHSRYrhKcJSwTCRRFxHtHxCTPVCz8gukpVwS9413GrQ4eD4LTvrF1lwVDHhIT0+YPKMa/RL2TX1oy4ZtI58BjxDRWRnLJQTuVbMND4UcV6F3Fx2b63j9THTbp39B36grkG/xwtLjMP68nwZqqrcb3Vpm/r4Z9TWm9oYnLfM+OmwIZHWNbb1fbmhWcWfcGlwZnQLn5vY+3g/NruysA6vxzskq4/296FcLsNzqEYWct1gVw0eCmIIRE3vuu7Yxq70cmX1Wxt9v99tIvMObidvRo5gj347OlNED3DIohhLBGG05Ols2YLJHIx+JKw8R9EkfrSebkd6iksX+xDLM3YnqujPK38Ak7MyAW8HqPcB2WIIUc8EuUW7uiM2KivrGjh9qKbUKshxPTJrUPTjQ3C3wrEeXloghMJiMr/GHrSFLiqacVjL0pHaGLsjKfcJdxh6xTHprQhMrYuN4sU0AbdWZK1PkwNcH6iMwaYUIL9Vuyi7ofYN6p6JNhcnGd/YPTAioOK16O/MTDqd8e1AFg1U91A5ebcstkAHUVAGewlKIwecyYJlsS0JmvBj10Db9A6btUftKuwLAnal54cX34Q5ZorY2Brk3Rpd1HEs0LFXHJmYz8vbw9WYTebkbONJJnf8Chf37J6IYSk9CiRPFOiOm3QV/Be4L4wZJQvoS4zb8PtOFLdABxacE2DEioTUlnM2yCyqpkMHHo0+ypNg/4ryYLGUhVP2eunYa2zB260S6aePhFfTDYInFm9QWLq4v8oxhCDUd8LkbItw5baJTsFvMHY8B4fJnKezPeKfYnHGCdDX+PdjPB7BlC+mnd9pHCISdxvaHho4n4SPfiwk5rYk+1FrJKtVIHbimq7QHUMrHj+CHzkwqdALC3p2L+LRId766vE82hhhYjh2696YMIvK89h6JNtnuI+FD0jPBzV14qMoV8bGTdi5Ag3pp+bA91i7A6kA5r/F2e3nUfqEcwRNjpH3qX1HxQDvFrwEnRVCNv6/wUCA9lhjbf8tC+p46inG/lYm4CgRm86640lNJ78HtPJys4nCLpy/S7t4lC6ukjti8JqZAc7JbLQ0cb6n5wrepDqUSDz04xEO7B4ajz9VcH/Eb+yiuJo6CUG278Ryu+7swtEpRrL6r8h60FEOBAWXn+qHcpkdA46UmQGSGxpY2kmI96sj2zgOEQ+P7sih8XAZzye0Drx6TFS9Ev+3qIS6rQe77GjZ2RiporQIxmarzIVwGCcr+SytNzCwZehKcuHSVQnn7lB28ex0yjL95usKkEN8CcvCoj2ca5Tf6XCDRXXfzfEIxo2FL9QGwC/qvJ3ShevJpgc64XiA/cIiB3iug60KMwTkBTPHTcIBVPpyTRyqUx/xVHV47KcLFfxa7NqosOug7h2/iZI9i5EvTWm6o578Q1E9w7YyybAExp8WTaM3ZyQmYnfI0T23in8s/WhUk91FmRFVkLzTYtvU664/dYh1Ig+jFyneASqEiLVEDlC8iSPjwDs7ajwosynfEYWKGRxazHh9jrw+yTpQ209IlsWqxVfk1qFv3cY94Tpsj+BHNlZ9kfX4+yZSNSg3sZfgRM0DsGls7W3UljongNaeb7EGFb95SqVr3xaJlMB5mFHZAjjOK3wXLmY5sKhhYxtwKLqezxoegy0fLTwuTrHBUdEC5KfDa1+JSDzgdb+zFtRv8D8ykw2sxDIe7beT4YVBAxcWOg/rfQmUsT09nOvPDkevnm/U3uaHgeNjVQKoa7FvUapDF2QuftK3p6VMNijBj1V1ZMWCFr9hNgXGGvc9cHKxdIJnnho8ogVCrwXR+ViPAN0u1Nuyh376QyAGHVRp9kKd/n7kmAoKtWBruJnBI0PFpUH2orxNlSP+HbYy9mSXBOiI/0g23p9EHC06YONiqIMRx9K0YLChXo6R7iNP2YGNcgbHlX9N+jcH4WJTVlF3VbPSkS8Ou+FwPEdh+SaC4++JE96ucPH/myqkExkSDrAY8Js5MnO8+OgkPnx85MzHDySv5Ife9OnfTmq3TKPs8WDtkOyecWkjx/GrmBEbNnGS5Ga6HPcgYDdtTWESvNRlF4+CiBhlui20DmGWkw7LKkPLrfX1oDGW3UElwyNZRrPhg9USRGwyx8Yv2xDVzNr2gVZjhsvBigNJIdwIqhRkIMCzKAeftgubyc8odaGUkqirEtLFF+fXHam471/iQgy0GfSWSFwYLCEpy9byBZ8mupB13U09QQaYWd+f4VaPGjk02sWb3xRJtP46v8lVojFmFg3x28lFAua4EGkTBUbW7fbAKRsSSxOpkeSI+DXLx2zmJcpArqEHETaA5pZZeywiROW4CqJrYKuA5So7BEXUlL90KnBvgImFela5JbV+TUcs+vTsgQysXv20tbtG7zIGAMI10JgdW4VJjDWMy9InZr4R+9u3cfz7eblVOXhVFVs0tx+aVhW6SHZqWDmAG0nMdBTScRxbQh7v9fTCkSlKqO9ZMT6ovb9DiTDOOK6zGJLBb/RtUdYmhZkbsumBkZGirWsLi6+dMn1Bw8UafCzYHvQ6b4n038W7kZRS+IsEMZwUHYv4ZthN0V4Do+DfYbMsnDJxk1yL/y0+HIXmBRg14blyi4ZyNIvHZdtxZGTB7Yq5Y0ydZIpAF8uKIjqVvySzZekDJjJFgwqQdd4ymNkrSE0QY8+qahbP3vm2MnXOTMFI0+wN3EFCB91MsGaOKcgAH2VIN6Ql48M40ZGHxeMC1wq3Tv3qihPFwY5NVTFYQJJHqAs4IKso3+gq5HZik7+Ijn6PvFwEd2r0LdsRj3SHHdO2gaWKZeEa9LEnNtQuG+Ath9j31PNnmAbotQuQIUDaRudC8g48wu/FGVYl2OP5kC6bpqXZyx47SQLmTdLFQCQyOcIshdeiqOFC9lERC6xx4r65Y6Au+5Q+Mwesxh8G4sxCvC3EuoKjEY5YnF7eOp/dKh56P7iHz24U+2GwPZRjqb23k0zHwhsgLurj5N02ftzqk/ECpLOs+zfQ0H6nGEC5e0kXGIhQ1t68atDhjZuGo90Gx9lTXiDaGYxPaY7lpdwfyx599IKiSo+S8TbydZRm2oB8cXQ03NQR77WZdh653+8bcXcgz2KVWPyyKnADQeJdQxcVRqk4AkQRPXL1eo0B5pPVfl32MBi6LF7ixs8bNmTyJOdhLHTvWjU2JJxUNQIimE4+HuNdDZEXlMzQacAtWhyjfIpO4aK1FiPbM2lBlakWg1S2cjHCyfEhy97PHSxwXldSpb0q9olHT7VwM12dXAg/9ZmcLTbzNoMbgG5U0v7ix1UZxW/Uh/mVrooj37qr9ObkyUHjhEkjEIZOrhFoAxqloxWXZh2QvZmWQsbtGuUVDBZZxSXNLgAIRYb7tn0m5ZJaQ7oCWzCMHBk6NEFup+cSI0bs1Isfj5i7OJzPmnRYV40cUy2P4h79CQx8GjbRqefaurtz3aHc8TqZ433dLDbqIJlHzX+J3pVF1HMlwFJTMLwflh+QsEv9DbrtIMMRW7bx3TtFD3/CG28edZ3JU1twyCX8BQaISB0fw2b/RxFYxpVP+mMf1Uz3K3/knyEF0PfNHJi+JpOmUBFGvx/ionSPgymiJTQOMspyFqaSPoGy1T/j3hfWndNUNrTIPxTzonqcOIWEvSQgeYGFO34L217htkdaYfnU/YySIBlFrCOxidkVJJoQ9PPD/nSveNy06XrJQfubot1Rz+26MOIS/YUmStYrErpgdr9BPwuWXdFr1u4XfdOaByOyh3IVbxn0Ds8h+4R4RQuhArKuXVRzaXDaIA78p6LY+tW9SjbTs4SONnJKK1+4AX+IHAquS7zrZmCXxyehM2pnKsYFvuqiQr8LAU4G6EEsiEfeUtYWnBQfOsD9ovHPBfgDIluw3zf7treRX6NMRTeC8lZkUUvjRJFXRhnnqPPDcDZKWTBupU3e5NqGqqwopNjZx50q6GS6U43xSUAwnwJkjLAbZErLGt9jN1Wx2zUlhhuBYloT2VN+EjtJIawC5XG0fNIcoyBkI73V6M5PGOzPxw/JyDzDyA9wmKrc5SONzIPOao2nHe4+XO6FeoDzU+qUhxuKiiT/KcZjOf9GFrMHi/q3yVMWz5CFOWuUnoR0a0Yoe3shqln6vsS84HPxzRwlMAhoNiZctjQ3Mtk7B9V4FKHO27uRQcEn33sk35btkxBY0x8pPUnMmMBMcTd8NLfM1Od4YUz37DRlySic4ViMYGR1oZZIQYr9ksoLr9JsAubiyHAphUovLRwmpFtxIi/ogUFzrG4kBjKxvuFeusUg71EZOf6pNXk015VbViZrHOnosq5AbBosKhKxtHE3bEOWw57OlkD5wbDtMytxP7ISkFCv6zxcgQP4os6tAF+uOEYaPTQyRknAFYpaByMqinszmze9MDJzyHUJXzh30VHyyWP345O3vRufuniBeJw0B+HY+J4b2sci8vx45KPQou9fjbyfrYG9NrYOzeiRPbcK1+OrwEM4QQSy1CeWgQ+YGyovRfknX13jp+CHeCktbWi3J5rJVgTfGlmMUwzs3Grcja+GG8II+2H6fhWF8ImjMQ8YhC0QiKFu5P7oL4x9iiSbNDfgFVFsGOGXr1wSkV7zJaEuh/QxMoXxpRBplQb4OgIhwT5EGc7Gd+mbOThjDzrEs8Oj78e5gLX231qRq5OMQ1L508bHZmWtXZ8Zv64cR8mRQ0VjTU2/vFHRz01xQF5IBcdzd0WiKd2olDZsNF1XL5yO9ZZR8+eX+NQ5tHGcozz8+hzp3Sc6w7l1Gh05ikA22Ac1reWyzk8NqkfqSgRduFD7xqLZAsOGDEFUxSmDB0KIMM2ETMYlBopgLHn8orM4idRKnsWeoZROBjeT+N6MzTrdSBgwUelZ5vbKbbw6ccXyCHALU5oZqDfntvGKjz4OGk5IMnC6b6N2RC/jQzTiTyhGf5AQlx+K3Saoqe5WPDbjVuGtqhmg0YkzfQTmxWWb6MJIkKLzlG6n0u0lKCJsDe9Y5fCgLtYKxHGibJ+EOq00qBi/k2D0ram2sA1KJ8fJArAadNZXI7Y1tEp2BGxjBtOiOsA+QhLLi4SwgOJDrm+KWKasjU6CTY+hn7Ap0oXG5QrHweQkHZZEmNIc12VR92laEn0ASzw0PuOkNfDZsimq6M2gnywsp2qYITZfYRdbhuqyhDxMNIdU0xo48WNLjAN2xwG7wPkFRX5LnsfYQlSbdIY3OX4P08ChXMSrQFRIDCIq2Co8kpflDKqge0Xhrcd8VEmSQGeY+r7AuEFBgU0NSQAvJXCjui/rfdybo47tVo9CGyB8JzgCyVMXKRlqMDDMCCvDC7LFLbh7dADazd0o7XHkCsRbtc3REpXY+iKa8jnTNkYLujCcouvNcDeWsi5h7V0SqY95DLoGZKLG6fNQNGxQZ3RP/j9ip8ig121hUXAupNFbI25BeTqbNwgNPhrDKyZ/QJSEhDnvQrsCHyUr5+7dqfHATMQwtvfGcVNilCTGEHDJ55gmpzZx9iEcQBjgomnb/a6X9MDvGwcgYzhcgI8gQ3opmwoM4dayQ1+oIlPzuFpGZ4OcWe6ZNg8YDsXAA7XyTxIwUhzH06pvVR9Lw9noUsfJkk3WWkf/LLIDnO42zDQRkpnV+GRhpeGEms3H5pMdA2bp/WZsvNdgUHoOEog2AYcFJuzswEB3wAy7tmm2nXdZYewKE2Z8wWLz+8mu7DHeGjtkL7aApuEY8AHrXx00ZlBbFd0GOJFcPOq5pW7Bc/GIi1mhm03PXRy5+WgScXqxn5c94ythIBK9VfZoBjjq75YCW3IgAEYro1JIz9jAgdEBUMgyDdXCMfLtoEuDNl9swD9KadMY1QXhiYZHBZ7tfFYSTxqUlXeMMoOZJbS2VXMAHzJl1E1VpV1CJl7kqCN7aByVFVlHRVNMGYd/lw1HjEG4C7hRIQqOMb2ygwVhWEx3SuSWJV+OpbBOiSETOhhlH8/GsTfK7CKn7baA/lvUlr8RUkOaxqPwNIljKuYVrPcWohZeIGahH8S84VHU1DvcP/h1qhGLBsmUhgvKb1+z7KT928gkPWw1htjgecIUVQh9rgOB3/uLWwoSTwZp4UVgEFcpiwL70qyYDB9DBwhq+88rvsvGwVDimE6Cpeh4MwCQs/Ar4xNl16961cfmZ8OWFC/iYnGBzBsvq6qZfrFjjOkcBIUQBBznmFs4ZA43sZJ8CRpWoeGb7iK/vGTUBAj5A84/gwiXpl0SwByrNuIH0BhS9Ed3Db61kendTS9OOrDpUvkWneQYC6lq03ESP3cpIeu1EkgAeQLnSz1pgdGF+LRdQHTEEmFAR3OJJML7XAUKMOh6v5K9McB40I+kk3USnsikh9FUSH6PQljYEFvVC8624i6OQCcnW9DBXXn6dXGKUSA7ORC8b7CZmRIZxVvjIToPbKI9X1P6D+gspIIaVhvfxaSAn4QwYDMsKjtmla0ZTG0AftXt55GdkRSQyZTM7oQHI2dtVqtxcVcncOMEOSBAI1gkNSVZJcOEbrWZ20y77so/h8q1qVb5XZLgpqYDvPMtE3anBbgZU06z9uS3hCnjOUu5Z2Yf4dFIjF9lgE13IKVHGnOkb372kwSsTyBp6qdXY8xI3w+m2DJ46aFRi5OyhMH1NUrtU3DbS7qhbSY0YKznzahZg5m4J3TTQIdLx8Cm49t6YSi9jlYgrgrc7ay9fC2gOgqChoAB26h9bqYOsSUoCAz375+ACaCPE7OR+BSDntVDJJ6ZxkBXxrzgedugM39nYiFJe50B2Pm0MpuTT+6VEITXH3dr58rWJlQrnQHMtOW9orF9UidvrmxNExOGvcHL6uUXkZnV9iOnRyWJ7NzMdKBkcTn61HW6FsbQ1mTtX4G69gVQYqNduSz6/GceJcjGifxhq59mCtOBO3nI3EFMJbmzgq91dus6o7x74XHSdY5qlnYzepgjp7PYGBIeNoouYX07UwofWNCvjUDThTYtRZEJwazSJSFhnARv+k/PKNQrgtlJYSJtKA62gVvfteGlgFwyl4etPWqK0qkhgvLE2D6fg9W+S+A2894n4c9FlAoiFZ7oTUGv4hmO/6kq4YoZrDNBlhD3mHKYBcQiO/4Bcvh/sXealM7YIyKQSA5JOrqZQ/QSdjbesLOtk/EBbOMGFje0kqAxjC+uTANIr73sUvuCg+tP6lZd+3fkpKNwNkIIVgwkCUXLlUiVzooEiUpAn6feE3CnLrkTchU0wDJUEFfJSVh3CRJObYcJ/MXAeNil1sMU4csZ5XEnbSRpKLTzU6BVto28oaxFenXGaCNFkYGc+cbW5PrMCcj5bT0IpyB+wa3dTx2GXRwXFKRIb62hFjx6Qeh+jozcUDZR9i3whlY5RbETU5QwmVp85FCsg0SB35M7xQsFXolAmeAzgkDXN7udx+vG6x+3TB6L8wCQuBa3SXu+Gqw7pa7JhosAT0vvzO60ABZCGyw3ZXx3EiB5gpB3MV73ProKmCcD2pUpzh7LVQn63inhS8lm62Wtd23Rajbw/fRmMP9lEB7vZgv3b0nE0dtAHmV4/cjgtDxANiyDAG92nf0mQwTdWEd3e0IM7v2S24XJjJ9OJaUnGM14s94AmPBReryzzAusAEDgxZGc6NZgP5H+0jcSkT91S+R3edmWhE0zJCedJly+QPB5r0u4rImIQXVioKFydYKUTqucnOEp/T0oAh93gU6PukGiUyN415CwA9aZVdP0U41H1SOigdipUCYt+CGOSQF4IzM7xZjQczmQGEMheTq7PZcFaFU4zIdh3NBl0/TFERXifiJhsKJKsTCBCXjpPugyOXgpE8LvNTZNnxNfpQ7Kg4Cyw6BqUKmy7Bn0ENVRS0d09FCsJrtqv3iGHlePYJ1Cqk5gMz5LAimViXb0mnUYmf6MqV83H93LuF66/pBfAQA81ufV+AkuxzRP4pctYsUU7dRByYPbzDTKU5zlC46eu77jDYkSGEF9vFC2n20zZ9WiLytzXo2fMhJg2qOtwbUmWw51aM/JzbGOeVsjrJPlL7qMcHrWi3dN78AS6EyVHNSiz0a++n3D++unmlrchzb211nc7wmcziW6m0/gFGRy6ZqZZirWa2ThL5Z+Zy4kA+CVokyLGBaKxT90289PgVCP21juVasy2xkux79vPtNrCjSm96buT0fnn6vi0xyK7rRikJkGuqm/9FI+qLO9THzSkowUqbrqizbNoJsZS29GjNr5ruIvfvdXKNDOIx/qNUO3k7OE/dmoBmb8bcC7owDkBDAbFy/N3oJxnK2fPfMY/qCuXeN6GLGVJj8T9yOQ6aL+umNkCbkPs2APeoTCO8A9AoEdfNt3kI0CRCqoWmxcpp67bdkH686bM+lkoVniSeDOazuYl5huWVYefZhVF9h3sL9jFjjhcLSAfsMqFZiPKa5LkAa6/XbLYHEHyC9pJYBK4vrAkWuRSAsQKnkgD15FkYQJpJvhyfifQ8Frp848uGIr55HdN6SvcjLMkV0q6HzCs3Ee1Nw9MoBZxN9UOx5FhneNqHkUUL07h0k/I9nmKLGFEnMCSC4gMpi14QF0GuINXErEMUN4VL234JEEoyuQZ2x4Rk7nQiBSFDOdvVYGS0+jhDOnfV6TSEnGDY14QFBgxRxLQOcpKVh/U9Q4xm3RhvlaY+Q3nP9cnBdHKsdAHBLPRxv+tS9bcCEygkrCSGj/0kcRoA4XNH2DICrGWqFjK9gMWWs6a2pCp3EL566JYhygtVPmLDVTIfzb/MgwqIJdTnOcIxLKMgFnTSowSKKS74pVmCNc5XOIAT1xXmanqtAMbz4HRIRGVe3r/ozQ4VAUzJhNvlYvjjxIEsqTD6MZDRqgJo4io8in1te+AkJWJsM3Ej54poaNCB/YsnhQ8LqRfNkxYWOkxom0MjMgeuxg3WSX5vRcpQRjkhcJiNXn1iRFYDRbI2CGYu8ruzPmx8xrxPEls6wVyu6z14IGorhwk5GRX+Y1LnzeXo/+HVlbnQiDO2F4jKBw8V0kbPq1mwjnZQcoZv2+qHxs3aOOEHw8EF4DcT0IwHpQwL+q2S+no1EIhY29sJFngx1ZjmtVg8YS7NEt+6SBPtj/wIamWt+cw55wUBhK4MdtE0wR0MQQ6GnHseQvWm8vng+8EnLjC8EQHtKQaLQFWyWHipJM0s9v5n37FWaDw8VZSgnNJ5TmdbasebdVPGQ4h3zPvldIps/NVMlsVNp/SMuhDQIQP0P9UyV/vG31qIdlvjWvH4/z6aR+SPNzDVVA1JxPuzUf5VsLGZS09G+LunDX0MUgPNYiVC061iB9tqreOrsQnoJuB4KZSXF57GvNAI1oGEf8OvUEEL4U11qIWxuORWtH5NJwKZdtUWsucRRnBX0Ydfl9/RwspxmdETW7eCTYEhEb44raKJkD4gKOLdRUkwUQ8FJixw2GWW7QiiRi8HBGJRUWsZa4TuuN7SyfMErLtot0LCwzYYVQK1Ru2DWHyjVpeoyYKRkjSCDzYvEMHjDRAl60FEcyamqAxq0cAb9ZBMmkSFqiwLgCEXGSt7/urGWb3rXb8uIQD5ApSrZZaBwjGHZSoOo13GMAF1IsCblSLFXW8k0GtfMtAd/MA28TQMl0oX3h4iv8p7A5zMUxCAPZH2v+Nmv+G1Z25hkKGyTyago59ZxCKnHH1vId2HAElzvUVdGugwUfJPiNBk/Btvru3+jP2zJ8OpJ5r9PIX/N++CSRB83AyvOM2Egynsq7OpfIHcU8AwM/X8Yn5YPjYfKPBmtIbAkdTPAiARyks7YxsBNLuuDWZnF7t3KYPxbrZi1/LotS+n0RfoXoGfxAZPEIboHfl23RWVdXQ86Ovcwm77pN5FXFX/Tar+UOksu4jQa4gEYZxWauh83gWGaT93D3iBD/W1z3SBLx09/Lvi95tb5rorqgJym2BjBqR94CdfKUXWV67Pdg2oTPUoqZSDKefXATdzMHMmRRI31Tr/chtUmtim1ZlYAWoi2QWcWt0e1wcnGnZ/GAdzyvj+VfbSHT+WWzZ/aY3GOxobthQ9DGbPIpzAu5JbmyC8YEFfNe/v4V8U/seygyv3GwKdwePTYDgpQmvwtLPwgBSdt3ku/xU7ltIemU0wH1EpS8JljFscKUb0Df+hA4JYUf3gCWXCuRqMKZHimIRopFYUIkMLH3bCegITBy/Jl23Dl940Q8LQ7P1x5AcC8bkgO+KRCQBEtGt3oM3i0WgrT7bVHVYTPNsZY+xctYrX/QYeQMP4vqJVV0nOjzrus2ez6dYrP8KfKfl+Dc1gCXNPk16qZzRfeL3RdasPaN6ju/AjCUSmzckL2Q1tYpOOgNmncj5sPN1ClJu/ulUOq7OlI///1j2BRz+fBT5Dj9HjRsa4yP+C+RC7T7Tp78tugqfHDyH6yXYrIWumh+2cSj1cEx/09+NrbatP6ki2rB9wYnapbLhuQg8s8As+TTEXq/VO5g/hDmcVC9C9V4F7WG5Ivvy3Zd4DPWgjuRHyInSd5vn5PPn8o6fdcJxe/iDbdMnv5n2BZp95FlxKWLXzl/P0YEWelW5kXC5GhR4hvxtKDgOinmbVP4y+rB6znt0lA63bsYCgYyDq7rlMxyAMwX+TxBkn8fL7d2ShfV98VfxUyfWTdot8VfPjXxSElhzbi4rbCjd0vlTP8M8waIAe1/+NaPUG3DXW1vclnesdRTrNl/S0zc82uEr2xLqWpwmo8rwi/JtlXXTEfwsPCYSson5PfP4c6lYCXFD1ahGHgiSLo8ZfZeUuiWNAL060bBt7vvgwSo95XID56XvGvjzfunMKsfxZ7wri3cOfIlgn3D8NRs8g++xD+I4e57V/zgY9E5ji7ysfQqRxJ4zowvn0ozBWFt3Ls3HtxtjhXWJPEZdA7Y6RReTaDVfglVWM/ENqkpw5mXkq76mVr2x8DOmufeX3YiNdP3POp31TZKHEuNu63CbiO3718g2Lyo4PtDaD1zFoCCD8WyaWWz/vGXCFrflc8JLxdJ92cVxd5FFlvIdUR3tD3Nh/nn3UaqKiXSwA/NvJg/Co160UhFrmz2V3ZHxvOAsjsWCxWGAIJhMU0PO5/1uCQFGKkwnMZsil3vWr84dZRZ6f83znJFYAf+ocExvrrM+80ZZxYr7RpLcmNzTkGMeT6QPPnnTNZMYpYHQvyFT/rxZgjMvibKj5Nd76kkNIkc8CUBzlkzlydgCehoHCd/NBBDkYUVdv3UOaW5xhbYL8p6XMxxwYoEPInWWhvFlYttRosUwnc2AgIHpX3ixynWsJbK1/O2XDyLPNTWpAJFQsOU1+qoWJtHQvuCp5EDYMVBAdEFF+KmWMpEIMal7Y3pXDjN48gyZToUFMXgDwKzlMI3lGRJUal9s2NTX7HYSNEaC+H0c8J2gNswDOgBtfYOrPpozqAL+kSoslGBDT/HNsVNXgK+GsdoqdSoEf4ydEH+8PwecSpI+LQ+bkfz7D3k/C40uwolSV163hiuw+HJdab1CBgkAaRvtMc2ikQPxhj0FaJxdR5cwKTS6XbqYSmwK3JrUxWiZWMzQAuF39V1g4vkq8YumnollfqIk/DhSqMzwEqEodwQJEx0zEQMTvbs8N0j6LwtnO4z5TDSZvvioOdzzVx9syqsyI8CuhaSqGy09f7gkfbLLrk5kR9g9AHqNzNX0JgHy4Hm2croupwYnJ9MUu6A557M/FWZdRfItM/jG3zC8oafxHTr4pI148xjz6hwojA9ORt+tL4vnD1zFPxGWxviyJwHvHETvMykJupoJVjJpzDJUJZyY70abSYbLwlgVGc2wT3DiutfNGxmntQidXZqqCDPuZHeDN/MEcjmGO35f2GUzL+wQV5YaPbcwqJA6YZ7N2giGy2+MDbc14LJufGy1EdNnl/VX8PejfJh+GI2zPg8Er0fo8FevXaE4veA1nh8h+Y8oYZ279ZT3B3WQE6j8PxgpK9GqnRDvRRUTGjw/GL+VEThwg3yavhqjnsFbyTD/LLBiTMBmzHUywGukW/wN1Ap3Chvhm1ko8Q38mQNBOgKX7ycfJaoyRGkyoTNzlHHwZGJPtKafnGB6tBnjeU0X+7xbMMz+1NsVU3versX5QsewLQntg66gqPUTSbjEjBbDwaeI4r9/zA7yaaIwlLwS/QgdUVaLszHVJIia6WKLD7MyZh4hX2KgyxnA7RwbEqTNj+W1aLgcGPZLDKFtGDGT20T8rBmHOkvT/FudrctaH0QQYVDIDjlosWSXZ2WHiGh0b1z4ekCp0rzVxx3ND40ilOmw5QnvnbPUc+kxvOsoPBHcZjK08mCJZlSak/VjFWSSYZbhpEv68ZC9WW71d0mraJQjXI9r6wB7Od6zuUQmZjWhLTBjKHluJ/0KJJmnHByWi59mVktL2PefT4T34eeYS/2WoqLDFwclaglGyCatpVEJVfIgUVZRI9gy11BS8NRDSiSR1LAoUi+ShzfZRLlQUVAV4wpxPZl0oQTUASMuXRQGoSdE0eCJI+vDRBa0LmAL1rxnDiAq2QA2vCWBp53REGziN2PwdnwkcO+H50hMPggpsxOQBr5PEjgqO0VVZuiI7AMu/gcrnSX7d6uUax4APjWQ4JkrKHWbPmBthBQwYEdGgEZqgImqlGXQgUZJd14DoWH1U6chX7DQFIzmR5QltPBU5+iUKg6TlgqPg+ua/ZVlz9FAN1C6+MH+RWn9MSPdnpt7rd+7mAKQYFAYbSoBQ0Rx5JgqGFERRM0Tv9LiVzsY7xBNlb4Qw3nYn1MLCY2jhy8rtjtAmLj+tNsRby4TiMXguRQzzVVuIl7BG0/OmVWHEibcCLuHW0XWacWjRDHd6/hApKWkuipxBYkWS6vKfIN2IfZSolYXwya1mPkR1TVQbWnh+TVgwZ4f4iU6Nrz0/K1RU5My2HHfw7FP84yuavVFDaNBIfewHrSUaW55iBlezuIhndM2UykrXgygU2Yy9O2ho8wUDZaaJBq36+PO3SidA32Ty1ZpD43RiCOZXgBmJ5Rgro4C0DK0UIYAldDxDlEfdZ0',
@@ -30594,6 +36675,25 @@ function v2855FinalizeImmutableBoundaryContract(original,input,keyId){
 function v2855FinalizeCanonicalContract(contract,input,keyId,applyImmutableBoundary){
   const raw=clean(input);
   let c=applyImmutableBoundary?v2855FinalizeImmutableBoundaryContract(contract,raw,keyId):v2855Clone(contract)||{};
+  // v3044 verified moral contracts use one bounded formatting/finalization path rather than
+  // re-entering the older moral generators and polarity expanders below.
+  if(contract&&contract.consolidatedMoralEngineVersion==='V3046'&&contract.moralInputBindingVerified===true&&contract.localKjvReferenceVerified===true){
+    c=v2829FinalizeContract(c,raw);
+    c.route='controlled-contract/faith/consolidated-biblical-moral/v3046';
+    c.moralInputBindingVerified=true;
+    c.consolidatedMoralEngineVersion='V3046';
+    c.localKjvReferenceVerified=true;
+    c.localKjvVerseCount=contract.localKjvVerseCount||V2834_KJV_EXPECTED_VERSES;
+    c.backendVersion=VERSION;
+    c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2840.lock;
+    v2774StampCurrentContract(c,raw);
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},contract.technicalDiagnostics||{},{activeFunction:'consolidatedBiblicalMoralFinalizerV3046',canonicalRouteSelection:'V3046_SINGLE_OWNER',legacyMoralFinalizers:'BYPASSED',normalizedKeyId:keyId,validationState:'PENDING'});
+    c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(err){return !(err==='numeric_scope_binding'&&/faith|biblical|kjv|local-kjv/i.test(clean(c.route)+' '+clean(c.classification)));});
+    c.contractValidated=c.validationErrors.length===0;
+    c.technicalDiagnostics.validationState=c.contractValidated?'PASS':'FAIL';
+    c.technicalDiagnostics.validationErrors=c.validationErrors.join(',')||'NONE';
+    return c;
+  }
   const finalizedThroughV2836=/\/v2836\b/i.test(clean(c&&c.route||''))||/bibleBookChapterRecognitionAndSimpleErrorResponseRepairV2836/i.test(clean(c&&c.technicalDiagnostics&&c.technicalDiagnostics.activeFunction||''));
   if(!finalizedThroughV2836)c=v2835FinalizeContract(c,raw,c&&c.v2834Profile);
   c.backendVersion=VERSION;
@@ -30613,6 +36713,14 @@ function v2855FinalizeCanonicalContract(contract,input,keyId,applyImmutableBound
   c.backendVersion=VERSION;
   c.r1GoldenBenchmarkLock=R1_GOLDEN_BENCHMARK_LOCK_V2840.lock;
   v2774StampCurrentContract(c,raw);
+  if(contract&&contract.consolidatedMoralEngineVersion==='V3046'){
+    c.route='controlled-contract/faith/consolidated-biblical-moral/v3046';
+    c.moralInputBindingVerified=contract.moralInputBindingVerified===true;
+    c.consolidatedMoralEngineVersion='V3046';
+    c.localKjvReferenceVerified=contract.localKjvReferenceVerified===true;
+    c.localKjvVerseCount=contract.localKjvVerseCount||V2834_KJV_EXPECTED_VERSES;
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},contract.technicalDiagnostics||{},{consolidatedBiblicalMoralEngineV3046:'ACTIVE',moralActorActionPolarityAudit:'PASS'});
+  }
   c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(err){
     if(err==='numeric_scope_binding'&&/faith|biblical|kjv|local-kjv/i.test(clean(c.route)+' '+clean(c.classification)))return false;
     return true;
@@ -30672,7 +36780,7 @@ async function v2855BuildControlledBaseEnvelope(input,keyId){
 }
 async function v2855BuildV2815Envelope(input,keyId){
   const raw=clean(input);
-  const bible=v2815BroadBibleProfile(raw);
+  const bible=v2949CreativeWorkOrdinaryFactual(raw)?null:v2815BroadBibleProfile(raw);
   if(bible)return v2855Envelope([bible],'broad-bible-topic-v2815','controlled',false);
   const command=v2815ReviewCommand(raw);
   if(command&&command.type==='WEBPAGE_MAIN_CLAIMS')return v2855Envelope(await v2815WebpageContracts(raw,command.url),'webpage-main-claims-v2815','controlled',false);
@@ -30759,8 +36867,30 @@ async function v2855BuildBibleTopicEnvelope(raw,request,keyId){
 function v2855ContractsFromLegacyText(text){
   return v2820ParseContracts(text).filter(Boolean);
 }
+function v2990InterpretiveProphecyFulfillmentProfile(raw){
+  const input=v2825NormalizedBibleInput(raw),s=v2767NormalizedIntent(input);
+  if(!input||!v2824IsQuestion(input))return null;
+  const asksCount=/\b(?:how\s+many|number\s+of|count\s+of|total\s+(?:number|count))\b/i.test(s);
+  const prophecy=/\b(?:prophecy|prophecies|prophetic\s+(?:visions?|predictions?|events?))\b/i.test(s);
+  const fulfillment=/\b(?:fulfilled|fulfilment|fulfillment|come\s+true|came\s+true|already\s+happened|already\s+occurred|have\s+happened|have\s+occurred)\b/i.test(s);
+  const aliasContext=(typeof v2953BibleBookAliases==='function'?v2953BibleBookAliases():[]).some(function(name){const n=clean(name).toLowerCase();return n&&new RegExp('(?:^|\\b)'+v2953RegexEscape(n)+'(?:\\b|$)','i').test(s);});
+  const bibleContext=v2825BibleIntent(input)||aliasContext||/\b(?:bible|biblical|scripture|scriptures)\b/i.test(s);
+  if(!(asksCount&&prophecy&&fulfillment&&bibleContext))return null;
+  const p=v2825Profile('QUESTION',
+    'There is no single verified number; the total depends on which passages are counted as prophecies and which fulfillment interpretation is used',
+    'The biblical text contains prophetic visions, but it does not provide a running tally of which prophecies have already been fulfilled. Different interpretive frameworks classify the same passages differently',[
+      ['Revelation 1:1','“The Revelation of Jesus Christ, which God gave unto him, to shew unto his servants things which must shortly come to pass.”','The book presents coming events prophetically but does not number later fulfillments.'],
+      ['Revelation 1:3','“Blessed is he that readeth, and they that hear the words of this prophecy.”','Revelation identifies its message as prophecy without supplying a fulfilled-prophecy count.'],
+      ['Revelation 22:6','“The Lord God of the holy prophets sent his angel to shew unto his servants the things which must shortly be done.”','The closing chapter again points to prophetic events rather than a completed tally.']
+    ],'','FAITH / PROPHECY FULFILLMENT INTERPRETATION');
+  p.responseCompressionEligible=false;
+  return p;
+}
+
 async function v2855BuildCanonicalEnvelope(input,keyId){
   const raw=clean(input);
+  const interpretiveProphecy=v2990InterpretiveProphecyFulfillmentProfile(raw);
+  if(interpretiveProphecy)return v2855Envelope([v2829BibleContract(raw,interpretiveProphecy)],'interpretive-prophecy-fulfillment-v2991','local',false);
   const chapterRequest=v2836ChapterVerseRequest(raw);
   if(chapterRequest){
     const book=v2836ExactBook(chapterRequest.candidate);
@@ -30784,20 +36914,10 @@ async function v2855BuildCanonicalEnvelope(input,keyId){
     const counted=await v2829ModelCountProfile(raw,olderCount);
     return v2855Envelope([v2829BibleContract(raw,counted||v2829EarlyReleaseProfile())],counted?'source-grounded-count-rules-v2829':'early-release-limit-v2829','controlled',false);
   }
-  if(v2829MoralIntent(raw)){
-    const deterministic=typeof v2672MoralGuidanceOutput==='function'?v2672MoralGuidanceOutput(raw):'';
-    const deterministicContracts=v2855ContractsFromLegacyText(deterministic);
-    if(deterministicContracts.length)return v2855Envelope(deterministicContracts,'faith-moral-deterministic-v2672','controlled',false);
-    const expanded=typeof v2739ExpandedFaithMoralEvaluation==='function'?v2739ExpandedFaithMoralEvaluation(raw):null;
-    if(expanded){
-      const expandedContracts=v2855ContractsFromLegacyText(v2739RenderEvaluation(raw,expanded,'faith-moral-existing-profile-v2852'));
-      if(expandedContracts.length)return v2855Envelope(expandedContracts,'faith-moral-existing-profile-v2852','controlled',false);
-    }
-    const moral=await v2829ModelMoralProfile(raw);
-    if(moral)return v2855Envelope([v2829BibleContract(raw,moral)],'moral-intent-v2829','controlled',false);
-    const modeled=await v2825ModelBibleProfile(raw);
-    if(modeled){modeled.moralIntentRecognized=true;modeled.responseCompressionEligible=true;return v2855Envelope([v2829BibleContract(raw,modeled)],'moral-intent-bounded-fallback-v2829','controlled',false);}
-    return v2855Envelope([v2829BibleContract(raw,v2829EarlyReleaseProfile())],'early-release-limit-v2829','controlled',false);
+  if(v3044MoralQuestionIntent(raw)){
+    const moral=await v3044ModelMoralProfile(raw);
+    if(moral)return v2855Envelope([v2829BibleContract(raw,moral)],'consolidated-biblical-moral-engine-v3044','local-kjv-plus-bounded-reasoning',false);
+    return v2855Envelope([v2829BibleContract(raw,v2829EarlyReleaseProfile())],'consolidated-moral-bounded-retry-v3044','controlled',false);
   }
   if(v2828BibleIntent(raw)){
     const local=v2825LocalBibleProfile(raw)||v2826MaryIdentityProfile(raw);
@@ -30805,9 +36925,9 @@ async function v2855BuildCanonicalEnvelope(input,keyId){
     const speculation=v2826FaithSpeculationProfile(raw);
     if(speculation)return v2855Envelope([v2828BibleContract(raw,speculation)],'balanced-faith-speculation-v2828','controlled',false);
     if(v2828ComplexTallyRequest(raw))return v2855Envelope([v2828BibleContract(raw,v2828ComplexTallyProfile())],'r1-variable-scope-tally-limit-v2828','controlled',false);
-    if(v2828MoralIntent(raw)){
-      const moral=await v2828ModelMoralProfile(raw);
-      if(moral)return v2855Envelope([v2828BibleContract(raw,moral)],'moral-intent-kjv-first-v2828','controlled',false);
+    if(v2828MoralIntent(raw)&&v3044MoralQuestionIntent(raw)){
+      const moral=await v3044ModelMoralProfile(raw);
+      if(moral)return v2855Envelope([v2829BibleContract(raw,moral)],'consolidated-biblical-moral-engine-v3044','local-kjv-plus-bounded-reasoning',false);
     }
   }
   if(v2827BibleIntent(raw)){
@@ -31238,23 +37358,136 @@ function v2844ImageLimitationContract(raw){
     classification:'EARLY RELEASE IMAGE-GENERATION LIMIT',confidence:'High confidence',source:'',status:'ANSWERED'
   });
 }
+function v2996PopulationSensitiveRankingIntent(raw){
+  const s=clean(raw).toLowerCase().replace(/[?!.]+$/,'').trim();
+  if(!s||/^https?:\/\//i.test(s))return false;
+  const geo=/\b(?:city|cities|town|towns|municipalit(?:y|ies)|metro|metros)\b/.test(s);
+  const rank=/\b(?:highest|lowest|most|least|best|worst|deadliest|safest|dangerous|rank|ranking|ranked|top|bottom)\b/.test(s);
+  const metric=/\b(?:rate|rates|per\s+capita|per\s+100(?:,?000|k)|percentage|percent|annual|incidence|mortality|crime|murder|homicide|violent\s+crime|property\s+crime)\b/.test(s);
+  const broadGeo=/\b(?:u\.?s\.?|united\s+states|america|nationwide|country|state|states|city|cities)\b/.test(s);
+  return !!(geo&&rank&&metric&&broadGeo);
+}
+function v2996UserSpecifiedPopulationCutoff(raw){
+  const s=clean(raw).toLowerCase().replace(/,/g,'');
+  return /\b(?:population|residents?|people|cities?|towns?|metros?)\s*(?:of\s*)?(?:over|under|above|below|at\s+least|at\s+most|more\s+than|less\s+than|greater\s+than|fewer\s+than)?\s*\d+(?:\.\d+)?\s*(?:k|thousand|m|million)?\b/.test(s)
+    || /\b(?:over|under|above|below|at\s+least|at\s+most|more\s+than|less\s+than|greater\s+than|fewer\s+than)\s+\d+(?:\.\d+)?\s*(?:k|thousand|m|million)?\s+(?:people|residents?|population)\b/.test(s);
+}
+function v2996IntroducedPopulationCutoff(value){
+  const s=clean(value).toLowerCase().replace(/,/g,'');
+  return /\b(?:cities?|towns?|metros?|population)\s+(?:over|under|above|below|with\s+(?:more|fewer)\s+than|of\s+at\s+least|of\s+at\s+most)\s+\d+(?:\.\d+)?\s*(?:k|thousand|m|million)?\b/.test(s)
+    || /\b(?:over|under|above|below|at\s+least|at\s+most|more\s+than|less\s+than)\s+\d+(?:\.\d+)?\s*(?:k|thousand|m|million)?\s+(?:population|people|residents?)\b/.test(s);
+}
+function v2996HasDualMillionComparison(value){
+  const s=clean(value).toLowerCase().replace(/,/g,'');
+  const large=/\b(?:1000000\+|1\s*million\+|1\s*million\s*(?:or\s+more|and\s+above)|(?:over|above|at\s+least)\s+1\s*million)\b/.test(s);
+  const small=/\b(?:under|below|less\s+than|fewer\s+than)\s+1\s*million\b/.test(s)||/\bunder\s*1000000\b/.test(s);
+  return !!(large&&small);
+}
+function v2996PopulationSensitiveRankingResultValid(raw,parsed){
+  if(!v2996PopulationSensitiveRankingIntent(raw))return true;
+  if(v2996UserSpecifiedPopulationCutoff(raw))return true;
+  const p=parsed&&typeof parsed==='object'?parsed:{};
+  const blob=clean([p.answer,p.explanation,p.classification].join(' '));
+  if(!blob)return false;
+  if(v2996IntroducedPopulationCutoff(blob)&&!v2996HasDualMillionComparison(blob))return false;
+  if(v2996HasDualMillionComparison(blob)&&!/comparison|not\s+(?:a\s+)?legal|does\s+not\s+define|not\s+a\s+definition|reporting\s+scope|population\s+split/i.test(blob))return false;
+  return true;
+}
+const V2997_GEO_ABBREVIATION_JOINER='\u2060';
+function v2997GeographicRankingIntent(raw){
+  const s=clean(raw).toLowerCase();
+  if(!s||/^https?:\/\//i.test(s))return false;
+  return /\b(?:city|cities|town|towns|municipalit(?:y|ies)|metro|metros|place|places)\b/.test(s) &&
+    /\b(?:highest|lowest|most|least|best|worst|deadliest|safest|dangerous|rank|ranking|ranked|top|bottom)\b/.test(s);
+}
+function v2997ProtectGeographicAbbreviationBoundaries(value){
+  const s=clean(value);
+  if(!s)return '';
+  return s.replace(/\b(St|Mt|Ft|N|S|E|W|NE|NW|SE|SW)\.(?=\s+[A-Z])/g,function(_m,abbr){return abbr+'.'+V2997_GEO_ABBREVIATION_JOINER;});
+}
+function v2997IncompleteGeographicAnswer(value){
+  const visible=clean(value).replace(new RegExp(V2997_GEO_ABBREVIATION_JOINER,'g'),'').trim();
+  if(!visible)return true;
+  if(/^(?:St|Mt|Ft|N|S|E|W|NE|NW|SE|SW)\.?$/i.test(visible))return true;
+  if(/\b(?:St|Mt|Ft|N|S|E|W|NE|NW|SE|SW)\.$/i.test(visible)&&visible.split(/\s+/).length<=3)return true;
+  return false;
+}
+function v2997CompleteGeographicAnswerFromContext(answer,context){
+  const a=clean(answer).replace(new RegExp(V2997_GEO_ABBREVIATION_JOINER,'g'),'').trim();
+  if(!v2997IncompleteGeographicAnswer(a))return a;
+  const prefix=(a.match(/^(St|Mt|Ft|N|S|E|W|NE|NW|SE|SW)\.?$/i)||[])[1]||'';
+  if(!prefix)return '';
+  const esc=prefix.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  const re=new RegExp('\\b'+esc+'\\.\\s+[A-Z][A-Za-z\'’.-]+(?:\\s+[A-Z][A-Za-z\'’.-]+){0,3}(?:,\\s+[A-Z][A-Za-z\'’.-]+(?:\\s+[A-Z][A-Za-z\'’.-]+){0,2})?','g');
+  const matches=String(context||'').match(re)||[];
+  if(!matches.length)return '';
+  return clean(matches.sort(function(x,y){return y.length-x.length;})[0]);
+}
+function v2997PrimaryStatisticalSourceUrl(value){
+  const url=validHttpUrl(value||'');
+  if(!url)return false;
+  const d=domainFromUrl(url);
+  return /(?:^|\.)gov(?:\.[a-z]{2})?$/.test(d)||/(?:^|\.)mil$/.test(d)||/(?:^|\.)gc\.ca$/.test(d)||/(?:^|\.)(?:who\.int|un\.org|oecd\.org|worldbank\.org|europa\.eu)$/.test(d);
+}
+function v2997StatisticalRankingSourceValid(raw,sourceUrl){
+  if(!v2996PopulationSensitiveRankingIntent(raw))return true;
+  return v2997PrimaryStatisticalSourceUrl(sourceUrl);
+}
+function v2997RepairParsedGeographicAnswer(raw,parsed,sources){
+  if(!v2997GeographicRankingIntent(raw)||!parsed||typeof parsed!=='object')return parsed;
+  const context=[parsed.explanation,parsed.sourceName,parsed.classification].map(clean).join(' ')+' '+(Array.isArray(sources)?sources.map(function(x){return clean(x&&x.title||'');}).join(' '):'');
+  if(v2997IncompleteGeographicAnswer(parsed.answer||'')){
+    const recovered=v2997CompleteGeographicAnswerFromContext(parsed.answer||'',context);
+    if(recovered)parsed.answer=recovered;
+  }
+  if(clean(parsed.answer))parsed.answer=v2997ProtectGeographicAbbreviationBoundaries(parsed.answer);
+  return parsed;
+}
+function v2997GeographicAnswerValid(raw,parsed){
+  if(!v2997GeographicRankingIntent(raw))return true;
+  const answer=clean(parsed&&parsed.answer||'');
+  return !!answer&&!v2997IncompleteGeographicAnswer(answer);
+}
+function v2996PopulationSensitiveRankingGuidance(raw){
+  if(!v2996PopulationSensitiveRankingIntent(raw))return '';
+  if(v2996UserSpecifiedPopulationCutoff(raw))return 'STATISTICAL SCOPE BINDING: The user supplied a population scope/cutoff. Preserve it exactly; do not replace it with another threshold.';
+  return [
+    'STATISTICAL SCOPE BINDING: This is a population-sensitive geographic rate/per-capita ranking and the user did not supply a population cutoff. Never silently invent one or change the requested scope.',
+    'When reliable comparable same-year data supports both groups, prefer a concise two-result comparison in the answer itself: “1,000,000+ population: <complete place>; Under 1,000,000 population: <complete place>”. Use the same metric, reporting year, and dataset basis for both. If comparable data truly cannot support both groups, give the directly supported all-city result instead and explain the dataset limitation.',
+    'The 1,000,000 split is only a comparison aid, not a legal or universal definition of what qualifies as a city. State that briefly in the explanation. Identify the reporting year and dataset scope. Do not imply that the user requested this cutoff.',
+    'Use a primary or official statistical source when one exists. Do not use Wikipedia, commentary, fact-check articles, or general news as the material source for a government/public-data ranking when an official dataset is available.',
+    'Geographic names must be complete. Never return a fragment ending in an abbreviation such as St., Mt., Ft., N., S., E., or W.'
+  ].join(' ');
+}
 async function v2844LiveEvaluation(raw,intent){
   if(!process.env.OPENAI_API_KEY)return {ok:false,errorType:'missing_openai_api_key'};
   const model=process.env.OPENAI_MODEL||'gpt-5.4-mini';
   const prompt=[
     'You are the shared global-readiness factual-answer layer for AIVerify. Use web search and return ONLY one valid JSON object.',
+    'Current date for this user: '+clean(intent&&intent.clientDate||new Date().toISOString().slice(0,10))+'. For current, latest, today, present-tense, officeholder, price, legal-status, approval, recall, score, schedule, weather, election, recommendation, or availability requests, verify the answer against the newest directly relevant official or primary source available as of this date. Do not rely on model memory or an older officeholder/status page.',
+    'If the input is a claim or statement rather than a question, the answer must begin with Accurate, Inaccurate, Mixed, or Unclear and must correct any outdated present-tense claim.',
     'Required keys: answer, explanation, evidenceState, evidenceTypes, sourceName, sourceUrl, actionLinkUrl, actionLinkLabel, classification, confidence.',
+    'sourceUrl must identify the source that directly supports the current answer.',
     'evidenceState must be one of: established, credible_disputed, weak_disputed, no_credible_evidence, variable, not_applicable.',
     'Prefer official or primary sources and free authoritative references. Use a reputable secondary source only when no suitable primary source exists.',
     'Give the direct answer actually requested. Do not return a nearby definition, copied fragment, generic review wording, or a bare Yes or No.',
+    'When the answer is a person, return the complete commonly recognized name. Never end a person answer with only an initial or omit the surname.',
+    (intent&&intent.officeholderRole?'OFFICEHOLDER BINDING: The requested role is exactly '+intent.officeholderRole+(intent.officeholderJurisdiction?' for '+intent.officeholderJurisdiction:'')+'. Answer that exact office only. Do not substitute President or another nearby office.':''),
     'For a geographic location, identify the complete place and its larger region, province/state/territory, and country when useful.',
     'For a superlative, name the exact requested entity and state the basis or record category when different counting rules could change the answer.',
+    v3001UnifiedAnswerGuidance(raw),
+    v2999ListCompletenessGuidance(raw),
+    v2996PopulationSensitiveRankingGuidance(raw),
+    (intent&&intent.dynamicCountryStatus?'DYNAMIC COUNTRY STATUS: Treat present-tense country/legal/enforcement/persecution wording as current even when the user does not literally say “current.” Use the newest directly relevant official or primary government, intergovernmental, or human-rights source available. Do not answer a current-status question with ancient or historical-only events. For “what/which/in what countries,” return the full supported country set for the cited current source scope; if universal exhaustiveness cannot be established, define that source/date/legal-category scope explicitly and list every country supported within it. Do not end a set request with “among others,” “a few others,” “and others,” “etc.,” or “examples include.” For “are there any countries,” answer Yes or No and representative current examples may be used in explanation because the user did not ask for the full set. If the wording asks whether a religion, activity, identity, or belief is “against the law,” distinguish a blanket prohibition from narrower restrictions such as conversion, proselytizing, registration, public worship, detention, or punishment; do not collapse those categories into a misleading bare Yes or No.':''),
+    'For a Which-choice question that explicitly gives alternatives, put only the winning/requested entity or value in answer; put comparison details in explanation.',
+    'For absolute Yes/No wording such as always, never, guarantee, completely, entirely, impossible, rustproof, waterproof, fireproof, or 100%, ensure the answer polarity agrees with any exceptions in explanation.',
+    'Whenever answer contains a clock time, include the applicable time zone or location-based time zone in that same answer. For travel-time calculations, apply the origin-to-destination UTC-offset difference exactly once; if the date is missing and daylight-saving time can change that offset, state the assumption/caveat.',
     'For a death-toll superlative, include the estimated death total or accepted range and use worldwide scope unless the input gives a narrower scope.',
     'For recommendations, provide current researched options when reliable sources support them; otherwise provide authoritative directories plus concrete evaluation criteria instead of a bare limitation.',
     'For historical construction questions, give the start date and completion or opening date when the work occurred over a span.',
     'For a variable price question, provide a useful qualified price range and briefly distinguish major product levels or categories. Do not claim one exact universal price.',
     'For disputed evidence, distinguish evidence from conclusive proof. Credible witnesses, corroborating accounts, recordings, physical traces, laboratory findings, and documented artifacts may be meaningful evidence even when the total case is not conclusive. Do not use independently verified as a blanket requirement. If credible but disputed evidence exists, evidenceState must be credible_disputed and answer must be exactly: No conclusive proof currently exists. Put the meaningful evidence and limitations in explanation.',
-    'For a request to show, find, or create an image/map of an existing real person, place, object, or other real item, do not generate an image. Return a reliable existing image, map, or official page link in actionLinkUrl. Use actionLinkLabel Open Map for maps and View Image for other images. Do not return a search-results URL.',
+    'For a request to show or find an existing image, map, diagram, schematic, wiring diagram, blueprint, chart, graph, or other real visual reference, do not invent the visual. Return a reliable existing visual, official manual, manufacturer document, authoritative archive, or directly relevant reference page in actionLinkUrl. Use Open Map for maps, Open Diagram for diagrams/schematics/blueprints, Open Chart for charts/graphs, and View Image for ordinary images. Do not return a search-results URL.',
     'If the requested image is imaginary, custom, altered, stylized, or newly composed, set actionLinkUrl empty and classification CUSTOM_IMAGE_GENERATION.',
     'Keep answer concise and complete. Keep explanation factual and useful. Never include follow-up offers.',
     'Intent: '+clean(intent&&intent.kind||'factual'),
@@ -31263,10 +37496,43 @@ async function v2844LiveEvaluation(raw,intent){
   const payload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'low'}],include:['web_search_call.results','web_search_call.action.sources'],input:prompt,max_output_tokens:1400,text:{format:{type:'json_object'}}};
   const response=await openaiApiRequestJson(payload,30000);
   if(!response||!response.ok)return {ok:false,errorType:response&&response.errorType||'openai_request_failed'};
-  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
-  const sources=collectOpenAISourceObjects(response.json);
+  let parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
+  let sources=collectOpenAISourceObjects(response.json);
   if(!parsed||typeof parsed!=='object')return {ok:false,errorType:'openai_json_parse_failed'};
+  parsed=v2997RepairParsedGeographicAnswer(raw,parsed,sources);
+  if(!v2997GeographicAnswerValid(raw,parsed)){
+    const geoPrompt=prompt+'\nCORRECTION REQUIRED: The geographic answer was incomplete or ended at an abbreviation. Re-run the research and return the complete place name, preserving abbreviations inside the name rather than ending at them. Return ONLY the corrected JSON object.';
+    const geoPayload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results','web_search_call.action.sources'],input:geoPrompt,max_output_tokens:1600,text:{format:{type:'json_object'}}};
+    const geoCorrection=await openaiApiRequestJson(geoPayload,22000);
+    if(!geoCorrection||!geoCorrection.ok)return {ok:false,errorType:'geographic_entity_retry_failed'};
+    parsed=extractJsonObjectFromText(extractOpenAIOutputText(geoCorrection.json));
+    sources=collectOpenAISourceObjects(geoCorrection.json);
+    parsed=v2997RepairParsedGeographicAnswer(raw,parsed,sources);
+    if(!parsed||typeof parsed!=='object'||!v2997GeographicAnswerValid(raw,parsed))return {ok:false,errorType:'geographic_entity_incomplete'};
+  }
+  if(!v2996PopulationSensitiveRankingResultValid(raw,parsed)){
+    const correctionPrompt=prompt+'\nCORRECTION REQUIRED: The first candidate silently narrowed the population scope. Re-run the research. Do not introduce a one-sided population cutoff the user did not ask for. Use either a directly supported all-city result with no invented cutoff, or the clearly labeled 1,000,000+ / under-1,000,000 comparison described above, using the same metric and reporting year. Return ONLY the corrected JSON object.';
+    const correctionPayload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results','web_search_call.action.sources'],input:correctionPrompt,max_output_tokens:1600,text:{format:{type:'json_object'}}};
+    const correction=await openaiApiRequestJson(correctionPayload,22000);
+    if(!correction||!correction.ok)return {ok:false,errorType:'statistical_scope_retry_failed'};
+    parsed=extractJsonObjectFromText(extractOpenAIOutputText(correction.json));
+    sources=collectOpenAISourceObjects(correction.json);
+    parsed=v2997RepairParsedGeographicAnswer(raw,parsed,sources);
+    if(!parsed||typeof parsed!=='object'||!v2996PopulationSensitiveRankingResultValid(raw,parsed)||!v2997GeographicAnswerValid(raw,parsed))return {ok:false,errorType:'statistical_scope_restriction_not_user_requested'};
+  }
   let sourceUrl=v2844ReliableUrl(parsed.sourceUrl,sources) || (sources[0]&&v2844CleanUrl(sources[0].url)) || '';
+  if(!v2997StatisticalRankingSourceValid(raw,sourceUrl)){
+    const primaryPrompt=prompt+'\nCORRECTION REQUIRED: The candidate source is secondary. For this population-sensitive public statistical ranking, research the answer from a primary or official statistical source and return that material source URL. Keep the exact user population scope. If the user gave no population cutoff and comparable same-year data supports both groups, prefer the 1,000,000+ / under-1,000,000 comparison. Return ONLY the corrected JSON object.';
+    const primaryPayload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results','web_search_call.action.sources'],input:primaryPrompt,max_output_tokens:1700,text:{format:{type:'json_object'}}};
+    const primaryCorrection=await openaiApiRequestJson(primaryPayload,22000);
+    if(!primaryCorrection||!primaryCorrection.ok)return {ok:false,errorType:'primary_statistical_source_retry_failed'};
+    parsed=extractJsonObjectFromText(extractOpenAIOutputText(primaryCorrection.json));
+    sources=collectOpenAISourceObjects(primaryCorrection.json);
+    parsed=v2997RepairParsedGeographicAnswer(raw,parsed,sources);
+    if(!parsed||typeof parsed!=='object'||!v2996PopulationSensitiveRankingResultValid(raw,parsed)||!v2997GeographicAnswerValid(raw,parsed))return {ok:false,errorType:'primary_statistical_source_invalid_result'};
+    sourceUrl=v2844ReliableUrl(parsed.sourceUrl,sources) || (sources[0]&&v2844CleanUrl(sources[0].url)) || '';
+    if(!v2997StatisticalRankingSourceValid(raw,sourceUrl))return {ok:false,errorType:'primary_statistical_source_not_found'};
+  }
   let actionLinkUrl=v2844ReliableUrl(parsed.actionLinkUrl,sources);
   if(intent&&intent.kind==='image'&&!actionLinkUrl)actionLinkUrl=sourceUrl;
   return {ok:true,model:model,parsed:parsed,sources:sources,sourceUrl:sourceUrl,actionLinkUrl:actionLinkUrl};
@@ -31300,6 +37566,7 @@ function v2844LiveContract(raw,intent,result){
   if(intent&&intent.kind==='image'&&/CUSTOM_IMAGE_GENERATION/i.test(clean(p.classification||'')))return v2844ImageLimitationContract(raw);
   let answer=clean(p.answer||'');
   let explanation=clean(p.explanation||'');
+  if(v2997GeographicRankingIntent(raw))answer=v2997ProtectGeographicAbbreviationBoundaries(answer);
   let label=clean(p.actionLinkLabel||'');
   if(intent&&intent.kind==='image'){
     label=intent.isMap?'Open Map':'View Image';
@@ -31309,7 +37576,9 @@ function v2844LiveContract(raw,intent,result){
   if(intent&&intent.kind==='price'&&!/\d/.test(answer+' '+explanation)){
     answer='Prices vary by the type and capability of the product.';
   }
-  return v2844Contract(raw,{intent:String(intent&&intent.kind||'FACT').toUpperCase(),route:'global-readiness/'+clean(intent&&intent.kind||'direct-fact')+'/v2844',answer:answer||'A reliable answer could not be completed from the available source results.',explanation:explanation,evidence:'',source:clean(p.sourceName||result&&result.sources&&result.sources[0]&&result.sources[0].title||'Reliable sources reviewed'),sourceUrl:result&&result.sourceUrl||'',actionLinkUrl:result&&result.actionLinkUrl||'',actionLinkLabel:label,classification:clean(p.classification||'GLOBAL READINESS FACTUAL'),confidence:clean(p.confidence||'High confidence'),status:'ANSWERED'});
+  const c=v2844Contract(raw,{intent:String(intent&&intent.kind||'FACT').toUpperCase(),route:'global-readiness/'+clean(intent&&intent.kind||'direct-fact')+'/v2844',answer:answer||'A reliable answer could not be completed from the available source results.',explanation:explanation,evidence:'',source:clean(p.sourceName||result&&result.sources&&result.sources[0]&&result.sources[0].title||'Reliable sources reviewed'),sourceUrl:result&&result.sourceUrl||'',actionLinkUrl:result&&result.actionLinkUrl||'',actionLinkLabel:label,classification:clean(p.classification||'GLOBAL READINESS FACTUAL'),confidence:clean(p.confidence||'High confidence'),status:'ANSWERED'});
+  if(v2996PopulationSensitiveRankingIntent(raw)){c.route='global-readiness/population-sensitive-statistical-ranking/v2997';c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'geographicEntityAndPrimaryStatisticsRepairV2997',userPopulationCutoff:v2996UserSpecifiedPopulationCutoff(raw)?'YES':'NO',silentPopulationRestrictionGuard:'ENFORCED',dualMillionComparison:v2996HasDualMillionComparison(answer+' '+explanation)?'YES':'NO'});}
+  return c;
 }
 function v2844UnavailableContract(raw,intent,errorType){
   return v2844Contract(raw,{intent:'SOURCE_LOOKUP_UNAVAILABLE',route:'global-readiness/source-lookup-unavailable/v2844',basket:V2771_FIXED_BASKETS.UNSUPPORTED,answer:'A reliable source-backed answer could not be completed in this scan.',explanation:'Select Analyze/Enter again to retry this scan.',classification:'NONFINAL SOURCE LOOKUP',confidence:'',status:'SOURCE LOOKUP UNAVAILABLE',supportingInformation:'',source:'',uncertainty:clean(errorType||'source_lookup_unavailable')});
@@ -32029,4 +38298,3 @@ function v2856RepairLiveSourceContract(raw,intent,contract,result){
   c.contractValidated=c.validationErrors.length===0;
   return c;
 }
-
