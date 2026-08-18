@@ -1,3 +1,6 @@
+// ANALYTICS_REVIEW_FOUNDATION_V15: preserves the complete V12 review-round, disclosure, feedback, and grouping foundation; hardens exact repeated-scan grouping and adds persisted tester-rating removal.
+// V13/V14 behavior is consolidated into the V15 grouping and feedback boundary.
+// ANALYTICS_REVIEW_FOUNDATION_V12: records whether expandable details were available and reviewed before tester feedback was saved; preserves all V11 storage, rounds, grouping, and review behavior.
 'use strict';
 
 const fs = require('fs');
@@ -5,7 +8,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V11';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V15';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
@@ -251,7 +254,7 @@ function groupReviewEvents(sourceEvents) {
   sorted.forEach(function (event) {
     if (!event || typeof event !== 'object') return;
     const normalized = clean(event.inputNormalized || normalizeDuplicateText(event.inputExact || ''));
-    const inputHash = clean(event.inputHash || (normalized ? hash(normalized) : ''));
+    const inputHash = normalized ? hash(normalized) : clean(event.inputHash || '');
     const mediaEvent = isMediaReviewEvent(event);
     const mediaShaKey = mediaShaGroupKey(event);
     const legacyMediaKey = legacyMediaFilenameGroupKey(event);
@@ -330,7 +333,11 @@ function groupReviewEvents(sourceEvents) {
         testerName: clean(event.testerName || 'Unknown tester'),
         rating: clean(event.testerFeedback && event.testerFeedback.rating || ''),
         comment: text(event.testerFeedback && event.testerFeedback.comment || '').slice(0, 4000),
-        submittedAt: safeIso(event.testerFeedback && event.testerFeedback.submittedAt || event.timestamp)
+        submittedAt: safeIso(event.testerFeedback && event.testerFeedback.submittedAt || event.timestamp),
+        additionalInformationAvailable: event.testerFeedback && event.testerFeedback.additionalInformationAvailable === true ? true : (event.testerFeedback && event.testerFeedback.additionalInformationAvailable === false ? false : null),
+        additionalInformationOpenedBeforeRating: event.testerFeedback && event.testerFeedback.additionalInformationOpenedBeforeRating === true ? true : (event.testerFeedback && event.testerFeedback.additionalInformationOpenedBeforeRating === false ? false : null),
+        additionalInformationOpenedBeforeSave: event.testerFeedback && event.testerFeedback.additionalInformationOpenedBeforeSave === true ? true : (event.testerFeedback && event.testerFeedback.additionalInformationOpenedBeforeSave === false ? false : null),
+        additionalInformationReviewPrompted: event.testerFeedback && event.testerFeedback.additionalInformationReviewPrompted === true ? true : (event.testerFeedback && event.testerFeedback.additionalInformationReviewPrompted === false ? false : null)
       };
     });
     const userFlags = userFlagEvents.map(function (event) {
@@ -357,7 +364,11 @@ function groupReviewEvents(sourceEvents) {
     copy.testerFeedback = testerFeedbacks.length ? {
       rating: testerFeedbacks[0].rating,
       comment: testerFeedbacks[0].comment,
-      submittedAt: testerFeedbacks[0].submittedAt
+      submittedAt: testerFeedbacks[0].submittedAt,
+      additionalInformationAvailable: testerFeedbacks[0].additionalInformationAvailable,
+      additionalInformationOpenedBeforeRating: testerFeedbacks[0].additionalInformationOpenedBeforeRating,
+      additionalInformationOpenedBeforeSave: testerFeedbacks[0].additionalInformationOpenedBeforeSave,
+      additionalInformationReviewPrompted: testerFeedbacks[0].additionalInformationReviewPrompted
     } : normalizeTesterFeedback(null);
     copy.userFlags = userFlags;
     copy.userFlag = userFlags.length ? {
@@ -647,10 +658,17 @@ function normalizeReview(value) {
 function normalizeTesterFeedback(value) {
   const source = value && typeof value === 'object' ? value : {};
   const rating = FEEDBACK_RATINGS.includes(clean(source.rating)) ? clean(source.rating) : '';
+  function trackedBoolean(field) {
+    return source[field] === true ? true : (source[field] === false ? false : null);
+  }
   return {
     rating: rating,
     comment: text(source.comment || '').slice(0, 4000),
-    submittedAt: safeIso(source.submittedAt)
+    submittedAt: safeIso(source.submittedAt),
+    additionalInformationAvailable: trackedBoolean('additionalInformationAvailable'),
+    additionalInformationOpenedBeforeRating: trackedBoolean('additionalInformationOpenedBeforeRating'),
+    additionalInformationOpenedBeforeSave: trackedBoolean('additionalInformationOpenedBeforeSave'),
+    additionalInformationReviewPrompted: trackedBoolean('additionalInformationReviewPrompted')
   };
 }
 
@@ -1301,9 +1319,23 @@ function createAnalyticsReviewFoundation(options) {
     const comment = text(data.comment || '').slice(0, 4000);
     if (!event) return { ok: false, status: 404, error: 'Scan record not found.' };
     if (!data.testerId || event.testerId !== data.testerId) return { ok: false, status: 403, error: 'Forbidden' };
+    if (data.clear === true) {
+      event.testerFeedback = normalizeTesterFeedback(null);
+      if (event.userFlag && event.userFlag.fromFeedback === true) event.userFlag = { flagged: false, reason: '', otherText: '', flaggedAt: '', fromFeedback: false };
+      rewriteEvents();
+      return { ok: true, eventId: event.eventId, cleared: true, feedback: clone(event.testerFeedback), flagged: !!(event.userFlag && event.userFlag.flagged) };
+    }
     if (!FEEDBACK_RATINGS.includes(rating)) return { ok: false, status: 400, error: 'Choose Acceptable, Needs Improvement, or Incorrect.' };
     const submittedAt = new Date().toISOString();
-    event.testerFeedback = { rating: rating, comment: comment, submittedAt: submittedAt };
+    event.testerFeedback = normalizeTesterFeedback({
+      rating: rating,
+      comment: comment,
+      submittedAt: submittedAt,
+      additionalInformationAvailable: data.additionalInformationAvailable === true ? true : (data.additionalInformationAvailable === false ? false : null),
+      additionalInformationOpenedBeforeRating: data.additionalInformationOpenedBeforeRating === true ? true : (data.additionalInformationOpenedBeforeRating === false ? false : null),
+      additionalInformationOpenedBeforeSave: data.additionalInformationOpenedBeforeSave === true ? true : (data.additionalInformationOpenedBeforeSave === false ? false : null),
+      additionalInformationReviewPrompted: data.additionalInformationReviewPrompted === true ? true : (data.additionalInformationReviewPrompted === false ? false : null)
+    });
     if (rating === 'Acceptable') {
       event.userFlag = { flagged: false, reason: '', otherText: '', flaggedAt: '', fromFeedback: false };
     } else {
@@ -1609,6 +1641,10 @@ function createAnalyticsReviewFoundation(options) {
       reviewedStatusReversible: true,
       testerFeedbackRatingsEnabled: true,
       testerFeedbackCommentsEnabled: true,
+      testerDisclosureTrackingEnabled: true,
+      negativeRatingDisclosureReminderEnabled: true,
+      testerRatingRemovalEnabled: true,
+      exactRepeatedScanGroupingHardened: true,
       overallTesterFeedbackEnabled: true,
       overallTesterFeedbackSinglePerRoundEnabled: true,
       reviewRoundsEnabled: true,
