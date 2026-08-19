@@ -1,4 +1,32 @@
-// BM_BE_AIV_v3046_LMO: consolidated biblical moral engine over v3043. Moral/life-direction questions now have one authoritative route owner before resource, technical, medical-domain, current-source, semantic-research, and legacy moral handlers can consume the request. Every owned moral question uses the same actor/action/qualifier/polarity audit, then resolves all displayed supporting references against the embedded 31,102-verse local KJV corpus. Older specialized moral responders no longer participate in moral route selection or finalization. Preserves non-moral routing, unrelated Bible factual/count behavior, and frontend v2303 compatibility. Shared architecture only; no test-question hardcoding.
+// BM_BE_AIV_v3073_FSG: final shared U.S.-state scope gate over v3072.
+// Explicit "U.S. states" requests are now enforced at the common final answer-integrity boundary, not only inside one research synthesizer. Any route that returns D.C. or a U.S. territory in a 50-state-only answer is rejected before display, the shared correction path receives an explicit 50-state scope rule, and the best-available fallback is bound to the same rule. If correction cannot produce a valid state-only result, AIVerify returns a nonfinal retry instead of showing a knowingly out-of-scope answer. Preserves v3071 relevance filtering, v3070 count-word query boundary, v3068/3069 source-bound completion, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared integrity architecture only; no unemployment-specific hardcoding.
+// BM_BE_AIV_v3073_USS: shared U.S.-state-only scope boundary over v3071.
+// Explicit requests for "U.S. states" now mean the 50 states only unless the user expands the scope to include D.C. or territories. Source tables may still contain D.C./territories, but source-bound synthesis is instructed to skip them and continue to the next qualifying state, and the common parsed-result validator rejects a state-only answer that still places a non-state U.S. jurisdiction in the answer/parts. Preserves v3071 subject-relevance gate, v3070 count-word search boundary, source-bound completion, blocked-evidence rejection, answer-restatement protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared scope architecture only; no unemployment/minimum-wage-specific hardcoding.
+// BM_BE_AIV_v3073_QRG: shared query relevance gate over v3070.
+// Repairs the v3070 geography canonicalization so "U.S. states" becomes "USA states" rather than the awkward "United States states". Adds a shared subject-relevance gate for non-entity research: candidates matching only geography, ranking, or list-control words cannot enter evidence unless they also match at least one distinctive requested topic term. Ranking words are removed from topic-core search terms because they control ordering rather than subject identity. Preserves v3070 count-word boundary, v3068/3069 source-bound completion, blocked-evidence rejection, answer-restatement protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. No unemployment/minimum-wage-specific hardcoding.
+// BM_BE_AIV_v3073_QSB: shared research query-subject boundary over v3069.
+// Requested result-count controls such as "five", "top five", "name 5", and similar list quantities are excluded from evidence-search subject terms while remaining untouched in the original user question and answer-formatting contract. Search pre-scoring, topic-core construction, and current-statistics query variants use the same cleaned subject. Proper nouns remain intact unless the quantity is syntactically attached to a list/ranking request. Preserves v3069 source-bound completion, blocked-evidence rejection, answer-restatement protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared architecture only; no unemployment/minimum-wage-specific hardcoding.
+// BM_BE_AIV_v3073_CSB: clean source-bound baseline over v3068.
+// Preserves the working current multi-item answer completion, blocked-evidence rejection, answer-restatement protection, structured answer materialization, current-data routing, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Temporary P1 source/validator console diagnostics removed only; no intended user-facing logic change.
+// BM_BE_AIV_v3073_VDR: TEMPORARY validator diagnostic over v3067.
+// BM_BE_AIV_v3073_BER: blocked-evidence rejection and retry tightening over v3066.
+// Access-denied/forbidden/error-page fetches cannot outrank usable factual evidence, enter source-bound synthesis as factual support, or become the displayed fallback source.
+// When usable evidence exists and OpenAI returns parseable-but-rejected output, AIVerify no longer immediately spends another ~5.6 seconds re-synthesizing the same evidence through Gemini; existing best-available OpenAI reconciliation owns recovery.
+// Preserves current-data routing, answer-echo protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared architecture only; no test-specific hardcoding.
+// BM_BE_AIV_v3073_SDT: TEMPORARY current-source diagnostic over v3064.
+// Adds concise console timing/outcome traces for free evidence retrieval, OpenAI evidence synthesis, Gemini evidence synthesis, and best-available fallback so a single failed scan reveals whether latency/failure is HTTP timeout, provider parse/validation rejection, or a skipped budget gate. No user-facing response logic, source ranking, scan routing, sign-in/session behavior, cache behavior, moral/KJV behavior, or analytics behavior is intentionally changed.
+// BM_BE_AIV_v3073_AER: shared answer-evidence recovery + bounded current-source fallback over v3063.
+// When a source-bound provider returns an empty/question-echo primary Answer but places the resolved findings in its Explanation or structured parts, AIVerify now promotes only substantive answer-bearing findings from that same validated response instead of discarding the entire result and starting another provider pass. v3007 and grounded contracts now preserve structured parts through finalization. Serial Gemini/best-available retries are bounded earlier once useful evidence has already been found, reducing long current-source stalls without weakening source validation. Preserves v3063 question-echo guard, v3062 current multi-item ownership, v3061 instant sign-in/session transport, v3058 speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared architecture only; no minimum-wage/state-specific answer hardcoding.
+// BM_BE_AIV_v3073_ASB: shared answer-selection boundary over v3062. Completed factual answers that merely restate/reformat the submitted question are now rejected at the common semantic validator; already-resolved structured answerList/parts are promoted into the primary Answer when available, and source-bound structured research explicitly preserves those parts through the final contract. Preserves v3062 current multi-item routing, v3061 instant sign-in/session transport, v3058 speed/cache behavior, moral/KJV behavior, analytics, and frontend v2317 compatibility. Shared architecture only; no test-specific answer hardcoding.
+// BM_BE_AIV_v3073_CMR: current multi-item research ownership repair over v3061. Explicit current/latest/today/as-of/now wording now marks multi-item factual list/ranking research as current even when no named organization/entity is present, so authority-first current-source discovery/ranking is used instead of unstable generic evidence handling. Provider answer objects are rejected as direct text and materialized from validated parts instead of leaking [object Object]. Preserves v3061 sign-in/session transport repair, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2317 compatibility. Shared architecture only; no minimum-wage or state-specific answer hardcoding.
+// BM_BE_AIV_v3061_SAR: saved-session simple-transport repair over v3060. Accepts the existing signed session token from a small text/plain POST body for session validation and sign-out, while preserving legacy header authentication for all existing callers. This removes the browser preflight delay from saved administrator sign-in validation without changing scan routing, answers, caching, analytics, moral/KJV behavior, account storage, or session cryptography.
+// BM_BE_AIV_v3060_PCL: clean production checkpoint over verified v3058 speed behavior. Preserves exact-input cache, stable-question coordination, completed-result cache reliability, first-run routing/answer/source behavior, analytics, moral/KJV behavior, and frontend compatibility. Removes the temporary v3059 login timing diagnostics; no routing or answer logic changes.
+// BM_BE_AIV_v3060_CSP: clean production speed checkpoint over tested v3057/v3056 behavior. Removes the temporary v3057 P1 performance tracing while preserving the v3054 outer finalized exact-input cache, v3055 stable-question coordination, v3056 exact completed-result cache reliability, all first-run routing/answer/source behavior, analytics, moral/KJV behavior, and frontend compatibility. No new routing or answer logic.
+// BM_BE_AIV_v3056_XCR: exact completed-result cache reliability repair over v3055. The outer same-session exact-input cache now stores the already-finalized response under the exact normalized request key without re-running broad response eligibility/binding heuristics that can reject a valid completed answer. Cache reads use the same exact key and freshness TTL, reject only known nonfinal/error responses, and return before moral/source/semantic/model preflights. Current/live-sensitive answers retain the short freshness TTL; URLs/media remain excluded. Preserves v3055 first-run routing, answer generation, source behavior, analytics, frontend v2304 compatibility, and all unrelated behavior. Shared cache architecture only; no test-question hardcoding.
+// BM_BE_AIV_v3056_FYN: fast non-live official-topic question coordination over v3054. Stable factual questions that merely mention an official/government topic (for example passports, NASA, census, or federal programs) no longer get forced into a slower source-preferred path when the wording is not current, legal/high-stakes, or otherwise live-source-required. Those stable questions can use the existing single-pass stable evaluator immediately; the free-source head start is skipped when that free route is ineligible (especially simple Yes/No questions). Current/live/legal/medical/financial and other authoritative-live-source questions remain protected by the existing source-required gates. Preserves v3054 outer exact-input cache and all unrelated routing. Shared performance architecture only; no test-question hardcoding.
+// BM_BE_AIV_v3054_EIC: finalized exact-input cache at the outer scan boundary over v3053. Completed verified answers are now checked before moral/resource/semantic/current-source preflights, so an identical repeat in the same backend session can return immediately instead of rerunning expensive research. Freshness-sensitive current/legal/source-dependent answers use a short five-minute TTL; highly volatile time/weather/market/score inputs and submitted URLs are not cached here. Only completed verified, exact-input-bound final responses are stored; timeout/unavailable/error results remain ineligible. Preserves v3053 first-run routing and answer behavior. Shared cache architecture only; no test-question hardcoding.
+// BM_BE_AIV_v3053_FSC: fast stable-question coordination rebuilt directly from verified v3046. Ordinary non-current, non-source-required factual questions no longer wait for a full free-source attempt before the existing single-pass stable evaluator begins. Free retrieval gets a short head start, then free and stable evaluation run concurrently and the first valid result wins. Current, legal/live, official-source-required, moral/faith, resource, URL, media, and specialized routes retain their existing ownership and source requirements. Shared performance architecture only; no test-question hardcoding.
+// BM_BE_AIV_v3053_LMO: consolidated biblical moral engine over v3043. Moral/life-direction questions now have one authoritative route owner before resource, technical, medical-domain, current-source, semantic-research, and legacy moral handlers can consume the request. Every owned moral question uses the same actor/action/qualifier/polarity audit, then resolves all displayed supporting references against the embedded 31,102-verse local KJV corpus. Older specialized moral responders no longer participate in moral route selection or finalization. Preserves non-moral routing, unrelated Bible factual/count behavior, and frontend v2303 compatibility. Shared architecture only; no test-question hardcoding.
 // BM_BE_AIV_v3043_QCB: shared qualified-conflict action binding over v3042. Qualified moral questions involving confidentiality versus serious preventable harm, and forgiveness versus restored trust/relationship, now bind the direct Yes/No answer to the exact action being asked about before older broad moral templates or server preflights can answer a neighboring proposition. The same fast KJV-first contract runs at both the outer preflight and analyze dispatcher. Shared category-level logic only; no sentence hardcoding. Preserves verified v3042 behavior and frontend v2303 compatibility.
 // BM_BE_AIV_v3042_OPR: outer preflight moral-priority repair over v3041. Protective-reporting and creditor-debt-mercy moral questions are now resolved before the server-level resource, semantic-research, boundary, clarification, factual, and recovery preflights—not merely inside the later analyze dispatcher. This closes the route-order gap that allowed a recognized protective-duty question to spend ~20 seconds in generic research and time out before reaching the KJV-first moral contract. Shared route-order correction only; no test-sentence hardcoding. Preserves v3041 and frontend v2303 compatibility.
 // BM_BE_AIV_v3042_PMR: protective-moral route priority over v3040. Strong normative questions about reporting or disclosing known theft, fraud, exploitation, or abuse of a vulnerable person now run through the existing KJV-first protective-duty contract before any generic boundary, current-source, or model-research route can consume the request. This is a shared route-priority correction, not sentence hardcoding. Debt-mercy behavior and all verified v3040 behavior are preserved. Frontend v2303 compatibility preserved.
@@ -606,7 +634,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v3046';
+const VERSION = 'BE_AIV_v3073';
 const PORT = Number(process.env.PORT || 3000);
 const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
   try{
@@ -17722,7 +17750,7 @@ const SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936=Object.freeze({
   sharedDirectAnswerSelectorAvailable:typeof v2731ShouldMinimalDirectAnswer==='function',
   sharedContractRepairAvailable:typeof v2731PatchContractObject==='function',
   conciseFactualExplanationGuardAvailable:typeof v2936DistinctFactualExplanation==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.universalExplanationFallbackAvailable||
    !SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.sharedDirectAnswerSelectorAvailable||
@@ -21004,8 +21032,51 @@ function v2776EnforceSourceProvenanceContract(contract,input){
 function v2760FastStableCandidate(raw){
   if(!raw || /^https?:\/\//i.test(raw) || v2708IsSpecificYouTube(raw) || v2710NeedsLiveVerification(raw)) return false;
   if(classify(raw)==='faith' || classify(raw)==='current-religious-belief') return false;
-  if(v2776RequiresAuthoritativeLiveSource(raw) || v2776OfficialSourcePreferred(raw)) return false;
+  // v3055: an official-topic keyword by itself is not a reason to force a stable fact into
+  // a slow source-first path. Keep the live/high-stakes authority gate, but allow ordinary
+  // stable government/official facts to use the same bounded stable evaluator as other facts.
+  if(v2776RequiresAuthoritativeLiveSource(raw)) return false;
   return looksLikeStableGeneralKnowledgeCandidate(raw) || v2708GeneralStableCandidate(raw);
+}
+function v3055FreeSourceHeadStartMs(raw){
+  // The free-source route intentionally rejects Yes/No and several other shapes. Do not make
+  // those questions wait for a head start that can never win. Preserve a modest head start
+  // only when the free source path is actually eligible.
+  return v2776FreeSourceEligible(raw)?650:0;
+}
+
+// FAST_STABLE_QUESTION_COORDINATION_V3053 / FAST_NONLIVE_OFFICIAL_TOPIC_COORDINATION_V3055
+// Free retrieval keeps a brief cost-saving head start. If it does not complete quickly,
+// the existing single-pass stable evaluator starts in parallel instead of serially waiting
+// through the whole free-source timeout. The first valid result wins.
+function v3053Delay(ms){return new Promise(function(resolve){setTimeout(resolve,Math.max(0,Number(ms)||0));});}
+function v3053FirstValidResult(tasks,timeoutMs){
+  return new Promise(function(resolve){
+    let settled=false,pending=tasks.length;
+    const finish=function(value){if(settled)return;settled=true;resolve(value||null);};
+    if(!pending)return finish(null);
+    tasks.forEach(function(task){
+      Promise.resolve(task).then(function(value){
+        if(settled)return;
+        if(value&&value.result)return finish(value);
+        pending--;if(pending<=0)finish(null);
+      }).catch(function(){pending--;if(pending<=0)finish(null);});
+    });
+    setTimeout(function(){finish(null);},Math.max(500,Number(timeoutMs)||8500));
+  });
+}
+async function v3053FastStableQuestionEvaluation(raw){
+  if(!v2760FastStableCandidate(raw))return null;
+  const started=Date.now(),headStartMs=v3055FreeSourceHeadStartMs(raw);
+  const freePromise=Promise.resolve().then(function(){return v2776FreeSourceFirstEvaluation(raw);}).then(function(result){return result?{kind:'free',result:result}:null;}).catch(function(){return null;});
+  const stablePromise=Promise.resolve().then(function(){return headStartMs?v3053Delay(headStartMs):null;}).then(function(){return v2710SafeRace(v2760SinglePassStableEvaluation(raw),8200,null);}).then(function(result){return result?{kind:'stable',result:result}:null;}).catch(function(){return null;});
+  const winner=await v3053FirstValidResult([freePromise,stablePromise],9000);
+  if(winner&&winner.result){
+    winner.elapsedMs=Date.now()-started;
+    if(winner.result&&typeof winner.result==='object')winner.result.technicalDiagnostics=Object.assign({},winner.result.technicalDiagnostics||{},{fastStableCoordinationV3053:'ACTIVE',fastNonliveOfficialTopicV3055:'ACTIVE',coordinationWinner:winner.kind==='free'?'FREE_SOURCE':'STABLE_MODEL',freeHeadStartMs:headStartMs,coordinationElapsedMs:winner.elapsedMs});
+    return winner;
+  }
+  return null;
 }
 async function v2760SinglePassStableEvaluation(raw){
   const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini';
@@ -21100,11 +21171,12 @@ async function outputV2760(input){
     }
   }
   if(v2760FastStableCandidate(raw)){
-    const free=await v2776FreeSourceFirstEvaluation(raw);
-    if(free) return v2760ContractText(raw,free,'NUMERIC_SCOPE_BINDING_AND_ENTITY_TARGET_INTEGRITY_REPAIR_V2778: semantically and numerically bound free source completed before paid API');
-    const evaluated=await v2710SafeRace(v2760SinglePassStableEvaluation(raw),9000,null);
-    if(evaluated) return v2760ContractText(raw,evaluated,'FREE_SOURCE_PRIORITY_AND_PAID_API_CALL_REDUCTION_V2776: paid stable evaluator used only after free-source attempt was unavailable or unsuitable');
-    const legacyStable=await v2710SafeRace(outputV2743(raw),15000,null);
+    const coordinated=await v3053FastStableQuestionEvaluation(raw);
+    if(coordinated&&coordinated.result){
+      if(coordinated.kind==='free')return v2760ContractText(raw,coordinated.result,'FAST_STABLE_QUESTION_COORDINATION_V3053: validated free source won the bounded parallel race');
+      return v2760ContractText(raw,coordinated.result,'FAST_STABLE_QUESTION_COORDINATION_V3053: single-pass stable evaluator completed before the free-source path');
+    }
+    const legacyStable=await v2710SafeRace(outputV2743(raw),12000,null);
     if(legacyStable){
       const legacyContract=v2771ParseContractText(legacyStable);
       if(legacyContract&&!/\b(?:could not|limited information|unavailable|needs more evidence)\b/i.test(clean([legacyContract.answer,legacyContract.why,legacyContract.analysisResult].join(' ')))) return v2760PatchContractText(raw,legacyStable);
@@ -21117,6 +21189,8 @@ async function outputV2760(input){
   const timeout={schema:'AIV_RESULT_CONTRACT_V1',backendVersion:VERSION,route:'bounded-specialized-stop-v2776',claim:raw.replace(/[?!.]+$/,'').trim(),analysisResult:'Needs more evidence',answer:isAnyQuestionInputText(raw)?'The scan could not be completed within the time limit.':'',why:'',evidence:'',source:'',sourceBasis:'',confidence:'Low confidence',supportingInformation:'',classification:'FACTUAL',status:'CONTROLLED TIMEOUT',inputType:isAnyQuestionInputText(raw)?'QUESTION':'CLAIM',outputBasket:isAnyQuestionInputText(raw)?OUTPUT_FORMAT_BASKETS.DATA_UNAVAILABLE:OUTPUT_FORMAT_BASKETS.CLAIM_VERDICT,technicalDiagnostics:{activeFunction:'freeSourcePriorityAndPaidApiCallReductionV2776',sourceRetrievalPerformed:'NO',sourceProvenance:'NO_EXTERNAL_SOURCE_CLAIM'}};
   return v2760ContractText(raw,timeout,'NUMERIC_SCOPE_BINDING_AND_ENTITY_TARGET_INTEGRITY_REPAIR_V2778: specialized route bounded stop');
 }
+const FAST_STABLE_QUESTION_COORDINATION_STARTUP_VALIDATION_V3053=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',candidateGateAvailable:typeof v2760FastStableCandidate==='function',coordinatorAvailable:typeof v3053FastStableQuestionEvaluation==='function',singlePassStableAvailable:typeof v2760SinglePassStableEvaluation==='function',freeSourceAvailable:typeof v2776FreeSourceFirstEvaluation==='function',dynamicHeadStartAvailable:typeof v3055FreeSourceHeadStartMs==='function'});
+if(!Object.keys(FAST_STABLE_QUESTION_COORDINATION_STARTUP_VALIDATION_V3053).every(function(k){return FAST_STABLE_QUESTION_COORDINATION_STARTUP_VALIDATION_V3053[k]===true;}))throw new Error('FAST_STABLE_QUESTION_COORDINATION_V3053 startup validation failed');
 
 // COMPLETED_RESULT_CACHE_KEY_BINDING_AND_FAITH_DIRECT_YES_REPAIR_V2764
 function v2764NormalizeCompleteInput(value){
@@ -21135,6 +21209,63 @@ function v2764NormalizeCompleteInput(value){
   if(!/^https?:\/\//i.test(s)) s=s.replace(/[.!?]+$/,'').trim();
   return s;
 }
+// FINALIZED_EXACT_INPUT_OUTER_CACHE_V3054
+// This cache sits above the expensive outer preflights. It stores only completed verified final
+// responses and never stores transient failures. Freshness-sensitive answers expire quickly.
+const FINALIZED_EXACT_INPUT_CACHE_V3054=new Map();
+function v3054FinalizedExactCacheKey(input,requestContext){
+  const normalized=v2764NormalizeCompleteInput(input);
+  if(!normalized)return '';
+  const clientDate=clean(requestContext&&requestContext.clientDate||'');
+  return VERSION+'::FINALIZED::'+normalized+'::'+clientDate;
+}
+function v3054FinalizedExactCacheTtlMs(input){
+  const raw=clean(input);
+  if(!raw)return 0;
+  // Do not freeze truly volatile answers or submitted web/media content at this outer boundary.
+  if(/^https?:\/\//i.test(raw)||v2708IsSpecificYouTube(raw))return 0;
+  if(/\b(?:what\s+time|current\s+time|time\s+is\s+it|weather|forecast|temperature|stock\s+price|share\s+price|market\s+price|score|standings?|breaking|live\s+(?:score|result|update))\b/i.test(raw))return 0;
+  const freshnessSensitive=(typeof v2710NeedsLiveVerification==='function'&&v2710NeedsLiveVerification(raw))||
+    (typeof v2776RequiresAuthoritativeLiveSource==='function'&&v2776RequiresAuthoritativeLiveSource(raw))||
+    /\b(?:current|currently|latest|today|this\s+week|this\s+month|this\s+year|legal|illegal|law|rule|regulation|coverage|covered|officeholder|president|governor|mayor|speaker|unemployment|minimum\s+wage|social\s+security|medicare|passport)\b/i.test(raw);
+  return freshnessSensitive?5*60*1000:12*60*60*1000;
+}
+function v3056FinalizedExactBodyCacheable(body){
+  const text=String(body||'');
+  if(!text||!/AIV_RESULT_CONTRACT:\s*\{/i.test(text))return false;
+  // This boundary receives the fully finalized response for this exact request. Do not re-run
+  // broad routing/binding heuristics here; they can reject a valid answer because of diagnostic
+  // wording. Refuse only responses that are actually incomplete, transient, or server errors.
+  if(/Backend error|CONTROLLED\s+(?:TIMEOUT|UNAVAILABLE|INCOMPLETE)|DATA_UNAVAILABLE|analysis\s+stopped|scan\s+took\s+too\s+long|select\s+analyze\/enter\s+again\s+to\s+retry\s+this\s+scan|temporary\s+(?:failure|error|problem)/i.test(text))return false;
+  return true;
+}
+function v3054FinalizedExactCacheGet(input,requestContext){
+  const ttl=v3054FinalizedExactCacheTtlMs(input),key=v3054FinalizedExactCacheKey(input,requestContext);
+  if(!ttl||!key||!FINALIZED_EXACT_INPUT_CACHE_V3054.has(key))return '';
+  const entry=FINALIZED_EXACT_INPUT_CACHE_V3054.get(key);
+  if(!entry||Date.now()-Number(entry.storedAt||0)>ttl){FINALIZED_EXACT_INPUT_CACHE_V3054.delete(key);return '';}
+  const body=String(entry.body||'');
+  if(!v3056FinalizedExactBodyCacheable(body)){FINALIZED_EXACT_INPUT_CACHE_V3054.delete(key);return '';}
+  // Refresh insertion order without extending freshness age.
+  FINALIZED_EXACT_INPUT_CACHE_V3054.delete(key);FINALIZED_EXACT_INPUT_CACHE_V3054.set(key,entry);
+  return body;
+}
+function v3054FinalizedExactCachePut(input,requestContext,body){
+  const ttl=v3054FinalizedExactCacheTtlMs(input),key=v3054FinalizedExactCacheKey(input,requestContext),text=String(body||'');
+  if(!ttl||!key||!v3056FinalizedExactBodyCacheable(text))return false;
+  if(FINALIZED_EXACT_INPUT_CACHE_V3054.size>=300&&!FINALIZED_EXACT_INPUT_CACHE_V3054.has(key)){
+    const oldest=FINALIZED_EXACT_INPUT_CACHE_V3054.keys().next().value;if(oldest)FINALIZED_EXACT_INPUT_CACHE_V3054.delete(oldest);
+  }
+  FINALIZED_EXACT_INPUT_CACHE_V3054.set(key,Object.freeze({storedAt:Date.now(),body:text}));
+  return true;
+}
+function v3054ResetFinalizedExactCache(){const count=FINALIZED_EXACT_INPUT_CACHE_V3054.size;FINALIZED_EXACT_INPUT_CACHE_V3054.clear();return count;}
+const FINALIZED_EXACT_INPUT_OUTER_CACHE_STARTUP_VALIDATION_V3054=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3073',cacheReady:FINALIZED_EXACT_INPUT_CACHE_V3054 instanceof Map,
+  keyAvailable:typeof v3054FinalizedExactCacheKey==='function',bodyGateAvailable:typeof v3056FinalizedExactBodyCacheable==='function',readAvailable:typeof v3054FinalizedExactCacheGet==='function',writeAvailable:typeof v3054FinalizedExactCachePut==='function'
+});
+if(!Object.keys(FINALIZED_EXACT_INPUT_OUTER_CACHE_STARTUP_VALIDATION_V3054).every(function(k){return FINALIZED_EXACT_INPUT_OUTER_CACHE_STARTUP_VALIDATION_V3054[k]===true;}))throw new Error('FINALIZED_EXACT_INPUT_OUTER_CACHE_V3054 startup validation failed');
+
 function v2764CompletedContractKey(value){
   const normalized=v2764NormalizeCompleteInput(value);
   return normalized ? VERSION+'::'+normalized : '';
@@ -22045,6 +22176,85 @@ function v2774StampCurrentContract(contract,input){
   return c;
 }
 
+
+// ANSWER_SELECTION_BOUNDARY_V3063
+// Shared semantic guard: a completed factual Answer must add resolved information rather than merely
+// restating/reformatting the submitted question. Structured answerList/parts are preferred recovery material.
+// If no resolved material exists, the normal semantic correction path must repair or reject the response.
+function v3063AnswerMeaningTokens(value){
+  return clean(value).toLowerCase()
+    .replace(/\bu\.?\s*s\.?\b/g,' united states ')
+    .replace(/[^a-z0-9$%.\-]+/g,' ')
+    .split(/\s+/)
+    .map(function(x){return x.replace(/^[.\-]+|[.\-]+$/g,'');})
+    .filter(function(x){
+      return x&&x.length>1&&!/^(?:which|what|who|where|when|why|how|is|are|was|were|do|does|did|can|could|would|should|will|may|might|have|has|had|the|a|an|and|or|of|in|on|at|to|for|with|from|as|by|about|this|that|these|those|each|currently|current|latest|today|now|please|tell|give|show|list|name)$/.test(x);
+    });
+}
+function v3063AnswerRestatesInput(raw,answer){
+  const q=clean(raw).toLowerCase().replace(/[?!.|]+/g,' ').replace(/\s+/g,' ').trim();
+  const a=clean(answer).toLowerCase().replace(/[?!.|]+/g,' ').replace(/\s+/g,' ').trim();
+  if(!q||!a)return false;
+  if(q===a)return true;
+  const qTokens=v3063AnswerMeaningTokens(raw),aTokens=v3063AnswerMeaningTokens(answer);
+  if(aTokens.length<2||qTokens.length<2)return false;
+  const qSet=new Set(qTokens),shared=aTokens.filter(function(x){return qSet.has(x);}).length;
+  const novel=aTokens.filter(function(x){return !qSet.has(x);});
+  const interrogativeEcho=/\b(?:which|what|who|where|when|why|how)\b/i.test(clean(answer));
+  return (novel.length===0&&shared>=Math.min(3,aTokens.length)) ||
+    (interrogativeEcho&&shared/aTokens.length>=0.80&&novel.length<=1);
+}
+function v3063ResolvedAnswerFromList(raw,list){
+  const items=(Array.isArray(list)?list:[]).map(clean).filter(function(x){return x&&!v3063AnswerRestatesInput(raw,x);});
+  if(!items.length)return '';
+  const joined=clean(items.join(' | '));
+  return v3063AnswerRestatesInput(raw,joined)?'':joined;
+}
+
+// ANSWER_EVIDENCE_RECOVERY_V3064
+// If a provider puts the resolved finding in EXPLANATION while ANSWER is empty or echoes the question,
+// salvage only answer-bearing sentences from that same source-bound response instead of discarding the
+// whole result and paying the latency/cost of another provider pass.
+function v3064AnswerBearingSentenceScore(raw,sentence){
+  const s=clean(sentence),q=clean(raw);
+  if(!s||s.length<8||v3063AnswerRestatesInput(q,s))return -999;
+  let score=0;
+  const qNorm=v2856Normalized(q);
+  const hasNumber=/[$%]?\b\d[\d,.]*(?:\.\d+)?\b/.test(s);
+  const hasCurrency=/\$\s*\d|\b(?:dollars?|cents?)\b/i.test(s);
+  const hasComparison=/\b(?:highest|lowest|most|least|more|less|greater|smaller|larger|followed by|tie|tied|ranks?|ranked|top|bottom)\b/i.test(s);
+  const hasNames=(s.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,3}\b/g)||[]).length;
+  const novelty=v3063AnswerMeaningTokens(s).filter(function(t){
+    return v3063AnswerMeaningTokens(q).indexOf(t)<0;
+  }).length;
+  if(hasNumber)score+=4;
+  if(hasCurrency)score+=4;
+  if(hasComparison)score+=3;
+  if(hasNames>=2)score+=3;
+  score+=Math.min(5,novelty);
+  if(/\b(?:source|evidence|retrieved|supplied|candidate|verification|scan|prompt|internal)\b/i.test(s))score-=2;
+  if(/^(?:the\s+)?(?:supplied|cited|retrieved)\s+source\b/i.test(s)&&!hasNumber&&!hasComparison)score-=5;
+  if(/^(?:which|what|who|where|when|why|how)\b/i.test(s))score-=6;
+  if(/\b(?:which|what|who|where|when|why|how)\b/i.test(s)&&/[?]$/.test(s))score-=6;
+  if(/\b(?:which|what)\b/.test(qNorm)&&hasNames)score+=2;
+  if(/\bhow\s+(?:many|much)\b/.test(qNorm)&&hasNumber)score+=3;
+  return score;
+}
+function v3064ResolvedAnswerFromExplanation(raw,explanation){
+  const e=clean(explanation);if(!e)return '';
+  const sentences=e.split(/(?<=[.!?])\s+(?=[A-Z0-9])/).map(clean).filter(Boolean);
+  const scored=sentences.map(function(s,i){return {s:s,i:i,score:v3064AnswerBearingSentenceScore(raw,s)};})
+    .filter(function(x){return x.score>=5;})
+    .sort(function(a,b){return b.score-a.score||a.i-b.i;});
+  if(!scored.length)return '';
+  const take=(scored.length>1&&scored[0].score-scored[1].score>=4)?1:2;
+  const picked=scored.slice(0,take).sort(function(a,b){return a.i-b.i;}).map(function(x){return x.s;});
+  const answer=clean(picked.join(' '));
+  if(!answer||v3063AnswerRestatesInput(raw,answer))return '';
+  return answer.length>700?answer.slice(0,697).replace(/\s+\S*$/,'')+'...':answer;
+}
+
+
 function v2771ContractValidationErrors(c,input){
   const basket=c.fixedOutputBasket||c.outputBasket||v2771ClassifyFixedBasket(input),errors=[],answer=clean(c.answer),why=clean(c.why||c.explanation),normalized=v2767NormalizedIntent(input);
   // v3044: the consolidated moral engine performs its own actor/action/polarity audit and
@@ -22063,6 +22273,7 @@ function v2771ContractValidationErrors(c,input){
   if(c.basketContractVersion!==v2774BasketContractVersion(basket))errors.push('basket_contract_version');
   if(c.renderer!=='FACTUAL_ACCURACY_ANALYSIS'||c.legacyResultsRenderer!==false)errors.push('renderer');
   if(!basket)errors.push('basket');if(!answer&&basket!==V2771_FIXED_BASKETS.URL_REVIEW)errors.push('answer_missing');
+  if(answer&&basket!==V2771_FIXED_BASKETS.URL_REVIEW&&v3063AnswerRestatesInput(input,answer))errors.push('answer_restates_input');
   if(basket!==V2771_FIXED_BASKETS.UNSUPPORTED&&/\b(?:could not be completed|could not produce|complete validated answer|limited information is currently available|all available validated answer paths were exhausted)\b/i.test(answer))errors.push('incomplete_validated_answer');
   if(answer&&visibleAnswerLooksIncomplete(answer))errors.push('answer_incomplete');if(why&&visibleAnswerLooksIncomplete(why))errors.push('explanation_incomplete');if(v2771ForbiddenMeta(answer+' '+why))errors.push('meta_wording');
   const aSet=new Set(splitSentences(answer).map(v2767SentenceNorm).filter(Boolean));if(splitSentences(why).some(x=>aSet.has(v2767SentenceNorm(x))))errors.push('exact_duplication');
@@ -25038,7 +25249,7 @@ const REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929=Object.freeze({
   outsideScopeAvailable:typeof v2929OutsideScopeTaskRequest==='function',
   existingSafetyAvailable:typeof v2731MoralSafetyEvaluation==='function',
   debatableRouteAvailable:typeof v2927DebatablePolicyResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.intentAvailable||
    !REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.responseAvailable||
@@ -25050,7 +25261,7 @@ if(!REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.intentAvailable||
 }
 
 const FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   entityMeaningProfileAvailable:typeof entityMeaningIdentificationProfile==='function',
   entityMeaningResponseAvailable:typeof v2933EntityMeaningBoundaryResponse==='function',
   boundaryIntentAvailable:typeof v2929RequestBoundaryIntent==='function',
@@ -25410,7 +25621,7 @@ function v2939UsPresidentOrdinalQuestion(raw){
   return '';
 }
 const CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',intentDetectorAvailable:typeof v2939CurrentInformationIntent==='function',liveResponseAvailable:typeof v2939CurrentInformationResponse==='function',liveEvaluatorAvailable:typeof v2844LiveEvaluation==='function',officeholderCacheAvailable:V2939_CURRENT_INFORMATION_CACHE instanceof Map,ordinalFastRouteAvailable:typeof v2939UsPresidentOrdinalQuestion==='function',stableFallbackBlocked:true
+  currentVersion:VERSION==='BE_AIV_v3073',intentDetectorAvailable:typeof v2939CurrentInformationIntent==='function',liveResponseAvailable:typeof v2939CurrentInformationResponse==='function',liveEvaluatorAvailable:typeof v2844LiveEvaluation==='function',officeholderCacheAvailable:V2939_CURRENT_INFORMATION_CACHE instanceof Map,ordinalFastRouteAvailable:typeof v2939UsPresidentOrdinalQuestion==='function',stableFallbackBlocked:true
 });
 if(!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.currentVersion||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.intentDetectorAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.liveResponseAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.liveEvaluatorAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.officeholderCacheAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.ordinalFastRouteAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.stableFallbackBlocked){
   throw new Error('CURRENT_INFORMATION_COMPLETENESS_CACHE_AND_HISTORICAL_ORDINAL_SPEED_REPAIR_V2939 startup validation failed');
@@ -25541,7 +25752,7 @@ function v2940FastVerifiedFactsResponse(raw){
   return regression?v2940StampFastSerialized(raw,regression,'verified-regression-catalog'):'';
 }
 const SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',capitalCatalogReady:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,eligibilityGuardAvailable:typeof v2940FastVerifiedFactsEligible==='function',evaluationCoordinatorAvailable:typeof v2940FastVerifiedFactsEvaluation==='function',responseCoordinatorAvailable:typeof v2940FastVerifiedFactsResponse==='function',currentInformationGuardAvailable:typeof v2939CurrentInformationIntent==='function',periodicTableEvaluatorAvailable:typeof v2733ChemicalSymbolEvaluation==='function',measurementProfileAvailable:typeof v2810ActiveProfile==='function',stableProfileAvailable:typeof v2801GeneralProfile==='function',deterministicSupportAvailable:typeof deterministicStableQuestionSupport==='function'});
+  currentVersion:VERSION==='BE_AIV_v3073',capitalCatalogReady:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,eligibilityGuardAvailable:typeof v2940FastVerifiedFactsEligible==='function',evaluationCoordinatorAvailable:typeof v2940FastVerifiedFactsEvaluation==='function',responseCoordinatorAvailable:typeof v2940FastVerifiedFactsResponse==='function',currentInformationGuardAvailable:typeof v2939CurrentInformationIntent==='function',periodicTableEvaluatorAvailable:typeof v2733ChemicalSymbolEvaluation==='function',measurementProfileAvailable:typeof v2810ActiveProfile==='function',stableProfileAvailable:typeof v2801GeneralProfile==='function',deterministicSupportAvailable:typeof deterministicStableQuestionSupport==='function'});
 if(!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.currentVersion||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.capitalCatalogReady||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.eligibilityGuardAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.evaluationCoordinatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.responseCoordinatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.currentInformationGuardAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.periodicTableEvaluatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.measurementProfileAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.stableProfileAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.deterministicSupportAvailable){
   throw new Error('SHARED_FAST_VERIFIED_FACTS_ROUTER_V2940 startup validation failed');
 }
@@ -25980,7 +26191,7 @@ function v3034MoralIntentBindingResponse(raw){
   return '';
 }
 const MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',borrowerBindingAvailable:typeof v3034BorrowerRepaymentRiskIntent==='function',hostileWishBindingAvailable:typeof v3034HostileWishIntent==='function',dispatcherAvailable:typeof v3034MoralIntentBindingResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',borrowerBindingAvailable:typeof v3034BorrowerRepaymentRiskIntent==='function',hostileWishBindingAvailable:typeof v3034HostileWishIntent==='function',dispatcherAvailable:typeof v3034MoralIntentBindingResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034).every(function(k){return MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034[k]===true;}))throw new Error('MORAL_INTENT_BINDING_V3034 startup validation failed');
 
@@ -26013,7 +26224,7 @@ function v3036SelfApologyResponsibilityResponse(raw){
   })+'\nAPOLOGY_ACTOR_PERSPECTIVE_BINDING_V3036: self-conduct';
 }
 const APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3036SelfApologyResponsibilityIntent==='function',dispatcherAvailable:typeof v3036SelfApologyResponsibilityResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3036SelfApologyResponsibilityIntent==='function',dispatcherAvailable:typeof v3036SelfApologyResponsibilityResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036).every(function(k){return APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036[k]===true;}))throw new Error('APOLOGY_ACTOR_PERSPECTIVE_BINDING_V3036 startup validation failed');
 
@@ -26060,7 +26271,7 @@ function v3035WageringMoralResponse(raw){
   return v2943QualifiedMoralContract(raw,{id:'wagering-principle-context-v3035',answer:answer,bullets:['Use only money that is genuinely available after essential obligations are met.','Keep the activity under self-control rather than chasing losses or letting it become compulsive.','Examine the motive: entertainment is different from feeding covetousness or a craving for quick wealth.'],why:'Scripture does not directly identify every wager as sinful. The moral judgment depends on motive, self-control, stewardship, honesty, obligations, and whether the activity harms you or other people.',evidence:'Biblical principles condemn coveting and being controlled by a habit, while requiring responsible care for household obligations; those principles are more precise than declaring every wager sinful.',refs:['cor612','tim58','ex2017'],share:'cor612',directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER'})+'\nGAMBLING_MORAL_CONTEXT_V3035: principle-context';
 }
 const GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3035WageringMoralIntent==='function',harmProfileAvailable:typeof v3035WageringHarmProfile==='function',dispatcherAvailable:typeof v3035WageringMoralResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3035WageringMoralIntent==='function',harmProfileAvailable:typeof v3035WageringHarmProfile==='function',dispatcherAvailable:typeof v3035WageringMoralResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035).every(function(k){return GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035[k]===true;}))throw new Error('GAMBLING_MORAL_CONTEXT_V3035 startup validation failed');
 
@@ -26107,7 +26318,7 @@ function v3043QualifiedMoralConflictResponse(raw){
   }
   return '';
 }
-const QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',confidentialityIntentAvailable:typeof v3043ConfidentialHarmConflictIntent==='function',forgivenessIntentAvailable:typeof v3043ForgivenessTrustConflictIntent==='function',dispatcherAvailable:typeof v3043QualifiedMoralConflictResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'});
+const QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',confidentialityIntentAvailable:typeof v3043ConfidentialHarmConflictIntent==='function',forgivenessIntentAvailable:typeof v3043ForgivenessTrustConflictIntent==='function',dispatcherAvailable:typeof v3043QualifiedMoralConflictResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'});
 if(!Object.keys(QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043).every(function(k){return QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043[k]===true;}))throw new Error('QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_V3043 startup validation failed');
 
 // PROTECTIVE_REPORTING_AND_DEBT_MERCY_MORAL_BINDING_V3040
@@ -26146,12 +26357,12 @@ function v3040MoralRoleAndMercyResponse(raw){
   return '';
 }
 const PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',protectiveReportingAvailable:typeof v3040ProtectiveReportingIntent==='function',debtMercyAvailable:typeof v3040DebtMercyIntent==='function',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',protectiveReportingAvailable:typeof v3040ProtectiveReportingIntent==='function',debtMercyAvailable:typeof v3040DebtMercyIntent==='function',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040).every(function(k){return PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040[k]===true;}))throw new Error('PROTECTIVE_REPORTING_AND_DEBT_MERCY_MORAL_BINDING_V3040 startup validation failed');
-const PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',handlerAvailable:typeof v2764HandleAnalyzeRequest==='function'});
+const PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',handlerAvailable:typeof v2764HandleAnalyzeRequest==='function'});
 if(!Object.keys(PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041).every(function(k){return PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041[k]===true;}))throw new Error('PROTECTIVE_MORAL_ROUTE_PRIORITY_V3041 startup validation failed');
-const OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function'});
+const OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function'});
 if(!Object.keys(OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042).every(function(k){return OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042[k]===true;}))throw new Error('OUTER_PREFLIGHT_MORAL_PRIORITY_V3042 startup validation failed');
 
 
@@ -26416,7 +26627,7 @@ function v3044MoralWordStem(value){
   return t;
 }
 const LEGACY_MORAL_SINGLE_OWNER_STARTUP_VALIDATION_V3046=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   canonicalMoralOwnerAvailable:typeof v3044MoralQuestionIntent==='function',
   legacyRouteBlockAvailable:typeof v3046LegacyMoralRouteBlocked==='function',
   technicalWordSenseAvailable:typeof v3045TechnicalProgrammingMockSense==='function',
@@ -26961,42 +27172,42 @@ videoAuthenticityContract=async function(input){
 };
 
 const QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',priorityAvailable:typeof v3033QualifiedMoralActionPriorityResponse==='function',harmGateAvailable:typeof v3033SeriousProtectiveHarm==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',priorityAvailable:typeof v3033QualifiedMoralActionPriorityResponse==='function',harmGateAvailable:typeof v3033SeriousProtectiveHarm==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033).every(function(k){return QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033[k]===true;}))throw new Error('QUALIFIED_MORAL_ACTION_POLARITY_PRIORITY_V3033 startup validation failed');
 
 const DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',moralWrapperAvailable:typeof v2944QualifiedMoralDilemmaResponse==='function',qualifiedMoralContractAvailable:typeof v2943QualifiedMoralContract==='function',singleUrlExtractorAvailable:typeof v2944SingleSubmittedUrl==='function',googleResolverAvailable:typeof v2944GoogleUrlDecision==='function',urlPreRouteAvailable:typeof v2944SpecificUrlPreRoute==='function',specificUrlAnalyzerAvailable:typeof v2864AnalyzeSpecificUrl==='function',portalDetectorAvailable:typeof looksLikePortalUrl==='function',multiTargetDetectorAvailable:typeof looksLikeMultiTargetContent==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',moralWrapperAvailable:typeof v2944QualifiedMoralDilemmaResponse==='function',qualifiedMoralContractAvailable:typeof v2943QualifiedMoralContract==='function',singleUrlExtractorAvailable:typeof v2944SingleSubmittedUrl==='function',googleResolverAvailable:typeof v2944GoogleUrlDecision==='function',urlPreRouteAvailable:typeof v2944SpecificUrlPreRoute==='function',specificUrlAnalyzerAvailable:typeof v2864AnalyzeSpecificUrl==='function',portalDetectorAvailable:typeof looksLikePortalUrl==='function',multiTargetDetectorAvailable:typeof looksLikeMultiTargetContent==='function'
 });
 if(!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.currentVersion||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.moralWrapperAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.qualifiedMoralContractAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.singleUrlExtractorAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.googleResolverAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.urlPreRouteAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.specificUrlAnalyzerAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.portalDetectorAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.multiTargetDetectorAvailable){
   throw new Error('DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_ROUTING_REPAIR_V2944 startup validation failed');
 }
 
 const QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v2943QualifiedMoralDilemmaIntent==='function',responseAvailable:typeof v2943QualifiedMoralDilemmaResponse==='function',existingMoralRulesAvailable:typeof v2672MoralGuidanceOutput==='function',scriptureRendererAvailable:typeof v2672MoralContract==='function',presidentialIdentityCacheRepair:true,futureOrdinalIntentAvailable:typeof v2943FutureUsPresidentOrdinalIntent==='function',futureOrdinalResponseAvailable:typeof v2943FutureUsPresidentOrdinalResponse==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v2943QualifiedMoralDilemmaIntent==='function',responseAvailable:typeof v2943QualifiedMoralDilemmaResponse==='function',existingMoralRulesAvailable:typeof v2672MoralGuidanceOutput==='function',scriptureRendererAvailable:typeof v2672MoralContract==='function',presidentialIdentityCacheRepair:true,futureOrdinalIntentAvailable:typeof v2943FutureUsPresidentOrdinalIntent==='function',futureOrdinalResponseAvailable:typeof v2943FutureUsPresidentOrdinalResponse==='function'
 });
 if(!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.currentVersion||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.intentAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.responseAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.existingMoralRulesAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.scriptureRendererAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.futureOrdinalIntentAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.futureOrdinalResponseAvailable){
   throw new Error('PRESIDENTIAL_ORDINAL_NAME_INTEGRITY_AND_QUALIFIED_MORAL_DILEMMA_REPAIR_V2943 startup validation failed');
 }
 const GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',officialResolverAvailable:typeof v2942OfficialCurrentFactResponse==='function',officialSnapshotUrlValid:!!validHttpUrl(V2942_OFFICIAL_FACT_SNAPSHOT.sourceUrl),claimEligibilityAvailable:typeof v2942StableGeneralClaimEligible==='function',deterministicClaimRouterAvailable:typeof v2942DeterministicGeneralClaimResponse==='function',modelClaimRouterAvailable:typeof v2942ModelGeneralClaimResponse==='function',capitalCatalogAvailable:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,periodicTableAvailable:typeof AIV_V2733_ELEMENT_TO_SYMBOL==='object'});
+  currentVersion:VERSION==='BE_AIV_v3073',officialResolverAvailable:typeof v2942OfficialCurrentFactResponse==='function',officialSnapshotUrlValid:!!validHttpUrl(V2942_OFFICIAL_FACT_SNAPSHOT.sourceUrl),claimEligibilityAvailable:typeof v2942StableGeneralClaimEligible==='function',deterministicClaimRouterAvailable:typeof v2942DeterministicGeneralClaimResponse==='function',modelClaimRouterAvailable:typeof v2942ModelGeneralClaimResponse==='function',capitalCatalogAvailable:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,periodicTableAvailable:typeof AIV_V2733_ELEMENT_TO_SYMBOL==='object'});
 if(!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.currentVersion||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.officialResolverAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.officialSnapshotUrlValid||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.claimEligibilityAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.deterministicClaimRouterAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.modelClaimRouterAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.capitalCatalogAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.periodicTableAvailable){
   throw new Error('GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_SPEED_REPAIR_V2942 startup validation failed');
 }
 
 
 const CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',creativeGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',structuredStableAvailable:typeof v2864StructuredQuestionAttempt==='function',plainStableAvailable:typeof v2864PlainQuestionAttempt==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',creativeGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',structuredStableAvailable:typeof v2864StructuredQuestionAttempt==='function',plainStableAvailable:typeof v2864PlainQuestionAttempt==='function'
 });
 if(!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.currentVersion||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.creativeGuardAvailable||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.structuredStableAvailable||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.plainStableAvailable){throw new Error('CREATIVE_WORK_ROUTING_BOUNDARY_REPAIR_V2952 startup validation failed');}
 const HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',creativeWorkGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',officeholderDescriptorAvailable:typeof v2949CurrentOfficeholderDescriptor==='function',personCompletenessAvailable:typeof v2949CompletePersonNameFromContext==='function',wrongdoingDetectorAvailable:typeof v2731IsDangerousWrongdoingRequest==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',creativeWorkGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',officeholderDescriptorAvailable:typeof v2949CurrentOfficeholderDescriptor==='function',personCompletenessAvailable:typeof v2949CompletePersonNameFromContext==='function',wrongdoingDetectorAvailable:typeof v2731IsDangerousWrongdoingRequest==='function'
 });
 if(!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.currentVersion||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.creativeWorkGuardAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.officeholderDescriptorAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.personCompletenessAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.wrongdoingDetectorAvailable){throw new Error('HIGH_LEVEL_ROUTING_OFFICEHOLDER_NAME_AND_WRONGDOING_REPAIR_V2949 startup validation failed');}
 
 
 const HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',historicalOfficeIntentAvailable:typeof v2950HistoricalOfficeRelationIntent==='function',historicalOfficeResponseAvailable:typeof v2950HistoricalOfficeRelationResponse==='function',securityCapabilityAvailable:typeof v2950SecurityTargetCapabilityResponse==='function',securityInterferenceAvailable:typeof v2950SecurityInterferenceBoundaryIntent==='function',acronymDefinitionAvailable:typeof v2950AppendAcronymDefinitions==='function',correctionDedupeAvailable:typeof v2950DedupeCorrectionSentence==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',historicalOfficeIntentAvailable:typeof v2950HistoricalOfficeRelationIntent==='function',historicalOfficeResponseAvailable:typeof v2950HistoricalOfficeRelationResponse==='function',securityCapabilityAvailable:typeof v2950SecurityTargetCapabilityResponse==='function',securityInterferenceAvailable:typeof v2950SecurityInterferenceBoundaryIntent==='function',acronymDefinitionAvailable:typeof v2950AppendAcronymDefinitions==='function',correctionDedupeAvailable:typeof v2950DedupeCorrectionSentence==='function'
 });
 if(!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.currentVersion||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.historicalOfficeIntentAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.historicalOfficeResponseAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.securityCapabilityAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.securityInterferenceAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.acronymDefinitionAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.correctionDedupeAvailable){throw new Error('HIGH_LEVEL_RELATION_BOUNDARY_AND_DEFINITION_REPAIR_V2950 startup validation failed');}
 
@@ -27053,7 +27264,7 @@ async function v2953OrdinaryFactualCollisionResponse(raw,requestState){
 }
 
 const BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',aliasProviderAvailable:typeof v2953BibleBookAliases==='function',positiveContextAvailable:typeof v2953PositiveBibleContext==='function',collisionGuardAvailable:typeof v2953BibleBookProperNameCollision==='function',responseAvailable:typeof v2953OrdinaryFactualCollisionResponse==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',aliasProviderAvailable:typeof v2953BibleBookAliases==='function',positiveContextAvailable:typeof v2953PositiveBibleContext==='function',collisionGuardAvailable:typeof v2953BibleBookProperNameCollision==='function',responseAvailable:typeof v2953OrdinaryFactualCollisionResponse==='function'
 });
 if(!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.currentVersion||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.aliasProviderAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.positiveContextAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.collisionGuardAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.responseAvailable){throw new Error('BIBLE_INTENT_CONTEXT_AND_NAMED_ENTITY_COLLISION_REPAIR_V2953 startup validation failed');}
 
@@ -27203,7 +27414,7 @@ function v2954ApplyRequestResponseIntegrity(contract,raw){
   return c;
 }
 const REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   shapeClassifierAvailable:typeof v2954RequestShape==='function',
   visualIntentAvailable:typeof v2954TechnicalVisualReferenceIntent==='function',
   visualResponseAvailable:typeof v2954TechnicalVisualReferenceResponse==='function',
@@ -27911,7 +28122,7 @@ function v3000InterrogativeAnswerShapeGuidance(raw){
   return 'INTERROGATIVE ANSWER SHAPE: This is not a Yes/No question. Put the direct requested fact, entity, value, or items in ANSWER; never return a Yes/No answer badge.';
 }
 const INTERROGATIVE_ANSWER_SHAPE_STARTUP_VALIDATION_V3000=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   shapeDetectorAvailable:typeof v3000InterrogativeShape==='function',
   binaryIntentAvailable:typeof v3000YesNoQuestionIntent==='function',
   mismatchValidatorAvailable:typeof v3000InterrogativeAnswerShapeMismatch==='function',
@@ -28012,6 +28223,10 @@ function v3001RepairContractDisplayShape(raw,contract,requestContext){
   const shape=v3000InterrogativeShape(raw);
   let answer=clean(c.answer||c.summary||'');
   const context=[c.explanation,c.why,c.evidence,c.supportingInformation,c.source,c.sourceBasis].map(clean).join(' ');
+  if(v3063AnswerRestatesInput(raw,answer)){
+    const resolved=v3063ResolvedAnswerFromList(raw,c.answerList);
+    if(resolved)answer=resolved;
+  }
   if(shape==='SET_LIST'&&v3001BinaryDisplayValue(answer)){
     const list=Array.isArray(c.answerList)?c.answerList.map(clean).filter(Boolean):[];
     if(list.length)answer=list.join(', ');
@@ -28040,6 +28255,8 @@ function v3001RepairContractDisplayShape(raw,contract,requestContext){
 }
 function v3001ContractSemanticIssues(raw,contract){
   const issues=[];
+  const primary=clean(contract&&((contract.answer)||contract.summary)||'');
+  if(primary&&v3063AnswerRestatesInput(raw,primary))issues.push('ANSWER_RESTATES_INPUT');
   if(v3029MultiPartIncomplete(raw,contract))issues.push('INTERROGATIVE_ANSWER_SHAPE_MULTI_PART_INCOMPLETE');
   if(v3029ComparisonNumericContradiction(raw,contract))issues.push('INTERROGATIVE_ANSWER_SHAPE_COMPARISON_NUMERIC_CONTRADICTION');
   if(v3001NonBinaryDisplayMismatch(raw,contract))issues.push('NON_BINARY_DISPLAY_MODE_MISMATCH');
@@ -28061,6 +28278,7 @@ function v3001UnifiedAnswerGuidance(raw){
   if(shape&&shape!=='YES_NO')rules.push('DISPLAY CONTRACT: analysisResult must be Answer and the output basket must match the requested non-binary answer shape. Never encode a What/Which/Who/Where/When/How/List/Name response as a Yes/No result.');
   if(/\b(?:name|person|people|city|cities|place|places|country|countries)\b/i.test(clean(raw)))rules.push('ENTITY INTEGRITY: Preserve complete names containing initials and abbreviations such as J. R. R., St., Mt., Ft., Jr., or Sr.; never truncate an answer at an internal period.');
   if(v2998DynamicCountryStatusIntent(raw)&&shape==='SET_LIST')rules.push('CURRENT SET CONTRACT: Use current directly relevant sources. Return the complete supported country set for an explicit source/date/legal-category scope in ANSWER. Do not substitute a Yes/No verdict or a few examples.');
+  if(v3072USStateOnlyRequest(raw))rules.push('U.S. STATE SCOPE: The requested unit is one of the 50 states only. Exclude the District of Columbia and U.S. territories from the answer. If a ranked source includes them, skip them and continue until the requested number of actual states is supplied.');
   if(v2989ResourceRequestIntent(raw))rules.push('RESOURCE CONTRACT: A request for a link/resource is successful only when actionLinkUrl is a directly useful clickable destination that matches the requested item, page, product, document, diagram, or resource.');
   return rules.join(' ');
 }
@@ -28116,7 +28334,7 @@ async function v3001CorrectionAttempt(raw,requestState,requestContext){
   return '';
 }
 const UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',guidanceAvailable:typeof v3001UnifiedAnswerGuidance==='function',contractRepairAvailable:typeof v3001RepairContractDisplayShape==='function',semanticValidatorAvailable:typeof v3001ContractSemanticIssues==='function',correctionAvailable:typeof v3001CorrectionAttempt==='function',countrySetRecoveryAvailable:typeof v3001CountryNamesInText==='function',entityPunctuationAvailable:typeof v3001ProtectEntityPunctuation==='function',resourceLinkGuardAvailable:typeof v3001ResourceActionMissing==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',guidanceAvailable:typeof v3001UnifiedAnswerGuidance==='function',contractRepairAvailable:typeof v3001RepairContractDisplayShape==='function',semanticValidatorAvailable:typeof v3001ContractSemanticIssues==='function',correctionAvailable:typeof v3001CorrectionAttempt==='function',countrySetRecoveryAvailable:typeof v3001CountryNamesInText==='function',entityPunctuationAvailable:typeof v3001ProtectEntityPunctuation==='function',resourceLinkGuardAvailable:typeof v3001ResourceActionMissing==='function'
 });
 if(!Object.keys(UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001).every(function(k){return UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001[k]===true;}))throw new Error('UNIFIED_SEMANTIC_INTEGRITY_V3001 startup validation failed');
 
@@ -28231,7 +28449,7 @@ async function v3002FinalizeResponse(raw,serialized,requestState){
   return v3002FocusDirectEntityAnswer(raw,serialized);
 }
 const EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',actionIntentAvailable:typeof v3002ActionResourceIntent==='function',actionCandidateScoringAvailable:typeof v3002ActionCandidateScore==='function',actionRefinementAvailable:typeof v3002RefineResourceResponse==='function',directEntityTargetAvailable:typeof v3002DirectEntityTarget==='function',directEntityFocusAvailable:typeof v3002FocusDirectEntityAnswer==='function',finalizerAvailable:typeof v3002FinalizeResponse==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',actionIntentAvailable:typeof v3002ActionResourceIntent==='function',actionCandidateScoringAvailable:typeof v3002ActionCandidateScore==='function',actionRefinementAvailable:typeof v3002RefineResourceResponse==='function',directEntityTargetAvailable:typeof v3002DirectEntityTarget==='function',directEntityFocusAvailable:typeof v3002FocusDirectEntityAnswer==='function',finalizerAvailable:typeof v3002FinalizeResponse==='function'
 });
 if(!Object.keys(EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002).every(function(k){return EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002[k]===true;}))throw new Error('EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_V3002 startup validation failed');
 
@@ -28330,7 +28548,7 @@ async function v3003DynamicCountrySetResponse(raw,requestState){
   return v2844Serialize(raw,c,'bounded-current-country-set-v3003');
 }
 const BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',officialActionFastPathAvailable:typeof v3003FastOfficialActionResource==='function',officialIdentityBindingAvailable:typeof v2989OfficialSourceIdentityMatch==='function',dynamicCompleteSetIntentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',boundedCurrentSetAvailable:typeof v3003DynamicCountrySetResponse==='function',destinationCleanupAvailable:typeof v3003CleanDestinationUrl==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',officialActionFastPathAvailable:typeof v3003FastOfficialActionResource==='function',officialIdentityBindingAvailable:typeof v2989OfficialSourceIdentityMatch==='function',dynamicCompleteSetIntentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',boundedCurrentSetAvailable:typeof v3003DynamicCountrySetResponse==='function',destinationCleanupAvailable:typeof v3003CleanDestinationUrl==='function'
 });
 if(!Object.keys(BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003).every(function(k){return BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003[k]===true;}))throw new Error('BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_V3003 startup validation failed');
 
@@ -28444,7 +28662,7 @@ function v3004TerminalSourceAttemptSerialized(serialized){
   return /"terminalSourceAttempt"\s*:\s*"YES"/i.test(s)||/route\s*[:=][^\n]*current-set\/terminal-unavailable\/v3004/i.test(s);
 }
 const CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',openAICandidateAvailable:typeof v3004OpenAICurrentSetCandidate==='function',geminiCandidateAvailable:typeof v3004GeminiCurrentSetCandidate==='function',validatorAvailable:typeof v3004CurrentSetParsedValid==='function',terminalGuardAvailable:typeof v3004TerminalSourceAttemptSerialized==='function',cacheReady:V3004_CURRENT_SET_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',openAICandidateAvailable:typeof v3004OpenAICurrentSetCandidate==='function',geminiCandidateAvailable:typeof v3004GeminiCurrentSetCandidate==='function',validatorAvailable:typeof v3004CurrentSetParsedValid==='function',terminalGuardAvailable:typeof v3004TerminalSourceAttemptSerialized==='function',cacheReady:V3004_CURRENT_SET_CACHE instanceof Map
 });
 if(!Object.keys(CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004).every(function(k){return CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004[k]===true;}))throw new Error('CURRENT_SET_RESILIENCE_V3004 startup validation failed');
 
@@ -28603,7 +28821,7 @@ function v3005TerminalSourceAttemptSerialized(serialized){
   const s=String(serialized||'');return /"terminalSourceAttempt"\s*:\s*"YES"/i.test(s)||/current-set\/terminal-unavailable\/v3005/i.test(s);
 }
 const CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',evidenceSearchAvailable:typeof v3005CurrentSetEvidence==='function',openAISynthesisAvailable:typeof v3005OpenAIEvidenceSynthesis==='function',geminiSynthesisAvailable:typeof v3005GeminiEvidenceSynthesis==='function',sourceBackedFallbackAvailable:typeof v3005SourceBackedSetFallback==='function',terminalGuardAvailable:typeof v3005TerminalSourceAttemptSerialized==='function',cacheReady:V3005_CURRENT_SET_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',evidenceSearchAvailable:typeof v3005CurrentSetEvidence==='function',openAISynthesisAvailable:typeof v3005OpenAIEvidenceSynthesis==='function',geminiSynthesisAvailable:typeof v3005GeminiEvidenceSynthesis==='function',sourceBackedFallbackAvailable:typeof v3005SourceBackedSetFallback==='function',terminalGuardAvailable:typeof v3005TerminalSourceAttemptSerialized==='function',cacheReady:V3005_CURRENT_SET_CACHE instanceof Map
 });
 if(!Object.keys(CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005).every(function(k){return CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005[k]===true;}))throw new Error('CURRENT_SET_EVIDENCE_RESOLUTION_V3005 startup validation failed');
 
@@ -28711,8 +28929,10 @@ function v3006ResearchIntent(raw){
   const input=clean(raw),s=v2856Normalized(raw);if(!input||!v2869QuestionLike(input)||/^https?:\/\//i.test(input))return null;
   if(typeof v2731IsDangerousWrongdoingRequest==='function'&&v2731IsDangerousWrongdoingRequest(input))return null;
   if(typeof v2989ResourceRequestIntent==='function'&&v2989ResourceRequestIntent(input))return null;
-  const entity=v3006NamedEntityIdentity(input),expectedParts=v3006ExpectedPartCount(input),current=v3006RequiresCurrentEntityResearch(input);
+  const entity=v3006NamedEntityIdentity(input),expectedParts=v3006ExpectedPartCount(input);
   const factualMulti=expectedParts>1&&/\b(?:countries|nations|states|territories|members?|people|persons|directors?|trustees?|justices?|judges?|officers?|leaders?|languages?|dialects?|organizations?|companies|agencies|names?)\b/.test(s);
+  const explicitCurrentMulti=/\b(?:current|currently|latest|today|as\s+of|now|this\s+year)\b/.test(s);
+  const current=v3006RequiresCurrentEntityResearch(input)||(factualMulti&&explicitCurrentMulti);
   // Source-dependent coverage totals should not collapse into a naked model-known number.
   // These totals depend on date, source, and counting definitions, even when the subject
   // is religious rather than a named organization.
@@ -28727,14 +28947,64 @@ function v3006ResearchIntent(raw){
 function v3006ResearchCacheKey(raw){return clean(raw).toLowerCase().replace(/\s+/g,' ').trim();}
 function v3006ResearchCacheGet(raw){const key=v3006ResearchCacheKey(raw),e=key&&V3006_ENTITY_RESEARCH_CACHE.get(key);if(!e)return '';if(Date.now()-e.savedAt>V3006_ENTITY_RESEARCH_CACHE_TTL_MS){V3006_ENTITY_RESEARCH_CACHE.delete(key);return '';}return String(e.serialized||'');}
 function v3006ResearchCachePut(raw,serialized){const key=v3006ResearchCacheKey(raw);if(!key||!serialized)return;V3006_ENTITY_RESEARCH_CACHE.set(key,{savedAt:Date.now(),serialized:String(serialized)});while(V3006_ENTITY_RESEARCH_CACHE.size>80){const first=V3006_ENTITY_RESEARCH_CACHE.keys().next().value;if(!first)break;V3006_ENTITY_RESEARCH_CACHE.delete(first);}}
+
+// RESEARCH_QUERY_SUBJECT_BOUNDARY_V3070
+// Result-count words belong to answer formatting, not evidence search. Strip only count-control
+// quantities attached to list/ranking requests; preserve genuine proper nouns such as "Five Eyes".
+function v3070ResearchSubjectQuery(raw){
+  let q=clean(raw).replace(/[?!.]+$/,'');
+  if(!q)return '';
+  q=q.replace(/\bU\.?\s*S\.?\s+states?\b/gi,'USA states');
+  const qty='(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|\\d{1,3})';
+  const collection='(?:states?|countries?|cities?|counties?|provinces?|territories?|nations?|people|persons?|members?|senators?|representatives?|governors?|presidents?|companies|organizations?|agencies|universities|schools?|parks?|airports?|teams?|players?|books?|movies?|films?|songs?|languages?|sources?|results?|examples?|reasons?|ways?|items?|products?|candidates?)';
+  q=q.replace(new RegExp('(\\b(?:which|what|name|list|show|give(?:\\s+me)?|top|first|the)\\s+(?:the\\s+)?)'+qty+'(?=(?:\\s+[A-Za-z][A-Za-z.-]*){0,3}\\s+'+collection+'\\b)','gi'),'$1');
+  q=q.replace(new RegExp('^\\s*'+qty+'(?=(?:\\s+[A-Za-z][A-Za-z.-]*){0,2}\\s+'+collection+'\\b)','i'),'');
+  return clean(q).replace(/\s+/g,' ').trim();
+}
+
 function v3006ResearchQueries(raw,intent){
   const out=[];function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
-  const entity=clean(intent&&intent.entity||''),input=clean(raw).replace(/[?!.]+$/,'');
+  const entity=clean(intent&&intent.entity||''),input=v3070ResearchSubjectQuery(raw)||clean(raw).replace(/[?!.]+$/,'');
   if(entity){const terms=v2989MeaningfulWords(input).filter(function(w){return v3006NormalizeIdentity(entity).split(/\s+/).indexOf(w.toLowerCase())<0;}).slice(0,10).join(' ');add('"'+entity+'" '+terms);if(/\b(?:board|directors?|trustees?|leadership|officers?)\b/i.test(input))add('"'+entity+'" board leadership directors');if(/\b(?:justices?|judges?|court)\b/i.test(input))add('"'+entity+'" current justices judges members');}
   add(input);return out.slice(0,2);
 }
+
+// QUERY_RELEVANCE_GATE_V3071
+// Broad search engines may return results matching only scope/ranking words (USA, states, highest, etc.).
+// Require at least one distinctive subject term when the request has one, so unrelated candidates cannot
+// become evidence merely because they match geography or list-control wording.
+function v3071DistinctiveResearchTerms(raw,intent){
+  const base=v3070ResearchSubjectQuery(raw)||clean(raw),words=v2989MeaningfulWords(base).map(function(w){return clean(w).toLowerCase();});
+  const generic=new Set([
+    'usa','us','united','states','state','country','countries','nation','nations','city','cities','county','counties',
+    'current','currently','latest','today','now','highest','lowest','largest','smallest','most','least','top','first','last',
+    'rate','rates','number','numbers','amount','amounts','value','values','each','list','name','which','what','who','where',
+    'when','how','many','much','have','has','with','without','from','into','their','there','these','those'
+  ]);
+  const out=[];
+  words.forEach(function(w){
+    if(!w||w.length<4||generic.has(w))return;
+    const stem=w.replace(/(?:ies|es|s)$/,'');
+    const key=stem.length>=4?stem:w;
+    if(!out.includes(key))out.push(key);
+  });
+  return out.slice(0,6);
+}
+function v3071ResearchCandidateRelevant(raw,intent,c){
+  if(intent&&clean(intent.entity||''))return true;
+  const terms=v3071DistinctiveResearchTerms(raw,intent);
+  if(!terms.length)return true;
+  const hay=v3006NormalizeIdentity(clean(c&&c.title||'')+' '+clean(c&&c.snippet||'')+' '+clean(c&&c.text||'')+' '+domainFromUrl(c&&c.url||''));
+  return terms.some(function(t){
+    if(!t)return false;
+    const re=new RegExp('(?:^|\\s)'+v2939EscapeRegex(t)+'(?:[a-z]{0,8})?(?:$|\\s)','i');
+    return re.test(hay);
+  });
+}
+
 function v3006EvidencePreScore(raw,intent,c){
-  const hay=v3006NormalizeIdentity(clean(c&&c.title||'')+' '+clean(c&&c.snippet||'')+' '+domainFromUrl(c&&c.url||'')),words=v2989MeaningfulWords(raw);let score=0;
+  const hay=v3006NormalizeIdentity(clean(c&&c.title||'')+' '+clean(c&&c.snippet||'')+' '+domainFromUrl(c&&c.url||'')),words=v2989MeaningfulWords(v3070ResearchSubjectQuery(raw)||raw);let score=0;
+  if(!v3071ResearchCandidateRelevant(raw,intent,c))score-=240;
   if(intent&&intent.entity){const probe={requestedEntityIdentity:intent.entity};score+=v3006EntityCandidateMatch(probe,c)?120:-120;const sig=v3006NormalizeIdentity(intent.entity).split(/\s+/).filter(function(x){return x.length>2&&!/^(?:international|global|foundation|institute|association|society|corporation|company|university|organization|organisation|council|alliance|group|systems|technologies|laboratories|network|trust|fund)$/.test(x);});const d=domainFromUrl(c&&c.url||'').toLowerCase();if(sig.some(function(t){return d.indexOf(t)>=0;}))score+=42;}
   words.forEach(function(w){if(hay.split(/\s+/).indexOf(w.toLowerCase())>=0)score+=w.length>=5?7:3;});
   if(/\b(?:about|leadership|board|governance|directors?|trustees?|justices?|judges?|court|members?|management|who we are|team)\b/i.test(clean(c&&c.title||'')+' '+clean(c&&c.url||'')))score+=18;
@@ -28797,6 +29067,23 @@ function v3031PublicResearchExplanation(raw,intent,answer,explanation,source){
   if(intent&&intent.current)return 'The cited source directly supports the current answer above.';
   return sourceName?'The cited source directly supports the answer above.':'The available evidence directly supports the answer above.';
 }
+
+// BLOCKED_EVIDENCE_REJECTION_V3067
+function v3067BlockedEvidence(c){
+  if(!c||typeof c!=='object')return true;
+  const status=Number(c.status||0),title=clean(c.title||c.fetchedTitle||''),text=clean(c.text||''),snippet=clean(c.snippet||'');
+  const blocked=/\b(?:access\s+denied|permission\s+denied|you\s+don['’]?t\s+have\s+permission|forbidden|request\s+blocked|error\s+reference|errors\.edgesuite\.net|captcha|verify\s+you\s+are\s+human)\b/i;
+  if(status===401||status===403||status===429||blocked.test(title))return true;
+  if(text&&blocked.test(text)){
+    const topical=snippet.length>=80&&!blocked.test(snippet);
+    return !topical;
+  }
+  return false;
+}
+function v3067UsableEvidenceRows(evidence){
+  return (Array.isArray(evidence)?evidence:[]).filter(function(c){return validHttpUrl(c&&c.url||'')&&!v3067BlockedEvidence(c);});
+}
+
 function v3031EvidenceAnswerCoverage(answer,c){
   const hay=clean([c&&c.title,c&&c.snippet,c&&c.text].join(' ')).toLowerCase();if(!hay)return 0;
   const words=v2989MeaningfulWords(clean(answer||'')).map(function(w){return w.toLowerCase();}).filter(function(w){return w.length>=4&&!/^(?:current|source|listing|serve|serves|named|above|about|their|there|which|with|from|into|this|that|nine|eight|seven|six|five|four|three|two|one)$/.test(w);});
@@ -28804,7 +29091,7 @@ function v3031EvidenceAnswerCoverage(answer,c){
   return hits/Math.max(1,seen.size);
 }
 function v3031PreferredResearchSource(raw,intent,evidence,requestedIndex,answer){
-  const rows=Array.isArray(evidence)?evidence.filter(function(c){return validHttpUrl(c&&c.url||'');}):[];if(!rows.length)return null;
+  const allRows=Array.isArray(evidence)?evidence.filter(function(c){return validHttpUrl(c&&c.url||'');}):[],usable=v3067UsableEvidenceRows(allRows),rows=usable.length?usable:allRows;if(!rows.length)return null;
   let base=rows[Math.max(0,Math.min(rows.length-1,Number.isInteger(requestedIndex)?requestedIndex:0))]||rows[0],best=base,bestScore=-Infinity;
   rows.forEach(function(c){
     const coverage=v3031EvidenceAnswerCoverage(answer,c),authority=(c&&c.officialEntityBound?260:0)+v3031AuthorityDomainPriority(clean(intent&&intent.entity||''),raw,c)+Number(c&&c.preScore||0)*0.35;
@@ -28813,15 +29100,34 @@ function v3031PreferredResearchSource(raw,intent,evidence,requestedIndex,answer)
   });
   return best||base;
 }
+
+// US_STATE_ONLY_SCOPE_V3072
+// When the user explicitly asks for U.S. states, the requested unit is the 50 states only.
+// D.C. and U.S. territories may appear in source tables but cannot occupy a requested state slot
+// unless the user explicitly expands the scope to include them.
+function v3072USStateOnlyRequest(raw){
+  const s=v2856Normalized(raw);
+  if(!/\b(?:u\.?s\.?|usa|united\s+states)\b/.test(s)||!/\bstates?\b/.test(s))return false;
+  if(/\b(?:states?\s+and\s+territories|states?\s+or\s+territories|including\s+(?:d\.?c\.?|district\s+of\s+columbia|territories)|plus\s+(?:d\.?c\.?|district\s+of\s+columbia|territories)|states?\s*,?\s*(?:d\.?c\.?|district\s+of\s+columbia)\s*,?\s*and\s+territories)\b/.test(s))return false;
+  return true;
+}
+function v3072NonStateUSJurisdictionPresent(value){
+  const s=clean(value);
+  if(!s)return false;
+  return /\b(?:District\s+of\s+Columbia|Washington,\s*D\.?C\.?|Puerto\s+Rico|Guam|American\s+Samoa|Northern\s+Mariana\s+Islands|U\.?S\.?\s+Virgin\s+Islands|United\s+States\s+Virgin\s+Islands)\b/i.test(s);
+}
+
 function v3006EvidencePrompt(raw,intent,evidence){
   const expected=Math.max(1,Number(intent&&intent.expectedParts||1));
-  const rows=(Array.isArray(evidence)?evidence:[]).map(function(c,i){return 'EVIDENCE '+i+'\nTITLE: '+clean(c.title||domainFromUrl(c.url||''))+'\nURL: '+validHttpUrl(c.url||'')+'\nTEXT: '+clean(c.text||c.snippet||'').slice(0,4800);}).join('\n\n');
+  const promptEvidence=v3067UsableEvidenceRows(evidence);const rows=(promptEvidence.length?promptEvidence:(Array.isArray(evidence)?evidence:[])).map(function(c,i){return 'EVIDENCE '+i+'\nTITLE: '+clean(c.title||domainFromUrl(c.url||''))+'\nURL: '+validHttpUrl(c.url||'')+'\nTEXT: '+clean(c.text||c.snippet||'').slice(0,4800);}).join('\n\n');
   return [
     'You are AIVerify’s source-bound factual research synthesizer. Return ONLY one JSON object.',
     'Required keys: supported, answer, explanation, parts, sourceIndex.',
     'Use ONLY the supplied evidence. Do not use memory to fill a gap. Do not invent a URL or source.',
+    'ANSWER must contain the resolved finding itself. Never repeat, paraphrase, split, or reformat the Original question as ANSWER. If the request is a list/ranking/multi-part question, put the actual names/values/findings in ANSWER and parts.',
     'EXPLANATION is public-facing product text. Never mention EVIDENCE numbers, sourceIndex, candidate rows, retrieval/synthesis steps, prompts, or internal instructions. Explain briefly in ordinary language why the cited source supports the answer.',
     clean(intent&&intent.entity||'')?'The exact named entity requested is "'+clean(intent.entity)+'". Do not substitute an acronym expansion, similarly named concept, company, organization, or unrelated entity.':'Preserve the exact entities and scope in the question.',
+    v3072USStateOnlyRequest(raw)?'UNIT SCOPE LOCK: "U.S. states" means the 50 states only. Exclude the District of Columbia and all U.S. territories from the requested ranking/list. If the source table includes them, skip them and continue to the next qualifying state. Do not use an excluded jurisdiction merely because the source ranks it alongside states.':'',
     intent&&intent.current?'This fact is changing/current. Answer only if the supplied evidence supports the present or clearly dated state; include the date/scope qualification when needed.':'Use the evidence’s stated scope/date when the answer depends on a definition or dataset.',
     expected>1?'This is a MULTI-PART request with '+expected+' requested parts. The parts array must contain at least '+expected+' concise entries in question order, and ANSWER must answer every requested part. Never return only the first number.':'Answer the direct requested fact in ANSWER.',
     intent&&intent.completeList?'The wording requests a set/list, not examples. Return the full set supported within one clearly stated source/date/category boundary. Do not use “among others,” “a few others,” “etc.,” or another sample-list phrase.':'Do not imply completeness unless the evidence supports it.',
@@ -28830,21 +29136,45 @@ function v3006EvidencePrompt(raw,intent,evidence){
     'Original question: '+clean(raw),rows
   ].filter(Boolean).join('\n');
 }
+function v3069ResearchReject(){return null;}
 function v3006ParsedResearchResult(raw,intent,parsed,evidence,provider){
-  if(!parsed||typeof parsed!=='object'||parsed.supported===false)return null;
-  const expected=Math.max(1,Number(intent&&intent.expectedParts||1)),parts=Array.isArray(parsed.parts)?parsed.parts.map(clean).filter(Boolean):[];
-  if(expected>1&&parts.length<expected)return null;
-  let answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
-  if(!answer&&parts.length)answer=parts.join(' | ');
-  if(expected>1&&parts.length>=expected&&typeof v3029MultiPartIncomplete==='function'&&v3029MultiPartIncomplete(raw,{answer:answer,answerList:[]})){
+  if(!parsed||typeof parsed!=='object')return v3069ResearchReject('parsed_missing',parsed);
+  if(parsed.supported===false)return v3069ResearchReject('supported_false',parsed);
+  const expected=Math.max(1,Number(intent&&intent.expectedParts||1));
+  let parts=Array.isArray(parsed.parts)?parsed.parts.map(clean).filter(Boolean):[];
+  parts=parts.filter(function(x){return !v3063AnswerRestatesInput(raw,x);});
+  const directAnswer=(typeof parsed.answer==='string'||typeof parsed.answer==='number')?parsed.answer:'';
+  let answer=clean(removeFollowUpOfferWording(directAnswer)),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  if((!answer||v3063AnswerRestatesInput(raw,answer))&&parts.length){
+    const materialized=v3063ResolvedAnswerFromList(raw,parts);
+    if(materialized)answer=materialized;
+  }
+  if(!answer||v3063AnswerRestatesInput(raw,answer)){
+    const recovered=v3064ResolvedAnswerFromExplanation(raw,explanation);
+    if(recovered)answer=recovered;
+  }
+  if(expected>1&&parts.length>=expected&&typeof v3029MultiPartIncomplete==='function'&&v3029MultiPartIncomplete(raw,{answer:answer,answerList:parts})){
     const materialized=clean(parts.join(' — '));
     if(materialized)answer=materialized;
   }
-  if(!answer)return null;
-  if(expected>1&&/^0(?:\.0+)?$/.test(answer))return null;
-  if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return null;
-  let idx=Number(parsed.sourceIndex);if(!Number.isInteger(idx)||idx<0||idx>=evidence.length)idx=0;const source=v3031PreferredResearchSource(raw,intent,evidence,idx,answer)||evidence[idx]||evidence[0];if(!source||!validHttpUrl(source.url||''))return null;
-  if(intent&&intent.entity&&!v3023AuthorityEntityEvidenceEligible(intent,source,null,evidence))return null;
+  if(!answer)return v3069ResearchReject('answer_missing_after_recovery',parsed,'expected='+expected);
+  if(expected>1&&typeof v3029MultiPartIncomplete==='function'&&v3029MultiPartIncomplete(raw,{answer:answer,answerList:parts}))
+    return v3069ResearchReject('multipart_incomplete',parsed,'expected='+expected+' keptParts='+parts.length);
+  if(expected>1&&/^0(?:\.0+)?$/.test(answer))
+    return v3069ResearchReject('zero_answer',parsed,'expected='+expected);
+  if(v3072USStateOnlyRequest(raw)){
+    const stateAnswerBlob=clean([answer].concat(parts||[]).join(' | '));
+    if(v3072NonStateUSJurisdictionPresent(stateAnswerBlob))
+      return v3069ResearchReject('us_state_scope_violation',parsed,'expected='+expected);
+  }
+  if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))
+    return v3069ResearchReject('answer_shape_mismatch',parsed,'expected='+expected);
+  let idx=Number(parsed.sourceIndex);if(!Number.isInteger(idx)||idx<0||idx>=evidence.length)idx=0;
+  const source=v3031PreferredResearchSource(raw,intent,evidence,idx,answer)||evidence[idx]||evidence[0];
+  if(!source||!validHttpUrl(source.url||''))
+    return v3069ResearchReject('source_missing',parsed,'evidence='+evidence.length);
+  if(intent&&intent.entity&&!v3023AuthorityEntityEvidenceEligible(intent,source,null,evidence))
+    return v3069ResearchReject('entity_source_rejected',parsed,'entity='+clean(intent.entity));
   explanation=v3031PublicResearchExplanation(raw,intent,answer,explanation,source);
   return {ok:true,provider:provider,answer:answer,explanation:explanation,parts:parts,source:source};
 }
@@ -28857,7 +29187,7 @@ async function v3006GeminiSynthesize(raw,intent,evidence){
   const response=await v2989GeminiApiRequestJson(model,payload,5200);if(!response||!response.ok)return null;const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));return v3006ParsedResearchResult(raw,intent,parsed,evidence,'Gemini evidence synthesis');
 }
 function v3006ResearchContract(raw,intent,result,started,evidenceCount){
-  const source=result.source,requestedBasket=(typeof v3001RequestedBasket==='function'?v3001RequestedBasket(raw):OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER),c=v2844Contract(raw,{intent:'ENTITY_SOURCE_RESEARCH',route:'entity-research/source-bound/v3006',basket:requestedBasket,answer:result.answer,explanation:result.explanation,source:clean(source.title||domainFromUrl(source.url)||'Retrieved source'),sourceUrl:validHttpUrl(source.url||''),classification:intent.current?'CURRENT SOURCE-VERIFIED ENTITY FACTUAL':'SOURCE-VERIFIED MULTI-PART FACTUAL',confidence:'High confidence',status:'ANSWERED'});
+  const source=result.source,requestedBasket=(typeof v3001RequestedBasket==='function'?v3001RequestedBasket(raw):OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER),c=v2844Contract(raw,{intent:'ENTITY_SOURCE_RESEARCH',route:'entity-research/source-bound/v3006',basket:requestedBasket,answer:result.answer,answerList:Array.isArray(result.parts)?result.parts:[],explanation:result.explanation,source:clean(source.title||domainFromUrl(source.url)||'Retrieved source'),sourceUrl:validHttpUrl(source.url||''),classification:intent.current?'CURRENT SOURCE-VERIFIED ENTITY FACTUAL':'SOURCE-VERIFIED MULTI-PART FACTUAL',confidence:'High confidence',status:'ANSWERED'});
   c.inputType='QUESTION';c.analysisResult='Answer';c.summary=result.answer;c.outputBasket=requestedBasket;c.fixedOutputBasket=requestedBasket;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;c.showAdditionalInformation=!!clean(result.explanation||'');
   if(intent.current){c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();}
   c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'entityResearchAndQuantifiedQuestionIntegrityV3006',namedEntity:clean(intent.entity||''),expectedAnswerParts:Number(intent.expectedParts||1),validatedAnswerParts:Array.isArray(result.parts)?result.parts.length:0,sourceBound:'YES',sourceCandidates:Number(evidenceCount||0),provider:clean(result.provider||''),researchMs:Date.now()-started,acronymEntityCollisionGuard:'ENFORCED',multiPartCompleteness:'ENFORCED'});
@@ -28875,7 +29205,7 @@ async function v3006StructuredResearchResponse(raw,requestState){
 }
 function v3006HomepageResourceRequest(raw,intent){return !!(intent&&clean(intent.resourceType||'')==='page'&&/\b(?:website|home\s*page|homepage|site)\b/i.test(clean(raw))&&!/\b(?:specific|section|article|document|form|manual|board|leadership|governance|source\s+list)\b/i.test(clean(raw)));}
 const ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',entityIdentityAvailable:typeof v3006NamedEntityIdentity==='function',institutionalTrailingEntityAvailable:typeof v3027InstitutionalTrailingEntity==='function',acronymLedOfficialIdentityAvailable:typeof v3025AcronymLedGenericEntityMatch==='function',entityCandidateGuardAvailable:typeof v3006EntityCandidateMatch==='function',intentAvailable:typeof v3006ResearchIntent==='function',evidenceAvailable:typeof v3006ResearchEvidence==='function',synthesisAvailable:typeof v3006StructuredResearchResponse==='function',authorityPriorityAvailable:typeof v3031AuthorityDomainPriority==='function',publicExplanationHygieneAvailable:typeof v3031PublicResearchExplanation==='function',publicExplanationLinkCleanupAvailable:typeof v3032StripSourceLinksFromExplanation==='function',quickOfficialEvidenceAvailable:typeof v3032QuickOfficialAuthorityEvidence==='function',preferredSourceAvailable:typeof v3031PreferredResearchSource==='function',cacheReady:V3006_ENTITY_RESEARCH_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3073',entityIdentityAvailable:typeof v3006NamedEntityIdentity==='function',institutionalTrailingEntityAvailable:typeof v3027InstitutionalTrailingEntity==='function',acronymLedOfficialIdentityAvailable:typeof v3025AcronymLedGenericEntityMatch==='function',entityCandidateGuardAvailable:typeof v3006EntityCandidateMatch==='function',intentAvailable:typeof v3006ResearchIntent==='function',evidenceAvailable:typeof v3006ResearchEvidence==='function',synthesisAvailable:typeof v3006StructuredResearchResponse==='function',authorityPriorityAvailable:typeof v3031AuthorityDomainPriority==='function',publicExplanationHygieneAvailable:typeof v3031PublicResearchExplanation==='function',publicExplanationLinkCleanupAvailable:typeof v3032StripSourceLinksFromExplanation==='function',quickOfficialEvidenceAvailable:typeof v3032QuickOfficialAuthorityEvidence==='function',preferredSourceAvailable:typeof v3031PreferredResearchSource==='function',cacheReady:V3006_ENTITY_RESEARCH_CACHE instanceof Map
 });
 if(!Object.keys(ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006).every(function(k){return ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006[k]===true;}))throw new Error('ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_V3006 startup validation failed');
 
@@ -29123,9 +29453,9 @@ async function v3023AuthorityNavigationCandidates(raw,intent,owner){
 }
 
 function v3020ResearchTopicCore(raw,intent){
-  const scope=intent&&intent.semanticScope||{},input=v2856Normalized(raw);
+  const scope=intent&&intent.semanticScope||{},input=v2856Normalized(v3070ResearchSubjectQuery(raw)||raw);
   if(!input)return '';
-  const stop=new Set(['how','many','what','which','who','where','when','why','does','do','did','is','are','was','were','has','have','had','with','without','some','portion','part','least','one','any','the','a','an','of','to','into','from','for','in','on','at','it','its','them','their','there','been','be','being','and','or','current','currently','latest']);
+  const stop=new Set(['how','many','what','which','who','where','when','why','does','do','did','is','are','was','were','has','have','had','with','without','some','portion','part','least','one','any','the','a','an','of','to','into','from','for','in','on','at','it','its','them','their','there','been','be','being','and','or','current','currently','latest','each','highest','lowest','largest','smallest','most','least','top','first','last']);
   const map={translated:'translation',translate:'translation',translates:'translation',translating:'translation',translations:'translation',languages:'language',countries:'country',nations:'nation',statistics:'statistics',statistic:'statistics',reports:'report',reported:'report'};
   const words=input.replace(/[^a-z0-9\s-]/g,' ').split(/\s+/).filter(Boolean).map(function(w){return map[w]||w;}).filter(function(w){return !stop.has(w)&&w.length>2;});
   const preferred=[];function add(w){if(w&&!preferred.includes(w))preferred.push(w);}
@@ -29171,7 +29501,7 @@ function v3018EvidenceAuthorityScore(raw,intent,c){
 }
 function v3018ResearchQueryVariants(raw,intent){
   const out=[];function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
-  const scope=intent&&intent.semanticScope||{},input=clean(raw).replace(/[?!.]+$/,''),core=v3020ResearchTopicCore(raw,intent);
+  const scope=intent&&intent.semanticScope||{},input=v3070ResearchSubjectQuery(raw)||clean(raw).replace(/[?!.]+$/,''),core=v3020ResearchTopicCore(raw,intent);
   // Authority-first queries must come before broad natural-language variants; prior builds appended them
   // after an already-full query basket, so the focused queries were often truncated before execution.
   if(v3020EmpiricalEvidenceRequest(intent)&&core){
@@ -29202,9 +29532,17 @@ async function v3007ResearchEvidence(raw,intent){
   navigation.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u)return;const key=u.toLowerCase();if(seen.has(key))return;seen.add(key);c.officialEntityBound=true;c.preScore=Math.max(Number(c.preScore||0),owner?v3021AuthorityEvidenceBoost(raw,intent,c,owner):v3018EvidenceAuthorityScore(raw,intent,c));pooled.push(c);});
   pages.forEach(function(page){if(!page||!page.body)return;const rows=page.kind==='bing'?v2989ParseBingRss(page.body):v2989ParsePublicSearchHtml(page.body);rows.forEach(function(c){const u=validHttpUrl(c&&c.url||'');if(!u||v2989SearchResultUrl(u))return;const key=u.toLowerCase();if(seen.has(key))return;seen.add(key);if(owner&&v3023AuthorityHostMatch(owner,c))c.officialEntityBound=true;c.preScore=owner?v3021AuthorityEvidenceBoost(raw,intent,c,owner):v3018EvidenceAuthorityScore(raw,intent,c);pooled.push(c);});});
   pooled.sort(function(a,b){return Number(b.preScore||0)-Number(a.preScore||0);});
-  const eligible=pooled.filter(function(c){return v3023AuthorityEntityEvidenceEligible(intent,c,owner);}),top=eligible.slice(0,10);
+  const eligible=pooled.filter(function(c){
+    if(!v3023AuthorityEntityEvidenceEligible(intent,c,owner))return false;
+    if(!owner&&!v3071ResearchCandidateRelevant(raw,intent,c))return false;
+    return true;
+  }),top=eligible.slice(0,10);
   const resolved=await Promise.all(top.map(function(c){return v2989CandidateFetch(c.url,2400,2).then(function(page){const row=Object.assign({},c);if(page){row.url=validHttpUrl(page.url||c.url)||c.url;row.ok=!!page.ok;row.status=Number(page.status||0);row.contentType=clean(page.contentType||'');row.fetchedTitle=clean(page.title||'');if(row.fetchedTitle)row.title=row.fetchedTitle;row.text=clean(page.text||'').slice(0,8200);row.directFetchVerified=!!page.ok;}if(owner&&v3023AuthorityHostMatch(owner,row))row.officialEntityBound=true;row.preScore=owner?v3021AuthorityEvidenceBoost(raw,intent,row,owner):v3018EvidenceAuthorityScore(raw,intent,row);return row;}).catch(function(){return c;});}));
-  const finalRows=resolved.filter(function(c){return validHttpUrl(c&&c.url||'')&&v3023AuthorityEntityEvidenceEligible(intent,c,owner);}).sort(function(a,b){return (owner?v3021AuthorityEvidenceBoost(raw,intent,b,owner):v3018EvidenceAuthorityScore(raw,intent,b))-(owner?v3021AuthorityEvidenceBoost(raw,intent,a,owner):v3018EvidenceAuthorityScore(raw,intent,a));}).slice(0,8);
+  const finalRows=resolved.filter(function(c){
+    if(!validHttpUrl(c&&c.url||'')||!v3023AuthorityEntityEvidenceEligible(intent,c,owner))return false;
+    if(!owner&&!v3071ResearchCandidateRelevant(raw,intent,c))return false;
+    return true;
+  }).sort(function(a,b){return (owner?v3021AuthorityEvidenceBoost(raw,intent,b,owner):v3018EvidenceAuthorityScore(raw,intent,b))-(owner?v3021AuthorityEvidenceBoost(raw,intent,a,owner):v3018EvidenceAuthorityScore(raw,intent,a));}).slice(0,8);
   try{if(owner)console.log('AIV authority-owner v3026 | entity='+owner.entity+' | host='+owner.host+' | purpose='+owner.purpose+' | navigation='+navigation.length+' | evidence='+finalRows.length);}catch(_e){}
   return finalRows;
 }
@@ -29308,18 +29646,35 @@ function v3011SourceOwnedRetry(raw,intent,reason){
 }
 function v3007ParsedResearchResult(raw,intent,parsed,evidence,provider){
   const base=v3006ParsedResearchResult(raw,intent,parsed,evidence,provider);if(!base)return null;
-  return v3007ScopeEvidenceValid(raw,intent,base)?base:null;
+  if(!v3007ScopeEvidenceValid(raw,intent,base)){
+    return null;
+  }
+  return base;
 }
 async function v3007OpenAISynthesize(raw,intent,evidence){
-  if(!envSecret('OPENAI_API_KEY')||!evidence.length)return null;const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3007EvidencePrompt(raw,intent,evidence),max_output_tokens:1100,text:{format:{type:'json_object'}}};if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
-  const response=await openaiApiRequestJson(payload,6800);if(!response||!response.ok)return null;const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));return v3007ParsedResearchResult(raw,intent,parsed,evidence,'OpenAI evidence synthesis');
+  if(!envSecret('OPENAI_API_KEY')||!evidence.length)return null;
+  const t0=Date.now(),model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3007EvidencePrompt(raw,intent,evidence),max_output_tokens:1100,text:{format:{type:'json_object'}}};if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,6800);
+  if(!response||!response.ok){
+    return null;
+  }
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
+  const result=v3007ParsedResearchResult(raw,intent,parsed,evidence,'OpenAI evidence synthesis');
+  return result;
 }
 async function v3007GeminiSynthesize(raw,intent,evidence){
-  if(!envSecret('GEMINI_API_KEY')||!evidence.length)return null;const model=clean(process.env.GEMINI_MODEL||process.env.GEMINI_SEARCH_MODEL||'gemini-3.6-flash'),payload={contents:[{role:'user',parts:[{text:v3007EvidencePrompt(raw,intent,evidence)}]}],generationConfig:{temperature:0.03,maxOutputTokens:1100,responseMimeType:'application/json'}};
-  const response=await v2989GeminiApiRequestJson(model,payload,5600);if(!response||!response.ok)return null;const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));return v3007ParsedResearchResult(raw,intent,parsed,evidence,'Gemini evidence synthesis');
+  if(!envSecret('GEMINI_API_KEY')||!evidence.length)return null;
+  const t0=Date.now(),model=clean(process.env.GEMINI_MODEL||process.env.GEMINI_SEARCH_MODEL||'gemini-3.6-flash'),payload={contents:[{role:'user',parts:[{text:v3007EvidencePrompt(raw,intent,evidence)}]}],generationConfig:{temperature:0.03,maxOutputTokens:1100,responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,5600);
+  if(!response||!response.ok){
+    return null;
+  }
+  const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));
+  const result=v3007ParsedResearchResult(raw,intent,parsed,evidence,'Gemini evidence synthesis');
+  return result;
 }
 function v3007ResearchContract(raw,intent,result,started,evidenceCount){
-  const source=result.source,requestedBasket=(typeof v3001RequestedBasket==='function'?v3001RequestedBasket(raw):OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER),c=v2844Contract(raw,{intent:'SEMANTIC_SCOPE_SOURCE_RESEARCH',route:'semantic-scope/source-bound/v3007',basket:requestedBasket,answer:result.answer,explanation:result.explanation,source:clean(source.title||domainFromUrl(source.url)||'Retrieved source'),sourceUrl:validHttpUrl(source.url||''),classification:intent.current?'CURRENT SOURCE-VERIFIED FACTUAL':'SOURCE-VERIFIED SEMANTIC FACTUAL',confidence:'High confidence',status:'ANSWERED'});
+  const source=result.source,requestedBasket=(typeof v3001RequestedBasket==='function'?v3001RequestedBasket(raw):OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER),c=v2844Contract(raw,{intent:'SEMANTIC_SCOPE_SOURCE_RESEARCH',route:'semantic-scope/source-bound/v3007',basket:requestedBasket,answer:result.answer,answerList:Array.isArray(result.parts)?result.parts:[],explanation:result.explanation,source:clean(source.title||domainFromUrl(source.url)||'Retrieved source'),sourceUrl:validHttpUrl(source.url||''),classification:intent.current?'CURRENT SOURCE-VERIFIED FACTUAL':'SOURCE-VERIFIED SEMANTIC FACTUAL',confidence:'High confidence',status:'ANSWERED'});
   c.inputType='QUESTION';c.analysisResult='Answer';c.summary=result.answer;c.outputBasket=requestedBasket;c.fixedOutputBasket=requestedBasket;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;c.showAdditionalInformation=!!clean(result.explanation||'');
   if(intent.current){c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();}
   const scope=intent.semanticScope||{};c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'semanticScopeAndSourceFidelityV3007',namedEntity:clean(intent.entity||''),requestedSemanticUnit:clean(scope.unit||''),empiricalReligionCoverage:scope.empiricalReligion?'YES':'NO',ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',nationMeaningAmbiguity:scope.nationAmbiguous?'EXPLICIT':'NOT_APPLICABLE',expectedAnswerParts:Number(intent.expectedParts||1),validatedAnswerParts:Array.isArray(result.parts)?result.parts.length:0,sourceBound:'YES',sourceCandidates:Number(evidenceCount||0),provider:clean(result.provider||''),researchMs:Date.now()-started,unitSubstitutionGuard:'ENFORCED',umbrellaVsLanguageGuard:'ENFORCED'});
@@ -29390,7 +29745,7 @@ function v3014GroundedPrompt(raw,intent,evidence){
   return [
     'You are AIVerify grounded source research. Search the web as needed and return ONLY one JSON object.',
     'Current date for this user: '+clean(intent&&intent.clientDate||new Date().toISOString().slice(0,10))+'.',
-    'Required keys: supported, answer, explanation, sourceName, sourceUrl.',
+    'Required keys: supported, answer, explanation, parts, sourceName, sourceUrl.',
     'supported=true only when a real current/relevant web source materially supports the answer. Never invent a source or URL.',
     'QUESTION: '+clean(raw),
     'SEMANTIC UNIT LOCK: requested unit = '+unit+'. Never substitute a nearby unit or category.',
@@ -29417,7 +29772,13 @@ function v3014GroundedSourcePick(parsed,sources){
 }
 function v3014GroundedAnswerValid(raw,intent,parsed,source){
   if(!parsed||typeof parsed!=='object'||parsed.supported===false||!source||!validHttpUrl(source.url||''))return false;
-  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));if(!answer)return false;
+  const explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  let answer=clean(removeFollowUpOfferWording((typeof parsed.answer==='string'||typeof parsed.answer==='number')?parsed.answer:''));
+  const parsedParts=Array.isArray(parsed.parts)?parsed.parts.map(clean).filter(Boolean):[];
+  if((!answer||v3063AnswerRestatesInput(raw,answer))&&parsedParts.length)answer=v3063ResolvedAnswerFromList(raw,parsedParts);
+  if(!answer||v3063AnswerRestatesInput(raw,answer))answer=v3064ResolvedAnswerFromExplanation(raw,explanation);
+  if(!answer)return false;
+  parsed.__aivResolvedAnswerV3064=answer;
   if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return false;
   const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||''),combined=clean(answer+' '+explanation);
   if(unit&&!v3011RequestedUnitPresent(unit,combined))return false;
@@ -29431,8 +29792,10 @@ function v3014GroundedAnswerValid(raw,intent,parsed,source){
 }
 function v3014GroundedResult(raw,intent,parsed,sources,provider){
   const source=v3014GroundedSourcePick(parsed,sources);if(!v3014GroundedAnswerValid(raw,intent,parsed,source))return null;
-  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
-  return {ok:true,provider:provider,answer:answer,explanation:explanation,parts:[answer],source:source,groundedSearch:true};
+  const answer=clean(parsed.__aivResolvedAnswerV3064||removeFollowUpOfferWording((typeof parsed.answer==='string'||typeof parsed.answer==='number')?parsed.answer:''));
+  const explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  const parsedParts=Array.isArray(parsed.parts)?parsed.parts.map(clean).filter(Boolean):[];
+  return {ok:true,provider:provider,answer:answer,explanation:explanation,parts:parsedParts.length?parsedParts:[answer],source:source,groundedSearch:true};
 }
 async function v3014OpenAIGroundedResearch(raw,intent,evidence){
   if(!v3014GroundedSourceRequired(intent)||!envSecret('OPENAI_API_KEY'))return null;
@@ -29501,8 +29864,13 @@ async function v3015ResolveGroundedSource(parsed,sources,evidence){
 function v3015GroundedValidation(raw,intent,parsed,source,sources,evidence){
   if(!parsed||typeof parsed!=='object'||parsed.supported===false)return {ok:false,reason:'provider_marked_unsupported'};
   if(!source||!validHttpUrl(source.url||''))return {ok:false,reason:'source_url_missing'};
-  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  const explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  let answer=clean(removeFollowUpOfferWording((typeof parsed.answer==='string'||typeof parsed.answer==='number')?parsed.answer:''));
+  const parsedParts=Array.isArray(parsed.parts)?parsed.parts.map(clean).filter(Boolean):[];
+  if((!answer||v3063AnswerRestatesInput(raw,answer))&&parsedParts.length)answer=v3063ResolvedAnswerFromList(raw,parsedParts);
+  if(!answer||v3063AnswerRestatesInput(raw,answer))answer=v3064ResolvedAnswerFromExplanation(raw,explanation);
   if(!answer)return {ok:false,reason:'answer_missing'};
+  parsed.__aivResolvedAnswerV3064=answer;
   if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return {ok:false,reason:'answer_shape_mismatch'};
   const scope=intent&&intent.semanticScope||{},unit=clean(scope.unit||''),sourceBlob=clean([source.title,source.snippet,source.text].join(' ')),combined=clean(answer+' '+explanation+' '+sourceBlob);
   if(unit&&!v3011RequestedUnitPresent(unit,combined))return {ok:false,reason:'requested_unit_not_bound'};
@@ -29523,7 +29891,8 @@ function v3015GroundedValidation(raw,intent,parsed,source,sources,evidence){
 async function v3015GroundedResult(raw,intent,parsed,sources,evidence,provider){
   const source=await v3015ResolveGroundedSource(parsed,sources,evidence);const check=v3015GroundedValidation(raw,intent,parsed,source,sources,evidence);
   if(!check.ok){try{console.warn('AIV grounded-source reject | '+provider+' | '+check.reason);}catch(_e){}return null;}
-  return {ok:true,provider:provider,answer:check.answer,explanation:check.explanation,parts:[check.answer],source:source,groundedSearch:true};
+  const parsedParts=Array.isArray(parsed&&parsed.parts)?parsed.parts.map(clean).filter(Boolean):[];
+  return {ok:true,provider:provider,answer:check.answer,explanation:check.explanation,parts:parsedParts.length?parsedParts:[check.answer],source:source,groundedSearch:true};
 }
 async function v3017OpenAIGroundedResearch(raw,intent,evidence,timeoutMs){
   if(!v3014GroundedSourceRequired(intent)||!envSecret('OPENAI_API_KEY'))return null;
@@ -29556,9 +29925,9 @@ async function v3017GeminiGroundedResearch(raw,intent,evidence,timeoutMs){
 async function v3015OpenAIGroundedResearch(raw,intent,evidence){return v3017OpenAIGroundedResearch(raw,intent,evidence,13000);}
 async function v3015GeminiGroundedResearch(raw,intent,evidence){return v3017GeminiGroundedResearch(raw,intent,evidence,6000);}
 function v3022EvidenceRows(raw,intent,evidence){
-  const seen=new Set(),rows=[];
-  (Array.isArray(evidence)?evidence:[]).forEach(function(c){
-    const url=validHttpUrl(c&&c.url||'');if(!url)return;
+  const seen=new Set(),rows=[],usable=v3067UsableEvidenceRows(evidence);
+  (usable.length?usable:(Array.isArray(evidence)?evidence:[])).forEach(function(c){
+    const url=validHttpUrl(c&&c.url||'');if(!url||v3067BlockedEvidence(c))return;
     const key=url.toLowerCase();if(seen.has(key))return;seen.add(key);
     let score=Number(c&&c.preScore||0);
     if(c&&c.directFetchVerified)score+=24;
@@ -29601,6 +29970,7 @@ function v3022BestAvailablePrompt(raw,intent,evidence){
     'If there are multiple plausible entities, scopes, offices, products, regions, dates, or interpretations, do not guess. In ANSWER say that multiple targets are plausible and name concise choices in EXPLANATION so the user can choose.',
     'Do not invent a URL, quotation, source, date, person, or count. Do not answer with only “unable to answer,” “no reliable source,” “try again,” or equivalent failure wording.',
     intent&&intent.entity?'ENTITY: '+clean(intent.entity):'',
+    v3072USStateOnlyRequest(raw)?'UNIT SCOPE LOCK: "U.S. states" means the 50 states only. Exclude the District of Columbia, Puerto Rico, Guam, American Samoa, Northern Mariana Islands, and the U.S. Virgin Islands. If a source ranks them with states, skip them and continue to the next qualifying state.':'',
     intent&&intent.expectedParts>1?'MULTI-PART: answer all requested parts when you reasonably can; otherwise clearly identify which part remains uncertain.':'',
     intent&&intent.completeList?'LIST REQUEST: if you cannot confidently give a complete current list, provide the best-known list or partial list only when clearly labeled as possibly incomplete.':'',
     'QUESTION: '+clean(raw),
@@ -29609,19 +29979,26 @@ function v3022BestAvailablePrompt(raw,intent,evidence){
 }
 function v3022BestAvailableParsed(raw,intent,parsed,provider,evidence){
   if(!parsed||typeof parsed!=='object')return null;
-  const answer=clean(removeFollowUpOfferWording(parsed.answer||'')),explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  const explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  let answer=clean(removeFollowUpOfferWording((typeof parsed.answer==='string'||typeof parsed.answer==='number')?parsed.answer:''));
+  if(!answer||v3063AnswerRestatesInput(raw,answer))answer=v3064ResolvedAnswerFromExplanation(raw,explanation);
   if(!answer||/^(?:unable|cannot|can't|no reliable|a reliable .* could not|analysis unavailable|try again|retry)\b/i.test(answer))return null;
+  if(v3072USStateOnlyRequest(raw)&&v3072NonStateUSJurisdictionPresent(answer+' '+explanation))return null;
   if(typeof v3000InterrogativeAnswerShapeMismatch==='function'&&v3000InterrogativeAnswerShapeMismatch(raw,{answer:answer,analysisResult:'Answer',outputBasket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER}))return null;
   const rows=v3022EvidenceRows(raw,intent,evidence),top=rows[0]||null;
   return {ok:true,answer:answer,explanation:explanation,provider:provider,source:top||{title:provider+' model knowledge',url:'',snippet:'',text:''},bestAvailableModel:true,parts:[answer]};
 }
 async function v3022OpenAIBestAvailable(raw,intent,evidence){
   if(!envSecret('OPENAI_API_KEY'))return null;
-  const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3022BestAvailablePrompt(raw,intent,evidence),max_output_tokens:900,text:{format:{type:'json_object'}}};
+  const t0=Date.now(),model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini',payload={model:model,input:v3022BestAvailablePrompt(raw,intent,evidence),max_output_tokens:900,text:{format:{type:'json_object'}}};
   if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
-  const response=await openaiApiRequestJson(payload,6200);if(!response||!response.ok)return null;
+  const response=await openaiApiRequestJson(payload,6200);
+  if(!response||!response.ok){
+    return null;
+  }
   const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
-  return v3022BestAvailableParsed(raw,intent,parsed,'OpenAI',evidence);
+  const result=v3022BestAvailableParsed(raw,intent,parsed,'OpenAI',evidence);
+  return result;
 }
 function v3022BestAvailableModelContract(raw,intent,result,started,evidenceCount){
   const source=result&&result.source||{},ambiguous=v3029BestAvailableAmbiguous(clean(result&&result.answer||''),clean(result&&result.explanation||'')),hasSource=!ambiguous&&!!validHttpUrl(source.url||'');
@@ -29717,7 +30094,10 @@ async function v3007StructuredResearchResponse(raw,requestState){
     result=fast&&fast.result||null;
     try{console.log('AIV source-owned v3026 coordination | mode='+(fast&&fast.mode||'unknown')+' | evidence='+evidence.length+' | result='+(result?'YES':'NO')+' | ms='+(Date.now()-started));}catch(_e){}
   }else{
+    const evidenceStarted=Date.now();
     evidence=await v3007ResearchEvidence(raw,intent);if(requestState&&requestState.aborted)return '';
+    const rawEvidenceCount=evidence.length,usableEvidence=v3067UsableEvidenceRows(evidence);
+    if(usableEvidence.length)evidence=usableEvidence;
     if(sourceOwned){
       if(evidence.length&&envSecret('OPENAI_API_KEY'))result=await v3007OpenAISynthesize(raw,intent,evidence).catch(function(){return null;});
       if(requestState&&requestState.aborted)return '';
@@ -29726,7 +30106,7 @@ async function v3007StructuredResearchResponse(raw,requestState){
         if(remaining>7200)result=await v3017OpenAIGroundedResearch(raw,intent,evidence,Math.max(6500,Math.min(9000,remaining-3500))).catch(function(){return null;});
       }
       if(requestState&&requestState.aborted)return '';
-      if(!result&&evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<12000)result=await v3007GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});
+      if(!result&&!evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<9000)result=await v3007GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});
       if(requestState&&requestState.aborted)return '';
       if(!result&&!evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<12000){
         const remaining=Math.max(0,researchBudgetMs-(Date.now()-started));
@@ -29745,8 +30125,9 @@ async function v3007StructuredResearchResponse(raw,requestState){
     }
   }
   if(requestState&&requestState.aborted)return '';
-  if(!result&&sourceOwned&&Date.now()-started<14500&&envSecret('OPENAI_API_KEY')){
+  if(!result&&sourceOwned&&Date.now()-started<10500&&envSecret('OPENAI_API_KEY')){
     bestAvailableCandidate=await v3022OpenAIBestAvailable(raw,intent,evidence).catch(function(){return null;});
+  }else if(!result&&sourceOwned){
   }
   if(requestState&&requestState.aborted)return '';
   if(!result){
@@ -29776,7 +30157,7 @@ async function v3007StructuredResearchResponse(raw,requestState){
 
 
 const FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   authorityOwnerCacheReady:V3026_AUTHORITY_OWNER_CACHE instanceof Map,
   authorityOwnerCacheGetAvailable:typeof v3026AuthorityOwnerCacheGet==='function',
   authorityOwnerCachePutAvailable:typeof v3026AuthorityOwnerCachePut==='function',
@@ -29787,7 +30168,7 @@ const FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026=Object.freeze({
 if(!Object.keys(FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026).every(function(k){return FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026[k]===true;}))throw new Error('FAST_SOURCE_OWNED_RESEARCH_V3026 startup validation failed');
 
 const OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   hostMatchAvailable:typeof v3023AuthorityHostMatch==='function',
   entityEvidenceEligibilityAvailable:typeof v3023AuthorityEntityEvidenceEligible==='function',
   navigationScoringAvailable:typeof v3023AuthorityNavigationScore==='function',
@@ -29798,7 +30179,7 @@ const OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023=Object.freeze({
 if(!Object.keys(OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023).every(function(k){return OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023[k]===true;}))throw new Error('OFFICIAL_HOST_IDENTITY_INHERITANCE_V3023 startup validation failed');
 
 const BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   evidenceRowsAvailable:typeof v3022EvidenceRows==='function',
   evidenceFallbackAvailable:typeof v3022EvidenceFallbackContract==='function',
   bestAvailablePromptAvailable:typeof v3022BestAvailablePrompt==='function',
@@ -29809,7 +30190,7 @@ const BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022=Object.freeze({
 if(!Object.keys(BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022).every(function(k){return BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022[k]===true;}))throw new Error('BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_V3022 startup validation failed');
 
 const AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   entityIdentityAvailable:typeof v3021EntityIdentity==='function',
   authorityOwnerAvailable:typeof v3021DiscoverAuthorityOwner==='function',
   authorityQueryAvailable:typeof v3021AuthorityQueryTerms==='function',
@@ -29819,7 +30200,7 @@ const AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021=Object.freeze({
 if(!Object.keys(AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021).every(function(k){return AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021[k]===true;}))throw new Error('AUTHORITY_OWNER_DISCOVERY_V3021 startup validation failed');
 
 const AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   topicCoreAvailable:typeof v3020ResearchTopicCore==='function',
   empiricalIntentAvailable:typeof v3020EmpiricalEvidenceRequest==='function',
   contentPenaltyAvailable:typeof v3020ContentSitePenalty==='function',
@@ -29829,7 +30210,7 @@ const AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020=Object.freeze({
 if(!Object.keys(AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020).every(function(k){return AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020[k]===true;}))throw new Error('AUTHORITY_FIRST_SOURCE_RANKING_V3020 startup validation failed');
 
 const FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   queryVariantsAvailable:typeof v3018ResearchQueryVariants==='function',
   authorityScoringAvailable:typeof v3018EvidenceAuthorityScore==='function',
   researchEvidenceAvailable:typeof v3007ResearchEvidence==='function',
@@ -29840,7 +30221,7 @@ const FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018=Object.freeze({
 if(!Object.keys(FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018).every(function(k){return FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018[k]===true;}))throw new Error('FREE_DIRECT_SOURCE_DISCOVERY_V3018 startup validation failed');
 
 const GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   openAIGroundedAvailable:typeof v3017OpenAIGroundedResearch==='function',
   geminiGroundedAvailable:typeof v3017GeminiGroundedResearch==='function',
   groundedValidationAvailable:typeof v3015GroundedValidation==='function',
@@ -29849,7 +30230,7 @@ const GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017=Object.freeze({
 if(!Object.keys(GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017).every(function(k){return GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017[k]===true;}))throw new Error('GROUNDED_PROVIDER_TIME_BUDGET_V3017 startup validation failed');
 
 const GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   openAIGroundedAvailable:typeof v3015OpenAIGroundedResearch==='function',
   geminiGroundedAvailable:typeof v3015GeminiGroundedResearch==='function',
   groundedResultAvailable:typeof v3015GroundedResult==='function',
@@ -29858,7 +30239,7 @@ const GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016=Object.freeze({
 if(!Object.keys(GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016).every(function(k){return GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016[k]===true;}))throw new Error('GROUNDED_PROVIDER_COMPATIBILITY_V3016 startup validation failed');
 
 const SHARED_GROUNDED_SOURCE_VALIDATION_STARTUP_V3015=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   groundingIdentityAvailable:typeof v3015GroundingUrlKnown==='function',
   sourceResolverAvailable:typeof v3015ResolveGroundedSource==='function',
   validatorAvailable:typeof v3015GroundedValidation==='function',
@@ -29894,7 +30275,7 @@ async function v3007NamedEntityPagePreflight(raw,intent,requestState){
   best.score=v3007EntityPageScore(raw,intent,best);best.matchCount=1;best.matchRatio=1;const serialized=v2989ResourceContract(raw,intent,{ok:true,best:best,provider:'Exact named-entity page discovery v3007',answer:'',explanation:'',usage:{providerSourceBound:true},totalResourceMs:0});return serialized||'';
 }
 const GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   sourceRequiredDetectorAvailable:typeof v3014GroundedSourceRequired==='function',
   openAIGroundedResearchAvailable:typeof v3014OpenAIGroundedResearch==='function',
   geminiGroundedResearchAvailable:typeof v3014GeminiGroundedResearch==='function',
@@ -29904,12 +30285,12 @@ const GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014=Object.free
 if(!Object.keys(GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014).every(function(k){return GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014[k]===true;}))throw new Error('GROUNDED_SOURCE_RESEARCH_CONTINUATION_V3014 startup validation failed');
 
 const SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',scopeAvailable:typeof v3007SemanticScope==='function',researchIntentAvailable:typeof v3007ResearchIntent==='function',researchResponseAvailable:typeof v3007StructuredResearchResponse==='function',entityPagePreflightAvailable:typeof v3007NamedEntityPagePreflight==='function',semanticCacheReady:V3007_SEMANTIC_RESEARCH_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3073',scopeAvailable:typeof v3007SemanticScope==='function',researchIntentAvailable:typeof v3007ResearchIntent==='function',researchResponseAvailable:typeof v3007StructuredResearchResponse==='function',entityPagePreflightAvailable:typeof v3007NamedEntityPagePreflight==='function',semanticCacheReady:V3007_SEMANTIC_RESEARCH_CACHE instanceof Map
 });
 if(!Object.keys(SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007).every(function(k){return SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007[k]===true;}))throw new Error('SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_V3007 startup validation failed');
 
 const SHARED_SOURCE_BOUND_RESEARCH_INTEGRITY_STARTUP_VALIDATION_V3011=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   countBindingAvailable:typeof v3011SourceContainsCount==='function',
   empiricalEvidenceGateAvailable:typeof v3011EmpiricalCoverageEvidenceValid==='function',
   ethnolinguisticDirectAnswerGateAvailable:typeof v3011EthnolinguisticAnswerDirect==='function',
@@ -29969,7 +30350,7 @@ function v2999ImplicitCompleteListIncomplete(raw,contract){
   return false;
 }
 const LIST_COMPLETENESS_INFERENCE_STARTUP_VALIDATION_V2999=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   implicitCompleteListIntentAvailable:typeof v2999ImplicitCompleteListIntent==='function',
   completenessGuidanceAvailable:typeof v2999ListCompletenessGuidance==='function',
   completenessValidatorAvailable:typeof v2999ImplicitCompleteListIncomplete==='function'
@@ -30061,6 +30442,10 @@ function v2998ContractIntegrityIssues(raw,contract){
   if(v2998ChoiceAnswerTooDiffuse(raw,c))issues.push('DIRECT_CHOICE_TOO_DIFFUSE');
   if(v2998YesNoPolarityConflict(raw,c))issues.push('YES_NO_POLARITY_CONFLICT');
   if(v2998DynamicCountryAnswerIncomplete(raw,c))issues.push('DYNAMIC_COUNTRY_STATUS_INCOMPLETE');
+  if(v3072USStateOnlyRequest(raw)){
+    const stateScopeBlob=[c.answer,c.summary,Array.isArray(c.answerList)?c.answerList.join(' '):'',c.explanation,c.why].map(clean).join(' ');
+    if(v3072NonStateUSJurisdictionPresent(stateScopeBlob))issues.push('US_STATE_SCOPE_VIOLATION');
+  }
   if(v3000InterrogativeAnswerShapeMismatch(raw,c))issues.push('INTERROGATIVE_ANSWER_SHAPE_MISMATCH');
   if(typeof v3001ContractSemanticIssues==='function')issues.push.apply(issues,v3001ContractSemanticIssues(raw,c));
   if(v2999ImplicitCompleteListIncomplete(raw,c))issues.push('IMPLICIT_COMPLETE_LIST_INCOMPLETE');
@@ -30087,6 +30472,7 @@ function v2998RepairContractObject(raw,contract,requestContext){
     absoluteYesNoConsistency:v2998AbsoluteYesNoCue(raw)?(v2998YesNoPolarityConflict(raw,c)?'REPAIRED':'PASS'):'NOT_APPLICABLE',
     interrogativeAnswerShapeV3000:v3000InterrogativeShape(raw)?(v3000InterrogativeAnswerShapeMismatch(raw,c)?'REQUIRES_REPAIR':'PASS'):'NOT_APPLICABLE',
     listCompletenessV2999:v2999ImplicitCompleteListIntent(raw)?(v2999ImplicitCompleteListIncomplete(raw,c)?'REQUIRES_REPAIR':'PASS'):'NOT_APPLICABLE',
+    usStateScopeV3073:v3072USStateOnlyRequest(raw)?(v3072NonStateUSJurisdictionPresent([c.answer,c.summary,Array.isArray(c.answerList)?c.answerList.join(' '):'',c.explanation,c.why].map(clean).join(' '))?'REQUIRES_CORRECTION':'PASS'):'NOT_APPLICABLE',
     clientTimezoneContext:clean(requestContext&&requestContext.timezone||'')
   });
   return c;
@@ -30204,13 +30590,13 @@ async function v2998FinalizeResponse(raw,serialized,requestState,requestContext)
     const normalized=v2998PatchSerializedContracts(raw,v2865NormalizeSerializedResponse(raw,correction),requestContext);
     if(!v3001SerializedIssues(raw,normalized).length)return v2998FallbackClockZonePatch(raw,normalized,requestContext);
   }
-  const hard=issues.some(function(issue){return /(?:ANSWER_SHAPE|DISPLAY_MODE|COMPLETE_LIST|COUNTRY_SET|ENTITY_OR_ABBREVIATION|RESOURCE_ACTION_LINK|DYNAMIC_COUNTRY|NO_RESULT_CONTRACT)/.test(issue);});
+  const hard=issues.some(function(issue){return /(?:ANSWER_SHAPE|DISPLAY_MODE|COMPLETE_LIST|COUNTRY_SET|ENTITY_OR_ABBREVIATION|RESOURCE_ACTION_LINK|DYNAMIC_COUNTRY|US_STATE_SCOPE|NO_RESULT_CONTRACT)/.test(issue);});
   if(hard)return v3001NonfinalRetry(raw,issues.join(','));
   return v2998FallbackClockZonePatch(raw,patched,requestContext);
 }
 
 const ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   epistemicIntentAvailable:typeof v2998EpistemicEvidenceIntent==='function',
   dynamicCountryStatusAvailable:typeof v2998DynamicCountryStatusIntent==='function'&&typeof v2998DynamicCountryStatusResponse==='function',
   integrityValidatorAvailable:typeof v2998ContractIntegrityIssues==='function',
@@ -30220,16 +30606,16 @@ const ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998=Object.freez
 if(!Object.keys(ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998).every(function(k){return ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998[k]===true;}))throw new Error('ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_V2998 startup validation failed');
 
 const SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',multiPartAvailable:typeof v3029MultiPartQuestion==='function'&&typeof v3029MultiPartIncomplete==='function',comparisonConsistencyAvailable:typeof v3029ComparisonNumericContradiction==='function',roleSourceBindingAvailable:typeof v3029AmbiguousSinglePlaceRoleSourceCompatible==='function',resourceSpecificityAvailable:typeof v2989ResourceRequestIntent==='function'&&typeof v3007EntityPagePurpose==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',multiPartAvailable:typeof v3029MultiPartQuestion==='function'&&typeof v3029MultiPartIncomplete==='function',comparisonConsistencyAvailable:typeof v3029ComparisonNumericContradiction==='function',roleSourceBindingAvailable:typeof v3029AmbiguousSinglePlaceRoleSourceCompatible==='function',resourceSpecificityAvailable:typeof v2989ResourceRequestIntent==='function'&&typeof v3007EntityPagePurpose==='function'
 });
 if(!Object.keys(SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029).every(function(k){return SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029[k]===true;}))throw new Error('SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_V3029 startup validation failed');
 
 const GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',geographicIntentAvailable:typeof v2997GeographicRankingIntent==='function',abbreviationProtectionAvailable:typeof v2997ProtectGeographicAbbreviationBoundaries==='function',geographicCompletionAvailable:typeof v2997CompleteGeographicAnswerFromContext==='function',primaryStatisticsGateAvailable:typeof v2997StatisticalRankingSourceValid==='function',populationScopeBindingAvailable:typeof v2996PopulationSensitiveRankingResultValid==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',geographicIntentAvailable:typeof v2997GeographicRankingIntent==='function',abbreviationProtectionAvailable:typeof v2997ProtectGeographicAbbreviationBoundaries==='function',geographicCompletionAvailable:typeof v2997CompleteGeographicAnswerFromContext==='function',primaryStatisticsGateAvailable:typeof v2997StatisticalRankingSourceValid==='function',populationScopeBindingAvailable:typeof v2996PopulationSensitiveRankingResultValid==='function'
 });
 if(!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.currentVersion||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.geographicIntentAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.abbreviationProtectionAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.geographicCompletionAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.primaryStatisticsGateAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.populationScopeBindingAvailable){throw new Error('GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_REPAIR_V2997 startup validation failed');}
 
-const GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989=Object.freeze({currentVersion:VERSION==='BE_AIV_v3046',intentAvailable:typeof v2989ResourceRequestIntent==='function',officialIdentityAvailable:typeof v2989RequestedOfficialIdentity==='function'&&typeof v2989OfficialSourceIdentityMatch==='function',officialScopedDiscoveryAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989OfficialScopedTopic==='function',exactFactQueryAvailable:typeof v2989RequestedFactSearchPhrase==='function'&&typeof v2989RequestedFactCoreTerms==='function',topicUsefulnessAvailable:typeof v2989ResourceTopicTerms==='function'&&typeof v2989TopicUseful==='function'&&typeof v2993ResourceHayHasTerm==='function'&&typeof v2993CommerceSemanticQueryVariants==='function',commerceDestinationGateAvailable:typeof v2994CommerceDestinationSignals==='function',neutralResourceExplanationAvailable:typeof v2995ResourceDetailIsSourceVoice==='function'&&typeof v2995NeutralResourceExplanation==='function',resourceTypeGateAvailable:typeof v2989ResourceTypeCompatible==='function',localDirectAvailable:typeof v2989LocalDirectResourceLookup==='function',freeDirectAvailable:typeof v2989FreeDirectResourceLookup==='function',geminiAvailable:typeof v2989GeminiGroundedLookup==='function',geminiSourceBindingAvailable:typeof v2989OpenAIResourceFields==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',openaiAvailable:typeof v2989OpenAIGroundedLookup==='function',destinationResolverAvailable:typeof v2989ResolveCandidate==='function',providerSourceReconciliationAvailable:typeof v2989ProviderSourceReconciliationCandidates==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',providerEvidenceBindingAvailable:typeof v2989ProviderEvidenceSearchPhrase==='function'&&typeof v2989ProviderEvidenceBindingScore==='function',providerSearchSourceCollectorAvailable:typeof v2989CollectProviderSearchSources==='function'&&typeof v2989ProviderSearchEvidenceAcceptable==='function',officialDomainFilteredSearchAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989SearchQueries==='function',officialNeighborDiscoveryAvailable:typeof v2989OfficialNeighborSeedUrls==='function'&&typeof v2989OfficialNeighborLinks==='function'&&typeof v2989OfficialNeighborDiscovery==='function',rankingAvailable:typeof v2989RankCandidates==='function',qualityGateAvailable:typeof v2989ResultAcceptable==='function',dispatcherAvailable:typeof v2989ResourceRetrievalResponse==='function'});
+const GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v2989ResourceRequestIntent==='function',officialIdentityAvailable:typeof v2989RequestedOfficialIdentity==='function'&&typeof v2989OfficialSourceIdentityMatch==='function',officialScopedDiscoveryAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989OfficialScopedTopic==='function',exactFactQueryAvailable:typeof v2989RequestedFactSearchPhrase==='function'&&typeof v2989RequestedFactCoreTerms==='function',topicUsefulnessAvailable:typeof v2989ResourceTopicTerms==='function'&&typeof v2989TopicUseful==='function'&&typeof v2993ResourceHayHasTerm==='function'&&typeof v2993CommerceSemanticQueryVariants==='function',commerceDestinationGateAvailable:typeof v2994CommerceDestinationSignals==='function',neutralResourceExplanationAvailable:typeof v2995ResourceDetailIsSourceVoice==='function'&&typeof v2995NeutralResourceExplanation==='function',resourceTypeGateAvailable:typeof v2989ResourceTypeCompatible==='function',localDirectAvailable:typeof v2989LocalDirectResourceLookup==='function',freeDirectAvailable:typeof v2989FreeDirectResourceLookup==='function',geminiAvailable:typeof v2989GeminiGroundedLookup==='function',geminiSourceBindingAvailable:typeof v2989OpenAIResourceFields==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',openaiAvailable:typeof v2989OpenAIGroundedLookup==='function',destinationResolverAvailable:typeof v2989ResolveCandidate==='function',providerSourceReconciliationAvailable:typeof v2989ProviderSourceReconciliationCandidates==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',providerEvidenceBindingAvailable:typeof v2989ProviderEvidenceSearchPhrase==='function'&&typeof v2989ProviderEvidenceBindingScore==='function',providerSearchSourceCollectorAvailable:typeof v2989CollectProviderSearchSources==='function'&&typeof v2989ProviderSearchEvidenceAcceptable==='function',officialDomainFilteredSearchAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989SearchQueries==='function',officialNeighborDiscoveryAvailable:typeof v2989OfficialNeighborSeedUrls==='function'&&typeof v2989OfficialNeighborLinks==='function'&&typeof v2989OfficialNeighborDiscovery==='function',rankingAvailable:typeof v2989RankCandidates==='function',qualityGateAvailable:typeof v2989ResultAcceptable==='function',dispatcherAvailable:typeof v2989ResourceRetrievalResponse==='function'});
 if(!Object.keys(GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989).every(function(k){return GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989[k]===true;}))throw new Error('SHARED_NEUTRAL_RESOURCE_EXPLANATION_V2995 startup validation failed');
 
 async function v2764HandleAnalyzeRequest(input,requestState,requestContext){
@@ -30662,7 +31048,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -30845,7 +31231,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -30861,7 +31247,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -30906,7 +31292,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -31174,7 +31560,7 @@ const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -31188,7 +31574,7 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
@@ -31255,7 +31641,7 @@ const SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937=Object.fre
   evaluatorAvailable:typeof v2937VerifiedStableDirectEvaluation==='function',
   responseBuilderAvailable:typeof v2937VerifiedStableDirectResponse==='function',
   finalBoundaryAvailable:typeof v2937NormalizeFinalResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.evaluatorAvailable||
    !SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.responseBuilderAvailable||
@@ -31282,7 +31668,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v3046'
+  currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -31292,7 +31678,7 @@ if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnostics
 
 
 const YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   resolverAvailable:typeof resolveYouTubeTitleV2917==='function',
   titleFallbackAvailable:typeof openAIVideoTitleLookupV2917==='function',
   exactTitleVerifierAvailable:typeof openAIVideoTitleClaimLiveVerification==='function',
@@ -31703,6 +32089,14 @@ function v2875RequireTester(req,res){
   if(!tester){sendJson(res,401,{ok:false,error:'Beta sign-in is required.'});return null;}
   return tester;
 }
+async function v3061RequireTesterSimpleBody(req,res){
+  let body;
+  try{body=await v2875ReadJsonBody(req,4096);}catch(e){sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});return null;}
+  const token=clean(body&&body.sessionToken||body&&body.token||'');
+  const tester=v2875AuthenticateRequest({headers:{'x-aiv-session':token}});
+  if(!tester){sendJson(res,401,{ok:false,error:'Beta sign-in is required.'});return null;}
+  return tester;
+}
 function v2875ReadJsonBody(req,maxBytes){
   return new Promise(function(resolve,reject){
     let total=0,body='';
@@ -31812,7 +32206,7 @@ async function v2931HandleTesterBlock(req,res,u){
 
 v2875InitializeTesterStorage();
 const TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   reviewAccountAvailable:typeof v2931ReviewTesterAccount==='function',
   reviewQueueDecoratorAvailable:typeof v2931ReviewQueueWithTesterAccounts==='function',
   blockHandlerAvailable:typeof v2931HandleTesterBlock==='function',
@@ -31822,7 +32216,7 @@ if(!TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931.currentVersion||!TESTER_BLOCK_
   throw new Error('TESTER_BLOCK_AND_DO_NOT_INVITE_CONTROL_V2931 startup validation failed');
 }
 const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  currentVersion:VERSION==='BE_AIV_v3073',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
   pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function',
   administratorResolverAvailable:typeof v2930IsAdministrator==='function'&&v2930IsAdministrator({nameKey:'cary lee'})&&!v2930IsAdministrator({nameKey:'someone else'}),
   regularTesterSessionHours:V2930_REGULAR_TESTER_SESSION_HOURS===12
@@ -31833,7 +32227,7 @@ if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BET
 
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v3046'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v3073'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -32082,7 +32476,7 @@ async function v2885PreflightUnclearInput(input,requestState){
   return v2885UnclearInputGuidanceBody(raw,interpretation);
 }
 const UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
+  currentVersion:VERSION==='BE_AIV_v3073',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
 });
 if(!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.currentVersion||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.candidateDetectorAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.interpreterAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.friendlyFallbackAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.preflightAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionCacheReady||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionKeyAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.requestBindingAvailable){
   throw new Error('UNCERTAIN_INPUT_CLARIFICATION_AND_FRIENDLY_RETRY_V2885 startup validation failed');
@@ -32095,11 +32489,11 @@ const server=http.createServer(async (req,res)=>{
     const u=new URL(req.url,'http://localhost:'+PORT);
     if(u.pathname==='/auth/sign-in')return await v2875HandleTesterSignIn(req,res);
     if(u.pathname==='/auth/session'){
-      const tester=v2875RequireTester(req,res);if(!tester)return;
+      const tester=req.method==='POST'?await v3061RequireTesterSimpleBody(req,res):v2875RequireTester(req,res);if(!tester)return;
       return sendJson(res,200,{ok:true,tester:v2875PublicTester(tester)});
     }
     if(u.pathname==='/auth/sign-out'){
-      const tester=v2875RequireTester(req,res);if(!tester)return;
+      const tester=req.method==='POST'?await v3061RequireTesterSimpleBody(req,res):v2875RequireTester(req,res);if(!tester)return;
       return sendJson(res,200,{ok:true});
     }
     if(u.pathname==='/health') return send(res,200,'application/json',JSON.stringify({
@@ -32157,11 +32551,12 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,200,clearRetryTimeoutTest(u.searchParams.get('session')||'',u.searchParams.get('token')||''));
     }
     if(u.pathname==='/developer-cache-status'){
-      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2886,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2885,sourceStrategyStats:v2776SourceStrategySnapshot(),resourceSourceStrategyStats:v2989ResourceStrategySnapshot()});
+      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,finalizedExactInputCacheSize:FINALIZED_EXACT_INPUT_CACHE_V3054.size,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2886,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2885,sourceStrategyStats:v2776SourceStrategySnapshot(),resourceSourceStrategyStats:v2989ResourceStrategySnapshot()});
     }
     if(u.pathname==='/developer-cache-reset'){
       const cleared=v2764ResetCompletedContractCache();
-      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedResultsCleared:cleared.completed,inFlightCleared:cleared.inFlight,paidResultsCleared:cleared.paidResults,paidInFlightCleared:cleared.paidInFlight});
+      const finalizedExactCleared=v3054ResetFinalizedExactCache();
+      return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedResultsCleared:cleared.completed,finalizedExactInputResultsCleared:finalizedExactCleared,inFlightCleared:cleared.inFlight,paidResultsCleared:cleared.paidResults,paidInFlightCleared:cleared.paidInFlight});
     }
     if(u.pathname==='/scan' || u.pathname==='/analyze'){
       const tester=v2875RequireTester(req,res);if(!tester)return;
@@ -32183,6 +32578,12 @@ const server=http.createServer(async (req,res)=>{
         };
         req.once('aborted',function(){requestState.aborted=true;finalizeAnalytics('',{aborted:true});});
         res.once('close',function(){if(!res.writableEnded){requestState.aborted=true;finalizeAnalytics('',{aborted:true});}});
+        // v3054: exact completed repeat lookup happens before every expensive preflight.
+        const v3054CachedFinal=v3054FinalizedExactCacheGet(input,requestContext);
+        if(v3054CachedFinal){
+          const event=finalizeAnalytics(v3054CachedFinal,{route:'finalized-exact-input-cache/v3054'});
+          return send(res,200,'text/plain; charset=utf-8',v3054CachedFinal,Object.assign({'x-aiv-cache':'HIT'},event&&event.eventId?{'x-aiv-scan-event':event.eventId}:{}));
+        }
         // v3044: all recognized moral/life-direction questions are owned here before any
         // resource, semantic-research, boundary, clarification, factual, or recovery preflight.
         const v3044MoralPreflight=await v3044CanonicalMoralResponse(input,'outer-preflight');
@@ -32211,8 +32612,9 @@ const server=http.createServer(async (req,res)=>{
         const targetedBody=await v3002FinalizeResponse(input,integrityBody,requestState);
         const finalBody=await v2885ApplyUnclearInputClarification(input,targetedBody,requestState);
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
+        v3054FinalizedExactCachePut(input,requestContext,finalBody);
         const event=finalizeAnalytics(finalBody,{});
-        return send(res,200,'text/plain; charset=utf-8',finalBody,event&&event.eventId?{'x-aiv-scan-event':event.eventId}:{});
+        return send(res,200,'text/plain; charset=utf-8',finalBody,Object.assign({'x-aiv-cache':'MISS'},event&&event.eventId?{'x-aiv-scan-event':event.eventId}:{}));
       });
     }
     return send(res,404,'text/plain','Not found');
@@ -35407,7 +35809,7 @@ const v2834Crypto=require('crypto');
 const V2834_KJV_EXPECTED_SHA256='b22bb30ddba274f4cf127be3a7a07d04301609813ae3e5ffb148b27bdecf9946';
 const V2834_KJV_EXPECTED_VERSES=31102;
 const CONSOLIDATED_BIBLICAL_MORAL_ENGINE_STARTUP_VALIDATION_V3046=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3046',
+  currentVersion:VERSION==='BE_AIV_v3073',
   intentAvailable:typeof v3044MoralQuestionIntent==='function',
   frameBindingAvailable:typeof v3044MoralQuestionFrame==='function',
   actionBindingAvailable:typeof v3044RequestedActionVerb==='function'&&typeof v3044AuditActionContainsRequestedVerb==='function',

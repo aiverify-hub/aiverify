@@ -1,3 +1,13 @@
+<!-- BM_FE_AIV_v2318_NCP: frontend-only cartoon normalization + final-processing indicator over v2317.
+Preserves v2317 sign-in/session fix, V6 C1, scan/result behavior, analytics/review behavior, cartoon timing and crossfade timing.
+All four cartoon scenes now render inside the same 1672:941 frame established by V6 C1, so C2-C4 no longer appear larger and caption spacing remains visually consistent.
+Only the trailing ellipsis in the final C4 caption pulses while processing continues; the caption text itself stays steady and results are never delayed. -->
+<!-- BM_FE_AIV_v2317_SAR: saved-session transport and structured-answer rendering repair over v2316. Uses simple text/plain POST bodies for saved-session validation/sign-out to avoid CORS preflight delays while preserving the verified instant manual sign-in transport. Adds shared readable normalization for structured answer objects so valid list/key-value answers never render as [object Object]. Preserves V6 C1, cartoon/caption timing, scan-speed behavior, analytics/review behavior, and all unrelated UI behavior. -->
+<!-- BM_FE_AIV_v2316_PCL: clean production checkpoint over v2313 presentation behavior. Preserves V6 C1, delayed cartoon start, synchronized caption/cartoon crossfade timing, immediate-result behavior, and all unrelated UI behavior. Adds only the verified simple-request sign-in transport that avoids the browser CORS preflight delay; removes temporary frontend login timing diagnostics. Compatible with BE_AIV_v3060. -->
+<!-- BM_FE_AIV_v2311_CFR: C1 frame recovery over v2310. Restores the corrected C1 artwork under the original V4 asset filename so the primary in-flow image always loads and preserves the cartoon frame height; this also prevents C2+ crossfade clipping. Preserves v2310 caption synchronization, 1.5-second delayed cartoon start, 2-second hold, 1.05-second overlapping crossfade, immediate-result behavior, backend v3058 compatibility, and all unrelated behavior. -->
+<!-- BM_FE_AIV_v2310_CST: caption-synchronized cartoon timing over tested v2309. Keeps the corrected C1 asset, 1.5-second delayed cartoon start, 2-second full-view hold, 1.05-second overlapping cartoon crossfade, and immediate-result behavior. Removes the independent caption blink and instead crossfades each caption on the exact same 1.05-second timing as its cartoon image, with the same 2-second full-view hold. Preserves backend v3058 compatibility and all unrelated behavior. -->
+<!-- BM_FE_AIV_v2307_CSP: clean production speed checkpoint over tested v2306. Preserves the v2306 removal of the competing per-scan /health request, removes temporary v2305 frontend timing instrumentation/status text, and preserves all cartoon, rendering, review, analytics, navigation, and scan behavior. -->
+<!-- BM_FE_AIV_v2305_PTR: diagnostic-only frontend timing over v2304. Adds per-scan fetch/render/DOM/post-render/review timing to the existing Done status and browser console; no routing, result, cartoon, or review behavior changes. -->
 <!-- BM_FE_AIV_v2304_CTF: frontend-only final loading-cartoon presentation update over v2303. Uses the approved four-frame V4 cartoon set, slightly reduces cartoon display size, adds clear spacing between each cartoon and its caption, extends each fade-out/fade-in transition by 0.5 second, and reduces each fully-visible scene hold from 3 seconds to 2 seconds. Preserves v2303 completed-result page-top behavior, rendering, review workflow, backend v3046 compatibility, and all unrelated behavior. -->
 <!-- BM_FE_AIV_v2303_PTR: reliable completed-result page-top return over v2302. Fixes the prior timer-lifecycle conflict that canceled the page-top scroll before it fired; completed results now force the document to the true top immediately and reassert after final layout settles. Preserves v2302 rendering, cartoon UX, review workflow, and backend compatibility. -->
 <!-- BM_FE_AIV_v2302_PTP: completed-result page-top return over v2301. When a completed scan replaces the loading cartoons, the browser now returns to the actual top of the page rather than only aligning the Scan Results panel. Preserves the v2301 placeholder suppression repair, cartoon loading UX/assets/timing, backend compatibility, and all unrelated rendering behavior. -->
@@ -363,12 +373,18 @@ button:active{transform:translateY(1px)}
 .clear{background:#f5f7f9;color:#2f3b45;border:2px solid #87939d;box-shadow:0 2px 7px rgba(0,0,0,.16)}.copy{background:#3498db;color:#fff}.paste{background:#16a085;color:#fff}.sample{background:#aaa;color:#111}.clearResults{background:#aaa;color:#111}
 .meta{font-size:14px;color:#333;margin-top:8px;display:flex;justify-content:space-between;gap:14px}
 .loading{color:#555;font-style:italic;font-weight:700}
-.aivScanCartoon{max-width:600px;margin:10px auto 0;text-align:center;background:transparent}
-.aivScanCartoonFrame{width:100%;overflow:hidden;border-radius:0;background:transparent;box-shadow:none;border:0}
-.aivScanCartoonFrame img{display:block;width:100%;height:auto;object-fit:contain;background:transparent;opacity:1;transition:opacity 1.05s ease-in-out}
-.aivScanCartoonFrame img.isFading{opacity:0}
-.aivScanCartoonCaption{margin:16px auto 0;font-size:21px;line-height:1.15;font-weight:900;color:#17324b;min-height:25px;animation:aivScanCaptionPulse 2.4s ease-in-out infinite;transform-origin:center}
-@keyframes aivScanCaptionPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0;transform:scale(1.025)}}
+.aivScanCartoon{max-width:600px;margin:10px auto 0;text-align:center;background:transparent;opacity:1;transition:opacity 1.05s ease-in-out}
+.aivScanCartoon.isPending{opacity:0}
+.aivScanCartoonFrame{position:relative;width:100%;aspect-ratio:1672/941;overflow:hidden;border-radius:0;background:transparent;box-shadow:none;border:0}
+.aivScanCartoonFrame img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;opacity:0;transition:opacity 1.05s ease-in-out}
+.aivScanCartoonFrame img.aivScanCartoonOverlay{position:absolute;inset:0}
+.aivScanCartoonFrame img.isActive{opacity:1}
+.aivScanCartoonCaption{position:relative;margin:16px auto 0;font-size:21px;line-height:1.15;font-weight:900;color:#17324b;min-height:25px;transform-origin:center}
+.aivScanCartoonCaptionLayer{display:block;opacity:0;transition:opacity 1.05s ease-in-out}
+.aivScanCartoonCaptionLayer.aivScanCaptionOverlay{position:absolute;inset:0}
+.aivScanCartoonCaptionLayer.isActive{opacity:1}
+.aivScanCartoonEllipsis{display:inline-block;opacity:1;animation:aivScanEllipsisPulse 1.05s ease-in-out infinite}
+@keyframes aivScanEllipsisPulse{0%,100%{opacity:1}50%{opacity:.28}}
 @media(max-width:700px){.aivScanCartoon{width:92%;max-width:600px;margin-top:8px}.aivScanCartoonCaption{font-size:18px;margin-top:14px}.aivScanCartoonFrame{border-radius:0}}
 .bottomBorder{position:fixed;left:0;right:0;bottom:0;height:48px;background:rgba(58,105,153,.72);border-top:1px solid rgba(255,255,255,.18)}
 .resultBox{text-align:left;margin-top:13px;padding:18px 22px 19px}
@@ -901,7 +917,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2304";
+  const FRONTEND_VERSION="frontend v2318";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1057,7 +1073,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(!token){aivShowSignIn('');return;}
     aivSetAuthMessage('Checking saved sign-in…',true);
     try{
-      const res=await fetch(BACKEND_BASE_URL+'/auth/session?_='+Date.now(),{cache:'no-store',mode:'cors',headers:{'x-aiv-session':token}});
+      const res=await fetch(BACKEND_BASE_URL+'/auth/session?_='+Date.now(),{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'text/plain;charset=UTF-8'},body:JSON.stringify({sessionToken:token})});
       const data=await res.json().catch(function(){return {};});
       if(!res.ok||!data.ok||!data.tester){aivShowSignIn('Your saved sign-in expired. Please sign in again.');return;}
       if(stored.mode==='persistent-administrator'&&!data.tester.isAdministrator){aivShowSignIn('This saved sign-in is no longer authorized. Please sign in again.');return;}
@@ -1074,7 +1090,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const button=aivAuthNode('aivAuthSubmit');if(button){button.disabled=true;button.textContent='Signing In…';}
     aivSetAuthMessage('',false);
     try{
-      const res=await fetch(BACKEND_BASE_URL+'/auth/sign-in',{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'application/json'},body:JSON.stringify({name:name,pin:pin})});
+      const res=await fetch(BACKEND_BASE_URL+'/auth/sign-in',{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'text/plain;charset=UTF-8'},body:JSON.stringify({name:name,pin:pin})});
       const data=await res.json().catch(function(){return {};});
       if(!res.ok||!data.ok||!data.sessionToken||!data.tester){aivSetAuthMessage(data.error||'Sign in failed.',false);return;}
       aivStoreSession(data);
@@ -1085,7 +1101,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   async function aivSignOut(){
     const token=aivStoredSessionToken();
-    try{if(token)await fetch(BACKEND_BASE_URL+'/auth/sign-out',{method:'POST',cache:'no-store',mode:'cors',headers:{'x-aiv-session':token}});}catch(_e){}
+    try{if(token)await fetch(BACKEND_BASE_URL+'/auth/sign-out',{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'text/plain;charset=UTF-8'},body:JSON.stringify({sessionToken:token})});}catch(_e){}
     aivShowSignIn('Signed out.');
     const name=aivAuthNode('aivTesterName');if(name)name.value='';
     const pin=aivAuthNode('aivTesterPin');if(pin)pin.value='';
@@ -1342,7 +1358,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   let generalStopTimer=null;
   let aivScanCartoonTimers=[];
   const AIV_SCAN_CARTOON_SCENES=[
-    {src:'AIV_SCAN_V4_01_ANALYZING.webp',caption:'Analyzing input...'},
+    {src:'AIV_SCAN_V6_01_ANALYZING.webp',caption:'Analyzing input...'},
     {src:'AIV_SCAN_V4_02_GATHERING.webp',caption:'Still gathering data...'},
     {src:'AIV_SCAN_V4_03_ANALYZING_DATA.webp',caption:'Analyzing data...'},
     {src:'AIV_SCAN_V4_04_CONFLICTING.webp',caption:'We have encountered some conflicting data...'}
@@ -2266,34 +2282,52 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function aivScanCartoonHtml(){
     const first=AIV_SCAN_CARTOON_SCENES[0];
-    return '<div class="resultText"><div class="resultSectionTitle">Scan Results</div><div class="aivScanCartoon" aria-live="polite"><div class="aivScanCartoonFrame"><img id="aivScanCartoonImage" src="'+esc(first.src)+'" alt="AIVerify research team analyzing the request"></div><div id="aivScanCartoonCaption" class="aivScanCartoonCaption">'+esc(first.caption)+'</div></div></div>';
+    return '<div class="resultText"><div class="resultSectionTitle">Scan Results</div><div class="aivScanCartoon isPending" aria-live="polite"><div class="aivScanCartoonFrame"><img id="aivScanCartoonImageA" class="aivScanCartoonLayer isActive" src="'+esc(first.src)+'" alt="AIVerify research team analyzing the request"><img id="aivScanCartoonImageB" class="aivScanCartoonLayer aivScanCartoonOverlay" src="'+esc(first.src)+'" alt="" aria-hidden="true"></div><div class="aivScanCartoonCaption"><span id="aivScanCartoonCaptionA" class="aivScanCartoonCaptionLayer isActive">'+esc(first.caption)+'</span><span id="aivScanCartoonCaptionB" class="aivScanCartoonCaptionLayer aivScanCaptionOverlay" aria-hidden="true">'+esc(first.caption)+'</span></div></div></div>';
   }
+  const AIV_SCAN_CARTOON_START_DELAY_MS=1500;
   const AIV_SCAN_CARTOON_HOLD_MS=2000;
   const AIV_SCAN_CARTOON_FADE_MS=1050;
+  function aivSetScanCartoonCaption(node,scene,sceneIndex){
+    if(!node||!scene)return;
+    const caption=String(scene.caption||'');
+    if(sceneIndex===AIV_SCAN_CARTOON_SCENES.length-1&&/\.\.\.$/.test(caption)){
+      const base=caption.replace(/\.\.\.$/,'');
+      node.innerHTML=esc(base)+'<span class="aivScanCartoonEllipsis" aria-hidden="true">...</span>';
+    }else{
+      node.textContent=caption;
+    }
+  }
   function aivSetScanCartoonScene(sceneIndex,runId){
     if(runId!==activeRenderRun)return;
     const scene=AIV_SCAN_CARTOON_SCENES[sceneIndex];
-    const image=el('aivScanCartoonImage');
-    const caption=el('aivScanCartoonCaption');
-    if(!scene||!image||!caption)return;
-    image.classList.add('isFading');
-    const swapTimer=setTimeout(function(){
+    const imageA=el('aivScanCartoonImageA');
+    const imageB=el('aivScanCartoonImageB');
+    const captionA=el('aivScanCartoonCaptionA');
+    const captionB=el('aivScanCartoonCaptionB');
+    if(!scene||!imageA||!imageB||!captionA||!captionB)return;
+    const current=imageA.classList.contains('isActive')?imageA:imageB;
+    const incoming=current===imageA?imageB:imageA;
+    const currentCaption=captionA.classList.contains('isActive')?captionA:captionB;
+    const incomingCaption=currentCaption===captionA?captionB:captionA;
+    incoming.src=scene.src;
+    incoming.classList.remove('isActive');
+    aivSetScanCartoonCaption(incomingCaption,scene,sceneIndex);
+    incomingCaption.classList.remove('isActive');
+    requestAnimationFrame(function(){requestAnimationFrame(function(){
       if(runId!==activeRenderRun)return;
-      const liveImage=el('aivScanCartoonImage');
-      const liveCaption=el('aivScanCartoonCaption');
-      if(!liveImage||!liveCaption)return;
-      liveImage.src=scene.src;
-      liveCaption.textContent=scene.caption;
-      requestAnimationFrame(function(){requestAnimationFrame(function(){
-        if(runId!==activeRenderRun)return;
-        liveImage.classList.remove('isFading');
-        if(sceneIndex<AIV_SCAN_CARTOON_SCENES.length-1){
-          const nextTimer=setTimeout(function(){aivSetScanCartoonScene(sceneIndex+1,runId);},AIV_SCAN_CARTOON_FADE_MS+AIV_SCAN_CARTOON_HOLD_MS);
-          aivScanCartoonTimers.push(nextTimer);
-        }
-      });});
+      current.classList.remove('isActive');
+      incoming.classList.add('isActive');
+      currentCaption.classList.remove('isActive');
+      incomingCaption.classList.add('isActive');
+    });});
+    const finishTimer=setTimeout(function(){
+      if(runId!==activeRenderRun)return;
+      if(sceneIndex<AIV_SCAN_CARTOON_SCENES.length-1){
+        const nextTimer=setTimeout(function(){aivSetScanCartoonScene(sceneIndex+1,runId);},AIV_SCAN_CARTOON_HOLD_MS);
+        aivScanCartoonTimers.push(nextTimer);
+      }
     },AIV_SCAN_CARTOON_FADE_MS);
-    aivScanCartoonTimers.push(swapTimer);
+    aivScanCartoonTimers.push(finishTimer);
   }
   function aivCenterScanCartoon(runId){
     const timer=setTimeout(function(){
@@ -2307,8 +2341,15 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function startAivScanCartoonSequence(runId){
     clearAivScanCartoonTimers();
     aivCenterScanCartoon(runId);
-    const firstTimer=setTimeout(function(){aivSetScanCartoonScene(1,runId);},AIV_SCAN_CARTOON_HOLD_MS);
-    aivScanCartoonTimers.push(firstTimer);
+    const revealTimer=setTimeout(function(){
+      if(runId!==activeRenderRun)return;
+      const cartoon=document.querySelector('#result .aivScanCartoon');
+      if(!cartoon)return;
+      cartoon.classList.remove('isPending');
+      const firstTimer=setTimeout(function(){aivSetScanCartoonScene(1,runId);},AIV_SCAN_CARTOON_FADE_MS+AIV_SCAN_CARTOON_HOLD_MS);
+      aivScanCartoonTimers.push(firstTimer);
+    },AIV_SCAN_CARTOON_START_DELAY_MS);
+    aivScanCartoonTimers.push(revealTimer);
   }
   function aivPreloadScanCartoons(){
     try{AIV_SCAN_CARTOON_SCENES.forEach(function(scene){const img=new Image();img.src=scene.src;});}catch(_e){}
@@ -4060,8 +4101,44 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(/^[NXY]\s*(?:=|:)\s*(?:unknown|placeholder|value|number|count|quantity|total)(?:[.!?])?$/iu.test(s))return true;
     return false;
   }
+  function v2317ReadableAnswerValue(value){
+    if(value===null||value===undefined)return '';
+    if(typeof value==='string'||typeof value==='number'||typeof value==='boolean')return String(value).trim();
+    if(Array.isArray(value))return value.map(v2317ReadableAnswerValue).filter(Boolean).join('; ');
+    if(typeof value==='object'){
+      const directKeys=['answer','text','summary'];
+      for(let i=0;i<directKeys.length;i++){
+        const key=directKeys[i];
+        if(Object.prototype.hasOwnProperty.call(value,key)){
+          const resolved=v2317ReadableAnswerValue(value[key]);
+          if(resolved)return resolved;
+        }
+      }
+      const labelKeys=['name','label','title','state','jurisdiction'];
+      const valueKeys=['value','amount','rate','wage','minimumWage','minimum_wage'];
+      let label='',datum='';
+      for(let i=0;i<labelKeys.length&&!label;i++)if(Object.prototype.hasOwnProperty.call(value,labelKeys[i]))label=v2317ReadableAnswerValue(value[labelKeys[i]]);
+      for(let i=0;i<valueKeys.length&&!datum;i++)if(Object.prototype.hasOwnProperty.call(value,valueKeys[i]))datum=v2317ReadableAnswerValue(value[valueKeys[i]]);
+      if(label&&datum)return label+' — '+datum;
+      const listKeys=['items','list','results','values'];
+      for(let i=0;i<listKeys.length;i++){
+        const key=listKeys[i];
+        if(Array.isArray(value[key])){
+          const resolved=v2317ReadableAnswerValue(value[key]);
+          if(resolved)return resolved;
+        }
+      }
+      return Object.keys(value).map(function(key){
+        const resolved=v2317ReadableAnswerValue(value[key]);
+        if(!resolved)return '';
+        if(/^\d+$/.test(String(key)))return resolved;
+        return String(key).replace(/_/g,' ').replace(/\s+/g,' ').trim()+' — '+resolved;
+      }).filter(Boolean).join('; ');
+    }
+    return '';
+  }
   function v2130CleanAnswer(value,c){
-    let s=v2130RemoveMeta(value).replace(/^Answer\s*:\s*/i,'').replace(/^(?:The\s+)?(?:direct\s+)?answer\s+(?:is|would\s+be|can\s+be)\s*[:\-–—]?\s*/i,'').replace(/^This\s+is\s*[:\-–—]?\s*/i,'').trim();
+    let s=v2130RemoveMeta(v2317ReadableAnswerValue(value)).replace(/^Answer\s*:\s*/i,'').replace(/^(?:The\s+)?(?:direct\s+)?answer\s+(?:is|would\s+be|can\s+be)\s*[:\-–—]?\s*/i,'').replace(/^This\s+is\s*[:\-–—]?\s*/i,'').trim();
     if(v2130HasPlaceholder(s))return '';
     const basket=String(c&&c.outputBasket||'').toUpperCase();
     if(basket==='NUMBER'){const m=s.match(/-?\d{1,3}(?:,\d{3})+(?:\.\d+)?|-?\d+(?:\.\d+)?/);if(m)return m[0];}
@@ -5560,7 +5637,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     return 'The answer is supported by the information and conditions listed below.';
   }
   function v2212PreserveDirectAnswer(value,c){
-    let s=v2130RemoveMeta(String(value||''))
+    let s=v2130RemoveMeta(v2317ReadableAnswerValue(value))
       .replace(/^Answer\s*:\s*/i,'')
       .replace(/^(?:The\s+)?(?:direct\s+)?answer\s+(?:is|would\s+be|can\s+be)\s*[:\-–—]?\s*/i,'')
       .replace(/^This\s+is\s*[:\-–—]?\s*/i,'')
@@ -5866,7 +5943,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     return urls.slice(0,3);
   }
   async function fetchCompactTextV1734(value,runId){
-    refreshTopRightBackendVersion();
+    // v2306: do not launch /health beside every scan. The version badge is refreshed
+    // independently; competing same-origin health work must not delay the scan request.
     const now=new Date();
     const clientDate=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
     const clientTimezone=(Intl.DateTimeFormat&&Intl.DateTimeFormat().resolvedOptions().timeZone)||"";
