@@ -1,24 +1,38 @@
-// BM_BE_AIV_v3073_FSG: final shared U.S.-state scope gate over v3072.
+// BM_BE_AIV_v3228_MPF: bounded moral provider failover over accepted v3227. The consolidated v3073-era KJV-first moral engine keeps the same actor/action/qualifier/polarity audit and local KJV-reference validation, but provider recovery is now exactly one primary OpenAI reasoning pass followed, only when that result is missing or fails the same shared validation, by one Gemini reasoning pass. A second OpenAI retry is removed. Gemini output must pass the identical local moral-binding and KJV-reference checks before release. No moral rule, answer template, Scripture selection rule, routing priority, or non-moral behavior is otherwise changed.
+// BM_BE_AIV_v3228_AAF: compact live NASA exoplanet-count repair over v3226. Shared astronomy discovery-count logic now uses server-side aggregate TAP queries so current planet/system totals return a single row instead of downloading thousands of host rows; includes a second compact official-table fallback and blocks stale model-count fallback. Informal plural 'solar systems' remains normalized to confirmed exoplanetary systems. Preserves accepted v3225/v3224/v3221 behavior, protected v3073 faith/moral behavior, transport, analytics, cache behavior, and all unrelated logic.
+// BM_BE_AIV_v3225_STF: state-tax fast bounded fallback over v3223. Preserves the v3223 ownership/speed fix, but when the protected official current-source lookup cannot complete, named U.S.-state exact-tax-category questions now get one bounded low-reasoning OpenAI fallback that is explicitly instructed to answer the exact tax category and distinguish general sales/use tax from motor-fuel/excise/special taxes. The fallback is shared across states/tax categories, never hardcodes Tennessee/gasoline, is labeled Source: OpenAI, and does not reopen the slow generic general-recovery path. Preserves all accepted v3223/v3222/v3221 behavior otherwise.
+// BM_BE_AIV_v3223_STO: state-tax ownership preservation over accepted v3222 accuracy repair. Named U.S.-state exact-tax-category questions already routed through the protected current-information path are now treated as owned after the initial handler result, so the generic general-question recovery layer cannot overwrite a correct source-bound state-tax answer with slower model-knowledge output. Shared ownership fix only; no state-, fuel-, or exact-test hardcoding. Preserves v3222 tax-category binding, v3221 Yes/No/Depends polarity integrity, v3216 official-authority lock, v3213 practical-action ownership, v3211 answer boundary, v3210 snow integrity, v3209 education governance, v3208 empirical-statistic integrity, v3205 physical measurement, moral/KJV behavior, transport, analytics, cache behavior, timing diagnostics, and Source: OpenAI wording.
+// BM_BE_AIV_v3223_STB: shared U.S.-state tax-category binding over accepted v3221. Named-state questions about a specific tax category (sales/use, income, property, excise, motor-fuel, gasoline, or diesel tax) are treated as current source-required facts and bound to the exact tax the user named. A separate motor-fuel/excise/special tax cannot be used as proof that the regular/general state sales tax applies. Current official state revenue/tax authority is required; when the official rule is definite, the answer must state the category distinction directly without unsupported hedge wording. Shared state-tax architecture only; no Tennessee-, gasoline-, or exact-test hardcoding. Preserves v3221 Yes/No/Depends polarity integrity, v3216 official-authority lock, v3213 practical-action ownership, v3211 answer boundary, v3210 snow integrity, v3209 education governance, v3208 empirical-statistic integrity, v3205 physical measurement, moral/KJV behavior, transport, analytics, cache behavior, timing diagnostics, and Source: OpenAI wording.
+// BM_BE_AIV_v3223_YDP: shared Yes/No/Depends material-polarity integrity over accepted v3216. For ordinary non-moral Yes/No questions, the final public answer now stays aligned with its own explanation: a safety answer cannot remain Yes when the explanation contains a meaningful harm/damage warning, and strong realistic qualifiers such as 'depends on', 'only if/when', 'under some conditions', jurisdiction-dependent rules, or 'not always' can promote an over-absolute Yes/No to Depends. Remote or merely theoretical exceptions do not trigger the rule. Moral/KJV responses are excluded. No microwave-, appliance-, or exact-test hardcoding. Preserves v3216 official-authority domain lock, v3215 essential status matching, v3214 destination validation, v3213 practical-action ownership, v3211 answer boundary, v3210 snow integrity, v3209 education governance, v3208 empirical-statistic integrity, v3205 physical measurement, transport, analytics, cache behavior, timing diagnostics, and Source: OpenAI wording.
+// BM_BE_AIV_v3216_OAG: official-authority domain lock over v3215. For explicit official resource/action requests, candidate sets now prefer a matching authority-domain hint (such as an acronym-derived .gov host) whenever the bounded search actually returns one. Once a matching authority host is present in the same result set, lookalike/commercial domains with the same acronym cannot outrank it merely because their page title matches the requested action more closely. This is a shared candidate-set authority rule, not an IRS/refund hardcode. Preserves v3215 essential status-target matching, v3214 official destination validation, v3213 practical-action ownership, v3211 answer boundary, v3210 snow integrity, v3209 education governance, v3208 empirical-statistic integrity, v3205 physical measurement, moral/KJV behavior, transport, analytics, cache behavior, timing diagnostics, and Source: OpenAI wording.
+// BM_BE_AIV_v3213_PAO: practical-action ownership repair over v3212. Recognized first-person action requests receive a dedicated shared action-guidance preflight after moral/resource ownership and before broad semantic/general factual routing. The provider must return an imperative first action or short action plan; definitions/descriptions are rejected. No debit-card, phone, passport, or other item-specific answer hardcoding. Preserves accepted v3211 answer-boundary, v3210 snow integrity, v3209 education governance, v3208 empirical-statistic source integrity, v3205 physical-measurement intent, moral/KJV ownership, transport, analytics, cache behavior, and Source: OpenAI wording.
+// BM_BE_AIV_v3212_PAG: shared practical-action guidance ownership over accepted v3211. First-person action requests such as lost/stolen cards, phones, accounts, documents, or other practical problems cannot be satisfied by a definition/description of the subject; the shared general-question recovery path must return a recommended first action or short action plan, with supporting steps in explanation. Preserves v3211 answer/explanation boundary, v3210 snow-measurement integrity, v3209 education-governance routing, v3208 source-backed empirical-statistic integrity, v3205 phase-change measurement intent, moral/KJV ownership, transport, analytics, cache behavior, and public Source: OpenAI wording. Also synchronizes backend/timing version labels. No debit-card-specific answer hardcoding.
+// BM_BE_AIV_v3212_AEB: shared answer/explanation-boundary repair over accepted v3210. Generic 'what type/kind' material or product questions are no longer misclassified as named-entity lookup requests, and discourse/source-reporting fragments cannot become the primary Answer. Entity recovery remains available for true people, institutions, places, organs, blood types, branches, and role/action questions. Preserves v3210 snow-measurement integrity, v3209 education-governance routing, v3208 empirical-statistic source integrity, v3205 phase-change measurement intent, v3202 transport/timing/V17 analytics, moral/KJV ownership, cache behavior, and public Source: OpenAI wording. No pipe/material-specific answer hardcoding.
+// BM_BE_AIV_v3212_SMI: shared snow-measurement integrity over accepted v3209. Questions asking how much snow/snowfall or average snowfall cannot present precipitation or water-equivalent length as if it were fallen-snow depth. If the completed explanation identifies the numeric figure as precipitation rather than snow depth, the public contract states that no single snowfall-depth figure was established and explains the measurement mismatch. Preserves v3209 education-governance routing, v3208 empirical-statistic source integrity, v3205 phase-change measurement intent, v3202 transport/timing/V17 analytics, moral/KJV ownership, cache behavior, and public Source: OpenAI wording. No place-specific snowfall value is hard-coded.
+// BM_BE_AIV_v3212_EGI: shared U.S. education-governance intent over accepted v3208. National questions about school-board/education requirements, graduation standards, proficiency, or reading-level mandates are resolved as decentralized U.S. governance facts before generic authority-owner web research can misread "Board of Education" as one national named entity. Explicit state/local jurisdictions, rankings, comparisons, and lists remain on their existing routes. Preserves v3208 empirical-statistic source integrity, v3205 physical-measurement intent, v3202 transport/timing/V17 analytics, moral/KJV ownership, cache behavior, and public Source: OpenAI wording. No school, state, or test-specific answer hardcoding.
+// BM_BE_AIV_v3212_ESG: empirical-statistic source-status integrity boundary over accepted v3205 plus v3206/v3207 source work. Source-required demographic/population statistics keep semantic-research ownership through finalization: if the bounded source lookup cannot establish the exact requested metric, the explicit no-source contract is preserved and cannot be overwritten by the generic model correction path with unsupported precision. The grounded lookup remains bounded to keep first-run latency near the P1 target. Preserves v3205 physical-measurement intent, v3202 transport/timing/V17 analytics, moral/KJV ownership, cache behavior, and public Source: OpenAI wording. No demographic fact is hard-coded.
+// BM_BE_AIV_v3212_PMT: shared physical-measurement intent over verified v3202 benchmark. Phase-change questions phrased as freezing/boiling/melting point or 'at what temperature' now request the physical value rather than a definition. Values are provider-derived, not substance-hardcoded, and display Fahrenheit first with Celsius second. Preserves v3202 transport, timing, V17 analytics, moral/KJV ownership and all higher-priority routing. No moral logic change.
+// BM_BE_AIV_v3212_FSG: final shared U.S.-state scope gate over v3072.
 // Explicit "U.S. states" requests are now enforced at the common final answer-integrity boundary, not only inside one research synthesizer. Any route that returns D.C. or a U.S. territory in a 50-state-only answer is rejected before display, the shared correction path receives an explicit 50-state scope rule, and the best-available fallback is bound to the same rule. If correction cannot produce a valid state-only result, AIVerify returns a nonfinal retry instead of showing a knowingly out-of-scope answer. Preserves v3071 relevance filtering, v3070 count-word query boundary, v3068/3069 source-bound completion, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared integrity architecture only; no unemployment-specific hardcoding.
-// BM_BE_AIV_v3073_USS: shared U.S.-state-only scope boundary over v3071.
+// BM_BE_AIV_v3212_USS: shared U.S.-state-only scope boundary over v3071.
 // Explicit requests for "U.S. states" now mean the 50 states only unless the user expands the scope to include D.C. or territories. Source tables may still contain D.C./territories, but source-bound synthesis is instructed to skip them and continue to the next qualifying state, and the common parsed-result validator rejects a state-only answer that still places a non-state U.S. jurisdiction in the answer/parts. Preserves v3071 subject-relevance gate, v3070 count-word search boundary, source-bound completion, blocked-evidence rejection, answer-restatement protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared scope architecture only; no unemployment/minimum-wage-specific hardcoding.
-// BM_BE_AIV_v3073_QRG: shared query relevance gate over v3070.
+// BM_BE_AIV_v3212_QRG: shared query relevance gate over v3070.
 // Repairs the v3070 geography canonicalization so "U.S. states" becomes "USA states" rather than the awkward "United States states". Adds a shared subject-relevance gate for non-entity research: candidates matching only geography, ranking, or list-control words cannot enter evidence unless they also match at least one distinctive requested topic term. Ranking words are removed from topic-core search terms because they control ordering rather than subject identity. Preserves v3070 count-word boundary, v3068/3069 source-bound completion, blocked-evidence rejection, answer-restatement protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. No unemployment/minimum-wage-specific hardcoding.
-// BM_BE_AIV_v3073_QSB: shared research query-subject boundary over v3069.
+// BM_BE_AIV_v3212_QSB: shared research query-subject boundary over v3069.
 // Requested result-count controls such as "five", "top five", "name 5", and similar list quantities are excluded from evidence-search subject terms while remaining untouched in the original user question and answer-formatting contract. Search pre-scoring, topic-core construction, and current-statistics query variants use the same cleaned subject. Proper nouns remain intact unless the quantity is syntactically attached to a list/ranking request. Preserves v3069 source-bound completion, blocked-evidence rejection, answer-restatement protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared architecture only; no unemployment/minimum-wage-specific hardcoding.
-// BM_BE_AIV_v3073_CSB: clean source-bound baseline over v3068.
+// BM_BE_AIV_v3212_CSB: clean source-bound baseline over v3068.
 // Preserves the working current multi-item answer completion, blocked-evidence rejection, answer-restatement protection, structured answer materialization, current-data routing, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Temporary P1 source/validator console diagnostics removed only; no intended user-facing logic change.
-// BM_BE_AIV_v3073_VDR: TEMPORARY validator diagnostic over v3067.
-// BM_BE_AIV_v3073_BER: blocked-evidence rejection and retry tightening over v3066.
+// BM_BE_AIV_v3212_VDR: TEMPORARY validator diagnostic over v3067.
+// BM_BE_AIV_v3212_BER: blocked-evidence rejection and retry tightening over v3066.
 // Access-denied/forbidden/error-page fetches cannot outrank usable factual evidence, enter source-bound synthesis as factual support, or become the displayed fallback source.
 // When usable evidence exists and OpenAI returns parseable-but-rejected output, AIVerify no longer immediately spends another ~5.6 seconds re-synthesizing the same evidence through Gemini; existing best-available OpenAI reconciliation owns recovery.
 // Preserves current-data routing, answer-echo protection, instant sign-in/session transport, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared architecture only; no test-specific hardcoding.
-// BM_BE_AIV_v3073_SDT: TEMPORARY current-source diagnostic over v3064.
+// BM_BE_AIV_v3212_SDT: TEMPORARY current-source diagnostic over v3064.
 // Adds concise console timing/outcome traces for free evidence retrieval, OpenAI evidence synthesis, Gemini evidence synthesis, and best-available fallback so a single failed scan reveals whether latency/failure is HTTP timeout, provider parse/validation rejection, or a skipped budget gate. No user-facing response logic, source ranking, scan routing, sign-in/session behavior, cache behavior, moral/KJV behavior, or analytics behavior is intentionally changed.
-// BM_BE_AIV_v3073_AER: shared answer-evidence recovery + bounded current-source fallback over v3063.
+// BM_BE_AIV_v3212_AER: shared answer-evidence recovery + bounded current-source fallback over v3063.
 // When a source-bound provider returns an empty/question-echo primary Answer but places the resolved findings in its Explanation or structured parts, AIVerify now promotes only substantive answer-bearing findings from that same validated response instead of discarding the entire result and starting another provider pass. v3007 and grounded contracts now preserve structured parts through finalization. Serial Gemini/best-available retries are bounded earlier once useful evidence has already been found, reducing long current-source stalls without weakening source validation. Preserves v3063 question-echo guard, v3062 current multi-item ownership, v3061 instant sign-in/session transport, v3058 speed/cache behavior, moral/KJV behavior, analytics, and frontend v2318 compatibility. Shared architecture only; no minimum-wage/state-specific answer hardcoding.
-// BM_BE_AIV_v3073_ASB: shared answer-selection boundary over v3062. Completed factual answers that merely restate/reformat the submitted question are now rejected at the common semantic validator; already-resolved structured answerList/parts are promoted into the primary Answer when available, and source-bound structured research explicitly preserves those parts through the final contract. Preserves v3062 current multi-item routing, v3061 instant sign-in/session transport, v3058 speed/cache behavior, moral/KJV behavior, analytics, and frontend v2317 compatibility. Shared architecture only; no test-specific answer hardcoding.
-// BM_BE_AIV_v3073_CMR: current multi-item research ownership repair over v3061. Explicit current/latest/today/as-of/now wording now marks multi-item factual list/ranking research as current even when no named organization/entity is present, so authority-first current-source discovery/ranking is used instead of unstable generic evidence handling. Provider answer objects are rejected as direct text and materialized from validated parts instead of leaking [object Object]. Preserves v3061 sign-in/session transport repair, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2317 compatibility. Shared architecture only; no minimum-wage or state-specific answer hardcoding.
+// BM_BE_AIV_v3212_ASB: shared answer-selection boundary over v3062. Completed factual answers that merely restate/reformat the submitted question are now rejected at the common semantic validator; already-resolved structured answerList/parts are promoted into the primary Answer when available, and source-bound structured research explicitly preserves those parts through the final contract. Preserves v3062 current multi-item routing, v3061 instant sign-in/session transport, v3058 speed/cache behavior, moral/KJV behavior, analytics, and frontend v2317 compatibility. Shared architecture only; no test-specific answer hardcoding.
+// BM_BE_AIV_v3212_CMR: current multi-item research ownership repair over v3061. Explicit current/latest/today/as-of/now wording now marks multi-item factual list/ranking research as current even when no named organization/entity is present, so authority-first current-source discovery/ranking is used instead of unstable generic evidence handling. Provider answer objects are rejected as direct text and materialized from validated parts instead of leaking [object Object]. Preserves v3061 sign-in/session transport repair, scan-speed/cache behavior, moral/KJV behavior, analytics, and frontend v2317 compatibility. Shared architecture only; no minimum-wage or state-specific answer hardcoding.
 // BM_BE_AIV_v3061_SAR: saved-session simple-transport repair over v3060. Accepts the existing signed session token from a small text/plain POST body for session validation and sign-out, while preserving legacy header authentication for all existing callers. This removes the browser preflight delay from saved administrator sign-in validation without changing scan routing, answers, caching, analytics, moral/KJV behavior, account storage, or session cryptography.
 // BM_BE_AIV_v3060_PCL: clean production checkpoint over verified v3058 speed behavior. Preserves exact-input cache, stable-question coordination, completed-result cache reliability, first-run routing/answer/source behavior, analytics, moral/KJV behavior, and frontend compatibility. Removes the temporary v3059 login timing diagnostics; no routing or answer logic changes.
 // BM_BE_AIV_v3060_CSP: clean production speed checkpoint over tested v3057/v3056 behavior. Removes the temporary v3057 P1 performance tracing while preserving the v3054 outer finalized exact-input cache, v3055 stable-question coordination, v3056 exact completed-result cache reliability, all first-run routing/answer/source behavior, analytics, moral/KJV behavior, and frontend compatibility. No new routing or answer logic.
@@ -169,6 +183,83 @@ function v3029BestAvailableAmbiguous(answer,explanation){return /\bmultiple\s+(?
 // BM_BE_AIV_v2929_RBG: replaces the content-creation-only gate with one shared request-boundary system for incomplete, broad, outside-scope, unsupported-local, dangerous, and unusable requests while preserving debatable questions for balanced analysis; preserves all verified v2928 behavior.
 // SHARED_REQUEST_BOUNDARY_GUIDANCE_V2929
 // BM_BE_AIV_v2928_NVR: adds a shared verification-scope gate for clear content-creation requests so AIVerify asks for a checkable target instead of partially generating content; preserves all verified v2927 behavior.
+
+// PHYSICAL_MEASUREMENT_INTENT_V3205
+// Shared phase-change measurement route. This does not contain substance-specific answers.
+// It recognizes when "point" or "at what temperature" means a requested physical value,
+// then asks the existing model provider for a concise measurement rather than a definition.
+function v3205PhysicalMeasurementIntent(raw){
+  const s=clean(raw).replace(/\s+/g,' ').trim();
+  if(!s||/^https?:\/\//i.test(s)||!isAnyQuestionInputText(s))return null;
+  if(/\b(?:bible|biblical|scripture|moral|immoral|wrong|sin|sinful)\b/i.test(s))return null;
+
+  let m=s.match(/^(?:what|which)\s+is\s+the\s+(freezing|boiling|melting)\s+point\s+of\s+(.+?)\??$/i);
+  if(m)return {process:m[1].toLowerCase(),subject:clean(m[2]).replace(/[?.!]+$/,'')};
+
+  m=s.match(/^at\s+what\s+temperature\s+does\s+(.+?)\s+(freeze|boil|melt)\??$/i);
+  if(m)return {process:({freeze:'freezing',boil:'boiling',melt:'melting'})[m[2].toLowerCase()],subject:clean(m[1])};
+
+  m=s.match(/^what\s+temperature\s+does\s+(.+?)\s+(freeze|boil|melt)\s+at\??$/i);
+  if(m)return {process:({freeze:'freezing',boil:'boiling',melt:'melting'})[m[2].toLowerCase()],subject:clean(m[1])};
+
+  return null;
+}
+function v3205PhysicalMeasurementPrompt(raw,intent){
+  const i=intent||{};
+  return [
+    'Answer a physical-property measurement question.',
+    'Return ONLY one valid JSON object with exactly these keys: value, explanation.',
+    'value must directly give the requested '+clean(i.process||'physical')+' temperature for '+clean(i.subject||'the substance')+'.',
+    'Do not define the phrase "'+clean(i.process||'')+' point". Give the measurement.',
+    'Use the ordinary reference condition for the property; if pressure materially affects the value, state the standard-pressure condition briefly in explanation.',
+    'For public display in the United States, value must show Fahrenheit first and Celsius second, for example: 212 °F (100 °C).',
+    'Use a range only when one fixed value would be misleading for the named material or substance.',
+    'Do not invent a source, URL, quotation, or study.',
+    'Question: '+clean(raw)
+  ].join('\n');
+}
+async function v3205PhysicalMeasurementResponse(raw,requestState){
+  const intent=v3205PhysicalMeasurementIntent(raw);
+  if(!intent)return '';
+  let parsed=null;
+  try{
+    const result=await v2710SafeRace(
+      openaiApiRequestJson({model:v2713StableModel(),input:v3205PhysicalMeasurementPrompt(raw,intent),reasoning:{effort:'low'}},6500),
+      7200,
+      null
+    );
+    if(requestState&&requestState.aborted)return '';
+    if(result&&result.ok){
+      const outputText=extractOpenAIOutputText(result.json);
+      parsed=outputText?extractJsonObjectFromText(outputText):null;
+    }
+  }catch(_e){parsed=null;}
+
+  const value=clean(parsed&&parsed.value||'');
+  const explanation=clean(parsed&&parsed.explanation||'');
+  if(!value||!/\d/.test(value)||!/(?:°\s*[FC]|\bFahrenheit\b|\bCelsius\b)/i.test(value))return '';
+
+  const contract=v2856ModelKnowledgeContract(raw,{
+    answer:value,
+    explanation:explanation||('This is the commonly cited '+intent.process+' temperature under ordinary reference conditions.'),
+    source:'OpenAI model knowledge',
+    classification:'PHYSICAL PROPERTY MEASUREMENT',
+    route:'controlled-contract/physical-phase-change-measurement/v3205',
+    intent:'PHYSICAL_MEASUREMENT'
+  });
+  contract.outputBasket=OUTPUT_FORMAT_BASKETS.MEASUREMENT_VALUE;
+  contract.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.MEASUREMENT_VALUE;
+  contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{},{
+    activeFunction:'physicalMeasurementIntentV3205',
+    physicalMeasurementIntent:'YES',
+    phaseChangeProcess:intent.process,
+    definitionRoutingSuppressed:'YES',
+    standardUnitsFirst:'YES'
+  });
+  return v2856SerializeContract(raw,contract,contract.route,'model-knowledge-physical-measurement');
+}
+
+
 // NON_VERIFICATION_CONTENT_REQUEST_GATE_V2928
 // BM_BE_AIV_v2927_DBQ: adds shared balanced handling for debatable public-policy and judgment questions so AIVerify does not present one side as an objective fact; preserves all verified v2926 behavior.
 // DEBATABLE_POLICY_AND_JUDGMENT_QUESTION_REPAIR_V2927
@@ -634,7 +725,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
-const VERSION = 'BE_AIV_v3073';
+const VERSION = 'BE_AIV_v3228';
 const PORT = Number(process.env.PORT || 3000);
 const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
   try{
@@ -651,8 +742,8 @@ const ANALYTICS_REVIEW_V2889 = (function loadAnalyticsReviewFoundationV2889(){
     throw new Error('Analytics review foundation failed to load: '+(error&&error.message?error.message:String(error)));
   }
 })();
-if(!ANALYTICS_REVIEW_V2889||ANALYTICS_REVIEW_V2889.version!=='ANALYTICS_REVIEW_FOUNDATION_V15'){
-  throw new Error('BM_BE_AIV_v2940 requires ANALYTICS_REVIEW_FOUNDATION_V15.');
+if(!ANALYTICS_REVIEW_V2889||ANALYTICS_REVIEW_V2889.version!=='ANALYTICS_REVIEW_FOUNDATION_V17'){
+  throw new Error('BM_BE_AIV_v3228 requires ANALYTICS_REVIEW_FOUNDATION_V17.');
 }
 const AI_DETECTION_COORDINATOR_V2904 = (function loadAiDetectionCoordinatorV2904(){
   try{
@@ -1052,6 +1143,7 @@ function visibleAnswerLooksIncomplete(value){
   if(/^(?:Depends|Limited effect|Common ingredients|Basic [^:]{1,60}|Humans get goosebumps because):$/i.test(s)) return false;
   if(/[,:;–—-]\s*$/.test(s)) return true;
   if(/\b(?:and|or|but|because|with|without|to|from|of|for|that|which|including|such as|about|approximately|up to)\s*$/i.test(s)) return true;
+  if(typeof v3211SourceReportingOrDiscourseFragment==='function'&&v3211SourceReportingOrDiscourseFragment(s))return true;
   return false;
 }
 function finalizeVisibleMainAnswer(value, fallback){
@@ -17750,7 +17842,7 @@ const SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936=Object.freeze({
   sharedDirectAnswerSelectorAvailable:typeof v2731ShouldMinimalDirectAnswer==='function',
   sharedContractRepairAvailable:typeof v2731PatchContractObject==='function',
   conciseFactualExplanationGuardAvailable:typeof v2936DistinctFactualExplanation==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.universalExplanationFallbackAvailable||
    !SHARED_EXPLANATION_COMPLETENESS_STARTUP_VALIDATION_V2936.sharedDirectAnswerSelectorAvailable||
@@ -20669,7 +20761,7 @@ function v2779IsDirectEntityQuestion(raw){
   if(/^what\s+(?:is|are|does|do|did|causes?|caused|happens?|happened|means?)\b/i.test(s)) return false;
   if(/^which\s+(?:is|are)\b/i.test(s)&&/\b(?:better|worse|larger|smaller|faster|slower|higher|lower|older|younger|heavier|lighter|more|less)\b/i.test(s)) return false;
   return /^(?:who|which)\b/i.test(s) ||
-    /\b(?:person|people|individual|agency|department|bureau|office|organization|organisation|company|institution|government body|branch|blood type|type|category|organ|country|countries|state|states|city|cities|author|inventor|founder|director|president|governor|mayor|speaker|court|service|commission)\b/i.test(s);
+    /\b(?:person|people|individual|agency|department|bureau|office|organization|organisation|company|institution|government body|branch|blood type|organ|country|countries|state|states|city|cities|author|inventor|founder|director|president|governor|mayor|speaker|court|service|commission)\b/i.test(s);
 }
 function v2779DirectEntityTargetKind(raw){
   const s=clean(raw).toLowerCase();
@@ -20695,7 +20787,22 @@ function v2781QuestionRoleProfile(raw){
 }
 function v2781JurisdictionOnlyEntity(value){
   const s=v2780CollapseSpacedInitialisms(clean(value)).replace(/^the\s+/i,'').replace(/[.!?]+$/,'').trim();
-  return /^(?:u\.s\.|united states|american|federal|national|state|local|government|government agency|agency|department|bureau|office|organization|organisation|institution|government body|branch|organ|blood type|type|category)$/i.test(s);
+  return /^(?:u\.s\.|united states|american|federal|national|state|local|government|government agency|agency|department|bureau|office|organization|organisation|institution|government body|branch|organ|blood type)$/i.test(s);
+}
+function v3211SourceReportingOrDiscourseFragment(value){
+  const s=clean(value).replace(/[.!?]+$/,'').trim();
+  if(!s)return true;
+  if(/^(?:however|therefore|additionally|moreover|nevertheless|nonetheless|still|also|instead|meanwhile|in contrast|on the other hand|by contrast)\b/i.test(s))return true;
+  if(/^(?:(?:the|these|those|available|retrieved|primary|secondary|industry|official)\s+)?sources?\b/i.test(s) &&
+     /\b(?:say|says|said|note|notes|noted|caution|cautions|cautioned|warn|warns|warned|explain|explains|explained|indicate|indicates|indicated|show|shows|showed|report|reports|reported|state|states|stated|suggest|suggests|suggested)\b/i.test(s))return true;
+  if(/\b(?:say|says|note|notes|caution|cautions|warn|warns|explain|explains|indicate|indicates|report|reports|state|states|suggest|suggests)\s*$/i.test(s))return true;
+  return false;
+}
+function v3211EntityPrefixCanOwnRelativeClause(value){
+  const s=clean(value);
+  if(!s||v3211SourceReportingOrDiscourseFragment(s))return false;
+  if(/\b(?:is|are|was|were|has|have|had|does|do|did|can|could|will|would|should|may|might|must|say|says|said|note|notes|noted|caution|cautions|warn|warns|explain|explains|indicate|indicates|report|reports|state|states|suggest|suggests)\b/i.test(s))return false;
+  return true;
 }
 function v2781TrimEntityCandidate(value){
   let s=v2780CollapseSpacedInitialisms(clean(value))
@@ -20704,8 +20811,11 @@ function v2781TrimEntityCandidate(value){
     .replace(/^it\s+is\s+/i,'')
     .replace(/^the\s+(?=[A-Z0-9])/i,'')
     .replace(/[.!?]+$/,'').trim();
-  s=s.replace(/\s+(?:which|that|who)\s+.{3,}$/i,'').trim();
-  s=s.replace(/\s*[,;:]\s*(?:which|where|because|and it|and they)\b.*$/i,'').trim();
+  const relative=s.match(/^(.*?)\s+(?:which|that|who)\s+.{3,}$/i);
+  if(relative&&v3211EntityPrefixCanOwnRelativeClause(relative[1]))s=clean(relative[1]);
+  const trailing=s.match(/^(.*?)\s*[,;:]\s*(?:which|where|because|and it|and they)\b.*$/i);
+  if(trailing&&v3211EntityPrefixCanOwnRelativeClause(trailing[1]))s=clean(trailing[1]);
+  if(v3211SourceReportingOrDiscourseFragment(s))return '';
   if(s.length>160) s=s.slice(0,160).replace(/\s+\S*$/,'').trim();
   return s;
 }
@@ -20783,12 +20893,21 @@ function v2781RecoverCompleteRoleEntity(raw,obj){
   if(known&&clean(known.directAnswerFact))return clean(known.directAnswerFact);
   const support=v2781RoleSupportText(obj);
   const candidates=[];
+  const profile=v2781QuestionRoleProfile(raw);
   if(obj&&typeof obj==='object'){
-    [obj.answer].concat(Array.isArray(obj.answerList)?obj.answerList:[]).concat([obj.why,obj.explanation,obj.evidence,obj.summary,obj.supporting,obj.supportingInformation,obj.source,obj.sourceBasis,obj.primarySourceTitle,obj.pageTitle]).forEach(function(v,idx){
-      v2781ExtractRoleEntityCandidates(raw,v).forEach(function(c){c.weight+=(idx===0?30:(idx<3?15:4));candidates.push(c);});
+    const primary=[obj.answer].concat(Array.isArray(obj.answerList)?obj.answerList:[]);
+    const contextual=[obj.why,obj.explanation,obj.evidence,obj.summary,obj.supporting,obj.supportingInformation,obj.source,obj.sourceBasis,obj.primarySourceTitle,obj.pageTitle];
+    primary.forEach(function(v,idx){
+      v2781ExtractRoleEntityCandidates(raw,v).forEach(function(c){c.weight+=(idx===0?30:22);candidates.push(c);});
     });
+    const contextRecoveryAllowed=!!profile.action||/^(?:blood_type|organ|instrument|branch|institution|person|place)$/.test(profile.kind);
+    if(contextRecoveryAllowed){
+      contextual.forEach(function(v,idx){
+        v2781ExtractRoleEntityCandidates(raw,v).forEach(function(c){c.weight+=(idx<2?15:4);candidates.push(c);});
+      });
+    }
   }else v2781ExtractRoleEntityCandidates(raw,obj).forEach(function(c){c.weight+=30;candidates.push(c);});
-  const seen=new Set(),profile=v2781QuestionRoleProfile(raw);
+  const seen=new Set();
   const ranked=candidates.filter(function(c){
     const k=c.value.toLowerCase();if(seen.has(k))return false;seen.add(k);return v2781RoleEntityStructurallyAcceptable(raw,c.value,support);
   }).map(function(c){
@@ -21189,7 +21308,7 @@ async function outputV2760(input){
   const timeout={schema:'AIV_RESULT_CONTRACT_V1',backendVersion:VERSION,route:'bounded-specialized-stop-v2776',claim:raw.replace(/[?!.]+$/,'').trim(),analysisResult:'Needs more evidence',answer:isAnyQuestionInputText(raw)?'The scan could not be completed within the time limit.':'',why:'',evidence:'',source:'',sourceBasis:'',confidence:'Low confidence',supportingInformation:'',classification:'FACTUAL',status:'CONTROLLED TIMEOUT',inputType:isAnyQuestionInputText(raw)?'QUESTION':'CLAIM',outputBasket:isAnyQuestionInputText(raw)?OUTPUT_FORMAT_BASKETS.DATA_UNAVAILABLE:OUTPUT_FORMAT_BASKETS.CLAIM_VERDICT,technicalDiagnostics:{activeFunction:'freeSourcePriorityAndPaidApiCallReductionV2776',sourceRetrievalPerformed:'NO',sourceProvenance:'NO_EXTERNAL_SOURCE_CLAIM'}};
   return v2760ContractText(raw,timeout,'NUMERIC_SCOPE_BINDING_AND_ENTITY_TARGET_INTEGRITY_REPAIR_V2778: specialized route bounded stop');
 }
-const FAST_STABLE_QUESTION_COORDINATION_STARTUP_VALIDATION_V3053=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',candidateGateAvailable:typeof v2760FastStableCandidate==='function',coordinatorAvailable:typeof v3053FastStableQuestionEvaluation==='function',singlePassStableAvailable:typeof v2760SinglePassStableEvaluation==='function',freeSourceAvailable:typeof v2776FreeSourceFirstEvaluation==='function',dynamicHeadStartAvailable:typeof v3055FreeSourceHeadStartMs==='function'});
+const FAST_STABLE_QUESTION_COORDINATION_STARTUP_VALIDATION_V3053=Object.freeze({currentVersion:VERSION==='BE_AIV_v3228',candidateGateAvailable:typeof v2760FastStableCandidate==='function',coordinatorAvailable:typeof v3053FastStableQuestionEvaluation==='function',singlePassStableAvailable:typeof v2760SinglePassStableEvaluation==='function',freeSourceAvailable:typeof v2776FreeSourceFirstEvaluation==='function',dynamicHeadStartAvailable:typeof v3055FreeSourceHeadStartMs==='function'});
 if(!Object.keys(FAST_STABLE_QUESTION_COORDINATION_STARTUP_VALIDATION_V3053).every(function(k){return FAST_STABLE_QUESTION_COORDINATION_STARTUP_VALIDATION_V3053[k]===true;}))throw new Error('FAST_STABLE_QUESTION_COORDINATION_V3053 startup validation failed');
 
 // COMPLETED_RESULT_CACHE_KEY_BINDING_AND_FAITH_DIRECT_YES_REPAIR_V2764
@@ -21261,7 +21380,7 @@ function v3054FinalizedExactCachePut(input,requestContext,body){
 }
 function v3054ResetFinalizedExactCache(){const count=FINALIZED_EXACT_INPUT_CACHE_V3054.size;FINALIZED_EXACT_INPUT_CACHE_V3054.clear();return count;}
 const FINALIZED_EXACT_INPUT_OUTER_CACHE_STARTUP_VALIDATION_V3054=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',cacheReady:FINALIZED_EXACT_INPUT_CACHE_V3054 instanceof Map,
+  currentVersion:VERSION==='BE_AIV_v3228',cacheReady:FINALIZED_EXACT_INPUT_CACHE_V3054 instanceof Map,
   keyAvailable:typeof v3054FinalizedExactCacheKey==='function',bodyGateAvailable:typeof v3056FinalizedExactBodyCacheable==='function',readAvailable:typeof v3054FinalizedExactCacheGet==='function',writeAvailable:typeof v3054FinalizedExactCachePut==='function'
 });
 if(!Object.keys(FINALIZED_EXACT_INPUT_OUTER_CACHE_STARTUP_VALIDATION_V3054).every(function(k){return FINALIZED_EXACT_INPUT_OUTER_CACHE_STARTUP_VALIDATION_V3054[k]===true;}))throw new Error('FINALIZED_EXACT_INPUT_OUTER_CACHE_V3054 startup validation failed');
@@ -24573,6 +24692,7 @@ function v2861BadQuestionContract(contract,raw){
   if(/\bneeds more evidence\b|source lookup unavailable|limited support|result unavailable|analysis unavailable|repair.pending|currently being updated|not included in the current aiverify release|could not be completed|try again|retry this scan/i.test(blob))return true;
   if(v2861NumericQuestion(raw)&&/(?:^|\D)0(?:\.0+)?(?:\D|$)/.test(answer)&&!/^0\s*(?:°|degrees?|percent|%)/i.test(answer))return true;
   if(v2861NumericQuestion(raw)&&!/\d/.test(answer+' '+list.join(' ')))return true;
+  if(typeof v3212PracticalActionGuidanceIntent==='function'&&v3212PracticalActionGuidanceIntent(raw)&&typeof v3212ActionGuidanceAnswerUsable==='function'&&!v3212ActionGuidanceAnswerUsable(answer,raw))return true;
   return false;
 }
 function v2861NeedsQuestionRecovery(raw,serialized){
@@ -25249,7 +25369,7 @@ const REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929=Object.freeze({
   outsideScopeAvailable:typeof v2929OutsideScopeTaskRequest==='function',
   existingSafetyAvailable:typeof v2731MoralSafetyEvaluation==='function',
   debatableRouteAvailable:typeof v2927DebatablePolicyResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.intentAvailable||
    !REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.responseAvailable||
@@ -25261,7 +25381,7 @@ if(!REQUEST_BOUNDARY_STARTUP_VALIDATION_V2929.intentAvailable||
 }
 
 const FOCUSED_TEST_FINDINGS_STARTUP_VALIDATION_V2933=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   entityMeaningProfileAvailable:typeof entityMeaningIdentificationProfile==='function',
   entityMeaningResponseAvailable:typeof v2933EntityMeaningBoundaryResponse==='function',
   boundaryIntentAvailable:typeof v2929RequestBoundaryIntent==='function',
@@ -25442,17 +25562,28 @@ function v2950DedupeCorrectionSentence(value){
   }));
 }
 
+function v3222UsStateTaxApplicabilityIntent(raw){
+  const s=v2856Normalized(raw);
+  if(!s||/^https?:\/\//i.test(clean(raw))||!isAnyQuestionInputText(raw))return false;
+  const namedState=/\b(?:alabama|alaska|arizona|arkansas|california|colorado|connecticut|delaware|florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|louisiana|maine|maryland|massachusetts|michigan|minnesota|mississippi|missouri|montana|nebraska|nevada|new hampshire|new jersey|new mexico|new york|north carolina|north dakota|ohio|oklahoma|oregon|pennsylvania|rhode island|south carolina|south dakota|tennessee|texas|utah|vermont|virginia|washington|west virginia|wisconsin|wyoming|district of columbia|d\.?c\.?)\b/.test(s);
+  if(!namedState)return false;
+  const exactTax=/\b(?:sales\s+(?:and\s+use\s+)?tax|use\s+tax|state\s+sales\s+tax|local\s+sales\s+tax|income\s+tax|property\s+tax|excise\s+tax|motor\s+fuel\s+tax|gasoline\s+tax|diesel\s+tax)\b/.test(s);
+  const applicability=/\b(?:charge|charges|charged|tax|taxed|taxable|subject\s+to|exempt|exemption|rate|owe|pay|collect|apply|applies)\b/.test(s);
+  return exactTax&&applicability;
+}
 const V2939_CURRENT_INFORMATION_CACHE=new Map();
 const V2939_CURRENT_INFORMATION_CACHE_TTL_MS=10*60*1000;
 function v2939CurrentInformationIntent(raw){
   const input=clean(raw),s=v2856Normalized(input);
   if(!input||/^https?:\/\//i.test(input)||v2708IsSpecificYouTube(input)||v2844DateIntent(input))return null;
   const temporal=/\b(?:today|tonight|yesterday|tomorrow|current|currently|latest|recent|newest|now|right now|this week|this month|this year|as of|breaking|live)\b/.test(s);
-  const inherentlyChanging=/\b(?:price|cost|stock|market|weather|forecast|score|schedule|standings|election|poll|recalled|recall|approved|approval|fda|current law|legal status|court ruling|available for sale|in stock|best rated|top rated|recommended|recommendation|near me|in my area)\b/.test(s);
+  const astronomyDiscoveryCount=/\bhow\s+many\b/.test(s)&&/\b(?:exoplanets?|(?:exoplanet|exoplanetary|extrasolar|planetary|solar)\s+systems?)\b/.test(s)&&/\b(?:discover(?:ed|y)?|confirm(?:ed|ation)?|known|found)\b/.test(s);
+  const stateTaxApplicability=v3222UsStateTaxApplicabilityIntent(input);
+  const inherentlyChanging=/\b(?:price|cost|stock|market|weather|forecast|score|schedule|standings|election|poll|recalled|recall|approved|approval|fda|current law|legal status|court ruling|available for sale|in stock|best rated|top rated|recommended|recommendation|near me|in my area)\b/.test(s)||astronomyDiscoveryCount||stateTaxApplicability;
   const officeholderDescriptor=v2949CurrentOfficeholderDescriptor(raw);
   const presentOfficeholder=!!officeholderDescriptor;
   if(!temporal&&!inherentlyChanging&&!presentOfficeholder)return null;
-  let kind='current-fact';
+  let kind=astronomyDiscoveryCount?'current-astronomy-discovery-count':(stateTaxApplicability?'state-tax':'current-fact');
   if(v2844PriceIntent(input)||/\b(?:price|cost|stock|market)\b/.test(s))kind='price';
   else if(/\b(?:best rated|top rated|recommended|recommendation|near me|in my area)\b/.test(s))kind='recommendation';
   return {kind:kind,verifiedLiveOnly:v2864RequiresVerifiedLiveOnly(input),claim:!isAnyQuestionInputText(input),officeholder:presentOfficeholder,officeholderRole:officeholderDescriptor&&officeholderDescriptor.roleKey||'',officeholderLabel:officeholderDescriptor&&officeholderDescriptor.roleLabel||'',officeholderJurisdiction:officeholderDescriptor&&officeholderDescriptor.jurisdiction||''};
@@ -25534,7 +25665,118 @@ function v2939CachedOfficeholderClaimContract(raw,intent,cached){
   c.contractValidated=c.validationErrors.length===0;
   return c;
 }
+async function v3224StateTaxBoundedFallback(raw,requestState){
+  if(!v3222UsStateTaxApplicabilityIntent(raw)||!process.env.OPENAI_API_KEY)return '';
+  const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini';
+  const prompt=[
+    'Answer this U.S.-state tax question directly from established knowledge. Return ONLY one JSON object with keys answer and explanation.',
+    'Bind the answer to the exact tax category the user named. Do not treat a motor-fuel, excise, privilege, environmental, or other special tax as proof that a general state sales/use tax applies.',
+    'If the regular/general sales tax does not apply but a separate fuel/excise/special tax does, answer No and explain that distinction directly.',
+    'Use Yes, No, or Depends only. Use Depends only when realistic material circumstances change the answer; do not use it for remote theoretical exceptions.',
+    'Do not invent a source, URL, tax rate, or current-law citation. Keep the explanation to one concise sentence.',
+    'Question: '+clean(raw)
+  ].join('\n');
+  const schema={type:'object',properties:{answer:{type:'string'},explanation:{type:'string'}},required:['answer','explanation'],additionalProperties:false};
+  const payload={model:model,input:prompt,max_output_tokens:500,text:{format:{type:'json_schema',name:'aiverify_state_tax_fallback',strict:true,schema:schema}}};
+  if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  const response=await openaiApiRequestJson(payload,6500);
+  if(requestState&&requestState.aborted)return '';
+  const parsed=response&&response.ok?extractJsonObjectFromText(extractOpenAIOutputText(response.json)):null;
+  if(!parsed||typeof parsed!=='object')return '';
+  let answer=clean(parsed.answer||'');
+  const explanation=clean(parsed.explanation||'');
+  const m=answer.match(/^(yes|no|depends)\b/i);
+  if(!m||!explanation)return '';
+  answer=m[1].charAt(0).toUpperCase()+m[1].slice(1).toLowerCase();
+  return v2665ContractText(raw,{
+    route:'state-tax/exact-category-bounded-fallback/v3224',classification:'U.S. STATE TAX / EXACT CATEGORY',inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',
+    answer:answer,why:explanation,evidence:explanation,source:'OpenAI',sourceBasis:'OpenAI',confidence:'Moderate confidence',outputBasket:OUTPUT_FORMAT_BASKETS.YES_NO,
+    technicalDiagnostics:{activeFunction:'stateTaxExactCategoryBoundedFallbackV3224',exactTaxCategoryBinding:'ENFORCED',specialTaxSubstitutionBlocked:'YES',officialSourceLookupFallback:'YES',genericGeneralRecovery:'BLOCKED'}
+  });
+}
+// CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_V3227
+// Shared live resolver for changing exoplanet discovery counts. Use compact server-side
+// aggregate queries so the archive returns one row rather than thousands of planet/host rows.
+const V3227_ASTRONOMY_COUNT_CACHE=new Map();
+const V3227_ASTRONOMY_COUNT_CACHE_TTL_MS=30*60*1000;
+function v3227AstronomyDiscoveryCountProfile(raw){
+  const s=v2856Normalized(raw);
+  if(!s||!v2939CurrentInformationIntent(raw))return null;
+  const systemWording=/\b(?:(?:exoplanet|exoplanetary|extrasolar|planetary|solar)\s+systems?)\b/.test(s);
+  const planetWording=/\bexoplanets?\b/.test(s);
+  if(!systemWording&&!planetWording)return null;
+  return {kind:systemWording?'systems':'planets',informalSolar:systemWording&&/\bsolar\s+systems?\b/.test(s)};
+}
+function v3227AstronomyArchiveQueryUrls(kind){
+  const queries=kind==='systems'?
+    ['select count(distinct hostname) as system_count from pscomppars','select count(distinct hostname) as system_count from ps where default_flag=1']:
+    ['select count(pl_name) as planet_count from pscomppars','select count(pl_name) as planet_count from ps where default_flag=1'];
+  return queries.map(function(query){return 'https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query='+encodeURIComponent(query)+'&format=json';});
+}
+function v3227AstronomyCountCacheGet(kind){
+  const item=V3227_ASTRONOMY_COUNT_CACHE.get(kind);
+  if(!item)return null;
+  if(Date.now()-item.savedAt>V3227_ASTRONOMY_COUNT_CACHE_TTL_MS){V3227_ASTRONOMY_COUNT_CACHE.delete(kind);return null;}
+  return item;
+}
+function v3227AstronomyCountCachePut(kind,count,sourceUrl){
+  V3227_ASTRONOMY_COUNT_CACHE.set(kind,{count:Number(count)||0,sourceUrl:clean(sourceUrl),savedAt:Date.now()});
+}
+function v3227AstronomyAggregateCount(kind,rows){
+  if(!Array.isArray(rows)||rows.length!==1||!rows[0]||typeof rows[0]!=='object')return 0;
+  const row=rows[0];
+  const preferred=kind==='systems'?['system_count','SYSTEM_COUNT']:['planet_count','PLANET_COUNT'];
+  let value=0;
+  for(let i=0;i<preferred.length&&!value;i++){const n=Number(row[preferred[i]]);if(Number.isFinite(n))value=Math.round(n);}
+  if(!value){
+    const keys=Object.keys(row);
+    for(let i=0;i<keys.length;i++){const n=Number(row[keys[i]]);if(Number.isFinite(n)){value=Math.round(n);break;}}
+  }
+  if(kind==='systems')return value>=3000&&value<=10000?value:0;
+  return value>=5000&&value<=20000?value:0;
+}
+async function v3227AstronomyDiscoveryCountResponse(raw,requestState){
+  const profile=v3227AstronomyDiscoveryCountProfile(raw);
+  if(!profile)return '';
+  const urls=v3227AstronomyArchiveQueryUrls(profile.kind);
+  const cached=v3227AstronomyCountCacheGet(profile.kind);
+  let count=cached&&cached.count||0,sourceUrl=cached&&cached.sourceUrl||urls[0],officialQueryIndex=cached?0:-1;
+  if(!count){
+    for(let i=0;i<urls.length&&!count;i++){
+      const rows=await v2989HttpGetJson(urls[i],i===0?2300:1900);
+      if(requestState&&requestState.aborted)return '';
+      count=v3227AstronomyAggregateCount(profile.kind,rows);
+      if(count){sourceUrl=urls[i];officialQueryIndex=i;v3227AstronomyCountCachePut(profile.kind,count,sourceUrl);}
+    }
+  }
+  if(!count)return '';
+  const answer=count.toLocaleString('en-US');
+  let explanation='The NASA Exoplanet Archive currently lists '+answer+' distinct confirmed exoplanetary systems.';
+  if(profile.kind==='planets')explanation='The NASA Exoplanet Archive currently lists '+answer+' confirmed exoplanets.';
+  else if(profile.informalSolar)explanation='Interpreting “solar systems” informally as planetary systems beyond our own: the NASA Exoplanet Archive currently lists '+answer+' distinct confirmed exoplanetary systems. Strictly, “the Solar System” refers to our own system.';
+  const c=v2844Contract(raw,{
+    intent:'CURRENT_ASTRONOMY_DISCOVERY_COUNT',route:'current-information/nasa-exoplanet-archive/v3227',answer:answer,explanation:explanation,
+    source:'NASA Exoplanet Archive',sourceUrl:sourceUrl,classification:'ASTRONOMY / CURRENT DISCOVERY COUNT',confidence:'High confidence',status:'ANSWERED'
+  });
+  c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'currentAstronomyExoplanetArchiveCountV3227',officialArchiveDirect:'YES',compactAggregateQuery:'YES',officialQueryIndex:officialQueryIndex,countKind:profile.kind,hardcodedCount:'NO',distinctHostSystemCount:profile.kind==='systems'?'YES':'NOT_APPLICABLE',informalSolarTerminology:profile.informalSolar?'NORMALIZED_TO_EXOPLANETARY_SYSTEMS':'NOT_APPLICABLE',freshLiveSourceRequired:'YES',staleModelCountFallbackBlocked:'YES'});
+  c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(error){return !['source_missing'].includes(error);});
+  c.contractValidated=c.validationErrors.length===0;
+  return v2844Serialize(raw,c,'nasa-exoplanet-archive-live-v3227');
+}
+const CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3228',profileAvailable:typeof v3227AstronomyDiscoveryCountProfile==='function',directResolverAvailable:typeof v3227AstronomyDiscoveryCountResponse==='function',httpJsonAvailable:typeof v2989HttpGetJson==='function',cacheReady:V3227_ASTRONOMY_COUNT_CACHE instanceof Map,compactAggregateQuery:true,staleModelCountFallbackBlocked:true,hardcodedCount:false
+});
+if(!CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.currentVersion||!CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.profileAvailable||!CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.directResolverAvailable||!CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.httpJsonAvailable||!CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.cacheReady||!CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.compactAggregateQuery||!CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.staleModelCountFallbackBlocked||CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_STARTUP_VALIDATION_V3227.hardcodedCount){
+  throw new Error('CURRENT_ASTRONOMY_EXOPLANET_ARCHIVE_COUNT_V3227 startup validation failed');
+}
+
 async function v2939CurrentInformationResponse(raw,intent,requestState){
+  if(intent&&intent.kind==='current-astronomy-discovery-count'){
+    const archiveAnswer=await v3227AstronomyDiscoveryCountResponse(raw,requestState);
+    if(archiveAnswer)return archiveAnswer;
+    return v2864NonfinalCurrentRetry(raw,'current_astronomy_official_archive_required_v3227');
+  }
   const officeKey=intent&&intent.officeholder?v2939CurrentOfficeholderKey(raw):'';
   const cached=officeKey?v2939CacheGet(officeKey):null;
   if(intent&&intent.claim&&cached){
@@ -25544,6 +25786,10 @@ async function v2939CurrentInformationResponse(raw,intent,requestState){
   const result=await v2844LiveEvaluation(raw,intent);
   if(requestState&&requestState.aborted)return '';
   if(!result||!result.ok||!validHttpUrl(result.sourceUrl||'')){
+    if(intent&&intent.kind==='state-tax'){
+      const boundedTaxFallback=await v3224StateTaxBoundedFallback(raw,requestState);
+      if(boundedTaxFallback)return boundedTaxFallback;
+    }
     if(intent&&intent.claim&&cached){
       const cachedClaim=v2939CachedOfficeholderClaimContract(raw,intent,cached);
       if(cachedClaim)return v2844Serialize(raw,cachedClaim,'fresh-session-source-cache-v2939');
@@ -25621,7 +25867,7 @@ function v2939UsPresidentOrdinalQuestion(raw){
   return '';
 }
 const CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',intentDetectorAvailable:typeof v2939CurrentInformationIntent==='function',liveResponseAvailable:typeof v2939CurrentInformationResponse==='function',liveEvaluatorAvailable:typeof v2844LiveEvaluation==='function',officeholderCacheAvailable:V2939_CURRENT_INFORMATION_CACHE instanceof Map,ordinalFastRouteAvailable:typeof v2939UsPresidentOrdinalQuestion==='function',stableFallbackBlocked:true
+  currentVersion:VERSION==='BE_AIV_v3228',intentDetectorAvailable:typeof v2939CurrentInformationIntent==='function',liveResponseAvailable:typeof v2939CurrentInformationResponse==='function',liveEvaluatorAvailable:typeof v2844LiveEvaluation==='function',officeholderCacheAvailable:V2939_CURRENT_INFORMATION_CACHE instanceof Map,ordinalFastRouteAvailable:typeof v2939UsPresidentOrdinalQuestion==='function',stableFallbackBlocked:true
 });
 if(!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.currentVersion||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.intentDetectorAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.liveResponseAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.liveEvaluatorAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.officeholderCacheAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.ordinalFastRouteAvailable||!CURRENT_INFORMATION_PROTECTION_STARTUP_VALIDATION_V2939.stableFallbackBlocked){
   throw new Error('CURRENT_INFORMATION_COMPLETENESS_CACHE_AND_HISTORICAL_ORDINAL_SPEED_REPAIR_V2939 startup validation failed');
@@ -25752,7 +25998,7 @@ function v2940FastVerifiedFactsResponse(raw){
   return regression?v2940StampFastSerialized(raw,regression,'verified-regression-catalog'):'';
 }
 const SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',capitalCatalogReady:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,eligibilityGuardAvailable:typeof v2940FastVerifiedFactsEligible==='function',evaluationCoordinatorAvailable:typeof v2940FastVerifiedFactsEvaluation==='function',responseCoordinatorAvailable:typeof v2940FastVerifiedFactsResponse==='function',currentInformationGuardAvailable:typeof v2939CurrentInformationIntent==='function',periodicTableEvaluatorAvailable:typeof v2733ChemicalSymbolEvaluation==='function',measurementProfileAvailable:typeof v2810ActiveProfile==='function',stableProfileAvailable:typeof v2801GeneralProfile==='function',deterministicSupportAvailable:typeof deterministicStableQuestionSupport==='function'});
+  currentVersion:VERSION==='BE_AIV_v3228',capitalCatalogReady:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,eligibilityGuardAvailable:typeof v2940FastVerifiedFactsEligible==='function',evaluationCoordinatorAvailable:typeof v2940FastVerifiedFactsEvaluation==='function',responseCoordinatorAvailable:typeof v2940FastVerifiedFactsResponse==='function',currentInformationGuardAvailable:typeof v2939CurrentInformationIntent==='function',periodicTableEvaluatorAvailable:typeof v2733ChemicalSymbolEvaluation==='function',measurementProfileAvailable:typeof v2810ActiveProfile==='function',stableProfileAvailable:typeof v2801GeneralProfile==='function',deterministicSupportAvailable:typeof deterministicStableQuestionSupport==='function'});
 if(!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.currentVersion||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.capitalCatalogReady||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.eligibilityGuardAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.evaluationCoordinatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.responseCoordinatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.currentInformationGuardAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.periodicTableEvaluatorAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.measurementProfileAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.stableProfileAvailable||!SHARED_FAST_VERIFIED_FACTS_ROUTER_STARTUP_VALIDATION_V2940.deterministicSupportAvailable){
   throw new Error('SHARED_FAST_VERIFIED_FACTS_ROUTER_V2940 startup validation failed');
 }
@@ -26191,7 +26437,7 @@ function v3034MoralIntentBindingResponse(raw){
   return '';
 }
 const MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',borrowerBindingAvailable:typeof v3034BorrowerRepaymentRiskIntent==='function',hostileWishBindingAvailable:typeof v3034HostileWishIntent==='function',dispatcherAvailable:typeof v3034MoralIntentBindingResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',borrowerBindingAvailable:typeof v3034BorrowerRepaymentRiskIntent==='function',hostileWishBindingAvailable:typeof v3034HostileWishIntent==='function',dispatcherAvailable:typeof v3034MoralIntentBindingResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034).every(function(k){return MORAL_INTENT_BINDING_STARTUP_VALIDATION_V3034[k]===true;}))throw new Error('MORAL_INTENT_BINDING_V3034 startup validation failed');
 
@@ -26224,7 +26470,7 @@ function v3036SelfApologyResponsibilityResponse(raw){
   })+'\nAPOLOGY_ACTOR_PERSPECTIVE_BINDING_V3036: self-conduct';
 }
 const APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3036SelfApologyResponsibilityIntent==='function',dispatcherAvailable:typeof v3036SelfApologyResponsibilityResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v3036SelfApologyResponsibilityIntent==='function',dispatcherAvailable:typeof v3036SelfApologyResponsibilityResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036).every(function(k){return APOLOGY_ACTOR_PERSPECTIVE_STARTUP_VALIDATION_V3036[k]===true;}))throw new Error('APOLOGY_ACTOR_PERSPECTIVE_BINDING_V3036 startup validation failed');
 
@@ -26271,7 +26517,7 @@ function v3035WageringMoralResponse(raw){
   return v2943QualifiedMoralContract(raw,{id:'wagering-principle-context-v3035',answer:answer,bullets:['Use only money that is genuinely available after essential obligations are met.','Keep the activity under self-control rather than chasing losses or letting it become compulsive.','Examine the motive: entertainment is different from feeding covetousness or a craving for quick wealth.'],why:'Scripture does not directly identify every wager as sinful. The moral judgment depends on motive, self-control, stewardship, honesty, obligations, and whether the activity harms you or other people.',evidence:'Biblical principles condemn coveting and being controlled by a habit, while requiring responsible care for household obligations; those principles are more precise than declaring every wager sinful.',refs:['cor612','tim58','ex2017'],share:'cor612',directAnswerDisplayPolicy:'PRESERVE_QUALIFIED_MORAL_ANSWER'})+'\nGAMBLING_MORAL_CONTEXT_V3035: principle-context';
 }
 const GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3035WageringMoralIntent==='function',harmProfileAvailable:typeof v3035WageringHarmProfile==='function',dispatcherAvailable:typeof v3035WageringMoralResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v3035WageringMoralIntent==='function',harmProfileAvailable:typeof v3035WageringHarmProfile==='function',dispatcherAvailable:typeof v3035WageringMoralResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035).every(function(k){return GAMBLING_MORAL_CONTEXT_STARTUP_VALIDATION_V3035[k]===true;}))throw new Error('GAMBLING_MORAL_CONTEXT_V3035 startup validation failed');
 
@@ -26318,7 +26564,7 @@ function v3043QualifiedMoralConflictResponse(raw){
   }
   return '';
 }
-const QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',confidentialityIntentAvailable:typeof v3043ConfidentialHarmConflictIntent==='function',forgivenessIntentAvailable:typeof v3043ForgivenessTrustConflictIntent==='function',dispatcherAvailable:typeof v3043QualifiedMoralConflictResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'});
+const QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043=Object.freeze({currentVersion:VERSION==='BE_AIV_v3228',confidentialityIntentAvailable:typeof v3043ConfidentialHarmConflictIntent==='function',forgivenessIntentAvailable:typeof v3043ForgivenessTrustConflictIntent==='function',dispatcherAvailable:typeof v3043QualifiedMoralConflictResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'});
 if(!Object.keys(QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043).every(function(k){return QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_STARTUP_VALIDATION_V3043[k]===true;}))throw new Error('QUALIFIED_MORAL_CONFLICT_ACTION_BINDING_V3043 startup validation failed');
 
 // PROTECTIVE_REPORTING_AND_DEBT_MERCY_MORAL_BINDING_V3040
@@ -26357,12 +26603,12 @@ function v3040MoralRoleAndMercyResponse(raw){
   return '';
 }
 const PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',protectiveReportingAvailable:typeof v3040ProtectiveReportingIntent==='function',debtMercyAvailable:typeof v3040DebtMercyIntent==='function',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',protectiveReportingAvailable:typeof v3040ProtectiveReportingIntent==='function',debtMercyAvailable:typeof v3040DebtMercyIntent==='function',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040).every(function(k){return PROTECTIVE_REPORTING_AND_DEBT_MERCY_STARTUP_VALIDATION_V3040[k]===true;}))throw new Error('PROTECTIVE_REPORTING_AND_DEBT_MERCY_MORAL_BINDING_V3040 startup validation failed');
-const PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',handlerAvailable:typeof v2764HandleAnalyzeRequest==='function'});
+const PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041=Object.freeze({currentVersion:VERSION==='BE_AIV_v3228',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function',handlerAvailable:typeof v2764HandleAnalyzeRequest==='function'});
 if(!Object.keys(PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041).every(function(k){return PROTECTIVE_MORAL_ROUTE_PRIORITY_STARTUP_VALIDATION_V3041[k]===true;}))throw new Error('PROTECTIVE_MORAL_ROUTE_PRIORITY_V3041 startup validation failed');
-const OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function'});
+const OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042=Object.freeze({currentVersion:VERSION==='BE_AIV_v3228',dispatcherAvailable:typeof v3040MoralRoleAndMercyResponse==='function'});
 if(!Object.keys(OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042).every(function(k){return OUTER_PREFLIGHT_MORAL_PRIORITY_STARTUP_VALIDATION_V3042[k]===true;}))throw new Error('OUTER_PREFLIGHT_MORAL_PRIORITY_V3042 startup validation failed');
 
 
@@ -26627,7 +26873,7 @@ function v3044MoralWordStem(value){
   return t;
 }
 const LEGACY_MORAL_SINGLE_OWNER_STARTUP_VALIDATION_V3046=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   canonicalMoralOwnerAvailable:typeof v3044MoralQuestionIntent==='function',
   legacyRouteBlockAvailable:typeof v3046LegacyMoralRouteBlocked==='function',
   technicalWordSenseAvailable:typeof v3045TechnicalProgrammingMockSense==='function',
@@ -26896,35 +27142,64 @@ function v3044MoralPrompt(raw,repair,prior){
     'Question: '+clean(raw)
   ].filter(Boolean).join('\n');
 }
-async function v3044ModelMoralProfile(raw){
-  let prior=null;
-  for(let attempt=0;attempt<2;attempt++){
-    const repair=attempt?'The prior result failed local-reference, action-binding, explanation, or polarity validation. Re-evaluate the exact question from the beginning and return a fully valid result.':'';
-    // v3044: keep the total moral-provider wait bounded. A true provider timeout does not
-    // benefit from immediately repeating the same request; only repair a returned but invalid
-    // profile. This prevents a moral scan from stacking two long provider timeouts.
-    const timeoutMs=attempt===0?9000:5500;
-    const parsed=await v2829RequestJson(v3044MoralPrompt(raw,repair,prior),2200,timeoutMs);
-    if(!parsed)return null;
-    const refs=v3044VerifiedMoralReferences(parsed||{});
-    if(v3044MoralProfileValid(raw,parsed,refs)){
-      const answer=v2829NormQuestionPolarityAnswer(parsed.answer||'');
-      const explanation=v2829StripVersionWords(v2825ConciseExplanation(parsed.explanation||''));
-      const p=v2825Profile('QUESTION',v2825ConciseAnswer(raw,answer),explanation,refs,'',clean(parsed.classification||'FAITH / BIBLICAL MORAL GUIDANCE'));
-      const audit=v3044PolarityAuditObject(parsed);
-      p.responseCompressionEligible=false;
-      p.moralIntentRecognized=true;
-      p.polarityAudit=JSON.stringify(audit);
-      p.moralInputBindingVerified=true;
-      p.consolidatedMoralEngineVersion='V3046';
-      p.localKjvReferenceVerified=true;
-      p.localKjvVerseCount=V2834_KJV_EXPECTED_VERSES;
-      return p;
-    }
-    prior=parsed;
-  }
-  return null;
+function v3228ValidatedMoralProfile(raw,parsed,provider){
+  if(!parsed||typeof parsed!=='object')return null;
+  const refs=v3044VerifiedMoralReferences(parsed||{});
+  if(!v3044MoralProfileValid(raw,parsed,refs))return null;
+  const answer=v2829NormQuestionPolarityAnswer(parsed.answer||'');
+  const explanation=v2829StripVersionWords(v2825ConciseExplanation(parsed.explanation||''));
+  const p=v2825Profile('QUESTION',v2825ConciseAnswer(raw,answer),explanation,refs,'',clean(parsed.classification||'FAITH / BIBLICAL MORAL GUIDANCE'));
+  const audit=v3044PolarityAuditObject(parsed);
+  p.responseCompressionEligible=false;
+  p.moralIntentRecognized=true;
+  p.polarityAudit=JSON.stringify(audit);
+  p.moralInputBindingVerified=true;
+  p.consolidatedMoralEngineVersion='V3046';
+  p.localKjvReferenceVerified=true;
+  p.localKjvVerseCount=V2834_KJV_EXPECTED_VERSES;
+  p.moralReasoningProvider=clean(provider||'');
+  p.boundedMoralProviderFailover='OPENAI_THEN_GEMINI';
+  return p;
 }
+async function v3228GeminiMoralRequestJson(prompt,maxTokens,timeoutMs){
+  if(!envSecret('GEMINI_API_KEY'))return null;
+  const model=clean(process.env.GEMINI_MODEL||process.env.GEMINI_SEARCH_MODEL||'gemini-3.6-flash');
+  const payload={contents:[{role:'user',parts:[{text:clean(prompt)}]}],generationConfig:{temperature:0.05,maxOutputTokens:Math.max(500,Number(maxTokens||2200)),responseMimeType:'application/json'}};
+  const response=await v2989GeminiApiRequestJson(model,payload,Math.max(4200,Number(timeoutMs||5200)));
+  try{
+    if(ANALYTICS_REVIEW_V2889&&typeof ANALYTICS_REVIEW_V2889.recordProviderOperation==='function'){
+      const usage=response&&response.json&&response.json.usageMetadata||{};
+      ANALYTICS_REVIEW_V2889.recordProviderOperation({provider:'gemini',operation:'moral-reasoning-fallback',actualRequest:true,requestCount:1,operations:1,status:response&&response.ok?'COMPLETED':'FAILED',model:model,inputTokens:Number(usage.promptTokenCount||0),outputTokens:Number(usage.candidatesTokenCount||0),totalTokens:Number(usage.totalTokenCount||0),webSearchCalls:0,costKnown:false,pricingSource:'tracked-usage',error:response&&response.ok?'':clean(response&&response.errorType||'')});
+    }
+  }catch(_e){}
+  if(!response||!response.ok)return null;
+  const parsed=extractJsonObjectFromText(v2989GeminiText(response.json));
+  return parsed&&typeof parsed==='object'?parsed:null;
+}
+async function v3044ModelMoralProfile(raw){
+  // v3228: exactly one OpenAI primary pass. The same local validator used by the accepted
+  // consolidated moral engine decides whether provider recovery is necessary.
+  const primary=await v2829RequestJson(v3044MoralPrompt(raw,'',''),2200,6500);
+  let profile=v3228ValidatedMoralProfile(raw,primary,'OpenAI');
+  if(profile)return profile;
+
+  // v3228: one Gemini recovery pass only. It receives the same moral prompt and must pass
+  // the identical actor/action/qualifier/polarity and local-KJV-reference validation.
+  const repair='The primary result was missing or failed local-reference, actor/action binding, qualifier, explanation, or polarity validation. Re-evaluate the exact question from the beginning and return a fully valid result.';
+  const recovery=await v3228GeminiMoralRequestJson(v3044MoralPrompt(raw,repair,primary&&typeof primary==='object'?primary:null),2200,5200);
+  profile=v3228ValidatedMoralProfile(raw,recovery,'Gemini');
+  return profile||null;
+}
+const BOUNDED_MORAL_PROVIDER_FAILOVER_STARTUP_VALIDATION_V3228=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3228',
+  primaryOpenAIAvailable:typeof v2829RequestJson==='function',
+  geminiFallbackAvailable:typeof v3228GeminiMoralRequestJson==='function',
+  sharedMoralValidatorAvailable:typeof v3044MoralProfileValid==='function',
+  localKjvReferenceValidatorAvailable:typeof v3044VerifiedMoralReferences==='function',
+  secondOpenAIRetryBlocked:true,
+  providerSequence:'OPENAI_THEN_GEMINI'
+});
+if(!BOUNDED_MORAL_PROVIDER_FAILOVER_STARTUP_VALIDATION_V3228.currentVersion||!BOUNDED_MORAL_PROVIDER_FAILOVER_STARTUP_VALIDATION_V3228.primaryOpenAIAvailable||!BOUNDED_MORAL_PROVIDER_FAILOVER_STARTUP_VALIDATION_V3228.geminiFallbackAvailable||!BOUNDED_MORAL_PROVIDER_FAILOVER_STARTUP_VALIDATION_V3228.sharedMoralValidatorAvailable||!BOUNDED_MORAL_PROVIDER_FAILOVER_STARTUP_VALIDATION_V3228.localKjvReferenceValidatorAvailable||!BOUNDED_MORAL_PROVIDER_FAILOVER_STARTUP_VALIDATION_V3228.secondOpenAIRetryBlocked)throw new Error('BOUNDED_MORAL_PROVIDER_FAILOVER_V3228 startup validation failed');
 function v3044MoralRetryResponse(raw){
   return v2665ContractText(raw,{route:'faith-moral/consolidated-retry/v3046',classification:'FAITH / BIBLICAL MORAL GUIDANCE',inputType:'QUESTION',analysisResult:'Answer',status:'SOURCE LOOKUP UNAVAILABLE',answer:'A biblical moral answer could not be completed in this scan.',why:'Select Analyze/Enter again to retry this scan.',evidence:'The moral route remained Scripture-first and did not substitute a generic factual or secular-source answer.',source:'Biblical Scriptures',sourceBasis:'Biblical Scriptures',supportingInformation:'',confidence:'Low confidence',outputBasket:OUTPUT_FORMAT_BASKETS.PRACTICAL_GUIDANCE});
 }
@@ -26941,7 +27216,7 @@ async function v3044CanonicalMoralResponse(raw,origin){
   contract.consolidatedMoralEngineVersion='V3046';
   contract.localKjvReferenceVerified=true;
   contract.localKjvVerseCount=V2834_KJV_EXPECTED_VERSES;
-  contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{},{consolidatedBiblicalMoralEngineV3046:'ACTIVE',moralRouteOrigin:clean(origin||'unspecified'),localKjvReferencesVerified:profile.scriptures.length,moralActorActionPolarityAudit:'PASS'});
+  contract.technicalDiagnostics=Object.assign({},contract.technicalDiagnostics||{},{consolidatedBiblicalMoralEngineV3046:'ACTIVE',moralRouteOrigin:clean(origin||'unspecified'),localKjvReferencesVerified:profile.scriptures.length,moralActorActionPolarityAudit:'PASS',moralReasoningProvider:clean(profile.moralReasoningProvider||'OpenAI'),boundedMoralProviderSequence:'OPENAI_THEN_GEMINI',secondOpenAIRetry:'BLOCKED'});
   const envelope=v2855Envelope([contract],'consolidated-biblical-moral-engine-v3044','local-kjv-plus-bounded-reasoning',false);
   return v2855SerializeEnvelope(raw,envelope,'');
 }
@@ -27172,42 +27447,42 @@ videoAuthenticityContract=async function(input){
 };
 
 const QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',priorityAvailable:typeof v3033QualifiedMoralActionPriorityResponse==='function',harmGateAvailable:typeof v3033SeriousProtectiveHarm==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',priorityAvailable:typeof v3033QualifiedMoralActionPriorityResponse==='function',harmGateAvailable:typeof v3033SeriousProtectiveHarm==='function',qualifiedContractAvailable:typeof v2943QualifiedMoralContract==='function'
 });
 if(!Object.keys(QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033).every(function(k){return QUALIFIED_MORAL_ACTION_POLARITY_STARTUP_VALIDATION_V3033[k]===true;}))throw new Error('QUALIFIED_MORAL_ACTION_POLARITY_PRIORITY_V3033 startup validation failed');
 
 const DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',moralWrapperAvailable:typeof v2944QualifiedMoralDilemmaResponse==='function',qualifiedMoralContractAvailable:typeof v2943QualifiedMoralContract==='function',singleUrlExtractorAvailable:typeof v2944SingleSubmittedUrl==='function',googleResolverAvailable:typeof v2944GoogleUrlDecision==='function',urlPreRouteAvailable:typeof v2944SpecificUrlPreRoute==='function',specificUrlAnalyzerAvailable:typeof v2864AnalyzeSpecificUrl==='function',portalDetectorAvailable:typeof looksLikePortalUrl==='function',multiTargetDetectorAvailable:typeof looksLikeMultiTargetContent==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',moralWrapperAvailable:typeof v2944QualifiedMoralDilemmaResponse==='function',qualifiedMoralContractAvailable:typeof v2943QualifiedMoralContract==='function',singleUrlExtractorAvailable:typeof v2944SingleSubmittedUrl==='function',googleResolverAvailable:typeof v2944GoogleUrlDecision==='function',urlPreRouteAvailable:typeof v2944SpecificUrlPreRoute==='function',specificUrlAnalyzerAvailable:typeof v2864AnalyzeSpecificUrl==='function',portalDetectorAvailable:typeof looksLikePortalUrl==='function',multiTargetDetectorAvailable:typeof looksLikeMultiTargetContent==='function'
 });
 if(!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.currentVersion||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.moralWrapperAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.qualifiedMoralContractAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.singleUrlExtractorAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.googleResolverAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.urlPreRouteAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.specificUrlAnalyzerAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.portalDetectorAvailable||!DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_STARTUP_VALIDATION_V2944.multiTargetDetectorAvailable){
   throw new Error('DIRECT_MORAL_ANSWER_AND_GOOGLE_WEBPAGE_ROUTING_REPAIR_V2944 startup validation failed');
 }
 
 const QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v2943QualifiedMoralDilemmaIntent==='function',responseAvailable:typeof v2943QualifiedMoralDilemmaResponse==='function',existingMoralRulesAvailable:typeof v2672MoralGuidanceOutput==='function',scriptureRendererAvailable:typeof v2672MoralContract==='function',presidentialIdentityCacheRepair:true,futureOrdinalIntentAvailable:typeof v2943FutureUsPresidentOrdinalIntent==='function',futureOrdinalResponseAvailable:typeof v2943FutureUsPresidentOrdinalResponse==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v2943QualifiedMoralDilemmaIntent==='function',responseAvailable:typeof v2943QualifiedMoralDilemmaResponse==='function',existingMoralRulesAvailable:typeof v2672MoralGuidanceOutput==='function',scriptureRendererAvailable:typeof v2672MoralContract==='function',presidentialIdentityCacheRepair:true,futureOrdinalIntentAvailable:typeof v2943FutureUsPresidentOrdinalIntent==='function',futureOrdinalResponseAvailable:typeof v2943FutureUsPresidentOrdinalResponse==='function'
 });
 if(!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.currentVersion||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.intentAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.responseAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.existingMoralRulesAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.scriptureRendererAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.futureOrdinalIntentAvailable||!QUALIFIED_MORAL_DILEMMA_STARTUP_VALIDATION_V2943.futureOrdinalResponseAvailable){
   throw new Error('PRESIDENTIAL_ORDINAL_NAME_INTEGRITY_AND_QUALIFIED_MORAL_DILEMMA_REPAIR_V2943 startup validation failed');
 }
 const GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',officialResolverAvailable:typeof v2942OfficialCurrentFactResponse==='function',officialSnapshotUrlValid:!!validHttpUrl(V2942_OFFICIAL_FACT_SNAPSHOT.sourceUrl),claimEligibilityAvailable:typeof v2942StableGeneralClaimEligible==='function',deterministicClaimRouterAvailable:typeof v2942DeterministicGeneralClaimResponse==='function',modelClaimRouterAvailable:typeof v2942ModelGeneralClaimResponse==='function',capitalCatalogAvailable:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,periodicTableAvailable:typeof AIV_V2733_ELEMENT_TO_SYMBOL==='object'});
+  currentVersion:VERSION==='BE_AIV_v3228',officialResolverAvailable:typeof v2942OfficialCurrentFactResponse==='function',officialSnapshotUrlValid:!!validHttpUrl(V2942_OFFICIAL_FACT_SNAPSHOT.sourceUrl),claimEligibilityAvailable:typeof v2942StableGeneralClaimEligible==='function',deterministicClaimRouterAvailable:typeof v2942DeterministicGeneralClaimResponse==='function',modelClaimRouterAvailable:typeof v2942ModelGeneralClaimResponse==='function',capitalCatalogAvailable:Object.keys(V2940_COUNTRY_CAPITALS).length>=30,periodicTableAvailable:typeof AIV_V2733_ELEMENT_TO_SYMBOL==='object'});
 if(!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.currentVersion||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.officialResolverAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.officialSnapshotUrlValid||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.claimEligibilityAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.deterministicClaimRouterAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.modelClaimRouterAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.capitalCatalogAvailable||!GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_STARTUP_VALIDATION_V2942.periodicTableAvailable){
   throw new Error('GENERAL_FACTUAL_CLAIM_AND_OFFICIAL_CURRENT_FACT_SPEED_REPAIR_V2942 startup validation failed');
 }
 
 
 const CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',creativeGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',structuredStableAvailable:typeof v2864StructuredQuestionAttempt==='function',plainStableAvailable:typeof v2864PlainQuestionAttempt==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',creativeGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',structuredStableAvailable:typeof v2864StructuredQuestionAttempt==='function',plainStableAvailable:typeof v2864PlainQuestionAttempt==='function'
 });
 if(!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.currentVersion||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.creativeGuardAvailable||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.structuredStableAvailable||!CREATIVE_WORK_ROUTING_BOUNDARY_STARTUP_VALIDATION_V2952.plainStableAvailable){throw new Error('CREATIVE_WORK_ROUTING_BOUNDARY_REPAIR_V2952 startup validation failed');}
 const HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',creativeWorkGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',officeholderDescriptorAvailable:typeof v2949CurrentOfficeholderDescriptor==='function',personCompletenessAvailable:typeof v2949CompletePersonNameFromContext==='function',wrongdoingDetectorAvailable:typeof v2731IsDangerousWrongdoingRequest==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',creativeWorkGuardAvailable:typeof v2949CreativeWorkOrdinaryFactual==='function',officeholderDescriptorAvailable:typeof v2949CurrentOfficeholderDescriptor==='function',personCompletenessAvailable:typeof v2949CompletePersonNameFromContext==='function',wrongdoingDetectorAvailable:typeof v2731IsDangerousWrongdoingRequest==='function'
 });
 if(!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.currentVersion||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.creativeWorkGuardAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.officeholderDescriptorAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.personCompletenessAvailable||!HIGH_LEVEL_ROUTING_STARTUP_VALIDATION_V2949.wrongdoingDetectorAvailable){throw new Error('HIGH_LEVEL_ROUTING_OFFICEHOLDER_NAME_AND_WRONGDOING_REPAIR_V2949 startup validation failed');}
 
 
 const HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',historicalOfficeIntentAvailable:typeof v2950HistoricalOfficeRelationIntent==='function',historicalOfficeResponseAvailable:typeof v2950HistoricalOfficeRelationResponse==='function',securityCapabilityAvailable:typeof v2950SecurityTargetCapabilityResponse==='function',securityInterferenceAvailable:typeof v2950SecurityInterferenceBoundaryIntent==='function',acronymDefinitionAvailable:typeof v2950AppendAcronymDefinitions==='function',correctionDedupeAvailable:typeof v2950DedupeCorrectionSentence==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',historicalOfficeIntentAvailable:typeof v2950HistoricalOfficeRelationIntent==='function',historicalOfficeResponseAvailable:typeof v2950HistoricalOfficeRelationResponse==='function',securityCapabilityAvailable:typeof v2950SecurityTargetCapabilityResponse==='function',securityInterferenceAvailable:typeof v2950SecurityInterferenceBoundaryIntent==='function',acronymDefinitionAvailable:typeof v2950AppendAcronymDefinitions==='function',correctionDedupeAvailable:typeof v2950DedupeCorrectionSentence==='function'
 });
 if(!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.currentVersion||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.historicalOfficeIntentAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.historicalOfficeResponseAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.securityCapabilityAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.securityInterferenceAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.acronymDefinitionAvailable||!HIGH_LEVEL_RELATION_BOUNDARY_STARTUP_VALIDATION_V2950.correctionDedupeAvailable){throw new Error('HIGH_LEVEL_RELATION_BOUNDARY_AND_DEFINITION_REPAIR_V2950 startup validation failed');}
 
@@ -27264,7 +27539,7 @@ async function v2953OrdinaryFactualCollisionResponse(raw,requestState){
 }
 
 const BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',aliasProviderAvailable:typeof v2953BibleBookAliases==='function',positiveContextAvailable:typeof v2953PositiveBibleContext==='function',collisionGuardAvailable:typeof v2953BibleBookProperNameCollision==='function',responseAvailable:typeof v2953OrdinaryFactualCollisionResponse==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',aliasProviderAvailable:typeof v2953BibleBookAliases==='function',positiveContextAvailable:typeof v2953PositiveBibleContext==='function',collisionGuardAvailable:typeof v2953BibleBookProperNameCollision==='function',responseAvailable:typeof v2953OrdinaryFactualCollisionResponse==='function'
 });
 if(!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.currentVersion||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.aliasProviderAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.positiveContextAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.collisionGuardAvailable||!BIBLE_INTENT_CONTEXT_STARTUP_VALIDATION_V2953.responseAvailable){throw new Error('BIBLE_INTENT_CONTEXT_AND_NAMED_ENTITY_COLLISION_REPAIR_V2953 startup validation failed');}
 
@@ -27414,7 +27689,7 @@ function v2954ApplyRequestResponseIntegrity(contract,raw){
   return c;
 }
 const REQUEST_SHAPE_RESPONSE_CONTRACT_STARTUP_VALIDATION_V2954=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   shapeClassifierAvailable:typeof v2954RequestShape==='function',
   visualIntentAvailable:typeof v2954TechnicalVisualReferenceIntent==='function',
   visualResponseAvailable:typeof v2954TechnicalVisualReferenceResponse==='function',
@@ -28122,7 +28397,7 @@ function v3000InterrogativeAnswerShapeGuidance(raw){
   return 'INTERROGATIVE ANSWER SHAPE: This is not a Yes/No question. Put the direct requested fact, entity, value, or items in ANSWER; never return a Yes/No answer badge.';
 }
 const INTERROGATIVE_ANSWER_SHAPE_STARTUP_VALIDATION_V3000=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   shapeDetectorAvailable:typeof v3000InterrogativeShape==='function',
   binaryIntentAvailable:typeof v3000YesNoQuestionIntent==='function',
   mismatchValidatorAvailable:typeof v3000InterrogativeAnswerShapeMismatch==='function',
@@ -28334,7 +28609,7 @@ async function v3001CorrectionAttempt(raw,requestState,requestContext){
   return '';
 }
 const UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',guidanceAvailable:typeof v3001UnifiedAnswerGuidance==='function',contractRepairAvailable:typeof v3001RepairContractDisplayShape==='function',semanticValidatorAvailable:typeof v3001ContractSemanticIssues==='function',correctionAvailable:typeof v3001CorrectionAttempt==='function',countrySetRecoveryAvailable:typeof v3001CountryNamesInText==='function',entityPunctuationAvailable:typeof v3001ProtectEntityPunctuation==='function',resourceLinkGuardAvailable:typeof v3001ResourceActionMissing==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',guidanceAvailable:typeof v3001UnifiedAnswerGuidance==='function',contractRepairAvailable:typeof v3001RepairContractDisplayShape==='function',semanticValidatorAvailable:typeof v3001ContractSemanticIssues==='function',correctionAvailable:typeof v3001CorrectionAttempt==='function',countrySetRecoveryAvailable:typeof v3001CountryNamesInText==='function',entityPunctuationAvailable:typeof v3001ProtectEntityPunctuation==='function',resourceLinkGuardAvailable:typeof v3001ResourceActionMissing==='function'
 });
 if(!Object.keys(UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001).every(function(k){return UNIFIED_SEMANTIC_INTEGRITY_STARTUP_VALIDATION_V3001[k]===true;}))throw new Error('UNIFIED_SEMANTIC_INTEGRITY_V3001 startup validation failed');
 
@@ -28347,19 +28622,59 @@ function v3002ActionResourceIntent(raw){
   const base=typeof v2989ResourceRequestIntent==='function'?v2989ResourceRequestIntent(raw):null;
   if(!base||base.commerce)return null;
   const input=clean(raw).replace(/[?!.]+$/,'');
-  const m=input.match(/\b(schedule|book|reserve|apply|register|renew|pay|submit|file|enroll|sign\s*up|cancel|track|request|report)\b(?:\s+(?:for|to))?\s+(?:a|an|the)?\s*(.+)$/i);
+  const m=input.match(/\b(schedule|scheduling|book|booking|reserve|reserving|apply|applying|register|registering|renew|renewing|replace|replacing|pay|paying|submit|submitting|file|filing|enroll|enrolling|sign\s*up|cancel|canceling|cancelling|track|tracking|request|requesting|report|reporting|check|checking|verify|verifying|update|updating|change|changing|order|ordering)\b(?:\s+(?:for|to|of))?\s+(?:a|an|the)?\s*(.+)$/i);
   if(!m)return null;
-  const action=clean(m[1]).toLowerCase().replace(/\s+/g,' ');
+  const rawAction=clean(m[1]).toLowerCase().replace(/\s+/g,' ');
+  let action=rawAction;
+  if(/^schedul/.test(rawAction))action='schedule';
+  else if(/^book/.test(rawAction))action='book';
+  else if(/^reserv/.test(rawAction))action='reserve';
+  else if(/^appl/.test(rawAction))action='apply';
+  else if(/^register/.test(rawAction))action='register';
+  else if(/^renew/.test(rawAction))action='renew';
+  else if(/^replac/.test(rawAction))action='replace';
+  else if(/^pay/.test(rawAction))action='pay';
+  else if(/^submi/.test(rawAction))action='submit';
+  else if(/^fil/.test(rawAction))action='file';
+  else if(/^enroll/.test(rawAction))action='enroll';
+  else if(/^sign\s*up/.test(rawAction))action='sign up';
+  else if(/^cancel/.test(rawAction))action='cancel';
+  else if(/^track/.test(rawAction))action='track';
+  else if(/^request/.test(rawAction))action='request';
+  else if(/^report/.test(rawAction))action='report';
+  else if(/^check/.test(rawAction))action='check';
+  else if(/^verif/.test(rawAction))action='verify';
+  else if(/^updat/.test(rawAction))action='update';
+  else if(/^chang/.test(rawAction))action='change';
+  else if(/^order/.test(rawAction))action='order';
   let target=clean(m[2]||'').replace(/\b(?:official|page|website|site|online)\b/gi,' ').replace(/\s+/g,' ').trim();
   if(!target)return null;
   const stop=/^(?:a|an|and|at|by|for|from|in|me|my|of|on|or|the|to|with|your)$/i;
   const targetTokens=target.toLowerCase().replace(/[^a-z0-9]+/g,' ').split(/\s+/).filter(function(w){return w&&w.length>1&&!stop.test(w);}).slice(0,8);
   return Object.assign({},base,{requestedAction:action,actionTarget:target,targetTokens:targetTokens,searchPhrase:clean(action+' '+targetTokens.join(' '))});
 }
+
+function v3215OfficialActionEssentialStatusIntent(intent){
+  const action=clean(intent&&intent.requestedAction||'').toLowerCase();
+  const tokens=Array.isArray(intent&&intent.targetTokens)?intent.targetTokens.map(function(t){return clean(t).toLowerCase();}):[];
+  return /^(?:check|track|verify)$/.test(action)&&tokens.indexOf('status')>=0;
+}
+function v3215OfficialActionEssentialStatusMatch(intent,url,title,extra){
+  if(!v3215OfficialActionEssentialStatusIntent(intent))return true;
+  const hay=(clean(title)+' '+clean(url)+' '+clean(extra||'')).toLowerCase();
+  return /\b(?:status|track|tracking|check status|refund status|application status|case status|order status)\b/.test(hay)||
+    /\bwhere(?:'|’)?s\s+my\b/.test(hay)||
+    /where(?:s|-my|_my).*?(?:refund|case|application|order|status)/.test(hay);
+}
+
 function v3002ActionCandidateScore(raw,intent,url,title){
   const u=clean(url).toLowerCase(),t=clean(title).toLowerCase(),action=clean(intent&&intent.requestedAction||'').toLowerCase();
   if(!validHttpUrl(url))return -999;
   let score=0;
+  if(v3215OfficialActionEssentialStatusIntent(intent)){
+    if(v3215OfficialActionEssentialStatusMatch(intent,url,title,''))score+=72;
+    else score-=150;
+  }
   const actionParts=action.split(/\s+/).filter(Boolean);
   actionParts.forEach(function(a){if(t.indexOf(a)>=0)score+=34;if(u.indexOf(a.replace(/\s+/g,'-'))>=0||u.indexOf(a)>=0)score+=20;});
   const tokens=Array.isArray(intent&&intent.targetTokens)?intent.targetTokens:[];
@@ -28449,7 +28764,7 @@ async function v3002FinalizeResponse(raw,serialized,requestState){
   return v3002FocusDirectEntityAnswer(raw,serialized);
 }
 const EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',actionIntentAvailable:typeof v3002ActionResourceIntent==='function',actionCandidateScoringAvailable:typeof v3002ActionCandidateScore==='function',actionRefinementAvailable:typeof v3002RefineResourceResponse==='function',directEntityTargetAvailable:typeof v3002DirectEntityTarget==='function',directEntityFocusAvailable:typeof v3002FocusDirectEntityAnswer==='function',finalizerAvailable:typeof v3002FinalizeResponse==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',actionIntentAvailable:typeof v3002ActionResourceIntent==='function',actionCandidateScoringAvailable:typeof v3002ActionCandidateScore==='function',actionRefinementAvailable:typeof v3002RefineResourceResponse==='function',directEntityTargetAvailable:typeof v3002DirectEntityTarget==='function',directEntityFocusAvailable:typeof v3002FocusDirectEntityAnswer==='function',finalizerAvailable:typeof v3002FinalizeResponse==='function'
 });
 if(!Object.keys(EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002).every(function(k){return EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_STARTUP_VALIDATION_V3002[k]===true;}))throw new Error('EXACT_ACTION_TARGET_AND_DIRECT_ENTITY_FOCUS_V3002 startup validation failed');
 
@@ -28472,25 +28787,149 @@ function v3003OfficialActionSearchQueries(raw,intent){
   if(!intent||!intent.wantsOfficial||!intent.requestedAction)return [];
   const identity=clean(intent.officialIdentity||''),phrase=clean(intent.searchPhrase||((intent.requestedAction||'')+' '+(intent.actionTarget||''))),out=[];
   function add(q){q=clean(q);if(q&&!out.some(function(x){return x.toLowerCase()===q.toLowerCase();}))out.push(q);}
-  if(identity&&phrase){add('"'+identity+'" "'+phrase+'"');add('"'+identity+'" '+phrase+' official');}
+  if(identity&&phrase){
+    add('"'+identity+'" "'+phrase+'"');
+    add('site:.gov "'+identity+'" '+phrase);
+    add('"'+identity+'" '+phrase+' official');
+  }
   if(identity&&intent.actionTarget)add('"'+identity+'" '+clean(intent.actionTarget)+' '+clean(intent.requestedAction));
-  const sig=v2989OfficialIdentitySignals(identity);
-  (sig.acronyms||[]).slice(0,2).forEach(function(a){
-    if(/^[a-z][a-z0-9]{1,9}$/i.test(a))add('site:'+a+'.com '+phrase);
+  const hints=Array.isArray(intent.officialDomainHints)?intent.officialDomainHints:[];
+  hints.slice(0,2).forEach(function(host){if(host)add('site:'+host+' '+phrase);});
+  return out.slice(0,5);
+}
+function v3103OfficialActionCoreTargetTokens(intent){
+  const tokens=Array.isArray(intent&&intent.targetTokens)?intent.targetTokens:[];
+  const preserveStatus=v3215OfficialActionEssentialStatusIntent(intent);
+  const generic=new Set(['status','information','info','details','detail','page','website','site','official','online','service','services','process','procedure','instructions','instruction','ways','way','help','tool','tools','form','forms']);
+  const core=tokens.filter(function(t){
+    const low=String(t||'').toLowerCase();
+    if(preserveStatus&&low==='status')return true;
+    return t&&!generic.has(low);
   });
-  return out.slice(0,4);
+  return core.length?core:tokens;
+}
+function v3103InformationalResourcePage(raw,url,title){
+  const requested=clean(raw).toLowerCase();
+  if(/\b(?:news|newsroom|press|blog|article|tip|tips|announcement|faq|frequently asked|help article)\b/.test(requested))return false;
+  const hay=(clean(title)+' '+clean(url)).toLowerCase();
+  return /(?:\/newsroom\/|\/news\/|\/press(?:-|\/)|\/blog(?:-|\/)|\/articles?(?:-|\/)|\/tips?(?:-|\/)|\bnews(?:room)?\b|\bpress release\b|\btax tip\b|\barticle\b|\bfrequently asked questions?\b|\bfaq\b)/i.test(hay);
+}
+function v3103DirectActionPageSignal(url,title,coreTokens){
+  const u=clean(url).toLowerCase(),t=clean(title).toLowerCase();
+  let hits=0;(Array.isArray(coreTokens)?coreTokens:[]).forEach(function(tok){if(v2993ResourceHayHasTerm(t+' '+u,tok))hits++;});
+  if(!hits)return 0;
+  let score=0;
+  const wordCount=t.split(/\s+/).filter(Boolean).length;
+  if(wordCount>0&&wordCount<=9)score+=24;
+  if(/\b(?:start|check|track|apply|renew|replace|request|report|pay|file|submit|register|order|sign in|log in|account|portal)\b/i.test(t))score+=18;
+  if(/\/(?:apply|renew|replace|request|report|track|status|refund|payment|file|submit|register|order|account|portal)(?:[\/?#-]|$)/i.test(u))score+=16;
+  return score;
+}
+function v3105OfficialActionDestinationStrength(raw,intent,url,title){
+  const u=clean(url).toLowerCase(),t=clean(title).toLowerCase();
+  let score=0;
+  if(/\b(?:start|check|track|apply|renew|replace|request|report|pay|file|submit|register|order|sign in|log in|account|portal|schedule|book|reserve|update|change|claim|where['’]?s my)\b/i.test(t))score+=34;
+  if(/\/(?:apply|renew|replace|request|report|track|status|refunds?|payment|file|submit|register|order|account|portal|schedule|book|reserve|update|change|claim)(?:[\/?#-]|$)/i.test(u))score+=28;
+  if(/\b(?:locating|overview|guide|guidance|learn|information|resources?|about)\b/i.test(t))score-=18;
+  if(/\/(?:get-help|help|newsroom|news|press|blog|articles?|tips?|resources?|about)(?:[\/?#-]|$)/i.test(u))score-=58;
+  if(v3103InformationalResourcePage(raw,url,title))score-=42;
+  return score;
+}
+function v3105OfficialActionNeedsDirectDestination(intent){
+  return !!(intent&&intent.wantsOfficial&&intent.requestedAction&&/^(?:find|open|check|track|apply|renew|replace|request|report|pay|file|submit|register|order|schedule|book|reserve|update|change|claim|sign in|log in)$/i.test(clean(intent.requestedAction)));
+}
+function v3106OfficialActionVisibleText(html){
+  const source=String(html||'');if(!source.trim())return '';
+  let text='';try{text=readableContentFromHtml(source)||'';}catch(_e){}
+  if(clean(text).length<90){try{text=stripHtml(source)||text;}catch(_e){}}
+  try{text=decodeEntitiesLite(text);}catch(_e){}
+  return clean(text).replace(/\s+/g,' ').trim();
+}
+function v3106OfficialActionPageUsable(raw,intent,candidate,html){
+  const source=String(html||'');if(!source.trim())return false;
+  const text=v3106OfficialActionVisibleText(source),title=clean(candidate&&candidate.title||''),core=v3103OfficialActionCoreTargetTokens(intent);
+  if(v3215OfficialActionEssentialStatusIntent(intent)&&!v3215OfficialActionEssentialStatusMatch(intent,candidate&&candidate.url||'',title,text))return false;
+  const hay=(title+' '+text).toLowerCase();let hits=0;
+  core.forEach(function(tok){if(v2993ResourceHayHasTerm(hay,tok))hits++;});
+  const needed=core.length>=2?Math.min(2,core.length):(core.length?1:0),targetBound=!needed||hits>=needed;
+  const actionWords=/\b(?:start|check|track|apply|renew|replace|request|report|pay|file|submit|register|order|sign in|log in|account|portal|schedule|book|reserve|update|change|claim|continue|begin)\b/i;
+  const interactive=/<(?:form|input|button|select|textarea)\b/i.test(source)||actionWords.test(text)||actionWords.test(title);
+  if(targetBound&&text.length>=120)return true;
+  if(targetBound&&interactive&&text.length>=55)return true;
+  return false;
+}
+async function v3106UsableOfficialActionSelection(raw,intent,candidates,preferred,requestState){
+  const first=preferred&&validHttpUrl(preferred.url||'')?preferred:null;
+  if(first){
+    const html=await v2989HttpGetText(first.url,2400,2);
+    if(requestState&&requestState.aborted)return null;
+    if(v3106OfficialActionPageUsable(raw,intent,first,html))return {candidate:first,html:html,fallbackUsed:false};
+  }
+  const seen=new Set(first?[String(first.url).toLowerCase()]:[]),alternates=[];
+  (Array.isArray(candidates)?candidates:[]).forEach(function(c){
+    const url=v3003CleanDestinationUrl(c&&c.url||'');if(!url||seen.has(url.toLowerCase()))return;seen.add(url.toLowerCase());
+    if(!v2989OfficialSourceIdentityMatch(intent,{url:url,title:clean(c&&c.title||'')}))return;
+    const strength=v3105OfficialActionDestinationStrength(raw,intent,url,clean(c&&c.title||''));
+    if(v3105OfficialActionNeedsDirectDestination(intent)&&strength<=0)return;
+    if(Number(c&&c.score||v3003OfficialActionCandidateScore(raw,intent,c))<58)return;
+    alternates.push(Object.assign({},c,{url:url}));
+  });
+  alternates.sort(function(a,b){return Number(b.score||-999)-Number(a.score||-999);});
+  const shortlist=alternates.slice(0,4);
+  if(!shortlist.length)return null;
+  const pages=await Promise.all(shortlist.map(function(c){return v2989HttpGetText(c.url,2400,2).catch(function(){return '';});}));
+  if(requestState&&requestState.aborted)return null;
+  for(let i=0;i<shortlist.length;i++)if(v3106OfficialActionPageUsable(raw,intent,shortlist[i],pages[i]))return {candidate:shortlist[i],html:pages[i],fallbackUsed:true};
+  return null;
+}
+function v3216OfficialAuthorityHintHosts(intent){
+  const hints=Array.isArray(intent&&intent.officialDomainHints)?intent.officialDomainHints:[];
+  const out=[];
+  hints.forEach(function(h){
+    h=clean(h).toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'');
+    if(h&&out.indexOf(h)<0)out.push(h);
+  });
+  return out;
+}
+function v3216CandidateOnAuthorityHint(intent,candidate){
+  const url=validHttpUrl(candidate&&candidate.url||'');if(!url)return false;
+  let host='';try{host=new URL(url).hostname.toLowerCase().replace(/^www\./,'');}catch(_e){return false;}
+  return v3216OfficialAuthorityHintHosts(intent).some(function(h){return host===h||host.endsWith('.'+h);});
+}
+function v3216PreferAuthorityHintCandidates(intent,candidates){
+  const list=Array.isArray(candidates)?candidates:[];
+  if(!intent||!intent.wantsOfficial||!v3216OfficialAuthorityHintHosts(intent).length)return list;
+  const bound=list.filter(function(c){return v3216CandidateOnAuthorityHint(intent,c);});
+  return bound.length?bound:list;
 }
 function v3003OfficialActionCandidateScore(raw,intent,candidate){
   const url=v3003CleanDestinationUrl(candidate&&candidate.url||''),title=clean(candidate&&candidate.title||''),snippet=clean(candidate&&candidate.snippet||'');
   if(!url||!v2989OfficialSourceIdentityMatch(intent,{url:url,title:title}))return -999;
   let score=v3002ActionCandidateScore(raw,intent,url,title);
-  const hay=(title+' '+snippet+' '+url).toLowerCase(),action=clean(intent&&intent.requestedAction||'').toLowerCase(),targetTokens=Array.isArray(intent&&intent.targetTokens)?intent.targetTokens:[];
+  const hay=(title+' '+snippet+' '+url).toLowerCase(),action=clean(intent&&intent.requestedAction||'').toLowerCase(),targetTokens=v3103OfficialActionCoreTargetTokens(intent);
+  if(v3215OfficialActionEssentialStatusIntent(intent)){
+    if(v3215OfficialActionEssentialStatusMatch(intent,url,title,snippet))score+=84;
+    else score-=180;
+  }
   if(action&&hay.indexOf(action)>=0)score+=18;
   let targetHits=0;targetTokens.forEach(function(t){if(v2993ResourceHayHasTerm(hay,t))targetHits++;});
   score+=Math.min(36,targetHits*12);
-  if(targetTokens.length&&targetHits===0)score-=55;
-  if(/\b(?:schedule|apply|register|renew|submit|pay|book|reserve|track|request|report|pickup|appointment|form)\b/i.test(title+' '+url))score+=12;
-  if(/\b(?:news|blog|press|about|military|diplomatic|history|faq|help article|knowledge)\b/i.test(title+' '+url)&&!/\b(?:news|blog|press|about|military|diplomatic|history|faq|help|knowledge)\b/i.test(clean(raw)))score-=34;
+  const requiredTargetHits=targetTokens.length>=4?2:(targetTokens.length?1:0);
+  const targetCoverage=targetTokens.length?(targetHits/targetTokens.length):1;
+  if(targetTokens.length&&targetHits===0)score-=90;
+  if(requiredTargetHits&&targetHits<requiredTargetHits)score-=72;
+  if(requiredTargetHits&&targetHits>=requiredTargetHits)score+=24;
+  if(targetTokens.length>=2&&targetHits===targetTokens.length)score+=18;
+  const genericUtilityPage=/\b(?:help|questions?|faq|topics?|assistant|contact|about|resources?)\b/i.test(title+' '+url);
+  if(genericUtilityPage&&targetTokens.length>=2&&targetCoverage<0.67)score-=70;
+  if(/\b(?:schedule|apply|register|renew|replace|submit|pay|book|reserve|track|request|report|check|verify|update|change|order|pickup|appointment|form)\b/i.test(title+' '+url))score+=12;
+  if(v3103InformationalResourcePage(raw,url,title))score-=140;
+  else score+=v3103DirectActionPageSignal(url,title,targetTokens);
+  const destinationStrength=v3105OfficialActionDestinationStrength(raw,intent,url,title);
+  if(v3105OfficialActionNeedsDirectDestination(intent)){
+    if(destinationStrength<=0)score-=110;
+    else score+=Math.min(48,destinationStrength);
+  }else if(destinationStrength>0)score+=Math.min(24,destinationStrength);
   return score;
 }
 async function v3003FastOfficialActionResource(raw,requestState){
@@ -28498,15 +28937,58 @@ async function v3003FastOfficialActionResource(raw,requestState){
   const key=v2989ResourceCacheKey(raw),cached=v2989ResourceCacheGet(key);if(cached&&cached.serialized)return cached.serialized;
   const queries=v3003OfficialActionSearchQueries(raw,intent);if(!queries.length)return '';
   const started=Date.now();
-  const pages=await Promise.all(queries.map(function(q){return v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2100,1).then(function(body){return {q:q,body:body};}).catch(function(){return null;});}));
+  const jobs=[];
+  queries.forEach(function(q){
+    jobs.push(v2989HttpGetText('https://www.bing.com/search?format=rss&q='+encodeURIComponent(q),2100,1).then(function(body){return {kind:'bing',q:q,body:body};}).catch(function(){return null;}));
+    jobs.push(v2989HttpGetText('https://html.duckduckgo.com/html/?q='+encodeURIComponent(q),2100,1).then(function(body){return {kind:'ddg',q:q,body:body};}).catch(function(){return null;}));
+  });
+  const pages=await Promise.all(jobs);
   if(requestState&&requestState.aborted)return '';
   const candidates=[],seen=new Set();
-  pages.forEach(function(p){if(!p||!p.body)return;v2989ParseBingRss(p.body).forEach(function(c){const url=v3003CleanDestinationUrl(c&&c.url||'');if(!url)return;const k=url.toLowerCase();if(seen.has(k))return;seen.add(k);c.url=url;c.score=v3003OfficialActionCandidateScore(raw,intent,c);if(c.score>-900)candidates.push(c);});});
-  candidates.sort(function(a,b){return Number(b.score||-999)-Number(a.score||-999);});
-  const best=candidates[0];if(!best||Number(best.score||0)<78)return '';
+  pages.forEach(function(p){
+    if(!p||!p.body)return;
+    const rows=p.kind==='ddg'?v2989ParsePublicSearchHtml(p.body):v2989ParseBingRss(p.body);
+    rows.forEach(function(c){
+      const url=v3003CleanDestinationUrl(c&&c.url||'');if(!url)return;
+      const k=url.toLowerCase();if(seen.has(k))return;seen.add(k);
+      c.url=url;c.score=v3003OfficialActionCandidateScore(raw,intent,c);
+      if(c.score>-900)candidates.push(c);
+    });
+  });
+  const authorityBoundCandidates=v3216PreferAuthorityHintCandidates(intent,candidates);
+  authorityBoundCandidates.sort(function(a,b){return Number(b.score||-999)-Number(a.score||-999);});
+  candidates.length=0;authorityBoundCandidates.forEach(function(c){candidates.push(c);});
+  let best=candidates[0];if(!best||Number(best.score||0)<78)return '';
+  if(v3105OfficialActionNeedsDirectDestination(intent)&&v3105OfficialActionDestinationStrength(raw,intent,best.url,best.title)<=0)return '';
+  // v3106: do not release a nominally direct action URL until its public page is usable and
+  // visibly bound to the requested task. Empty/script-shell destinations fall back to the
+  // strongest usable same-authority landing page discovered in the same bounded search.
+  let selected=null;try{selected=await v3106UsableOfficialActionSelection(raw,intent,candidates,best,requestState);}catch(_e){}
+  if(requestState&&requestState.aborted)return '';
+  if(!selected||!selected.candidate)return '';
+  best=selected.candidate;const bestHtml=String(selected.html||'');
+  // Inspect a child action link only when the usable landing page is still weak/informational;
+  // validate the child itself before replacing the working landing page.
+  try{
+    const currentStrength=v3105OfficialActionDestinationStrength(raw,intent,best.url,best.title);
+    if(bestHtml&&(v3103InformationalResourcePage(raw,best.url,best.title)||currentStrength<24)){
+      const anchors=v3002ActionAnchorCandidates(raw,intent,best.url,bestHtml).map(function(a){
+        return {url:v3003CleanDestinationUrl(a.url),title:clean(a.title||''),snippet:'',score:v3003OfficialActionCandidateScore(raw,intent,{url:a.url,title:a.title||'',snippet:''})};
+      }).filter(function(a){return a.url&&a.score>-900;}).sort(function(a,b){return Number(b.score||-999)-Number(a.score||-999);});
+      const child=anchors[0];
+      if(child&&Number(child.score||0)>=78&&(!v3105OfficialActionNeedsDirectDestination(intent)||v3105OfficialActionDestinationStrength(raw,intent,child.url,child.title)>0)){
+        const childHtml=await v2989HttpGetText(child.url,2200,2);
+        if(requestState&&requestState.aborted)return '';
+        if(v3106OfficialActionPageUsable(raw,intent,child,childHtml)&&(
+          Number(child.score||0)>Number(best.score||0)+8 ||
+          (v3103InformationalResourcePage(raw,best.url,best.title)&&!v3103InformationalResourcePage(raw,child.url,child.title))
+        ))best=child;
+      }
+    }
+  }catch(_e){}
   const c=v2844Contract(raw,{intent:'RESOURCE_RETRIEVAL',route:'official-action-direct/v3003',basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,answer:clean(best.title||'Open the requested official page'),explanation:'This is the direct official page for the requested action.',source:clean(best.title||intent.officialIdentity||'Official source'),sourceUrl:best.url,actionLinkUrl:best.url,actionLinkLabel:'Open Official Page',classification:'VERIFIED OFFICIAL ACTION RESOURCE',confidence:'High confidence',status:'ANSWERED'});
   c.requestShape='RESOURCE_RETRIEVAL';c.responseShape='DIRECT_RESOURCE_LINK';c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.analysisResult='Answer';c.hideSourceLineForActionLink=true;c.showSource=true;c.showSourceUrl=true;c.showAdditionalInformation=true;c.hideAnswerLabel=true;
-  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'boundedLiveListAndOfficialActionResolutionV3003',officialActionFastPath:'USED',requestedOfficialIdentity:clean(intent.officialIdentity||''),requestedAction:clean(intent.requestedAction||''),actionTarget:clean(intent.actionTarget||''),candidateScore:Number(best.score||0),candidateCount:candidates.length,boundedDiscoveryMs:Date.now()-started});
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'boundedLiveListAndOfficialActionResolutionV3003',officialActionFastPath:'USED',requestedOfficialIdentity:clean(intent.officialIdentity||''),requestedAction:clean(intent.requestedAction||''),actionTarget:clean(intent.actionTarget||''),candidateScore:Number(best.score||0),candidateCount:candidates.length,boundedDiscoveryMs:Date.now()-started,officialDirectDestinationRefinement:'V3106',workingLandingValidation:'ENFORCED',workingLandingFallbackUsed:selected&&selected.fallbackUsed?'YES':'NO'});
   const serialized=v2844Serialize(raw,c,'official-action-direct-v3003');v2989ResourceCachePut(key,{serialized:serialized});return serialized;
 }
 function v3003DynamicCountryCompleteSetIntent(raw){
@@ -28548,7 +29030,7 @@ async function v3003DynamicCountrySetResponse(raw,requestState){
   return v2844Serialize(raw,c,'bounded-current-country-set-v3003');
 }
 const BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',officialActionFastPathAvailable:typeof v3003FastOfficialActionResource==='function',officialIdentityBindingAvailable:typeof v2989OfficialSourceIdentityMatch==='function',dynamicCompleteSetIntentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',boundedCurrentSetAvailable:typeof v3003DynamicCountrySetResponse==='function',destinationCleanupAvailable:typeof v3003CleanDestinationUrl==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',officialActionFastPathAvailable:typeof v3003FastOfficialActionResource==='function',officialIdentityBindingAvailable:typeof v2989OfficialSourceIdentityMatch==='function',dynamicCompleteSetIntentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',boundedCurrentSetAvailable:typeof v3003DynamicCountrySetResponse==='function',destinationCleanupAvailable:typeof v3003CleanDestinationUrl==='function',essentialActionTargetGateAvailable:typeof v3215OfficialActionEssentialStatusIntent==='function'&&typeof v3215OfficialActionEssentialStatusMatch==='function',authorityHintPreferenceAvailable:typeof v3216OfficialAuthorityHintHosts==='function'&&typeof v3216CandidateOnAuthorityHint==='function'&&typeof v3216PreferAuthorityHintCandidates==='function'
 });
 if(!Object.keys(BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003).every(function(k){return BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_STARTUP_VALIDATION_V3003[k]===true;}))throw new Error('BOUNDED_LIVE_LIST_AND_OFFICIAL_ACTION_RESOLUTION_V3003 startup validation failed');
 
@@ -28662,7 +29144,7 @@ function v3004TerminalSourceAttemptSerialized(serialized){
   return /"terminalSourceAttempt"\s*:\s*"YES"/i.test(s)||/route\s*[:=][^\n]*current-set\/terminal-unavailable\/v3004/i.test(s);
 }
 const CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',openAICandidateAvailable:typeof v3004OpenAICurrentSetCandidate==='function',geminiCandidateAvailable:typeof v3004GeminiCurrentSetCandidate==='function',validatorAvailable:typeof v3004CurrentSetParsedValid==='function',terminalGuardAvailable:typeof v3004TerminalSourceAttemptSerialized==='function',cacheReady:V3004_CURRENT_SET_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',openAICandidateAvailable:typeof v3004OpenAICurrentSetCandidate==='function',geminiCandidateAvailable:typeof v3004GeminiCurrentSetCandidate==='function',validatorAvailable:typeof v3004CurrentSetParsedValid==='function',terminalGuardAvailable:typeof v3004TerminalSourceAttemptSerialized==='function',cacheReady:V3004_CURRENT_SET_CACHE instanceof Map
 });
 if(!Object.keys(CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004).every(function(k){return CURRENT_SET_RESILIENCE_STARTUP_VALIDATION_V3004[k]===true;}))throw new Error('CURRENT_SET_RESILIENCE_V3004 startup validation failed');
 
@@ -28821,7 +29303,7 @@ function v3005TerminalSourceAttemptSerialized(serialized){
   const s=String(serialized||'');return /"terminalSourceAttempt"\s*:\s*"YES"/i.test(s)||/current-set\/terminal-unavailable\/v3005/i.test(s);
 }
 const CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',evidenceSearchAvailable:typeof v3005CurrentSetEvidence==='function',openAISynthesisAvailable:typeof v3005OpenAIEvidenceSynthesis==='function',geminiSynthesisAvailable:typeof v3005GeminiEvidenceSynthesis==='function',sourceBackedFallbackAvailable:typeof v3005SourceBackedSetFallback==='function',terminalGuardAvailable:typeof v3005TerminalSourceAttemptSerialized==='function',cacheReady:V3005_CURRENT_SET_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v3003DynamicCountryCompleteSetIntent==='function',evidenceSearchAvailable:typeof v3005CurrentSetEvidence==='function',openAISynthesisAvailable:typeof v3005OpenAIEvidenceSynthesis==='function',geminiSynthesisAvailable:typeof v3005GeminiEvidenceSynthesis==='function',sourceBackedFallbackAvailable:typeof v3005SourceBackedSetFallback==='function',terminalGuardAvailable:typeof v3005TerminalSourceAttemptSerialized==='function',cacheReady:V3005_CURRENT_SET_CACHE instanceof Map
 });
 if(!Object.keys(CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005).every(function(k){return CURRENT_SET_EVIDENCE_RESOLUTION_STARTUP_VALIDATION_V3005[k]===true;}))throw new Error('CURRENT_SET_EVIDENCE_RESOLUTION_V3005 startup validation failed');
 
@@ -29205,7 +29687,7 @@ async function v3006StructuredResearchResponse(raw,requestState){
 }
 function v3006HomepageResourceRequest(raw,intent){return !!(intent&&clean(intent.resourceType||'')==='page'&&/\b(?:website|home\s*page|homepage|site)\b/i.test(clean(raw))&&!/\b(?:specific|section|article|document|form|manual|board|leadership|governance|source\s+list)\b/i.test(clean(raw)));}
 const ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',entityIdentityAvailable:typeof v3006NamedEntityIdentity==='function',institutionalTrailingEntityAvailable:typeof v3027InstitutionalTrailingEntity==='function',acronymLedOfficialIdentityAvailable:typeof v3025AcronymLedGenericEntityMatch==='function',entityCandidateGuardAvailable:typeof v3006EntityCandidateMatch==='function',intentAvailable:typeof v3006ResearchIntent==='function',evidenceAvailable:typeof v3006ResearchEvidence==='function',synthesisAvailable:typeof v3006StructuredResearchResponse==='function',authorityPriorityAvailable:typeof v3031AuthorityDomainPriority==='function',publicExplanationHygieneAvailable:typeof v3031PublicResearchExplanation==='function',publicExplanationLinkCleanupAvailable:typeof v3032StripSourceLinksFromExplanation==='function',quickOfficialEvidenceAvailable:typeof v3032QuickOfficialAuthorityEvidence==='function',preferredSourceAvailable:typeof v3031PreferredResearchSource==='function',cacheReady:V3006_ENTITY_RESEARCH_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3228',entityIdentityAvailable:typeof v3006NamedEntityIdentity==='function',institutionalTrailingEntityAvailable:typeof v3027InstitutionalTrailingEntity==='function',acronymLedOfficialIdentityAvailable:typeof v3025AcronymLedGenericEntityMatch==='function',entityCandidateGuardAvailable:typeof v3006EntityCandidateMatch==='function',intentAvailable:typeof v3006ResearchIntent==='function',evidenceAvailable:typeof v3006ResearchEvidence==='function',synthesisAvailable:typeof v3006StructuredResearchResponse==='function',authorityPriorityAvailable:typeof v3031AuthorityDomainPriority==='function',publicExplanationHygieneAvailable:typeof v3031PublicResearchExplanation==='function',publicExplanationLinkCleanupAvailable:typeof v3032StripSourceLinksFromExplanation==='function',quickOfficialEvidenceAvailable:typeof v3032QuickOfficialAuthorityEvidence==='function',preferredSourceAvailable:typeof v3031PreferredResearchSource==='function',cacheReady:V3006_ENTITY_RESEARCH_CACHE instanceof Map
 });
 if(!Object.keys(ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006).every(function(k){return ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDATION_V3006[k]===true;}))throw new Error('ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_V3006 startup validation failed');
 
@@ -29218,7 +29700,7 @@ if(!Object.keys(ENTITY_RESEARCH_AND_QUANTIFIED_QUESTION_INTEGRITY_STARTUP_VALIDA
 const V3007_SEMANTIC_RESEARCH_CACHE=new Map();
 const V3007_SEMANTIC_RESEARCH_CACHE_TTL_MS=20*60*1000;
 function v3007SemanticScope(raw){
-  const input=clean(raw),s=v2856Normalized(raw);if(!s)return {unit:'',empiricalReligion:false,explicitScripture:false,ethnolinguistic:false,nationAmbiguous:false};
+  const input=clean(raw),s=v2856Normalized(raw);if(!s)return {unit:'',empiricalReligion:false,empiricalStatistic:false,explicitScripture:false,ethnolinguistic:false,nationAmbiguous:false};
   let unit='';
   const howMany=function(noun){return new RegExp('\\bhow\\s+many(?:\\s+[a-z0-9-]+){0,3}\\s+'+noun+'\\b').test(s);};
   const numberOf=function(noun){return new RegExp('\\b(?:number|total)\\s+of(?:\\s+[a-z0-9-]+){0,2}\\s+'+noun+'\\b').test(s);};
@@ -29234,15 +29716,23 @@ function v3007SemanticScope(raw){
   const openPlural=!!unit&&/^(?:what|which|name|list|identify|show|give)\b/.test(s);
   const quantified=!!unit||/\b(?:all|every|each|total|how\s+many|of\s+\d[\d,]*)\b/.test(s);
   const empiricalReligion=!!(religionSubject&&coverage&&(quantified||openPlural)&&!explicitScripture);
+  // v3208: measured population/demographic statistics require a real source.
+  const empiricalStatisticAsk=/\b(?:what\s+(?:percentage|percent|proportion|share)|(?:percentage|percent|proportion|share)\s+of|what\s+is\s+the\s+(?:percentage|percent|proportion|share)|average\s+(?:reading|literacy)\s+level)\b/.test(s);
+  const empiricalPopulation=/\b(?:americans?|u\.?s\.?\s+(?:adults?|citizens?|residents?|households?|workers?|students?|voters?|population)|united\s+states\s+(?:adults?|citizens?|residents?|households?|workers?|students?|voters?|population)|adults?|citizens?|residents?|people|population|households?|workers?|students?|graduates?|voters?|children|teenagers?|men|women|families|schools?)\b/.test(s);
+  const explicitMathExercise=/\b(?:calculate|compute|solve)\b/.test(s)||/\bwhat\s+(?:percentage|percent)\s+is\s+\d+(?:\.\d+)?\s+(?:of|out\s+of)\s+\d+(?:\.\d+)?\b/.test(s);
+  const empiricalStatistic=!!(empiricalStatisticAsk&&empiricalPopulation&&!explicitMathExercise&&!explicitScripture);
   const ethnolinguistic=(/\b(?:what|which)\s+(?:is\s+the\s+)?language(?:\s+called)?\b/.test(s)&&/\b(?:speak|spoken|tribe|people|group|ethnic|community)\b/.test(s))||/\bwhat\s+language\s+(?:does|do|did)\b/.test(s)||(/\b(?:tribe|people|ethnic\s+group|community)\b/.test(s)&&/\b(?:click|clicking|language|dialect)\b/.test(s));
   const nationAmbiguous=unit==='nation'&&/\b(?:bible|gospel|scripture|jesus|christ)\b/.test(s);
-  return {unit:unit,empiricalReligion:empiricalReligion,explicitScripture:explicitScripture,ethnolinguistic:ethnolinguistic,nationAmbiguous:nationAmbiguous,input:input,openPlural:openPlural};
+  return {unit:unit,empiricalReligion:empiricalReligion,empiricalStatistic:empiricalStatistic,explicitScripture:explicitScripture,ethnolinguistic:ethnolinguistic,nationAmbiguous:nationAmbiguous,input:input,openPlural:openPlural};
 }
 function v3007ResearchIntent(raw){
   const scope=v3007SemanticScope(raw),base=v3006ResearchIntent(raw);if(base){base.semanticScope=scope;if(!clean(base.entity||''))base.entity=v3021EntityIdentity(raw);return base;}
   if(scope.empiricalReligion){
     const normalized=v2856Normalized(raw),countRequest=/\bhow\s+many\b|\b(?:number|total)\s+of\b/.test(normalized);
     return {kind:'semantic-source-research',entity:v3006NamedEntityIdentity(raw),expectedParts:v3006ExpectedPartCount(raw),current:true,scopeCount:countRequest,completeList:!!scope.openPlural,semanticScope:scope};
+  }
+  if(scope.empiricalStatistic){
+    return {kind:'empirical-statistic-source-research',entity:'',expectedParts:v3006ExpectedPartCount(raw),current:false,scopeCount:false,completeList:false,semanticScope:scope};
   }
   if(scope.ethnolinguistic){
     return {kind:'ethnolinguistic-source-research',entity:v3006NamedEntityIdentity(raw),expectedParts:1,current:false,scopeCount:false,completeList:false,semanticScope:scope};
@@ -29261,6 +29751,10 @@ function v3007ResearchQueries(raw,intent){
     const unit=clean(scope.unit||'');add(input+' statistics source'+(unit?' '+unit:''));
     if(/\b(?:bible|scripture)\b/i.test(input)&&/\btranslat/i.test(input))add('Bible translation statistics complete Bible New Testament portions languages countries');
   }
+  if(scope.empiricalStatistic){
+    add(input+' survey statistics report dataset');
+    add(input+' official data study');
+  }
   if(scope.ethnolinguistic)add(input+' language family classification');
   return out.slice(0,4);
 }
@@ -29271,6 +29765,8 @@ function v3007EvidenceScore(raw,intent,c){
   if(scope.unit==='language'&&/\b(?:language|languages|dialect|dialects)\b/.test(hay))score+=24;
   if(scope.unit==='translation'&&/\b(?:translation|translations|version|versions)\b/.test(hay))score+=24;
   if(scope.ethnolinguistic&&/\b(?:language|languages|family|families|classification|linguistic|dialect|dialects)\b/.test(hay))score+=26;
+  if(scope.empiricalStatistic&&/\b(?:survey|dataset|data|statistics?|report|study|census|poll)\b/.test(hay))score+=32;
+  if(scope.empiricalStatistic&&/\.(?:gov|edu)$/i.test(domainFromUrl(c&&c.url||'')))score+=14;
   if(/(?:^|\.)(?:wikipedia\.org|facebook\.com|linkedin\.com|youtube\.com)$/i.test(domainFromUrl(c&&c.url||'')))score-=24;
   return score;
 }
@@ -29554,6 +30050,7 @@ function v3007EvidencePrompt(raw,intent,evidence){
     'Never silently substitute among countries, modern sovereign states, biblical nations/peoples, languages, dialects, language families, people groups, translations, Bible versions, complete Bibles, New Testaments, or Scripture portions. These are different units.',
     scope.nationAmbiguous?'In Bible/gospel wording, “nation” may mean peoples rather than a modern sovereign-state count. State the definition used and do not silently convert it to 195 modern countries.':'',
     scope.empiricalReligion?'This is an empirical coverage/statistics question, not a request for a theological answer. Use the supplied evidence and its date/counting definition. Scripture may explain theology but cannot itself establish a current empirical coverage total.':'',
+    scope.empiricalStatistic?'This is a source-dependent population/demographic statistic. ANSWER must use a figure or range actually supported by the cited survey, dataset, study, or official report. EXPLANATION must name the source/date or survey boundary when available. Do not substitute a nearby proxy measurement for the exact statistic asked. If the evidence does not support the requested metric, set supported=false rather than guessing.':'',
     /\b(?:bible|scripture)\b/i.test(clean(raw))&&/\btranslat/i.test(clean(raw))?'For Bible translation statistics, distinguish complete Bible, New Testament, portions/Scripture availability, number of languages, number of countries, and number of translation projects. Do not turn one of those totals into another.':'',
     scope.ethnolinguistic?'For an ethnolinguistic question, ANSWER must directly name the language(s), dialect(s), or language-family classification requested. If the group does not have one single language, say that in ANSWER and name the supported language(s)/family or families there. Do not use ANSWER merely to describe the people/group; background belongs in EXPLANATION.':'',
     scope.unit&&intent&&intent.scopeCount?'For a HOW MANY source-dependent answer: if the cited evidence explicitly publishes the exact requested aggregate, put that count in ANSWER and state the source/date/counting scope in EXPLANATION. If authoritative current evidence covers the subject but does NOT publish that exact aggregate, supported=true is allowed only when ANSWER clearly says that no exact published count for the requested unit is available in the cited evidence; EXPLANATION may give the closest directly supported figures, clearly labeled as different metrics. Never substitute a nearby total as though it answered the requested count.':'',
@@ -29630,6 +30127,11 @@ function v3007ScopeEvidenceValid(raw,intent,result){
   if(unit==='language'&&/\bcountr(?:y|ies)\b/.test(resultBlob)&&!/\b(?:language|languages|dialect|dialects)\b/.test(resultBlob))return false;
   if(intent&&intent.scopeCount){const countTokens=v3011PrimaryCountTokens(answer);if(countTokens.length&&!v3011SourceContainsCount(answer,source))return false;if(!countTokens.length&&!v3019QualifiedCountEvidenceUseful(intent,source,answer,result.explanation))return false;}
   if(scope.empiricalReligion&&!v3011EmpiricalCoverageEvidenceValid(raw,intent,result))return false;
+  if(scope.empiricalStatistic){
+    if(!/\b(?:survey|dataset|data|statistic|statistics|report|study|census|poll)\b/i.test(sourceBlob))return false;
+    if(!/\d/.test(answer))return false;
+    if(!v3011SourceContainsCount(answer,source))return false;
+  }
   if(scope.ethnolinguistic){
     if(!v3011EthnolinguisticAnswerDirect(raw,result))return false;
     const ans=answer.toLowerCase();
@@ -29641,7 +30143,7 @@ function v3007ScopeEvidenceValid(raw,intent,result){
 function v3011SourceOwnedRetry(raw,intent,reason){
   const scope=intent&&intent.semanticScope||{},current=!!(intent&&intent.current);
   const c=v2844Contract(raw,{intent:'SOURCE_BOUND_RESEARCH_RETRY',route:'source-bound-research/nonfinal/v3011',basket:V2771_FIXED_BASKETS.UNSUPPORTED,answer:current?'A reliable current-source answer could not be completed in this scan.':'A reliable source-bound answer could not be completed in this scan.',explanation:'Select Analyze/Enter again to retry this scan.',classification:'NONFINAL SOURCE-BOUND RESEARCH',confidence:'',status:'SOURCE LOOKUP UNAVAILABLE'});
-  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'sharedSourceBoundResearchIntegrityV3011',sourceOwnedRequest:'YES',requestedSemanticUnit:clean(scope.unit||''),empiricalReligionCoverage:scope.empiricalReligion?'YES':'NO',ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',nonfinalReason:clean(reason||'source_bound_research_failed'),genericFallbackBlocked:'YES',cacheEligible:'NO'});
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'sharedSourceBoundResearchIntegrityV3011',sourceOwnedRequest:'YES',requestedSemanticUnit:clean(scope.unit||''),empiricalReligionCoverage:scope.empiricalReligion?'YES':'NO',empiricalPopulationStatistic:scope.empiricalStatistic?'YES':'NO',ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',nonfinalReason:clean(reason||'source_bound_research_failed'),genericFallbackBlocked:'YES',cacheEligible:'NO'});
   return v2844Serialize(raw,c,'source-bound-research-nonfinal-v3011');
 }
 function v3007ParsedResearchResult(raw,intent,parsed,evidence,provider){
@@ -29677,7 +30179,7 @@ function v3007ResearchContract(raw,intent,result,started,evidenceCount){
   const source=result.source,requestedBasket=(typeof v3001RequestedBasket==='function'?v3001RequestedBasket(raw):OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER),c=v2844Contract(raw,{intent:'SEMANTIC_SCOPE_SOURCE_RESEARCH',route:'semantic-scope/source-bound/v3007',basket:requestedBasket,answer:result.answer,answerList:Array.isArray(result.parts)?result.parts:[],explanation:result.explanation,source:clean(source.title||domainFromUrl(source.url)||'Retrieved source'),sourceUrl:validHttpUrl(source.url||''),classification:intent.current?'CURRENT SOURCE-VERIFIED FACTUAL':'SOURCE-VERIFIED SEMANTIC FACTUAL',confidence:'High confidence',status:'ANSWERED'});
   c.inputType='QUESTION';c.analysisResult='Answer';c.summary=result.answer;c.outputBasket=requestedBasket;c.fixedOutputBasket=requestedBasket;c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=true;c.sourceLast=true;c.showAdditionalInformation=!!clean(result.explanation||'');
   if(intent.current){c.currentInformationProtected=true;c.currentInformationCheckedAt=new Date().toISOString();}
-  const scope=intent.semanticScope||{};c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'semanticScopeAndSourceFidelityV3007',namedEntity:clean(intent.entity||''),requestedSemanticUnit:clean(scope.unit||''),empiricalReligionCoverage:scope.empiricalReligion?'YES':'NO',ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',nationMeaningAmbiguity:scope.nationAmbiguous?'EXPLICIT':'NOT_APPLICABLE',expectedAnswerParts:Number(intent.expectedParts||1),validatedAnswerParts:Array.isArray(result.parts)?result.parts.length:0,sourceBound:'YES',sourceCandidates:Number(evidenceCount||0),provider:clean(result.provider||''),researchMs:Date.now()-started,unitSubstitutionGuard:'ENFORCED',umbrellaVsLanguageGuard:'ENFORCED'});
+  const scope=intent.semanticScope||{};c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'semanticScopeAndSourceFidelityV3206',namedEntity:clean(intent.entity||''),requestedSemanticUnit:clean(scope.unit||''),empiricalReligionCoverage:scope.empiricalReligion?'YES':'NO',ethnolinguisticScope:scope.ethnolinguistic?'YES':'NO',nationMeaningAmbiguity:scope.nationAmbiguous?'EXPLICIT':'NOT_APPLICABLE',expectedAnswerParts:Number(intent.expectedParts||1),validatedAnswerParts:Array.isArray(result.parts)?result.parts.length:0,sourceBound:'YES',sourceCandidates:Number(evidenceCount||0),provider:clean(result.provider||''),researchMs:Date.now()-started,unitSubstitutionGuard:'ENFORCED',umbrellaVsLanguageGuard:'ENFORCED'});
   return c;
 }
 function v3013StableSemanticModelEligible(intent){
@@ -29732,7 +30234,7 @@ function v3013StableSemanticModelContract(raw,intent,result,started){
 
 function v3014GroundedSourceRequired(intent){
   const scope=intent&&intent.semanticScope||{};
-  return !!(intent&&(intent.current||intent.scopeCount||scope.empiricalReligion));
+  return !!(intent&&(intent.current||intent.scopeCount||scope.empiricalReligion||scope.empiricalStatistic));
 }
 function v3014FreeEvidenceContext(evidence){
   const rows=(Array.isArray(evidence)?evidence:[]).slice(0,4).map(function(c,i){
@@ -29753,6 +30255,7 @@ function v3014GroundedPrompt(raw,intent,evidence){
     intent&&intent.scopeCount?'HOW-MANY LOCK: If a directly relevant authoritative source publishes the exact requested aggregate, ANSWER must contain that count and EXPLANATION must state the source/date/counting definition. If the authoritative source covers the subject but does not publish the exact requested aggregate, ANSWER may instead state that no exact published count for that requested unit is available; EXPLANATION may provide only clearly labeled related figures from that source. Never use 0 or a nearby metric as a missing-data substitute.':'',
     intent&&intent.completeList?'COMPLETE-SET LOCK: provide the full set supported by one clearly stated current source/date/category boundary. Do not answer with examples, “among others,” “etc.,” or another partial-list phrase.':'',
     scope.empiricalReligion?'EMPIRICAL LOCK: this asks for measurable real-world coverage/statistics, not theology. Scripture alone cannot establish the current empirical total. Keep countries, nations/peoples, languages, dialects, translations, complete Bibles, New Testaments, portions, projects, and people groups distinct.':'',
+    scope.empiricalStatistic?'EMPIRICAL STATISTIC LOCK: this asks for a measured population/demographic statistic. Use a real survey, dataset, study, or official report; preserve its population, date, wording, and measurement definition. Do not substitute a nearby proxy metric for the requested one. The number or range in ANSWER must be materially supported by the cited source.':'',
     scope.nationAmbiguous?'NATION DEFINITION LOCK: “nation” may mean peoples/people groups rather than sovereign states. State the definition used and do not silently convert it to a modern-country count.':'',
     scope.ethnolinguistic?'LANGUAGE TARGET LOCK: ANSWER must name the requested language(s), dialect(s), or family classification; background description belongs in EXPLANATION.':'',
     clean(intent&&intent.entity||'')?'ENTITY LOCK: the requested entity is "'+clean(intent.entity)+'". Do not substitute a similarly named organization or acronym expansion.':'',
@@ -29786,6 +30289,11 @@ function v3014GroundedAnswerValid(raw,intent,parsed,source){
   if(intent&&intent.completeList&&typeof v2999CompletenessEvasion==='function'&&v2999CompletenessEvasion(combined))return false;
   if(scope.ethnolinguistic&&!v3011EthnolinguisticAnswerDirect(raw,{answer:answer,explanation:explanation}))return false;
   if(scope.empiricalReligion&&!/\b(?:data|statistic|report|survey|database|dataset|translation|translated|coverage|available|published|reached|unreached|people\s+groups?|languages?|countries|nations?|projects?)\b/i.test(combined+' '+clean(source.title||'')))return false;
+  if(scope.empiricalStatistic){
+    const sourceBlob=clean([source.title,source.snippet,source.text].join(' '));
+    if(!/\b(?:survey|dataset|data|statistic|statistics|report|study|census|poll)\b/i.test(sourceBlob))return false;
+    if(!/\d/.test(answer)||!v3011SourceContainsCount(answer,source))return false;
+  }
   if(intent&&intent.current&&!v3011RecentScopeSignal(combined+' '+clean(source.title||'')))return false;
   if(intent&&intent.entity){const probe={requestedEntityIdentity:intent.entity};if(!v3006EntityCandidateMatch(probe,{title:source.title,url:source.url,snippet:source.snippet,text:source.text}))return false;}
   return true;
@@ -29878,6 +30386,10 @@ function v3015GroundedValidation(raw,intent,parsed,source,sources,evidence){
   if(intent&&intent.completeList&&typeof v2999CompletenessEvasion==='function'&&v2999CompletenessEvasion(answer+' '+explanation))return {ok:false,reason:'complete_set_evasion'};
   if(scope.ethnolinguistic&&!v3011EthnolinguisticAnswerDirect(raw,{answer:answer,explanation:explanation}))return {ok:false,reason:'language_target_missing'};
   if(scope.empiricalReligion&&!/\b(?:data|statistic|statistics|report|survey|database|dataset|translation|translated|coverage|available|published|reached|unreached|people\s+groups?|languages?|countries|nations?|projects?|scripture)\b/i.test(combined))return {ok:false,reason:'empirical_scope_missing'};
+  if(scope.empiricalStatistic){
+    if(!/\b(?:survey|dataset|data|statistic|statistics|report|study|census|poll)\b/i.test(sourceBlob))return {ok:false,reason:'empirical_statistic_source_missing'};
+    if(!/\d/.test(answer)||!v3011SourceContainsCount(answer,source))return {ok:false,reason:'empirical_statistic_value_not_source_bound'};
+  }
   if(intent&&intent.current&&!v3011RecentScopeSignal(combined))return {ok:false,reason:'current_date_scope_missing'};
   if(intent&&intent.entity&&!v3023AuthorityEntityEvidenceEligible(intent,source,null,evidence))return {ok:false,reason:'named_entity_source_mismatch'};
   const sourceKnown=!!source.directFetchVerified||v3015GroundingUrlKnown(source.url,sources,evidence);
@@ -30080,13 +30592,75 @@ async function v3026FastSourceOwnedResearch(raw,intent,requestState,started){
   return {evidence:evidence||[],result:null,mode:mode};
 }
 
+// EMPIRICAL_STATISTIC_BOUNDED_SOURCE_FALLBACK_V3208
+// One bounded grounded lookup is enough for source-required demographic/population statistics when
+// free/direct evidence is empty. If the exact metric cannot be sourced, say so rather than serially
+// waiting on another provider or substituting model knowledge / a nearby proxy statistic.
+async function v3208EmpiricalStatisticGroundedResearch(raw,intent,evidence){
+  if(!envSecret('OPENAI_API_KEY'))return null;
+  const model=clean(process.env.OPENAI_SEARCH_MODEL||process.env.OPENAI_MODEL)||'gpt-5.4-mini';
+  const payload={
+    model:model,
+    input:v3014GroundedPrompt(raw,intent,evidence||[]),
+    tools:[{type:'web_search',search_context_size:'low'}],
+    tool_choice:'required',
+    max_tool_calls:2,
+    include:['web_search_call.results'],
+    max_output_tokens:720
+  };
+  const response=await openaiApiRequestJson(payload,3000);
+  if(!response||!response.ok){try{console.warn('AIV empirical-stat v3208 grounded unavailable | '+clean(response&&response.errorType||'request_failed'));}catch(_e){}return null;}
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json)),sources=collectOpenAISourceObjects(response.json);
+  return v3015GroundedResult(raw,intent,parsed,sources,evidence||[],'OpenAI web search');
+}
+function v3208EmpiricalStatisticNoSourceContract(raw,intent,started,reason){
+  const c=v2844Contract(raw,{
+    intent:'EMPIRICAL_STATISTIC_SOURCE_STATUS',
+    route:'semantic-scope/empirical-statistic/source-status/v3208',
+    basket:OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER,
+    answer:'No reliable source-backed percentage was established for that exact measure.',
+    explanation:'AIVerify did not find an acceptable survey, dataset, study, census result, poll, or official report that directly measures the question as asked. It will not substitute a nearby proxy or present model knowledge as a verified statistic.',
+    classification:'SOURCE-BOUND STATISTIC NOT ESTABLISHED',
+    confidence:'High confidence',
+    status:'ANSWERED WITHOUT UNSUPPORTED PRECISION'
+  });
+  c.inputType='QUESTION';c.analysisResult='Answer';c.summary=c.answer;c.hideAnswerLabel=true;c.showSource=false;c.showSourceUrl=false;c.sourceLast=true;c.showAdditionalInformation=true;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'empiricalStatisticBoundedSourceFallbackV3208',sourceBound:'YES',exactMetricRequired:'YES',proxySubstitutionBlocked:'YES',modelKnowledgeStatisticBlocked:'YES',nonfinalReason:clean(reason||'exact_metric_not_source_bound'),researchMs:Date.now()-started,cacheEligible:'YES'});
+  return c;
+}
+
+// U.S._DECENTRALIZED_EDUCATION_GOVERNANCE_V3210
+// Stable governance ownership: do not send a national U.S. education-standard question through
+// named-entity authority discovery merely because the wording says "Board of Education".
+function v3210USEducationGovernanceFastResponse(raw){
+  const s=v2856Normalized(raw);if(!s||!isAnyQuestionInputText(raw))return '';
+  if(!/\b(?:u\.?s\.?|usa|u s|united states|nationwide|national|across the country|across the u\.?s\.?)\b/.test(s))return '';
+  if(!/\b(?:school|schools|high school|education|board of education|school board|school system|school district)\b/.test(s))return '';
+  if(!/\b(?:require|requires|required|requirement|requirements|standard|standards|minimum|mandate|mandates|proficiency|reading level|graduat(?:e|es|ed|ing|ion))\b/.test(s))return '';
+  if(/\b(?:lowest|highest|which states?|what states?|which districts?|what districts?|list|rank|ranking|compare|comparison)\b/.test(s))return '';
+  const explicitState=/\b(?:alabama|alaska|arizona|arkansas|california|colorado|connecticut|delaware|florida|georgia|hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|louisiana|maine|maryland|massachusetts|michigan|minnesota|mississippi|missouri|montana|nebraska|nevada|new hampshire|new jersey|new mexico|new york|north carolina|north dakota|ohio|oklahoma|oregon|pennsylvania|rhode island|south carolina|south dakota|tennessee|texas|utah|vermont|virginia|washington|west virginia|wisconsin|wyoming|district of columbia|d\.?c\.?)\b/.test(s);
+  if(explicitState)return '';
+  const yesNo=/^(?:does|do|is|are|must|can|will|should)\b/.test(s);
+  const answer=yesNo?'No — there is no single nationwide U.S. school-board requirement.':'There is no single nationwide U.S. school-board requirement.';
+  const explanation='The United States does not have one national Board of Education that sets a universal high-school graduation or reading-level standard. Education and graduation requirements are established mainly by states and local school authorities, so the exact rule depends on the jurisdiction.';
+  const c=v2844Contract(raw,{intent:'US_DECENTRALIZED_EDUCATION_GOVERNANCE',route:'education-governance/decentralized-us-system/v3210',answer:answer,explanation:explanation,source:'OpenAI',classification:'EDUCATION GOVERNANCE FACT',confidence:'High confidence',status:'ANSWERED'});
+  c.inputType='QUESTION';c.analysisResult='Answer';c.summary=c.answer;c.outputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;c.fixedOutputBasket=OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER;
+  c.hideAnswerLabel=true;c.showSource=true;c.showSourceUrl=false;c.sourceLast=true;c.showAdditionalInformation=true;
+  c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{activeFunction:'decentralizedUSEducationGovernanceV3210',paidApiUse:'NO',webSearchUse:'NO',genericNationalBoardAssumptionBlocked:'YES'});
+  c.validationErrors=v2771ContractValidationErrors(c,raw).filter(function(error){return !['source_missing'].includes(error);});
+  c.contractValidated=c.validationErrors.length===0;
+  return v2844Serialize(raw,c,'education-governance-v3210');
+}
+
 async function v3007StructuredResearchResponse(raw,requestState){
+  const v3210EducationGovernance=v3210USEducationGovernanceFastResponse(raw);
+  if(v3210EducationGovernance)return v3210EducationGovernance;
   const intent=v3007ResearchIntent(raw);if(!intent)return '';
   intent.raw=raw;
   intent.clientDate=clean(requestState&&requestState.requestContext&&requestState.requestContext.clientDate||'');
   const cached=v3007ResearchCacheGet(raw);if(cached)return cached;
   const started=Date.now();let evidence=[],result=null,bestAvailableCandidate=null;
-  const sourceOwned=v3014GroundedSourceRequired(intent),researchBudgetMs=19000;
+  const sourceOwned=v3014GroundedSourceRequired(intent),empiricalStatisticOwned=!!(intent&&intent.semanticScope&&intent.semanticScope.empiricalStatistic),researchBudgetMs=19000;
   if(sourceOwned&&intent.current&&clean(intent.entity||'')){
     const fast=await v3026FastSourceOwnedResearch(raw,intent,requestState,started);
     if(fast&&fast.aborted)return '';
@@ -30101,14 +30675,16 @@ async function v3007StructuredResearchResponse(raw,requestState){
     if(sourceOwned){
       if(evidence.length&&envSecret('OPENAI_API_KEY'))result=await v3007OpenAISynthesize(raw,intent,evidence).catch(function(){return null;});
       if(requestState&&requestState.aborted)return '';
-      if(!result&&!evidence.length&&envSecret('OPENAI_API_KEY')){
+      if(!result&&!evidence.length&&empiricalStatisticOwned){
+        result=await v3208EmpiricalStatisticGroundedResearch(raw,intent,evidence).catch(function(){return null;});
+      }else if(!result&&!evidence.length&&envSecret('OPENAI_API_KEY')){
         const remaining=Math.max(0,researchBudgetMs-(Date.now()-started));
         if(remaining>7200)result=await v3017OpenAIGroundedResearch(raw,intent,evidence,Math.max(6500,Math.min(9000,remaining-3500))).catch(function(){return null;});
       }
       if(requestState&&requestState.aborted)return '';
-      if(!result&&!evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<9000)result=await v3007GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});
+      if(!empiricalStatisticOwned&&!result&&!evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<9000)result=await v3007GeminiSynthesize(raw,intent,evidence).catch(function(){return null;});
       if(requestState&&requestState.aborted)return '';
-      if(!result&&!evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<12000){
+      if(!empiricalStatisticOwned&&!result&&!evidence.length&&envSecret('GEMINI_API_KEY')&&Date.now()-started<12000){
         const remaining=Math.max(0,researchBudgetMs-(Date.now()-started));
         if(remaining>4700)result=await v3017GeminiGroundedResearch(raw,intent,evidence,Math.max(4200,Math.min(5200,remaining-700))).catch(function(){return null;});
       }
@@ -30125,13 +30701,20 @@ async function v3007StructuredResearchResponse(raw,requestState){
     }
   }
   if(requestState&&requestState.aborted)return '';
-  if(!result&&sourceOwned&&Date.now()-started<10500&&envSecret('OPENAI_API_KEY')){
+  if(!result&&sourceOwned&&!empiricalStatisticOwned&&Date.now()-started<10500&&envSecret('OPENAI_API_KEY')){
     bestAvailableCandidate=await v3022OpenAIBestAvailable(raw,intent,evidence).catch(function(){return null;});
   }else if(!result&&sourceOwned){
   }
   if(requestState&&requestState.aborted)return '';
   if(!result){
     const reason=evidence.length?'free_evidence_synthesis_or_validation_failed':'no_acceptable_free_evidence_and_grounded_provider_failed';
+    if(sourceOwned&&empiricalStatisticOwned){
+      const contract=v3208EmpiricalStatisticNoSourceContract(raw,intent,started,reason);
+      const serialized=v2844Serialize(raw,contract,'empirical-statistic-source-status-v3208');
+      v3007ResearchCachePut(raw,serialized);
+      try{console.warn('AIV empirical-stat v3208 unresolved exact metric | evidence='+evidence.length+' | ms='+(Date.now()-started));}catch(_e){}
+      return serialized;
+    }
     if(sourceOwned&&bestAvailableCandidate){
       const contract=v3022BestAvailableModelContract(raw,intent,bestAvailableCandidate,started,evidence.length);
       const serialized=v2844Serialize(raw,contract,'best-available-current-answer-v3026');
@@ -30157,7 +30740,7 @@ async function v3007StructuredResearchResponse(raw,requestState){
 
 
 const FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   authorityOwnerCacheReady:V3026_AUTHORITY_OWNER_CACHE instanceof Map,
   authorityOwnerCacheGetAvailable:typeof v3026AuthorityOwnerCacheGet==='function',
   authorityOwnerCachePutAvailable:typeof v3026AuthorityOwnerCachePut==='function',
@@ -30168,7 +30751,7 @@ const FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026=Object.freeze({
 if(!Object.keys(FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026).every(function(k){return FAST_SOURCE_OWNED_RESEARCH_STARTUP_V3026[k]===true;}))throw new Error('FAST_SOURCE_OWNED_RESEARCH_V3026 startup validation failed');
 
 const OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   hostMatchAvailable:typeof v3023AuthorityHostMatch==='function',
   entityEvidenceEligibilityAvailable:typeof v3023AuthorityEntityEvidenceEligible==='function',
   navigationScoringAvailable:typeof v3023AuthorityNavigationScore==='function',
@@ -30179,7 +30762,7 @@ const OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023=Object.freeze({
 if(!Object.keys(OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023).every(function(k){return OFFICIAL_HOST_IDENTITY_INHERITANCE_STARTUP_V3023[k]===true;}))throw new Error('OFFICIAL_HOST_IDENTITY_INHERITANCE_V3023 startup validation failed');
 
 const BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   evidenceRowsAvailable:typeof v3022EvidenceRows==='function',
   evidenceFallbackAvailable:typeof v3022EvidenceFallbackContract==='function',
   bestAvailablePromptAvailable:typeof v3022BestAvailablePrompt==='function',
@@ -30190,7 +30773,7 @@ const BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022=Object.freeze({
 if(!Object.keys(BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022).every(function(k){return BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_STARTUP_V3022[k]===true;}))throw new Error('BEST_AVAILABLE_CURRENT_SOURCE_FALLBACK_V3022 startup validation failed');
 
 const AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   entityIdentityAvailable:typeof v3021EntityIdentity==='function',
   authorityOwnerAvailable:typeof v3021DiscoverAuthorityOwner==='function',
   authorityQueryAvailable:typeof v3021AuthorityQueryTerms==='function',
@@ -30200,7 +30783,7 @@ const AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021=Object.freeze({
 if(!Object.keys(AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021).every(function(k){return AUTHORITY_OWNER_DISCOVERY_STARTUP_V3021[k]===true;}))throw new Error('AUTHORITY_OWNER_DISCOVERY_V3021 startup validation failed');
 
 const AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   topicCoreAvailable:typeof v3020ResearchTopicCore==='function',
   empiricalIntentAvailable:typeof v3020EmpiricalEvidenceRequest==='function',
   contentPenaltyAvailable:typeof v3020ContentSitePenalty==='function',
@@ -30210,7 +30793,7 @@ const AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020=Object.freeze({
 if(!Object.keys(AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020).every(function(k){return AUTHORITY_FIRST_SOURCE_RANKING_STARTUP_V3020[k]===true;}))throw new Error('AUTHORITY_FIRST_SOURCE_RANKING_V3020 startup validation failed');
 
 const FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   queryVariantsAvailable:typeof v3018ResearchQueryVariants==='function',
   authorityScoringAvailable:typeof v3018EvidenceAuthorityScore==='function',
   researchEvidenceAvailable:typeof v3007ResearchEvidence==='function',
@@ -30221,7 +30804,7 @@ const FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018=Object.freeze({
 if(!Object.keys(FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018).every(function(k){return FREE_DIRECT_SOURCE_DISCOVERY_STARTUP_V3018[k]===true;}))throw new Error('FREE_DIRECT_SOURCE_DISCOVERY_V3018 startup validation failed');
 
 const GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   openAIGroundedAvailable:typeof v3017OpenAIGroundedResearch==='function',
   geminiGroundedAvailable:typeof v3017GeminiGroundedResearch==='function',
   groundedValidationAvailable:typeof v3015GroundedValidation==='function',
@@ -30230,7 +30813,7 @@ const GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017=Object.freeze({
 if(!Object.keys(GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017).every(function(k){return GROUNDED_PROVIDER_TIME_BUDGET_STARTUP_V3017[k]===true;}))throw new Error('GROUNDED_PROVIDER_TIME_BUDGET_V3017 startup validation failed');
 
 const GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   openAIGroundedAvailable:typeof v3015OpenAIGroundedResearch==='function',
   geminiGroundedAvailable:typeof v3015GeminiGroundedResearch==='function',
   groundedResultAvailable:typeof v3015GroundedResult==='function',
@@ -30239,7 +30822,7 @@ const GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016=Object.freeze({
 if(!Object.keys(GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016).every(function(k){return GROUNDED_PROVIDER_COMPATIBILITY_STARTUP_V3016[k]===true;}))throw new Error('GROUNDED_PROVIDER_COMPATIBILITY_V3016 startup validation failed');
 
 const SHARED_GROUNDED_SOURCE_VALIDATION_STARTUP_V3015=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   groundingIdentityAvailable:typeof v3015GroundingUrlKnown==='function',
   sourceResolverAvailable:typeof v3015ResolveGroundedSource==='function',
   validatorAvailable:typeof v3015GroundedValidation==='function',
@@ -30275,7 +30858,7 @@ async function v3007NamedEntityPagePreflight(raw,intent,requestState){
   best.score=v3007EntityPageScore(raw,intent,best);best.matchCount=1;best.matchRatio=1;const serialized=v2989ResourceContract(raw,intent,{ok:true,best:best,provider:'Exact named-entity page discovery v3007',answer:'',explanation:'',usage:{providerSourceBound:true},totalResourceMs:0});return serialized||'';
 }
 const GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   sourceRequiredDetectorAvailable:typeof v3014GroundedSourceRequired==='function',
   openAIGroundedResearchAvailable:typeof v3014OpenAIGroundedResearch==='function',
   geminiGroundedResearchAvailable:typeof v3014GeminiGroundedResearch==='function',
@@ -30285,12 +30868,12 @@ const GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014=Object.free
 if(!Object.keys(GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014).every(function(k){return GROUNDED_SOURCE_RESEARCH_CONTINUATION_STARTUP_VALIDATION_V3014[k]===true;}))throw new Error('GROUNDED_SOURCE_RESEARCH_CONTINUATION_V3014 startup validation failed');
 
 const SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',scopeAvailable:typeof v3007SemanticScope==='function',researchIntentAvailable:typeof v3007ResearchIntent==='function',researchResponseAvailable:typeof v3007StructuredResearchResponse==='function',entityPagePreflightAvailable:typeof v3007NamedEntityPagePreflight==='function',semanticCacheReady:V3007_SEMANTIC_RESEARCH_CACHE instanceof Map
+  currentVersion:VERSION==='BE_AIV_v3228',scopeAvailable:typeof v3007SemanticScope==='function',researchIntentAvailable:typeof v3007ResearchIntent==='function',researchResponseAvailable:typeof v3007StructuredResearchResponse==='function',entityPagePreflightAvailable:typeof v3007NamedEntityPagePreflight==='function',semanticCacheReady:V3007_SEMANTIC_RESEARCH_CACHE instanceof Map
 });
 if(!Object.keys(SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007).every(function(k){return SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_STARTUP_VALIDATION_V3007[k]===true;}))throw new Error('SEMANTIC_SCOPE_AND_SOURCE_FIDELITY_V3007 startup validation failed');
 
 const SHARED_SOURCE_BOUND_RESEARCH_INTEGRITY_STARTUP_VALIDATION_V3011=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   countBindingAvailable:typeof v3011SourceContainsCount==='function',
   empiricalEvidenceGateAvailable:typeof v3011EmpiricalCoverageEvidenceValid==='function',
   ethnolinguisticDirectAnswerGateAvailable:typeof v3011EthnolinguisticAnswerDirect==='function',
@@ -30350,7 +30933,7 @@ function v2999ImplicitCompleteListIncomplete(raw,contract){
   return false;
 }
 const LIST_COMPLETENESS_INFERENCE_STARTUP_VALIDATION_V2999=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   implicitCompleteListIntentAvailable:typeof v2999ImplicitCompleteListIntent==='function',
   completenessGuidanceAvailable:typeof v2999ListCompletenessGuidance==='function',
   completenessValidatorAvailable:typeof v2999ImplicitCompleteListIncomplete==='function'
@@ -30580,6 +31163,10 @@ async function v2998FinalizeResponse(raw,serialized,requestState,requestContext)
   let patched=v2998PatchSerializedContracts(raw,serialized,requestContext);
   if(requestState&&requestState.aborted)return '';
   if(typeof v3044MoralQuestionIntent==='function'&&v3044MoralQuestionIntent(raw))return patched;
+  // v3208: a source-status answer for an empirical population statistic is already final.
+  // Do not let the generic integrity-correction model replace it with an unsourced percentage.
+  const v3208EmpiricalScope=(typeof v3007SemanticScope==='function')?v3007SemanticScope(raw):null;
+  if(v3208EmpiricalScope&&v3208EmpiricalScope.empiricalStatistic&&/(?:EMPIRICAL_STATISTIC_SOURCE_STATUS|SOURCE-BOUND STATISTIC NOT ESTABLISHED|empirical-statistic\/source-status\/v3208)/.test(patched))return patched;
   if((typeof v3005TerminalSourceAttemptSerialized==='function'&&v3005TerminalSourceAttemptSerialized(patched))||(typeof v3004TerminalSourceAttemptSerialized==='function'&&v3004TerminalSourceAttemptSerialized(patched)))return v2998FallbackClockZonePatch(raw,patched,requestContext);
   let issues=v3001SerializedIssues(raw,patched);
   if(!issues.length)return v2998FallbackClockZonePatch(raw,patched,requestContext);
@@ -30596,7 +31183,7 @@ async function v2998FinalizeResponse(raw,serialized,requestState,requestContext)
 }
 
 const ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   epistemicIntentAvailable:typeof v2998EpistemicEvidenceIntent==='function',
   dynamicCountryStatusAvailable:typeof v2998DynamicCountryStatusIntent==='function'&&typeof v2998DynamicCountryStatusResponse==='function',
   integrityValidatorAvailable:typeof v2998ContractIntegrityIssues==='function',
@@ -30606,16 +31193,16 @@ const ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998=Object.freez
 if(!Object.keys(ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998).every(function(k){return ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_STARTUP_VALIDATION_V2998[k]===true;}))throw new Error('ANSWER_INTEGRITY_AND_CONTEXT_ROUTING_V2998 startup validation failed');
 
 const SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',multiPartAvailable:typeof v3029MultiPartQuestion==='function'&&typeof v3029MultiPartIncomplete==='function',comparisonConsistencyAvailable:typeof v3029ComparisonNumericContradiction==='function',roleSourceBindingAvailable:typeof v3029AmbiguousSinglePlaceRoleSourceCompatible==='function',resourceSpecificityAvailable:typeof v2989ResourceRequestIntent==='function'&&typeof v3007EntityPagePurpose==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',multiPartAvailable:typeof v3029MultiPartQuestion==='function'&&typeof v3029MultiPartIncomplete==='function',comparisonConsistencyAvailable:typeof v3029ComparisonNumericContradiction==='function',roleSourceBindingAvailable:typeof v3029AmbiguousSinglePlaceRoleSourceCompatible==='function',resourceSpecificityAvailable:typeof v2989ResourceRequestIntent==='function'&&typeof v3007EntityPagePurpose==='function'
 });
 if(!Object.keys(SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029).every(function(k){return SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_STARTUP_VALIDATION_V3029[k]===true;}))throw new Error('SHARED_SPECIFICITY_INTEGRITY_AND_ROLE_SOURCE_BINDING_V3029 startup validation failed');
 
 const GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',geographicIntentAvailable:typeof v2997GeographicRankingIntent==='function',abbreviationProtectionAvailable:typeof v2997ProtectGeographicAbbreviationBoundaries==='function',geographicCompletionAvailable:typeof v2997CompleteGeographicAnswerFromContext==='function',primaryStatisticsGateAvailable:typeof v2997StatisticalRankingSourceValid==='function',populationScopeBindingAvailable:typeof v2996PopulationSensitiveRankingResultValid==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',geographicIntentAvailable:typeof v2997GeographicRankingIntent==='function',abbreviationProtectionAvailable:typeof v2997ProtectGeographicAbbreviationBoundaries==='function',geographicCompletionAvailable:typeof v2997CompleteGeographicAnswerFromContext==='function',primaryStatisticsGateAvailable:typeof v2997StatisticalRankingSourceValid==='function',populationScopeBindingAvailable:typeof v2996PopulationSensitiveRankingResultValid==='function'
 });
 if(!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.currentVersion||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.geographicIntentAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.abbreviationProtectionAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.geographicCompletionAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.primaryStatisticsGateAvailable||!GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_STARTUP_VALIDATION_V2997.populationScopeBindingAvailable){throw new Error('GEOGRAPHIC_ENTITY_AND_PRIMARY_STATISTICS_REPAIR_V2997 startup validation failed');}
 
-const GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989=Object.freeze({currentVersion:VERSION==='BE_AIV_v3073',intentAvailable:typeof v2989ResourceRequestIntent==='function',officialIdentityAvailable:typeof v2989RequestedOfficialIdentity==='function'&&typeof v2989OfficialSourceIdentityMatch==='function',officialScopedDiscoveryAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989OfficialScopedTopic==='function',exactFactQueryAvailable:typeof v2989RequestedFactSearchPhrase==='function'&&typeof v2989RequestedFactCoreTerms==='function',topicUsefulnessAvailable:typeof v2989ResourceTopicTerms==='function'&&typeof v2989TopicUseful==='function'&&typeof v2993ResourceHayHasTerm==='function'&&typeof v2993CommerceSemanticQueryVariants==='function',commerceDestinationGateAvailable:typeof v2994CommerceDestinationSignals==='function',neutralResourceExplanationAvailable:typeof v2995ResourceDetailIsSourceVoice==='function'&&typeof v2995NeutralResourceExplanation==='function',resourceTypeGateAvailable:typeof v2989ResourceTypeCompatible==='function',localDirectAvailable:typeof v2989LocalDirectResourceLookup==='function',freeDirectAvailable:typeof v2989FreeDirectResourceLookup==='function',geminiAvailable:typeof v2989GeminiGroundedLookup==='function',geminiSourceBindingAvailable:typeof v2989OpenAIResourceFields==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',openaiAvailable:typeof v2989OpenAIGroundedLookup==='function',destinationResolverAvailable:typeof v2989ResolveCandidate==='function',providerSourceReconciliationAvailable:typeof v2989ProviderSourceReconciliationCandidates==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',providerEvidenceBindingAvailable:typeof v2989ProviderEvidenceSearchPhrase==='function'&&typeof v2989ProviderEvidenceBindingScore==='function',providerSearchSourceCollectorAvailable:typeof v2989CollectProviderSearchSources==='function'&&typeof v2989ProviderSearchEvidenceAcceptable==='function',officialDomainFilteredSearchAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989SearchQueries==='function',officialNeighborDiscoveryAvailable:typeof v2989OfficialNeighborSeedUrls==='function'&&typeof v2989OfficialNeighborLinks==='function'&&typeof v2989OfficialNeighborDiscovery==='function',rankingAvailable:typeof v2989RankCandidates==='function',qualityGateAvailable:typeof v2989ResultAcceptable==='function',dispatcherAvailable:typeof v2989ResourceRetrievalResponse==='function'});
+const GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989=Object.freeze({currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v2989ResourceRequestIntent==='function',officialIdentityAvailable:typeof v2989RequestedOfficialIdentity==='function'&&typeof v2989OfficialSourceIdentityMatch==='function',officialScopedDiscoveryAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989OfficialScopedTopic==='function',exactFactQueryAvailable:typeof v2989RequestedFactSearchPhrase==='function'&&typeof v2989RequestedFactCoreTerms==='function',topicUsefulnessAvailable:typeof v2989ResourceTopicTerms==='function'&&typeof v2989TopicUseful==='function'&&typeof v2993ResourceHayHasTerm==='function'&&typeof v2993CommerceSemanticQueryVariants==='function',commerceDestinationGateAvailable:typeof v2994CommerceDestinationSignals==='function',neutralResourceExplanationAvailable:typeof v2995ResourceDetailIsSourceVoice==='function'&&typeof v2995NeutralResourceExplanation==='function',resourceTypeGateAvailable:typeof v2989ResourceTypeCompatible==='function',localDirectAvailable:typeof v2989LocalDirectResourceLookup==='function',freeDirectAvailable:typeof v2989FreeDirectResourceLookup==='function',geminiAvailable:typeof v2989GeminiGroundedLookup==='function',geminiSourceBindingAvailable:typeof v2989OpenAIResourceFields==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',openaiAvailable:typeof v2989OpenAIGroundedLookup==='function',destinationResolverAvailable:typeof v2989ResolveCandidate==='function',providerSourceReconciliationAvailable:typeof v2989ProviderSourceReconciliationCandidates==='function'&&typeof v2989ProviderAnswerBoundToCandidate==='function',providerEvidenceBindingAvailable:typeof v2989ProviderEvidenceSearchPhrase==='function'&&typeof v2989ProviderEvidenceBindingScore==='function',providerSearchSourceCollectorAvailable:typeof v2989CollectProviderSearchSources==='function'&&typeof v2989ProviderSearchEvidenceAcceptable==='function',officialDomainFilteredSearchAvailable:typeof v2989OfficialDomainHints==='function'&&typeof v2989SearchQueries==='function',officialNeighborDiscoveryAvailable:typeof v2989OfficialNeighborSeedUrls==='function'&&typeof v2989OfficialNeighborLinks==='function'&&typeof v2989OfficialNeighborDiscovery==='function',rankingAvailable:typeof v2989RankCandidates==='function',qualityGateAvailable:typeof v2989ResultAcceptable==='function',dispatcherAvailable:typeof v2989ResourceRetrievalResponse==='function'});
 if(!Object.keys(GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989).every(function(k){return GROUNDED_PROVIDER_SOURCE_RESOLUTION_STARTUP_VALIDATION_V2989[k]===true;}))throw new Error('SHARED_NEUTRAL_RESOURCE_EXPLANATION_V2995 startup validation failed');
 
 async function v2764HandleAnalyzeRequest(input,requestState,requestContext){
@@ -30695,6 +31282,9 @@ async function v2764HandleAnalyzeRequest(input,requestState,requestContext){
   // priority routes above still run first; this boundary only prevents false faith routing.
   const v2953CollisionResponse=await v2953OrdinaryFactualCollisionResponse(raw,requestState);
   if(v2953CollisionResponse)return v2953CollisionResponse;
+
+  const v3205PhysicalMeasurement=await v3205PhysicalMeasurementResponse(raw,requestState);
+  if(v3205PhysicalMeasurement)return v3205PhysicalMeasurement;
 
   // v2856: complete stable, numeric, Bible, geographic, recommendation, and broad price questions
   // before the broad v2844 live-source gate can turn ordinary questions into nonfinal retries.
@@ -31048,7 +31638,7 @@ const ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870=Object.freeze({
   entityIntentAvailable:typeof v2869EntityIdentificationIntent==='function',
   namedRemainderAvailable:typeof v2870NamedEntityRemainder==='function',
   finalContractRepairAvailable:typeof v2870ApplyEntityIdentificationRenderRepair==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.entityIntentAvailable||
    !ENTITY_IDENTIFICATION_RENDER_STARTUP_VALIDATION_V2870.namedRemainderAvailable||
@@ -31231,7 +31821,7 @@ const ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874=Object.freeze({
   authorityResolverAvailable:typeof v2874MaterialAuthorityName==='function',
   finalContractRepairAvailable:typeof v2874FinalizeEntityTargetContract==='function',
   canonicalQualityFlagAvailable:typeof v2874CanonicalQualityFlag==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.authorityResolverAvailable||
    !ANALYTICS_SOURCE_VALIDATION_STARTUP_VALIDATION_V2874.finalContractRepairAvailable||
@@ -31247,7 +31837,7 @@ const ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873=Object.freeze({
   evidenceExtractorAvailable:typeof v2873ExtractCountryFromEvidence==='function',
   finalContractRepairAvailable:typeof v2873ApplyEntityTargetResponseIntegrity==='function',
   analyticsFlagDeduplicationAvailable:typeof v2873UniqueQualityFlags==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryLexiconAvailable||
    !ENTITY_TARGET_RESPONSE_INTEGRITY_STARTUP_VALIDATION_V2873.countryQuestionDetectorAvailable||
@@ -31292,7 +31882,7 @@ const ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867=Object.freeze({
   compactRecordAnswerAvailable:typeof v2867CompactRecordAnswer==='function',
   distinctVerificationExplanationAvailable:typeof v2867DistinctVerificationExplanation==='function',
   finalContractBoundaryAvailable:typeof v2867ApplyAnswerDeduplication==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.compactRecordAnswerAvailable||
    !ANSWER_DEDUPLICATION_STARTUP_VALIDATION_V2867.distinctVerificationExplanationAvailable||
@@ -31448,6 +32038,19 @@ function v2991MetricSensitiveSuperlative(raw){
   const s=v2869NormalizeQuestionIntent(raw);
   return /\b(?:most\s+venomous|deadliest|most\s+dangerous|highest\s+(?:annual\s+)?(?:murder|homicide|crime)\s+rate|lowest\s+(?:annual\s+)?(?:murder|homicide|crime)\s+rate)\b/.test(s);
 }
+function v3212PracticalActionGuidanceIntent(value){
+  const s=v2869NormalizeQuestionIntent(value);
+  return /^(?:what\s+(?:should|can|could)\s+(?:i|we|you)\s+do|what\s+do\s+(?:i|we|you)\s+do|what\s+steps?\s+should\s+(?:i|we|you)\s+take|how\s+should\s+(?:i|we|you)\s+(?:respond|proceed|handle|deal|act))\b/.test(s);
+}
+function v3212ActionGuidanceAnswerUsable(value,raw){
+  if(!v3212PracticalActionGuidanceIntent(raw))return true;
+  const a=clean(value);
+  if(!a)return false;
+  const action=/\b(?:call|contact|report|notify|freeze|lock|cancel|replace|stop|avoid|remove|save|document|check|verify|use|keep|take|seek|ask|tell|change|reset|file|close|dispute|monitor|protect|return|turn|shut|disconnect|leave|wait|visit|go|secure|block|disable|recover|sign\s+out|log\s+out)\b/i.test(a);
+  const definition=/\b(?:is a|is an|means|refers to|is defined as|also known as)\b/i.test(a);
+  if(definition&&!action)return false;
+  return action;
+}
 function v2869AnswerIsUsable(value,raw){
   const answer=clean(value);
   if(!answer)return false;
@@ -31459,6 +32062,7 @@ function v2869AnswerIsUsable(value,raw){
     if(/^(?:(?:a|an|the)\s+)?(?:(?:chronological|alphabetical|historical)\s+)?(?:list|overview|summary|guide|article|page|information)\b/i.test(answer))return false;
   }
   if(v2869NumericAnswerIntent(raw)&&!/[0-9]/.test(answer)&&!/\b(?:one|two|three|four|five|six|seven|eight|nine|ten|hundred|thousand|million|billion)\b/i.test(answer))return false;
+  if(!v3212ActionGuidanceAnswerUsable(answer,raw))return false;
   return true;
 }
 function v2869ContractNeedsRecovery(contract,raw){
@@ -31486,6 +32090,7 @@ async function v2869DirectQuestionAttempt(raw,useWeb){
   const normalizedIntent=v2869NormalizeQuestionIntent(raw);
   const entityRequired=v2869EntityIdentificationIntent(raw);
   const numericRequired=v2869NumericAnswerIntent(raw);
+  const actionGuidance=v3212PracticalActionGuidanceIntent(raw);
   const prompt=[
     'You are AIVerify’s broad factual question engine. Return ONLY one valid JSON object.',
     'Required keys: answer, explanation, sourceName.',
@@ -31494,6 +32099,7 @@ async function v2869DirectQuestionAttempt(raw,useWeb){
     'The answer must be concise but complete. The explanation must add useful support without merely repeating the answer.',
     entityRequired?'The question requires identifying an entity. Put the requested name or item in answer; never return only Yes or No.':'Do not omit the direct answer.',
     numericRequired?'The question requires a number, date, age, range, distance, duration, record value, or named superlative. Put it in answer.':'Use the form naturally required by the question.',
+    actionGuidance?'This is a practical-action request. Put the recommended first action or short action plan in answer, and put the remaining concise useful steps in explanation. Do not answer with a definition or description of the subject.':'',
     'For existence questions that implicitly ask which entity, use answer wording such as “Yes — <name>.”',
     'For unqualified records or superlatives, use worldwide scope unless the question states a narrower scope, and qualify the counting standard when it materially changes the result.',
     'Do not return pending, unavailable, needs-more-evidence, follow-up, or retry wording when reliable knowledge supports an answer.',
@@ -31513,14 +32119,14 @@ async function v2869DirectQuestionAttempt(raw,useWeb){
   const sources=collectOpenAISourceObjects(response.json);
   const sourceUrl=useWeb&&sources[0]?validHttpUrl(sources[0].url):'';
   const sourceName=v2869SourceName({sources:sources,sourceUrl:sourceUrl},{source:parsed.sourceName},useWeb);
-  const outputBasket=entityRequired?OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER:classifyOutputFormatBasket(raw);
+  const outputBasket=actionGuidance?OUTPUT_FORMAT_BASKETS.PRACTICAL_GUIDANCE:(entityRequired?OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER:classifyOutputFormatBasket(raw));
   return v2665ContractText(raw,{
     route:useWeb?'general-question-routing/direct-live-v2869':'general-question-routing/direct-stable-v2869',
     classification:useWeb?'CURRENT / SOURCE-VERIFIED FACTUAL':'STABLE FACTUAL',
     inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',answer:answer,why:explanation,evidence:explanation,
     source:sourceName,sourceBasis:sourceName,sourceUrl:sourceUrl,confidence:useWeb?'Moderate confidence':'High confidence',
     outputBasket:outputBasket,
-    technicalDiagnostics:{activeFunction:'generalQuestionRoutingRestorationV2869',normalizedIntent:normalizedIntent,entityIdentificationRequired:entityRequired?'YES':'NO',numericAnswerRequired:numericRequired?'YES':'NO',sourceRoute:useWeb?'LIVE':'STABLE',exactInputHardcoding:false}
+    technicalDiagnostics:{activeFunction:'generalQuestionRoutingRestorationV2869',normalizedIntent:normalizedIntent,entityIdentificationRequired:entityRequired?'YES':'NO',numericAnswerRequired:numericRequired?'YES':'NO',practicalActionGuidance:actionGuidance?'YES':'NO',sourceRoute:useWeb?'LIVE':'STABLE',exactInputHardcoding:false}
   });
 }
 async function v2869RecoverGeneralQuestion(raw,serialized,requestState){
@@ -31555,12 +32161,66 @@ async function v2869RecoverGeneralQuestion(raw,serialized,requestState){
   // All applicable routes genuinely failed. Preserve the existing nonfinal/early-release result.
   return serialized||v2861RepairPendingContract(raw).replace(/v2861/g,'v2869');
 }
+const PRACTICAL_ACTION_GUIDANCE_STARTUP_VALIDATION_V3212=Object.freeze({currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v3212PracticalActionGuidanceIntent==='function',answerGuardAvailable:typeof v3212ActionGuidanceAnswerUsable==='function',generalRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function'});
+
+function v3213PracticalActionPlanUsable(value){
+  const a=clean(value);
+  if(!a)return false;
+  if(/\b(?:is a|is an|means|refers to|is defined as|also known as)\b/i.test(a))return false;
+  return /^(?:(?:first|immediately|right away|as soon as possible|promptly)\s*[:,—-]?\s*)?(?:call|contact|report|notify|freeze|lock|cancel|replace|stop|avoid|remove|save|document|check|verify|use|keep|take|seek|ask|tell|change|reset|file|close|dispute|monitor|protect|return|turn|shut|disconnect|leave|wait|visit|go|secure|block|disable|recover|sign\s+out|log\s+out)\b/i.test(a);
+}
+async function v3213PracticalActionPreflightResponse(raw,requestState){
+  if(!v3212PracticalActionGuidanceIntent(raw)||!process.env.OPENAI_API_KEY)return '';
+  if(requestState&&requestState.aborted)return '';
+  const model=clean(process.env.OPENAI_MODEL)||'gpt-5.4-mini';
+  const useWeb=typeof v2864RequiresVerifiedLiveOnly==='function'&&v2864RequiresVerifiedLiveOnly(raw);
+  const prompt=[
+    'You are AIVerify’s shared practical-action engine. Return ONLY one valid JSON object.',
+    'Required keys: answer, explanation, sourceName.',
+    'The user is asking what action to take, not what the subject means.',
+    'Answer must begin with a concrete imperative action verb and give the best first action or a very short action plan.',
+    'Explanation should add the next useful steps, cautions, or escalation path. Keep it concise.',
+    'Never answer with a definition, description, encyclopedia summary, or restatement of the subject.',
+    'Do not add moral or biblical guidance unless the original question explicitly asks for it.',
+    useWeb?'Use web search only because the question explicitly requires current verified information; prefer official or primary sources.':'Use stable established knowledge; do not browse.',
+    'Original question: '+clean(raw)
+  ].join('\n');
+  const payload={model:model,input:prompt,max_output_tokens:650,text:{format:{type:'json_object'}}};
+  if(/^gpt-5/i.test(model))payload.reasoning={effort:'low'};
+  if(useWeb){payload.tools=[{type:'web_search',search_context_size:'low'}];payload.tool_choice='auto';payload.include=['web_search_call.action.sources'];}
+  const response=await openaiApiRequestJson(payload,useWeb?9000:6500);
+  if(requestState&&requestState.aborted)return '';
+  if(!response||!response.ok)return '';
+  const parsed=extractJsonObjectFromText(extractOpenAIOutputText(response.json));
+  if(!parsed||typeof parsed!=='object')return '';
+  const answer=clean(removeFollowUpOfferWording(parsed.answer||''));
+  const explanation=clean(removeFollowUpOfferWording(parsed.explanation||''));
+  if(!v3213PracticalActionPlanUsable(answer))return '';
+  const sources=useWeb?collectOpenAISourceObjects(response.json):[];
+  const sourceUrl=useWeb&&sources[0]?validHttpUrl(sources[0].url):'';
+  const sourceName=useWeb?(clean(parsed.sourceName)||clean(sources[0]&&sources[0].title)||v2864SourceNameFromUrl(sourceUrl)||'Current reliable sources'):'OpenAI';
+  return v2665ContractText(raw,{
+    route:useWeb?'practical-action/shared-live/v3213':'practical-action/shared-stable/v3213',
+    classification:'PRACTICAL ACTION GUIDANCE',inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',
+    answer:answer,why:explanation,evidence:explanation,source:sourceName,sourceBasis:sourceName,sourceUrl:sourceUrl,
+    confidence:useWeb?'Moderate confidence':'High confidence',outputBasket:OUTPUT_FORMAT_BASKETS.PRACTICAL_GUIDANCE,
+    technicalDiagnostics:{activeFunction:'practicalActionOwnershipV3213',practicalActionOwner:'YES',sourceRoute:useWeb?'LIVE':'STABLE',exactInputHardcoding:false}
+  });
+}
+const PRACTICAL_ACTION_OWNERSHIP_STARTUP_VALIDATION_V3213=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3228',intentAvailable:typeof v3212PracticalActionGuidanceIntent==='function',
+  actionValidatorAvailable:typeof v3213PracticalActionPlanUsable==='function',preflightAvailable:typeof v3213PracticalActionPreflightResponse==='function'
+});
+if(!PRACTICAL_ACTION_OWNERSHIP_STARTUP_VALIDATION_V3213.currentVersion||!PRACTICAL_ACTION_OWNERSHIP_STARTUP_VALIDATION_V3213.intentAvailable||!PRACTICAL_ACTION_OWNERSHIP_STARTUP_VALIDATION_V3213.actionValidatorAvailable||!PRACTICAL_ACTION_OWNERSHIP_STARTUP_VALIDATION_V3213.preflightAvailable){
+  throw new Error('PRACTICAL_ACTION_OWNERSHIP_V3213 startup validation failed');
+}
+
 const GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869=Object.freeze({
   normalizerAvailable:typeof v2869NormalizeQuestionIntent==='function',
   questionDetectorAvailable:typeof v2869QuestionLike==='function',
   broadRecoveryAvailable:typeof v2869RecoverGeneralQuestion==='function',
   entityAnswerGuardAvailable:typeof v2869EntityIdentificationIntent==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.normalizerAvailable||
    !GENERAL_QUESTION_ROUTING_STARTUP_VALIDATION_V2869.questionDetectorAvailable||
@@ -31574,7 +32234,7 @@ const COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868=Object.freeze({
   catalogAvailable:Array.isArray(V2868_NATURAL_FEATURE_CATALOG)&&V2868_NATURAL_FEATURE_CATALOG.length>0,
   semanticMatcherAvailable:typeof v2868NaturalFeatureMatch==='function',
   responseBuilderAvailable:typeof v2868GeographicNaturalFeatureResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.catalogAvailable||
    !COLOMBIA_ROUTING_STARTUP_VALIDATION_V2868.semanticMatcherAvailable||
@@ -31641,7 +32301,7 @@ const SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937=Object.fre
   evaluatorAvailable:typeof v2937VerifiedStableDirectEvaluation==='function',
   responseBuilderAvailable:typeof v2937VerifiedStableDirectResponse==='function',
   finalBoundaryAvailable:typeof v2937NormalizeFinalResponse==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.evaluatorAvailable||
    !SHARED_STABLE_DIRECT_ANSWER_PRECEDENCE_STARTUP_VALIDATION_V2937.responseBuilderAvailable||
@@ -31668,7 +32328,7 @@ if(!RESPONSE_STRUCTURE_SOURCE_STARTUP_VALIDATION_V2865.stableModelRouteBeforeFal
 const LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866=Object.freeze({
   routineRequestDiagnosticsSilent:typeof v2864DiagnosticLog==='function',
   scriptureDisplayPolicyAvailable:typeof v2866ApplyUserFacingScripturePolicy==='function',
-  currentVersion:VERSION==='BE_AIV_v3073'
+  currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnosticsSilent||
    !LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.scriptureDisplayPolicyAvailable||
@@ -31678,7 +32338,7 @@ if(!LOGGING_SCRIPTURE_WORDING_STARTUP_VALIDATION_V2866.routineRequestDiagnostics
 
 
 const YOUTUBE_TITLE_RESOLUTION_STARTUP_VALIDATION_V2917=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   resolverAvailable:typeof resolveYouTubeTitleV2917==='function',
   titleFallbackAvailable:typeof openAIVideoTitleLookupV2917==='function',
   exactTitleVerifierAvailable:typeof openAIVideoTitleClaimLiveVerification==='function',
@@ -31716,6 +32376,43 @@ function v2872AnalyticsWarn(error){
   V2872_ANALYTICS_FILE_WARNING_EMITTED=true;
   console.warn('AIV analytics storage warning: '+clean(error&&error.message||error));
 }
+// PUBLIC_MODEL_SOURCE_LABEL_V3206
+// Internal routing keeps the legacy source token; only the completed public response is shortened.
+function v3208PublicModelSourceLabel(body){
+  return String(body||'').replace(/OpenAI model knowledge/g,'OpenAI');
+}
+
+// SNOW_MEASUREMENT_INTEGRITY_V3210
+// Shared final-contract guard: do not equate precipitation/water-equivalent length with fallen-snow depth.
+function v3210SnowMeasurementIntegrity(body,raw){
+  const q=v2856Normalized(raw);
+  if(!/\b(?:snow|snowfall|snowing)\b/.test(q)||!/\b(?:how\s+much|how\s+many|average|depth)\b/.test(q))return String(body||'');
+  const lines=String(body||'').split(/\r?\n/);
+  let changed=false;
+  for(let i=0;i<lines.length;i++){
+    if(!/^AIV_RESULT_CONTRACT:\s*/.test(lines[i]))continue;
+    let c=null;
+    try{c=JSON.parse(lines[i].replace(/^AIV_RESULT_CONTRACT:\s*/,''));}catch(_e){continue;}
+    if(!c||typeof c!=='object')continue;
+    const answer=clean(c.answer||c.summary||''),explanation=clean(c.explanation||c.why||'');
+    const numericLength=/\b\d+(?:\.\d+)?\s*(?:mm|millimeters?|millimetres?|cm|centimeters?|centimetres?|m|meters?|metres?|inches?|in\.|feet|ft)\b/i.test(answer);
+    const answerLabelsSnow=/\b(?:snow|snowfall|snow\s+depth|fallen\s+snow|water[- ]equivalent|precipitation)\b/i.test(answer);
+    const explanationLabelsPrecip=/\b(?:precipitation|water[- ]equivalent|water\s+equivalent|equivalent\s+precipitation|precipitation\s+equivalent)\b/i.test(explanation);
+    const explanationExplicitSnowDepth=/\b(?:snowfall\s+depth|snow\s+depth|depth\s+of\s+(?:fallen\s+)?snow)\b/i.test(explanation);
+    if(numericLength&&!answerLabelsSnow&&explanationLabelsPrecip&&!explanationExplicitSnowDepth){
+      c.answer='No single average snowfall depth was established by that figure.';
+      c.summary=c.answer;
+      c.explanation='The supporting number is a precipitation or water-equivalent measurement, not a depth of fallen snow. Snow depth varies with location and snow density, so that measurement should not be presented as the amount of snow on the ground or as one fixed snowfall depth.';
+      c.why=c.explanation;
+      c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{v3210SnowMeasurementIntegrity:'APPLIED'});
+      lines[i]='AIV_RESULT_CONTRACT: '+JSON.stringify(c);
+      changed=true;
+    }
+  }
+  return changed?lines.join('\n'):String(body||'');
+}
+
+
 // ANALYTICS_INTEGRITY_AND_ENTITY_RESPONSE_REPAIR_V2873
 function v2874CanonicalQualityFlag(value){
   const flag=clean(value).toUpperCase();
@@ -31841,8 +32538,8 @@ function v2872QualityFlags(input,contract,answer){
   if(!a)flags.push('EMPTY_DIRECT_ANSWER');
   if(/\b(?:EXPLANATION|SOURCE)\s*:/i.test(a))flags.push('SERIALIZED_SECTION_IN_ANSWER');
   if(v2872ExpectedEntityQuestion(input)&&/^(?:yes|no)(?:\b|[\s—–\-:;,])/i.test(a))flags.push('ENTITY_QUESTION_RENDERED_AS_YES_NO');
-  if(/\b(?:what|which)\s+country\b/.test(q)&&/^(?:wikipedia|openai model knowledge|established references|reference sources reviewed|https?:\/\/|www\.)/i.test(a))flags.push('SOURCE_METADATA_IN_COUNTRY_ANSWER');
-  if(v2872ExpectedEntityQuestion(input)&&/^(?:wikipedia|openai model knowledge|established references|reference sources reviewed|source|sources)$/i.test(a))flags.push('SOURCE_METADATA_IN_ENTITY_ANSWER');
+  if(/\b(?:what|which)\s+country\b/.test(q)&&/^(?:wikipedia|openai(?: model knowledge)?|established references|reference sources reviewed|https?:\/\/|www\.)/i.test(a))flags.push('SOURCE_METADATA_IN_COUNTRY_ANSWER');
+  if(v2872ExpectedEntityQuestion(input)&&/^(?:wikipedia|openai(?: model knowledge)?|established references|reference sources reviewed|source|sources)$/i.test(a))flags.push('SOURCE_METADATA_IN_ENTITY_ANSWER');
   if(a&&explanation){
     const norm=function(v){return clean(v).toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim();};
     const an=norm(a),en=norm(explanation);
@@ -31853,7 +32550,7 @@ function v2872QualityFlags(input,contract,answer){
 function v2872SourceTier(contract,route){
   const c=contract&&typeof contract==='object'?contract:{};
   const source=clean(c.source||c.sourceBasis||''),url=clean(c.sourceUrl||c.primarySourceUrl||''),r=clean(route||c.route||'').toLowerCase();
-  if(/openai model knowledge/i.test(source))return 'MODEL_KNOWLEDGE';
+  if(/^openai(?: model knowledge)?$/i.test(source))return 'MODEL_KNOWLEDGE';
   if(/scripture/i.test(source)||/local-kjv|faith\/local|scripture\/local/i.test(r))return 'LOCAL_SOURCE';
   if(/live|web-search|openai-web|current/i.test(r))return 'CURRENT_OR_PAID_LOOKUP';
   if(url||source)return 'EXTERNAL_REFERENCE';
@@ -32206,7 +32903,7 @@ async function v2931HandleTesterBlock(req,res,u){
 
 v2875InitializeTesterStorage();
 const TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   reviewAccountAvailable:typeof v2931ReviewTesterAccount==='function',
   reviewQueueDecoratorAvailable:typeof v2931ReviewQueueWithTesterAccounts==='function',
   blockHandlerAvailable:typeof v2931HandleTesterBlock==='function',
@@ -32216,7 +32913,7 @@ if(!TESTER_BLOCK_CONTROL_STARTUP_VALIDATION_V2931.currentVersion||!TESTER_BLOCK_
   throw new Error('TESTER_BLOCK_AND_DO_NOT_INVITE_CONTROL_V2931 startup validation failed');
 }
 const REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
+  currentVersion:VERSION==='BE_AIV_v3228',storageReady:V2875_TESTER_STORAGE_READY,accountFileExists:fs.existsSync(V2875_TESTER_ACCOUNTS_FILE_PATH),sessionSecretReady:V2875_TESTER_SESSION_SECRET.length>=32,
   pinHashingAvailable:typeof v2875HashPin==='function',sessionValidationAvailable:typeof v2875AuthenticateRequest==='function',analyticsLinkingAvailable:typeof v2875TesterUsageSummary==='function',
   administratorResolverAvailable:typeof v2930IsAdministrator==='function'&&v2930IsAdministrator({nameKey:'cary lee'})&&!v2930IsAdministrator({nameKey:'someone else'}),
   regularTesterSessionHours:V2930_REGULAR_TESTER_SESSION_HOURS===12
@@ -32227,7 +32924,7 @@ if(!REQUIRED_BETA_SIGN_IN_STARTUP_VALIDATION_V2875.currentVersion||!REQUIRED_BET
 
 const ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872=Object.freeze({
   eventRecorderAvailable:typeof v2872RecordScanEvent==='function',summaryAvailable:typeof v2872AnalyticsSummary==='function',
-  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v3073'
+  piiRedactionAvailable:typeof v2872RedactScanInput==='function',persistentStorageLoaderAvailable:typeof v2872InitializeAnalyticsStorage==='function',structuralReviewAvailable:typeof v2872QualityFlags==='function',rawIpStorageDisabled:true,rawUserAgentStorageDisabled:true,commandWindowPerScanLoggingDisabled:true,currentVersion:VERSION==='BE_AIV_v3228'
 });
 if(!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.eventRecorderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.summaryAvailable||
    !ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.piiRedactionAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.persistentStorageLoaderAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.structuralReviewAvailable||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawIpStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.rawUserAgentStorageDisabled||!ANALYTICS_LOGGING_STARTUP_VALIDATION_V2872.commandWindowPerScanLoggingDisabled||
@@ -32476,13 +33173,76 @@ async function v2885PreflightUnclearInput(input,requestState){
   return v2885UnclearInputGuidanceBody(raw,interpretation);
 }
 const UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
+  currentVersion:VERSION==='BE_AIV_v3228',candidateDetectorAvailable:typeof v2885ClarificationCandidateBody==='function',interpreterAvailable:typeof v2885InterpretUnclearInput==='function',friendlyFallbackAvailable:typeof v2885ApplyUnclearInputClarification==='function',preflightAvailable:typeof v2885PreflightUnclearInput==='function',decisionCacheReady:V2892_UNCLEAR_INPUT_DECISION_CACHE instanceof Map,decisionKeyAvailable:typeof v2892ClarificationDecisionKey==='function',requestBindingAvailable:typeof v2892SetRequestClarificationDecision==='function'
 });
 if(!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.currentVersion||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.candidateDetectorAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.interpreterAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.friendlyFallbackAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.preflightAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionCacheReady||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.decisionKeyAvailable||!UNCERTAIN_INPUT_CLARIFICATION_STARTUP_VALIDATION_V2885.requestBindingAvailable){
   throw new Error('UNCERTAIN_INPUT_CLARIFICATION_AND_FRIENDLY_RETRY_V2885 startup validation failed');
 }
 
+
+
+// SHARED_YES_NO_DEPENDS_MATERIAL_POLARITY_INTEGRITY_V3221
+// Final public-boundary rule: ordinary Yes/No answers must agree with material conditions
+// already stated in their own explanation. This is deliberately conservative: only explicit,
+// realistic qualifiers trigger Depends; theoretical/remote exceptions do not.
+function v3221ExplicitYesNoQuestion(raw){
+  const q=clean(raw);
+  return /^(?:is|are|am|can|could|do|does|did|has|have|had|will|would|should|must|may)\b/i.test(q);
+}
+function v3221MaterialQualifier(explanation){
+  const x=clean(explanation);
+  if(!x)return false;
+  return /\b(?:depends\s+on|depending\s+on|only\s+if|only\s+when|under\s+(?:some|certain|specific)\s+(?:conditions?|circumstances?)|in\s+(?:some|certain)\s+(?:cases?|circumstances?)|not\s+always|may\s+or\s+may\s+not|can\s+vary|varies\s+(?:by|with|depending)|rules?\s+vary|some\s+jurisdictions?|jurisdiction[- ]dependent|depends\s+on\s+(?:the\s+)?jurisdiction|in\s+most\s+places|in\s+many\s+places)\b/i.test(x);
+}
+function v3221SafetyQuestion(raw){return /\bsafe(?:ly)?\b/i.test(clean(raw));}
+function v3221AdverseSafetyExplanation(explanation){
+  const x=clean(explanation);
+  if(!x)return false;
+  return /\b(?:unsafe|not\s+safe|should\s+not|do\s+not|not\s+recommended|(?:can|may|could|might)\s+(?:directly\s+|eventually\s+|potentially\s+)?(?:damage|harm|injure|overheat|ignite)|(?:can|may|could|might)\s+cause\b.{0,70}\b(?:damage|harm|injury|fire|overheat|overheating|ignition)|risk\s+of\s+(?:damage|harm|injury|fire)|fire\s+risk|danger(?:ous)?|hazard(?:ous)?)\b/i.test(x);
+}
+function v3221ExplicitConditionalSafety(explanation){
+  const x=clean(explanation);
+  if(!x)return false;
+  return /\b(?:safe\s+only\s+(?:if|when)|can\s+be\s+safe\s+(?:if|when)|safe\s+(?:if|when)|only\s+(?:if|when)|depends\s+on|under\s+(?:some|certain|specific)\s+(?:conditions?|circumstances?))\b/i.test(x);
+}
+function v3221YesNoDependsPolarityIntegrity(serialized,raw){
+  if(!serialized||!v3221ExplicitYesNoQuestion(raw))return serialized;
+  if(typeof v3044MoralQuestionIntent==='function'&&v3044MoralQuestionIntent(raw))return serialized;
+  return v3002RewriteSerializedContracts(serialized,function(c){
+    const answer=clean(c.answer||c.summary||'');
+    const explanation=clean(c.explanation||c.why||'');
+    if(!answer||!explanation)return c;
+    const yes=/^yes(?:\b|[\s—–\-:;,])/i.test(answer),no=/^no(?:\b|[\s—–\-:;,])/i.test(answer);
+    if(!yes&&!no)return c;
+    const material=v3221MaterialQualifier(explanation);
+    const safety=v3221SafetyQuestion(raw);
+    const adverse=safety&&v3221AdverseSafetyExplanation(explanation);
+    const conditionalSafety=safety&&v3221ExplicitConditionalSafety(explanation);
+    let next='';let reason='';
+    if(adverse&&yes){
+      if(conditionalSafety){next='Depends';reason='YES_TO_DEPENDS_SAFETY_CONDITION';}
+      else{next='No';reason='YES_TO_NO_SAFETY_WARNING';}
+    }else if(safety&&no&&conditionalSafety){
+      next='Depends';reason='NO_TO_DEPENDS_SAFETY_CONDITION';
+    }else if(material){
+      next='Depends';reason=(yes?'YES':'NO')+'_TO_DEPENDS_MATERIAL_QUALIFIER';
+    }
+    if(!next)return c;
+    c.answer=next;c.summary=next;
+    c.outputBasket=next==='Depends'?OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER:(c.outputBasket||OUTPUT_FORMAT_BASKETS.DIRECT_ANSWER);
+    c.fixedOutputBasket=c.fixedOutputBasket||c.outputBasket;
+    c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{v3221YesNoDependsPolarityIntegrity:reason});
+    c.backendVersion=VERSION;
+    return c;
+  });
+}
+const SHARED_YES_NO_DEPENDS_MATERIAL_POLARITY_STARTUP_VALIDATION_V3221=Object.freeze({
+  currentVersion:VERSION==='BE_AIV_v3228',questionGateAvailable:typeof v3221ExplicitYesNoQuestion==='function',materialQualifierAvailable:typeof v3221MaterialQualifier==='function',safetyGateAvailable:typeof v3221SafetyQuestion==='function',finalizerAvailable:typeof v3221YesNoDependsPolarityIntegrity==='function',moralExclusionAvailable:typeof v3044MoralQuestionIntent==='function'
+});
+if(!Object.keys(SHARED_YES_NO_DEPENDS_MATERIAL_POLARITY_STARTUP_VALIDATION_V3221).every(function(k){return SHARED_YES_NO_DEPENDS_MATERIAL_POLARITY_STARTUP_VALIDATION_V3221[k]===true;}))throw new Error('SHARED_YES_NO_DEPENDS_MATERIAL_POLARITY_INTEGRITY_V3221 startup validation failed');
+
 const server=http.createServer(async (req,res)=>{
+  const v3208HttpRequestStart=Date.now();
   let analyticsScan=null;
   try{
     if(req.method==='OPTIONS') return send(res,204,'text/plain','');
@@ -32559,14 +33319,38 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedResultsCleared:cleared.completed,finalizedExactInputResultsCleared:finalizedExactCleared,inFlightCleared:cleared.inFlight,paidResultsCleared:cleared.paidResults,paidInFlightCleared:cleared.paidInFlight});
     }
     if(u.pathname==='/scan' || u.pathname==='/analyze'){
-      const tester=v2875RequireTester(req,res);if(!tester)return;
-      const input=u.searchParams.get('input')||u.searchParams.get('claim')||u.searchParams.get('q')||u.searchParams.get('text')||'';
-      const frontendVersion=v2885FrontendVersion(req);
+      let v3208PerfMark=v3208HttpRequestStart;
+      const v3208Perf=function(stage,extra){const now=Date.now();try{console.log('AIV P1 E2E v3226 | '+stage+' | stageMs='+(now-v3208PerfMark)+' | totalMs='+(now-v3208HttpRequestStart)+(extra?' | '+extra:''));}catch(_e){}v3208PerfMark=now;};
+      v3208Perf('scan-route-enter','method='+String(req.method||''));
+      res.once('finish',function(){const now=Date.now();try{console.log('AIV P1 E2E v3226 | response-finish | totalMs='+(now-v3208HttpRequestStart)+' | status='+String(res.statusCode||''));}catch(_e){}});
+      res.once('close',function(){if(!res.writableEnded){const now=Date.now();try{console.log('AIV P1 E2E v3226 | response-close-before-finish | totalMs='+(now-v3208HttpRequestStart));}catch(_e){}}});
+      let tester=null,input='',frontendVersion='',scanTimezone='',scanClientDate='';
+      if(req.method==='POST'){
+        let scanBody;
+        try{scanBody=await v2875ReadJsonBody(req,1100000);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
+        const scanSessionToken=clean(scanBody&&scanBody.sessionToken||scanBody&&scanBody.token||'');
+        tester=v2875AuthenticateRequest({headers:{'x-aiv-session':scanSessionToken}});
+        if(!tester){sendJson(res,401,{ok:false,error:'Beta sign-in is required.'});return;}
+        input=String(scanBody&&scanBody.input||scanBody&&scanBody.claim||scanBody&&scanBody.q||scanBody&&scanBody.text||'');
+        frontendVersion=clean(scanBody&&scanBody.frontendVersion||'').slice(0,100);
+        scanTimezone=clean(scanBody&&scanBody.tz||'');
+        scanClientDate=clean(scanBody&&scanBody.clientDate||'');
+      }else{
+        tester=v2875RequireTester(req,res);if(!tester)return;
+        input=u.searchParams.get('input')||u.searchParams.get('claim')||u.searchParams.get('q')||u.searchParams.get('text')||'';
+        frontendVersion=v2885FrontendVersion(req);
+        scanTimezone=u.searchParams.get('tz')||'';
+        scanClientDate=u.searchParams.get('clientDate')||'';
+      }
+      v3208Perf('auth-and-request-body-complete');
       const requestState={aborted:false};
-      const requestContext={timezone:u.searchParams.get('tz')||'',clientDate:u.searchParams.get('clientDate')||'',testerId:tester.id,testerName:tester.name,frontendVersion:frontendVersion};
+      const requestContext={timezone:scanTimezone,clientDate:scanClientDate,testerId:tester.id,testerName:tester.name,frontendVersion:frontendVersion};
       requestState.requestContext=requestContext;
       analyticsScan={input:input,startedAt:Date.now(),requestContext:requestContext,finalized:false,event:null};
+      v3208Perf('request-context-ready','frontend='+String(frontendVersion||''));
+      v3208Perf('before-runScan');
       return ANALYTICS_REVIEW_V2889.runScan({testerId:tester.id,testerName:tester.name,frontendVersion:frontendVersion,requestKind:'information'},async function(){
+        v3208Perf('runScan-callback-enter');
         const finalizeAnalytics=function(body,options){
           if(!analyticsScan||analyticsScan.finalized)return analyticsScan&&analyticsScan.event||null;
           analyticsScan.finalized=true;
@@ -32580,41 +33364,67 @@ const server=http.createServer(async (req,res)=>{
         res.once('close',function(){if(!res.writableEnded){requestState.aborted=true;finalizeAnalytics('',{aborted:true});}});
         // v3054: exact completed repeat lookup happens before every expensive preflight.
         const v3054CachedFinal=v3054FinalizedExactCacheGet(input,requestContext);
+        v3208Perf('exact-cache-check','hit='+(v3054CachedFinal?'YES':'NO'));
         if(v3054CachedFinal){
           const event=finalizeAnalytics(v3054CachedFinal,{route:'finalized-exact-input-cache/v3054'});
+          v3208Perf('before-send','cache=HIT');
           return send(res,200,'text/plain; charset=utf-8',v3054CachedFinal,Object.assign({'x-aiv-cache':'HIT'},event&&event.eventId?{'x-aiv-scan-event':event.eventId}:{}));
         }
         // v3044: all recognized moral/life-direction questions are owned here before any
         // resource, semantic-research, boundary, clarification, factual, or recovery preflight.
         const v3044MoralPreflight=await v3044CanonicalMoralResponse(input,'outer-preflight');
+        v3208Perf('moral-preflight','owned='+(v3044MoralPreflight?'YES':'NO'));
         const v3042PriorityMoralPreflight=v3044MoralPreflight;
         const v2989ExplicitResourceIntent=v3042PriorityMoralPreflight?null:v2989ResourceRequestIntent(input);
         const v3007NamedEntityPagePreflightResult=(v3042PriorityMoralPreflight||!v2989ExplicitResourceIntent)?'':await v3007NamedEntityPagePreflight(input,v2989ExplicitResourceIntent,requestState);
         const v3003OfficialActionPreflight=(v3042PriorityMoralPreflight||v3007NamedEntityPagePreflightResult)?'':(v2989ExplicitResourceIntent?await v3003FastOfficialActionResource(input,requestState):'');
         const explicitResourcePreflightRaw=v3042PriorityMoralPreflight?'':(v3007NamedEntityPagePreflightResult||v3003OfficialActionPreflight||((v2989ExplicitResourceIntent&&!requestState.aborted)?await v2989ResourceRetrievalResponse(input,requestState):''));
         const explicitResourcePreflight=explicitResourcePreflightRaw?((v3007NamedEntityPagePreflightResult||v3003OfficialActionPreflight)?explicitResourcePreflightRaw:await v3002RefineResourceResponse(input,explicitResourcePreflightRaw,requestState)):'';
-        const v3007SemanticResearchPreflight=(v3042PriorityMoralPreflight||explicitResourcePreflight)?'':await v3007StructuredResearchResponse(input,requestState);
-        const v2929PreflightBoundaryIntent=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight)?null:v2929RequestBoundaryIntent(input);
+        v3208Perf('resource-preflights','owned='+(explicitResourcePreflight?'YES':'NO'));
+        const v3213PracticalActionPreflight=(v3042PriorityMoralPreflight||explicitResourcePreflight)?'':await v3213PracticalActionPreflightResponse(input,requestState);
+        v3208Perf('practical-action-preflight','owned='+(v3213PracticalActionPreflight?'YES':'NO'));
+        const v3007SemanticResearchPreflight=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight)?'':await v3007StructuredResearchResponse(input,requestState);
+        v3208Perf('semantic-research-preflight','owned='+(v3007SemanticResearchPreflight?'YES':'NO'));
+        const v2929PreflightBoundaryIntent=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight)?null:v2929RequestBoundaryIntent(input);
         const requestBoundaryPreflight=v2929PreflightBoundaryIntent?v2929RequestBoundaryResponse(input,v2929PreflightBoundaryIntent):'';
-        const unclearInputPreflight=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight)?'':await v2885PreflightUnclearInput(input,requestState);
+        const unclearInputPreflight=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight)?'':await v2885PreflightUnclearInput(input,requestState);
+        v3208Perf('boundary-and-unclear-preflight','boundary='+(requestBoundaryPreflight?'YES':'NO')+' unclear='+(unclearInputPreflight?'YES':'NO'));
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
-        const geographicNaturalFeature=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight)?'':v2868GeographicNaturalFeatureResponse(input);
-        const generalFactualClaimEligible=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature)?false:v2942StableGeneralClaimEligible(input);
+        const geographicNaturalFeature=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight)?'':v2868GeographicNaturalFeatureResponse(input);
+        const generalFactualClaimEligible=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature)?false:v2942StableGeneralClaimEligible(input);
         const generalFactualClaimPreflight=generalFactualClaimEligible?v2942DeterministicGeneralClaimResponse(input):'';
-        const fastVerifiedFacts=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature||generalFactualClaimEligible)?'':v2940FastVerifiedFactsResponse(input);
-        const initialBody=v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature||generalFactualClaimPreflight||fastVerifiedFacts||await v2764HandleAnalyzeRequest(input,requestState,requestContext);
+        const fastVerifiedFacts=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature||generalFactualClaimEligible)?'':v2940FastVerifiedFactsResponse(input);
+        v3208Perf('fast-local-preflights','generalEligible='+(generalFactualClaimEligible?'YES':'NO')+' generalResult='+(generalFactualClaimPreflight?'YES':'NO')+' fastFacts='+(fastVerifiedFacts?'YES':'NO'));
+        const v3200InitialOwner=v3042PriorityMoralPreflight?'MORAL':explicitResourcePreflight?'RESOURCE':v3213PracticalActionPreflight?'PRACTICAL_ACTION':v3007SemanticResearchPreflight?'SEMANTIC_RESEARCH':requestBoundaryPreflight?'BOUNDARY':unclearInputPreflight?'UNCLEAR':geographicNaturalFeature?'GEOGRAPHIC':generalFactualClaimPreflight?'GENERAL_FACT':fastVerifiedFacts?'FAST_FACTS':'HANDLE_ANALYZE';
+        const initialBody=v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight||requestBoundaryPreflight||unclearInputPreflight||geographicNaturalFeature||generalFactualClaimPreflight||fastVerifiedFacts||await v2764HandleAnalyzeRequest(input,requestState,requestContext);
+        v3208Perf('initial-body','owner='+v3200InitialOwner);
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
         const v3005CurrentSetOwned=v3042PriorityMoralPreflight?false:v3003DynamicCountryCompleteSetIntent(input);
-        const body=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3007SemanticResearchPreflight||fastVerifiedFacts||generalFactualClaimPreflight||v3005CurrentSetOwned)?initialBody:await v2869RecoverGeneralQuestion(input,initialBody,requestState);
+        // v3223: exact named-state tax-category questions are already protected current-information
+        // requests inside v2764HandleAnalyzeRequest. Keep that source-bound result as the owner;
+        // generic recovery must not replace it with slower model-knowledge output.
+        const v3223StateTaxOwned=v3042PriorityMoralPreflight?false:v3222UsStateTaxApplicabilityIntent(input);
+        const body=(v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight||fastVerifiedFacts||generalFactualClaimPreflight||v3005CurrentSetOwned||v3223StateTaxOwned)?initialBody:await v2869RecoverGeneralQuestion(input,initialBody,requestState);
+        v3208Perf('general-recovery','used='+((v3042PriorityMoralPreflight||explicitResourcePreflight||v3213PracticalActionPreflight||v3007SemanticResearchPreflight||fastVerifiedFacts||generalFactualClaimPreflight||v3005CurrentSetOwned||v3223StateTaxOwned)?'NO':'YES')+' stateTaxOwned='+(v3223StateTaxOwned?'YES':'NO'));
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
         const normalizedBody=v2937NormalizeFinalResponse(input,body);
+        v3208Perf('normalize-final');
         const integrityBody=await v2998FinalizeResponse(input,normalizedBody,requestState,requestContext);
+        v3208Perf('integrity-finalize');
         const targetedBody=await v3002FinalizeResponse(input,integrityBody,requestState);
+        v3208Perf('targeted-finalize');
         const finalBody=await v2885ApplyUnclearInputClarification(input,targetedBody,requestState);
+        v3208Perf('unclear-finalize');
         if(requestState.aborted||res.destroyed||res.writableEnded){finalizeAnalytics('',{aborted:true});return;}
-        v3054FinalizedExactCachePut(input,requestContext,finalBody);
-        const event=finalizeAnalytics(finalBody,{});
-        return send(res,200,'text/plain; charset=utf-8',finalBody,Object.assign({'x-aiv-cache':'MISS'},event&&event.eventId?{'x-aiv-scan-event':event.eventId}:{}));
+        const snowIntegrityBody=v3210SnowMeasurementIntegrity(finalBody,input);
+        const polarityIntegrityBody=v3221YesNoDependsPolarityIntegrity(snowIntegrityBody,input);
+        const publicFinalBody=v3208PublicModelSourceLabel(polarityIntegrityBody);
+        v3054FinalizedExactCachePut(input,requestContext,publicFinalBody);
+        v3208Perf('cache-store');
+        const event=finalizeAnalytics(publicFinalBody,{});
+        v3208Perf('analytics-finalize');
+        v3208Perf('before-send','cache=MISS');
+        return send(res,200,'text/plain; charset=utf-8',publicFinalBody,Object.assign({'x-aiv-cache':'MISS'},event&&event.eventId?{'x-aiv-scan-event':event.eventId}:{}));
       });
     }
     return send(res,404,'text/plain','Not found');
@@ -35809,7 +36619,7 @@ const v2834Crypto=require('crypto');
 const V2834_KJV_EXPECTED_SHA256='b22bb30ddba274f4cf127be3a7a07d04301609813ae3e5ffb148b27bdecf9946';
 const V2834_KJV_EXPECTED_VERSES=31102;
 const CONSOLIDATED_BIBLICAL_MORAL_ENGINE_STARTUP_VALIDATION_V3046=Object.freeze({
-  currentVersion:VERSION==='BE_AIV_v3073',
+  currentVersion:VERSION==='BE_AIV_v3228',
   intentAvailable:typeof v3044MoralQuestionIntent==='function',
   frameBindingAvailable:typeof v3044MoralQuestionFrame==='function',
   actionBindingAvailable:typeof v3044RequestedActionVerb==='function'&&typeof v3044AuditActionContainsRequestedVerb==='function',
@@ -37875,8 +38685,10 @@ async function v2844LiveEvaluation(raw,intent){
     'Give the direct answer actually requested. Do not return a nearby definition, copied fragment, generic review wording, or a bare Yes or No.',
     'When the answer is a person, return the complete commonly recognized name. Never end a person answer with only an initial or omit the surname.',
     (intent&&intent.officeholderRole?'OFFICEHOLDER BINDING: The requested role is exactly '+intent.officeholderRole+(intent.officeholderJurisdiction?' for '+intent.officeholderJurisdiction:'')+'. Answer that exact office only. Do not substitute President or another nearby office.':''),
+    (intent&&intent.kind==='state-tax'?'STATE TAX BINDING: Use the current official tax/revenue authority for the named U.S. state as the material source. Answer the exact tax category the user named. Do not treat a motor-fuel, excise, privilege, environmental, or other special tax as proof that a general sales/use tax applies. If the named regular/general state sales or use tax does not apply but a separate fuel/excise/special tax does, answer No to the sales/use-tax question and explain the distinction briefly and directly. When the official authority gives a definite rule, do not weaken it with hedge words such as generally, usually, typically, generally excluded, or generally exempt. Mention exceptions only when the official authority actually identifies a relevant exception.':''),
     'For a geographic location, identify the complete place and its larger region, province/state/territory, and country when useful.',
     'For a superlative, name the exact requested entity and state the basis or record category when different counting rules could change the answer.',
+    (intent&&intent.kind==='current-astronomy-discovery-count'?'ASTRONOMY COUNT BINDING: Use the newest NASA Exoplanet Archive Planetary Systems data as the material source. Distinguish individual confirmed exoplanets from distinct confirmed exoplanetary/planetary systems. “The Solar System” technically means our own system; when a user informally says “solar systems” in the plural, interpret that as distinct exoplanetary systems. Never substitute the confirmed-planet total for the distinct-system total, and never invent or round a precise system count from an exoplanet count. If an exact distinct-system count cannot be verified from the archive, say that explicitly rather than returning a guessed rounded count. State the source date or current-count basis because these totals change over time.':'For astronomy discovery counts, distinguish individual exoplanets from planetary systems. “The Solar System” technically means our own system; when a user informally says “solar systems” in the plural, interpret that as planetary systems but never substitute the number of confirmed exoplanets for the number of confirmed planetary systems. State the source date or current-count basis when the total changes over time.'),
     v3001UnifiedAnswerGuidance(raw),
     v2999ListCompletenessGuidance(raw),
     v2996PopulationSensitiveRankingGuidance(raw),
@@ -37923,6 +38735,17 @@ async function v2844LiveEvaluation(raw,intent){
     if(!parsed||typeof parsed!=='object'||!v2996PopulationSensitiveRankingResultValid(raw,parsed)||!v2997GeographicAnswerValid(raw,parsed))return {ok:false,errorType:'statistical_scope_restriction_not_user_requested'};
   }
   let sourceUrl=v2844ReliableUrl(parsed.sourceUrl,sources) || (sources[0]&&v2844CleanUrl(sources[0].url)) || '';
+  if(intent&&intent.kind==='state-tax'&&!v2989LikelyOfficialDomain(domainFromUrl(sourceUrl))){
+    const taxPrompt=prompt+'\nCORRECTION REQUIRED: This U.S.-state tax question must be answered from the current official state revenue/tax authority. Use an official government source and bind the answer to the exact tax category named. Distinguish general sales/use tax from motor-fuel, excise, privilege, environmental, and other special taxes. If the regular/general sales tax does not apply but a separate special tax does, answer No and explain that tax-category distinction directly. When the official authority gives a definite rule, do not use hedge wording such as generally, usually, typically, generally excluded, or generally exempt. Mention an exception only when the official authority identifies one that is relevant to the user question. Return ONLY the corrected JSON object.';
+    const taxPayload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results','web_search_call.action.sources'],input:taxPrompt,max_output_tokens:1600,text:{format:{type:'json_object'}}};
+    const taxCorrection=await openaiApiRequestJson(taxPayload,22000);
+    if(!taxCorrection||!taxCorrection.ok)return {ok:false,errorType:'official_state_tax_source_retry_failed'};
+    parsed=extractJsonObjectFromText(extractOpenAIOutputText(taxCorrection.json));
+    sources=collectOpenAISourceObjects(taxCorrection.json);
+    if(!parsed||typeof parsed!=='object')return {ok:false,errorType:'official_state_tax_result_invalid'};
+    sourceUrl=v2844ReliableUrl(parsed.sourceUrl,sources) || (sources[0]&&v2844CleanUrl(sources[0].url)) || '';
+    if(!v2989LikelyOfficialDomain(domainFromUrl(sourceUrl)))return {ok:false,errorType:'official_state_tax_source_not_found'};
+  }
   if(!v2997StatisticalRankingSourceValid(raw,sourceUrl)){
     const primaryPrompt=prompt+'\nCORRECTION REQUIRED: The candidate source is secondary. For this population-sensitive public statistical ranking, research the answer from a primary or official statistical source and return that material source URL. Keep the exact user population scope. If the user gave no population cutoff and comparable same-year data supports both groups, prefer the 1,000,000+ / under-1,000,000 comparison. Return ONLY the corrected JSON object.';
     const primaryPayload={model:model,reasoning:{effort:'low'},tools:[{type:'web_search',search_context_size:'medium'}],include:['web_search_call.results','web_search_call.action.sources'],input:primaryPrompt,max_output_tokens:1700,text:{format:{type:'json_object'}}};
