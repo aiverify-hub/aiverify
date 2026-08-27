@@ -1,3 +1,7 @@
+<!-- BM_FE_AIV_v2322_HRG: frontend health-refresh gate over v2321. Removes duplicate backend /health requests on ordinary focus/visibility/page-show events so tab switching cannot compete with a scan request. Startup health refresh remains; BFCache pageshow refresh remains; scan response/version behavior is preserved. Timing diagnostics remain enabled.
+<!-- BM_FE_AIV_v2321_SSR: scan simple-request refinement over v2320. Removes the unnecessary fetch cache:no-store option from scan POST transport; the scan URL already carries a unique timestamp and POST responses are not reused. Keeps the request body/header shape CORS-simple so the browser does not introduce a preflight before the backend sees the scan. Preserves v2320 timing diagnostics and all unrelated behavior.
+<!-- BM_FE_AIV_v2320_SST: simple scan transport diagnostic over v2319. Uses a text/plain POST body with no custom request headers so information scans avoid CORS preflight while preserving timing diagnostics, rendering, cartoons, auth state, analytics/review linkage, and result behavior.
+<!-- BM_FE_AIV_v2319_FTD: frontend timing diagnostics over v2318. Measures Analyze-to-response, fetch wait (including any browser preflight/network delay), response body read, render/finalize, and total visible-result time. No routing, cartoon timing, backend behavior, analytics, or result-content changes.
 <!-- BM_FE_AIV_v2318_NCP: frontend-only cartoon normalization + final-processing indicator over v2317.
 Preserves v2317 sign-in/session fix, V6 C1, scan/result behavior, analytics/review behavior, cartoon timing and crossfade timing.
 All four cartoon scenes now render inside the same 1672:941 frame established by V6 C1, so C2-C4 no longer appear larger and caption spacing remains visually consistent.
@@ -917,7 +921,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2318";
+  const FRONTEND_VERSION="frontend v2322";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -5942,23 +5946,29 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }
     return urls.slice(0,3);
   }
+  function aivFeNow(){try{return performance.now();}catch(_e){return Date.now();}}
   async function fetchCompactTextV1734(value,runId){
     // v2306: do not launch /health beside every scan. The version badge is refreshed
     // independently; competing same-origin health work must not delay the scan request.
     const now=new Date();
     const clientDate=now.getFullYear()+"-"+String(now.getMonth()+1).padStart(2,"0")+"-"+String(now.getDate()).padStart(2,"0");
     const clientTimezone=(Intl.DateTimeFormat&&Intl.DateTimeFormat().resolvedOptions().timeZone)||"";
-    const url=API_URL+encodeURIComponent(value)+"&_="+Date.now()+"&renderRun="+runId+"&clientDate="+encodeURIComponent(clientDate)+"&tz="+encodeURIComponent(clientTimezone);
-    const fetchOptions={cache:"no-store",mode:"cors",headers:aivSessionHeaders()};
+    const url=BACKEND_BASE_URL+"/scan?compact=1&_="+Date.now();
+    const sessionToken=activeTesterSession&&activeTesterSession.token||aivStoredSessionToken();
+    const scanPayload={input:value,sessionToken:sessionToken,frontendVersion:FRONTEND_VERSION,renderRun:runId,clientDate:clientDate,tz:clientTimezone};
+    const fetchOptions={method:"POST",mode:"cors",headers:{"Content-Type":"text/plain;charset=UTF-8"},body:JSON.stringify(scanPayload)};
     if(activeAbortController) fetchOptions.signal=activeAbortController.signal;
+    const aivFetchStart=aivFeNow();
     const res=await fetch(url,fetchOptions);
+    const aivHeadersAt=aivFeNow();
     if(runId!==activeRenderRun)return null;
     if(res.status===401){aivHandleUnauthorized();throw new Error("Beta sign-in required");}
     if(!res.ok)throw new Error("HTTP "+res.status);
     const txt=await res.text();
+    const aivBodyAt=aivFeNow();
     const eventId=String(res.headers.get('x-aiv-scan-event')||'').trim();
     // Backend version is health-endpoint owned; response route labels cannot overwrite it.
-    return {text:txt,eventId:eventId};
+    return {text:txt,eventId:eventId,aivTiming:{fetchWaitMs:Math.round(aivHeadersAt-aivFetchStart),bodyReadMs:Math.round(aivBodyAt-aivHeadersAt),fetchTotalMs:Math.round(aivBodyAt-aivFetchStart)}};
   }
   function renderSeparatedUrlResultsV1734(rows){
     let html='';
@@ -5971,6 +5981,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
 
   async function newAnalyze(){
+    const aivAnalyzeStart=aivFeNow();
     if(!activeTesterSession){aivShowSignIn('Sign in before running a scan.');return;}
     const i=input();
     const raw=sanitizeInputForAnalyze(i?i.value.trim():"");
@@ -6019,6 +6030,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       if(runId!==activeRenderRun)return;
       if(response==null)return;
       const text=response.text;
+      const aivResponseReady=aivFeNow();
       clearGeneralScanTimers();
       hardClearRenderedResults();
       setText("contentType","");
@@ -6029,7 +6041,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         const transcriptInfo=inferTranscriptStatusFromBackend(text,lastAnalyzedInput);
         if(transcriptInfo)setTranscriptStatus(transcriptInfo.state,transcriptInfo.detail);
       }
+      const aivRenderStart=aivFeNow();
       replaceResultHtml(renderStructuredResult(text));
+      const aivRenderDone=aivFeNow();
       aivScrollCompletedResultToTop(runId);
       try{
         let parsedForCount=parseBackendText(text);
@@ -6046,7 +6060,16 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         }
       }catch(_e){}
       aivFinalizeResultReview([response.eventId],el('result'),'responseReviewPanel');
-      if(runId===activeRenderRun)setText("lastAction","Done");
+      const aivDoneAt=aivFeNow();
+      if(runId===activeRenderRun){
+        const ft=response.aivTiming||{};
+        const totalMs=Math.round(aivDoneAt-aivAnalyzeStart);
+        const renderMs=Math.round(aivRenderDone-aivRenderStart);
+        const finalizeMs=Math.round(aivDoneAt-aivRenderDone);
+        const timingText="Done | FE total "+totalMs+" ms | fetch "+String(ft.fetchTotalMs==null?"?":ft.fetchTotalMs)+" ms | headers "+String(ft.fetchWaitMs==null?"?":ft.fetchWaitMs)+" ms | body "+String(ft.bodyReadMs==null?"?":ft.bodyReadMs)+" ms | render "+renderMs+" ms | finalize "+finalizeMs+" ms";
+        setText("lastAction",timingText);
+        try{console.log("AIV FE timing v2319",timingText,{responseReadyMs:Math.round(aivResponseReady-aivAnalyzeStart)});}catch(_e){}
+      }
     }catch(e){
       if(e && e.name==="AbortError")return;
       clearGeneralScanTimers();
@@ -6341,9 +6364,12 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       if(aivAiMediaIsVideo(selected)){aiMediaFileNode.value='';aivSetAiMediaResult('Video files are not supported',AI_VIDEO_BLOCK_MESSAGE,'isError',[]);return;}
       aivSetAiMediaResult('Results',selected?String(selected.name||'Selected media file'):'',selected?'':'emptyAiResult',[]);
     });
-    window.addEventListener('focus',function(){refreshTopRightBackendVersion();});
-    window.addEventListener('pageshow',function(event){if(event&&event.persisted){try{aivResetAiMediaCheck();}catch(_e){}}refreshTopRightBackendVersion();});
-    document.addEventListener('visibilitychange',function(){if(!document.hidden)refreshTopRightBackendVersion();});
+    window.addEventListener('pageshow',function(event){
+      if(event&&event.persisted){
+        try{aivResetAiMediaCheck();}catch(_e){}
+        refreshTopRightBackendVersion();
+      }
+    });
     aivSetWorkflowMode('information');
     aivInitBetaReview();
     document.addEventListener('click',function(event){
