@@ -1,3 +1,5 @@
+<!-- BM_FE_AIV_v2324_BRC: beta-review bulk cleanup over v2323. Preserves the v2323 Analytics V17 dashboard display and all v2322 scan, auth, rendering, tester-feedback, review, cartoon, and analytics behavior. Adds an administrator-only bulk review control that marks all qualifying unreviewed scans before a chosen local date/time as Reviewed in one protected update, without deleting scans or changing tester feedback. Intended for clearing pre-round test history when a new test round was not started before paid testing. FRONTEND-ONLY review workflow update; no scan/result/backend logic change. -->
+<!-- BM_FE_AIV_v2323_ARD: administrator review-dashboard display repair over v2322. Preserves v2322 duplicate-health-request speed behavior and all scan, auth, rendering, tester-feedback, review, cartoon, and analytics capture behavior. Adds a compact Administrator Analytics V17 summary to Beta Review using the existing protected /analytics/summary endpoint, showing today's scan totals, high-use release categories, device mix, response-time bands, source tiers, cache/current-information/API usage, average response time, and the live analytics module version. FRONTEND-ONLY display update; no analytics collection or backend logic change. -->
 <!-- BM_FE_AIV_v2322_HRG: frontend health-refresh gate over v2321. Removes duplicate backend /health requests on ordinary focus/visibility/page-show events so tab switching cannot compete with a scan request. Startup health refresh remains; BFCache pageshow refresh remains; scan response/version behavior is preserved. Timing diagnostics remain enabled.
 <!-- BM_FE_AIV_v2321_SSR: scan simple-request refinement over v2320. Removes the unnecessary fetch cache:no-store option from scan POST transport; the scan URL already carries a unique timestamp and POST responses are not reused. Keeps the request body/header shape CORS-simple so the browser does not introduce a preflight before the backend sees the scan. Preserves v2320 timing diagnostics and all unrelated behavior.
 <!-- BM_FE_AIV_v2320_SST: simple scan transport diagnostic over v2319. Uses a text/plain POST body with no custom request headers so information scans avoid CORS preflight while preserving timing diagnostics, rendering, cartoons, auth state, analytics/review linkage, and result behavior.
@@ -765,6 +767,20 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 .betaReviewProgressItem.isActive{background:#2b6f9f!important;border-color:#2b6f9f!important;color:#fff!important}
 .betaReviewProgressItem b{font-size:16px;color:#123e60;margin-left:5px}
 .betaReviewProgressItem.isActive b{color:#fff}
+
+.betaAnalyticsSummary{background:#fff;border:1px solid #bfd2df;border-radius:10px;padding:11px 12px;margin:0 0 13px;color:#233f53}
+.betaAnalyticsSummary[hidden]{display:none!important}
+.betaAnalyticsHeader{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.betaAnalyticsTitle{font-size:15px;font-weight:900;color:#123e5c}
+.betaAnalyticsPeriod{font-size:12px;font-weight:800;color:#587082}
+.betaAnalyticsStats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.betaAnalyticsStat{background:#eef5f9;border:1px solid #d2e0e8;border-radius:7px;padding:6px 8px;font-size:12px;font-weight:850;color:#29485e}
+.betaAnalyticsGroups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.betaAnalyticsGroup{background:#f8fafb;border:1px solid #dbe5eb;border-radius:8px;padding:8px 9px}
+.betaAnalyticsGroupTitle{font-size:12px;font-weight:900;color:#163f5d;margin-bottom:5px}
+.betaAnalyticsRows{display:flex;gap:5px;flex-wrap:wrap}
+.betaAnalyticsRow{font-size:12px;color:#314d60;background:#fff;border:1px solid #d9e3e9;border-radius:6px;padding:4px 6px}
+.betaAnalyticsEmpty{font-size:12px;color:#6a7d89}
 .betaTesterAccess{background:#fff;border:1px solid #c9d7e0;border-radius:10px;padding:11px 12px;margin:0 0 13px}
 .betaTesterAccessTitle{font-size:15px;font-weight:900;color:#163f5d;margin-bottom:7px}
 .betaTesterAccessHelp{font-size:12px;color:#5c6e7a;margin-bottom:8px}
@@ -792,7 +808,7 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 .betaSimpleFlag.user{background:#fff0ee;border-color:#e6b5b0;color:#7d2922}
 .betaSimpleStatus{font-size:12px;font-weight:800;color:#176b39;margin-top:7px;text-align:right}
 .betaReviewEmpty{background:#fff;border:1px solid #d3dde4;border-radius:10px;padding:16px;text-align:center;font-weight:800;color:#36556a}
-@media(max-width:720px){.responseReviewPanel{font-size:12px;padding:10px}.responseReviewRatings{display:grid;grid-template-columns:1fr}.responseReviewRating{width:100%}.responseReviewComment{width:100%}.betaReviewDashboard{width:calc(100% - 20px);padding:12px}.betaReviewToken{min-width:0;width:100%}.betaReviewControls{width:100%}.betaSimpleInput{font-size:14px}.betaSimpleResult{font-size:13px}.clarificationActions button{width:100%}}
+@media(max-width:720px){.responseReviewPanel{font-size:12px;padding:10px}.responseReviewRatings{display:grid;grid-template-columns:1fr}.responseReviewRating{width:100%}.responseReviewComment{width:100%}.betaReviewDashboard{width:calc(100% - 20px);padding:12px}.betaReviewToken{min-width:0;width:100%}.betaReviewControls{width:100%}.betaSimpleInput{font-size:14px}.betaSimpleResult{font-size:13px}.clarificationActions button{width:100%}.betaAnalyticsGroups{grid-template-columns:1fr}}
 
 
 /* BM_FE_AIV_v2270_SFH — Claims workspace access and overall-feedback history repair. */
@@ -814,6 +830,11 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 .betaReviewRoundButton{margin:0!important;background:#1f6f98!important;color:#fff!important;font-size:13px!important;padding:8px 11px!important}
 .betaReviewArchiveToggle{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#31536a}
 .betaReviewRoundLabel{font-size:13px;font-weight:900;color:#174b69;background:#eaf4fb;border:1px solid #b8d3e4;border-radius:8px;padding:7px 9px}.betaReviewRoundSelect{min-height:36px;border:1px solid #9fb5c4;border-radius:8px;background:#fff;color:#17354c;font-weight:850;padding:7px 34px 7px 10px;font-size:13px}
+.betaReviewBulkControls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 12px;padding:9px 10px;background:#fff8e8;border:1px solid #e2c98e;border-radius:9px}
+.betaReviewBulkLabel{font-size:13px;font-weight:900;color:#604614}
+.betaReviewBulkInput{min-height:36px;border:1px solid #bda66e;border-radius:8px;background:#fff;color:#17354c;font-weight:800;padding:7px 9px;font-size:13px}
+.betaReviewBulkButton{margin:0!important;background:#8a6110!important;color:#fff!important;font-size:13px!important;padding:8px 11px!important;box-shadow:none!important}
+.betaReviewBulkStatus{font-size:12px;font-weight:850;color:#36556a}
 .betaOverallFeedback{margin:12px 0 16px;background:#f7fbfd;border:1px solid #c9dbe6;border-radius:10px;padding:12px}
 .betaOverallFeedbackTitle{font-size:15px;font-weight:900;color:#123e5c;margin-bottom:8px}
 .betaOverallFeedbackItem{background:#fff;border:1px solid #d4e0e7;border-radius:8px;padding:9px 10px;margin-top:7px}
@@ -827,6 +848,8 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
   .overallTesterFeedbackSave{width:100%;margin-bottom:6px!important}
   .betaReviewRoundControls{align-items:stretch}
   .betaReviewRoundButton{width:100%}
+  .betaReviewBulkControls{align-items:stretch}
+  .betaReviewBulkInput,.betaReviewBulkButton{width:100%}
 }
 
 </style>
@@ -906,7 +929,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   <div class="betaReviewHeader"><div><div id="betaReviewTitle" class="betaReviewTitle">Beta Scan Review</div><div class="betaReviewSubtitle">Review each unique scan in the same order it was received. Technical data remains stored but hidden.</div></div><div class="betaReviewControls"><a id="betaReviewReturn" class="betaReviewButton betaReviewReturn" href="./">Open AIVerify</a><input id="betaReviewToken" class="betaReviewToken" type="password" autocomplete="off" placeholder="Analytics admin token"><button type="button" id="betaReviewLoad" class="betaReviewButton">Refresh</button></div></div>
   <div id="betaReviewMessage" class="betaReviewMessage"></div>
   <div class="betaReviewRoundControls"><button type="button" id="betaReviewStartRound" class="betaReviewRoundButton">Start New Test Round</button><label class="betaReviewArchiveToggle" for="betaReviewRoundSelect">View test round:</label><select id="betaReviewRoundSelect" class="betaReviewRoundSelect"><option value="">Current test round</option></select><span id="betaReviewRoundLabel" class="betaReviewRoundLabel">Current test round</span></div>
+  <div class="betaReviewBulkControls"><span class="betaReviewBulkLabel">Bulk close older scans:</span><input id="betaReviewBulkCutoff" class="betaReviewBulkInput" type="datetime-local" aria-label="Mark scans before this date and time reviewed"><button type="button" id="betaReviewBulkReviewed" class="betaReviewBulkButton">Mark Earlier Scans Reviewed</button><span id="betaReviewBulkStatus" class="betaReviewBulkStatus"></span></div>
   <div id="betaReviewSummary"></div>
+  <div id="betaAnalyticsSummary" class="betaAnalyticsSummary" hidden></div>
   <div id="betaTesterAccess" class="betaTesterAccess"></div>
   <div id="betaOverallFeedback" class="betaOverallFeedback"><div class="betaOverallFeedbackTitle">Overall Tester Feedback</div><div id="betaOverallFeedbackList"></div></div>
   <div class="betaReviewOrderControls"><span class="betaReviewOrderLabel">Show:</span><button type="button" id="betaReviewOldest" class="betaReviewOrderButton">Oldest first</button><button type="button" id="betaReviewNewest" class="betaReviewOrderButton isActive">Newest first</button></div>
@@ -921,7 +946,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2322";
+  const FRONTEND_VERSION="frontend v2324";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1622,6 +1647,45 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     node.innerHTML='<div class="betaReviewProgress">'+items.map(function(item){return '<button type="button" class="betaReviewProgressItem'+(AIV_BETA_REVIEW_FILTER===item[0]?' isActive':'')+'" data-review-filter="'+esc(item[0])+'">'+esc(item[1])+' <b>'+esc(item[2])+'</b></button>';}).join('')+'</div>';
     node.querySelectorAll('[data-review-filter]').forEach(function(button){button.addEventListener('click',function(){aivSetBetaReviewFilter(String(button.getAttribute('data-review-filter')||''));});});
   }
+  function aivAnalyticsDisplayVersion(value){
+    const text=String(value||'').trim();
+    const match=text.match(/(?:FOUNDATION_)?V(\d+)$/i);
+    return match?'Analytics V'+match[1]:(text||'Analytics');
+  }
+  function aivAnalyticsSeconds(ms){
+    const n=Number(ms||0);if(!Number.isFinite(n)||n<0)return '0s';
+    return n<1000?Math.round(n)+'ms':(Math.round(n/100)/10)+'s';
+  }
+  function aivAnalyticsLabel(value){
+    const key=String(value||'').trim();
+    const labels={PHONE:'Phone',TABLET:'Tablet',DESKTOP:'Desktop',UNKNOWN:'Unknown',UNDER_2S:'Under 2s','2_TO_5S':'2–5s','5_TO_10S':'5–10s','10S_PLUS':'10s+',MODEL_KNOWLEDGE:'OpenAI',CURRENT_INFORMATION_LOOKUP:'Current information',EXTERNAL_REFERENCE:'External reference',LOCAL_OR_PRIMARY:'Local / primary',UNSPECIFIED:'Unspecified'};
+    return labels[key]||key.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase();});
+  }
+  function aivAnalyticsRows(title,values){
+    const source=values&&typeof values==='object'?values:{};
+    const keys=Object.keys(source).filter(function(key){return Number(source[key]||0)>0;}).sort(function(a,b){return Number(source[b]||0)-Number(source[a]||0)||String(a).localeCompare(String(b));});
+    return '<div class="betaAnalyticsGroup"><div class="betaAnalyticsGroupTitle">'+esc(title)+'</div><div class="betaAnalyticsRows">'+(keys.length?keys.map(function(key){return '<span class="betaAnalyticsRow">'+esc(aivAnalyticsLabel(key))+' <b>'+esc(source[key])+'</b></span>';}).join(''):'<span class="betaAnalyticsEmpty">No data yet</span>')+'</div></div>';
+  }
+  function aivRenderAnalyticsSummary(data){
+    const node=el('betaAnalyticsSummary');if(!node)return;
+    const periods=data&&data.periods||{};const today=periods.today||{};
+    if(!data||!data.ok){node.hidden=true;node.innerHTML='';return;}
+    const stats=[
+      ['Scans',today.scans||0],['Qualifying',today.qualifyingScans||0],['Avg response',aivAnalyticsSeconds(today.averageResponseTimeMs)],['Cache hits',today.cacheHitScans||0],['Paid API',today.paidApiScans||0],['Current info',today.currentInformationLookupScans||0]
+    ];
+    const cost=Number(today.totalApiCostUsd||0);if(cost>0)stats.push(['API cost','$'+cost.toFixed(cost<.01?4:2)]);
+    node.innerHTML='<div class="betaAnalyticsHeader"><div class="betaAnalyticsTitle">'+esc(aivAnalyticsDisplayVersion(data.analyticsVersion))+'</div><div class="betaAnalyticsPeriod">Today · '+esc(today.startDate||'')+'</div></div><div class="betaAnalyticsStats">'+stats.map(function(item){return '<span class="betaAnalyticsStat">'+esc(item[0])+' <b>'+esc(item[1])+'</b></span>';}).join('')+'</div><div class="betaAnalyticsGroups">'+aivAnalyticsRows('Categories',today.releaseCategoryCounts)+aivAnalyticsRows('Devices',today.deviceTypeCounts)+aivAnalyticsRows('Response time',today.speedBandCounts)+aivAnalyticsRows('Source tier',today.sourceTierCounts)+'</div>';
+    node.hidden=false;
+  }
+  async function aivLoadAnalyticsSummary(){
+    const node=el('betaAnalyticsSummary');
+    try{
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/summary?_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
+      const data=await response.json().catch(function(){return {};});
+      if(!response.ok||!data.ok)throw new Error(data.error||'Analytics summary could not be loaded.');
+      aivRenderAnalyticsSummary(data);
+    }catch(_error){if(node){node.hidden=true;node.innerHTML='';}}
+  }
   function aivRenderTesterAccess(data){
     const node=el('betaTesterAccess');if(!node)return;
     const accounts=data&&Array.isArray(data.testerAccounts)?data.testerAccounts:[];
@@ -1697,6 +1761,40 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }catch(error){aivReviewSetMessage(String(error&&error.message||error||'The new test round could not be started.'),false);}
     finally{if(button)button.disabled=false;}
   }
+  function aivReviewTimestamp(event){
+    const candidates=[event&&event.displayTimestamp,event&&event.timestamp,event&&event.pendingSinceAt];
+    for(let index=0;index<candidates.length;index+=1){const date=new Date(String(candidates[index]||''));if(Number.isFinite(date.getTime()))return date.getTime();}
+    return NaN;
+  }
+  async function aivBulkReviewBeforeCutoff(){
+    const input=el('betaReviewBulkCutoff');const button=el('betaReviewBulkReviewed');const status=el('betaReviewBulkStatus');
+    const raw=String(input&&input.value||'').trim();
+    if(status){status.style.color='#8a2d24';status.textContent='';}
+    if(!raw){if(status)status.textContent='Choose the cutoff date and time first.';return;}
+    const cutoff=new Date(raw);if(!Number.isFinite(cutoff.getTime())){if(status)status.textContent='That cutoff date/time is not valid.';return;}
+    if(button)button.disabled=true;if(status){status.style.color='#36556a';status.textContent='Finding older unreviewed scans…';}
+    try{
+      const queueResponse=await fetch(BACKEND_BASE_URL+'/analytics/review-queue?limit=500&qualifying=1&filter=unreviewed&order=oldest&round=all&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
+      const queue=await queueResponse.json().catch(function(){return {};});
+      if(!queueResponse.ok||!queue.ok)throw new Error(queue.error||'The unreviewed scan list could not be loaded.');
+      const events=Array.isArray(queue.events)?queue.events:[];
+      const eligible=events.filter(function(item){const stamp=aivReviewTimestamp(item);return Number.isFinite(stamp)&&stamp<cutoff.getTime();});
+      if(!eligible.length){if(status){status.style.color='#176b39';status.textContent='No unreviewed scans are earlier than that cutoff.';}return;}
+      const total=Number(queue.counts&&queue.counts.unreviewed||events.length);
+      if(total>events.length&&eligible.length===events.length){throw new Error('More than 500 older scans match this cutoff. Narrow the cutoff or clear them in more than one pass.');}
+      const eventIds=[];eligible.forEach(function(item){const ids=Array.isArray(item.reviewEventIds)&&item.reviewEventIds.length?item.reviewEventIds:[item.eventId];ids.forEach(function(id){id=String(id||'').trim();if(id&&eventIds.indexOf(id)<0)eventIds.push(id);});});
+      const cutoffLabel=cutoff.toLocaleString([], {year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'});
+      if(!window.confirm('Mark '+eligible.length+' unique unreviewed scan'+(eligible.length===1?'':'s')+' tested before '+cutoffLabel+' as Reviewed?\n\nNothing will be deleted.')){if(status)status.textContent='Bulk review canceled.';return;}
+      if(status)status.textContent='Marking '+eligible.length+' older scans Reviewed…';
+      const headers=aivReviewAdminHeaders();headers['content-type']='application/json';
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/review/update',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({eventIds:eventIds,review:{reviewed:true}})});
+      const data=await response.json().catch(function(){return {};});
+      if(!response.ok||!data.ok)throw new Error(data.error||'The older scans could not be marked Reviewed.');
+      if(status){status.style.color='#176b39';status.textContent='Marked '+eligible.length+' older scans Reviewed.';}
+      await aivLoadBetaReview();
+    }catch(error){if(status){status.style.color='#8a2d24';status.textContent=String(error&&error.message||error||'Bulk review could not be completed.');}}
+    finally{if(button)button.disabled=false;}
+  }
   function aivFriendlyAutomaticFlag(event){
     const value=String(event.failureCategory||(event.qualityFlags&&event.qualityFlags[0])||'Review suggested').replace(/_/g,' ').toLowerCase();
     return value.charAt(0).toUpperCase()+value.slice(1);
@@ -1766,7 +1864,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       try{sessionStorage.setItem('aiv_beta_review_token',aivReviewAdminToken());}catch(_e){}
       aivRenderRoundSelector(queue);
       const roundLabel=el('betaReviewRoundLabel');if(roundLabel)roundLabel.textContent=(queue.selectedRound&&queue.selectedRound.label||queue.round&&queue.round.label||'Current test round');
-      aivRenderReviewSummary(queue);aivRenderTesterAccess(queue);aivRenderOverallFeedback(queue);aivRenderReviewQueue(queue);const total=Number(queue.counts&&queue.counts[info.countKey]||0);const orderLabel=AIV_BETA_REVIEW_ORDER==='newest'?'newest first':'oldest first';aivReviewSetMessage(queue.count?'Showing '+queue.count+' of '+total+' '+info.title.toLowerCase()+' — '+orderLabel+'.':info.empty,true);
+      aivRenderReviewSummary(queue);aivRenderTesterAccess(queue);aivRenderOverallFeedback(queue);aivRenderReviewQueue(queue);aivLoadAnalyticsSummary();const total=Number(queue.counts&&queue.counts[info.countKey]||0);const orderLabel=AIV_BETA_REVIEW_ORDER==='newest'?'newest first':'oldest first';aivReviewSetMessage(queue.count?'Showing '+queue.count+' of '+total+' '+info.title.toLowerCase()+' — '+orderLabel+'.':info.empty,true);
     }catch(error){aivReviewSetMessage(String(error&&error.message||error||'Review queue could not be loaded.'),false);}
   }
   function aivInitBetaReview(){
@@ -1777,6 +1875,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const token=el('betaReviewToken');try{if(token)token.value=sessionStorage.getItem('aiv_beta_review_token')||'';}catch(_e){}
     const load=el('betaReviewLoad');if(load)load.onclick=aivLoadBetaReview;
     const startRound=el('betaReviewStartRound');if(startRound)startRound.onclick=aivStartNewReviewRound;
+    const bulkReviewed=el('betaReviewBulkReviewed');if(bulkReviewed)bulkReviewed.onclick=aivBulkReviewBeforeCutoff;
     const roundSelect=el('betaReviewRoundSelect');if(roundSelect)roundSelect.onchange=function(){AIV_BETA_SELECTED_ROUND=String(roundSelect.value||'all');aivLoadBetaReview();};
     const oldest=el('betaReviewOldest');const newest=el('betaReviewNewest');
     function setOrder(order){AIV_BETA_REVIEW_ORDER=order==='newest'?'newest':'oldest';if(oldest)oldest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='oldest');if(newest)newest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='newest');aivLoadBetaReview();}
