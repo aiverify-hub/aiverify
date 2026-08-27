@@ -1,4 +1,7 @@
-// ANALYTICS_REVIEW_FOUNDATION_V15: preserves the complete V12 review-round, disclosure, feedback, and grouping foundation; hardens exact repeated-scan grouping and adds persisted tester-rating removal.
+// ANALYTICS_REVIEW_FOUNDATION_V17: preserves all V16 release-priority analytics and
+// recognizes the simplified user-facing Source: OpenAI label as MODEL_KNOWLEDGE.
+// 
+// ANALYTICS_REVIEW_FOUNDATION_V17: R1 release-priority analytics over V15. Preserves review rounds, grouping, feedback, duplicate handling, provider/cost tracking, and persistent storage; adds high-use category, device, speed-band, execution-path, cache-status, and source-tier statistics so beta usage can guide release priorities.
 // V13/V14 behavior is consolidated into the V15 grouping and feedback boundary.
 // ANALYTICS_REVIEW_FOUNDATION_V12: records whether expandable details were available and reviewed before tester feedback was saved; preserves all V11 storage, rounds, grouping, and review behavior.
 'use strict';
@@ -8,7 +11,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V15';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V17';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
@@ -474,11 +477,56 @@ function sourceTier(contract, route) {
   const source = clean(value.source || value.sourceBasis || '');
   const url = clean(value.sourceUrl || value.primarySourceUrl || '');
   const normalizedRoute = clean(route || value.route || '').toLowerCase();
-  if (/openai model knowledge/i.test(source)) return 'MODEL_KNOWLEDGE';
+  if (/^(?:openai|openai model knowledge)$/i.test(source)) return 'MODEL_KNOWLEDGE';
   if (/scripture/i.test(source) || /local-kjv|faith\/local|scripture\/local/i.test(normalizedRoute)) return 'LOCAL_SOURCE';
   if (/live|web-search|openai-web|current/i.test(normalizedRoute)) return 'CURRENT_INFORMATION_LOOKUP';
   if (url || source) return 'EXTERNAL_REFERENCE';
   return 'UNSPECIFIED';
+}
+
+function r1DeviceType(req) {
+  const ua = clean(req && req.headers && req.headers['user-agent'] || '').toLowerCase();
+  if (!ua) return 'UNKNOWN';
+  if (/\b(?:ipad|tablet|kindle|silk)\b/.test(ua) || (/\bandroid\b/.test(ua) && !/\bmobile\b/.test(ua))) return 'TABLET';
+  if (/\b(?:iphone|ipod|android|mobile|windows phone)\b/.test(ua)) return 'PHONE';
+  return 'DESKTOP';
+}
+
+function r1SpeedBand(durationMs) {
+  const ms = Math.max(0, finiteNumber(durationMs, 0));
+  if (ms < 2000) return 'UNDER_2S';
+  if (ms < 5000) return '2_TO_5S';
+  if (ms < 10000) return '5_TO_10S';
+  return '10S_PLUS';
+}
+
+function r1ReleaseCategory(input, primary, route, requestKind) {
+  const raw = clean(input);
+  const s = raw.toLowerCase();
+  const r = clean(route).toLowerCase();
+  const classification = clean(primary && primary.classification || '').toLowerCase();
+  const kind = clean(requestKind).toLowerCase();
+  const type = inputType(raw, primary && primary.inputType || '');
+
+  if (kind === 'ai-media' || /ai-detection|ai[_ -]?generated|ai[_ -]?altered/.test(r + ' ' + classification)) return 'AI Creation';
+  if (/(?:specific_content_url|video_url|multi_url|document_or_long_text)/i.test(type) || /https?:\/\//i.test(raw) ||
+      (/\b(?:check|review|verify|fact[- ]?check|analy[sz]e)\b/.test(s) && /\b(?:claim|page|webpage|video|document|article|post|url)\b/.test(s))) {
+    return 'Review a Claim, Page, Video or Document';
+  }
+  if (/\b(?:bible|biblical|scripture|kjv|jesus|god|lord|christ|sin|verse|verses|proverbs|psalm|gospel|forgive|forgiveness)\b/.test(s) ||
+      /faith|scripture|kjv|moral/.test(r + ' ' + classification)) return 'Faith & Scripture';
+  if (/\b(?:health|medical|medicine|drug|medication|antibiotic|virus|bacteria|symptom|disease|injury|food safety|poison|carbon monoxide|dehydrat|fire|danger|dangerous|safe|safety|charger|battery|sleep|sunburn|allergy)\b/.test(s)) {
+    return 'Safety & Health';
+  }
+  if (/\b(?:money|loan|credit|debit|apr|interest|bank|banking|mortgage|warranty|guarantee|consumer|store|price|cost|pay|salary|wage|job|work|employment|tax|refund|insurance|purchase|buy|scam|legitimate)\b/.test(s)) {
+    return 'Money, Work & Consumer Questions';
+  }
+  if (/\b(?:parent|parents|teen|teenager|child|children|friend|friendship|dating|relationship|bully|bullied|cyberbully|private photo|private message|peer pressure|controlling)\b/.test(s)) {
+    return 'Relationships, Parents & Teens';
+  }
+  if (/\b(?:should i|is it wrong|is it right|right or wrong|lie|lying|honest|honesty|promise|gossip|mistake|take credit|extra change|call in sick|ethical|ethics)\b/.test(s) ||
+      /moral|qualified-moral|wrongdoing/.test(r + ' ' + classification)) return 'Everyday Decisions';
+  return 'Facts, Science & History';
 }
 
 function visibleResultFromContracts(contracts, body) {
@@ -795,6 +843,13 @@ function periodTotals(events, allEvents) {
   const activeTesters = new Set();
   let paidApiScans = 0;
   let currentInformationLookupScans = 0;
+  let cacheHitScans = 0;
+  let totalDurationMs = 0;
+  const categoryCounts = {};
+  const deviceCounts = {};
+  const speedBandCounts = {};
+  const scanPathCounts = {};
+  const sourceTierCounts = {};
   let totalCost = 0;
   let unpricedOperations = 0;
 
@@ -802,6 +857,18 @@ function periodTotals(events, allEvents) {
     if (event.testerId) activeTesters.add(event.testerId);
     if (event.paidApiUse) paidApiScans += 1;
     if (event.currentInformationLookup) currentInformationLookupScans += 1;
+    if (clean(event.cacheStatus).toUpperCase() === 'HIT') cacheHitScans += 1;
+    totalDurationMs += Math.max(0, finiteNumber(event.durationMs, 0));
+    const releaseCategory = clean(event.releaseCategory || 'Unclassified') || 'Unclassified';
+    const device = clean(event.deviceType || 'UNKNOWN') || 'UNKNOWN';
+    const speed = clean(event.speedBand || r1SpeedBand(event.durationMs)) || 'UNKNOWN';
+    const scanPath = clean(event.scanPath || 'UNSPECIFIED') || 'UNSPECIFIED';
+    const tier = clean(event.sourceTier || 'UNSPECIFIED') || 'UNSPECIFIED';
+    categoryCounts[releaseCategory] = (categoryCounts[releaseCategory] || 0) + 1;
+    deviceCounts[device] = (deviceCounts[device] || 0) + 1;
+    speedBandCounts[speed] = (speedBandCounts[speed] || 0) + 1;
+    scanPathCounts[scanPath] = (scanPathCounts[scanPath] || 0) + 1;
+    sourceTierCounts[tier] = (sourceTierCounts[tier] || 0) + 1;
     (Array.isArray(event.providerUsage) ? event.providerUsage : []).forEach(function (operation) {
       const provider = providers[operation.provider] || (providers[operation.provider] = providerTemplate(operation.provider));
       if (operation.actualRequest) provider.requests += Math.max(1, Number(operation.requestCount) || 1);
@@ -842,6 +909,13 @@ function periodTotals(events, allEvents) {
     duplicateOrNearDuplicateScans: Math.max(0, qualifyingEvents.length - qualifyingScans),
     paidApiScans: paidApiScans,
     currentInformationLookupScans: currentInformationLookupScans,
+    cacheHitScans: cacheHitScans,
+    averageResponseTimeMs: events.length ? Math.round(totalDurationMs / events.length) : 0,
+    releaseCategoryCounts: categoryCounts,
+    deviceTypeCounts: deviceCounts,
+    speedBandCounts: speedBandCounts,
+    scanPathCounts: scanPathCounts,
+    sourceTierCounts: sourceTierCounts,
     failuresOrReviewRequiredScans: failuresReviewRequiredScans,
     activeTesters: activeTesters.size,
     providers: providers,
@@ -1244,6 +1318,12 @@ function createAnalyticsReviewFoundation(options) {
         automaticFlag: reviewRequired,
         qualityFlags: flags,
         durationMs: Math.max(0, Math.round(finiteNumber(data.durationMs, Date.now() - (store.startedAt || Date.now())))),
+        speedBand: r1SpeedBand(data.durationMs == null ? Date.now() - (store.startedAt || Date.now()) : data.durationMs),
+        releaseCategory: r1ReleaseCategory(inputExact, primary, route, data.requestKind || store.requestKind),
+        deviceType: r1DeviceType(data.req),
+        scanPath: clean(data.scanPath || '').slice(0, 80) || 'UNSPECIFIED',
+        cacheStatus: clean(data.cacheStatus || '').toUpperCase().slice(0, 20) || 'MISS',
+        requestKind: clean(data.requestKind || store.requestKind || 'scan').slice(0, 40),
         route: route,
         classification: clean(primary.classification || data.classification || '').slice(0, 240),
         analysisResult: clean(primary.analysisResult || primary.status || data.analysisResult || '').slice(0, 240),
@@ -1651,7 +1731,12 @@ function createAnalyticsReviewFoundation(options) {
       currentReviewRound: clone(currentReviewRound),
       reviewRounds: publicReviewRounds(),
       roundSelectionEnabled: true,
-      providerUsageTrackingEnabled: true
+      providerUsageTrackingEnabled: true,
+      releaseCategoryTrackingEnabled: true,
+      deviceTypeTrackingEnabled: true,
+      responseTimeBandTrackingEnabled: true,
+      executionPathTrackingEnabled: true,
+      cacheStatusTrackingEnabled: true
     };
   }
 
