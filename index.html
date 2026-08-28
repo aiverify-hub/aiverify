@@ -1,3 +1,4 @@
+<!-- BM_FE_AIV_v2328_PDR: parsed diagnostic review display over deployed v2326. Preserves v2326 Returned Tester Check, local Read flags, bulk review cleanup, Analytics V17 display, all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior, and backend v3228 compatibility. Beta Review only: when a stored Complete result is a large internal diagnostic dump, show a compact parsed summary (failure/outcome, backend, route/request type, resolved title/transcript status when available) and keep the full raw dump collapsed under Show full technical dump. Ordinary scan results are unchanged. Built directly from v2326; the unused v2327 review-filter experiment is not included. FRONTEND-ONLY review readability update; no scan/result/backend/analytics collection logic change. -->
 <!-- BM_FE_AIV_v2326_RTD: returned-tester diagnostics over v2325. Preserves v2325 local Read flags, v2324 bulk review cleanup, Analytics V17 display, and all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior with backend v3228 compatibility. Adds an administrator-only browser-local Returned Tester Check: paste Prolific Returned participant IDs, compare them against existing Analytics V17 testerUsage to identify no sign-in, signed-in/no-scan, partial-scan, and 4+-scan activity, and optionally filter the review queue to scans from those returned testers. Prolific return status is not inferred or stored by AIVerify; IDs are supplied by the administrator and saved only in this browser. FRONTEND-ONLY review workflow update; no scan/result/backend/analytics collection logic change. -->
 <!-- BM_FE_AIV_v2325_RFL: beta-review local Read flag over v2324. Preserves v2324 Analytics V17 display, bulk review cleanup, all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior, and backend v3228 compatibility. Adds a browser-local Read checkbox to each Beta Review scan card so an administrator can visually track which cards have been examined without marking them Reviewed, moving them to the archive, changing filters, or writing review state to the backend. Read flags persist locally across refreshes in the same browser and can be unchecked at any time. FRONTEND-ONLY review workflow update; no scan/result/backend/analytics logic change. -->
 <!-- BM_FE_AIV_v2324_BRC: beta-review bulk cleanup over v2323. Preserves the v2323 Analytics V17 dashboard display and all v2322 scan, auth, rendering, tester-feedback, review, cartoon, and analytics behavior. Adds an administrator-only bulk review control that marks all qualifying unreviewed scans before a chosen local date/time as Reviewed in one protected update, without deleting scans or changing tester feedback. Intended for clearing pre-round test history when a new test round was not started before paid testing. FRONTEND-ONLY review workflow update; no scan/result/backend logic change. -->
@@ -825,6 +826,13 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 .betaSimpleInput,.betaSimpleResult{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafb;border:1px solid #d9e2e8;border-radius:8px;padding:10px 11px;color:#111;line-height:1.42}
 .betaSimpleInput{font-size:15px;font-weight:800}
 .betaSimpleResult{font-size:14px;background:#fff}
+
+.betaDumpSummary{background:#f7fafc;border:1px solid #d6e1e8;border-radius:8px;padding:9px 10px}
+.betaDumpSummaryTitle{font-weight:900;color:#173f5f;margin-bottom:5px}
+.betaDumpRow{margin:2px 0;line-height:1.35}
+.betaTechnicalDetails{margin-top:7px;background:#f6f8fa;border:1px solid #d8dee4;border-radius:8px;padding:7px 9px}
+.betaTechnicalDetails summary{cursor:pointer;font-weight:900;color:#394b59}
+.betaTechnicalDetails pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:360px;overflow:auto;margin:7px 0 0;font-size:11px;line-height:1.25;color:#222}
 .betaSimpleFlag{margin:9px 0 0;padding:8px 10px;border-radius:7px;background:#fff4e8;border:1px solid #e8c498;font-size:13px;font-weight:800;color:#653b0d}
 .betaSimpleFlag.user{background:#fff0ee;border-color:#e6b5b0;color:#7d2922}
 .betaSimpleStatus{font-size:12px;font-weight:800;color:#176b39;margin-top:7px;text-align:right}
@@ -974,7 +982,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2326";
+  const FRONTEND_VERSION="frontend v2328";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1894,6 +1902,40 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     try{localStorage.setItem(AIV_BETA_READ_FLAGS_KEY,JSON.stringify(map));}catch(_e){}
     item.classList.toggle('isLocallyRead',!!box.checked);
   }
+  function aivReviewTechnicalDumpLooksRaw(value){
+    const raw=String(value||'');if(!raw)return false;
+    const lines=raw.split(/\r?\n/).map(function(line){return line.trim();}).filter(Boolean);
+    let hits=0;
+    lines.forEach(function(line){if(/^(?:Backend:|INPUT_CLASSIFICATION_|CLASSIFICATION_|REQUEST_|CURL_|URL_|PORTAL_|LISTING_|MULTI_|TARGET_|GIBBERISH_|BROAD_|AIV_|VIDEO_|ANSWER_INTEGRITY_|UNIFIED_|FRONTEND_)/i.test(line))hits+=1;});
+    if(hits>=4)return true;
+    return raw.length>1600&&/(?:INPUT_CLASSIFICATION_STAGE_REACHED|technicalDiagnostics|bindingStage|videoLinkTitleLookup|CLASSIFICATION_WINNER|AIV_VIDEO_AUTH_CONTRACT_COUNT)/i.test(raw);
+  }
+  function aivReviewTechnicalField(raw,patterns){
+    const text=String(raw||'');
+    for(let i=0;i<patterns.length;i+=1){const match=text.match(patterns[i]);if(match&&String(match[1]||'').trim())return String(match[1]).trim().replace(/\\"/g,'"').replace(/\\n/g,' ');}
+    return '';
+  }
+  function aivReviewTechnicalSummaryHtml(raw,event){
+    const rows=[];const seen=new Set();
+    function add(label,value){value=String(value||'').trim();if(!value)return;const key=(label+'|'+value).toLowerCase();if(seen.has(key))return;seen.add(key);rows.push('<div class="betaDumpRow"><strong>'+esc(label)+':</strong> '+esc(value)+'</div>');}
+    const failure=String(event&&event.failureCategory||'').trim();
+    const quality=event&&Array.isArray(event.qualityFlags)&&event.qualityFlags.length?String(event.qualityFlags[0]||'').trim():'';
+    if(failure)add('Failure',aivFriendlyAutomaticFlag({failureCategory:failure}));else if(quality)add('Flag',String(quality).replace(/_/g,' '));
+    const backend=aivReviewTechnicalField(raw,[/Backend:\s*([^|\n]+)/i,/"backendVersion"\s*:\s*"([^"]+)"/i]);
+    const route=aivReviewTechnicalField(raw,[/\broute\s*:\s*([^|;\n}]+)/i,/"route"\s*:\s*"([^"]+)"/i,/URL_ROUTING_DECISION:\s*([^;\n]+)/i]);
+    const requestType=aivReviewTechnicalField(raw,[/REQUEST_TYPE:\s*([^;\n]+)/i,/"requestType"\s*:\s*"([^"]+)"/i]);
+    const title=aivReviewTechnicalField(raw,[/"videoTitle"\s*:\s*"([^"]{1,220})"/i,/"title"\s*:\s*"([^"]{1,220})"/i,/"exactVideoTitle"\s*:\s*"([^"]{1,220})"/i]);
+    const failReason=aivReviewTechnicalField(raw,[/"failureReason"\s*:\s*"([^"]{1,220})"/i,/failureReason\s*[:=]\s*([^,;}\n]+)/i]);
+    add('Backend',backend);add('Route',route);add('Request type',requestType);add('Resolved title',title);add('Reason',failReason);
+    const transcriptYes=/(?:"(?:transcriptRetrieved|externalTranscriptRetrieved|supadataTranscriptRetrieved)"\s*:\s*true|(?:transcriptRetrieved|externalTranscriptRetrieved|supadataTranscriptRetrieved)\s*[:=]\s*true)/i.test(raw);
+    const transcriptNo=/(?:"(?:transcriptRetrieved|externalTranscriptRetrieved|supadataTranscriptRetrieved)"\s*:\s*false|(?:transcriptRetrieved|externalTranscriptRetrieved|supadataTranscriptRetrieved)\s*[:=]\s*false)/i.test(raw);
+    if(transcriptYes)add('Transcript','Retrieved');else if(transcriptNo)add('Transcript','Not retrieved');
+    if(!rows.length)add('Result','Internal diagnostic output; open Technical details only if needed.');
+    return '<div class="betaDumpSummary"><div class="betaDumpSummaryTitle">Technical result summary</div>'+rows.join('')+'</div><details class="betaTechnicalDetails"><summary>Show full technical dump</summary><pre>'+esc(raw)+'</pre></details>';
+  }
+  function aivReviewResultHtml(visible,event){
+    return aivReviewTechnicalDumpLooksRaw(visible)?aivReviewTechnicalSummaryHtml(visible,event):esc(visible);
+  }
   function aivRenderReviewQueue(data){
     const node=el('betaReviewQueue');if(!node)return;
     const events=data&&Array.isArray(data.events)?data.events:[];
@@ -1930,7 +1972,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       });
       if(automaticFlagged)flags+='<div class="betaSimpleFlag">Automatically flagged — '+esc(aivFriendlyAutomaticFlag(event))+'</div>';
       const ids=(Array.isArray(event.reviewEventIds)&&event.reviewEventIds.length?event.reviewEventIds:[event.eventId]).filter(Boolean).join(',');
-      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(readKey)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><div class="betaSimpleTopActions"><label class="betaSimpleRead" title="Local visual marker only; does not archive or change review status."><input type="checkbox" data-simple-read'+(locallyRead?' checked':'')+'> Read</label><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+esc(visible)+'</div>'+flags+'<div class="betaSimpleStatus" data-simple-status></div></article>';
+      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(readKey)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><div class="betaSimpleTopActions"><label class="betaSimpleRead" title="Local visual marker only; does not archive or change review status."><input type="checkbox" data-simple-read'+(locallyRead?' checked':'')+'> Read</label><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+aivReviewResultHtml(visible,event)+'</div>'+flags+'<div class="betaSimpleStatus" data-simple-status></div></article>';
     }).join('');
     node.querySelectorAll('[data-simple-read]').forEach(function(box){box.addEventListener('change',aivSaveLocalReadFlag);});
     node.querySelectorAll('[data-simple-reviewed]').forEach(function(box){box.addEventListener('change',aivSaveSimpleReviewed);});
