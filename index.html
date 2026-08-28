@@ -1,3 +1,5 @@
+<!-- BM_FE_AIV_v2326_RTD: returned-tester diagnostics over v2325. Preserves v2325 local Read flags, v2324 bulk review cleanup, Analytics V17 display, and all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior with backend v3228 compatibility. Adds an administrator-only browser-local Returned Tester Check: paste Prolific Returned participant IDs, compare them against existing Analytics V17 testerUsage to identify no sign-in, signed-in/no-scan, partial-scan, and 4+-scan activity, and optionally filter the review queue to scans from those returned testers. Prolific return status is not inferred or stored by AIVerify; IDs are supplied by the administrator and saved only in this browser. FRONTEND-ONLY review workflow update; no scan/result/backend/analytics collection logic change. -->
+<!-- BM_FE_AIV_v2325_RFL: beta-review local Read flag over v2324. Preserves v2324 Analytics V17 display, bulk review cleanup, all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior, and backend v3228 compatibility. Adds a browser-local Read checkbox to each Beta Review scan card so an administrator can visually track which cards have been examined without marking them Reviewed, moving them to the archive, changing filters, or writing review state to the backend. Read flags persist locally across refreshes in the same browser and can be unchecked at any time. FRONTEND-ONLY review workflow update; no scan/result/backend/analytics logic change. -->
 <!-- BM_FE_AIV_v2324_BRC: beta-review bulk cleanup over v2323. Preserves the v2323 Analytics V17 dashboard display and all v2322 scan, auth, rendering, tester-feedback, review, cartoon, and analytics behavior. Adds an administrator-only bulk review control that marks all qualifying unreviewed scans before a chosen local date/time as Reviewed in one protected update, without deleting scans or changing tester feedback. Intended for clearing pre-round test history when a new test round was not started before paid testing. FRONTEND-ONLY review workflow update; no scan/result/backend logic change. -->
 <!-- BM_FE_AIV_v2323_ARD: administrator review-dashboard display repair over v2322. Preserves v2322 duplicate-health-request speed behavior and all scan, auth, rendering, tester-feedback, review, cartoon, and analytics capture behavior. Adds a compact Administrator Analytics V17 summary to Beta Review using the existing protected /analytics/summary endpoint, showing today's scan totals, high-use release categories, device mix, response-time bands, source tiers, cache/current-information/API usage, average response time, and the live analytics module version. FRONTEND-ONLY display update; no analytics collection or backend logic change. -->
 <!-- BM_FE_AIV_v2322_HRG: frontend health-refresh gate over v2321. Removes duplicate backend /health requests on ordinary focus/visibility/page-show events so tab switching cannot compete with a scan request. Startup health refresh remains; BFCache pageshow refresh remains; scan response/version behavior is preserved. Timing diagnostics remain enabled.
@@ -770,6 +772,21 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 
 .betaAnalyticsSummary{background:#fff;border:1px solid #bfd2df;border-radius:10px;padding:11px 12px;margin:0 0 13px;color:#233f53}
 .betaAnalyticsSummary[hidden]{display:none!important}
+
+.betaReturnedCheck{background:#fff8e7;border:1px solid #d9bb78;border-radius:10px;padding:10px 11px;margin:0 0 13px;color:#4a3a18}
+.betaReturnedTitle{font-weight:900;color:#173f5f;margin-bottom:4px}
+.betaReturnedHelp{font-size:12px;color:#5d6670;margin-bottom:7px;line-height:1.35}
+.betaReturnedInput{width:100%;min-height:52px;resize:vertical;border:1px solid #b9c8d3;border-radius:7px;padding:7px 9px;font:12px/1.3 Consolas,monospace;box-sizing:border-box;background:#fff}
+.betaReturnedActions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:7px}
+.betaReturnedButton{border:0;border-radius:7px;background:#1f76a7;color:#fff;font-weight:800;padding:8px 11px;cursor:pointer}
+.betaReturnedButton.secondary{background:#6a7480}
+.betaReturnedStatus{font-size:12px;font-weight:800;color:#36556a}
+.betaReturnedResults{margin-top:8px;display:grid;gap:5px}
+.betaReturnedRow{border:1px solid #d8e0e6;border-radius:7px;background:#fff;padding:6px 8px;font-size:12px}
+.betaReturnedRow b{color:#173f5f}
+.betaReturnedRow.noActivity{background:#fff1f0;border-color:#e4b4b0}
+.betaReturnedRow.partial{background:#fff8e7;border-color:#dfca94}
+.betaReturnedRow.completeLike{background:#eef8f1;border-color:#b9dbc3}
 .betaAnalyticsHeader{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
 .betaAnalyticsTitle{font-size:15px;font-weight:900;color:#123e5c}
 .betaAnalyticsPeriod{font-size:12px;font-weight:800;color:#587082}
@@ -798,8 +815,12 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 .betaSimpleItem.isAutomaticFlagged{border-left:6px solid #d3a329}
 .betaSimpleTop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:9px}
 .betaSimpleNumber{font-weight:900;color:#163d5b}
-.betaSimpleReviewed{display:flex;align-items:center;gap:7px;font-weight:900;cursor:pointer;color:#224258}
-.betaSimpleReviewed input{width:19px;height:19px;margin:0;accent-color:#26734d}
+ .betaSimpleTopActions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.betaSimpleRead,.betaSimpleReviewed{display:flex;align-items:center;gap:7px;font-weight:900;cursor:pointer;color:#224258}
+.betaSimpleRead input,.betaSimpleReviewed input{width:19px;height:19px;margin:0}
+.betaSimpleRead input{accent-color:#2b6f9f}
+.betaSimpleReviewed input{accent-color:#26734d}
+.betaSimpleItem.isLocallyRead{box-shadow:inset 0 0 0 2px rgba(43,111,159,.18),0 3px 9px rgba(20,55,80,.07)}
 .betaSimpleLabel{font-weight:900;color:#233b4d;margin:9px 0 4px}
 .betaSimpleInput,.betaSimpleResult{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafb;border:1px solid #d9e2e8;border-radius:8px;padding:10px 11px;color:#111;line-height:1.42}
 .betaSimpleInput{font-size:15px;font-weight:800}
@@ -932,6 +953,13 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   <div class="betaReviewBulkControls"><span class="betaReviewBulkLabel">Bulk close older scans:</span><input id="betaReviewBulkCutoff" class="betaReviewBulkInput" type="datetime-local" aria-label="Mark scans before this date and time reviewed"><button type="button" id="betaReviewBulkReviewed" class="betaReviewBulkButton">Mark Earlier Scans Reviewed</button><span id="betaReviewBulkStatus" class="betaReviewBulkStatus"></span></div>
   <div id="betaReviewSummary"></div>
   <div id="betaAnalyticsSummary" class="betaAnalyticsSummary" hidden></div>
+  <div id="betaReturnedCheck" class="betaReturnedCheck">
+    <div class="betaReturnedTitle">Returned Tester Check</div>
+    <div class="betaReturnedHelp">Paste Prolific participant IDs from the Returned tab. AIVerify will compare them with stored tester activity; the list is kept only in this browser.</div>
+    <textarea id="betaReturnedIds" class="betaReturnedInput" placeholder="Paste returned Prolific IDs here"></textarea>
+    <div class="betaReturnedActions"><button type="button" id="betaReturnedCheckButton" class="betaReturnedButton">Check Returned Testers</button><button type="button" id="betaReturnedShowScans" class="betaReturnedButton secondary">Show Their Scans</button><span id="betaReturnedStatus" class="betaReturnedStatus"></span></div>
+    <div id="betaReturnedResults" class="betaReturnedResults"></div>
+  </div>
   <div id="betaTesterAccess" class="betaTesterAccess"></div>
   <div id="betaOverallFeedback" class="betaOverallFeedback"><div class="betaOverallFeedbackTitle">Overall Tester Feedback</div><div id="betaOverallFeedbackList"></div></div>
   <div class="betaReviewOrderControls"><span class="betaReviewOrderLabel">Show:</span><button type="button" id="betaReviewOldest" class="betaReviewOrderButton">Oldest first</button><button type="button" id="betaReviewNewest" class="betaReviewOrderButton isActive">Newest first</button></div>
@@ -946,7 +974,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2324";
+  const FRONTEND_VERSION="frontend v2326";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1621,6 +1649,51 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   let AIV_BETA_REVIEW_ORDER='newest';
   let AIV_BETA_REVIEW_FILTER='unreviewed';
   let AIV_BETA_SELECTED_ROUND='';
+  const AIV_RETURNED_TESTERS_KEY='aiv_beta_returned_prolific_ids_v1';
+  let AIV_RETURNED_TESTER_IDS=[];
+  let AIV_RETURNED_ANALYTICS=null;
+  function aivReturnedExtractIds(value){
+    const matches=String(value||'').toLowerCase().match(/\b[a-f0-9]{24}\b/g)||[];
+    return Array.from(new Set(matches));
+  }
+  function aivReturnedSaveIds(ids){
+    AIV_RETURNED_TESTER_IDS=Array.isArray(ids)?ids:[];
+    try{localStorage.setItem(AIV_RETURNED_TESTERS_KEY,AIV_RETURNED_TESTER_IDS.join('\n'));}catch(_e){}
+  }
+  function aivReturnedUsageByName(data){
+    const map={};const rows=data&&Array.isArray(data.testerUsage)?data.testerUsage:[];
+    rows.forEach(function(row){const key=String(row&&row.testerName||'').trim().toLowerCase();if(key)map[key]=row;});
+    return map;
+  }
+  function aivRenderReturnedTesterResults(data){
+    AIV_RETURNED_ANALYTICS=data||AIV_RETURNED_ANALYTICS;
+    const node=el('betaReturnedResults');const status=el('betaReturnedStatus');if(!node)return;
+    const ids=AIV_RETURNED_TESTER_IDS;
+    if(!ids.length){node.innerHTML='';if(status)status.textContent='Paste Returned participant IDs, then select Check Returned Testers.';return;}
+    const usage=aivReturnedUsageByName(AIV_RETURNED_ANALYTICS);let noSignIn=0,zero=0,partial=0,fourPlus=0;
+    node.innerHTML=ids.map(function(id){
+      const row=usage[id];
+      if(!row){noSignIn+=1;return '<div class="betaReturnedRow noActivity"><b>'+esc(id)+'</b> — no AIVerify account or scan activity found.</div>';}
+      const scans=Number(row.totalScans||0);const qualifying=Number(row.qualifyingScans||0);const failures=Number(row.failuresOrReviewScans||0);
+      if(scans===0){zero+=1;return '<div class="betaReturnedRow noActivity"><b>'+esc(id)+'</b> — signed in / registered, but 0 scans.</div>';}
+      const first=row.firstScanAt?(' · first '+aivReviewDate(row.firstScanAt)):'';const last=row.lastScanAt?(' · last '+aivReviewDate(row.lastScanAt)):'';
+      if(scans<4){partial+=1;return '<div class="betaReturnedRow partial"><b>'+esc(id)+'</b> — '+esc(scans)+' scan'+(scans===1?'':'s')+' ('+esc(qualifying)+' qualifying) · '+esc(failures)+' failure/flag'+(failures===1?'':'s')+esc(first+last)+'</div>';}
+      fourPlus+=1;return '<div class="betaReturnedRow completeLike"><b>'+esc(id)+'</b> — '+esc(scans)+' scans ('+esc(qualifying)+' qualifying) · '+esc(failures)+' failure/flag'+(failures===1?'':'s')+esc(first+last)+'</div>';
+    }).join('');
+    if(status)status.textContent=ids.length+' returned IDs · no sign-in '+noSignIn+' · signed in/0 scans '+zero+' · 1–3 scans '+partial+' · 4+ scans '+fourPlus;
+  }
+  function aivCheckReturnedTesters(){
+    const field=el('betaReturnedIds');const ids=aivReturnedExtractIds(field&&field.value||'');aivReturnedSaveIds(ids);
+    if(field)field.value=ids.join('\n');
+    aivRenderReturnedTesterResults(AIV_RETURNED_ANALYTICS);
+    aivLoadAnalyticsSummary();
+    aivRenderReviewSummary({counts:{}});
+  }
+  function aivShowReturnedTesterScans(){
+    const field=el('betaReturnedIds');const ids=aivReturnedExtractIds(field&&field.value||'');if(ids.length)aivReturnedSaveIds(ids);
+    if(!AIV_RETURNED_TESTER_IDS.length){const status=el('betaReturnedStatus');if(status)status.textContent='Paste Returned participant IDs first.';return;}
+    aivSetBetaReviewFilter('returned-testers');
+  }
   function aivReviewAdminToken(){const node=el('betaReviewToken');return String(node&&node.value||'').trim();}
   function aivReviewAdminHeaders(){const headers={'x-aiv-frontend-version':FRONTEND_VERSION};const token=aivReviewAdminToken();if(token)headers['x-aiv-admin-token']=token;return headers;}
   function aivReviewSetMessage(message,success){const node=el('betaReviewMessage');if(node){node.textContent=String(message||'');node.style.color=success?'#176b39':'#8a2d24';}}
@@ -1632,18 +1705,19 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(name==='acceptable')return {title:'Rated Acceptable',help:'Shows unique scans testers rated Acceptable.',empty:'No scans have been rated Acceptable.',countKey:'acceptable',loading:'Loading Acceptable ratings…'};
     if(name==='needs-improvement')return {title:'Rated Needs Improvement',help:'Shows unique scans testers rated Needs Improvement, including their comments.',empty:'No scans have been rated Needs Improvement.',countKey:'needsImprovement',loading:'Loading Needs Improvement ratings…'};
     if(name==='incorrect')return {title:'Rated Incorrect',help:'Shows unique scans testers rated Incorrect, including their comments.',empty:'No scans have been rated Incorrect.',countKey:'incorrect',loading:'Loading Incorrect ratings…'};
+    if(name==='returned-testers')return {title:'Returned Tester Scans',help:'Shows stored qualifying scans whose tester name matches a Prolific ID pasted into Returned Tester Check.',empty:'No stored scans match the pasted Returned participant IDs.',countKey:'returnedTesters',loading:'Loading scans from returned testers…'};
     return {title:'Unreviewed Unique Scans',help:'Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are stored but shown once. Flagged scans are highlighted.',empty:'No unreviewed qualifying scans are waiting.',countKey:'unreviewed',loading:'Loading unreviewed scans…'};
   }
   function aivApplyReviewFilterLabels(){const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);const title=el('betaReviewQueueTitle');const help=el('betaReviewQueueHelp');if(title)title.textContent=info.title;if(help)help.textContent=info.help;}
   function aivSetBetaReviewFilter(filter){
-    const allowed=['unreviewed','reviewed','user-flagged','automatic-flags','acceptable','needs-improvement','incorrect'];
+    const allowed=['unreviewed','reviewed','user-flagged','automatic-flags','acceptable','needs-improvement','incorrect','returned-testers'];
     AIV_BETA_REVIEW_FILTER=allowed.indexOf(filter)>=0?filter:'unreviewed';
     aivApplyReviewFilterLabels();aivLoadBetaReview();
   }
   function aivRenderReviewSummary(data){
     const node=el('betaReviewSummary');if(!node)return;
     const counts=data&&data.counts||{};
-    const items=[['unreviewed','Unreviewed',counts.unreviewed||0],['reviewed','Reviewed',counts.reviewed||0],['user-flagged','User flagged',counts.userFlagged||0],['automatic-flags','Automatic flags',counts.automaticallyFlagged||0],['acceptable','Acceptable',counts.acceptable||0],['needs-improvement','Needs improvement',counts.needsImprovement||0],['incorrect','Incorrect',counts.incorrect||0]];
+    const items=[['unreviewed','Unreviewed',counts.unreviewed||0],['reviewed','Reviewed',counts.reviewed||0],['user-flagged','User flagged',counts.userFlagged||0],['automatic-flags','Automatic flags',counts.automaticallyFlagged||0],['acceptable','Acceptable',counts.acceptable||0],['needs-improvement','Needs improvement',counts.needsImprovement||0],['incorrect','Incorrect',counts.incorrect||0]];if(AIV_RETURNED_TESTER_IDS.length)items.push(['returned-testers','Returned testers',AIV_RETURNED_TESTER_IDS.length]);
     node.innerHTML='<div class="betaReviewProgress">'+items.map(function(item){return '<button type="button" class="betaReviewProgressItem'+(AIV_BETA_REVIEW_FILTER===item[0]?' isActive':'')+'" data-review-filter="'+esc(item[0])+'">'+esc(item[1])+' <b>'+esc(item[2])+'</b></button>';}).join('')+'</div>';
     node.querySelectorAll('[data-review-filter]').forEach(function(button){button.addEventListener('click',function(){aivSetBetaReviewFilter(String(button.getAttribute('data-review-filter')||''));});});
   }
@@ -1683,7 +1757,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       const response=await fetch(BACKEND_BASE_URL+'/analytics/summary?_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
       const data=await response.json().catch(function(){return {};});
       if(!response.ok||!data.ok)throw new Error(data.error||'Analytics summary could not be loaded.');
-      aivRenderAnalyticsSummary(data);
+      AIV_RETURNED_ANALYTICS=data;aivRenderAnalyticsSummary(data);aivRenderReturnedTesterResults(data);
     }catch(_error){if(node){node.hidden=true;node.innerHTML='';}}
   }
   function aivRenderTesterAccess(data){
@@ -1804,6 +1878,22 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(!Number.isFinite(date.getTime()))return 'Date unavailable';
     return date.toLocaleString([], {year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'});
   }
+  const AIV_BETA_READ_FLAGS_KEY='aiv_beta_review_read_flags_v1';
+  function aivReviewReadFlagMap(){
+    try{const parsed=JSON.parse(localStorage.getItem(AIV_BETA_READ_FLAGS_KEY)||'{}');return parsed&&typeof parsed==='object'?parsed:{};}catch(_e){return {};}
+  }
+  function aivReviewReadKey(event){
+    const ids=(Array.isArray(event&&event.reviewEventIds)&&event.reviewEventIds.length?event.reviewEventIds:[event&&event.eventId]).filter(Boolean).map(String).sort();
+    return ids.join('|');
+  }
+  function aivIsLocallyRead(event){const key=aivReviewReadKey(event);return !!(key&&aivReviewReadFlagMap()[key]);}
+  function aivSaveLocalReadFlag(event){
+    const box=event&&event.currentTarget;const item=box&&box.closest('[data-read-key]');if(!item)return;
+    const key=String(item.getAttribute('data-read-key')||'');if(!key)return;
+    const map=aivReviewReadFlagMap();if(box.checked)map[key]=true;else delete map[key];
+    try{localStorage.setItem(AIV_BETA_READ_FLAGS_KEY,JSON.stringify(map));}catch(_e){}
+    item.classList.toggle('isLocallyRead',!!box.checked);
+  }
   function aivRenderReviewQueue(data){
     const node=el('betaReviewQueue');if(!node)return;
     const events=data&&Array.isArray(data.events)?data.events:[];
@@ -1814,7 +1904,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       const userFlagged=userFlags.length>0;
       const automaticFlagged=!!(event.automaticFlag||event.reviewRequired||event.failureCategory);
       const reviewed=!!(event.review&&event.review.reviewed);
-      const classes=['betaSimpleItem'];if(userFlagged)classes.push('isUserFlagged');else if(automaticFlagged)classes.push('isAutomaticFlagged');
+      const readKey=aivReviewReadKey(event);const locallyRead=aivIsLocallyRead(event);
+      const classes=['betaSimpleItem'];if(userFlagged)classes.push('isUserFlagged');else if(automaticFlagged)classes.push('isAutomaticFlagged');if(locallyRead)classes.push('isLocallyRead');
       let flags='';
       const feedbacks=Array.isArray(event.testerFeedbacks)&&event.testerFeedbacks.length?event.testerFeedbacks:(event.testerFeedback&&event.testerFeedback.rating?[{testerName:event.testerName||'tester',rating:event.testerFeedback.rating,comment:event.testerFeedback.comment||'',submittedAt:event.testerFeedback.submittedAt||''}]:[]);
       feedbacks.forEach(function(feedback){
@@ -1839,8 +1930,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       });
       if(automaticFlagged)flags+='<div class="betaSimpleFlag">Automatically flagged — '+esc(aivFriendlyAutomaticFlag(event))+'</div>';
       const ids=(Array.isArray(event.reviewEventIds)&&event.reviewEventIds.length?event.reviewEventIds:[event.eventId]).filter(Boolean).join(',');
-      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+esc(visible)+'</div>'+flags+'<div class="betaSimpleStatus" data-simple-status></div></article>';
+      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(readKey)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><div class="betaSimpleTopActions"><label class="betaSimpleRead" title="Local visual marker only; does not archive or change review status."><input type="checkbox" data-simple-read'+(locallyRead?' checked':'')+'> Read</label><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+esc(visible)+'</div>'+flags+'<div class="betaSimpleStatus" data-simple-status></div></article>';
     }).join('');
+    node.querySelectorAll('[data-simple-read]').forEach(function(box){box.addEventListener('change',aivSaveLocalReadFlag);});
     node.querySelectorAll('[data-simple-reviewed]').forEach(function(box){box.addEventListener('change',aivSaveSimpleReviewed);});
   }
   async function aivSaveSimpleReviewed(event){
@@ -1858,9 +1950,16 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   async function aivLoadBetaReview(){
     const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);aivReviewSetMessage(info.loading,true);aivApplyReviewFilterLabels();
     try{
-      const response=await fetch(BACKEND_BASE_URL+'/analytics/review-queue?limit=500&qualifying=1&filter='+encodeURIComponent(AIV_BETA_REVIEW_FILTER)+'&order='+encodeURIComponent(AIV_BETA_REVIEW_ORDER)+'&round='+encodeURIComponent(AIV_BETA_SELECTED_ROUND||'current')+'&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
+      const backendFilter=AIV_BETA_REVIEW_FILTER==='returned-testers'?'all':AIV_BETA_REVIEW_FILTER;
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/review-queue?limit=500&qualifying=1&filter='+encodeURIComponent(backendFilter)+'&order='+encodeURIComponent(AIV_BETA_REVIEW_ORDER)+'&round='+encodeURIComponent(AIV_BETA_SELECTED_ROUND||'current')+'&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
       const queue=await response.json().catch(function(){return {};});
       if(!response.ok||!queue.ok)throw new Error(queue.error||'Review queue could not be loaded.');
+      if(AIV_BETA_REVIEW_FILTER==='returned-testers'){
+        const returnedSet=new Set(AIV_RETURNED_TESTER_IDS.map(function(id){return String(id||'').toLowerCase();}));
+        const sourceEvents=Array.isArray(queue.events)?queue.events:[];
+        queue.events=sourceEvents.filter(function(event){return returnedSet.has(String(event&&event.testerName||'').trim().toLowerCase());});
+        queue.count=queue.events.length;queue.counts=queue.counts||{};queue.counts.returnedTesters=queue.events.length;
+      }
       try{sessionStorage.setItem('aiv_beta_review_token',aivReviewAdminToken());}catch(_e){}
       aivRenderRoundSelector(queue);
       const roundLabel=el('betaReviewRoundLabel');if(roundLabel)roundLabel.textContent=(queue.selectedRound&&queue.selectedRound.label||queue.round&&queue.round.label||'Current test round');
@@ -1876,6 +1975,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const load=el('betaReviewLoad');if(load)load.onclick=aivLoadBetaReview;
     const startRound=el('betaReviewStartRound');if(startRound)startRound.onclick=aivStartNewReviewRound;
     const bulkReviewed=el('betaReviewBulkReviewed');if(bulkReviewed)bulkReviewed.onclick=aivBulkReviewBeforeCutoff;
+    const returnedField=el('betaReturnedIds');try{if(returnedField){returnedField.value=localStorage.getItem(AIV_RETURNED_TESTERS_KEY)||'';AIV_RETURNED_TESTER_IDS=aivReturnedExtractIds(returnedField.value);}}catch(_e){}
+    const returnedCheck=el('betaReturnedCheckButton');if(returnedCheck)returnedCheck.onclick=aivCheckReturnedTesters;
+    const returnedShow=el('betaReturnedShowScans');if(returnedShow)returnedShow.onclick=aivShowReturnedTesterScans;
+    aivRenderReturnedTesterResults(null);
     const roundSelect=el('betaReviewRoundSelect');if(roundSelect)roundSelect.onchange=function(){AIV_BETA_SELECTED_ROUND=String(roundSelect.value||'all');aivLoadBetaReview();};
     const oldest=el('betaReviewOldest');const newest=el('betaReviewNewest');
     function setOrder(order){AIV_BETA_REVIEW_ORDER=order==='newest'?'newest':'oldest';if(oldest)oldest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='oldest');if(newest)newest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='newest');aivLoadBetaReview();}
