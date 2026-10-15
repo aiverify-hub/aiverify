@@ -1,4 +1,22 @@
-<!-- BM_FE_AIV_v2328_PDR: parsed diagnostic review display over deployed v2326. Preserves v2326 Returned Tester Check, local Read flags, bulk review cleanup, Analytics V17 display, all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior, and backend v3228 compatibility. Beta Review only: when a stored Complete result is a large internal diagnostic dump, show a compact parsed summary (failure/outcome, backend, route/request type, resolved title/transcript status when available) and keep the full raw dump collapsed under Show full technical dump. Ordinary scan results are unchanged. Built directly from v2326; the unused v2327 review-filter experiment is not included. FRONTEND-ONLY review readability update; no scan/result/backend/analytics collection logic change. -->
+<!-- FE_AIV_v2349_HTV_LABEL: shortens the practical video-search button label to "How-To Videos"; no eligibility, URL, rendering, analytics, or backend behavior changes. -->
+<!-- FE_AIV_v2348: remove duplicate practical YouTube helper button and move the FE/BE version badge beside the input word/character count so it remains visible in ordinary test screenshots. -->
+<!-- FE_AIV_v2347_PVR: render-stage fallback ensures the practical How-To Videos button appears after any normal structured practical result, even when the active backend contract takes a rendering path that bypasses the v2346 inline insertion. Preserves v2346 eligibility/exclusions and all unrelated FE behavior. -->
+<!-- FE_AIV_v2346_PHV: FE-only practical how-to video search helper over v2345. For ordinary repair/maintenance/installation/troubleshooting inputs where a visual demonstration is materially useful, adds a How-To Videos button that opens YouTube search results using the user's exact input. Excludes moral/faith, medical, legal, financial, political, harmful, and other non-practical categories. No backend call or video-ranking delay is added; preserves v2345 rendering, analytics, login, source, and backend behavior. -->
+<!-- FE_AIV_v2345_DAI: shared duplicate-Additional-Information suppression over v2344. If the normalized Explanation is identical to the visible Answer, omit that duplicate detail so an empty/repetitive Additional Information section is not shown. Preserves v2344 minimum 2-second ultra-fast result display and all unrelated rendering, analytics, login, source, and backend behavior. -->
+<!-- FE_AIV_v2344_MDT: built from keeper v2340. Ultra-fast information scans now keep the existing progress/cartoon state visible until 2.0 seconds from Analyze, so the first progress scene is actually seen without slowing normal scans that already take longer. No backend, routing, analytics, login, source, or result-content behavior changed. -->
+<!-- FE_AIV_v2338_NTR: shared scan transport resilience over v2337.
+Evidence basis: the EPA test failed twice with the frontend controlled-failure panel while the
+backend terminal received no /scan request at all. This frontend-only repair retries exactly once
+when fetch itself fails before any HTTP response exists. AbortError and HTTP/application responses
+are not retried. No scan routing, rendering, analytics, authority, moral/KJV, or backend behavior
+is changed. -->
+<!-- FE_AIV_v2337_BLU: clearer primary-answer blue over v2336. Primary response text now uses #005A8D so it reads visibly blue rather than purple/near-black, while preserving verdict colors, links, Input styling, and all unrelated behavior. -->
+<!-- FE_AIV_v2336_DBB: increases primary-answer blue visibility over v2335. Uses #005A8D for primary response text while preserving verdict colors, links, Input styling, and all unrelated behavior. -->
+<!-- FE_AIV_v2335_DBA: dark-blue primary-answer styling over v2334. Primary response text now uses a consistent dark navy-blue while preserving existing verdict badge colors, Input separation, Additional Information styling, source styling, and mobile behavior. -->
+<!-- FE_AIV_v2334_RLC: result-layout cleanup over v2333. Moves Input above the primary answer, adds visual separation, and reduces oversized multi-line answer weight while preserving verdict badges, Additional Information, sources, and mobile behavior. -->
+<!-- FE_AIV_v2333_SFT: public Sample-set fine tuning over v2332. Adds current-information and comparison/recommendation coverage, refreshes featured examples, strengthens money/work and review-content ideas, and hides the internal R1 Retest bucket from the public chooser while preserving it internally. -->
+<!-- FE_AIV_v2332_MSL: shared multiple-source-link display over v2331. When a backend result supplies structured secondary evidence sources, each is now displayed as a separate clickable Source line. Preserves all unrelated v2331 behavior. -->
+<!-- FE_AIV_v2331_YUL: YouTube unavailable-result layout cleanup over v2330. Preserves all verified v2330 behavior and backend v3239 compatibility. For unavailable YouTube videos, suppress the generic "Submitted video" title and Summary label so the primary public result is simply "This video is no longer available." with the original source link retained. Meaningful resolved video titles may still display. No unrelated behavior changed. -->
 <!-- BM_FE_AIV_v2326_RTD: returned-tester diagnostics over v2325. Preserves v2325 local Read flags, v2324 bulk review cleanup, Analytics V17 display, and all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior with backend v3228 compatibility. Adds an administrator-only browser-local Returned Tester Check: paste Prolific Returned participant IDs, compare them against existing Analytics V17 testerUsage to identify no sign-in, signed-in/no-scan, partial-scan, and 4+-scan activity, and optionally filter the review queue to scans from those returned testers. Prolific return status is not inferred or stored by AIVerify; IDs are supplied by the administrator and saved only in this browser. FRONTEND-ONLY review workflow update; no scan/result/backend/analytics collection logic change. -->
 <!-- BM_FE_AIV_v2325_RFL: beta-review local Read flag over v2324. Preserves v2324 Analytics V17 display, bulk review cleanup, all scan/auth/rendering/tester-feedback/review/cartoon/analytics behavior, and backend v3228 compatibility. Adds a browser-local Read checkbox to each Beta Review scan card so an administrator can visually track which cards have been examined without marking them Reviewed, moving them to the archive, changing filters, or writing review state to the backend. Read flags persist locally across refreshes in the same browser and can be unchecked at any time. FRONTEND-ONLY review workflow update; no scan/result/backend/analytics logic change. -->
 <!-- BM_FE_AIV_v2324_BRC: beta-review bulk cleanup over v2323. Preserves the v2323 Analytics V17 dashboard display and all v2322 scan, auth, rendering, tester-feedback, review, cartoon, and analytics behavior. Adds an administrator-only bulk review control that marks all qualifying unreviewed scans before a chosen local date/time as Reviewed in one protected update, without deleting scans or changing tester feedback. Intended for clearing pre-round test history when a new test round was not started before paid testing. FRONTEND-ONLY review workflow update; no scan/result/backend logic change. -->
@@ -381,6 +399,7 @@ button:active{transform:translateY(1px)}
 .analyze{background:#22b765;color:#fff;font-size:15px;padding-left:20px;padding-right:20px}
 .clear{background:#f5f7f9;color:#2f3b45;border:2px solid #87939d;box-shadow:0 2px 7px rgba(0,0,0,.16)}.copy{background:#3498db;color:#fff}.paste{background:#16a085;color:#fff}.sample{background:#aaa;color:#111}.clearResults{background:#aaa;color:#111}
 .meta{font-size:14px;color:#333;margin-top:8px;display:flex;justify-content:space-between;gap:14px}
+.metaVersion{margin-left:10px;font-weight:900;color:#31536d;white-space:nowrap}
 .loading{color:#555;font-style:italic;font-weight:700}
 .aivScanCartoon{max-width:600px;margin:10px auto 0;text-align:center;background:transparent;opacity:1;transition:opacity 1.05s ease-in-out}
 .aivScanCartoon.isPending{opacity:0}
@@ -413,7 +432,7 @@ button:active{transform:translateY(1px)}
 .claimSubject{font-size:18px;font-weight:900;color:#061f35;line-height:1.15;margin-bottom:1px}
 .claimSummary{font-size:15px;font-weight:650;color:#111;line-height:1.21;margin:4px 0 5px 16px}
 .claimBlock.isCompactExtra .claimSummary{margin-left:0;margin-bottom:4px}.claimBlock.isCompactExtra .claimMeta{margin-left:0;color:#283642;line-height:1.28}
-.status-supported{color:#137a3a;font-weight:900}.status-disputed{color:#b84b21;font-weight:900}.status-faith{color:#1d4f91;font-weight:900}.answerInlineList{display:block;margin:2px 0 0 24px;padding-left:17px;line-height:1.27;font-weight:500}.answerInlineList li{margin:1px 0}.answerInlineList,.answerInlineList li{max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.aivDirectAnswerText{display:inline;max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:break-word;font-weight:800;color:#1f2d38}.answerIntro{display:inline;font-weight:900;color:#061f35;margin-bottom:0}.answerListLine{margin:6px 0 8px}.claimQuestionLine{margin:2px 0 7px}.sourceBasisLine{margin:9px 0 2px}.status-notverified{color:#7a5b18;font-weight:900}.faith-true{color:#137a3a;font-weight:900}.faith-false{color:#b84b21;font-weight:900}.faith-not-supported{color:#7a5b18;font-weight:900}
+.status-supported{color:#137a3a;font-weight:900}.status-disputed{color:#b84b21;font-weight:900}.status-faith{color:#1d4f91;font-weight:900}.answerInlineList{display:block;margin:2px 0 0 24px;padding-left:17px;line-height:1.27;font-weight:500}.answerInlineList li{margin:1px 0}.answerInlineList,.answerInlineList li{max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.aivDirectAnswerText{display:inline;max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:break-word;font-weight:800;color:#005A8D}.answerIntro{display:inline;font-weight:900;color:#005A8D;margin-bottom:0}.answerListLine{margin:6px 0 8px}.claimQuestionLine{margin:2px 0 7px}.sourceBasisLine{margin:9px 0 2px}.status-notverified{color:#7a5b18;font-weight:900}.faith-true{color:#137a3a;font-weight:900}.faith-false{color:#b84b21;font-weight:900}.faith-not-supported{color:#7a5b18;font-weight:900}
 .claimMeta{font-size:15px;line-height:1.24;color:#111;margin:2px 0}.claimMeta.evidenceLine{line-height:1.27;margin:4px 0 3px}.claimMeta.reliabilityLine{line-height:1.2;margin:1px 0;color:#17232c}.claimMeta.sourcesLine{line-height:1.22;margin:2px 0 1px}
 .sourceInfluence{font-size:13px;line-height:1.2;color:#34424d;margin:2px 0 4px 16px;font-weight:700}
 .aiNoteSpacer{height:8px}
@@ -502,6 +521,7 @@ button:active{transform:translateY(1px)}
 .bindingDiscovery{background:#fff8d7;border:1px solid #dfc76c;border-radius:8px;margin:8px 0 10px;padding:8px 10px;font-size:13px;line-height:1.28;color:#111}.bindingDiscovery strong{font-weight:900}
 .multiResultItemTitle{font-size:15px;font-weight:900;color:#0f3656;margin:8px 0 5px}.multiResultFutureNote{font-size:12px;line-height:1.22;color:#5b6670;margin:7px 0 9px;font-style:italic}
 .supportingInfo,.userNotes{margin:13px 0 12px;padding:8px 10px;border-radius:9px;background:#eef5fb;border:1px solid #c8d9e8;color:#17232c;text-align:left}.supportingInfo>summary,.userNotes>summary{cursor:pointer;font-weight:900;color:#0f3656;text-align:left}.supportingInfoBody,.userNotesBody{margin-top:8px;background:#fff;border:1px solid #d7e4ee;border-radius:8px;padding:8px 10px;font-size:14px;line-height:1.32}.supportingInfoBody ul,.userNotesBody ul{margin:4px 0 2px 20px;padding:0}.supportingInfoBody li,.userNotesBody li{margin:3px 0}.supportingInfoExplanation{margin:4px 0 12px;padding:3px 0 5px;font-weight:400}.supportingInfoExplanation>strong{font-weight:950;color:#082e4d;font-size:1.04em}.supportingInfoSubTitle{font-weight:800;color:#0f3656;margin:7px 0 3px}.supportingInfoBibleList{margin:3px 0 7px 20px!important}.supportingInfoOtherList{margin:3px 0 6px 20px!important}.supportingInfoMetaLines{margin:8px 0 2px}.supportingInfoMetaLine{margin:3px 0}.supportingInfoMetaLine strong{font-weight:800;color:#16384f}.supportingInfoConfidenceLine{margin-top:12px!important;padding-top:3px;font-size:.91em;color:#44515c}.supportingInfoConfidenceLine strong{font-weight:900;color:#34424d}.supportingInfoDefinitionsBlock{margin-top:14px}.supportingInfoDefinitionLines{margin:4px 0 2px}.supportingInfoDefinitionLine{margin:3px 0;line-height:1.34}.faithScriptureDetails{margin:10px 0 12px;padding:8px 10px;border-radius:9px;background:#f7f2ff;border:1px solid #d9c9ee;border-left:5px solid #9a76c4;color:#302440;text-align:left}.faithScriptureDetails>summary{cursor:pointer;font-weight:900;color:#67458d;text-align:left}.faithScriptureBody{margin-top:8px;background:#fff;border:1px solid #e3d8f1;border-radius:8px;padding:8px 10px;font-size:14px;line-height:1.32;color:#1f2730}.faithScriptureBody ul{margin:4px 0 6px 20px;padding:0}.faithScriptureBody li{margin:3px 0}.faithScriptureBody .supportingInfoDefinitionsBlock{margin-top:10px;font-size:.91em;color:#44515c}.faithScriptureBody .supportingInfoSubTitle{font-size:.91em;color:#67458d;font-weight:900}.faithScriptureBody .supportingInfoDefinitionLine{font-size:.91em;color:#44515c;line-height:1.3}
+.faithVerseDetails{margin:3px 0}.faithVerseDetails>summary{cursor:pointer;list-style:none;display:flex;align-items:flex-start;gap:5px;line-height:1.32}.faithVerseDetails>summary::-webkit-details-marker{display:none}.faithVerseDetails>summary::after{content:'+';margin-left:auto;flex:0 0 auto;font-size:16px;font-weight:950;color:#7651a1}.faithVerseDetails[open]>summary::after{content:'−'}.faithVerseReference{color:#67458d;font-weight:900;text-decoration:underline;text-underline-offset:2px}.faithVerseNote{color:#29333c}.faithVerseText{margin:7px 20px 6px 0;padding:8px 10px;border-radius:7px;background:#faf7ff;border:1px solid #e3d8f1;color:#252c33;line-height:1.38}.faithVerseText strong{color:#67458d}
 .supportingInfo>summary,.faithScriptureDetails>summary{display:flex;align-items:center;gap:8px;list-style:none;padding:9px 11px;border-radius:7px;background:rgba(255,255,255,.82);border:1px solid currentColor;box-shadow:0 2px 7px rgba(20,45,70,.12);user-select:none}
 .supportingInfo>summary::-webkit-details-marker,.faithScriptureDetails>summary::-webkit-details-marker{display:none}
 .supportingInfo>summary::before,.faithScriptureDetails>summary::before{content:'OPEN';display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-width:43px;padding:3px 6px;border-radius:999px;background:#174f74;color:#fff;font-size:10px;line-height:1;font-weight:950;letter-spacing:.35px}
@@ -558,22 +578,22 @@ button:active{transform:translateY(1px)}
 }
 
 /* BM_FE_AIV_v2212_R1B — compact direct answer and explanation-required comparison layout. */
-.answerPrimaryLine.answerWithoutLabel{font-size:19px;font-weight:900;line-height:1.28;margin:1px 0 2px;color:#111}
-.answerPrimaryLine.answerWithoutLabel .aivDirectAnswerText{font-size:1em;font-weight:900}
+.answerPrimaryLine.answerWithoutLabel{font-size:16px;font-weight:800;line-height:1.3;margin:6px 0 2px;color:#005A8D}
+.answerPrimaryLine.answerWithoutLabel .aivDirectAnswerText{font-size:1em;font-weight:800}
 @media(max-width:720px){
-  .answerPrimaryLine.answerWithoutLabel{font-size:16px!important;line-height:1.24!important;margin:0!important}
+  .answerPrimaryLine.answerWithoutLabel{font-size:15px!important;line-height:1.26!important;margin:5px 0 1px!important}
 }
 
 /* BM_FE_AIV_v2211_R1B — answer first, repeated input second, details next, source last. */
-.answerPrimaryLine{font-size:18px;font-weight:900;line-height:1.3;margin:1px 0 3px;color:#111}
-.answerPrimaryLine .aivDirectAnswerText{font-size:1.04em;font-weight:900}
+.answerPrimaryLine{font-size:16px;font-weight:800;line-height:1.3;margin:6px 0 3px;color:#005A8D}
+.answerPrimaryLine .aivDirectAnswerText{font-size:1em;font-weight:800}
 .repeatedInputLine{font-size:14px;line-height:1.32;margin:0 0 2px;color:#253746}
 .resultDetailsGap{margin-top:11px}
 .resultSourceLastLine{margin-top:11px;padding-top:0;font-size:12px;line-height:1.3;color:#52616d}
 .resultSourceLastLine a{color:#2a6590;text-decoration:underline;text-underline-offset:2px;overflow-wrap:anywhere;word-break:break-word}
 .sampleCategoryBtnRetest{grid-column:2;margin-top:13px!important}
 @media(max-width:720px){
-  .answerPrimaryLine{font-size:15px!important;line-height:1.25!important;margin:0 0 2px!important}
+  .answerPrimaryLine{font-size:15px!important;line-height:1.26!important;margin:5px 0 2px!important}
   .repeatedInputLine{font-size:12.5px!important;line-height:1.25!important;margin:0!important}
   .resultDetailsGap{margin-top:8px!important}
   .resultSourceLastLine{font-size:10.5px!important;line-height:1.22!important;margin-top:8px!important}
@@ -630,6 +650,7 @@ body.sampleChooserOpen{overflow:hidden}
   .resultSectionTitle,.aiTitle{font-size:17px!important;margin:7px 0 5px!important}
   .verifiedResultPanel{padding:8px!important;margin:6px 0 7px!important}
   .verifiedResultLine{font-size:13px!important;line-height:1.3!important;margin:2px 0!important}
+.repeatedInputLine{font-size:12px!important;line-height:1.3!important;margin:0 0 5px!important;padding:0 0 5px!important;border-bottom:1px solid #d8e1ea;color:#334155}
   .sampleChooserOverlay{align-items:flex-start!important;padding:7px!important}
   .sampleChooserPanel{width:100%!important;max-height:calc(100vh - 14px)!important;border-radius:12px!important;padding:12px 10px 13px!important}
   .sampleChooserTitle{font-size:19px!important}
@@ -901,7 +922,6 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
     <div class="aivAuthNotice"><strong>Beta use notice:</strong> AIVerify pays for some current-information, webpage, video, and media scans. Please use these scan types thoughtfully during beta. You will not be charged.</div>
   </div>
 </div>
-<div class="version" id="versionBadge">frontend v2275</div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
 <div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><a id="betaReviewShortcut" class="testerSignOut" href="?beta-review=1" target="_blank" rel="noopener" hidden>Open Beta Review</a><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
@@ -916,7 +936,7 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
       <p class="informationIntro">Enter a question, claim, webpage, video address, or document text to check for accuracy or deception.</p>
       <div class="box informationInputBox"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
 
-Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span></div><div id="lastAction"></div></div><div id="subjectCountInline" class="subjectCountInline"></div>
+Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcount">0 words</span> | <span id="charcount">0 characters</span> <span id="versionBadge" class="metaVersion">frontend v2348</span></div><div id="lastAction"></div></div><div id="subjectCountInline" class="subjectCountInline"></div>
       <div class="actionButtons"><button type="button" id="analyzeBtn" class="analyze">Analyze<span style="font-size:20px;">/</span>Enter</button><button type="button" id="clearBtn" class="clear">Clear</button><button type="button" id="copyBtn" class="copy">Copy</button><button type="button" id="pasteBtn" class="paste">Paste</button><button type="button" id="sampleBtn" class="sample">Samples</button></div></div>
     </div>
   </div>
@@ -982,7 +1002,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2328";
+  const FRONTEND_VERSION="frontend v2357";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1314,28 +1334,40 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     {
         "name": "Featured Samples",
         "examples": [
-            "What are warning signs of a controlling friendship or dating relationship?",
-            "Why do antibiotics not work against viruses?",
-            "How many teaspoons are in one tablespoon?",
-            "Is gossip wrong even when it is true?",
-            "Can lack of sleep affect how clearly I think?",
-            "Is a debit card or credit card generally safer for online purchases?"
+            "What is the current federal minimum wage?",
+            "Which is farther north, Rome or New York City?",
+            "Is it wrong to lie to protect myself from getting in trouble?",
+            "What are some low-cost side gigs I could start with little experience?",
+            "Why is the sky blue?",
+            "Check this claim for accuracy: [paste the claim here]"
+        ]
+    },
+    {
+        "name": "Current Information & Public Claims",
+        "examples": [
+            "Who currently serves as U.S. Secretary of State?",
+            "Who won the most recent Super Bowl?",
+            "What is the current federal minimum wage?",
+            "Did this public official really say this? [paste the quote or claim here]",
+            "Has this new law or government action actually taken effect? [paste the claim here]",
+            "Did this company really announce this change? [paste the claim here]"
         ]
     },
     {
         "name": "Everyday Decisions",
         "examples": [
-            "Should I lie to protect a friend?",
-            "Should I return extra change a cashier gave me by mistake?",
-            "Is it wrong to call in sick when I am not sick?",
-            "Should I admit a mistake even if no one noticed it?",
-            "Is it wrong to take credit for someone else’s work?",
-            "Should I keep a promise if keeping it would cause serious harm?"
+            "Should I return money that was deposited into my account by mistake?",
+            "Should I keep a promise if keeping it would cause serious harm?",
+            "Is it wrong to take credit for someone else’s idea?",
+            "Should I lie to avoid getting in trouble?",
+            "Should I report a safety problem at work if my boss tells me not to?",
+            "Is it wrong to keep something I found if I know who owns it?"
         ]
     },
     {
         "name": "Relationships, Parents & Teens",
         "examples": [
+            "What are warning signs of a controlling friendship or dating relationship?",
             "Is it safe for a teenager to meet an online friend alone?",
             "What should I do if someone pressures me to share a private photo?",
             "How can a parent tell if a teen is being cyberbullied?",
@@ -1346,34 +1378,45 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     {
         "name": "Safety & Health",
         "examples": [
-            "Carbon monoxide has a smell.",
-            "Is it dangerous to charge a phone under a pillow?",
+            "Can carbon monoxide be detected by smell?",
             "Can dehydration cause dizziness?",
-            "Does canned food expire?",
+            "Is it dangerous to mix bleach and ammonia?",
             "Should cooked leftovers be refrigerated within two hours?",
-            "Can a damaged phone charger cause a fire?"
+            "Can a damaged phone charger cause a fire?",
+            "Can antibiotics treat the flu?"
         ]
     },
     {
         "name": "Money, Work & Consumer Questions",
         "examples": [
             "What does APR mean on a loan or credit card?",
-            "What is the difference between gross pay and net pay?",
-            "How can I check whether an online store is legitimate?",
             "What happens if I make only the minimum credit-card payment?",
-            "What is the difference between a warranty and a guarantee?",
-            "What should a written warranty normally explain?"
+            "Is a debit card or credit card generally safer for online purchases?",
+            "How can I check whether an online store is legitimate?",
+            "How can I tell whether a job offer is a scam?",
+            "What are some low-cost side gigs I could start with little experience?"
         ]
     },
     {
         "name": "Facts, Science & History",
         "examples": [
-            "Which U.S. government agency issues passports?",
-            "What is the purpose of a capacitor in an electrical circuit?",
-            "Can some hummingbirds fly nonstop across the Gulf of Mexico for about 18 hours?",
             "Why is the sky blue?",
             "What causes the seasons?",
-            "Humans and dinosaurs lived at the same time."
+            "Does lightning ever strike the same place twice?",
+            "How many bones are in the adult human body?",
+            "Can some hummingbirds fly nonstop across the Gulf of Mexico?",
+            "Which is farther north, Rome or New York City?"
+        ]
+    },
+    {
+        "name": "Comparisons & Recommendations",
+        "examples": [
+            "Which is safer for online purchases, a debit card or a credit card?",
+            "What are some low-cost side gigs I could start with little experience?",
+            "What are the tradeoffs between buying and leasing a car?",
+            "Which is better for long-term file storage, an SSD or an external hard drive?",
+            "What U.S. cities are good choices if low housing costs and mild winters matter most?",
+            "Compare these two choices for me: [paste the two options and what matters most]"
         ]
     },
     {
@@ -1381,7 +1424,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         "examples": [
             "What Bible verses can help me when I feel anxious?",
             "What does the Bible say about forgiveness?",
-            "What does the Bible say about gossip?",
+            "Is gossip wrong even when it is true?",
             "What Bible verses can help me resist peer pressure?",
             "What does it mean to love your neighbor?",
             "Does the Bible require people to repay their debts?"
@@ -1391,24 +1434,18 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         "name": "Review a Claim, Page, Video or Document",
         "examples": [
             "Check this claim for accuracy: [paste the claim here]",
+            "Review this webpage and flag any claims that may need verification: [paste the URL here]",
             "Review this video for factual claims: [paste the video URL here]",
             "Check whether this social-media post is accurate: [paste the post here]",
+            "Summarize this document and identify claims that should be verified: [paste the document text here]",
             "Compare this statement with reliable sources: [paste the statement here]"
         ]
     },
     {
         "name": "R1 Retest",
-        "examples": [
-            "What is the most expensive cheese in the world",
-            "What is today's date",
-            "What is the largest National Park in Canada",
-            "Show me a map of Canada",
-            "Is there any proof that Bigfoot exists",
-            "What does a person home use robot cost",
-            "Where is Wood Buffalo National Park?"
-        ]
+        "examples": []
     }
-];
+]
   let activeSampleCategoryIndex=-1;
   let activeSampleSection='';
   let activeLoadedTemplateSample=false;
@@ -1508,6 +1545,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function aivRenderReviewPanel(containerId,eventIds,visibleNode){
     const node=el(containerId);if(!node)return;
+    const mediaRequest=aivActiveMediaRequest;
+    function currentReview(){return containerId!=='aiMediaReviewPanel'||aivMediaRequestCurrent(mediaRequest);}
     const ids=aivUniqueEventIds(eventIds);
     if(!ids.length){node.hidden=true;node.innerHTML='';return;}
     aivPrepareDisclosureTracking(visibleNode);
@@ -1553,12 +1592,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       };
     }
     async function saveSelectedRating(ratingInput){
+      if(!currentReview())return;
       if(node.dataset.aivSaving==='true')return;
       const rating=String(ratingInput&&ratingInput.value||'');
       if(AIV_FEEDBACK_RATINGS.indexOf(rating)<0)return;
       if(String(node.dataset.aivSavedRating||'')===rating&&ratingInput.checked){
         node.dataset.aivSaving='true';
         const cleared=await aivClearTesterFeedback(ids,ratingStatus,ratingInput);
+      if(!currentReview())return;
         node.dataset.aivSaving='false';
         if(cleared){
           ratings.querySelectorAll('input[type="radio"]').forEach(function(inputNode){inputNode.checked=false;});
@@ -1581,6 +1622,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       node.dataset.aivSaving='true';
       ratingStatus.className='responseReviewStatus';
       const saved=await aivSaveTesterFeedback(ids,rating,comment.value,ratingStatus,ratingInput,disclosurePayload(),'Rating saved.');
+      if(!currentReview())return;
       node.dataset.aivSaving='false';
       if(saved){node.dataset.aivSavedRating=rating;required.style.color='#176b39';required.textContent='Rating saved — this test is logged.';commentStatus.textContent=comment.value.trim()?'Comment saved.':'';}
     }
@@ -1590,12 +1632,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 
     let commentTimer=null;
     async function saveCommentNow(){
+      if(!currentReview())return;
       if(commentTimer){clearTimeout(commentTimer);commentTimer=null;}
       const rating=String(node.dataset.aivSavedRating||'');
       if(AIV_FEEDBACK_RATINGS.indexOf(rating)<0){commentStatus.style.color='#6c4c08';commentStatus.textContent=comment.value.trim()?'Select a rating first; the comment will save with it.':'';return;}
       if(node.dataset.aivSaving==='true')return;
       node.dataset.aivSaving='true';
       const saved=await aivSaveTesterFeedback(ids,rating,comment.value,commentStatus,null,disclosurePayload(),'Comment saved.');
+      if(!currentReview())return;
       node.dataset.aivSaving='false';
       if(!saved)commentStatus.style.color='#9b2d23';
     }
@@ -2535,6 +2579,13 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_SCAN_CARTOON_START_DELAY_MS=1500;
   const AIV_SCAN_CARTOON_HOLD_MS=2000;
   const AIV_SCAN_CARTOON_FADE_MS=1050;
+  const AIV_FAST_RESULT_MIN_VISIBLE_MS=2000;
+  async function aivHoldUltraFastResultForProgress(runId,analyzeStartedAt){
+    const elapsed=Math.max(0,aivFeNow()-analyzeStartedAt);
+    const remaining=AIV_FAST_RESULT_MIN_VISIBLE_MS-elapsed;
+    if(remaining>0)await new Promise(function(resolve){setTimeout(resolve,remaining);});
+    return runId===activeRenderRun;
+  }
   function aivSetScanCartoonCaption(node,scene,sceneIndex){
     if(!node||!scene)return;
     const caption=String(scene.caption||'');
@@ -2557,25 +2608,48 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const incoming=current===imageA?imageB:imageA;
     const currentCaption=captionA.classList.contains('isActive')?captionA:captionB;
     const incomingCaption=currentCaption===captionA?captionB:captionA;
-    incoming.src=scene.src;
+    let settled=false;
+
+    function scheduleNext(){
+      if(runId!==activeRenderRun||sceneIndex>=AIV_SCAN_CARTOON_SCENES.length-1)return;
+      const nextTimer=setTimeout(function(){aivSetScanCartoonScene(sceneIndex+1,runId);},AIV_SCAN_CARTOON_HOLD_MS);
+      aivScanCartoonTimers.push(nextTimer);
+    }
+    function showLoadedScene(){
+      if(settled||runId!==activeRenderRun)return;
+      settled=true;
+      incoming.onload=null;
+      incoming.onerror=null;
+      incoming.classList.remove('isActive');
+      aivSetScanCartoonCaption(incomingCaption,scene,sceneIndex);
+      incomingCaption.classList.remove('isActive');
+      requestAnimationFrame(function(){requestAnimationFrame(function(){
+        if(runId!==activeRenderRun)return;
+        current.classList.remove('isActive');
+        incoming.classList.add('isActive');
+        currentCaption.classList.remove('isActive');
+        incomingCaption.classList.add('isActive');
+      });});
+      const finishTimer=setTimeout(function(){
+        if(runId!==activeRenderRun)return;
+        scheduleNext();
+      },AIV_SCAN_CARTOON_FADE_MS);
+      aivScanCartoonTimers.push(finishTimer);
+    }
+    function skipUnavailableScene(){
+      if(settled||runId!==activeRenderRun)return;
+      settled=true;
+      incoming.onload=null;
+      incoming.onerror=null;
+      // Keep the currently visible cartoon and caption rather than showing caption-only content.
+      scheduleNext();
+    }
+
     incoming.classList.remove('isActive');
-    aivSetScanCartoonCaption(incomingCaption,scene,sceneIndex);
-    incomingCaption.classList.remove('isActive');
-    requestAnimationFrame(function(){requestAnimationFrame(function(){
-      if(runId!==activeRenderRun)return;
-      current.classList.remove('isActive');
-      incoming.classList.add('isActive');
-      currentCaption.classList.remove('isActive');
-      incomingCaption.classList.add('isActive');
-    });});
-    const finishTimer=setTimeout(function(){
-      if(runId!==activeRenderRun)return;
-      if(sceneIndex<AIV_SCAN_CARTOON_SCENES.length-1){
-        const nextTimer=setTimeout(function(){aivSetScanCartoonScene(sceneIndex+1,runId);},AIV_SCAN_CARTOON_HOLD_MS);
-        aivScanCartoonTimers.push(nextTimer);
-      }
-    },AIV_SCAN_CARTOON_FADE_MS);
-    aivScanCartoonTimers.push(finishTimer);
+    incoming.onload=showLoadedScene;
+    incoming.onerror=skipUnavailableScene;
+    incoming.src=scene.src;
+    if(incoming.complete&&Number(incoming.naturalWidth||0)>0)showLoadedScene();
   }
   function aivCenterScanCartoon(runId){
     const timer=setTimeout(function(){
@@ -2853,6 +2927,26 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(AIV_DIAGNOSTIC_INLINE_RE.test(s) && /^(?:CHILD_|CLAIM_CANDIDATE|TOP_CLAIM|CLAIM_SELECTION|CLAIM_SECTION|SECTION_SELECTION|ACTIVE_CONTENT|CONTENT_SOURCE|URL_ROUTING|URL_PATH|PORTAL_MATCH|LISTING_PAGE)/i.test(s)) return true;
     return /^(ClaimIndex|BindingScope|FieldFallback|ClaimImportance|ClaimRole|SecondaryClaim|ImportanceWeight|SourceCount|EvidenceType|Normalization|WeightBreakdown|WeightCap|BiasAdjusted|SecondaryMerge|MixedStatement|SecondaryAssignment)\s*:/i.test(s);
   }
+  function looksLikeAivRawTechnicalDump(text){
+    const s=String(text||'');
+    if(!s) return false;
+    const markers=[
+      /\bAIV_VIDEO_AUTH_CONTRACT\b/i,
+      /\bAIV_RESULT_CONTRACT_COUNT\b/i,
+      /\bVIDEO_[A-Z0-9_]{4,}\s*:/,
+      /\bYOUTUBE_[A-Z0-9_]{4,}\s*:/,
+      /\bSUPADATA_[A-Z0-9_]{4,}\s*:/,
+      /\b(?:DIAGNOSTICS?|TECHNICAL_DIAGNOSTICS?)_[A-Z0-9_]*\s*:/,
+      /\bREQUEST_(?:TYPE|ROUTE|CLASSIFICATION)\s*:/i,
+      /\bBackend:\s*BE_AIV_v\d+/i
+    ];
+    let hits=0;
+    markers.forEach(function(re){ if(re.test(s)) hits++; });
+    return hits>=3 || (/\bAIV_VIDEO_AUTH_CONTRACT\b/i.test(s) && hits>=2);
+  }
+  function publicTechnicalFailureFallbackHtml(){
+    return '<div class="resultText">AIVerify could not complete this scan. Select Analyze again to retry.</div>';
+  }
   function sanitizeDisplayText(text){
     return String(text||"").split(/\r?\n/).map(x=>x.trim()).filter(x=>x && !isBackendOnlyLine(x)).join("\n");
   }
@@ -3010,6 +3104,26 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         seen[key]=true;
         return true;
       }).slice(0,3);
+  }
+
+  function renderUnavailableYouTubePublicResult(text,inputText){
+    if(!isYouTubeInput(inputText)) return "";
+    const raw=String(text||"");
+    if(!/this video is no longer available\.?/i.test(raw)) return "";
+    const titleMatch=raw.match(/^Title:\s*(.+)$/im);
+    const sourceMatch=raw.match(/^Source:\s*(https?:\/\/\S+)/im);
+    const title=(titleMatch&&titleMatch[1]?titleMatch[1].trim():"Submitted video");
+    const source=(sourceMatch&&sourceMatch[1]?sourceMatch[1].trim():"");
+    const hasMeaningfulTitle=!!title && !/^submitted video$/i.test(title);
+    let html='<div class="resultText"><div class="verifiedResultCard">';
+    if(hasMeaningfulTitle){
+      html+='<div class="verifiedResultLine"><strong>Title:</strong>&nbsp;&nbsp;'+esc(title)+'</div>';
+    }
+    html+='<div class="verifiedResultLine answerPrimaryLine"><strong>This video is no longer available.</strong></div>';
+    if(source){
+      html+='<div class="verifiedResultLine resultSourceLastLine"><strong>Source:</strong>&nbsp;&nbsp;<a href="'+esc(source)+'" target="_blank" rel="noopener noreferrer">'+esc(source)+'</a></div>';
+    }
+    return html+'</div></div>';
   }
 
   function transcriptReadableFallback(text,inputText){
@@ -4385,14 +4499,16 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }
     return '';
   }
-  function v2130CleanAnswer(value,c){
-    let s=v2130RemoveMeta(v2317ReadableAnswerValue(value)).replace(/^Answer\s*:\s*/i,'').replace(/^(?:The\s+)?(?:direct\s+)?answer\s+(?:is|would\s+be|can\s+be)\s*[:\-–—]?\s*/i,'').replace(/^This\s+is\s*[:\-–—]?\s*/i,'').trim();
-    if(v2130HasPlaceholder(s))return '';
-    const basket=String(c&&c.outputBasket||'').toUpperCase();
-    if(basket==='NUMBER'){const m=s.match(/-?\d{1,3}(?:,\d{3})+(?:\.\d+)?|-?\d+(?:\.\d+)?/);if(m)return m[0];}
-    const parts=v2130SentenceParts(s); if(parts.length>1&&['LIST','PAIRED_ANSWER','RECIPE_INSTRUCTIONS'].indexOf(basket)<0)s=parts[0];
-    return s;
-  }
+  function v2700ContractAnswer(value){
+  if(value==null)return '';
+  if(Array.isArray(value))return value.map(v2700ContractAnswer).join('; ');
+  if(typeof value==='object')return Object.keys(value).map(function(k){return k.replace(/_/g,' ')+': '+v2700ContractAnswer(value[k]);}).join('; ');
+  return String(value);
+}
+function v2700HttpUrl(value){try{const u=new URL(String(value||''));return /^https?:$/.test(u.protocol)&&!u.username&&!u.password?String(value):'';}catch(_){return '';}}
+function v2700ApprovedAction(c){const d=c&&c.actionDecisionV3700;if(!d||d.version!==1||d.eligible!==true||d.kind==='SAFETY_REFUSAL'||!d.url||d.url!==c.actionLinkUrl)return {url:'',label:''};if(c.finalAnswerIntegrityV3700&&d.inputHash!==c.finalAnswerIntegrityV3700.inputHash)return {url:'',label:''};return {url:v2700HttpUrl(d.url),label:String(d.label||c.actionLinkLabel||'Open Link')};}
+function v2700SourceView(c){const empty={name:'',url:'',secondarySources:[]},d=c.sourceDecisionV3700;const policy=String(c.sourceDisplayPolicy||'').toUpperCase(),urlOnly=policy==='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';if(c.sourceRemovedV3700||(d&&/^(SUPPRESSED|NONE)$/.test(d.state))||(!urlOnly&&/^HIDE(?:_|$)/.test(policy))||(c.showSource===false&&c.showSourceUrl!==true))return empty;const r=d&&d.version===1&&d.state==='VISIBLE'?d.record:null;const name=String(r?r.name:(c.source||c.sourceBasis||c.sourceName||c.primarySourceName||''));const rawUrl=r?r.url:(Object.prototype.hasOwnProperty.call(c,'sourceUrl')?c.sourceUrl:c.primarySourceUrl);const showLabel=!urlOnly&&c.showSource!==false&&!c.hideSourceBasis&&!c.suppressSourceBasis;const showUrl=c.showSourceUrl!==false;const secondary=r?r.secondarySources:c.secondarySources;return {name:showLabel?name:'',url:showUrl?v2700HttpUrl(rawUrl):'',secondarySources:showUrl&&Array.isArray(secondary)?secondary.filter(x=>x&&v2700HttpUrl(x.url)):[]};}
+function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
   function v2130CleanExplanation(value,answer){
     let s=v2130RemoveMeta(value).replace(/^Explanation\s*:\s*/i,'').replace(/^This\s+is\s*[:\-–—]?\s*/i,'').trim();
     const kept=[];
@@ -4415,6 +4531,25 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     });
     let out=kept.map(function(part){part=String(part||'').trim();return part?part.charAt(0).toUpperCase()+part.slice(1):'';}).filter(Boolean).join('. ').replace(/\.\s*\./g,'.').trim();
     return out&&!/[.!?]$/.test(out)?out+'.':out;
+  }
+
+  function v2357SpecificSourceFromUrl(value){
+    let host='';
+    try{host=new URL(String(value||'')).hostname.replace(/^www\./i,'').toLowerCase();}catch(_e){return '';}
+    if(host==='nasa.gov'||host.endsWith('.nasa.gov'))return 'NASA';
+    if(host==='cdc.gov'||host.endsWith('.cdc.gov'))return 'Centers for Disease Control and Prevention';
+    if(host==='nih.gov'||host.endsWith('.nih.gov'))return 'National Institutes of Health';
+    if(host==='fda.gov'||host.endsWith('.fda.gov'))return 'Food and Drug Administration';
+    if(host==='epa.gov'||host.endsWith('.epa.gov'))return 'Environmental Protection Agency';
+    if(host==='noaa.gov'||host.endsWith('.noaa.gov'))return 'National Oceanic and Atmospheric Administration';
+    if(host==='usda.gov'||host.endsWith('.usda.gov'))return 'United States Department of Agriculture';
+    if(host==='state.gov'||host.endsWith('.state.gov'))return 'U.S. Department of State';
+    if(host==='fema.gov'||host.endsWith('.fema.gov'))return 'Federal Emergency Management Agency';
+    return '';
+  }
+  function v2357GenericFallbackSource(value){
+    const s=String(value||'').replace(/\s+/g,' ').trim();
+    return !s || /^(?:Established references|Established .* references|Standard .* knowledge|Stable established knowledge|Medical and health references|Government and institutional references)$/i.test(s);
   }
   function v2130DefaultSource(c){
     const t=String((c&&c.classification)||'')+' '+String((c&&c.route)||'');
@@ -4992,7 +5127,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     function renderFaithScriptureBody(){
       if(!scriptureEntries.length) return '';
       let body='<div class="faithScriptureBody"><ul class="supportingInfoBibleList">';
-      scriptureEntries.forEach(function(entry){body+='<li>'+esc(entry)+'</li>';});
+      scriptureEntries.forEach(function(entry){
+        const rawEntry=String(entry||'').trim();
+        const match=rawEntry.match(/^((?:[1-3]\s*)?[A-Za-z]+(?:\s+[A-Za-z]+){0,2}\s+\d{1,3}:\d{1,3}(?:-\d{1,3})?)(?:\s+[—-]\s+(.+))?$/i);
+        if(!match){body+='<li>'+esc(rawEntry)+'</li>';return;}
+        const ref=String(match[1]||'').trim();
+        const note=String(match[2]||'').trim();
+        body+='<li><details class="faithVerseDetails" data-kjv-reference="'+esc(ref)+'"><summary><span class="faithVerseReference">'+esc(ref)+'</span>'+(note?'<span class="faithVerseNote">— '+esc(note)+'</span>':'')+'</summary><div class="faithVerseText" data-kjv-verse-text="true">Select the verse reference above to display the exact KJV text.</div></details></li>';
+      });
       body+='</ul>';
       if(definitions.length){
         body+='<div class="supportingInfoDefinitionsBlock"><div class="supportingInfoSubTitle">Definitions</div><div class="supportingInfoDefinitionLines">';
@@ -5250,6 +5392,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function videoSupportingInfoIsUseful(info,result){
     const s=String(info||'').replace(/\s+/g,' ').trim();
     if(!s) return false;
+    if(result && String(result.contentKind||'').toUpperCase()==='SUMMARY') return true;
     if(/^(?:Bible references|Scripture you can share|Supporting Scriptures to Consider and Share)\s*:/i.test(s)) return true;
     if(/Scenario or simulation wording|Use a specific claim and reliable outside sources|Treat possible breaking-news video claims as unverified|available text can identify what the video says|not independent confirmation/i.test(s)) return false;
     const context=contractTextNormForCompare([result&&result.why,result&&result.evidence,result&&result.source,result&&result.analysisResult].join(' '));
@@ -5365,7 +5508,13 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         const directVideoAnswer=cleanVisibleVideoResultText(result.answer||'');
         const explanation=aivCapitalizeFirst(combineWhyEvidence(result.why,result.evidence));
         const evidenceText=aivCapitalizeFirst(cleanVisibleVideoResultText(result.evidence));
-        if(isQuestionResult){
+        const isSummaryResult=String(result.contentKind||'').toUpperCase()==='SUMMARY';
+        if(isSummaryResult){
+          if(exactTitle) html+='<div class="verifiedResultLine"><strong>Title:</strong>&nbsp;&nbsp;'+esc(exactTitle)+'</div>';
+          const summaryText=directVideoAnswer || explanation || 'AIVerify could not retrieve enough of this video’s content to provide a reliable summary.';
+          html+='<div class="verifiedResultLine answerPrimaryLine"><strong>Summary:</strong>&nbsp;&nbsp;'+esc(summaryText)+'</div>';
+          if(videoSupportingInfoIsUseful(result.supportingInformation,result)) detailItems.push(cleanVisibleVideoResultText(result.supportingInformation));
+        }else if(isQuestionResult){
           if(exactTitle) html+='<div class="verifiedResultLine"><strong>Title:</strong>&nbsp;&nbsp;'+esc(exactTitle)+'</div>';
           if(directVideoAnswer && !/^(?:needs more evidence|unclear|unknown)$/i.test(directVideoAnswer)){
             html+='<div class="verifiedResultLine"><strong>Answer:</strong>&nbsp;&nbsp;'+esc(directVideoAnswer)+'</div>';
@@ -5545,7 +5694,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     while((m=re.exec(raw))){
       try{
         const obj=JSON.parse(m[1]);
-        if(obj && obj.schema==='AIV_RESULT_CONTRACT_V1' && (obj.claim||obj.input||obj.pageTitle||obj.sourceUrl) && obj.analysisResult) contracts.push(obj);
+        if(obj && (obj.schema==='AIV_RESULT_CONTRACT_V1'||obj.schemaVersion==='AIV_RESULT_CONTRACT_V1'||obj.finalAnswerIntegrityV3700) && (obj.claim||obj.submittedInput||obj.input||obj.pageTitle||obj.sourceUrl) && (obj.analysisResult||obj.answer!=null)) contracts.push(obj);
       }catch(e){}
     }
     return contracts;
@@ -5785,31 +5934,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }
     return 'Depends — more context is needed';
   }
-  function prepareContractAnswerForDisplay(answer,c){
-    const original=v2130CleanAnswer(answer,c);
-    const directAnswerDisplayPolicy=String(c&&c.directAnswerDisplayPolicy||'').toUpperCase();
-    if(directAnswerDisplayPolicy==='PRESERVE_QUALIFIED_MORAL_ANSWER') return {answer:original,explanation:''};
-    if(/^Depends\.?$/i.test(original)) return {answer:v2077BareDependsAnswer(c),explanation:''};
-    if(!original) return {answer:'',explanation:''};
-    if(/^No\s+(?:single|one|universal|fixed|exact|specific|particular|uniform|automatic|absolute|guaranteed)\b/i.test(original)) return {answer:original,explanation:''};
-    if(/^Yes\s*(?:,|;|:|[–—-])\s*(?:but|with|only|when|if|provided|as long as|depending on)\b/i.test(original)) return {answer:original,explanation:''};
-    const prefix=normalizedShortAnswerPrefix(original);
-    if(prefix && original.length>prefix.consumed){
-      let remainder=original.slice(prefix.consumed).replace(/^[\s.,:;—-]+/,'').replace(/^but\s+/i,'').trim();
-      let shortValue=prefix.value;
-      if(remainder && /^(?:but|with)\b/i.test(original.slice(prefix.consumed).replace(/^[\s.,:;—-]+/,'')) && /^(?:Yes|No)$/.test(shortValue)){
-        shortValue+=' — with considerations';
-        remainder=remainder.replace(/^(?:but|with)\s+/i,'');
-      }
-      return {answer:shortValue,explanation:remainder};
-    }
-    if(String(c&&c.outputBasket||'').toUpperCase()==='YES_NO' && answerTooLongForBadge(original)){
-      const status=String((c&&c.analysisResult||'')+' '+(c&&c.status||'')).toLowerCase();
-      const shortValue=/inaccurate|false|contradict/.test(status)?'No':(/accurate|supported|true/.test(status)&&!/mixed|mostly|partly/.test(status)?'Yes':'Depends');
-      return {answer:shortValue,explanation:original};
-    }
-    return {answer:original,explanation:''};
-  }
+  function prepareContractAnswerForDisplay(answer,c){return {answer:v2700ContractAnswer(answer),explanation:''};}
   function mergeAnswerExplanation(primary,secondary){
     const a=String(primary||'').trim(), b=String(secondary||'').trim();
     if(!a) return b;
@@ -5841,18 +5966,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(isStandaloneVerdictValue(v)) return renderAnalysisResultBadge(v);
     return preserveContractAnswer?esc(v):renderAnswerValue(v,c);
   }
-  function renderAnswerValue(answer,c){
-    let safeAnswer=v2130CleanAnswer(answer,c);
-    const basket=String(c&&c.outputBasket||'').toUpperCase();
-    if(basket==='NUMBER' && !(c&&c.inputBoundNumericAnswer===true)){
-      const m=safeAnswer.match(/-?\d{1,3}(?:,\d{3})+(?:\.\d+)?|-?\d+(?:\.\d+)?/);
-      if(m) safeAnswer=m[0];
-    }
-    const items=v2130AnswerItemsForDisplay(c,safeAnswer);
-    let out=esc(safeAnswer);
-    if(items.length) out+='<ul class="answerInlineList">'+items.map(function(item){return '<li>'+esc(item)+'</li>';}).join('')+'</ul>';
-    return out;
-  }
+  function renderAnswerValue(answer,c){return esc(v2700ContractAnswer(answer));}
 
   function normalizedDisplayedConfidence(value){
     const s=String(value||'').replace(/\s+/g,' ').trim();
@@ -5884,21 +5998,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(basket==='YES_NO') return 'The direct answer follows from the reasons and conditions listed below.';
     return 'The answer is supported by the information and conditions listed below.';
   }
-  function v2212PreserveDirectAnswer(value,c){
-    let s=v2130RemoveMeta(v2317ReadableAnswerValue(value))
-      .replace(/^Answer\s*:\s*/i,'')
-      .replace(/^(?:The\s+)?(?:direct\s+)?answer\s+(?:is|would\s+be|can\s+be)\s*[:\-–—]?\s*/i,'')
-      .replace(/^This\s+is\s*[:\-–—]?\s*/i,'')
-      .replace(/\s+/g,' ')
-      .trim();
-    if(v2130HasPlaceholder(s))return '';
-    const basket=String(c&&c.outputBasket||'').toUpperCase();
-    if(basket==='NUMBER' && !(c&&c.inputBoundNumericAnswer===true)){
-      const m=s.match(/-?\d{1,3}(?:,\d{3})+(?:\.\d+)?|-?\d+(?:\.\d+)?/);
-      if(m)return m[0];
-    }
-    return s.replace(/[.!?]+$/,'').trim();
-  }
+  function v2212PreserveDirectAnswer(value,c){return v2700ContractAnswer(value);}
   function v2212PreserveRequiredExplanation(value){
     let s=v2130RemoveMeta(String(value||''))
       .replace(/^Explanation\s*:\s*/i,'')
@@ -5946,6 +6046,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     return html;
   }
 
+  function v2346PracticalHowToVideoUrl(input,c){const a=v2700ApprovedAction(c);return /how.to videos/i.test(a.label)?a.url:'';}
+
+  function v2347EnsurePracticalHowToVideoButton(input){return;}
+
   function renderActiveResultContracts(text){
     let contracts=parseActiveResultContracts(text);
     const activeSingleUrl=/^https?:\/\/\S+$/i.test(String(lastAnalyzedInput||'').trim());
@@ -5959,49 +6063,36 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       const claim=String(c.submittedInput||c.originalSubmittedInput||c.claim||c.input||c.pageTitle||c.sourceUrl||lastAnalyzedInput||'').trim();
       const analysis=String(c.analysisResult||'').trim();
       const contractBasket=String(c.outputBasket||'').toUpperCase();
-      const preserveContractAnswer=c&&c.hideAnswerLabel===true;
-      let answer=(contractBasket==='CLAIM_VERDICT' || contractBasket==='MIXED_CLAIM' || String(c.inputType||'').toUpperCase()==='CLAIM') ? '' : (preserveContractAnswer?v2212PreserveDirectAnswer(c.answer||'',c):v2130CleanAnswer(c.answer||'',c));
+      const preserveContractAnswer=true;
+      let answer=v2700ContractAnswer(c.answer==null?'':c.answer);
       const preparedAnswer=preserveContractAnswer?{answer:answer,explanation:''}:prepareContractAnswerForDisplay(answer,c);
       answer=preparedAnswer.answer;
       const preserveRequiredExplanation=v2212ExplanationMustRemain(c,contractBasket,claim);
-      const rawContractExplanation=String(c.explanation||c.why||'').replace(/^Supported as Truth\.\s*/i,'');
-      const why=preserveRequiredExplanation?v2212PreserveRequiredExplanation(rawContractExplanation):v2130CleanExplanation(rawContractExplanation,answer);
+      const rawContractExplanation=String(c.explanation||c.why||'');
+      const why=rawContractExplanation;
       const confidence=normalizedDisplayedConfidence(c.confidence||'');
-      let evidence=cleanContractCompleteSentence(c.evidence||'');
-      if(/faith|scripture|biblical/i.test(String((c.classification||'')+' '+(c.route||'')+' '+(c.source||''))) && /\b(?:Matthew|Mark|Luke|John|Acts|Romans|Corinthians|Peter|Micah)\s+\d{1,3}:\d{1,3}/i.test(String(c.evidence||''))){
-        const refs=[];
-        (String(c.evidence||'').match(/\b(?:[1-3]\s*)?(?:Matthew|Mark|Luke|John|Acts|Romans|Corinthians|Peter|Micah)\s+\d{1,3}:\d{1,3}(?:-\d{1,3})?/gi)||[]).forEach(function(r){const v=r.replace(/\s+/g,' ').trim(); const k=v.toLowerCase(); if(refs.map(function(x){return x.toLowerCase();}).indexOf(k)<0) refs.push(v);});
-        if(refs.length) evidence=refs.slice(0,3).join('; ')+'.';
-      }
-      const sourcePolicy=String(c.sourceDisplayPolicy||'');
-      const cleanedContractSource=cleanContractSourceForDisplay(c.source||c.sourceBasis||'',c);
-      const source=v2130NeutralSource(cleanedContractSource,c) || ((/SHOW_MODEL_KNOWLEDGE|SHOW_EXTERNAL_SOURCE|SHOW_NAMED_SOURCE/i.test(sourcePolicy) && !/faith|scripture|biblical/i.test(String((c.route||'')+' '+(c.classification||'')+' '+(c.supportingInformation||'')))) ? String(c.source||c.sourceBasis||'').trim() : '');
-      const sourceUrl=String(c.sourceUrl||c.primarySourceUrl||'').trim();
-      const actionLinkUrl=String(c.actionLinkUrl||'').trim();
-      const actionLinkLabel=String(c.actionLinkLabel||(/\bmap\b/i.test(String(c.classification||'')+' '+String(c.route||''))?'Open Map':'View Image')).trim();
+      const evidence=String(c.evidence||'');
+      const sourceView=v2700SourceView(c);
+      const source=sourceView.name,sourceUrl=sourceView.url;
+      const approvedAction=v2700ApprovedAction(c);
+      const actionLinkUrl=approvedAction.url,actionLinkLabel=approvedAction.label;
       const explicitMeaningBasket=/^(?:MEANING|WORD_MEANING|ENTITY_MEANING|IDENTIFICATION)$/i.test(contractBasket);
       const preIsMeaning=explicitMeaningBasket || (!c.fixedOutputBasket && /meaning|identification/i.test(analysis+' '+String(c.classification||'')+' '+String(c.route||'')));
-      if(preIsMeaning && String(evidence||'').trim() && String(answer||'').trim() && contractTextNormForCompare(evidence).indexOf(contractTextNormForCompare(answer).slice(0,60))>=0){ evidence=''; }
-      const combinedContract=contractExplanationFromWhyEvidence(mergeAnswerExplanation(preparedAnswer.explanation,why),evidence,c);
-      const displayWhy=preserveRequiredExplanation?why:combinedContract.explanation;
-      const displayEvidence=combinedContract.evidence;
-      const supportRaw=contractSupportingInfoUseful(contractSupportingInfoAddsValue(c.supportingInformation||'', c.evidence||''), displayEvidence || evidence, displayWhy || why, source, c);
-      const supporting=contractInfoToList(supportRaw);
-      const compactDirectAnswer=v2212CompactDirectResult(c);
+      const displayWhy=why,displayEvidence=evidence;
+      const supportRaw=c.supportingInformation||'';
+      const supporting=Array.isArray(supportRaw)?supportRaw.map(v2700ContractAnswer):(supportRaw?[v2700ContractAnswer(supportRaw)]:[]);
+      const compactDirectAnswer=false;
       const detailItems=[];
-      let requiredExplanation='';
-      if(!compactDirectAnswer){
-        requiredExplanation=preserveRequiredExplanation
-          ? v2212PreserveRequiredExplanation(c.explanation||c.why||displayWhy)
-          : v2130CleanExplanation(v2077RequiredExplanation(c,displayWhy,displayEvidence,evidence,answer),answer);
-      }
+      if(Array.isArray(c.answerList))c.answerList.forEach(function(item){const text=v2700ContractAnswer(item);if(text&&!String(answer).includes(text))detailItems.push(text);});
+      const requiredExplanation=displayWhy;
+      if(displayEvidence)detailItems.push('Evidence: '+displayEvidence);
       const mainCardExplanation=(c&&c.renderExplanationOnMainCard===true)||(c&&c.highImpactMedical===true) ? requiredExplanation : '';
       if(requiredExplanation && !mainCardExplanation) detailItems.push('Explanation: '+requiredExplanation);
       const faithContractForSource=/faith|scripture|biblical/i.test(String((c&&c.route)||'')+' '+String((c&&c.classification)||'')+' '+String((c&&c.supportingInformation)||''));
       const isUrlPage=String(c.inputType||'').toUpperCase()==='SPECIFIC_CONTENT_URL' || /^url-/i.test(String(c.route||''));
       const submittedInputUrl=/^https?:\/\/\S+$/i.test(String(lastAnalyzedInput||'').trim())?String(lastAnalyzedInput||'').trim():'';
       const externalSourceVisible=sourceUrl && sourceUrl!==actionLinkUrl && !(c&&c.suppressDuplicateSubmittedSource && !isUrlPage) && (!(submittedInputUrl && sourceUrl===submittedInputUrl) || isUrlPage);
-      const visibleSource=!faithContractForSource ? (externalSourceVisible?sourceUrl:source) : '';
+      const visibleSource=sourceUrl||source;
       if(!compactDirectAnswer){
         supporting.forEach(function(item){ if(!answerListTextDuplicates(item,c)) detailItems.push(item); });
         if(preserveRequiredExplanation && String(c.supportingInformation||'').trim()){
@@ -6011,12 +6102,13 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
           });
         }
       }
-      const sourceOnMainCard=!!visibleSource;
+      let sourceOnMainCard=!!visibleSource;
       if(!claim || !(analysis||answer)) return;
       const isMeaning=explicitMeaningBasket || (!c.fixedOutputBasket && /meaning|identification/i.test(analysis+' '+String(c.classification||'')+' '+String(c.route||'')));
       html+='<div class="claimBlock" data-claim-route="'+esc(c.route||'contract')+'"><div class="verifiedResultPanel" data-result-index="'+esc(i+1)+'" data-result-contract="AIV_RESULT_CONTRACT_V1"><div class="verifiedResultGrid">';
       if(contracts.length>1) html+='<div class="verifiedResultLine"><strong>Content Result '+esc(i+1)+'</strong></div>';
       const exactSubmittedInput=String((c&&c.originalSubmittedInput)||lastAnalyzedInput||(c&&c.submittedInput)||claim||'').trim();
+      const howToVideoUrl='';
       if(isUrlPage){
         const pageTitle=String(c.pageTitle||claim||'').trim();
         const summaryText=String(c.summary||answer||displayWhy||why||analysis||'').trim();
@@ -6027,22 +6119,44 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         const resultValue=answer || analysis;
         const directPolarity=answer&&!isMeaning&&/^(?:yes|no|generally[,]?\s*(?:yes|no)|depends)\b/i.test(resultValue);
         const resultRendered=(answer && !isMeaning) ? renderAnswerOrVerdictBadge(resultValue,c,preserveContractAnswer) : (isMeaning ? esc(resultValue) : renderAnalysisResultBadge(resultValue));
+        if(exactSubmittedInput) html+='<div class="verifiedResultLine repeatedInputLine"><strong>Input:</strong>&nbsp;&nbsp;'+esc(exactSubmittedInput)+'</div>';
         if(answer && !isMeaning){
           html+='<div class="verifiedResultLine answerPrimaryLine answerWithoutLabel" data-analysis-result-row="true">'+resultRendered+'</div>';
         }else{
           html+='<div class="verifiedResultLine answerPrimaryLine" data-analysis-result-row="true"><strong>'+esc(resultLabel)+':</strong>&nbsp;&nbsp;'+resultRendered+'</div>';
         }
-        if(exactSubmittedInput) html+='<div class="verifiedResultLine repeatedInputLine"><strong>Input:</strong>&nbsp;&nbsp;'+esc(exactSubmittedInput)+'</div>';
+        if(howToVideoUrl){
+          html+='<div class="aivHowToSpacerV2354" aria-hidden="true" style="height:8px"></div>';
+          html+='<div class="aivActionLinkLine aivHowToVideoLinkV2348"><a class="aivActionLink" href="'+esc(howToVideoUrl)+'" target="_blank" rel="noopener noreferrer">How-To Videos</a></div>';
+        }
       }
       if(actionLinkUrl && /^https?:\/\//i.test(actionLinkUrl)) html+='<div class="aivActionLinkLine"><a class="aivActionLink" href="'+esc(actionLinkUrl)+'" target="_blank" rel="noopener noreferrer">'+esc(actionLinkLabel||'Open Link')+'</a></div>';
+      const hasHelpfulActionOrVideoLink=(actionLinkUrl&&/^https?:\/\//i.test(actionLinkUrl))||!!howToVideoUrl;
+      const genericOpenAISource=/^openai(?:\s+model\s+knowledge)?$/i.test(String(visibleSource||'').trim());
+      // v2350: when practical help already includes a useful action/resource link or How-To Videos,
+      // hide only the generic OpenAI source label. Verified external sources remain visible.
+      // Backend contract owns source visibility.
       if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
-      const countDetailsHtml=v2224RenderKjvCountDetails(c,requiredExplanation||displayWhy||why);
-      const detailsHtml=countDetailsHtml || renderSupportingInformationList(detailItems,[claim,answer,Array.isArray(c.answerList)?c.answerList.join(' '):'',why,evidence,supportRaw].join(' '));
+      const countDetailsHtml='';
+      const detailsHtml=detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
       if(detailsHtml) html+='<div class="resultDetailsGap">'+detailsHtml+'</div>';
       if(sourceOnMainCard){
         const sourceRendered=/^https?:\/\//i.test(visibleSource)?'<a href="'+esc(visibleSource)+'" target="_blank" rel="noopener noreferrer">'+esc(visibleSource)+'</a>':esc(visibleSource);
         html+='<div class="verifiedResultLine resultSourceLastLine"><strong>Source:</strong>&nbsp;&nbsp;'+sourceRendered+'</div>';
       }
+      const secondarySources=sourceView.secondarySources;
+      const primarySourceKey=String(sourceUrl||'').trim().toLowerCase();
+      const seenSecondarySourceUrls={};
+      secondarySources.forEach(function(item){
+        const secondaryUrl=String(item&&item.url||'').trim();
+        if(!/^https?:\/\//i.test(secondaryUrl))return;
+        const key=secondaryUrl.toLowerCase();
+        if(!key||key===primarySourceKey||seenSecondarySourceUrls[key])return;
+        seenSecondarySourceUrls[key]=true;
+        const secondaryName=String(item&&item.name||'').trim();
+        const label=secondaryName?esc(secondaryName)+' — ':'';
+        html+='<div class="verifiedResultLine resultSourceLastLine"><strong>Source:</strong>&nbsp;&nbsp;'+label+'<a href="'+esc(secondaryUrl)+'" target="_blank" rel="noopener noreferrer">'+esc(secondaryUrl)+'</a></div>';
+      });
       html+='</div></div></div>';
     });
     html+=renderActiveResultContractDiagnostics(contracts);
@@ -6088,7 +6202,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       return html;
     }
     if(p.backend) html+='<div class="versionLine">Backend: '+esc(p.backend)+'</div>';
-    if(!p.claims.length){const tf=transcriptReadableFallback(text,lastAnalyzedInput); if(tf) return tf; return '<div class="resultText">'+esc(sanitizeDisplayText(text))+'</div>';}
+    if(!p.claims.length){const unavailableVideoHtml=renderUnavailableYouTubePublicResult(text,lastAnalyzedInput); if(unavailableVideoHtml) return unavailableVideoHtml; const tf=transcriptReadableFallback(text,lastAnalyzedInput); if(tf) return tf; if(looksLikeAivRawTechnicalDump(text)) return publicTechnicalFailureFallbackHtml(); return '<div class="resultText">'+esc(sanitizeDisplayText(text))+'</div>';}
     if(p.evidenceGroups && p.evidenceGroups.length){
       html+='<div class="evidenceGroups">';
       p.evidenceGroups.forEach(function(g){
@@ -6203,7 +6317,33 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const fetchOptions={method:"POST",mode:"cors",headers:{"Content-Type":"text/plain;charset=UTF-8"},body:JSON.stringify(scanPayload)};
     if(activeAbortController) fetchOptions.signal=activeAbortController.signal;
     const aivFetchStart=aivFeNow();
-    const res=await fetch(url,fetchOptions);
+    // NETWORK_TRANSPORT_RETRY_V2338
+    // Two consecutive EPA tests failed before the backend received any /scan request.
+    // Retry exactly once only when fetch itself fails before an HTTP response exists.
+    // AbortError and HTTP responses are never retried, so backend/application failures
+    // keep their existing behavior and duplicate completed scans are not created.
+    let res=null;
+    let lastTransportError=null;
+    for(let attempt=0;attempt<2;attempt++){
+      try{
+        const attemptUrl=attempt===0?url:(BACKEND_BASE_URL+"/scan?compact=1&_="+Date.now()+"&transportRetry=1");
+        res=await fetch(attemptUrl,fetchOptions);
+        lastTransportError=null;
+        break;
+      }catch(fetchError){
+        if(fetchError&&fetchError.name==="AbortError")throw fetchError;
+        lastTransportError=fetchError;
+        try{console.warn("AIV FE transport v2338","attempt="+(attempt+1),String(fetchError&&fetchError.message||fetchError||"fetch failed"));}catch(_e){}
+        if(attempt===0){
+          await new Promise(function(resolve){setTimeout(resolve,150);});
+          if(runId!==activeRenderRun)return null;
+          continue;
+        }
+      }
+    }
+    if(!res){
+      throw (lastTransportError||new Error("Network request failed before reaching the backend"));
+    }
     const aivHeadersAt=aivFeNow();
     if(runId!==activeRenderRun)return null;
     if(res.status===401){aivHandleUnauthorized();throw new Error("Beta sign-in required");}
@@ -6275,11 +6415,15 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       if(response==null)return;
       const text=response.text;
       const aivResponseReady=aivFeNow();
+      // v2344: preserve the existing 1.5-second delayed first cartoon, but do not let an
+      // ultra-fast result erase it before the user can see it. Scans already >=2 seconds are unchanged.
+      if(!(await aivHoldUltraFastResultForProgress(runId,aivAnalyzeStart)))return;
       clearGeneralScanTimers();
       hardClearRenderedResults();
       setText("contentType","");
       const hasVideoAuthContract=parseActiveVideoAuthContracts(text).length>0;
-      if(hasVideoAuthContract){
+      const isUnavailableYouTubeResult=isYouTubeInput(lastAnalyzedInput)&&/this video is no longer available\.?/i.test(String(text||""));
+      if(hasVideoAuthContract||isUnavailableYouTubeResult){
         setTranscriptStatus(null,"");
       }else{
         const transcriptInfo=inferTranscriptStatusFromBackend(text,lastAnalyzedInput);
@@ -6287,6 +6431,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       }
       const aivRenderStart=aivFeNow();
       replaceResultHtml(renderStructuredResult(text));
+      v2347EnsurePracticalHowToVideoButton();
       const aivRenderDone=aivFeNow();
       aivScrollCompletedResultToTop(runId);
       try{
@@ -6368,7 +6513,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
-      intro.textContent='Choose a category for ideas. Use your own question, claim, link, topic, or document rather than copying a sample exactly.';
+      intro.textContent='Choose a category for ideas. Samples are starting points—change the wording or use your own question, claim, link, topic, or document.';
     }
     const back=el('sampleBackBtn');if(back){back.hidden=false;back.textContent='Back to Sample Sections';}
     const list=sampleChooserListNode();if(!list)return;
@@ -6376,8 +6521,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const open=document.createElement('button');open.type='button';open.className='sampleAiOpen';open.textContent='Open Claims & Information Check';
     open.onclick=function(){aivSetWorkflowMode('information');closeSampleChooser();};list.appendChild(open);
     PUBLIC_SAMPLE_CATEGORIES.forEach(function(category,categoryIndex){
+      if(category.name==='R1 Retest')return;
       const button=document.createElement('button');button.type='button';
-      const isRetest=category.name==='R1 Retest';
+      const isRetest=false;
       button.className='sampleCategoryBtn'+(isRetest?' sampleCategoryBtnRetest':'');
       const count=(category.examples||[]).length;
       button.innerHTML='<span>'+esc(category.name)+'</span>'+(isRetest?'<span class="sampleRetestCount">'+(count?esc(count+' loaded'):'Empty')+'</span>':'');
@@ -6494,6 +6640,18 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 
   const AI_MEDIA_MAX_BYTES=8*1024*1024;
   const AI_VIDEO_BLOCK_MESSAGE='Video files are not a valid input for AI Creation checks. Reliable analysis requires the original media and provenance data that platforms often restrict access to. Platforms should provide that data to qualified verification tools, analyze the content themselves, or require verification before allowing it to be distributed.';
+  let aivActiveMediaRequest=null;
+  let aivMediaRequestSequence=0;
+  function aivInvalidateMediaRequest(){
+    const old=aivActiveMediaRequest;aivActiveMediaRequest=null;
+    if(old){old.controller.abort();activeScanEventIds=[];}
+    const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}
+    const button=aivAiNode('aiMediaButton');if(button){button.disabled=false;button.textContent='Check for AI Creation';}
+  }
+  function aivMediaRequestCurrent(request){
+    const input=aivAiNode('aiMediaFile');
+    return !!request&&aivActiveMediaRequest===request&&!request.controller.signal.aborted&&request.session===activeTesterSession&&input&&input.files&&input.files[0]===request.file;
+  }
   function aivAiNode(id){return document.getElementById(id);}
   function aivAiMediaIsVideo(file){
     if(!file)return false;
@@ -6510,6 +6668,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(facts&&facts.length){const f=document.createElement('div');f.className='aiMediaFacts';f.textContent=facts.join(' | ');node.appendChild(f);}
   }
   function aivResetAiMediaCheck(){
+    aivInvalidateMediaRequest();
     const file=aivAiNode('aiMediaFile');
     const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}if(file)file.value='';
     const button=aivAiNode('aiMediaButton');if(button){button.disabled=false;button.textContent='Check for AI Creation';}
@@ -6530,23 +6689,29 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   async function aivRunAiMediaCheck(){
     if(!activeTesterSession){aivShowSignIn('Sign in before checking media.');return;}
-    await refreshTopRightBackendVersion();
+    aivInvalidateMediaRequest();
     const inputNode=aivAiNode('aiMediaFile');
     const file=inputNode&&inputNode.files&&inputNode.files[0];
     if(!file){aivSetAiMediaResult('Choose a file','Select an image or audio file first.','isError',[]);return;}
     if(aivAiMediaIsVideo(file)){if(inputNode)inputNode.value='';aivSetAiMediaResult('Video files are not supported',AI_VIDEO_BLOCK_MESSAGE,'isError',[]);return;}
     if(file.size>AI_MEDIA_MAX_BYTES){aivSetAiMediaResult('File is too large','This beta stage accepts files up to 8 MB.','isError',[]);return;}
+    const request={id:Date.now().toString(36)+'_'+(++aivMediaRequestSequence),file:file,session:activeTesterSession,controller:new AbortController()};
+    aivActiveMediaRequest=request;
     const button=aivAiNode('aiMediaButton');if(button){button.disabled=true;button.textContent='Checking…';}
     aivSetAiMediaResult('Checking media','The file is being checked in memory. It is not saved by this build.','',[]);
     try{
       const base64=await aivReadFileBase64(file);
+      if(!aivMediaRequestCurrent(request))return;
       const headers=aivSessionHeaders();headers['content-type']='application/json';
-      const res=await fetch(BACKEND_BASE_URL+'/ai-detection/analyze',{method:'POST',cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({filename:file.name,mimeType:file.type,sizeBytes:file.size,base64:base64})});
+      const res=await fetch(BACKEND_BASE_URL+'/ai-detection/analyze',{method:'POST',signal:request.controller.signal,cache:'no-store',mode:'cors',headers:headers,body:JSON.stringify({requestId:request.id,filename:file.name,mimeType:file.type,sizeBytes:file.size,base64:base64})});
       const data=await res.json().catch(function(){return {};});
+      if(!aivMediaRequestCurrent(request))return;
       if(data&&data.backendVersion)setTopRightBackendVersion(data.backendVersion,{preserveAiWorkspace:true});
       else await refreshTopRightBackendVersion({preserveAiWorkspace:true});
+      if(!aivMediaRequestCurrent(request))return;
       if(res.status===401){aivHandleUnauthorized();return;}
       if(!res.ok||!data.ok)throw new Error(data.error||'The media check failed.');
+      if(data.requestId!==request.id||!data.media||!data.media.sha256)throw new Error('The media response does not match this request.');
       const aiStatus=String(data.status||'').toUpperCase();
       let state='isWarning';
       if(aiStatus==='AI_GENERATED'||aiStatus==='AI_GENERATED_OR_ALTERED'||aiStatus==='AI_ALTERED')state='isAiGenerated';
@@ -6558,7 +6723,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       const facts=[
         summary.confidenceBand?('AIVerify confidence: '+summary.confidenceBand):'',
         Number(summary.independentChecksCompleted)>0?('Independent checks completed: '+Number(summary.independentChecksCompleted)):'',
-        summary.provenanceFound?'Embedded creation information: Found':'',
+        summary.provenanceVerified?'Verified provenance: Found':(summary.provenanceStatus==='UNVERIFIED_MARKERS'?'Unverified metadata markers: Found':''),
+        summary.provenanceVerificationSupported===false?'Provenance verification: Not available':'',
+        data.evidence&&data.evidence.conflictingEvidence?'Conflicting evidence':'',
+        data.evidence&&Array.isArray(data.evidence.markers)&&data.evidence.markers.length?('Unverified markers: '+data.evidence.markers.join('; ')):'',
         summary.possibleGenerator?('Possible generator: '+summary.possibleGenerator):'',
         media.mediaType?('Type: '+media.mediaType):'',
         media.detectedMimeType?('Format: '+media.detectedMimeType):'',
@@ -6569,20 +6737,60 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       const eventId=String(data.analyticsEventId||res.headers.get('x-aiv-scan-event')||'').trim();
       aivFinalizeResultReview([eventId],aivAiNode('aiMediaResult'),'aiMediaReviewPanel');
     }catch(error){
+      if(!aivMediaRequestCurrent(request))return;
       aivSetAiMediaResult('Media check failed',String(error&&error.message||error||'Unknown error'),'isError',[]);
     }finally{
-      if(button){button.disabled=false;button.textContent='Check for AI Creation';}
+      if(aivMediaRequestCurrent(request)&&button){button.disabled=false;button.textContent='Check for AI Creation';}
     }
   }
 
+  async function v2340LoadExactKjvVerse(verse){
+    if(!verse||verse.__aivKjvLoaded||verse.__aivKjvLoading)return;
+    const ref=String(verse.getAttribute('data-kjv-reference')||'').trim();
+    const target=verse.querySelector('[data-kjv-verse-text="true"]');
+    if(!ref||!target)return;
+    verse.__aivKjvLoading=true;target.textContent='Loading exact KJV text…';
+    try{
+      const response=await fetch(BACKEND_BASE_URL+'/kjv-verse?ref='+encodeURIComponent(ref),{method:'GET',cache:'no-store'});
+      const data=await response.json();
+      if(!response.ok||!data||!data.ok||!data.text)throw new Error('Verse unavailable');
+      target.innerHTML='<strong>'+esc(String(data.reference||ref))+' (KJV):</strong> “'+esc(String(data.text||''))+'”';
+      verse.__aivKjvLoaded=true;
+    }catch(_e){target.textContent='The exact KJV text could not be loaded right now.';}
+    finally{verse.__aivKjvLoading=false;}
+  }
+  if(!document.__aivDelegatedKjvLoaderV2340){
+    document.__aivDelegatedKjvLoaderV2340=true;
+    document.addEventListener('click',function(event){
+      const summary=event.target&&event.target.closest?event.target.closest('details.faithVerseDetails > summary'):null;
+      if(!summary)return;
+      const verse=summary.parentElement;
+      window.setTimeout(function(){if(verse&&verse.open)v2340LoadExactKjvVerse(verse);},0);
+    },true);
+  }
   function resetNestedFaithScriptureDropdowns(){
     document.querySelectorAll('details.supportingInfo').forEach(function(parent){
       if(parent.__aivFaithResetBound)return;
       parent.__aivFaithResetBound=true;
       parent.addEventListener('toggle',function(){
         if(!parent.open){
+          parent.querySelectorAll('details.faithVerseDetails[open]').forEach(function(verse){verse.removeAttribute('open');});
           parent.querySelectorAll('details.faithScriptureDetails[open]').forEach(function(child){child.removeAttribute('open');});
         }
+      });
+    });
+    document.querySelectorAll('details.faithScriptureDetails').forEach(function(parent){
+      if(parent.__aivVerseCollapseBound)return;
+      parent.__aivVerseCollapseBound=true;
+      parent.addEventListener('toggle',function(){
+        if(!parent.open){parent.querySelectorAll('details.faithVerseDetails[open]').forEach(function(verse){verse.removeAttribute('open');});}
+      });
+    });
+    document.querySelectorAll('details.faithVerseDetails').forEach(function(verse){
+      if(verse.__aivKjvLoaderBound)return;
+      verse.__aivKjvLoaderBound=true;
+      verse.addEventListener('toggle',function(){
+        if(verse.open)v2340LoadExactKjvVerse(verse);
       });
     });
   }
@@ -6603,6 +6811,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     bind("overallTesterFeedbackSave",aivSaveOverallTesterFeedback);
     const aiMediaFileNode=aivAiNode('aiMediaFile');
     if(aiMediaFileNode)aiMediaFileNode.addEventListener('change',function(){
+      aivInvalidateMediaRequest();
       const review=aivAiNode('aiMediaReviewPanel');if(review){review.hidden=true;review.innerHTML='';}
       const selected=aiMediaFileNode.files&&aiMediaFileNode.files[0];
       if(aivAiMediaIsVideo(selected)){aiMediaFileNode.value='';aivSetAiMediaResult('Video files are not supported',AI_VIDEO_BLOCK_MESSAGE,'isError',[]);return;}
