@@ -902,6 +902,19 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
   .betaReviewBulkInput,.betaReviewBulkButton{width:100%}
 }
 
+/* T321: scarlet Scripture presentation; exact local expansion behavior retained. */
+.faithScriptureDetails,.faithScriptureDirect{background:#fff4f4;border-color:#e6b6bb;border-left-color:#a6192e;color:#521321}
+.faithScriptureDetails>summary,.faithScriptureDirectTitle,.faithScriptureBody .supportingInfoSubTitle{color:#a6192e}
+.faithScriptureDetails>summary::before{background:#a6192e}
+.faithScriptureBody{border-color:#e6b6bb}
+.faithScriptureBody details summary{white-space:normal;overflow-wrap:normal;word-break:normal}
+
+.faithScriptureDirect>strong,.faithVerseReference,.faithVerseText strong{color:#a6192e}
+.faithVerseDetails>summary::after{color:#a6192e}
+@media(max-width:720px){.faithVerseDetails>summary{display:block;position:relative;padding-right:16px}.faithVerseDetails>summary::after{position:absolute;right:0;top:0}.faithVerseReference{display:block}.faithVerseNote{display:block;margin-top:4px}.faithVerseText{margin-right:0}}
+.faithScriptureDirect .faithVerseDetails{margin:6px 0}
+.faithScriptureDirect .faithVerseDetails>summary{cursor:pointer;white-space:normal;overflow-wrap:normal;word-break:normal}
+.faithScriptureDirect .faithVerseText{line-height:1.5;overflow-wrap:break-word}
 </style>
 </head>
 <body class="aivAuthLocked">
@@ -1002,7 +1015,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="frontend v2357";
+  const FRONTEND_VERSION="FE_AIV_v5002";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1331,121 +1344,40 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }
 ];
   const PUBLIC_SAMPLE_CATEGORIES=[
-    {
-        "name": "Featured Samples",
-        "examples": [
-            "What is the current federal minimum wage?",
-            "Which is farther north, Rome or New York City?",
-            "Is it wrong to lie to protect myself from getting in trouble?",
-            "What are some low-cost side gigs I could start with little experience?",
-            "Why is the sky blue?",
-            "Check this claim for accuracy: [paste the claim here]"
-        ]
-    },
-    {
-        "name": "Current Information & Public Claims",
-        "examples": [
-            "Who currently serves as U.S. Secretary of State?",
-            "Who won the most recent Super Bowl?",
-            "What is the current federal minimum wage?",
-            "Did this public official really say this? [paste the quote or claim here]",
-            "Has this new law or government action actually taken effect? [paste the claim here]",
-            "Did this company really announce this change? [paste the claim here]"
-        ]
-    },
-    {
-        "name": "Everyday Decisions",
-        "examples": [
-            "Should I return money that was deposited into my account by mistake?",
-            "Should I keep a promise if keeping it would cause serious harm?",
-            "Is it wrong to take credit for someone else’s idea?",
-            "Should I lie to avoid getting in trouble?",
-            "Should I report a safety problem at work if my boss tells me not to?",
-            "Is it wrong to keep something I found if I know who owns it?"
-        ]
-    },
-    {
-        "name": "Relationships, Parents & Teens",
-        "examples": [
-            "What are warning signs of a controlling friendship or dating relationship?",
-            "Is it safe for a teenager to meet an online friend alone?",
-            "What should I do if someone pressures me to share a private photo?",
-            "How can a parent tell if a teen is being cyberbullied?",
-            "Is it wrong to read someone’s private messages without permission?",
-            "Should I speak up when someone is being bullied or mistreated?"
-        ]
-    },
-    {
-        "name": "Safety & Health",
-        "examples": [
-            "Can carbon monoxide be detected by smell?",
-            "Can dehydration cause dizziness?",
-            "Is it dangerous to mix bleach and ammonia?",
-            "Should cooked leftovers be refrigerated within two hours?",
-            "Can a damaged phone charger cause a fire?",
-            "Can antibiotics treat the flu?"
-        ]
-    },
-    {
-        "name": "Money, Work & Consumer Questions",
-        "examples": [
-            "What does APR mean on a loan or credit card?",
-            "What happens if I make only the minimum credit-card payment?",
-            "Is a debit card or credit card generally safer for online purchases?",
-            "How can I check whether an online store is legitimate?",
-            "How can I tell whether a job offer is a scam?",
-            "What are some low-cost side gigs I could start with little experience?"
-        ]
-    },
-    {
-        "name": "Facts, Science & History",
-        "examples": [
-            "Why is the sky blue?",
-            "What causes the seasons?",
-            "Does lightning ever strike the same place twice?",
-            "How many bones are in the adult human body?",
-            "Can some hummingbirds fly nonstop across the Gulf of Mexico?",
-            "Which is farther north, Rome or New York City?"
-        ]
-    },
-    {
-        "name": "Comparisons & Recommendations",
-        "examples": [
-            "Which is safer for online purchases, a debit card or a credit card?",
-            "What are some low-cost side gigs I could start with little experience?",
-            "What are the tradeoffs between buying and leasing a car?",
-            "Which is better for long-term file storage, an SSD or an external hard drive?",
-            "What U.S. cities are good choices if low housing costs and mild winters matter most?",
-            "Compare these two choices for me: [paste the two options and what matters most]"
-        ]
-    },
-    {
-        "name": "Faith & Scripture",
-        "examples": [
-            "What Bible verses can help me when I feel anxious?",
-            "What does the Bible say about forgiveness?",
-            "Is gossip wrong even when it is true?",
-            "What Bible verses can help me resist peer pressure?",
-            "What does it mean to love your neighbor?",
-            "Does the Bible require people to repay their debts?"
-        ]
-    },
-    {
-        "name": "Review a Claim, Page, Video or Document",
-        "examples": [
-            "Check this claim for accuracy: [paste the claim here]",
-            "Review this webpage and flag any claims that may need verification: [paste the URL here]",
-            "Review this video for factual claims: [paste the video URL here]",
-            "Check whether this social-media post is accurate: [paste the post here]",
-            "Summarize this document and identify claims that should be verified: [paste the document text here]",
-            "Compare this statement with reliable sources: [paste the statement here]"
-        ]
-    },
-    {
-        "name": "R1 Retest",
-        "examples": []
-    }
-]
+  {
+    "name": "Faith & Life",
+    "examples": [
+      "How can I find peace when I feel anxious?",
+      "How can I forgive someone who hurt me?",
+      "Is gossip wrong even when it is true?",
+      "How can I resist temptation to do something I know is wrong?",
+      "Where can I find comfort while grieving someone I love?",
+      "What should I do if I'm being bullied?",
+      "How can I handle pressure from friends to do something wrong?",
+      "How can I handle disagreements with my parents?"
+    ]
+  },
+  {
+    "name": "Practical Help",
+    "examples": [
+      "How do I fix a dripping faucet?",
+      "Is a hole in my drywall something I can fix?",
+      "Are there ways to seal a drafty door?",
+      "I need to free up some storage on my phone.",
+      "What is the best way to create a budget?"
+    ]
+  },
+  {
+    "name": "Resources",
+    "examples": [
+      "Where is my federal tax refund?",
+      "I need a passport application.",
+      "How do I replace my SS card?",
+      "Can I apply for food assistance online?",
+      "I need to replace my birth certificate."
+    ]
+  }
+];
   let activeSampleCategoryIndex=-1;
   let activeSampleSection='';
   let activeLoadedTemplateSample=false;
@@ -6078,8 +6010,9 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       const actionLinkUrl=approvedAction.url,actionLinkLabel=approvedAction.label;
       const explicitMeaningBasket=/^(?:MEANING|WORD_MEANING|ENTITY_MEANING|IDENTIFICATION)$/i.test(contractBasket);
       const preIsMeaning=explicitMeaningBasket || (!c.fixedOutputBasket && /meaning|identification/i.test(analysis+' '+String(c.classification||'')+' '+String(c.route||'')));
-      const displayWhy=why,displayEvidence=evidence;
-      const supportRaw=c.supportingInformation||'';
+      const displayWhy=why,displayEvidence=[why,answer].some(function(text){return contractTextNormForCompare(evidence)===contractTextNormForCompare(text);})?'':evidence;
+      const policyScriptures=(c.intentPolicyT310&&Array.isArray(c.policyScripturesT310)?c.policyScripturesT310:[]).filter(r=>r&&typeof r.reference==='string'&&typeof r.text==='string'&&r.text.trim());
+      const supportRaw=policyScriptures.length?'':(c.supportingInformation||'');
       const supporting=Array.isArray(supportRaw)?supportRaw.map(v2700ContractAnswer):(supportRaw?[v2700ContractAnswer(supportRaw)]:[]);
       const compactDirectAnswer=false;
       const detailItems=[];
@@ -6095,7 +6028,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       const visibleSource=sourceUrl||source;
       if(!compactDirectAnswer){
         supporting.forEach(function(item){ if(!answerListTextDuplicates(item,c)) detailItems.push(item); });
-        if(preserveRequiredExplanation && String(c.supportingInformation||'').trim()){
+        if(!policyScriptures.length && preserveRequiredExplanation && String(c.supportingInformation||'').trim()){
           contractInfoToList(c.supportingInformation).forEach(function(item){
             const key=contractTextNormForCompare(item);
             if(key && !detailItems.some(function(existing){return contractTextNormForCompare(existing)===key;})) detailItems.push(item);
@@ -6137,8 +6070,10 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       // hide only the generic OpenAI source label. Verified external sources remain visible.
       // Backend contract owns source visibility.
       if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
+      if(policyScriptures.length)html+='<section class="faithScriptureDirect"><strong>Supporting Scriptures</strong>'+policyScriptures.map(r=>'<details class="faithVerseDetails"><summary><span class="faithVerseReference">'+esc(r.reference)+'</span></summary><div class="faithVerseText">'+esc(r.text)+'</div></details>').join('')+'</section>';
       const countDetailsHtml='';
-      const detailsHtml=detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
+      const legacyScriptures=detailItems.some(function(item){return /^(?:Supporting Scriptures to Consider and Share|Scripture you can share|Bible references)\s*:/i.test(item);});
+      const detailsHtml=legacyScriptures?renderSupportingInformationList(detailItems):detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
       if(detailsHtml) html+='<div class="resultDetailsGap">'+detailsHtml+'</div>';
       if(sourceOnMainCard){
         const sourceRendered=/^https?:\/\//i.test(visibleSource)?'<a href="'+esc(visibleSource)+'" target="_blank" rel="noopener noreferrer">'+esc(visibleSource)+'</a>':esc(visibleSource);
@@ -6509,13 +6444,13 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
   }
   function renderSampleCategories(){
     activeSampleCategoryIndex=-1;activeSampleSection='claims';
-    setText('sampleChooserTitle','Claims & Information');
+    setText('sampleChooserTitle','Sample Set');
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
       intro.textContent='Choose a category for ideas. Samples are starting points—change the wording or use your own question, claim, link, topic, or document.';
     }
-    const back=el('sampleBackBtn');if(back){back.hidden=false;back.textContent='Back to Sample Sections';}
+    const back=el('sampleBackBtn');if(back){back.hidden=true;back.textContent='Back to Samples';}
     const list=sampleChooserListNode();if(!list)return;
     list.className='sampleChooserList sampleCategoryGrid';list.innerHTML='';
     const open=document.createElement('button');open.type='button';open.className='sampleAiOpen';open.textContent='Open Claims & Information Check';
@@ -6588,7 +6523,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     if(activeSampleCategoryIndex>=0)return renderSampleCategories();
     return renderSampleSections();
   }
-  function sample(){renderSampleSections();setSampleChooserOpen(true);}
+  function sample(){renderSampleCategories();setSampleChooserOpen(true);}
 
   async function writeClipboard(v){try{if(navigator.clipboard){await navigator.clipboard.writeText(String(v||"")); return true;}}catch(e){} try{const ta=document.createElement("textarea"); ta.value=String(v||""); ta.style.position="fixed"; ta.style.left="-9999px"; document.body.appendChild(ta); ta.focus(); ta.select(); const ok=document.execCommand("copy"); document.body.removeChild(ta); return ok;}catch(e){return false;}}
   async function readClipboard(){try{if(navigator.clipboard)return await navigator.clipboard.readText();}catch(e){} return "";}
