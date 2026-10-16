@@ -902,15 +902,14 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
   .betaReviewBulkInput,.betaReviewBulkButton{width:100%}
 }
 
-/* T321: scarlet Scripture presentation; exact local expansion behavior retained. */
-.faithScriptureDetails,.faithScriptureDirect{background:#fff4f4;border-color:#e6b6bb;border-left-color:#a6192e;color:#521321}
-.faithScriptureDetails>summary,.faithScriptureDirectTitle,.faithScriptureBody .supportingInfoSubTitle{color:#a6192e}
-.faithScriptureDetails>summary::before{background:#a6192e}
-.faithScriptureBody{border-color:#e6b6bb}
+/* T335: restore soft lavender surfaces with muted scarlet references. */
+.faithScriptureDetails,.faithScriptureDirect{background:#f7f2ff;border-color:#d9c9ee;border-left-color:#b37b95;color:#302440}
+.faithScriptureDetails>summary,.faithScriptureDirectTitle,.faithScriptureBody .supportingInfoSubTitle{color:#91435f}
+.faithScriptureDetails>summary::before{background:#91435f}
+.faithScriptureBody{border-color:#e3d8f1}
 .faithScriptureBody details summary{white-space:normal;overflow-wrap:normal;word-break:normal}
-
-.faithScriptureDirect>strong,.faithVerseReference,.faithVerseText strong{color:#a6192e}
-.faithVerseDetails>summary::after{color:#a6192e}
+.faithScriptureDirect>strong,.faithVerseReference,.faithVerseText strong{color:#91435f}
+.faithVerseDetails>summary::after{color:#91435f}
 @media(max-width:720px){.faithVerseDetails>summary{display:block;position:relative;padding-right:16px}.faithVerseDetails>summary::after{position:absolute;right:0;top:0}.faithVerseReference{display:block}.faithVerseNote{display:block;margin-top:4px}.faithVerseText{margin-right:0}}
 .faithScriptureDirect .faithVerseDetails{margin:6px 0}
 .faithScriptureDirect .faithVerseDetails>summary{cursor:pointer;white-space:normal;overflow-wrap:normal;word-break:normal}
@@ -1015,7 +1014,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5002";
+  const FRONTEND_VERSION="FE_AIV_v5005";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1411,9 +1410,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function aivPrepareDisclosureTracking(visibleNode){
     aivDisclosureDetails(visibleNode).forEach(function(details){
       if(details.dataset.aivInitialStatePrepared!=='true'){
-        details.open=false;
-        details.removeAttribute('open');
-        details.dataset.aivOpened='false';
+        details.open=details.dataset.scriptureDefaultOpen==='true';
+        details.dataset.aivOpened=details.open?'true':'false';
         details.dataset.aivInitialStatePrepared='true';
       }
       if(details.dataset.aivTrackingBound==='true')return;
@@ -5982,6 +5980,34 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
 
   function v2347EnsurePracticalHowToVideoButton(input){return;}
 
+  // Presentation only: this never changes the backend route or contract.
+  function t335DirectScriptureRequest(input){
+    return /^(?:(?:please|can you|could you)\s+)*(?:(?:what|which)\s+(?:(?:does|do)\s+(?:the\s+)?(?:bible|scriptures?)\s+(?:say|teach)|(?:bible\s+)?(?:scriptures?|verses?|passages?)\b)|where\s+(?:in\s+)?(?:the\s+)?(?:bible|scripture)\b|(?:show|give|find|list|explain)\s+(?:me\s+)?(?:(?:a|some|the)\s+)?(?:bible\s+)?(?:scriptures?|verses?|passages?)\b)/i.test(String(input||'').trim());
+  }
+  function t335VerseDescription(verse,contract){
+    const norm=s=>String(s||'').replace(/[“”"']/g,'').replace(/\s+/g,' ').trim();
+    const support=Array.isArray(contract.supportingInformation)?contract.supportingInformation.join(' | '):String(contract.supportingInformation||'');
+    const entries=support.replace(/^(?:Supporting Scriptures to Consider and Share|Scripture you can share|Bible references)\s*:\s*/i,'').split(/\s*\|\s*/);
+    const entry=entries.find(s=>s.startsWith(verse.reference+' — ')||s.startsWith(verse.reference+' - '));
+    let note=String(verse.application||verse.description||verse.note||'').trim();
+    if(!note&&entry){
+      let tail=entry.slice(verse.reference.length).replace(/^\s*[—-]\s*/, '');
+      // Remove only the exact supplied quotation, retaining its associated application.
+      const quoted='“'+verse.text+'”';
+      if(tail.startsWith(quoted))tail=tail.slice(quoted.length).replace(/^\s*[—-]\s*/,'');
+      else if(tail.startsWith('"'+verse.text+'"'))tail=tail.slice(verse.text.length+2).replace(/^\s*[—-]\s*/,'');
+      else if(norm(tail).includes(norm(verse.text)))tail='';
+      note=tail.replace(/^\(\s*(?:How it applies:\s*)?/i,'').replace(/\)\s*$/,'').trim();
+    }
+    if(note&&norm(note)!==norm(contract.explanation||contract.why)&&norm(note)!==norm(verse.text))return note;
+    // No application was supplied. A labelled excerpt is not a generated interpretation.
+    const words=String(verse.text).trim().split(/\s+/);
+    return 'Excerpt: “'+words.slice(0,18).join(' ')+(words.length>18?'…':'')+'”';
+  }
+  function t335RenderPolicyScriptures(verses,contract,input){
+    return '<details class="faithScriptureDetails"'+(t335DirectScriptureRequest(input)?' data-scripture-default-open="true" open':'')+'><summary>Supporting Scriptures</summary><div class="faithScriptureBody">'+verses.map(r=>'<details class="faithVerseDetails"><summary><span class="faithVerseReference">'+esc(r.reference)+'</span><span class="faithVerseNote">— '+esc(t335VerseDescription(r,contract))+'</span></summary><div class="faithVerseText">'+esc(r.text)+'</div></details>').join('')+'</div></details>';
+  }
+
   function renderActiveResultContracts(text){
     let contracts=parseActiveResultContracts(text);
     const activeSingleUrl=/^https?:\/\/\S+$/i.test(String(lastAnalyzedInput||'').trim());
@@ -6070,11 +6096,12 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       // hide only the generic OpenAI source label. Verified external sources remain visible.
       // Backend contract owns source visibility.
       if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
-      if(policyScriptures.length)html+='<section class="faithScriptureDirect"><strong>Supporting Scriptures</strong>'+policyScriptures.map(r=>'<details class="faithVerseDetails"><summary><span class="faithVerseReference">'+esc(r.reference)+'</span></summary><div class="faithVerseText">'+esc(r.text)+'</div></details>').join('')+'</section>';
+
       const countDetailsHtml='';
       const legacyScriptures=detailItems.some(function(item){return /^(?:Supporting Scriptures to Consider and Share|Scripture you can share|Bible references)\s*:/i.test(item);});
       const detailsHtml=legacyScriptures?renderSupportingInformationList(detailItems):detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
       if(detailsHtml) html+='<div class="resultDetailsGap">'+detailsHtml+'</div>';
+      if(policyScriptures.length)html+=t335RenderPolicyScriptures(policyScriptures,c,exactSubmittedInput);
       if(sourceOnMainCard){
         const sourceRendered=/^https?:\/\//i.test(visibleSource)?'<a href="'+esc(visibleSource)+'" target="_blank" rel="noopener noreferrer">'+esc(visibleSource)+'</a>':esc(visibleSource);
         html+='<div class="verifiedResultLine resultSourceLastLine"><strong>Source:</strong>&nbsp;&nbsp;'+sourceRendered+'</div>';
