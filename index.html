@@ -902,26 +902,19 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
   .betaReviewBulkInput,.betaReviewBulkButton{width:100%}
 }
 
+/* T321: scarlet Scripture presentation; exact local expansion behavior retained. */
+.faithScriptureDetails,.faithScriptureDirect{background:#fff4f4;border-color:#e6b6bb;border-left-color:#a6192e;color:#521321}
+.faithScriptureDetails>summary,.faithScriptureDirectTitle,.faithScriptureBody .supportingInfoSubTitle{color:#a6192e}
+.faithScriptureDetails>summary::before{background:#a6192e}
+.faithScriptureBody{border-color:#e6b6bb}
+.faithScriptureBody details summary{white-space:normal;overflow-wrap:normal;word-break:normal}
+
+.faithScriptureDirect>strong,.faithVerseReference,.faithVerseText strong{color:#a6192e}
+.faithVerseDetails>summary::after{color:#a6192e}
 @media(max-width:720px){.faithVerseDetails>summary{display:block;position:relative;padding-right:16px}.faithVerseDetails>summary::after{position:absolute;right:0;top:0}.faithVerseReference{display:block}.faithVerseNote{display:block;margin-top:4px}.faithVerseText{margin-right:0}}
 .faithScriptureDirect .faithVerseDetails{margin:6px 0}
 .faithScriptureDirect .faithVerseDetails>summary{cursor:pointer;white-space:normal;overflow-wrap:normal;word-break:normal}
 .faithScriptureDirect .faithVerseText{line-height:1.5;overflow-wrap:break-word}
-
-/* Lavender Scripture styling matched to the reference screenshot. */
-.faithScriptureDetails,.faithScriptureDirect{background:#f7f2ff;border-color:#d9c9ee;border-left-color:#9a76c4;color:#302440}
-.faithScriptureDetails>summary{background:rgba(255,255,255,.82);border-color:#d9c9ee;color:#67458d;box-shadow:none}
-.faithScriptureDetails>summary::before{background:#7651a1;color:#fff}
-.faithScriptureDetails>summary::after,.faithScriptureDirectTitle,.faithScriptureDirect>strong,.faithVerseReference,.faithVerseText strong{color:#67458d}
-.faithScriptureBody{background:#fff;border-color:#e3d8f1}
-.faithVerseText{background:#faf7ff;border-color:#e3d8f1;color:#252c33}
-
-/* FE5012: direct categories and the accepted lavender faith palette. */
-.sampleCategoryGrid{grid-template-columns:1fr}
-.sampleCategoryBtn.sampleCategoryFaith{background:#f7f2ff;color:#67458d;border-color:#bda6d5}
-.sampleCategoryBtn.sampleCategoryFaith:hover{background:#eee4fa;border-color:#7651a1}
-.sampleCategoryBtn.sampleCategoryFaith{margin-top:13px!important;border-color:#d9c9ee;border-left:5px solid #9a76c4}
-.sampleChooserTitle.sampleFaithTitle{color:#67458d;background:#f7f2ff;border:1px solid #d9c9ee;border-left:5px solid #9a76c4;border-radius:9px;padding:8px 10px}
-#result .answerPrimaryLine,#result .answerListLine{scroll-margin-top:12px}
 </style>
 </head>
 <body class="aivAuthLocked">
@@ -1022,7 +1015,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5014";
+  const FRONTEND_VERSION="FE_AIV_v5002";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1352,6 +1345,19 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 ];
   const PUBLIC_SAMPLE_CATEGORIES=[
   {
+    "name": "Faith & Life",
+    "examples": [
+      "How can I find peace when I feel anxious?",
+      "How can I forgive someone who hurt me?",
+      "Is gossip wrong even when it is true?",
+      "How can I resist temptation to do something I know is wrong?",
+      "Where can I find comfort while grieving someone I love?",
+      "What should I do if I'm being bullied?",
+      "How can I handle pressure from friends to do something wrong?",
+      "How can I handle disagreements with my parents?"
+    ]
+  },
+  {
     "name": "Practical Help",
     "examples": [
       "How do I fix a dripping faucet?",
@@ -1369,27 +1375,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       "How do I replace my SS card?",
       "Can I apply for food assistance online?",
       "I need to replace my birth certificate."
-    ]
-  },
-  {
-    "name": "General",
-    "examples": [
-      "Why does the Moon appear to change shape?",
-      "Do magnets work in space?",
-      "What is the difference between weather and climate?"
-    ]
-  },
-  {
-    "name": "Faith & Life",
-    "examples": [
-      "How can I find peace when I feel anxious?",
-      "How can I forgive someone who hurt me?",
-      "Is gossip wrong even when it is true?",
-      "How can I resist temptation to do something I know is wrong?",
-      "Where can I find comfort while grieving someone I love?",
-      "What should I do if I'm being bullied?",
-      "How can I handle pressure from friends to do something wrong?",
-      "How can I handle disagreements with my parents?"
     ]
   }
 ];
@@ -2805,17 +2790,17 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     v2214HideTechnicalDiagnostics(result);
   }
   function aivScrollCompletedResultToTop(runId){
-    function showAnswer(){
+    function goTop(){
       if(runId!==activeRenderRun)return;
-      const result=el('result');
-      if(!result)return;
-      const target=result.querySelector('.answerPrimaryLine, .answerListLine')||result;
-      try{target.scrollIntoView({block:'start',inline:'nearest',behavior:'auto'});}catch(_e){}
+      try{window.scrollTo({top:0,left:0,behavior:'auto'});}catch(_e){try{window.scrollTo(0,0);}catch(_e2){}}
+      try{document.documentElement.scrollTop=0;}catch(_e3){}
+      try{document.body.scrollTop=0;}catch(_e4){}
     }
-    // Recheck only while this scan remains active, after review layout settles.
-    showAnswer();
-    setTimeout(showAnswer,120);
-    setTimeout(showAnswer,420);
+    // Do not register these with the scan-cartoon timer pool: final cleanup clears that pool.
+    // Move immediately, then reassert after the result/review layout finishes expanding.
+    goTop();
+    setTimeout(goTop,120);
+    setTimeout(goTop,420);
   }
   function resetResult(){clearRetryTimeoutCache(); cancelActiveRender(); hardClearRenderedResults(); setText("contentType",""); setTranscriptStatus(null,""); replaceResultHtml('<div class="emptyResultTitle">Results</div>'); setText("lastAction","");}
   function scanning(label){
@@ -5079,7 +5064,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
         const match=rawEntry.match(/^((?:[1-3]\s*)?[A-Za-z]+(?:\s+[A-Za-z]+){0,2}\s+\d{1,3}:\d{1,3}(?:-\d{1,3})?)(?:\s+[—-]\s+(.+))?$/i);
         if(!match){body+='<li>'+esc(rawEntry)+'</li>';return;}
         const ref=String(match[1]||'').trim();
-        const note='';
+        const note=String(match[2]||'').trim();
         body+='<li><details class="faithVerseDetails" data-kjv-reference="'+esc(ref)+'"><summary><span class="faithVerseReference">'+esc(ref)+'</span>'+(note?'<span class="faithVerseNote">— '+esc(note)+'</span>':'')+'</summary><div class="faithVerseText" data-kjv-verse-text="true">Select the verse reference above to display the exact KJV text.</div></details></li>';
       });
       body+='</ul>';
@@ -6034,7 +6019,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       if(Array.isArray(c.answerList))c.answerList.forEach(function(item){const text=v2700ContractAnswer(item);if(text&&!String(answer).includes(text))detailItems.push(text);});
       const requiredExplanation=displayWhy;
       if(displayEvidence)detailItems.push('Evidence: '+displayEvidence);
-      const mainCardExplanation=(c&&c.renderExplanationOnMainCard===true)||(c&&c.highImpactMedical===true)||policyScriptures.length>0||/Supporting Scriptures|Scripture you can share|Bible references/i.test(String(c.supportingInformation||'')) ? requiredExplanation : '';
+      const mainCardExplanation=(c&&c.renderExplanationOnMainCard===true)||(c&&c.highImpactMedical===true) ? requiredExplanation : '';
       if(requiredExplanation && !mainCardExplanation) detailItems.push('Explanation: '+requiredExplanation);
       const faithContractForSource=/faith|scripture|biblical/i.test(String((c&&c.route)||'')+' '+String((c&&c.classification)||'')+' '+String((c&&c.supportingInformation)||''));
       const isUrlPage=String(c.inputType||'').toUpperCase()==='SPECIFIC_CONTENT_URL' || /^url-/i.test(String(c.route||''));
@@ -6085,7 +6070,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       // hide only the generic OpenAI source label. Verified external sources remain visible.
       // Backend contract owns source visibility.
       if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
-      if(policyScriptures.length && c.scripturePresentationV5013!=='answer')html+='<details class="faithScriptureDetails"><summary>Supporting Scriptures</summary><div class="faithScriptureBody">'+policyScriptures.map(r=>'<div class="faithVerseText"><strong>'+esc(r.reference)+'</strong><div>'+esc(r.text)+'</div></div>').join('')+'</div></details>';
+      if(policyScriptures.length)html+='<section class="faithScriptureDirect"><strong>Supporting Scriptures</strong>'+policyScriptures.map(r=>'<details class="faithVerseDetails"><summary><span class="faithVerseReference">'+esc(r.reference)+'</span></summary><div class="faithVerseText">'+esc(r.text)+'</div></details>').join('')+'</section>';
       const countDetailsHtml='';
       const legacyScriptures=detailItems.some(function(item){return /^(?:Supporting Scriptures to Consider and Share|Scripture you can share|Bible references)\s*:/i.test(item);});
       const detailsHtml=legacyScriptures?renderSupportingInformationList(detailItems):detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
@@ -6406,18 +6391,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
         const renderMs=Math.round(aivRenderDone-aivRenderStart);
         const finalizeMs=Math.round(aivDoneAt-aivRenderDone);
         const timingText="Done | FE total "+totalMs+" ms | fetch "+String(ft.fetchTotalMs==null?"?":ft.fetchTotalMs)+" ms | headers "+String(ft.fetchWaitMs==null?"?":ft.fetchWaitMs)+" ms | body "+String(ft.bodyReadMs==null?"?":ft.bodyReadMs)+" ms | render "+renderMs+" ms | finalize "+finalizeMs+" ms";
-        let scriptureReviewTiming='';
-        if(activeTesterSession&&activeTesterSession.tester&&activeTesterSession.tester.isAdministrator){
-          try{
-            const reviewLine=String(text||'').split(/\r?\n/).find(line=>/^AIV_RESULT_CONTRACT:/.test(line));
-            const reviewContract=reviewLine?JSON.parse(reviewLine.replace(/^AIV_RESULT_CONTRACT:\s*/,'')):null;
-            const review=reviewContract&&reviewContract.biblicalSupportRelevanceV5016;
-            if(review)scriptureReviewTiming=' | Bible review: '+review.status+(review.reason?' ('+review.reason+')':'');
-            else if(reviewContract)scriptureReviewTiming=' | Bible review: not attached; status='+String(reviewContract.status||'unset')+'; route='+String(reviewContract.route||'unset');
-            else scriptureReviewTiming=' | Bible review: no result contract';
-          }catch(_e){scriptureReviewTiming=' | Bible review: result could not be parsed';}
-        }
-        setText("lastAction",timingText+scriptureReviewTiming);
+        setText("lastAction",timingText);
         try{console.log("AIV FE timing v2319",timingText,{responseReadyMs:Math.round(aivResponseReady-aivAnalyzeStart)});}catch(_e){}
       }
     }catch(e){
@@ -6428,7 +6402,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       if(runId===activeRenderRun){clearGeneralScanTimers(); activeAbortController=null;}
     }
   }
-  function clearInput(){clearRetryTimeoutCache(); cancelActiveRender(); activeLoadedTemplateSample=false; const i=input(); if(i){i.value="";i.dataset.aivLoadedTemplate='false'; i.focus();try{i.scrollIntoView({block:"start",behavior:"auto"});}catch(_e){}} updateCounts(); setTranscriptStatus(null,""); setText("lastAction","Input cleared");}
+  function clearInput(){clearRetryTimeoutCache(); cancelActiveRender(); activeLoadedTemplateSample=false; const i=input(); if(i){i.value="";i.dataset.aivLoadedTemplate='false'; i.focus();} updateCounts(); setTranscriptStatus(null,""); setText("lastAction","Input cleared");}
   function sampleChooserNode(){return el('sampleChooser');}
   function sampleChooserListNode(){return el('sampleChooserList');}
   function setSampleChooserOpen(open){
@@ -6471,7 +6445,6 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
   function renderSampleCategories(){
     activeSampleCategoryIndex=-1;activeSampleSection='claims';
     setText('sampleChooserTitle','Sample Set');
-    el('sampleChooserTitle').classList.remove('sampleFaithTitle');
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
@@ -6487,8 +6460,6 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       const button=document.createElement('button');button.type='button';
       const isRetest=false;
       button.className='sampleCategoryBtn'+(isRetest?' sampleCategoryBtnRetest':'');
-      if(category.name==='Faith & Life')button.classList.add('sampleCategoryFaith');
-      if(category.name==='Resources')button.classList.add('sampleCategoryResources');
       const count=(category.examples||[]).length;
       button.innerHTML='<span>'+esc(category.name)+'</span>'+(isRetest?'<span class="sampleRetestCount">'+(count?esc(count+' loaded'):'Empty')+'</span>':'');
       button.onclick=function(){renderSampleExamples(categoryIndex);};list.appendChild(button);
@@ -6511,7 +6482,6 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
   function renderSampleExamples(index){
     const category=PUBLIC_SAMPLE_CATEGORIES[index];if(!category)return;
     activeSampleCategoryIndex=index;activeSampleSection='claims';setText('sampleChooserTitle',category.name);
-    el('sampleChooserTitle').classList.toggle('sampleFaithTitle',category.name==='Faith & Life');
     const intro=el('sampleChooserIntro');
     if(intro){
       intro.style.display='block';
