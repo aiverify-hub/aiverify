@@ -1022,7 +1022,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5014";
+  const FRONTEND_VERSION="FE_AIV_v5015C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -6086,6 +6086,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       // Backend contract owns source visibility.
       if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
       if(policyScriptures.length && c.scripturePresentationV5013!=='answer')html+='<details class="faithScriptureDetails"><summary>Supporting Scriptures</summary><div class="faithScriptureBody">'+policyScriptures.map(r=>'<div class="faithVerseText"><strong>'+esc(r.reference)+'</strong><div>'+esc(r.text)+'</div></div>').join('')+'</div></details>';
+      if(policyScriptures.length && c.scriptureConcordanceV5031 && c.scriptureConcordanceV5031.note)html+='<div class="verifiedResultLine">'+esc(c.scriptureConcordanceV5031.note)+'</div>';
       const countDetailsHtml='';
       const legacyScriptures=detailItems.some(function(item){return /^(?:Supporting Scriptures to Consider and Share|Scripture you can share|Bible references)\s*:/i.test(item);});
       const detailsHtml=legacyScriptures?renderSupportingInformationList(detailItems):detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
