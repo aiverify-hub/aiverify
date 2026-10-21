@@ -998,7 +998,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   <div class="betaReviewHeader"><div><div id="betaReviewTitle" class="betaReviewTitle">Beta Scan Review</div><div class="betaReviewSubtitle">Review each unique scan in the same order it was received. Technical data remains stored but hidden.</div></div><div class="betaReviewControls"><a id="betaReviewReturn" class="betaReviewButton betaReviewReturn" href="./">Open AIVerify</a><input id="betaReviewToken" class="betaReviewToken" type="password" autocomplete="off" placeholder="Analytics admin token"><button type="button" id="betaReviewLoad" class="betaReviewButton">Refresh</button></div></div>
   <div id="betaReviewMessage" class="betaReviewMessage"></div>
   <div class="betaReviewRoundControls"><button type="button" id="betaReviewStartRound" class="betaReviewRoundButton">Start New Test Round</button><label class="betaReviewArchiveToggle" for="betaReviewRoundSelect">View test round:</label><select id="betaReviewRoundSelect" class="betaReviewRoundSelect"><option value="">Current test round</option></select><span id="betaReviewRoundLabel" class="betaReviewRoundLabel">Current test round</span></div>
-  <div class="betaReviewBulkControls"><label>Dismiss automatic flags through <input id="betaDismissCutoff" type="datetime-local" step="1" class="betaReviewBulkInput"></label><button id="betaDismissButton" type="button" class="betaReviewBulkButton">Preview and Dismiss Older Flags</button><span id="betaDismissStatus" class="betaReviewBulkStatus"></span><small>All stored rounds. Original diagnostics and dismissal history are retained. Reviewed status is unchanged.</small></div>
   <div class="betaReviewBulkControls"><span class="betaReviewBulkLabel">Bulk close older scans:</span><input id="betaReviewBulkCutoff" class="betaReviewBulkInput" type="datetime-local" aria-label="Mark scans before this date and time reviewed"><button type="button" id="betaReviewBulkReviewed" class="betaReviewBulkButton">Mark Earlier Scans Reviewed</button><span id="betaReviewBulkStatus" class="betaReviewBulkStatus"></span></div>
   <div id="betaReviewSummary"></div>
   <div id="betaAnalyticsSummary" class="betaAnalyticsSummary" hidden></div>
@@ -1023,7 +1022,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5016C";
+  const FRONTEND_VERSION="FE_AIV_v5015C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1701,7 +1700,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const name=String(filter||'unreviewed');
     if(name==='reviewed')return {title:'Reviewed Unique Scans',help:'Uncheck Reviewed to return a scan to the unreviewed list. Repeated scans remain grouped.',empty:'No reviewed qualifying scans are stored.',countKey:'reviewed',loading:'Loading reviewed scans…'};
     if(name==='user-flagged')return {title:'User-Flagged Unique Scans',help:'Shows scans rated Needs Improvement or Incorrect, plus any earlier tester flags.',empty:'No user-flagged qualifying scans are stored.',countKey:'userFlagged',loading:'Loading user-flagged scans…'};
-    if(name==='dismissed-flags')return {title:'Automatic Flag Dismissal History',help:'Original diagnostic reasons and timestamped administrator dismissals. New flags remain active.',empty:'No dismissals in this test round.',countKey:'dismissedFlags',loading:'Loading dismissal history…'};
     if(name==='automatic-flags')return {title:'Automatically Flagged Unique Scans',help:'Shows scans AIVerify marked for closer review, whether reviewed or unreviewed.',empty:'No automatically flagged qualifying scans are stored.',countKey:'automaticallyFlagged',loading:'Loading automatically flagged scans…'};
     if(name==='acceptable')return {title:'Rated Acceptable',help:'Shows unique scans testers rated Acceptable.',empty:'No scans have been rated Acceptable.',countKey:'acceptable',loading:'Loading Acceptable ratings…'};
     if(name==='needs-improvement')return {title:'Rated Needs Improvement',help:'Shows unique scans testers rated Needs Improvement, including their comments.',empty:'No scans have been rated Needs Improvement.',countKey:'needsImprovement',loading:'Loading Needs Improvement ratings…'};
@@ -1711,14 +1709,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   }
   function aivApplyReviewFilterLabels(){const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);const title=el('betaReviewQueueTitle');const help=el('betaReviewQueueHelp');if(title)title.textContent=info.title;if(help)help.textContent=info.help;}
   function aivSetBetaReviewFilter(filter){
-    const allowed=['unreviewed','reviewed','user-flagged','automatic-flags','dismissed-flags','acceptable','needs-improvement','incorrect','returned-testers'];
+    const allowed=['unreviewed','reviewed','user-flagged','automatic-flags','acceptable','needs-improvement','incorrect','returned-testers'];
     AIV_BETA_REVIEW_FILTER=allowed.indexOf(filter)>=0?filter:'unreviewed';
     aivApplyReviewFilterLabels();aivLoadBetaReview();
   }
   function aivRenderReviewSummary(data){
     const node=el('betaReviewSummary');if(!node)return;
     const counts=data&&data.counts||{};
-    const items=[['unreviewed','Unreviewed',counts.unreviewed||0],['reviewed','Reviewed',counts.reviewed||0],['user-flagged','User flagged',counts.userFlagged||0],['automatic-flags','Automatic flags',counts.automaticallyFlagged||0],['dismissed-flags','Dismissal history',counts.dismissedFlags||0],['acceptable','Acceptable',counts.acceptable||0],['needs-improvement','Needs improvement',counts.needsImprovement||0],['incorrect','Incorrect',counts.incorrect||0]];if(AIV_RETURNED_TESTER_IDS.length)items.push(['returned-testers','Returned testers',AIV_RETURNED_TESTER_IDS.length]);
+    const items=[['unreviewed','Unreviewed',counts.unreviewed||0],['reviewed','Reviewed',counts.reviewed||0],['user-flagged','User flagged',counts.userFlagged||0],['automatic-flags','Automatic flags',counts.automaticallyFlagged||0],['acceptable','Acceptable',counts.acceptable||0],['needs-improvement','Needs improvement',counts.needsImprovement||0],['incorrect','Incorrect',counts.incorrect||0]];if(AIV_RETURNED_TESTER_IDS.length)items.push(['returned-testers','Returned testers',AIV_RETURNED_TESTER_IDS.length]);
     node.innerHTML='<div class="betaReviewProgress">'+items.map(function(item){return '<button type="button" class="betaReviewProgressItem'+(AIV_BETA_REVIEW_FILTER===item[0]?' isActive':'')+'" data-review-filter="'+esc(item[0])+'">'+esc(item[1])+' <b>'+esc(item[2])+'</b></button>';}).join('')+'</div>';
     node.querySelectorAll('[data-review-filter]').forEach(function(button){button.addEventListener('click',function(){aivSetBetaReviewFilter(String(button.getAttribute('data-review-filter')||''));});});
   }
@@ -1840,20 +1838,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const candidates=[event&&event.displayTimestamp,event&&event.timestamp,event&&event.pendingSinceAt];
     for(let index=0;index<candidates.length;index+=1){const date=new Date(String(candidates[index]||''));if(Number.isFinite(date.getTime()))return date.getTime();}
     return NaN;
-  }
-  async function aivDismissOlderFlags(){
-    const button=el('betaDismissButton'),status=el('betaDismissStatus');button.disabled=true;
-    try{
-      const date=new Date(el('betaDismissCutoff').value);if(!Number.isFinite(date.getTime())||date.getTime()>Date.now())throw Error('Choose a valid past cutoff.');
-      const headers=aivReviewAdminHeaders();headers['content-type']='application/json';
-      async function request(body){const r=await fetch(BACKEND_BASE_URL+'/analytics/review/update',{method:'POST',cache:'no-store',mode:'cors',headers,body:JSON.stringify(body)});const d=await r.json();if(!r.ok||!d.ok)throw Error(d.error||'Dismissal failed');return d;}
-      status.textContent='Loading frozen preview…';
-      const preview=await request({action:'preview-automatic-dismissal',cutoff:date.toISOString()});
-      if(!preview.recordCount){status.textContent='No active automatic flags through this cutoff.';return;}
-      if(!window.confirm('Dismiss automatic flags on '+preview.recordCount+' records in '+preview.groupCount+' groups through '+date.toLocaleString()+'? Original diagnostics, feedback and Reviewed status remain intact. Newer records are excluded.')){status.textContent='Canceled; nothing changed.';return;}
-      const result=await request({action:'dismiss-automatic-flags',cutoff:preview.cutoff,selections:preview.selections});
-      status.textContent='Dismissed flags on '+result.dismissedRecords+' records. History retained.';await aivLoadBetaReview();
-    }catch(e){status.textContent=String(e.message||e);}finally{button.disabled=false;}
   }
   async function aivBulkReviewBeforeCutoff(){
     const input=el('betaReviewBulkCutoff');const button=el('betaReviewBulkReviewed');const status=el('betaReviewBulkStatus');
@@ -1978,7 +1962,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         flags+='<div class="betaSimpleFlag user">Flagged by '+esc(flag.testerName||'tester')+' — '+esc(reason+other)+'</div>';
       });
       if(automaticFlagged)flags+='<div class="betaSimpleFlag">Automatically flagged — '+esc(aivFriendlyAutomaticFlag(event))+'</div>';
-      if(event.automaticFlagDismissals && event.automaticFlagDismissals.length) flags+='<details><summary>Automatic flag dismissal history</summary><div>'+esc((event.originalAutomaticReasons||[]).join(', '))+'</div>'+event.automaticFlagDismissals.map(d=>'<div>'+esc(new Date(d.dismissedAt).toLocaleString('en-US',{timeZone:'America/New_York',year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',second:'2-digit',timeZoneName:'short'}))+' — '+esc(d.eventIds.length)+' records; cutoff '+esc(d.cutoff)+'</div>').join('')+'</details>';
       const ids=(Array.isArray(event.reviewEventIds)&&event.reviewEventIds.length?event.reviewEventIds:[event.eventId]).filter(Boolean).join(',');
       return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(readKey)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><div class="betaSimpleTopActions"><label class="betaSimpleRead" title="Local visual marker only; does not archive or change review status."><input type="checkbox" data-simple-read'+(locallyRead?' checked':'')+'> Read</label><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+aivReviewResultHtml(visible,event)+'</div>'+flags+'<div class="betaSimpleStatus" data-simple-status></div></article>';
     }).join('');
@@ -2024,7 +2007,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const token=el('betaReviewToken');try{if(token)token.value=sessionStorage.getItem('aiv_beta_review_token')||'';}catch(_e){}
     const load=el('betaReviewLoad');if(load)load.onclick=aivLoadBetaReview;
     const startRound=el('betaReviewStartRound');if(startRound)startRound.onclick=aivStartNewReviewRound;
-    el('betaDismissButton').onclick=aivDismissOlderFlags;
     const bulkReviewed=el('betaReviewBulkReviewed');if(bulkReviewed)bulkReviewed.onclick=aivBulkReviewBeforeCutoff;
     const returnedField=el('betaReturnedIds');try{if(returnedField){returnedField.value=localStorage.getItem(AIV_RETURNED_TESTERS_KEY)||'';AIV_RETURNED_TESTER_IDS=aivReturnedExtractIds(returnedField.value);}}catch(_e){}
     const returnedCheck=el('betaReturnedCheckButton');if(returnedCheck)returnedCheck.onclick=aivCheckReturnedTesters;

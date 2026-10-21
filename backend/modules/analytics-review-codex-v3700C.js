@@ -11,7 +11,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V18';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V17';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
@@ -938,63 +938,6 @@ function createAnalyticsReviewFoundation(options) {
   const overallFeedbackFile = path.join(storageDir, 'overall-feedback.jsonl');
   const reviewRoundFile = path.join(storageDir, 'review-round.json');
   const secretFile = path.join(storageDir, '.analytics-secret');
-  // Separate append-only administrator acknowledgments; original events remain untouched.
-  const dismissalFile = path.join(storageDir, 'automatic-flag-dismissals.jsonl');
-  const dismissals = [];
-  let dismissalReadError = false;
-  try { if (fs.existsSync(dismissalFile)) {
-    for (const line of fs.readFileSync(dismissalFile, 'utf8').split(/\r?\n/).filter(Boolean)) {
-      const row = JSON.parse(line);
-      if (!row || row.schema !== 1 || !Array.isArray(row.selections) || !Number.isFinite(Date.parse(row.cutoff)) || row.selections.some(s => !s || typeof s.eventId !== 'string' || typeof s.fingerprint !== 'string')) throw new Error('Invalid dismissal history');
-      dismissals.push(row);
-    }
-  }} catch (_) { dismissalReadError = true; }
-  function diagnosticFingerprint(event) {
-    return hash(JSON.stringify([event.eventId,event.timestamp,eventVisibleResult(event),eventAutomaticReasons(event)]));
-  }
-  function acknowledgment(event) {
-    if (dismissalReadError) return null; // Fail open for flags, closed for dismissal writes.
-    return dismissals.slice().reverse().find(row => row.selections.some(s => s.eventId === event.eventId && s.fingerprint === diagnosticFingerprint(event)));
-  }
-  function groupsWithDismissals(source) {
-    return groupReviewEvents(source).map(group => {
-      const attempts = source.filter(e => group.reviewEventIds.includes(e.eventId));
-      const variants = new Set(attempts.map(resultFingerprint).filter(Boolean));
-      const pending = attempts.filter(e => !acknowledgment(e));
-      const original = uniqueFlags(attempts.flatMap(eventAutomaticReasons));
-      const active = uniqueFlags(pending.flatMap(eventAutomaticReasons));
-      if (variants.size > 1) { original.unshift('REPEATED_SCAN_RESULT_CHANGED'); if (pending.length) active.unshift('REPEATED_SCAN_RESULT_CHANGED'); }
-      group.originalAutomaticReasons = original;
-      group.automaticFlagDismissals = dismissals.filter(row => row.selections.some(s => group.reviewEventIds.includes(s.eventId))).map(row => ({id:row.id,cutoff:row.cutoff,dismissedAt:row.dismissedAt,eventIds:row.selections.filter(s=>group.reviewEventIds.includes(s.eventId)).map(s=>s.eventId)}));
-      group.qualityFlags = uniqueFlags(active); group.failureCategory = active[0] || '';
-      group.automaticFlag = active.length > 0; group.reviewRequired = active.length > 0;
-      return group;
-    });
-  }
-  function dismissAutomaticFlags(data) {
-    if (dismissalReadError) return {ok:false,status:503,error:'Dismissal history is unreadable; nothing changed.'};
-    const cutoff = Date.parse(data.cutoff);
-    if (!Number.isFinite(cutoff) || !/Z$|[+-]\d\d:\d\d$/.test(String(data.cutoff)) || cutoff > Date.now()) return {ok:false,status:400,error:'Choose a valid cutoff at or before now.'};
-    const before = events.filter(e => Number.isFinite(Date.parse(e.timestamp)) && Date.parse(e.timestamp) <= cutoff);
-    const flaggedIds = new Set(groupsWithDismissals(before).filter(g=>g.automaticFlag).flatMap(g=>g.reviewEventIds));
-    const eligible = before.filter(e=>flaggedIds.has(e.eventId) && !acknowledgment(e));
-    const selections = eligible.map(e=>({eventId:e.eventId,fingerprint:diagnosticFingerprint(e)}));
-    if(data.action==='preview-automatic-dismissal') return {ok:true,cutoff:new Date(cutoff).toISOString(),selections,recordCount:selections.length,groupCount:groupsWithDismissals(before).filter(g=>g.automaticFlag).length};
-    if(!Array.isArray(data.selections) || !data.selections.length || data.selections.length>25000) return {ok:false,status:400,error:'A frozen preview selection is required.'};
-    const selected = []; const seen = new Set();
-    for(const s of data.selections){
-      if(!s || typeof s.eventId!=='string' || typeof s.fingerprint!=='string' || seen.has(s.eventId)) return {ok:false,status:400,error:'Invalid or duplicate selection.'};
-      seen.add(s.eventId);
-      const e = before.find(e=>e.eventId===s.eventId);
-      if(!e || diagnosticFingerprint(e)!==s.fingerprint) return {ok:false,status:409,error:'Selection changed or exceeds cutoff; nothing dismissed.'};
-      if(!acknowledgment(e)){if(!flaggedIds.has(e.eventId))return {ok:false,status:409,error:'Selection no longer has active flags.'}; selected.push(s);}
-    }
-    if(!selected.length)return {ok:true,dismissedRecords:0,alreadyDismissed:true};
-    const row={schema:1,id:crypto.randomBytes(12).toString('hex'),cutoff:new Date(cutoff).toISOString(),dismissedAt:new Date().toISOString(),selections:selected};
-    try {fs.appendFileSync(dismissalFile,JSON.stringify(row)+'\n','utf8');}catch(_){return {ok:false,status:503,error:'Dismissal could not be saved; nothing changed.'};}
-    dismissals.push(row);
-    return {ok:true,dismissedRecords:selected.length,dismissal:clone(row)};
-  }
   const timezone = clean(env.AIV_ANALYTICS_TIMEZONE) || 'America/New_York';
   const billingCycleDay = Math.min(28, Math.max(1, Math.round(finiteNumber(env.AIV_ANALYTICS_BILLING_CYCLE_DAY, 1))));
   const memoryLimit = Math.max(100, Math.min(25000, Math.round(finiteNumber(env.AIV_ANALYTICS_MEMORY_LIMIT, 5000))));
@@ -1570,7 +1513,6 @@ function createAnalyticsReviewFoundation(options) {
 
   function updateReview(details) {
     const data = details && typeof details === 'object' ? details : {};
-    if (data.action === 'preview-automatic-dismissal' || data.action === 'dismiss-automatic-flags') return dismissAutomaticFlags(data);
     const identifiers = Array.from(new Set([].concat(Array.isArray(data.eventIds) ? data.eventIds : [], data.eventId || []).map(clean).filter(Boolean)));
     const matching = events.filter(function (event) { return identifiers.includes(event.eventId); });
     if (!matching.length) return { ok: false, status: 404, error: 'Scan record not found.' };
@@ -1657,7 +1599,7 @@ function createAnalyticsReviewFoundation(options) {
     const includeArchived = query.includeArchived === true;
     const order = clean(query.order).toLowerCase() === 'newest' ? 'newest' : 'oldest';
     const requestedFilter = clean(query.filter).toLowerCase();
-    const filter = ['unreviewed', 'reviewed', 'user-flagged', 'automatic-flags', 'dismissed-flags', 'acceptable', 'needs-improvement', 'incorrect', 'all'].indexOf(requestedFilter) >= 0
+    const filter = ['unreviewed', 'reviewed', 'user-flagged', 'automatic-flags', 'acceptable', 'needs-improvement', 'incorrect', 'all'].indexOf(requestedFilter) >= 0
       ? requestedFilter
       : (includeReviewed ? 'all' : 'unreviewed');
     ensureReviewRoundHistory();
@@ -1668,14 +1610,13 @@ function createAnalyticsReviewFoundation(options) {
       const eventTime = timestampMilliseconds(event.timestamp);
       return eventTime >= selectedWindow.start && eventTime < selectedWindow.end;
     });
-    const grouped = groupsWithDismissals(eligibleEvents);
+    const grouped = groupReviewEvents(eligibleEvents);
     const counts = {
       total: grouped.length,
       unreviewed: grouped.filter(function (event) { return !(event.review && event.review.reviewed); }).length,
       reviewed: grouped.filter(function (event) { return event.review && event.review.reviewed; }).length,
       userFlagged: grouped.filter(function (event) { return event.userFlag && event.userFlag.flagged; }).length,
       automaticallyFlagged: grouped.filter(function (event) { return event.automaticFlag || event.reviewRequired || event.failureCategory; }).length,
-      dismissedFlags: grouped.filter(e=>e.automaticFlagDismissals.length).length,
       acceptable: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Acceptable'; }); }).length,
       needsImprovement: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Needs Improvement'; }); }).length,
       incorrect: grouped.filter(function (event) { return (event.testerFeedbacks || []).some(function (feedback) { return feedback.rating === 'Incorrect'; }); }).length,
@@ -1692,7 +1633,6 @@ function createAnalyticsReviewFoundation(options) {
       if (filter === 'reviewed') return reviewed;
       if (filter === 'user-flagged') return userFlagged;
       if (filter === 'automatic-flags') return automaticallyFlagged;
-      if (filter === 'dismissed-flags') return event.automaticFlagDismissals.length > 0;
       const feedbacks = Array.isArray(event.testerFeedbacks) ? event.testerFeedbacks : [];
       if (filter === 'acceptable') return feedbacks.some(function (feedback) { return feedback.rating === 'Acceptable'; });
       if (filter === 'needs-improvement') return feedbacks.some(function (feedback) { return feedback.rating === 'Needs Improvement'; });
@@ -1751,7 +1691,6 @@ function createAnalyticsReviewFoundation(options) {
       currentReviewRound: clone(currentReviewRound),
       reviewRounds: publicReviewRounds(),
       overallFeedbacks: clone(overallFeedbacks),
-      automaticFlagDismissals: clone(dismissals),
       events: clone(events)
     };
   }
@@ -1763,7 +1702,7 @@ function createAnalyticsReviewFoundation(options) {
       eventCount: events.length,
       reviewQueueCount: groupReviewEvents(events.filter(function (event) { return !isNonQualifyingOutcome(event); })).filter(function (event) { return !(event.review && event.review.reviewed); }).length,
       userFlaggedCount: groupReviewEvents(events.filter(function (event) { return !isNonQualifyingOutcome(event); })).filter(function (event) { return event.userFlag && event.userFlag.flagged; }).length,
-      automaticFlaggedCount: groupsWithDismissals(events.filter(function (event) { return !isNonQualifyingOutcome(event); })).filter(function (event) { return event.automaticFlag; }).length,
+      automaticFlaggedCount: groupReviewEvents(events.filter(function (event) { return !isNonQualifyingOutcome(event); })).filter(function (event) { return event.automaticFlag; }).length,
       storage: {
         ready: storageReady,
         directoryConfigured: !!clean(env.AIV_ANALYTICS_STORAGE_DIR),
