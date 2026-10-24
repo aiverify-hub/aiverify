@@ -1000,7 +1000,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   <div class="betaReviewRoundControls"><button type="button" id="betaReviewStartRound" class="betaReviewRoundButton">Start New Test Round</button><label class="betaReviewArchiveToggle" for="betaReviewRoundSelect">View test round:</label><select id="betaReviewRoundSelect" class="betaReviewRoundSelect"><option value="">Current test round</option></select><span id="betaReviewRoundLabel" class="betaReviewRoundLabel">Current test round</span></div>
   <div class="betaReviewBulkControls"><span class="betaReviewBulkLabel">Bulk close older scans:</span><input id="betaReviewBulkCutoff" class="betaReviewBulkInput" type="datetime-local" aria-label="Mark scans before this date and time reviewed"><button type="button" id="betaReviewBulkReviewed" class="betaReviewBulkButton">Mark Earlier Scans Reviewed</button><span id="betaReviewBulkStatus" class="betaReviewBulkStatus"></span></div>
   <div id="betaReviewSummary"></div>
-  <div id="betaTrafficSummary" class="betaAnalyticsSummary"></div>
   <div id="betaAnalyticsSummary" class="betaAnalyticsSummary" hidden></div>
   <div id="betaReturnedCheck" class="betaReturnedCheck">
     <div class="betaReturnedTitle">Returned Tester Check</div>
@@ -1023,7 +1022,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5018C";
+  const FRONTEND_VERSION="FE_AIV_v5017C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1763,23 +1762,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     node.innerHTML='<div class="betaAnalyticsHeader"><div class="betaAnalyticsTitle">'+esc(aivAnalyticsDisplayVersion(data.analyticsVersion))+'</div><div class="betaAnalyticsPeriod">Today · '+esc(today.startDate||'')+'</div></div><div class="betaAnalyticsStats">'+stats.map(function(item){return '<span class="betaAnalyticsStat">'+esc(item[0])+' <b>'+esc(item[1])+'</b></span>';}).join('')+'</div><div class="betaAnalyticsGroups">'+aivAnalyticsRows('Categories',today.releaseCategoryCounts)+aivAnalyticsRows('Devices',today.deviceTypeCounts)+aivAnalyticsRows('Response time',today.speedBandCounts)+aivAnalyticsRows('Source tier',today.sourceTierCounts)+'</div>';
     node.hidden=false;
   }
-function aivTrafficPanel(){
- const host=el('betaTrafficSummary');if(!host||host.dataset.ready)return;host.dataset.ready='1';
- const today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
- host.innerHTML='<h3 style="margin-top:0">Visitor activity</h3><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><label>From <input type="date" id="trafficStart"></label><label>Through <input type="date" id="trafficEnd"></label><button type="button" id="trafficApply">Show activity</button></div><div id="trafficCounts" aria-live="polite"></div>';
- el('trafficStart').value=today;el('trafficEnd').value=today;el('trafficApply').onclick=aivLoadTraffic;aivLoadTraffic();
-}
-async function aivLoadTraffic(){
- const node=el('trafficCounts');if(!node)return;node.textContent='Loading activity…';
- try{const r=await fetch(BACKEND_BASE_URL+'/analytics/traffic?start='+encodeURIComponent(el('trafficStart').value)+'&end='+encodeURIComponent(el('trafficEnd').value),{cache:'no-store',headers:aivReviewAdminHeaders()});const d=await r.json();if(!r.ok||!d.ok)throw new Error('Activity could not be loaded. Check the dates and administrator access.');
- const labels={landing:'Landing visits',open:'Open AIVerify clicks',arrival:'Scanner arrivals',submit:'Questions submitted',completed:'Completed answers',failed:'Failed scans'};
- const group=(title,counts)=>'<h4>'+esc(title)+'</h4><div class="betaAnalyticsStats">'+Object.keys(labels).map(k=>'<span class="betaAnalyticsStat">'+labels[k]+' <b>'+Number(counts[k]||0)+'</b></span>').join('')+'</div>';
- node.innerHTML='<p>'+esc(d.start)+' through '+esc(d.end)+' · Eastern dates</p>'+group('Other / not identified as internal',d.other)+group('Known internal tests',d.knownInternal)+'<details><summary>Campaign attribution</summary>'+Object.entries(d.campaigns).map(([name,v])=>'<p><b>'+esc(name)+'</b></p>'+group('Other',v.other)+group('Internal',v.knownInternal)).join('')+'</details><p>'+esc(d.notes)+'</p><p>Tracking began: '+esc(d.trackingSince?new Date(d.trackingSince).toLocaleString('en-US',{timeZone:'America/New_York',year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',hour12:true,timeZoneName:'short'}):'No recorded events yet')+'. Earlier traffic cannot be reconstructed.</p>';
- }catch(e){node.textContent=e.message;}
-}
-
   async function aivLoadAnalyticsSummary(){
-    aivTrafficPanel();
     const node=el('betaAnalyticsSummary');
     try{
       const response=await fetch(BACKEND_BASE_URL+'/analytics/summary?_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
@@ -2806,7 +2789,6 @@ async function aivLoadTraffic(){
     }
   }
   function cancelActiveRender(){
-    if(typeof AIV_TRAFFIC_V386!=="undefined"){AIV_TRAFFIC_V386.fail(AIV_TRAFFIC_V386.active());AIV_TRAFFIC_V386.clear();}
     clearRetryTimers();
     clearGeneralScanTimers();
     activeRenderRun += 1;
@@ -6285,21 +6267,6 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     }
     return urls.slice(0,3);
   }
-/* T386: limited anonymous, first-party traffic metadata. No question text. */
-const AIV_TRAFFIC_V386=(function(){
- const hex=()=>Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');
- const valid=x=>/^[a-f0-9]{32}$/.test(x||'');const tag=x=>/^[a-zA-Z0-9_-]{1,80}$/.test(x||'')?x:'';
- let query=new URLSearchParams(location.search),saved={};try{saved=JSON.parse(sessionStorage.getItem('aivTrafficV1')||'{}');}catch(_){}
- const freshCampaign=['utm_source','utm_medium','utm_campaign'].some(k=>query.has(k));
- const data={session:valid(query.get('aiv_sid'))?query.get('aiv_sid'):valid(saved.session)?saved.session:hex(),source:tag(query.get('utm_source')||(freshCampaign?'':saved.source)),medium:tag(query.get('utm_medium')||(freshCampaign?'':saved.medium)),campaign:tag(query.get('utm_campaign')||(freshCampaign?'':saved.campaign))};
- try{sessionStorage.setItem('aivTrafficV1',JSON.stringify(data));}catch(_){}
- function session(){try{return activeTesterSession&&activeTesterSession.token||aivStoredSessionToken()||'';}catch(_){return '';}}
- function emit(kind,request){try{fetch(BACKEND_BASE_URL+'/traffic/event',{method:'POST',mode:'cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=UTF-8'},body:JSON.stringify({kind,event:hex(),...data,request:request||'',sessionToken:session()})}).catch(()=>{});}catch(_){} }
- let active='';
- if(!query.has('beta-review'))emit('arrival');
- return {begin(){active=hex();emit('submit',active);return active;},meta(request){return {...data,request};},fail(request){if(request)emit('failed',request);},clear(){active='';},active(){return active;}};
-})();
-
   function aivFeNow(){try{return performance.now();}catch(_e){return Date.now();}}
   async function fetchCompactTextV1734(value,runId){
     // v2306: do not launch /health beside every scan. The version badge is refreshed
@@ -6309,7 +6276,7 @@ const AIV_TRAFFIC_V386=(function(){
     const clientTimezone=(Intl.DateTimeFormat&&Intl.DateTimeFormat().resolvedOptions().timeZone)||"";
     const url=BACKEND_BASE_URL+"/scan?compact=1&_="+Date.now();
     const sessionToken=activeTesterSession&&activeTesterSession.token||aivStoredSessionToken();
-    const scanPayload={traffic:AIV_TRAFFIC_V386.meta(AIV_TRAFFIC_V386.active()),input:value,sessionToken:sessionToken,frontendVersion:FRONTEND_VERSION,renderRun:runId,clientDate:clientDate,tz:clientTimezone};
+    const scanPayload={input:value,sessionToken:sessionToken,frontendVersion:FRONTEND_VERSION,renderRun:runId,clientDate:clientDate,tz:clientTimezone};
     const fetchOptions={method:"POST",mode:"cors",headers:{"Content-Type":"text/plain;charset=UTF-8"},body:JSON.stringify(scanPayload)};
     if(activeAbortController) fetchOptions.signal=activeAbortController.signal;
     const aivFetchStart=aivFeNow();
@@ -6369,7 +6336,6 @@ const AIV_TRAFFIC_V386=(function(){
     if(isRetryTimeoutTestInput(raw)){startRetryTimeoutTest(raw);return;}
     cancelActiveRender();
     const runId=activeRenderRun;
-    const trafficRequest=AIV_TRAFFIC_V386.begin();
     lastAnalyzedInput=raw;
     beginTranscriptDetection(raw);
     updateSubjectCountPreview();
@@ -6383,7 +6349,6 @@ const AIV_TRAFFIC_V386=(function(){
       if(runId!==activeRenderRun)return;
       if(activeAbortController){try{activeAbortController.abort();}catch(_e){}}
       activeAbortController=null;
-      AIV_TRAFFIC_V386.fail(trafficRequest);
       renderGeneralScanTimeoutPanel();
     },25000);
     try{
@@ -6469,12 +6434,11 @@ const AIV_TRAFFIC_V386=(function(){
         try{console.log("AIV FE timing v2319",timingText,{responseReadyMs:Math.round(aivResponseReady-aivAnalyzeStart)});}catch(_e){}
       }
     }catch(e){
-      AIV_TRAFFIC_V386.fail(trafficRequest);
       if(e && e.name==="AbortError")return;
       clearGeneralScanTimers();
       errorState(e,runId);
     }finally{
-      if(runId===activeRenderRun){AIV_TRAFFIC_V386.clear();clearGeneralScanTimers(); activeAbortController=null;}
+      if(runId===activeRenderRun){clearGeneralScanTimers(); activeAbortController=null;}
     }
   }
   function clearInput(){clearRetryTimeoutCache(); cancelActiveRender(); activeLoadedTemplateSample=false; const i=input(); if(i){i.value="";i.dataset.aivLoadedTemplate='false'; i.focus();try{i.scrollIntoView({block:"start",behavior:"auto"});}catch(_e){}} updateCounts(); setTranscriptStatus(null,""); setText("lastAction","Input cleared");}
