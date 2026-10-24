@@ -1298,7 +1298,7 @@ function createAnalyticsReviewFoundation(options) {
         backendVersion: backendVersion,
         frontendVersion: clean(data.frontendVersion || store.frontendVersion || ''),
         requestId: clean(data.requestId || data.req && data.req.headers && data.req.headers['rndr-id'] || '').slice(0, 100),
-        anonymousVisitorId: visitorId(data.req),
+        anonymousVisitorId: /^guest_[a-f0-9]{32}$/.test(clean(data.testerId || store.testerId || '')) ? clean(data.testerId || store.testerId) : visitorId(data.req),
         testerId: clean(data.testerId || store.testerId || '').slice(0, 64),
         testerName: clean(data.testerName || store.testerName || '').slice(0, 80),
         inputType: inputType(inputExact, data.inputType),

@@ -943,7 +943,7 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
   </div>
 </div>
 <div class="headerWrap"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
-<div id="testerBar" class="testerBar" hidden><span>Signed in as <strong id="testerNameDisplay"></strong></span><a id="betaReviewShortcut" class="testerSignOut" href="?beta-review=1" target="_blank" rel="noopener" hidden>Open Beta Review</a><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
+<div id="testerBar" class="testerBar" hidden><span><span id="testerStatusLabel">Signed in as </span><strong id="testerNameDisplay"></strong></span><a id="betaReviewShortcut" class="testerSignOut" href="?beta-review=1" target="_blank" rel="noopener" hidden>Open Beta Review</a><button type="button" id="testerSignOut" class="testerSignOut">Sign Out</button></div>
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
 <div class="workflowSelector" aria-label="Switch AIVerify check">
   <button type="button" id="workflowToggleBtn" class="workflowChoice" aria-controls="informationModePanel aiCreationModePanel"><span id="workflowToggleText" class="workflowChoiceTitle">Check for AI Creation</span></button>
@@ -1022,7 +1022,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5015C";
+  const FRONTEND_VERSION="FE_AIV_v5017C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1157,7 +1157,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(name){name.value=rememberedName||name.value||'';setTimeout(function(){name.focus();},0);}
   }
   function aivShowSignedIn(tester,token){
+    if(new URLSearchParams(location.search).has('beta-review')&&!(tester&&tester.isAdministrator)){aivShowSignIn('Administrator sign-in is required.');return;}
     activeTesterSession={tester:tester,token:token};
+    const status=aivAuthNode('testerStatusLabel');if(status)status.textContent=tester&&tester.anonymous?'':'Signed in as ';
+    const signButton=aivAuthNode('testerSignOut');if(signButton)signButton.textContent=tester&&tester.anonymous?'Sign In':'Sign Out';
     document.body.classList.remove('aivAuthLocked');
     const overlay=aivAuthNode('aivAuthOverlay');if(overlay)overlay.hidden=true;
     const bar=aivAuthNode('testerBar');if(bar)bar.hidden=false;
@@ -1172,10 +1175,19 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const pin=aivAuthNode('aivTesterPin');if(pin)pin.value='';
     const i=input();if(i&&(!window.matchMedia||window.matchMedia('(min-width:721px)').matches))setTimeout(function(){i.focus();},0);
   }
+  async function aivStartGuest(){
+    if(new URLSearchParams(location.search).has('beta-review')){aivShowSignIn('Administrator sign-in is required.');return;}
+    try{
+      const res=await fetch(BACKEND_BASE_URL+'/auth/guest',{method:'POST',cache:'no-store',mode:'cors'});
+      const data=await res.json();
+      if(!res.ok||!data.ok||!data.tester||!data.sessionToken){aivShowSignIn(res.status===403?'':(data.error||'Guest access unavailable.'));return;}
+      aivStoreSession(data);aivShowSignedIn(data.tester,data.sessionToken);
+    }catch(_e){aivShowSignIn('Unable to start guest access. Please try again later.');}
+  }
   async function aivValidateStoredSession(){
     const stored=aivStoredSessionRecord();
     const token=stored.token;
-    if(!token){aivShowSignIn('');return;}
+    if(!token){await aivStartGuest();return;}
     aivSetAuthMessage('Checking saved sign-in…',true);
     try{
       const res=await fetch(BACKEND_BASE_URL+'/auth/session?_='+Date.now(),{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'text/plain;charset=UTF-8'},body:JSON.stringify({sessionToken:token})});
