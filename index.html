@@ -924,13 +924,13 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 #result .answerPrimaryLine,#result .answerListLine{scroll-margin-top:12px}
 </style>
 </head>
-<body class="aivAuthLocked">
-<div id="aivAuthOverlay" class="aivAuthOverlay" role="dialog" aria-modal="true" aria-labelledby="aivAuthTitle">
+<body>
+<div id="aivAuthOverlay" class="aivAuthOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="aivAuthTitle">
   <div class="aivAuthCard">
     <div class="aivAuthBrand"><div class="logoBox">AiV</div><div><div class="brandTitle" style="color:#0c3555">AIVerify</div><div class="brandSub" style="color:#4b6c84">Searching for Truth</div></div></div>
-    <div id="aivAuthTitle" class="aivAuthTitle">Beta Tester Sign In</div>
+    <div id="aivAuthTitle" class="aivAuthTitle">Administrator Sign In</div>
     <div class="aivAuthDataNotice"><strong>Beta testing notice:</strong> Your name, scan activity, and results are recorded to help evaluate and improve AIVerify.</div>
-    <p class="aivAuthIntro">Enter your name and a 4-digit PIN. On your first visit, this creates your beta tester account. Use the same name and PIN on another device.</p>
+    <p class="aivAuthIntro">Protected administrator access. Enter your existing administrator name and PIN.</p>
     <form id="aivAuthForm" autocomplete="on">
       <label class="aivAuthLabel" for="aivTesterName">Name</label>
       <input id="aivTesterName" class="aivAuthInput" type="text" maxlength="60" autocomplete="name" required>
@@ -1022,7 +1022,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5017C";
+  const FRONTEND_VERSION="FE_AIV_v5019C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1089,25 +1089,31 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const node=aivAuthNode('aivAuthMessage');if(!node)return;
     node.textContent=String(message||'');node.style.color=isSuccess?'#176b39':'#9b2d23';
   }
+  function aivPrivateAdminPage(){return new URLSearchParams(location.search).has('beta-review');}
+  function aivPublicAccessMessage(message){
+    activeTesterSession=null;
+    document.body.classList.remove('aivAuthLocked');
+    const overlay=aivAuthNode('aivAuthOverlay');if(overlay)overlay.hidden=true;
+    const bar=aivAuthNode('testerBar');if(bar)bar.hidden=true;
+    setText('lastAction',message||'Preparing access. Please wait.');
+  }
   function aivStoredSessionRecord(){
-    try{
-      const testerToken=String(sessionStorage.getItem(AIV_TESTER_SESSION_STORAGE_KEY)||'');
-      if(testerToken)return {token:testerToken,mode:'browser-session'};
-    }catch(_e){}
-    try{
-      const adminToken=String(localStorage.getItem(AIV_ADMIN_SESSION_STORAGE_KEY)||'');
-      if(adminToken)return {token:adminToken,mode:'persistent-administrator'};
-    }catch(_e){}
+    try{const token=String(localStorage.getItem(AIV_ADMIN_SESSION_STORAGE_KEY)||'');if(token)return {token:token,mode:'persistent-administrator'};}catch(_e){}
+    try{const token=String(sessionStorage.getItem(AIV_TESTER_SESSION_STORAGE_KEY)||'');if(token)return {token:token,mode:'browser-session'};}catch(_e){}
     return {token:'',mode:''};
+  }
+  function aivRemoveStoredRecord(stored){
+    try{if(stored.mode==='persistent-administrator'){localStorage.removeItem(AIV_ADMIN_SESSION_STORAGE_KEY);localStorage.removeItem(AIV_ADMIN_NAME_STORAGE_KEY);}else{sessionStorage.removeItem(AIV_TESTER_SESSION_STORAGE_KEY);sessionStorage.removeItem(AIV_TESTER_NAME_STORAGE_KEY);}}catch(_e){}
+    activeTesterSession=null;
   }
   function aivStoredSessionToken(){return aivStoredSessionRecord().token;}
   function aivStoreSession(payload){
-    aivClearStoredSession();
     const tester=payload&&payload.tester||{};
     const token=String(payload&&payload.sessionToken||'');
     const name=String(tester&&tester.name||'');
     if(!token)return;
     if(tester&&tester.isAdministrator){
+      try{sessionStorage.removeItem(AIV_TESTER_SESSION_STORAGE_KEY);sessionStorage.removeItem(AIV_TESTER_NAME_STORAGE_KEY);}catch(_e){}
       try{localStorage.setItem(AIV_ADMIN_SESSION_STORAGE_KEY,token);localStorage.setItem(AIV_ADMIN_NAME_STORAGE_KEY,name);}catch(_e){}
     }else{
       try{sessionStorage.setItem(AIV_TESTER_SESSION_STORAGE_KEY,token);sessionStorage.setItem(AIV_TESTER_NAME_STORAGE_KEY,name);}catch(_e){}
@@ -1143,11 +1149,11 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     try{aivSetWorkflowMode('information');}catch(_e){}
   }
   function aivShowSignIn(message){
+    if(!aivPrivateAdminPage()){aivPublicAccessMessage(message);return;}
     let rememberedName='';
-    try{rememberedName=String(sessionStorage.getItem(AIV_TESTER_NAME_STORAGE_KEY)||'');}catch(_e){}
-    if(!rememberedName){try{rememberedName=String(localStorage.getItem(AIV_ADMIN_NAME_STORAGE_KEY)||'');}catch(_e){}}
+    try{rememberedName=String(localStorage.getItem(AIV_ADMIN_NAME_STORAGE_KEY)||'');}catch(_e){}
     aivResetWorkspaceForAuthBoundary();
-    aivClearStoredSession();
+    activeTesterSession=null;
     document.body.classList.add('aivAuthLocked');
     const overlay=aivAuthNode('aivAuthOverlay');if(overlay)overlay.hidden=false;
     const bar=aivAuthNode('testerBar');if(bar)bar.hidden=true;
@@ -1159,11 +1165,12 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function aivShowSignedIn(tester,token){
     if(new URLSearchParams(location.search).has('beta-review')&&!(tester&&tester.isAdministrator)){aivShowSignIn('Administrator sign-in is required.');return;}
     activeTesterSession={tester:tester,token:token};
+    setText('lastAction','');
     const status=aivAuthNode('testerStatusLabel');if(status)status.textContent=tester&&tester.anonymous?'':'Signed in as ';
     const signButton=aivAuthNode('testerSignOut');if(signButton)signButton.textContent=tester&&tester.anonymous?'Sign In':'Sign Out';
     document.body.classList.remove('aivAuthLocked');
     const overlay=aivAuthNode('aivAuthOverlay');if(overlay)overlay.hidden=true;
-    const bar=aivAuthNode('testerBar');if(bar)bar.hidden=false;
+    const bar=aivAuthNode('testerBar');if(bar)bar.hidden=!(tester&&tester.isAdministrator);
     const display=aivAuthNode('testerNameDisplay');
     if(display)display.textContent=(tester&&tester.name||'')+(tester&&tester.isAdministrator?' (Administrator)':'');
     const reviewShortcut=aivAuthNode('betaReviewShortcut');
@@ -1188,18 +1195,23 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const stored=aivStoredSessionRecord();
     const token=stored.token;
     if(!token){await aivStartGuest();return;}
+    if(!aivPrivateAdminPage())aivPublicAccessMessage('Checking saved access…');
     aivSetAuthMessage('Checking saved sign-in…',true);
     try{
       const res=await fetch(BACKEND_BASE_URL+'/auth/session?_='+Date.now(),{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'text/plain;charset=UTF-8'},body:JSON.stringify({sessionToken:token})});
       const data=await res.json().catch(function(){return {};});
-      if(!res.ok||!data.ok||!data.tester){aivShowSignIn('Your saved sign-in expired. Please sign in again.');return;}
-      if(stored.mode==='persistent-administrator'&&!data.tester.isAdministrator){aivShowSignIn('This saved sign-in is no longer authorized. Please sign in again.');return;}
+      if(!res.ok||!data.ok||!data.tester){
+        if(res.status===401||res.status===403){aivRemoveStoredRecord(stored);if(!aivPrivateAdminPage()){await aivStartGuest();return;}}
+        aivShowSignIn('Access could not be verified. Please refresh when the service is available.');return;
+      }
+      if(stored.mode==='persistent-administrator'&&!data.tester.isAdministrator){aivRemoveStoredRecord(stored);aivShowSignIn('Saved administrator access is no longer authorized. Please refresh.');return;}
       aivStoreSession({sessionToken:token,tester:data.tester});
       aivShowSignedIn(data.tester,token);
     }catch(_e){aivShowSignIn('AIVerify could not verify your sign-in. Make sure the backend is running and try again.');}
   }
   async function aivSubmitSignIn(event){
     if(event)event.preventDefault();
+    if(!aivPrivateAdminPage())return;
     const name=String(aivAuthNode('aivTesterName')&&aivAuthNode('aivTesterName').value||'').replace(/\s+/g,' ').trim();
     const pin=String(aivAuthNode('aivTesterPin')&&aivAuthNode('aivTesterPin').value||'');
     if(name.length<2){aivSetAuthMessage('Enter your name.',false);return;}
@@ -1219,11 +1231,12 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   async function aivSignOut(){
     const token=aivStoredSessionToken();
     try{if(token)await fetch(BACKEND_BASE_URL+'/auth/sign-out',{method:'POST',cache:'no-store',mode:'cors',headers:{'content-type':'text/plain;charset=UTF-8'},body:JSON.stringify({sessionToken:token})});}catch(_e){}
-    aivShowSignIn('Signed out.');
+    aivClearStoredSession();
+    if(aivPrivateAdminPage())aivShowSignIn('Signed out.');else await aivStartGuest();
     const name=aivAuthNode('aivTesterName');if(name)name.value='';
     const pin=aivAuthNode('aivTesterPin');if(pin)pin.value='';
   }
-  function aivHandleUnauthorized(){aivShowSignIn('Your sign-in is required again.');}
+  function aivHandleUnauthorized(){aivRemoveStoredRecord(aivStoredSessionRecord());aivShowSignIn(aivPrivateAdminPage()?'Administrator sign-in is required.':'Access expired. Please refresh to start a new session.');}
 
   const RETRY_TEST_BASE=BACKEND_BASE_URL+"/retry-test";
   const RETRY_TIMEOUT_TEST_INPUT=`Answer these 12 questions about Mars:
@@ -6329,7 +6342,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
 
   async function newAnalyze(){
     const aivAnalyzeStart=aivFeNow();
-    if(!activeTesterSession){aivShowSignIn('Sign in before running a scan.');return;}
+    if(!activeTesterSession){aivShowSignIn('Access is not ready. Please wait or refresh.');return;}
     const i=input();
     const raw=sanitizeInputForAnalyze(i?i.value.trim():"");
     if(!raw){if(i)i.focus(); return;}
