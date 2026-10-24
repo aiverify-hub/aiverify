@@ -1022,7 +1022,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5019C";
+  const FRONTEND_VERSION="FE_AIV_v5020C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1773,14 +1773,18 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     ];
     const cost=Number(today.totalApiCostUsd||0);if(cost>0)stats.push(['API cost','$'+cost.toFixed(cost<.01?4:2)]);
     node.innerHTML='<div class="betaAnalyticsHeader"><div class="betaAnalyticsTitle">'+esc(aivAnalyticsDisplayVersion(data.analyticsVersion))+'</div><div class="betaAnalyticsPeriod">Today · '+esc(today.startDate||'')+'</div></div><div class="betaAnalyticsStats">'+stats.map(function(item){return '<span class="betaAnalyticsStat">'+esc(item[0])+' <b>'+esc(item[1])+'</b></span>';}).join('')+'</div><div class="betaAnalyticsGroups">'+aivAnalyticsRows('Categories',today.releaseCategoryCounts)+aivAnalyticsRows('Devices',today.deviceTypeCounts)+aivAnalyticsRows('Response time',today.speedBandCounts)+aivAnalyticsRows('Source tier',today.sourceTierCounts)+'</div>';
+    const activity=data.activity;
+    if(activity&&activity.counts){const n=activity.counts;node.innerHTML='<div class="betaAnalyticsHeader"><div class="betaAnalyticsTitle">Scan activity — '+esc(activity.selectedRound&&activity.selectedRound.label||'Selected period')+'</div></div><div class="betaAnalyticsStats">'+[['Outside scans',n.outside],['Internal scans',n.internal],['Unknown scans',n.unknown],['Total scans',n.total]].map(function(x){return '<span class="betaAnalyticsStat">'+esc(x[0])+' <b>'+esc(x[1])+'</b></span>';}).join('')+'</div><div class="betaAnalyticsEmpty">'+esc(activity.unit)+'. '+esc(activity.notes)+'</div><hr>'+node.innerHTML;}
     node.hidden=false;
   }
   async function aivLoadAnalyticsSummary(){
     const node=el('betaAnalyticsSummary');
+    const requestedRound=AIV_BETA_SELECTED_ROUND||'current';if(node)node.hidden=true;
     try{
-      const response=await fetch(BACKEND_BASE_URL+'/analytics/summary?_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
+      const response=await fetch(BACKEND_BASE_URL+'/analytics/summary?round='+encodeURIComponent(AIV_BETA_SELECTED_ROUND||'current')+'&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
       const data=await response.json().catch(function(){return {};});
       if(!response.ok||!data.ok)throw new Error(data.error||'Analytics summary could not be loaded.');
+      if(requestedRound!==(AIV_BETA_SELECTED_ROUND||'current'))return;
       AIV_RETURNED_ANALYTICS=data;aivRenderAnalyticsSummary(data);aivRenderReturnedTesterResults(data);
     }catch(_error){if(node){node.hidden=true;node.innerHTML='';}}
   }

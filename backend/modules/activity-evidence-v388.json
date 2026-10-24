@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "events": [
+    {
+      "id": "mvm9co0n-2189937b310d",
+      "classification": "internal",
+      "reason": "Documented Shop desktop guest verification",
+      "source": "T385 PUBLIC_SCAN_RECORDS.txt"
+    },
+    {
+      "id": "mvm9h00q-42ceca6a34bc",
+      "classification": "internal",
+      "reason": "Documented Shop phone guest verification",
+      "source": "T385 PUBLIC_SCAN_RECORDS.txt"
+    },
+    {
+      "id": "mvmdqpqz-ced493cab659",
+      "classification": "internal",
+      "reason": "Documented Shop desktop funnel verification",
+      "source": "T386 PUBLIC_DESKTOP_RESULT.txt; T388 protected event audit"
+    },
+    {
+      "id": "mvmduus2-205cec3cb189",
+      "classification": "internal",
+      "reason": "Documented Shop phone funnel verification",
+      "source": "T386 PUBLIC_PHONE_RESULT.txt; T388 protected event audit"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "00d5ecdcface9c317054179c",
+      "classification": "outside",
+      "reason": "Cary explicitly confirmed outside visitor",
+      "source": "T384_COMPLETED_REPORT.txt and T388 exact account audit"
+    }
+  ]
+}

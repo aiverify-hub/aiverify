@@ -11,7 +11,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V17';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V19';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
@@ -1562,6 +1562,27 @@ function createAnalyticsReviewFoundation(options) {
     return Array.from(map.values()).sort(function (a, b) { return b.totalScans - a.totalScans || a.testerName.localeCompare(b.testerName); });
   }
 
+  // Read-only classification overlay. Original scan/account records are never rewritten.
+  const activityEvidence = JSON.parse(fs.readFileSync(path.join(__dirname,'activity-evidence-v388.json'),'utf8'));
+  if(activityEvidence.schema!==1||!Array.isArray(activityEvidence.events)||!Array.isArray(activityEvidence.accounts))throw new Error('Invalid activity evidence');
+  const activityEventEvidence=new Map(),activityAccountEvidence=new Map();
+  for(const [rows,map] of [[activityEvidence.events,activityEventEvidence],[activityEvidence.accounts,activityAccountEvidence]])for(const row of rows){
+    if(!row||!clean(row.id)||!['internal','outside'].includes(row.classification)||!clean(row.reason)||!clean(row.source)||map.has(row.id))throw new Error('Invalid or conflicting activity classification');
+    map.set(row.id,row);
+  }
+  function activitySummary(options){
+    const accounts=new Map((options.testerAccounts||[]).map(a=>[clean(a.id),a]));
+    const selected=resolveReviewRound(options.roundId||'current'),window=reviewRoundWindow(selected);
+    const counts={internal:0,outside:0,unknown:0,total:0};const reasons={administrator:0,identifiedTest:0,confirmedOutside:0,unidentified:0};
+    for(const event of events){const time=Date.parse(event.timestamp||'');if(!Number.isFinite(time)||time<window.start||time>=window.end)continue;
+      const account=accounts.get(clean(event.testerId));const evidence=activityEventEvidence.get(clean(event.eventId))||activityAccountEvidence.get(clean(event.testerId));
+      let kind='unknown',reason='unidentified';
+      if(account&&account.isAdministrator===true){kind='internal';reason='administrator';}
+      else if(evidence){kind=evidence.classification;reason=kind==='internal'?'identifiedTest':'confirmedOutside';}
+      counts[kind]++;counts.total++;reasons[reason]++;
+    }
+    return {selectedRound:selected,counts:counts,reasons:reasons,unit:'Stored scan events (including repeat attempts)',notes:'Internal requires a recognized administrator account or explicit retained test evidence. Outside requires confirmed outside identity. Other historical and guest activity remains unknown. Counts are scans, not unique visitors.'};
+  }
   function summary(options) {
     const summaryOptions = options && typeof options === 'object' ? options : {};
     const now = new Date();
@@ -1577,6 +1598,7 @@ function createAnalyticsReviewFoundation(options) {
       ok: true,
       version: backendVersion,
       analyticsVersion: MODULE_VERSION,
+      activity: activitySummary(summaryOptions),
       timezone: timezone,
       trackingStartedAt: firstEventAt,
       generatedAt: now.toISOString(),
