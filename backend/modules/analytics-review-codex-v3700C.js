@@ -11,7 +11,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V19';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V20';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
@@ -955,7 +955,10 @@ function createAnalyticsReviewFoundation(options) {
   const billingCycleDay = Math.min(28, Math.max(1, Math.round(finiteNumber(env.AIV_ANALYTICS_BILLING_CYCLE_DAY, 1))));
   const memoryLimit = Math.max(100, Math.min(25000, Math.round(finiteNumber(env.AIV_ANALYTICS_MEMORY_LIMIT, 5000))));
   const retentionDays = Math.max(30, Math.min(3650, Math.round(finiteNumber(env.AIV_ANALYTICS_RETENTION_DAYS, 730))));
-  const events = [];
+  let events = [];
+  let persistenceError = null;
+  let persistenceFailures = 0;
+  let durableRecordCount = 0;
   const overallFeedbacks = [];
   let reviewRounds = [];
   let currentReviewRound = { id: 'all', number: 0, label: 'All stored scans', startedAt: '' };
@@ -1087,20 +1090,85 @@ function createAnalyticsReviewFoundation(options) {
     }
   }
 
+  // T429: one synchronous owner. Disk is authoritative; resident cache is bounded.
+  // The configured retention window filters reports only. Purging is separate maintenance.
+  function storageFailure(operation,error,rollback) {
+    storageReady=false; persistenceFailures+=1;
+    persistenceError={operation,code:clean(error&&error.code)||'STORAGE_ERROR',at:new Date().toISOString(),rollback:rollback||'not_applicable'};
+    warn(error);
+  }
+  function readHistory() {
+    if(!fs.existsSync(eventFile))return [];
+    return fs.readFileSync(eventFile,'utf8').split(/\r?\n/).filter(line=>line.trim()).map(line=>{
+      const row=JSON.parse(line);
+      if(!row||typeof row!=='object'||!row.eventId||!Number.isFinite(Date.parse(row.timestamp)))throw new Error('Invalid history record; refusing rewrite');
+      return row;
+    });
+  }
+  function retained(rows) {
+    const cutoff=Date.now()-retentionDays*86400000;
+    return rows.filter(row=>Date.parse(row.timestamp)>=cutoff).map(row=>normalizeEvent(row,backendVersion));
+  }
+  function verifiedBackup(file) {
+    if(!fs.existsSync(file))return;
+    const bytes=fs.readFileSync(file), digest=crypto.createHash('sha256').update(bytes).digest('hex');
+    const directory=path.join(storageDir,'verified-history-backups');fs.mkdirSync(directory,{recursive:true});
+    const backup=path.join(directory,path.basename(file)+'.'+digest+'.bak');
+    if(!fs.existsSync(backup))fs.writeFileSync(backup,bytes,{flag:'wx',mode:0o600});
+    const fd=fs.openSync(backup,'r+');try{fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
+    if(crypto.createHash('sha256').update(fs.readFileSync(backup)).digest('hex')!==digest)throw new Error('History backup verification failed');
+  }
+  function historyOperation(fn,name,mutating) {
+    return function(...args) {
+      let lock; const failureCount=persistenceFailures;
+      try {
+        // Lock protects read/merge/write across accidentally overlapping processes too.
+        lock=fs.openSync(path.join(storageDir,'.scan-history.lock'),'wx',0o600);
+        const rows=readHistory(); durableRecordCount=rows.length;
+        events=retained(rows);
+        const result=fn(...args);
+        if(mutating&&persistenceFailures!==failureCount)return name==='recordScanEvent'?null:{ok:false,status:503,error:'Scan history could not be saved.',persisted:false};
+        return result;
+      } catch(error) {
+        storageFailure(name,error);
+        if(name==='health')return health();
+        if(name==='recordScanEvent')return null;
+        return {ok:false,status:503,error:'Scan history unavailable.',persisted:false};
+      } finally {
+        events=events.slice(-memoryLimit);
+        if(lock!==undefined){try{fs.closeSync(lock);}finally{try{fs.unlinkSync(path.join(storageDir,'.scan-history.lock'));}catch(error){storageFailure('unlock',error);}}}
+      }
+    };
+  }
+
   function rewriteEvents() {
-    if (!storageReady) return false;
+    if (!storageReady) { storageFailure('rewrite', new Error('Storage unavailable')); return false; }
     try {
-      replaceStorageFile(eventFile, events.map(function (event) { return JSON.stringify(event); }).join('\n') + (events.length ? '\n' : ''));
+      const stored=readHistory(), updates=new Map(events.map(e=>[e.eventId,e]));
+      const merged=stored.map(e=>updates.has(e.eventId)?Object.assign({},e,updates.get(e.eventId)):e);
+      verifiedBackup(eventFile);
+      replaceStorageFile(eventFile,merged.map(e=>JSON.stringify(e)).join('\n')+(merged.length?'\n':''));
+      durableRecordCount=merged.length;
       return true;
-    } catch (error) {
-      warn(error);
-      return false;
-    }
+    } catch(error) { storageFailure('rewrite',error); return false; }
   }
 
   function appendEvent(event) {
-    if (!storageReady) return;
-    try { fs.appendFileSync(eventFile, JSON.stringify(event) + '\n', 'utf8'); } catch (error) { warn(error); }
+    if (!storageReady) { storageFailure('append',new Error('Storage unavailable')); return false; }
+    let fd, before;
+    try {
+      before=fs.existsSync(eventFile)?fs.statSync(eventFile).size:0;
+      fd=fs.openSync(eventFile,'a',0o600);
+      fs.appendFileSync(fd,JSON.stringify(event)+'\n','utf8');
+      fs.fsyncSync(fd);
+      durableRecordCount+=1;
+      return true;
+    } catch(error) {
+      let rollback='not_started';
+      if(fd!==undefined&&before!==undefined){let recovery;try{fs.closeSync(fd);fd=undefined;recovery=fs.openSync(eventFile,'r+');fs.ftruncateSync(recovery,before);fs.fsyncSync(recovery);rollback='truncated_to_previous_length';}catch(_e){rollback='uncertain';}finally{if(recovery!==undefined)try{fs.closeSync(recovery);}catch(_e){}}}
+      storageFailure('append',error,rollback);
+      return false;
+    } finally { if(fd!==undefined)try{fs.closeSync(fd);}catch(error){storageFailure('close',error);} }
   }
 
   function initialize() {
@@ -1113,16 +1181,9 @@ function createAnalyticsReviewFoundation(options) {
         hashSecret = crypto.randomBytes(32).toString('hex');
         fs.writeFileSync(secretFile, hashSecret, { encoding: 'utf8', mode: 0o600 });
       }
-      if (fs.existsSync(eventFile)) {
-        const cutoff = Date.now() - retentionDays * 86400000;
-        String(fs.readFileSync(eventFile, 'utf8') || '').split(/\r?\n/).forEach(function (line) {
-          if (!line.trim()) return;
-          try {
-            const parsed = normalizeEvent(JSON.parse(line), backendVersion);
-            if (Date.parse(parsed.timestamp) >= cutoff) events.push(parsed);
-          } catch (_error) {}
-        });
-      }
+      // Never migrate, truncate, normalize or expire history during startup.
+      const history=readHistory(); durableRecordCount=history.length;
+      events=retained(history).slice(-memoryLimit);
       if (fs.existsSync(overallFeedbackFile)) {
         String(fs.readFileSync(overallFeedbackFile, 'utf8') || '').split(/\r?\n/).forEach(function (line) {
           if (!line.trim()) return;
@@ -1146,13 +1207,10 @@ function createAnalyticsReviewFoundation(options) {
       dedupeOverallFeedbacks();
       while (events.length > memoryLimit) events.shift();
       storageReady = true;
-      rewriteEvents();
-      writeOverallFeedbacks();
-      writeReviewRound();
+      // Existing history and feedback files remain untouched at startup.
     } catch (error) {
       hashSecret = hashSecret || crypto.randomBytes(32).toString('hex');
-      storageReady = false;
-      warn(error);
+      storageFailure('initialize',error);
     }
   }
 
@@ -1362,9 +1420,8 @@ function createAnalyticsReviewFoundation(options) {
         review: defaultReview()
       }, backendVersion);
 
+      if (!appendEvent(event)) return null;
       events.push(event);
-      while (events.length > memoryLimit) events.shift();
-      appendEvent(event);
       return clone(event);
     } catch (error) {
       warn(error);
@@ -1745,7 +1802,12 @@ function createAnalyticsReviewFoundation(options) {
         directoryConfigured: !!clean(env.AIV_ANALYTICS_STORAGE_DIR),
         directory: storageDir,
         retentionDays: retentionDays,
-        memoryLimit: memoryLimit
+        memoryLimit: memoryLimit,
+        residentRecordCount: Math.min(events.length,memoryLimit),
+        durableRecordCount: durableRecordCount,
+        retentionPolicy: "reporting_window_only; durable archive is never automatically purged",
+        persistenceFailures: persistenceFailures,
+        lastPersistenceError: persistenceError
       },
       billingCycleDay: billingCycleDay,
       timezone: timezone,
@@ -1782,26 +1844,26 @@ function createAnalyticsReviewFoundation(options) {
 
   return Object.freeze({
     version: MODULE_VERSION,
-    health: health,
+    health: historyOperation(health, "health", false),
     runScan: runScan,
     recordProviderOperation: recordProviderOperation,
     recordProviderOperations: recordProviderOperations,
     recordOpenAIResponse: recordOpenAIResponse,
     recordOpenAICache: recordOpenAICache,
     recordExternalProviderRequest: recordExternalProviderRequest,
-    recordScanEvent: recordScanEvent,
-    updateVisibleResult: updateVisibleResult,
-    flagEvent: flagEvent,
-    feedbackEvent: feedbackEvent,
+    recordScanEvent: historyOperation(recordScanEvent, "recordScanEvent", true),
+    updateVisibleResult: historyOperation(updateVisibleResult, "updateVisibleResult", true),
+    flagEvent: historyOperation(flagEvent, "flagEvent", true),
+    feedbackEvent: historyOperation(feedbackEvent, "feedbackEvent", true),
     saveOverallFeedback: saveOverallFeedback,
     startReviewRound: startReviewRound,
     reviewRounds: publicReviewRounds,
-    updateReview: updateReview,
-    summary: summary,
-    recent: recent,
-    queue: queue,
-    exportData: exportData,
-    findEvent: function (identifier) { return clone(findEvent(identifier)); },
+    updateReview: historyOperation(updateReview, "updateReview", true),
+    summary: historyOperation(summary, "summary", false),
+    recent: historyOperation(recent, "recent", false),
+    queue: historyOperation(queue, "queue", false),
+    exportData: historyOperation(exportData, "exportData", false),
+    findEvent: historyOperation(function(identifier){return clone(findEvent(identifier));}, "findEvent", false),
     reviewReasons: REVIEW_REASONS.slice(),
     feedbackRatings: FEEDBACK_RATINGS.slice(),
     humanVerdicts: HUMAN_VERDICTS.slice(),
