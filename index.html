@@ -1012,7 +1012,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   <div id="betaOverallFeedback" class="betaOverallFeedback"><div class="betaOverallFeedbackTitle">Overall Tester Feedback</div><div id="betaOverallFeedbackList"></div></div>
   <div class="betaReviewOrderControls"><span class="betaReviewOrderLabel">Show:</span><button type="button" id="betaReviewOldest" class="betaReviewOrderButton">Oldest first</button><button type="button" id="betaReviewNewest" class="betaReviewOrderButton isActive">Newest first</button></div>
   <div id="betaReviewQueueTitle" class="betaReviewQueueTitle">Unreviewed Unique Scans</div>
-  <div id="betaReviewQueueHelp" class="betaReviewQueueHelp">Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are stored but shown once. Flagged scans are highlighted.</div>
+  <div id="betaReviewQueueHelp" class="betaReviewQueueHelp">Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are grouped; expand each group to inspect every recorded run. Flagged scans are highlighted.</div>
   <div id="betaReviewQueue"></div>
 </section>
 <div class="bottomBorder"></div>
@@ -1022,7 +1022,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5020C";
+  const FRONTEND_VERSION="FE_AIV_v5023C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1730,7 +1730,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(name==='needs-improvement')return {title:'Rated Needs Improvement',help:'Shows unique scans testers rated Needs Improvement, including their comments.',empty:'No scans have been rated Needs Improvement.',countKey:'needsImprovement',loading:'Loading Needs Improvement ratings…'};
     if(name==='incorrect')return {title:'Rated Incorrect',help:'Shows unique scans testers rated Incorrect, including their comments.',empty:'No scans have been rated Incorrect.',countKey:'incorrect',loading:'Loading Incorrect ratings…'};
     if(name==='returned-testers')return {title:'Returned Tester Scans',help:'Shows stored qualifying scans whose tester name matches a Prolific ID pasted into Returned Tester Check.',empty:'No stored scans match the pasted Returned participant IDs.',countKey:'returnedTesters',loading:'Loading scans from returned testers…'};
-    return {title:'Unreviewed Unique Scans',help:'Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are stored but shown once. Flagged scans are highlighted.',empty:'No unreviewed qualifying scans are waiting.',countKey:'unreviewed',loading:'Loading unreviewed scans…'};
+    return {title:'Unreviewed Unique Scans',help:'Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are grouped; expand each group to inspect every recorded run. Flagged scans are highlighted.',empty:'No unreviewed qualifying scans are waiting.',countKey:'unreviewed',loading:'Loading unreviewed scans…'};
   }
   function aivApplyReviewFilterLabels(){const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);const title=el('betaReviewQueueTitle');const help=el('betaReviewQueueHelp');if(title)title.textContent=info.title;if(help)help.textContent=info.help;}
   function aivSetBetaReviewFilter(filter){
@@ -1956,11 +1956,22 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function aivReviewResultHtml(visible,event){
     return aivReviewTechnicalDumpLooksRaw(visible)?aivReviewTechnicalSummaryHtml(visible,event):esc(visible);
   }
+
+  function aivReviewRunsHtml(event){
+    const runs=Array.isArray(event.attempts)?event.attempts:[];
+    if(!runs.length)return '<div class="betaSimpleLabel">Individual run history unavailable from this server.</div>';
+    return '<details class="betaTechnicalDetails"><summary>Show all '+runs.length+' recorded runs</summary>'+runs.map(function(run,index){
+      const contracts=Array.isArray(run.resultContracts)?run.resultContracts:[];
+      const bible=contracts.map(c=>c.biblicalSupportRelevanceV5016).find(Boolean);
+      const visible=run.frontendVisibleResultExact||run.userVisibleResultExact||run.resultTextExact||'';
+      return '<section class="betaSimpleItem"><strong>Run '+(index+1)+' — '+esc(aivReviewDate(run.timestamp))+'</strong><div>Outcome: '+esc(run.outcome||'Unknown')+' · Response cache: '+esc(run.cacheStatus||'Unknown')+'</div>'+(bible?'<div>Bible review: '+esc(bible.status||'Unknown')+' ('+esc(bible.reason||'reason unavailable')+')</div>':'')+'<div>Rating: '+esc(run.testerFeedback&&run.testerFeedback.rating||'Not rated')+'</div><div class="betaSimpleInput">'+esc(run.inputExact||'')+'</div><div class="betaSimpleResult">'+aivReviewResultHtml(visible,run)+'</div><details><summary>Stored response and diagnostics</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify({eventId:run.eventId,backendVersion:run.backendVersion,frontendVersion:run.frontendVersion,resultTextExact:run.resultTextExact,resultContracts:run.resultContracts,providerUsage:run.providerUsage},null,2))+'</pre></details></section>';
+    }).join('')+'</details>';
+  }
   function aivRenderReviewQueue(data){
     const node=el('betaReviewQueue');if(!node)return;
     const events=data&&Array.isArray(data.events)?data.events:[];
     if(!events.length){node.innerHTML='<div class="betaReviewEmpty">'+esc(aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER).empty)+'</div>';return;}
-    node.innerHTML=events.map(function(event){
+    node.innerHTML='<div class="betaSimpleLabel">Total recorded runs: '+esc(data.counts&&data.counts.rawAttempts!=null?data.counts.rawAttempts:'Unknown')+' · Unique exact inputs: '+esc(data.counts&&data.counts.uniqueInputs!=null?data.counts.uniqueInputs:'Unknown')+' · Review groups: '+esc(data.counts&&data.counts.total!=null?data.counts.total:'Unknown')+'</div>'+events.map(function(event){
       const frontendVisible=String(event.frontendVisibleResultExact||'');const contractVisible=String(event.userVisibleResultExact||'');const visible=(contractVisible.length>frontendVisible.length?contractVisible:frontendVisible)||event.resultTextExact||'';
       const userFlags=Array.isArray(event.userFlags)&&event.userFlags.length?event.userFlags:(event.userFlag&&event.userFlag.flagged?[{testerName:event.testerName||'tester',reason:event.userFlag.reason||'',otherText:event.userFlag.otherText||'',flaggedAt:event.userFlag.flaggedAt||''}]:[]);
       const userFlagged=userFlags.length>0;
@@ -1992,7 +2003,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       });
       if(automaticFlagged)flags+='<div class="betaSimpleFlag">Automatically flagged — '+esc(aivFriendlyAutomaticFlag(event))+'</div>';
       const ids=(Array.isArray(event.reviewEventIds)&&event.reviewEventIds.length?event.reviewEventIds:[event.eventId]).filter(Boolean).join(',');
-      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(readKey)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><div class="betaSimpleTopActions"><label class="betaSimpleRead" title="Local visual marker only; does not archive or change review status."><input type="checkbox" data-simple-read'+(locallyRead?' checked':'')+'> Read</label><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+aivReviewResultHtml(visible,event)+'</div>'+flags+'<div class="betaSimpleStatus" data-simple-status></div></article>';
+      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(readKey)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><div class="betaSimpleTopActions"><label class="betaSimpleRead" title="Local visual marker only; does not archive or change review status."><input type="checkbox" data-simple-read'+(locallyRead?' checked':'')+'> Read</label><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+aivReviewResultHtml(visible,event)+'</div>'+flags+aivReviewRunsHtml(event)+'<div class="betaSimpleStatus" data-simple-status></div></article>';
     }).join('');
     node.querySelectorAll('[data-simple-read]').forEach(function(box){box.addEventListener('change',aivSaveLocalReadFlag);});
     node.querySelectorAll('[data-simple-reviewed]').forEach(function(box){box.addEventListener('change',aivSaveSimpleReviewed);});
@@ -4483,7 +4494,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 }
 function v2700HttpUrl(value){try{const u=new URL(String(value||''));return /^https?:$/.test(u.protocol)&&!u.username&&!u.password?String(value):'';}catch(_){return '';}}
 function v2700ApprovedAction(c){const d=c&&c.actionDecisionV3700;if(!d||d.version!==1||d.eligible!==true||d.kind==='SAFETY_REFUSAL'||!d.url||d.url!==c.actionLinkUrl)return {url:'',label:''};if(c.finalAnswerIntegrityV3700&&d.inputHash!==c.finalAnswerIntegrityV3700.inputHash)return {url:'',label:''};return {url:v2700HttpUrl(d.url),label:String(d.label||c.actionLinkLabel||'Open Link')};}
-function v2700SourceView(c){const empty={name:'',url:'',secondarySources:[]},d=c.sourceDecisionV3700;const policy=String(c.sourceDisplayPolicy||'').toUpperCase(),urlOnly=policy==='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';if(c.sourceRemovedV3700||(d&&/^(SUPPRESSED|NONE)$/.test(d.state))||(!urlOnly&&/^HIDE(?:_|$)/.test(policy))||(c.showSource===false&&c.showSourceUrl!==true))return empty;const r=d&&d.version===1&&d.state==='VISIBLE'?d.record:null;const name=String(r?r.name:(c.source||c.sourceBasis||c.sourceName||c.primarySourceName||''));const rawUrl=r?r.url:(Object.prototype.hasOwnProperty.call(c,'sourceUrl')?c.sourceUrl:c.primarySourceUrl);const showLabel=!urlOnly&&c.showSource!==false&&!c.hideSourceBasis&&!c.suppressSourceBasis;const showUrl=c.showSourceUrl!==false;const secondary=r?r.secondarySources:c.secondarySources;return {name:showLabel?name:'',url:showUrl?v2700HttpUrl(rawUrl):'',secondarySources:showUrl&&Array.isArray(secondary)?secondary.filter(x=>x&&v2700HttpUrl(x.url)):[]};}
+function aivQualifyScriptureSource(c,name){return c.biblicalSupportRelevanceV5016&&c.biblicalSupportRelevanceV5016.status==='unavailable'&&/scripture|bible|biblical/i.test(name)?name+' (Scripture check incomplete)':name;}
+function v2700SourceView(c){const empty={name:'',url:'',secondarySources:[]},d=c.sourceDecisionV3700;const policy=String(c.sourceDisplayPolicy||'').toUpperCase(),urlOnly=policy==='HIDE_BASIS_SHOW_MATERIAL_SOURCE_URL';if(c.sourceRemovedV3700||(d&&/^(SUPPRESSED|NONE)$/.test(d.state))||(!urlOnly&&/^HIDE(?:_|$)/.test(policy))||(c.showSource===false&&c.showSourceUrl!==true))return empty;const r=d&&d.version===1&&d.state==='VISIBLE'?d.record:null;const name=String(r?r.name:(c.source||c.sourceBasis||c.sourceName||c.primarySourceName||''));const rawUrl=r?r.url:(Object.prototype.hasOwnProperty.call(c,'sourceUrl')?c.sourceUrl:c.primarySourceUrl);const showLabel=!urlOnly&&c.showSource!==false&&!c.hideSourceBasis&&!c.suppressSourceBasis;const showUrl=c.showSourceUrl!==false;const secondary=r?r.secondarySources:c.secondarySources;return {name:showLabel?aivQualifyScriptureSource(c,name):'',url:showUrl?v2700HttpUrl(rawUrl):'',secondarySources:showUrl&&Array.isArray(secondary)?secondary.filter(x=>x&&v2700HttpUrl(x.url)):[]};}
 function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
   function v2130CleanExplanation(value,answer){
     let s=v2130RemoveMeta(value).replace(/^Explanation\s*:\s*/i,'').replace(/^This\s+is\s*[:\-–—]?\s*/i,'').trim();
@@ -6063,7 +6075,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       if(Array.isArray(c.answerList))c.answerList.forEach(function(item){const text=v2700ContractAnswer(item);if(text&&!String(answer).includes(text))detailItems.push(text);});
       const requiredExplanation=displayWhy;
       if(displayEvidence)detailItems.push('Evidence: '+displayEvidence);
-      const mainCardExplanation=(c&&c.renderExplanationOnMainCard===true)||(c&&c.highImpactMedical===true)||policyScriptures.length>0||/Supporting Scriptures|Scripture you can share|Bible references/i.test(String(c.supportingInformation||'')) ? requiredExplanation : '';
+      const mainCardExplanation=(c&&c.renderExplanationOnMainCard===true)||(c&&c.highImpactMedical===true)||(c.biblicalSupportRelevanceV5016&&c.biblicalSupportRelevanceV5016.status==='unavailable')||policyScriptures.length>0||/Supporting Scriptures|Scripture you can share|Bible references/i.test(String(c.supportingInformation||'')) ? requiredExplanation : '';
       if(requiredExplanation && !mainCardExplanation) detailItems.push('Explanation: '+requiredExplanation);
       const faithContractForSource=/faith|scripture|biblical/i.test(String((c&&c.route)||'')+' '+String((c&&c.classification)||'')+' '+String((c&&c.supportingInformation)||''));
       const isUrlPage=String(c.inputType||'').toUpperCase()==='SPECIFIC_CONTENT_URL' || /^url-/i.test(String(c.route||''));
@@ -6114,12 +6126,13 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       // hide only the generic OpenAI source label. Verified external sources remain visible.
       // Backend contract owns source visibility.
       if(mainCardExplanation) html+='<div class="verifiedResultExplanation highImpactMedicalExplanation"><strong>Explanation:</strong> '+esc(mainCardExplanation)+'</div>';
-      if(policyScriptures.length && c.scripturePresentationV5013!=='answer')html+='<details class="faithScriptureDetails"><summary>Supporting Scriptures</summary><div class="faithScriptureBody">'+policyScriptures.map(r=>'<div class="faithVerseText"><strong>'+esc(r.reference)+'</strong><div>'+esc(r.text)+'</div></div>').join('')+'</div></details>';
-      if(policyScriptures.length && c.scriptureConcordanceV5031 && c.scriptureConcordanceV5031.note)html+='<div class="verifiedResultLine">'+esc(c.scriptureConcordanceV5031.note)+'</div>';
+      if(c.biblicalSupportRelevanceV5016&&c.biblicalSupportRelevanceV5016.status==='unavailable')html+='<div class="verifiedResultExplanation scriptureLimitation" role="status">Supporting Scripture review could not be completed for this scan. This answer does not include a completed Scripture check.</div>';
       const countDetailsHtml='';
       const legacyScriptures=detailItems.some(function(item){return /^(?:Supporting Scriptures to Consider and Share|Scripture you can share|Bible references)\s*:/i.test(item);});
       const detailsHtml=legacyScriptures?renderSupportingInformationList(detailItems):detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
-      if(detailsHtml) html+='<div class="resultDetailsGap">'+detailsHtml+'</div>';
+      if(detailsHtml) html+='<details class="supportingInfo resultDetailsGap"><summary>Additional Information</summary><div class="supportingInfoBody">'+detailsHtml+'</div></details>';
+      if(policyScriptures.length && c.scripturePresentationV5013!=='answer')html+='<details class="faithScriptureDetails"><summary>Supporting Scriptures</summary><div class="faithScriptureBody">'+policyScriptures.map(r=>'<div class="faithVerseText"><strong>'+esc(r.reference)+'</strong><div>'+esc(r.text)+'</div></div>').join('')+'</div></details>';
+      if(policyScriptures.length && c.scriptureConcordanceV5031 && c.scriptureConcordanceV5031.note)html+='<div class="verifiedResultLine">'+esc(c.scriptureConcordanceV5031.note)+'</div>';
       if(sourceOnMainCard){
         const sourceRendered=/^https?:\/\//i.test(visibleSource)?'<a href="'+esc(visibleSource)+'" target="_blank" rel="noopener noreferrer">'+esc(visibleSource)+'</a>':esc(visibleSource);
         html+='<div class="verifiedResultLine resultSourceLastLine"><strong>Source:</strong>&nbsp;&nbsp;'+sourceRendered+'</div>';

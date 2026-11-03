@@ -357,6 +357,7 @@ function groupReviewEvents(sourceEvents) {
     copy.reviewGroupId = group.groupId;
     copy.reviewEventIds = attempts.map(function (event) { return event.eventId; }).filter(Boolean);
     copy.attemptCount = attempts.length;
+    copy.attempts = attempts.map(function (attempt) { return clone(attempt); });
     copy.unreviewedAttemptCount = unreviewedAttempts.length;
     copy.firstSeenAt = firstSeenAt;
     copy.lastSeenAt = lastSeenAt;
@@ -458,7 +459,19 @@ function qualityFlags(input, contract, answer) {
 
 function outcome(body, contracts, errorType, aborted) {
   const raw = String(body || '');
-  const lower = raw.toLowerCase();
+  // T428: request diagnostics describe the optional Scripture request, not the
+  // scan outcome. Keep exact stored bytes; exclude only this metadata from
+  // legacy text-based outcome detection (e.g. timeoutMs is not a timeout).
+  const outcomeText = raw.split(/\r?\n/).map(function (line) {
+    if (!/^AIV_RESULT_CONTRACT:\s*\{/.test(line)) return line;
+    try {
+      const contract = JSON.parse(line.replace(/^AIV_RESULT_CONTRACT:\s*/, ''));
+      if (contract.biblicalSupportRelevanceV5016) delete contract.biblicalSupportRelevanceV5016.requestDiagnostic;
+      return 'AIV_RESULT_CONTRACT: ' + JSON.stringify(contract);
+    } catch (_) { return line; }
+  }).join('\n');
+  const lower = outcomeText.toLowerCase();
+
   if (/CLARIFICATION_REQUIRED:\s*true/i.test(raw)) return { outcome: 'CLARIFICATION_REQUIRED', failureCategory: '' };
   if (/REQUEST_TYPE:\s*INVALID_INPUT/i.test(raw)) return { outcome: 'INVALID_INPUT', failureCategory: '' };
   if (/REQUEST_TYPE:\s*INVALID_REQUEST/i.test(raw)) return { outcome: 'INVALID_REQUEST', failureCategory: '' };
@@ -1635,6 +1648,8 @@ function createAnalyticsReviewFoundation(options) {
     const grouped = groupReviewEvents(eligibleEvents);
     const counts = {
       total: grouped.length,
+      uniqueInputs: new Set(eligibleEvents.map(function (event) { return String(event.inputExact || ''); })).size,
+      totalRuns: eligibleEvents.length,
       unreviewed: grouped.filter(function (event) { return !(event.review && event.review.reviewed); }).length,
       reviewed: grouped.filter(function (event) { return event.review && event.review.reviewed; }).length,
       userFlagged: grouped.filter(function (event) { return event.userFlag && event.userFlag.flagged; }).length,
