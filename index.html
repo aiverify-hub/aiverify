@@ -921,7 +921,8 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 .sampleCategoryBtn.sampleCategoryFaith:hover{background:#eee4fa;border-color:#7651a1}
 .sampleCategoryBtn.sampleCategoryFaith{margin-top:13px!important;border-color:#d9c9ee;border-left:5px solid #9a76c4}
 .sampleChooserTitle.sampleFaithTitle{color:#67458d;background:#f7f2ff;border:1px solid #d9c9ee;border-left:5px solid #9a76c4;border-radius:9px;padding:8px 10px}
-#result .answerPrimaryLine,#result .answerListLine{scroll-margin-top:12px}
+#result .resultSectionTitle{scroll-margin-top:12px}
+.resultVersion{font-size:12px;color:#31536d;text-align:center;margin:0 0 12px;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -1022,7 +1023,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5024C";
+  const FRONTEND_VERSION="FE_AIV_v5027C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1030,7 +1031,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   let AIV_LAST_BACKEND_VERSION='';
   function aivNormalizedBackendVersion(versionText){
     const raw=String(versionText||'');
-    const legacyMatch=raw.match(/\bBE_AIV_v\d+\b/i);
+    const legacyMatch=raw.match(/\bBE_AIV_v\d+C?\b/i);
     const modularMatch=raw.match(/\bMASTER_v\d+(?:_\d+)*\b/i);
     return modularMatch?modularMatch[0]:(legacyMatch?legacyMatch[0]:'');
   }
@@ -1058,7 +1059,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   function updateTopRightBackendVersionFromText(text){
     try{
       const line=(String(text||'').split(/\r?\n/).find(function(x){return /^Backend:/i.test(String(x||''));})||'');
-      const jsonMatch=String(text||'').match(/"backendVersion"\s*:\s*"((?:BE_AIV_v\d+)|(?:MASTER_v\d+(?:_\d+)*))"/i);
+      const jsonMatch=String(text||'').match(/"backendVersion"\s*:\s*"((?:BE_AIV_v\d+C?)|(?:MASTER_v\d+(?:_\d+)*))"/i);
       setTopRightBackendVersion(jsonMatch&&jsonMatch[1] ? jsonMatch[1] : line);
     }catch(_e){}
   }
@@ -1481,7 +1482,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(!ids.length)return false;
     const selected=String(rating||'').trim();
     const detail=disclosure&&typeof disclosure==='object'?disclosure:{};
-    if(AIV_FEEDBACK_RATINGS.indexOf(selected)<0){if(statusNode){statusNode.style.color='#9b2d23';statusNode.textContent='Select one rating to log this test.';}return false;}
+    if(AIV_FEEDBACK_RATINGS.indexOf(selected)<0){if(statusNode){statusNode.style.color='#9b2d23';statusNode.textContent='Select a rating to share feedback.';}return false;}
     if(controlNode)controlNode.disabled=true;
     if(statusNode){statusNode.style.color='#176b39';statusNode.textContent='Saving…';}
     try{
@@ -1510,7 +1511,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         if(response.status===401){aivHandleUnauthorized();return false;}
         if(!response.ok||!data.ok)throw new Error(data.error||'Rating could not be removed.');
       }
-      if(statusNode){statusNode.style.color='#176b39';statusNode.textContent='Rating removed — this test is not logged.';}
+      if(statusNode){statusNode.style.color='#176b39';statusNode.textContent='Rating removed. The scan remains recorded.';}
       return true;
     }catch(error){if(statusNode){statusNode.style.color='#9b2d23';statusNode.textContent=String(error&&error.message||error||'Rating could not be removed.');}return false;}
     finally{if(controlNode)controlNode.disabled=false;}
@@ -1530,7 +1531,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 
     const ratingBubble=document.createElement('div');ratingBubble.className='responseRatingBubble';
     const prompt=document.createElement('div');prompt.className='responseReviewPrompt';prompt.textContent='Rate This Result';ratingBubble.appendChild(prompt);
-    const required=document.createElement('div');required.className='responseReviewRequired';required.textContent='Required to log this test — selecting a rating saves it automatically.';ratingBubble.appendChild(required);
+    const required=document.createElement('div');required.className='responseReviewRequired';required.textContent='Ratings are optional feedback — selecting one saves it automatically.';ratingBubble.appendChild(required);
     const initialDisclosure=aivDisclosureSnapshot(visibleNode);
     if(initialDisclosure.available){
       const notice=document.createElement('div');notice.className='responseReviewDisclosureNotice';notice.textContent='This result includes expandable Additional Information or supporting details above.';ratingBubble.appendChild(notice);
@@ -1544,7 +1545,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       label.appendChild(ratingInput);label.appendChild(textNode);ratings.appendChild(label);
     });
     ratingBubble.appendChild(ratings);
-    const ratingStatus=document.createElement('div');ratingStatus.className='responseReviewStatus';ratingStatus.textContent='Select one rating to log this test.';ratingBubble.appendChild(ratingStatus);
+    const ratingStatus=document.createElement('div');ratingStatus.className='responseReviewStatus';ratingStatus.textContent='Select a rating to share feedback.';ratingBubble.appendChild(ratingStatus);
     node.appendChild(ratingBubble);
 
     const commentBubble=document.createElement('div');commentBubble.className='responseCommentBubble';
@@ -1576,7 +1577,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         if(cleared){
           ratings.querySelectorAll('input[type="radio"]').forEach(function(inputNode){inputNode.checked=false;});
           node.dataset.aivSavedRating='';
-          required.style.color='';required.textContent='Required to log this test — selecting a rating saves it automatically.';
+          required.style.color='';required.textContent='Ratings are optional feedback — selecting one saves it automatically.';
           comment.value='';commentStatus.textContent='';
         }
         return;
@@ -1588,7 +1589,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
         aivOpenAvailableDisclosures(visibleNode);
         ratingInput.checked=false;
         ratingStatus.style.color='#6c4c08';ratingStatus.className='responseReviewStatus responseReviewDisclosureWarning';
-        ratingStatus.textContent='Additional information was opened above. Review it, then select '+rating+' again to log this test.';
+        ratingStatus.textContent='Additional information was opened above. Review it, then select '+rating+' again to save your feedback.';
         return;
       }
       node.dataset.aivSaving='true';
@@ -1596,7 +1597,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       const saved=await aivSaveTesterFeedback(ids,rating,comment.value,ratingStatus,ratingInput,disclosurePayload(),'Rating saved.');
       if(!currentReview())return;
       node.dataset.aivSaving='false';
-      if(saved){node.dataset.aivSavedRating=rating;required.style.color='#176b39';required.textContent='Rating saved — this test is logged.';commentStatus.textContent=comment.value.trim()?'Comment saved.':'';}
+      if(saved){node.dataset.aivSavedRating=rating;required.style.color='#176b39';required.textContent='Rating saved — thank you for your feedback.';commentStatus.textContent=comment.value.trim()?'Comment saved.':'';}
     }
     ratings.querySelectorAll('input[type="radio"]').forEach(function(ratingInput){
       ratingInput.addEventListener('click',function(){saveSelectedRating(ratingInput);});
@@ -1954,6 +1955,21 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     return '<div class="betaDumpSummary"><div class="betaDumpSummaryTitle">Technical result summary</div>'+rows.join('')+'</div><details class="betaTechnicalDetails"><summary>Show full technical dump</summary><pre>'+esc(raw)+'</pre></details>';
   }
   function aivReviewResultHtml(visible,event){
+    const contracts=event&&Array.isArray(event.resultContracts)?event.resultContracts:[];
+    const hasScriptures=contracts.some(function(c){return v5026PolicyScriptures(c).length||/^(?:Supporting Scriptures(?: to Consider and Share)?|Scripture you can share|Bible references)\s*:/im.test(String(c.supportingInformation||''));});
+    let current='';
+    if(hasScriptures){
+      const savedInput=lastAnalyzedInput;
+      try{
+        lastAnalyzedInput=String(event.inputExact||'');
+        const holder=document.createElement('div');
+        holder.innerHTML=renderActiveResultContracts(contracts.map(function(c){return 'AIV_RESULT_CONTRACT: '+JSON.stringify(c);}).join('\n'));
+        v2214HideTechnicalDiagnostics(holder);
+        holder.querySelectorAll('.resultSectionTitle,.repeatedInputLine').forEach(function(n){n.remove();});
+        current=holder.innerHTML;
+      }finally{lastAnalyzedInput=savedInput;}
+    }else current=v5026RenderPlainScriptureFallback(visible);
+    if(current)return '<div class="betaSimpleLabel">Current Scripture display</div><div data-scripture-current-view="true">'+current+'</div>';
     return aivReviewTechnicalDumpLooksRaw(visible)?aivReviewTechnicalSummaryHtml(visible,event):esc(visible);
   }
 
@@ -2817,6 +2833,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }
   }
   function cancelActiveRender(){
+    aivStopCompletedResultScroll();
     clearRetryTimers();
     clearGeneralScanTimers();
     activeRenderRun += 1;
@@ -2844,18 +2861,60 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     result.innerHTML=v2130EnforceCurrentRenderer(String(htmlValue==null?"":htmlValue));
     v2214HideTechnicalDiagnostics(result);
   }
+  let aivCompletedResultScrollCleanup=null;
+  function aivStopCompletedResultScroll(){
+    if(aivCompletedResultScrollCleanup)aivCompletedResultScrollCleanup();
+  }
+  function aivResponseBackendVersion(value){
+    const version=String(value||'').trim();
+    return /^(?:BE_AIV_v\d+C?|MASTER_v\d+(?:_\d+)*)$/i.test(version)?version:'';
+  }
+  function aivShowResultVersions(responses){
+    const result=el('result');if(!result)return;
+    const rows=Array.isArray(responses)?responses:[responses];
+    const versions=rows.map(function(response){return aivResponseBackendVersion(response&&response.backendVersion);});
+    const known=Array.from(new Set(versions.filter(Boolean)));
+    const backend=versions.length&&versions.every(Boolean)?known.join(', '):'unavailable';
+    const label=document.createElement('div');label.className='resultVersion';
+    label.textContent=FRONTEND_VERSION+' | response backend '+backend;
+    const heading=result.querySelector('.resultSectionTitle');
+    if(heading)heading.insertAdjacentElement('afterend',label);else result.prepend(label);
+  }
   function aivScrollCompletedResultToTop(runId){
-    function showAnswer(){
-      if(runId!==activeRenderRun)return;
-      const result=el('result');
-      if(!result)return;
-      const target=result.querySelector('.answerPrimaryLine, .answerListLine')||result;
+    aivStopCompletedResultScroll();
+    let stopped=false,frame=0,observer=null,timer=null;
+    const intentEvents=['wheel','touchstart','pointerdown','keydown'];
+    function stop(){
+      if(stopped)return;stopped=true;
+      if(frame)cancelAnimationFrame(frame);
+      if(observer)observer.disconnect();
+      if(timer)clearTimeout(timer);
+      intentEvents.forEach(function(name){window.removeEventListener(name,stop,true);});
+      window.removeEventListener('resize',schedule);
+      if(window.visualViewport)window.visualViewport.removeEventListener('resize',schedule);
+      if(aivCompletedResultScrollCleanup===stop)aivCompletedResultScrollCleanup=null;
+    }
+    function showResult(){
+      frame=0;
+      if(stopped)return;
+      if(runId!==activeRenderRun){stop();return;}
+      const result=el('result');if(!result){stop();return;}
+      const target=result.querySelector('.resultSectionTitle')||result;
       try{target.scrollIntoView({block:'start',inline:'nearest',behavior:'auto'});}catch(_e){}
     }
-    // Recheck only while this scan remains active, after review layout settles.
-    showAnswer();
-    setTimeout(showAnswer,120);
-    setTimeout(showAnswer,420);
+    function schedule(){if(!stopped&&!frame)frame=requestAnimationFrame(showResult);}
+    aivCompletedResultScrollCleanup=stop;
+    intentEvents.forEach(function(name){window.addEventListener(name,stop,{capture:true,passive:true});});
+    window.addEventListener('resize',schedule);
+    if(window.visualViewport)window.visualViewport.addEventListener('resize',schedule);
+    if(typeof ResizeObserver!=='undefined'){
+      observer=new ResizeObserver(schedule);
+      [document.documentElement,document.body,el('informationModePanel'),el('informationResultPanel')].filter(Boolean).forEach(function(node){observer.observe(node);});
+    }
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(schedule);
+    // Stabilize completion layout briefly, then leave scrolling entirely to the reader.
+    timer=setTimeout(stop,2500);
+    showResult();schedule();
   }
   function resetResult(){clearRetryTimeoutCache(); cancelActiveRender(); hardClearRenderedResults(); setText("contentType",""); setTranscriptStatus(null,""); replaceResultHtml('<div class="emptyResultTitle">Results</div>'); setText("lastAction","");}
   function scanning(label){
@@ -4994,6 +5053,22 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       definitions:(definitions||[]).map(v2079RemoveDefinitionMarkers).filter(Boolean)
     };
   }
+  // v5026: display only reference plus canonical KJV text. Relevance remains internal.
+  function v5026PolicyScriptures(c){
+    return (c&&c.intentPolicyT310&&Array.isArray(c.policyScripturesT310)?c.policyScripturesT310:[]).filter(function(r){return r&&typeof r.reference==='string'&&r.reference.trim()&&typeof r.text==='string'&&r.text.trim();});
+  }
+  function v5026RenderPlainScriptureFallback(value){
+    const lines=String(value||'').split(/\r?\n/),parts=[];
+    const heading=/^\s*(?:Supporting Scriptures(?: to Consider and Share)?|Scripture you can share|Bible references)\s*(?::|$)/i;
+    if(!lines.some(function(line){return heading.test(line);}))return '';
+    for(let i=0;i<lines.length;i+=1){
+      if(!heading.test(lines[i])){parts.push('<div>'+esc(lines[i])+'</div>');continue;}
+      let section=lines[i].replace(heading,'').trim();
+      while(i+1<lines.length&&!/^\s*(?:Explanation|Answer|Meaning|Evidence|Source(?: URL)?|Confidence(?: in result)?|Input)\s*:/i.test(lines[i+1])&&!/^\s*(?:Additional Information|Scan Results)\s*$/i.test(lines[i+1])&&!heading.test(lines[i+1]))section+='\n'+lines[++i];
+      parts.push(renderSupportingInformationList(['Bible references: '+section])||'<div class="scriptureLimitation">Exact Scripture text is unavailable.</div>');
+    }
+    return '<div class="resultText">'+parts.join('')+'</div>';
+  }
   function renderSupportingInformationList(items,definitionContext){
     function supportRenderKey(value){
       return String(value||'')
@@ -5033,7 +5108,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       }
       const pieces=[];
       raw.split(/\s*\|\s*/).forEach(function(section){
-        String(section||'').split(/\s*;\s*(?=(?:[1-3]\s*)?[A-Z][A-Za-z]+(?:\s+[A-Z][A-Za-z]+){0,2}\s+\d{1,3}:\d{1,3})/).forEach(function(entry){
+        String(section||'').split(/(?:\s*;\s*|\r?\n)(?=(?:[1-3]\s*)?[A-Z][A-Za-z]+(?:\s+[A-Z][A-Za-z]+){0,2}\s+\d{1,3}:\d{1,3})/).forEach(function(entry){
           entry=String(entry||'').trim().replace(/\s+\.\s*$/,'').replace(/\.$/,'');
           if(entry) pieces.push(entry);
         });
@@ -5117,18 +5192,12 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       let body='<div class="faithScriptureBody"><ul class="supportingInfoBibleList">';
       scriptureEntries.forEach(function(entry){
         const rawEntry=String(entry||'').trim();
-        const match=rawEntry.match(/^((?:[1-3]\s*)?[A-Za-z]+(?:\s+[A-Za-z]+){0,2}\s+\d{1,3}:\d{1,3}(?:-\d{1,3})?)(?:\s+[—-]\s+(.+))?$/i);
-        if(!match){body+='<li>'+esc(rawEntry)+'</li>';return;}
+        const match=rawEntry.match(/^((?:[1-3]\s*)?[A-Za-z]+(?:\s+[A-Za-z]+){0,2}\s+\d{1,3}:\d{1,3}(?:-\d{1,3}(?::\d{1,3})?)?)(?=\s|[—–:(]|$)/i);
+        if(!match){body+='<li class="scriptureLimitation">A Scripture reference could not be read; exact KJV text is unavailable.</li>';return;}
         const ref=String(match[1]||'').trim();
-        const note='';
-        body+='<li><details class="faithVerseDetails" data-kjv-reference="'+esc(ref)+'"><summary><span class="faithVerseReference">'+esc(ref)+'</span>'+(note?'<span class="faithVerseNote">— '+esc(note)+'</span>':'')+'</summary><div class="faithVerseText" data-kjv-verse-text="true">Select the verse reference above to display the exact KJV text.</div></details></li>';
+        body+='<li><details class="faithVerseDetails" data-kjv-reference="'+esc(ref)+'"><summary><span class="faithVerseReference">'+esc(ref)+'</span></summary><div class="faithVerseText" data-kjv-verse-text="true">Select the verse reference above to display the exact KJV text.</div></details></li>';
       });
       body+='</ul>';
-      if(definitions.length){
-        body+='<div class="supportingInfoDefinitionsBlock"><div class="supportingInfoSubTitle">Definitions</div><div class="supportingInfoDefinitionLines">';
-        definitions.forEach(function(def){body+='<div class="supportingInfoDefinitionLine">'+esc(def)+'</div>';});
-        body+='</div></div>';
-      }
       return body+'</div>';
     }
     function renderFaithScriptureDetails(){
@@ -6038,6 +6107,14 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
 
   function v2347EnsurePracticalHowToVideoButton(input){return;}
 
+  function explanationRepeatsVisibleAnswer(answer, explanation){
+    const normalize = value => String(value || '').trim().replace(/\s+/g, ' ').replace(/[.!?]+$/, '').trim().toLowerCase();
+    const detail = normalize(explanation);
+    const whole = normalize(answer);
+    const afterVerdict = whole.replace(/^(?:yes|no)(?:[,.:]\s*|\s+[—–-]\s+)/, '');
+    return !!detail && (detail === whole || detail === afterVerdict);
+  }
+
   function renderActiveResultContracts(text){
     let contracts=parseActiveResultContracts(text);
     const activeSingleUrl=/^https?:\/\/\S+$/i.test(String(lastAnalyzedInput||'').trim());
@@ -6052,7 +6129,8 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       const analysis=String(c.analysisResult||'').trim();
       const contractBasket=String(c.outputBasket||'').toUpperCase();
       const preserveContractAnswer=true;
-      let answer=v2700ContractAnswer(c.answer==null?'':c.answer);
+      const policyScriptures=v5026PolicyScriptures(c);
+      let answer=c.scripturePresentationV5013==='answer'&&policyScriptures.length?policyScriptures.map(function(r){return r.reference+' — “'+r.text+'”';}).join('\n\n'):v2700ContractAnswer(c.answer==null?'':c.answer);
       const preparedAnswer=preserveContractAnswer?{answer:answer,explanation:''}:prepareContractAnswerForDisplay(answer,c);
       answer=preparedAnswer.answer;
       const preserveRequiredExplanation=v2212ExplanationMustRemain(c,contractBasket,claim);
@@ -6066,8 +6144,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       const actionLinkUrl=approvedAction.url,actionLinkLabel=approvedAction.label;
       const explicitMeaningBasket=/^(?:MEANING|WORD_MEANING|ENTITY_MEANING|IDENTIFICATION)$/i.test(contractBasket);
       const preIsMeaning=explicitMeaningBasket || (!c.fixedOutputBasket && /meaning|identification/i.test(analysis+' '+String(c.classification||'')+' '+String(c.route||'')));
-      const displayWhy=why,displayEvidence=[why,answer].some(function(text){return contractTextNormForCompare(evidence)===contractTextNormForCompare(text);})?'':evidence;
-      const policyScriptures=(c.intentPolicyT310&&Array.isArray(c.policyScripturesT310)?c.policyScripturesT310:[]).filter(r=>r&&typeof r.reference==='string'&&typeof r.text==='string'&&r.text.trim());
+      const displayWhy=explanationRepeatsVisibleAnswer(answer,why)?'':why,displayEvidence=[why,answer].some(function(text){return contractTextNormForCompare(evidence)===contractTextNormForCompare(text);})?'':evidence;
       const supportRaw=policyScriptures.length?'':(c.supportingInformation||'');
       const supporting=Array.isArray(supportRaw)?supportRaw.map(v2700ContractAnswer):(supportRaw?[v2700ContractAnswer(supportRaw)]:[]);
       const compactDirectAnswer=false;
@@ -6131,7 +6208,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       const legacyScriptures=detailItems.some(function(item){return /^(?:Supporting Scriptures to Consider and Share|Scripture you can share|Bible references)\s*:/i.test(item);});
       const detailsHtml=legacyScriptures?renderSupportingInformationList(detailItems):detailItems.length?'<div class="supportingInformationList">'+detailItems.map(function(item){return '<div>'+esc(item)+'</div>';}).join('')+'</div>':'';
       if(detailsHtml) html+='<details class="supportingInfo resultDetailsGap"><summary>Additional Information</summary><div class="supportingInfoBody">'+detailsHtml+'</div></details>';
-      if(policyScriptures.length && c.scripturePresentationV5013!=='answer')html+='<details class="faithScriptureDetails"><summary>Supporting Scriptures</summary><div class="faithScriptureBody">'+policyScriptures.map(r=>'<div class="faithVerseText"><strong>'+esc(r.reference)+'</strong><div>'+esc(r.text)+'</div>'+(typeof r.relevanceExplanation==='string'&&r.relevanceExplanation.trim()?'<p class="faithVerseRelevance"><strong>Why it relates:</strong> '+esc(r.relevanceExplanation)+'</p>':'')+'</div>').join('')+'</div></details>';
+      if(policyScriptures.length && c.scripturePresentationV5013!=='answer')html+='<details class="faithScriptureDetails"><summary>Supporting Scriptures</summary><div class="faithScriptureBody">'+policyScriptures.map(r=>'<div class="faithVerseText"><strong>'+esc(r.reference)+'</strong><div>'+esc(r.text)+'</div>'+'</div>').join('')+'</div></details>';
       if(policyScriptures.length && c.scriptureConcordanceV5031 && c.scriptureConcordanceV5031.note)html+='<div class="verifiedResultLine">'+esc(c.scriptureConcordanceV5031.note)+'</div>';
       if(sourceOnMainCard){
         const sourceRendered=/^https?:\/\//i.test(visibleSource)?'<a href="'+esc(visibleSource)+'" target="_blank" rel="noopener noreferrer">'+esc(visibleSource)+'</a>':esc(visibleSource);
@@ -6195,7 +6272,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       return html;
     }
     if(p.backend) html+='<div class="versionLine">Backend: '+esc(p.backend)+'</div>';
-    if(!p.claims.length){const unavailableVideoHtml=renderUnavailableYouTubePublicResult(text,lastAnalyzedInput); if(unavailableVideoHtml) return unavailableVideoHtml; const tf=transcriptReadableFallback(text,lastAnalyzedInput); if(tf) return tf; if(looksLikeAivRawTechnicalDump(text)) return publicTechnicalFailureFallbackHtml(); return '<div class="resultText">'+esc(sanitizeDisplayText(text))+'</div>';}
+    if(!p.claims.length){const unavailableVideoHtml=renderUnavailableYouTubePublicResult(text,lastAnalyzedInput); if(unavailableVideoHtml) return unavailableVideoHtml; const tf=transcriptReadableFallback(text,lastAnalyzedInput); if(tf) return tf; if(looksLikeAivRawTechnicalDump(text)) return publicTechnicalFailureFallbackHtml(); return v5026RenderPlainScriptureFallback(sanitizeDisplayText(text))||'<div class="resultText">'+esc(sanitizeDisplayText(text))+'</div>';}
     if(p.evidenceGroups && p.evidenceGroups.length){
       html+='<div class="evidenceGroups">';
       p.evidenceGroups.forEach(function(g){
@@ -6344,8 +6421,8 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     const txt=await res.text();
     const aivBodyAt=aivFeNow();
     const eventId=String(res.headers.get('x-aiv-scan-event')||'').trim();
-    // Backend version is health-endpoint owned; response route labels cannot overwrite it.
-    return {text:txt,eventId:eventId,aivTiming:{fetchWaitMs:Math.round(aivHeadersAt-aivFetchStart),bodyReadMs:Math.round(aivBodyAt-aivHeadersAt),fetchTotalMs:Math.round(aivBodyAt-aivFetchStart)}};
+    // Serving version is response-header owned; cached body route labels are not provenance.
+    return {text:txt,eventId:eventId,backendVersion:aivResponseBackendVersion(res.headers.get('x-aiv-backend-version')),aivTiming:{fetchWaitMs:Math.round(aivHeadersAt-aivFetchStart),bodyReadMs:Math.round(aivBodyAt-aivHeadersAt),fetchTotalMs:Math.round(aivBodyAt-aivFetchStart)}};
   }
   function renderSeparatedUrlResultsV1734(rows){
     let html='';
@@ -6389,7 +6466,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
           const response=await fetchCompactTextV1734(separatedUrls[u],runId);
           if(runId!==activeRenderRun)return;
           if(response==null)return;
-          rows.push({url:separatedUrls[u],text:response.text,eventId:response.eventId});
+          rows.push({url:separatedUrls[u],text:response.text,eventId:response.eventId,backendVersion:response.backendVersion});
         }
         if(runId!==activeRenderRun)return;
         clearGeneralScanTimers();
@@ -6397,10 +6474,11 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
         setText("contentType","");
         setTranscriptStatus(null,"");
         replaceResultHtml(renderSeparatedUrlResultsV1734(rows));
-        aivScrollCompletedResultToTop(runId);
+        aivShowResultVersions(rows);
         setText("subjectCountInline","Content subjects detected: "+rows.length);
         aivFinalizeResultReview(rows.map(function(row){return row.eventId;}),el('result'),'responseReviewPanel');
         if(runId===activeRenderRun)setText("lastAction","Done");
+        aivScrollCompletedResultToTop(runId);
         return;
       }
       const response=await fetchCompactTextV1734(raw,runId);
@@ -6426,7 +6504,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       replaceResultHtml(renderStructuredResult(text));
       v2347EnsurePracticalHowToVideoButton();
       const aivRenderDone=aivFeNow();
-      aivScrollCompletedResultToTop(runId);
+      aivShowResultVersions([response]);
       try{
         let parsedForCount=parseBackendText(text);
         parsedForCount=isolateParsedForActiveInput(parsedForCount,lastAnalyzedInput);
@@ -6461,6 +6539,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
           }catch(_e){scriptureReviewTiming=' | Bible review: result could not be parsed';}
         }
         setText("lastAction",timingText+scriptureReviewTiming);
+        aivScrollCompletedResultToTop(runId);
         try{console.log("AIV FE timing v2319",timingText,{responseReadyMs:Math.round(aivResponseReady-aivAnalyzeStart)});}catch(_e){}
       }
     }catch(e){

@@ -11,7 +11,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { AsyncLocalStorage } = require('async_hooks');
 
-const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V20';
+const MODULE_VERSION = 'ANALYTICS_REVIEW_FOUNDATION_V25';
 const REVIEW_REASONS = Object.freeze([
   'Seems incorrect',
   'Missing important information',
@@ -482,6 +482,8 @@ function outcome(body, contracts, errorType, aborted) {
   if (/not included in the current aiverify release|currently being updated to support this type of scan/.test(lower)) return { outcome: 'EARLY_RELEASE_LIMITATION', failureCategory: 'EARLY_RELEASE_LIMITATION' };
   if (!contracts.length) return { outcome: 'INVALID_RESPONSE', failureCategory: 'MISSING_RESULT_CONTRACT' };
   if (contracts.some(function (contract) { return contract && contract.contractValidated === false; })) return { outcome: 'VALIDATION_FAILURE', failureCategory: 'CONTRACT_VALIDATION_FAILURE' };
+  // T465: structured, validated clarifications are completed runs, not completed answers.
+  if (contracts.every(function (contract) { return contract && contract.status === 'CLARIFICATION REQUIRED' && contract.contractValidated === true && Array.isArray(contract.validationErrors) && contract.validationErrors.length === 0; })) return { outcome: 'CLARIFICATION_REQUIRED', failureCategory: '' };
   return { outcome: 'ANSWERED', failureCategory: '' };
 }
 
