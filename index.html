@@ -407,9 +407,9 @@ button:active{transform:translateY(1px)}
 .aivScanCartoonFrame img{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;opacity:0;transition:opacity 1.05s ease-in-out}
 .aivScanCartoonFrame img.aivScanCartoonOverlay{position:absolute;inset:0}
 .aivScanCartoonFrame img.isActive{opacity:1}
-.aivScanCartoonCaption{position:relative;margin:16px auto 0;font-size:21px;line-height:1.15;font-weight:900;color:#17324b;min-height:25px;transform-origin:center}
-.aivScanCartoonCaptionLayer{display:block;opacity:0;transition:opacity 1.05s ease-in-out}
-.aivScanCartoonCaptionLayer.aivScanCaptionOverlay{position:absolute;inset:0}
+.aivScanCartoonCaption{display:grid;position:relative;margin:16px auto 0;font-size:21px;line-height:1.15;font-weight:900;color:#17324b;min-height:25px;transform-origin:center}
+.aivScanCartoonCaptionLayer{display:block;grid-area:1/1;opacity:0;transition:opacity 1.05s ease-in-out}
+.aivScanCartoonCaptionLayer.aivScanCaptionOverlay{position:static}
 .aivScanCartoonCaptionLayer.isActive{opacity:1}
 .aivScanCartoonEllipsis{display:inline-block;opacity:1;animation:aivScanEllipsisPulse 1.05s ease-in-out infinite}
 @keyframes aivScanEllipsisPulse{0%,100%{opacity:1}50%{opacity:.28}}
@@ -924,7 +924,74 @@ body.aivReviewOnly .betaReviewDashboard{margin-top:14px}
 #result .resultSectionTitle{scroll-margin-top:12px}
 .resultVersion{font-size:12px;color:#31536d;text-align:center;margin:0 0 12px;overflow-wrap:anywhere}
 </style>
-</head>
+<style>
+body.aivReviewOnly .betaReviewDashboard{max-width:1200px;width:auto;margin:20px auto;padding:18px;box-sizing:border-box}
+.betaReviewDashboard *{box-sizing:border-box}.betaReviewHeader,.betaReviewControls,.betaSimpleTop{flex-wrap:wrap;gap:10px}
+.betaReviewDashboard h2{font-size:17px;margin:0}.betaReviewDashboard h3{font-size:15px}.betaSimpleInput,.betaSimpleResult,.t494RunMeta,.t494Feedback,.betaTechnicalDetails pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
+.t494RunMeta,.t494Feedback{line-height:1.7;padding:10px 0;font-size:14px}.t494Repeat{margin-top:16px;border-top:1px solid #cad8e2;padding-top:12px}.t494Repeat summary,.betaTechnicalDetails summary{cursor:pointer;font-weight:bold;padding:10px 0}
+.t494Run{padding:12px;border-left:3px solid #9ab3c5;margin:12px 0}.t494Pagination{display:flex;gap:16px;justify-content:center;padding:20px}.t494Pagination button,#betaTesterAccess button{padding:10px}
+body:not(.t494Manage) #t494TesterContent{display:none!important}body.t494Manage .betaReviewRoundControls,body.t494Manage .betaReviewBulkControls,body.t494Manage #betaReviewSummary,body.t494Manage #betaAnalyticsSummary,body.t494Manage #betaOverallFeedback,body.t494Manage .betaReviewOrderControls,body.t494Manage #betaReviewQueueTitle,body.t494Manage #betaReviewQueueHelp,body.t494Manage #betaReviewQueue{display:none!important}
+#betaOverallFeedback{margin-top:24px}.betaReviewToken{max-width:100%}#betaAnalyticsSummary{display:none!important}
+@media(max-width:600px){body.aivReviewOnly .betaReviewDashboard{margin:0;padding:12px;width:100%}.betaReviewHeader,.betaReviewControls{width:100%}.betaSimpleItem{padding:12px}.betaSimpleTopActions{flex-wrap:wrap}.betaReviewBulkInput,.betaReviewRoundSelect{max-width:100%}.betaReviewControls>*{max-width:100%}.betaTechnicalDetails pre{font-size:12px}.t494Run{padding:8px}}
+</style><script>
+/* T494: pure, read-only projection of the existing protected history export. */
+(function(root){
+ 'use strict';
+ const str=x=>x==null?'':String(x), arr=x=>Array.isArray(x)?x:[];
+ const esc=x=>str(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ function date(x){const d=new Date(x);return Number.isFinite(+d)?d.toLocaleString('en-US',{timeZone:'America/New_York',year:'numeric',month:'long',day:'numeric',hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true,timeZoneName:'short'}):'Date unavailable';}
+ function time(x){return typeof x==='number'&&Number.isFinite(x)&&x>=0?(x<1000?x+' ms':(x/1000).toFixed(2)+' seconds'):'Unknown';}
+ function visible(e){
+   if(typeof e.frontendVisibleResultExact==='string'&&e.frontendVisibleResultExact.length)return {label:'Recorded user-visible text',text:e.frontendVisibleResultExact,exact:true};
+   return {label:'Original screen text was not recorded',text:'The exact user-visible result is unavailable. Saved backend wording is available below; it is not a verified screen capture.',exact:false};
+ }
+ function costs(e){
+   const ops=arr(e.providerUsage),known=ops.filter(o=>typeof o.estimatedCostUsd==='number'&&Number.isFinite(o.estimatedCostUsd)&&o.estimatedCostUsd>=0);
+   if(!known.length)return 'Unknown — no recorded cost amount';
+   const amount=known.reduce((s,o)=>s+o.estimatedCostUsd,0),missing=ops.length-known.length;
+   return '$'+amount.toFixed(6)+' recorded estimate'+(missing?' subtotal; '+missing+' operation cost(s) unknown':'; completeness not independently verified')+' (not invoice-confirmed)';
+ }
+ function status(e){
+   const contracts=arr(e.resultContracts), precise=contracts.map(c=>c.sourceFirstScriptureT484?.status||c.sourceFirstScripture?.status||c.clarificationStatus||c.status||c.analysisResult).filter(Boolean);
+   return {recorded:str(e.outcome)||'Unknown',published:[...new Set(precise.map(str))].join(' · ')||'Not recorded separately'};
+ }
+ function automatic(e){return !!(e.automaticFlag||e.reviewRequired||e.failureCategory);}
+ function flagged(e){return !!e.userFlag?.flagged||['Needs Improvement','Incorrect'].includes(e.testerFeedback?.rating);}
+ function match(e,f){
+   switch(f){case'unreviewed':return !e.review?.reviewed;case'reviewed':return !!e.review?.reviewed;case'user-flagged':return flagged(e);case'automatic-flags':return automatic(e);case'acceptable':return e.testerFeedback?.rating==='Acceptable';case'needs-improvement':return e.testerFeedback?.rating==='Needs Improvement';case'incorrect':return e.testerFeedback?.rating==='Incorrect';default:return true;}
+ }
+ function groupKey(e){return JSON.stringify([str(e.inputExact),str(e.mediaSha256),str(e.mediaFilename)]);}
+ function project(data,opt={}){
+   const all=arr(data.events),rounds=arr(data.reviewRounds),current=data.currentReviewRound||{};
+   const requested=opt.round||current.id||'all', selected=requested==='all'?{id:'all',label:'All Test Rounds'}:rounds.find(r=>r.id===requested)||current;
+   const start=requested==='all'?-Infinity:Date.parse(selected.startedAt||selected.startAt||selected.createdAt)||0;
+   const later=rounds.map(r=>Date.parse(r.startedAt||r.startAt||r.createdAt)).filter(t=>Number.isFinite(t)&&t>start);
+   const end=requested==='all'?Infinity:Math.min(...later,Infinity);
+   let scope=all.filter(e=>{const t=Date.parse(e.timestamp);return requested==='all'||t>=start&&t<end;});
+   const counts={totalRuns:scope.length,uniqueInputs:new Set(scope.map(e=>str(e.inputExact))).size};
+   for(const [k,f]of Object.entries({unreviewed:'unreviewed',reviewed:'reviewed',userFlagged:'user-flagged',automaticallyFlagged:'automatic-flags',acceptable:'acceptable',needsImprovement:'needs-improvement',incorrect:'incorrect'}))counts[k]=scope.filter(e=>match(e,f)).length;
+   if(opt.filter==='returned-testers'){const ids=new Set(arr(opt.returned).map(s=>str(s).toLowerCase()));scope=scope.filter(e=>ids.has(str(e.testerName).trim().toLowerCase()));}
+   if(opt.filter==='selected-testers'){const ids=new Set(arr(opt.testers));scope=scope.filter(e=>ids.has(str(e.testerId)));}
+   scope=scope.filter(e=>match(e,opt.filter));
+   const groups=new Map();for(const e of scope){const key=groupKey(e);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(e);}
+   const events=[...groups.values()].map(runs=>{
+     runs.sort((a,b)=>str(b.timestamp).localeCompare(str(a.timestamp))||str(b.eventId).localeCompare(str(a.eventId)));
+     return {...runs[0],attempts:runs,reviewEventIds:runs.map(e=>e.eventId),review:{...runs[0].review,reviewed:runs.every(e=>e.review?.reviewed)}};
+   }).sort((a,b)=>(opt.order==='oldest'?1:-1)*(str(a.timestamp).localeCompare(str(b.timestamp))||str(a.eventId).localeCompare(str(b.eventId))));
+   const feedback=arr(data.overallFeedbacks).filter(f=>requested==='all'||f.roundId===selected.id||(Number(selected.number)>0&&Number(str(f.roundLabel).match(/(?:test\s*)?round\s*(\d+)/i)?.[1])===Number(selected.number))).sort((a,b)=>str(b.submittedAt).localeCompare(str(a.submittedAt)));
+   return {ok:true,events,count:events.length,counts:{...counts,total:groups.size,rawAttempts:counts.totalRuns,matchingRuns:scope.length},selectedRound:selected,currentRound:current,rounds,overallFeedbacks:feedback};
+ }
+ function diagnostics(e){
+   const raw={eventId:e.eventId,backendVersion:e.backendVersion,frontendVersion:e.frontendVersion,outcome:e.outcome,failureCategory:e.failureCategory,qualityFlags:e.qualityFlags,resultTextExact:e.resultTextExact,userVisibleResultExact:e.userVisibleResultExact,resultContracts:e.resultContracts,providerUsage:e.providerUsage,route:e.route,cacheStatus:e.cacheStatus,contractValidated:e.contractValidated};
+   return '<details class="betaTechnicalDetails"><summary>Raw backend wording and internal diagnostics</summary><pre>'+esc(JSON.stringify(raw,null,2))+'</pre></details>';
+ }
+ function runHtml(e){const v=visible(e),s=status(e),f=e.testerFeedback||{};
+   return '<div class="t494RunMeta"><b>Recorded status:</b> '+esc(s.recorded)+' · <b>Published status:</b> '+esc(s.published)+'<br><b>Response time:</b> '+esc(time(e.durationMs))+' · <b>Application cache:</b> '+esc(e.cacheStatus||'Unknown')+'<br><b>Versions:</b> '+esc(e.frontendVersion||'FE unavailable')+' / '+esc(e.backendVersion||'BE unavailable')+'<br><b>Recorded scan cost:</b> '+esc(costs(e))+'</div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(e.inputExact)+'</div><div class="betaSimpleLabel">'+esc(v.label)+'</div><div class="betaSimpleResult" data-t494-display="'+v.exact+'">'+esc(v.text)+'</div><div class="t494Feedback"><b>Optional rating:</b> '+esc(f.rating||'Unrated')+(f.comment?'<br><b>Feedback:</b> '+esc(f.comment):'')+(e.failureCategory?'<br><b>Recorded limitation/flag:</b> '+esc(e.failureCategory):'')+'</div>'+diagnostics(e);
+ }
+ const api={esc,date,time,visible,costs,status,project,runHtml,groupKey};if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.AIVReviewT494=api;
+})(typeof window==='undefined'?globalThis:window);
+
+</script></head>
 <body>
 <div id="aivAuthOverlay" class="aivAuthOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="aivAuthTitle">
   <div class="aivAuthCard">
@@ -996,8 +1063,8 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 </section>
 </div>
 <section id="betaReviewDashboard" class="betaReviewDashboard" hidden aria-labelledby="betaReviewTitle">
-  <div class="betaReviewHeader"><div><div id="betaReviewTitle" class="betaReviewTitle">Beta Scan Review</div><div class="betaReviewSubtitle">Review each unique scan in the same order it was received. Technical data remains stored but hidden.</div></div><div class="betaReviewControls"><a id="betaReviewReturn" class="betaReviewButton betaReviewReturn" href="./">Open AIVerify</a><input id="betaReviewToken" class="betaReviewToken" type="password" autocomplete="off" placeholder="Analytics admin token"><button type="button" id="betaReviewLoad" class="betaReviewButton">Refresh</button></div></div>
-  <div id="betaReviewMessage" class="betaReviewMessage"></div>
+  <div class="betaReviewHeader"><div><div id="betaReviewTitle" class="betaReviewTitle">Beta Scan Review</div><div class="betaReviewSubtitle">Every recorded run, newest first. Screen text and backend diagnostics are kept distinct.</div></div><div class="betaReviewControls"><a id="t494Navigation" class="betaReviewButton" href="?beta-review=1&view=testers">Manage Testers</a><a id="betaReviewReturn" class="betaReviewButton betaReviewReturn" href="./">Open AIVerify</a><input id="betaReviewToken" class="betaReviewToken" type="password" autocomplete="off" placeholder="Analytics admin token"><button type="button" id="betaReviewLoad" class="betaReviewButton">Refresh</button></div></div>
+  <div id="t494TesterContent" hidden></div><div id="betaReviewMessage" class="betaReviewMessage"></div>
   <div class="betaReviewRoundControls"><button type="button" id="betaReviewStartRound" class="betaReviewRoundButton">Start New Test Round</button><label class="betaReviewArchiveToggle" for="betaReviewRoundSelect">View test round:</label><select id="betaReviewRoundSelect" class="betaReviewRoundSelect"><option value="">Current test round</option></select><span id="betaReviewRoundLabel" class="betaReviewRoundLabel">Current test round</span></div>
   <div class="betaReviewBulkControls"><span class="betaReviewBulkLabel">Bulk close older scans:</span><input id="betaReviewBulkCutoff" class="betaReviewBulkInput" type="datetime-local" aria-label="Mark scans before this date and time reviewed"><button type="button" id="betaReviewBulkReviewed" class="betaReviewBulkButton">Mark Earlier Scans Reviewed</button><span id="betaReviewBulkStatus" class="betaReviewBulkStatus"></span></div>
   <div id="betaReviewSummary"></div>
@@ -1010,11 +1077,12 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     <div id="betaReturnedResults" class="betaReturnedResults"></div>
   </div>
   <div id="betaTesterAccess" class="betaTesterAccess"></div>
-  <div id="betaOverallFeedback" class="betaOverallFeedback"><div class="betaOverallFeedbackTitle">Overall Tester Feedback</div><div id="betaOverallFeedbackList"></div></div>
+
   <div class="betaReviewOrderControls"><span class="betaReviewOrderLabel">Show:</span><button type="button" id="betaReviewOldest" class="betaReviewOrderButton">Oldest first</button><button type="button" id="betaReviewNewest" class="betaReviewOrderButton isActive">Newest first</button></div>
   <div id="betaReviewQueueTitle" class="betaReviewQueueTitle">Unreviewed Unique Scans</div>
   <div id="betaReviewQueueHelp" class="betaReviewQueueHelp">Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are grouped; expand each group to inspect every recorded run. Flagged scans are highlighted.</div>
   <div id="betaReviewQueue"></div>
+  <div id="betaOverallFeedback" class="betaOverallFeedback"><div class="betaOverallFeedbackTitle">Overall Tester Feedback</div><div id="betaOverallFeedbackList"></div></div>
 </section>
 <div class="bottomBorder"></div>
 <script>
@@ -1023,7 +1091,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5027C";
+  const FRONTEND_VERSION="FE_AIV_v5029C";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -1180,6 +1248,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       try{const reviewUrl=new URL(window.location.href);reviewUrl.search='?beta-review=1';reviewUrl.hash='';reviewShortcut.href=reviewUrl.toString();}catch(_e){reviewShortcut.href='?beta-review=1';}
     }
     aivSetAuthMessage('',false);
+    if(aivPrivateAdminPage())aivLoadBetaReview();
     const pin=aivAuthNode('aivTesterPin');if(pin)pin.value='';
     const i=input();if(i&&(!window.matchMedia||window.matchMedia('(min-width:721px)').matches))setTimeout(function(){i.focus();},0);
   }
@@ -1672,7 +1741,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     finally{if(button)button.disabled=false;}
   }
   let AIV_BETA_REVIEW_ORDER='newest';
-  let AIV_BETA_REVIEW_FILTER='unreviewed';
+  let AIV_BETA_REVIEW_FILTER='all';
   let AIV_BETA_SELECTED_ROUND='';
   const AIV_RETURNED_TESTERS_KEY='aiv_beta_returned_prolific_ids_v1';
   let AIV_RETURNED_TESTER_IDS=[];
@@ -1707,45 +1776,10 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     }).join('');
     if(status)status.textContent=ids.length+' returned IDs · no sign-in '+noSignIn+' · signed in/0 scans '+zero+' · 1–3 scans '+partial+' · 4+ scans '+fourPlus;
   }
-  function aivCheckReturnedTesters(){
-    const field=el('betaReturnedIds');const ids=aivReturnedExtractIds(field&&field.value||'');aivReturnedSaveIds(ids);
-    if(field)field.value=ids.join('\n');
-    aivRenderReturnedTesterResults(AIV_RETURNED_ANALYTICS);
-    aivLoadAnalyticsSummary();
-    aivRenderReviewSummary({counts:{}});
-  }
-  function aivShowReturnedTesterScans(){
-    const field=el('betaReturnedIds');const ids=aivReturnedExtractIds(field&&field.value||'');if(ids.length)aivReturnedSaveIds(ids);
-    if(!AIV_RETURNED_TESTER_IDS.length){const status=el('betaReturnedStatus');if(status)status.textContent='Paste Returned participant IDs first.';return;}
-    aivSetBetaReviewFilter('returned-testers');
-  }
   function aivReviewAdminToken(){const node=el('betaReviewToken');return String(node&&node.value||'').trim();}
-  function aivReviewAdminHeaders(){const headers={'x-aiv-frontend-version':FRONTEND_VERSION};const token=aivReviewAdminToken();if(token)headers['x-aiv-admin-token']=token;return headers;}
+  function aivReviewAdminHeaders(){const headers=aivSessionHeaders();const token=aivReviewAdminToken();if(token)headers['x-aiv-admin-token']=token;return headers;}
   function aivReviewSetMessage(message,success){const node=el('betaReviewMessage');if(node){node.textContent=String(message||'');node.style.color=success?'#176b39':'#8a2d24';}}
-  function aivReviewFilterInfo(filter){
-    const name=String(filter||'unreviewed');
-    if(name==='reviewed')return {title:'Reviewed Unique Scans',help:'Uncheck Reviewed to return a scan to the unreviewed list. Repeated scans remain grouped.',empty:'No reviewed qualifying scans are stored.',countKey:'reviewed',loading:'Loading reviewed scans…'};
-    if(name==='user-flagged')return {title:'User-Flagged Unique Scans',help:'Shows scans rated Needs Improvement or Incorrect, plus any earlier tester flags.',empty:'No user-flagged qualifying scans are stored.',countKey:'userFlagged',loading:'Loading user-flagged scans…'};
-    if(name==='automatic-flags')return {title:'Automatically Flagged Unique Scans',help:'Shows scans AIVerify marked for closer review, whether reviewed or unreviewed.',empty:'No automatically flagged qualifying scans are stored.',countKey:'automaticallyFlagged',loading:'Loading automatically flagged scans…'};
-    if(name==='acceptable')return {title:'Rated Acceptable',help:'Shows unique scans testers rated Acceptable.',empty:'No scans have been rated Acceptable.',countKey:'acceptable',loading:'Loading Acceptable ratings…'};
-    if(name==='needs-improvement')return {title:'Rated Needs Improvement',help:'Shows unique scans testers rated Needs Improvement, including their comments.',empty:'No scans have been rated Needs Improvement.',countKey:'needsImprovement',loading:'Loading Needs Improvement ratings…'};
-    if(name==='incorrect')return {title:'Rated Incorrect',help:'Shows unique scans testers rated Incorrect, including their comments.',empty:'No scans have been rated Incorrect.',countKey:'incorrect',loading:'Loading Incorrect ratings…'};
-    if(name==='returned-testers')return {title:'Returned Tester Scans',help:'Shows stored qualifying scans whose tester name matches a Prolific ID pasted into Returned Tester Check.',empty:'No stored scans match the pasted Returned participant IDs.',countKey:'returnedTesters',loading:'Loading scans from returned testers…'};
-    return {title:'Unreviewed Unique Scans',help:'Mark a scan Reviewed after reading its exact input and complete displayed result. Repeated scans are grouped; expand each group to inspect every recorded run. Flagged scans are highlighted.',empty:'No unreviewed qualifying scans are waiting.',countKey:'unreviewed',loading:'Loading unreviewed scans…'};
-  }
   function aivApplyReviewFilterLabels(){const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);const title=el('betaReviewQueueTitle');const help=el('betaReviewQueueHelp');if(title)title.textContent=info.title;if(help)help.textContent=info.help;}
-  function aivSetBetaReviewFilter(filter){
-    const allowed=['unreviewed','reviewed','user-flagged','automatic-flags','acceptable','needs-improvement','incorrect','returned-testers'];
-    AIV_BETA_REVIEW_FILTER=allowed.indexOf(filter)>=0?filter:'unreviewed';
-    aivApplyReviewFilterLabels();aivLoadBetaReview();
-  }
-  function aivRenderReviewSummary(data){
-    const node=el('betaReviewSummary');if(!node)return;
-    const counts=data&&data.counts||{};
-    const items=[['unreviewed','Unreviewed',counts.unreviewed||0],['reviewed','Reviewed',counts.reviewed||0],['user-flagged','User flagged',counts.userFlagged||0],['automatic-flags','Automatic flags',counts.automaticallyFlagged||0],['acceptable','Acceptable',counts.acceptable||0],['needs-improvement','Needs improvement',counts.needsImprovement||0],['incorrect','Incorrect',counts.incorrect||0]];if(AIV_RETURNED_TESTER_IDS.length)items.push(['returned-testers','Returned testers',AIV_RETURNED_TESTER_IDS.length]);
-    node.innerHTML='<div class="betaReviewProgress">'+items.map(function(item){return '<button type="button" class="betaReviewProgressItem'+(AIV_BETA_REVIEW_FILTER===item[0]?' isActive':'')+'" data-review-filter="'+esc(item[0])+'">'+esc(item[1])+' <b>'+esc(item[2])+'</b></button>';}).join('')+'</div>';
-    node.querySelectorAll('[data-review-filter]').forEach(function(button){button.addEventListener('click',function(){aivSetBetaReviewFilter(String(button.getAttribute('data-review-filter')||''));});});
-  }
   function aivAnalyticsDisplayVersion(value){
     const text=String(value||'').trim();
     const match=text.match(/(?:FOUNDATION_)?V(\d+)$/i);
@@ -1902,11 +1936,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     const value=String(event.failureCategory||(event.qualityFlags&&event.qualityFlags[0])||'Review suggested').replace(/_/g,' ').toLowerCase();
     return value.charAt(0).toUpperCase()+value.slice(1);
   }
-  function aivReviewDate(value){
-    const date=new Date(String(value||''));
-    if(!Number.isFinite(date.getTime()))return 'Date unavailable';
-    return date.toLocaleString([], {year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'});
-  }
   const AIV_BETA_READ_FLAGS_KEY='aiv_beta_review_read_flags_v1';
   function aivReviewReadFlagMap(){
     try{const parsed=JSON.parse(localStorage.getItem(AIV_BETA_READ_FLAGS_KEY)||'{}');return parsed&&typeof parsed==='object'?parsed:{};}catch(_e){return {};}
@@ -1954,76 +1983,6 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     if(!rows.length)add('Result','Internal diagnostic output; open Technical details only if needed.');
     return '<div class="betaDumpSummary"><div class="betaDumpSummaryTitle">Technical result summary</div>'+rows.join('')+'</div><details class="betaTechnicalDetails"><summary>Show full technical dump</summary><pre>'+esc(raw)+'</pre></details>';
   }
-  function aivReviewResultHtml(visible,event){
-    const contracts=event&&Array.isArray(event.resultContracts)?event.resultContracts:[];
-    const hasScriptures=contracts.some(function(c){return v5026PolicyScriptures(c).length||/^(?:Supporting Scriptures(?: to Consider and Share)?|Scripture you can share|Bible references)\s*:/im.test(String(c.supportingInformation||''));});
-    let current='';
-    if(hasScriptures){
-      const savedInput=lastAnalyzedInput;
-      try{
-        lastAnalyzedInput=String(event.inputExact||'');
-        const holder=document.createElement('div');
-        holder.innerHTML=renderActiveResultContracts(contracts.map(function(c){return 'AIV_RESULT_CONTRACT: '+JSON.stringify(c);}).join('\n'));
-        v2214HideTechnicalDiagnostics(holder);
-        holder.querySelectorAll('.resultSectionTitle,.repeatedInputLine').forEach(function(n){n.remove();});
-        current=holder.innerHTML;
-      }finally{lastAnalyzedInput=savedInput;}
-    }else current=v5026RenderPlainScriptureFallback(visible);
-    if(current)return '<div class="betaSimpleLabel">Current Scripture display</div><div data-scripture-current-view="true">'+current+'</div>';
-    return aivReviewTechnicalDumpLooksRaw(visible)?aivReviewTechnicalSummaryHtml(visible,event):esc(visible);
-  }
-
-  function aivReviewRunsHtml(event){
-    const runs=Array.isArray(event.attempts)?event.attempts:[];
-    if(!runs.length)return '<div class="betaSimpleLabel">Individual run history unavailable from this server.</div>';
-    return '<details class="betaTechnicalDetails"><summary>Show all '+runs.length+' recorded runs</summary>'+runs.map(function(run,index){
-      const contracts=Array.isArray(run.resultContracts)?run.resultContracts:[];
-      const bible=contracts.map(c=>c.biblicalSupportRelevanceV5016).find(Boolean);
-      const visible=run.frontendVisibleResultExact||run.userVisibleResultExact||run.resultTextExact||'';
-      return '<section class="betaSimpleItem"><strong>Run '+(index+1)+' — '+esc(aivReviewDate(run.timestamp))+'</strong><div>Outcome: '+esc(run.outcome||'Unknown')+' · Response cache: '+esc(run.cacheStatus||'Unknown')+'</div>'+(bible?'<div>Bible review: '+esc(bible.status||'Unknown')+' ('+esc(bible.reason||'reason unavailable')+')</div>':'')+'<div>Rating: '+esc(run.testerFeedback&&run.testerFeedback.rating||'Not rated')+'</div><div class="betaSimpleInput">'+esc(run.inputExact||'')+'</div><div class="betaSimpleResult">'+aivReviewResultHtml(visible,run)+'</div><details><summary>Stored response and diagnostics</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+esc(JSON.stringify({eventId:run.eventId,backendVersion:run.backendVersion,frontendVersion:run.frontendVersion,resultTextExact:run.resultTextExact,resultContracts:run.resultContracts,providerUsage:run.providerUsage},null,2))+'</pre></details></section>';
-    }).join('')+'</details>';
-  }
-  function aivRenderReviewQueue(data){
-    const node=el('betaReviewQueue');if(!node)return;
-    const events=data&&Array.isArray(data.events)?data.events:[];
-    if(!events.length){node.innerHTML='<div class="betaReviewEmpty">'+esc(aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER).empty)+'</div>';return;}
-    node.innerHTML='<div class="betaSimpleLabel">Total recorded runs: '+esc(data.counts&&data.counts.rawAttempts!=null?data.counts.rawAttempts:'Unknown')+' · Unique exact inputs: '+esc(data.counts&&data.counts.uniqueInputs!=null?data.counts.uniqueInputs:'Unknown')+' · Review groups: '+esc(data.counts&&data.counts.total!=null?data.counts.total:'Unknown')+'</div>'+events.map(function(event){
-      const frontendVisible=String(event.frontendVisibleResultExact||'');const contractVisible=String(event.userVisibleResultExact||'');const visible=(contractVisible.length>frontendVisible.length?contractVisible:frontendVisible)||event.resultTextExact||'';
-      const userFlags=Array.isArray(event.userFlags)&&event.userFlags.length?event.userFlags:(event.userFlag&&event.userFlag.flagged?[{testerName:event.testerName||'tester',reason:event.userFlag.reason||'',otherText:event.userFlag.otherText||'',flaggedAt:event.userFlag.flaggedAt||''}]:[]);
-      const userFlagged=userFlags.length>0;
-      const automaticFlagged=!!(event.automaticFlag||event.reviewRequired||event.failureCategory);
-      const reviewed=!!(event.review&&event.review.reviewed);
-      const readKey=aivReviewReadKey(event);const locallyRead=aivIsLocallyRead(event);
-      const classes=['betaSimpleItem'];if(userFlagged)classes.push('isUserFlagged');else if(automaticFlagged)classes.push('isAutomaticFlagged');if(locallyRead)classes.push('isLocallyRead');
-      let flags='';
-      const feedbacks=Array.isArray(event.testerFeedbacks)&&event.testerFeedbacks.length?event.testerFeedbacks:(event.testerFeedback&&event.testerFeedback.rating?[{testerName:event.testerName||'tester',rating:event.testerFeedback.rating,comment:event.testerFeedback.comment||'',submittedAt:event.testerFeedback.submittedAt||''}]:[]);
-      feedbacks.forEach(function(feedback){
-        const rating=String(feedback.rating||'');
-        const ratingClass=rating.toLowerCase().replace(/\s+/g,'-');
-        const comment=feedback.comment?(' — '+feedback.comment):'';
-        let disclosure='';
-        if(feedback.additionalInformationAvailable===true||feedback.additionalInformationAvailable===false){
-          const available=feedback.additionalInformationAvailable===true?'Yes':'No';
-          const openedBefore=feedback.additionalInformationOpenedBeforeRating===true?'Yes':'No';
-          const openedBeforeSave=feedback.additionalInformationOpenedBeforeSave===true?'Yes':'No';
-          const prompted=feedback.additionalInformationReviewPrompted===true?'Yes':'No';
-          disclosure='<div class="responseReviewDisclosureMeta">Expandable details available: '+esc(available)+' · Opened before rating: '+esc(openedBefore)+' · Opened before save: '+esc(openedBeforeSave)+' · Reminder shown: '+esc(prompted)+'</div>';
-        }
-        flags+='<div class="responseReviewRatingBadge '+esc(ratingClass)+'">Rated by '+esc(feedback.testerName||'tester')+' — '+esc(rating+comment)+disclosure+'</div>';
-      });
-      userFlags.forEach(function(flag){
-        if(flag.fromFeedback)return;
-        const reason=flag.reason||'No reason selected';
-        const other=flag.otherText?(' — '+flag.otherText):'';
-        flags+='<div class="betaSimpleFlag user">Flagged by '+esc(flag.testerName||'tester')+' — '+esc(reason+other)+'</div>';
-      });
-      if(automaticFlagged)flags+='<div class="betaSimpleFlag">Automatically flagged — '+esc(aivFriendlyAutomaticFlag(event))+'</div>';
-      const ids=(Array.isArray(event.reviewEventIds)&&event.reviewEventIds.length?event.reviewEventIds:[event.eventId]).filter(Boolean).join(',');
-      return '<article class="'+classes.join(' ')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(readKey)+'"><div class="betaSimpleTop"><div class="betaSimpleDate">Tested '+esc(aivReviewDate(event.displayTimestamp||event.timestamp||event.pendingSinceAt))+'</div><div class="betaSimpleTopActions"><label class="betaSimpleRead" title="Local visual marker only; does not archive or change review status."><input type="checkbox" data-simple-read'+(locallyRead?' checked':'')+'> Read</label><label class="betaSimpleReviewed"><input type="checkbox" data-simple-reviewed'+(reviewed?' checked':'')+'> Reviewed</label></div></div><div class="betaSimpleLabel">Exact input</div><div class="betaSimpleInput">'+esc(event.inputExact||'')+'</div><div class="betaSimpleLabel">Complete result</div><div class="betaSimpleResult">'+aivReviewResultHtml(visible,event)+'</div>'+flags+aivReviewRunsHtml(event)+'<div class="betaSimpleStatus" data-simple-status></div></article>';
-    }).join('');
-    node.querySelectorAll('[data-simple-read]').forEach(function(box){box.addEventListener('change',aivSaveLocalReadFlag);});
-    node.querySelectorAll('[data-simple-reviewed]').forEach(function(box){box.addEventListener('change',aivSaveSimpleReviewed);});
-  }
   async function aivSaveSimpleReviewed(event){
     const box=event&&event.currentTarget;const item=box&&box.closest('[data-review-events]');if(!item)return;
     const reviewed=!!box.checked;
@@ -2036,44 +1995,61 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
       if(status)status.textContent=reviewed?'Reviewed.':'Returned to unreviewed.';item.style.opacity='.45';setTimeout(aivLoadBetaReview,260);
     }catch(error){box.checked=!reviewed;box.disabled=false;if(status){status.style.color='#9b2d23';status.textContent=String(error&&error.message||error||'Review could not be saved.');}}
   }
+  const T494_VIEW=new URLSearchParams(location.search).get('view')==='testers'?'testers':'scans';
+  let T494_EXPORT=null,T494_QUEUE=null,T494_LOAD=0,T494_PAGE=0;
+  function aivReviewDate(value){return AIVReviewT494.date(value);}
+  function t494Url(view,filter){const u=new URL(location.href);u.searchParams.set('beta-review','1');u.searchParams.set('view',view);u.searchParams.set('filter',filter||AIV_BETA_REVIEW_FILTER);u.searchParams.set('order',AIV_BETA_REVIEW_ORDER);u.searchParams.set('round',AIV_BETA_SELECTED_ROUND||'current');u.hash='';return u.toString();}
+  function t494SyncLinks(){el('t494Navigation').href=t494Url(T494_VIEW==='testers'?'scans':'testers');}
+  function t494Projection(){let testers=[];try{testers=JSON.parse(sessionStorage.getItem('aiv_review_selected_testers')||'[]');}catch(_){}return AIVReviewT494.project(T494_EXPORT,{round:AIV_BETA_SELECTED_ROUND,filter:AIV_BETA_REVIEW_FILTER,order:AIV_BETA_REVIEW_ORDER,returned:AIV_RETURNED_TESTER_IDS,testers});}
+  function t494Render(){if(!T494_EXPORT)return;T494_QUEUE=t494Projection();aivRenderRoundSelector(T494_QUEUE);aivApplyReviewFilterLabels();t494SyncLinks();if(T494_VIEW==='scans'){aivRenderReviewSummary(T494_QUEUE);aivRenderOverallFeedback(T494_QUEUE);aivRenderReviewQueue(T494_QUEUE);}const label=el('betaReviewRoundLabel');if(label)label.textContent=T494_QUEUE.selectedRound?.label||'Selected round';}
+  function aivReviewFilterInfo(filter){
+    const titles={'all':'All scans','unreviewed':'Unreviewed scans','reviewed':'Reviewed scans','user-flagged':'User-flagged scans','automatic-flags':'Automatically flagged scans','acceptable':'Rated Acceptable','needs-improvement':'Rated Needs Improvement','incorrect':'Rated Incorrect','returned-testers':'Returned tester scans','selected-testers':'Selected tester scans'};
+    return {title:titles[filter]||'All scans',help:'Newest runs appear first by default. Repeats are expandable; each run retains its own result, rating and diagnostics.',empty:'No recorded runs match this filter.',loading:'Loading protected scan history…'};
+  }
+  function aivSetBetaReviewFilter(filter){AIV_BETA_REVIEW_FILTER=filter;T494_PAGE=0;t494Render();history.replaceState(null,'',t494Url(T494_VIEW));}
+  function aivRenderReviewSummary(data){const c=data.counts||{},items=[['all','All runs',c.totalRuns],['unreviewed','Unreviewed',c.unreviewed],['reviewed','Reviewed',c.reviewed],['user-flagged','User flagged',c.userFlagged],['automatic-flags','Automatic flags',c.automaticallyFlagged],['acceptable','Acceptable',c.acceptable],['needs-improvement','Needs improvement',c.needsImprovement],['incorrect','Incorrect',c.incorrect]];
+    if(AIV_BETA_REVIEW_FILTER==='returned-testers'||AIV_BETA_REVIEW_FILTER==='selected-testers')items.push([AIV_BETA_REVIEW_FILTER,'Tester-filtered runs',c.matchingRuns]);
+    el('betaReviewSummary').innerHTML='<p><b>'+esc(c.totalRuns)+' total runs</b> · '+esc(c.uniqueInputs)+' unique exact inputs in this round. Filter counts are runs, not people.</p><div class="betaReviewProgress">'+items.map(x=>'<button type="button" class="betaReviewProgressItem'+(x[0]===AIV_BETA_REVIEW_FILTER?' isActive':'')+'" data-review-filter="'+esc(x[0])+'">'+esc(x[1])+' <b>'+esc(x[2])+'</b></button>').join('')+'</div>';
+    el('betaReviewSummary').querySelectorAll('[data-review-filter]').forEach(b=>b.onclick=()=>aivSetBetaReviewFilter(b.dataset.reviewFilter));
+  }
+  function aivReviewResultHtml(_visible,event){const v=AIVReviewT494.visible(event);return '<b>'+esc(v.label)+'</b><div>'+esc(v.text)+'</div>';}
+  function aivReviewRunsHtml(event){const runs=event.attempts||[];return runs.length>1?'<details class="t494Repeat"><summary>Repeat history — all '+runs.length+' matching runs</summary>'+runs.map(r=>'<section class="t494Run"><h3>'+esc(AIVReviewT494.date(r.timestamp))+'</h3>'+AIVReviewT494.runHtml(r)+'</section>').join('')+'</details>':'';}
+  function aivRenderReviewQueue(data){
+    const events=data.events||[],node=el('betaReviewQueue'),size=25;T494_PAGE=Math.min(T494_PAGE,Math.max(0,Math.ceil(events.length/size)-1));const slice=events.slice(T494_PAGE*size,(T494_PAGE+1)*size);
+    node.innerHTML='<p>'+esc(data.counts.matchingRuns)+' matching runs · '+events.length+' exact-input/media groups. '+(events.length?'Page '+(T494_PAGE+1)+' of '+Math.ceil(events.length/size):'No matching runs.')+'</p>'+slice.map(e=>{
+      const ids=e.reviewEventIds.join(','),key=aivReviewReadKey(e),read=aivIsLocallyRead(e);
+      return '<article class="betaSimpleItem'+(read?' isLocallyRead':'')+'" data-review-events="'+esc(ids)+'" data-read-key="'+esc(key)+'"><div class="betaSimpleTop"><h2>'+esc(AIVReviewT494.date(e.timestamp))+'</h2><div class="betaSimpleTopActions"><label><input type="checkbox" data-simple-read'+(read?' checked':'')+'> Read</label><label><input type="checkbox" data-simple-reviewed'+(e.review?.reviewed?' checked':'')+'> Reviewed'+(e.attempts.length>1?' (matching runs)':'')+'</label></div></div>'+AIVReviewT494.runHtml(e)+aivReviewRunsHtml(e)+'<div data-simple-status></div></article>';
+    }).join('')+'<div class="t494Pagination"><button type="button" id="t494Previous"'+(!T494_PAGE?' disabled':'')+'>Previous page</button><button type="button" id="t494Next"'+((T494_PAGE+1)*size>=events.length?' disabled':'')+'>Next page</button></div>';
+    node.querySelectorAll('[data-simple-read]').forEach(b=>b.onchange=aivSaveLocalReadFlag);node.querySelectorAll('[data-simple-reviewed]').forEach(b=>b.onchange=aivSaveSimpleReviewed);
+    el('t494Previous').onclick=()=>{T494_PAGE--;aivRenderReviewQueue(data);node.scrollIntoView({block:'start'});};el('t494Next').onclick=()=>{T494_PAGE++;aivRenderReviewQueue(data);node.scrollIntoView({block:'start'});};
+  }
   async function aivLoadBetaReview(){
-    const info=aivReviewFilterInfo(AIV_BETA_REVIEW_FILTER);aivReviewSetMessage(info.loading,true);aivApplyReviewFilterLabels();
+    const serial=++T494_LOAD;aivReviewSetMessage('Loading protected review data…',true);
     try{
-      const backendFilter=AIV_BETA_REVIEW_FILTER==='returned-testers'?'all':AIV_BETA_REVIEW_FILTER;
-      const response=await fetch(BACKEND_BASE_URL+'/analytics/review-queue?limit=500&qualifying=1&filter='+encodeURIComponent(backendFilter)+'&order='+encodeURIComponent(AIV_BETA_REVIEW_ORDER)+'&round='+encodeURIComponent(AIV_BETA_SELECTED_ROUND||'current')+'&_='+Date.now(),{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});
-      const queue=await response.json().catch(function(){return {};});
-      if(!response.ok||!queue.ok)throw new Error(queue.error||'Review queue could not be loaded.');
-      if(AIV_BETA_REVIEW_FILTER==='returned-testers'){
-        const returnedSet=new Set(AIV_RETURNED_TESTER_IDS.map(function(id){return String(id||'').toLowerCase();}));
-        const sourceEvents=Array.isArray(queue.events)?queue.events:[];
-        queue.events=sourceEvents.filter(function(event){return returnedSet.has(String(event&&event.testerName||'').trim().toLowerCase());});
-        queue.count=queue.events.length;queue.counts=queue.counts||{};queue.counts.returnedTesters=queue.events.length;
-      }
-      try{sessionStorage.setItem('aiv_beta_review_token',aivReviewAdminToken());}catch(_e){}
-      aivRenderRoundSelector(queue);
-      const roundLabel=el('betaReviewRoundLabel');if(roundLabel)roundLabel.textContent=(queue.selectedRound&&queue.selectedRound.label||queue.round&&queue.round.label||'Current test round');
-      aivRenderReviewSummary(queue);aivRenderTesterAccess(queue);aivRenderOverallFeedback(queue);aivRenderReviewQueue(queue);aivLoadAnalyticsSummary();const total=Number(queue.counts&&queue.counts[info.countKey]||0);const orderLabel=AIV_BETA_REVIEW_ORDER==='newest'?'newest first':'oldest first';aivReviewSetMessage(queue.count?'Showing '+queue.count+' of '+total+' '+info.title.toLowerCase()+' — '+orderLabel+'.':info.empty,true);
-    }catch(error){aivReviewSetMessage(String(error&&error.message||error||'Review queue could not be loaded.'),false);}
+      const paths=T494_VIEW==='testers'?['/analytics/review-queue?limit=1','/analytics/summary?round='+encodeURIComponent(AIV_BETA_SELECTED_ROUND||'current')]:['/analytics/export'];
+      const loaded=await Promise.all(paths.map(async p=>{const r=await fetch(BACKEND_BASE_URL+p,{cache:'no-store',mode:'cors',headers:aivReviewAdminHeaders()});const d=await r.json();if(!r.ok||!d.ok)throw Error(d.error||'Administrator access is required.');return d;}));if(serial!==T494_LOAD)return;
+      if(T494_VIEW==='testers'){aivRenderTesterAccess(loaded[0]);AIV_RETURNED_ANALYTICS=loaded[1];aivRenderReturnedTesterResults(loaded[1]);const panel=el('t494TesterContent');panel.hidden=false;
+        el('betaTesterAccess').querySelectorAll('[data-tester-block]').forEach(box=>{const b=document.createElement('button');b.type='button';b.textContent='Show Their Scans';b.onclick=()=>{sessionStorage.setItem('aiv_review_selected_testers',JSON.stringify([box.dataset.testerBlock]));location.href=t494Url('scans','selected-testers');};box.closest('label').insertAdjacentElement('afterend',b);});
+      }else{T494_EXPORT=loaded[0];T494_PAGE=0;t494Render();}
+      try{sessionStorage.setItem('aiv_beta_review_token',aivReviewAdminToken());}catch(_){}
+      aivReviewSetMessage(T494_VIEW==='testers'?'Administrator-only tester management. Existing records are preserved.':'Loaded '+T494_EXPORT.events.length+' runs available in the protected history export. The server’s existing reporting-retention window still applies. Displayed text is used only when captured by the frontend.',true);
+    }catch(e){if(serial!==T494_LOAD)return;T494_EXPORT=null;T494_QUEUE=null;el('betaReviewQueue').innerHTML='';el('betaReviewSummary').innerHTML='';el('betaOverallFeedbackList').innerHTML='';el('betaTesterAccess').innerHTML='';el('betaReturnedResults').innerHTML='';el('t494TesterContent').hidden=true;aivReviewSetMessage(e.message,false);}
   }
+  function aivShowReturnedTesterScans(){const ids=aivReturnedExtractIds(el('betaReturnedIds').value);aivReturnedSaveIds(ids);if(!ids.length){el('betaReturnedStatus').textContent='Paste Returned participant IDs first.';return;}location.href=t494Url('scans','returned-testers');}
+  function aivCheckReturnedTesters(){const field=el('betaReturnedIds');aivReturnedSaveIds(aivReturnedExtractIds(field.value));field.value=AIV_RETURNED_TESTER_IDS.join('\n');aivRenderReturnedTesterResults(AIV_RETURNED_ANALYTICS);}
   function aivInitBetaReview(){
-    const enabled=new URLSearchParams(window.location.search).get('beta-review')==='1';const dashboard=el('betaReviewDashboard');if(!dashboard)return;
-    document.body.classList.toggle('aivReviewOnly',enabled);
-    dashboard.hidden=!enabled;if(!enabled)return;
-    const returnLink=el('betaReviewReturn');if(returnLink){try{const normalUrl=new URL(window.location.href);normalUrl.search='';normalUrl.hash='';returnLink.href=normalUrl.toString();}catch(_e){returnLink.href='./';}}
-    const token=el('betaReviewToken');try{if(token)token.value=sessionStorage.getItem('aiv_beta_review_token')||'';}catch(_e){}
-    const load=el('betaReviewLoad');if(load)load.onclick=aivLoadBetaReview;
-    const startRound=el('betaReviewStartRound');if(startRound)startRound.onclick=aivStartNewReviewRound;
-    const bulkReviewed=el('betaReviewBulkReviewed');if(bulkReviewed)bulkReviewed.onclick=aivBulkReviewBeforeCutoff;
-    const returnedField=el('betaReturnedIds');try{if(returnedField){returnedField.value=localStorage.getItem(AIV_RETURNED_TESTERS_KEY)||'';AIV_RETURNED_TESTER_IDS=aivReturnedExtractIds(returnedField.value);}}catch(_e){}
-    const returnedCheck=el('betaReturnedCheckButton');if(returnedCheck)returnedCheck.onclick=aivCheckReturnedTesters;
-    const returnedShow=el('betaReturnedShowScans');if(returnedShow)returnedShow.onclick=aivShowReturnedTesterScans;
-    aivRenderReturnedTesterResults(null);
-    const roundSelect=el('betaReviewRoundSelect');if(roundSelect)roundSelect.onchange=function(){AIV_BETA_SELECTED_ROUND=String(roundSelect.value||'all');aivLoadBetaReview();};
-    const oldest=el('betaReviewOldest');const newest=el('betaReviewNewest');
-    function setOrder(order){AIV_BETA_REVIEW_ORDER=order==='newest'?'newest':'oldest';if(oldest)oldest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='oldest');if(newest)newest.classList.toggle('isActive',AIV_BETA_REVIEW_ORDER==='newest');aivLoadBetaReview();}
-    if(oldest)oldest.onclick=function(){setOrder('oldest');};if(newest)newest.onclick=function(){setOrder('newest');};
-    aivApplyReviewFilterLabels();if(AIV_FRONTEND_IS_LOCAL)setTimeout(aivLoadBetaReview,0);
+    const q=new URLSearchParams(location.search),enabled=q.get('beta-review')==='1',dashboard=el('betaReviewDashboard');document.body.classList.toggle('aivReviewOnly',enabled);dashboard.hidden=!enabled;if(!enabled)return;
+    AIV_BETA_REVIEW_FILTER=q.get('filter')||'all';AIV_BETA_REVIEW_ORDER=q.get('order')==='oldest'?'oldest':'newest';AIV_BETA_SELECTED_ROUND=q.get('round')||'';
+    document.body.classList.toggle('t494Manage',T494_VIEW==='testers');el('betaReviewTitle').textContent=T494_VIEW==='testers'?'Manage Testers':'Scan Review';document.title=el('betaReviewTitle').textContent+' — AIVerify';document.querySelector('.betaReviewSubtitle').textContent=(T494_VIEW==='testers'?'Administrator-only tester IDs and access controls.':'Every available run, newest first. Screen text and diagnostics stay distinct.')+' Review page: '+FRONTEND_VERSION;el('t494Navigation').textContent=T494_VIEW==='testers'?'Back to Scan Review':'Manage Testers';t494SyncLinks();
+    const u=new URL(location.href);u.search='';u.hash='';el('betaReviewReturn').href=u.toString();
+    const panel=el('t494TesterContent');panel.append(el('betaReturnedCheck'),el('betaTesterAccess'));panel.hidden=true;
+    try{el('betaReviewToken').value=sessionStorage.getItem('aiv_beta_review_token')||'';el('betaReturnedIds').value=localStorage.getItem(AIV_RETURNED_TESTERS_KEY)||'';AIV_RETURNED_TESTER_IDS=aivReturnedExtractIds(el('betaReturnedIds').value);}catch(_){}
+    el('betaReviewLoad').onclick=aivLoadBetaReview;el('betaReviewStartRound').onclick=aivStartNewReviewRound;el('betaReviewBulkReviewed').onclick=aivBulkReviewBeforeCutoff;el('betaReturnedCheckButton').onclick=aivCheckReturnedTesters;el('betaReturnedShowScans').onclick=aivShowReturnedTesterScans;
+    el('betaReviewRoundSelect').onchange=()=>{AIV_BETA_SELECTED_ROUND=el('betaReviewRoundSelect').value;T494_PAGE=0;t494Render();history.replaceState(null,'',t494Url(T494_VIEW));};
+    function order(value){AIV_BETA_REVIEW_ORDER=value;el('betaReviewNewest').classList.toggle('isActive',value==='newest');el('betaReviewOldest').classList.toggle('isActive',value==='oldest');T494_PAGE=0;t494Render();history.replaceState(null,'',t494Url(T494_VIEW));}
+    el('betaReviewNewest').onclick=()=>order('newest');el('betaReviewOldest').onclick=()=>order('oldest');order(AIV_BETA_REVIEW_ORDER);aivApplyReviewFilterLabels();aivLoadBetaReview();
   }
+
   function splitEvidenceItems(v){return String(v||"").split(/\s+;\s+/).map(function(x){return x.trim();}).filter(function(x){return x && !/captcha|cloudflare|enable javascript|javascript required|search results|related searches|cookie|subscribe|sign in|navigation|main menu|table of contents/i.test(x);}).slice(0,10);}
   function polishAiDisplayText(v){return String(v==null?'':v).replace(/Content too limited for a reliable AI-content estimate\.?/gi,'Too little content was provided for a reliable estimate.').replace(/Not enough content was provided for a reliable AI-content estimate\.?/gi,'Too little content was provided for a reliable estimate.').replace(/The sample is too short for a stronger estimate\.?/gi,'The sample is short, so this estimate is cautious.').replace(/Truth-checking result has priority over AI-origin guessing\.?/gi,'Truth-checking remains the main result.').replace(/AI-writing detection is only an estimate, not proof\.?/gi,'AI-content cannot be confirmed with 100% certainty.').trim();}
   function isDiagnosticPipeChunk(v){
