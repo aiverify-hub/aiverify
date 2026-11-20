@@ -37,6 +37,8 @@
   .answers button[aria-pressed="true"] { border-color:var(--accent); background:var(--accent); color:#fff; }
   .saved { color:var(--ok); font-weight:600; margin-left:6px; font-size:20px; }
   .rv-count { font-size:20px; font-weight:700; margin:6px 0; }
+  .caution { background:var(--bad-bg); color:var(--bad); font-weight:700; border-radius:8px; padding:10px 12px; }
+  .suggest { margin-top:14px; } .suggest input[type=url] { margin:4px 0 8px; } .suggest textarea { margin-bottom:4px; }
   .big-link { display:inline-block; font-size:21px; font-weight:700; padding:12px 18px; border:2px solid var(--accent); border-radius:10px; text-decoration:none; }
   .big-answers { display:grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap:12px; margin:8px 0; }
   .big-answers button, .big-nav button { font-size:22px; font-weight:700; min-height:68px; padding:10px 14px; border:2px solid var(--line); border-radius:12px; background:var(--card); color:var(--ink); cursor:pointer; }
@@ -95,6 +97,7 @@
       box.appendChild(el('p', { cls: 'small', text: bits.join(' · ') }));
     }
     if (r.reliability && r.reliability.flagged) box.appendChild(el('p', { cls: 'limits', text: 'Not enough reliable caption data for firm answers: ' + r.reliability.reasons.join('; ') + '.' }));
+    if (r.caution) box.appendChild(el('p', { cls: 'caution', text: '⚠ ' + r.caution }));
     if (r.summary) box.appendChild(el('p', { text: r.summary }));
     (r.claims || []).forEach(function (c) {
       var d = el('div', { cls: 'claim' });
@@ -119,9 +122,26 @@
     if (r.ok && (r.claims || []).length) box.appendChild(el('p', { cls: 'small' }, ['Looking for a faith or moral perspective on this topic? This is optional: ', safeLink('https://aiverify.tech/', 'ask on AIVerify’s main page'), ' (KJV-based answers).']));
     if (r.cost) box.appendChild(el('p', { cls: 'small', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
     if (withReview) box.appendChild(reviewBlock(r));
+    if (!withReview && r.ok && (r.claims || []).length) box.appendChild(suggestBlock(r));
     return box;
   }
 
+  function suggestBlock(r) {
+    var d = el('details', { cls: 'suggest' });
+    d.appendChild(el('summary', { text: 'Know a more accurate source? Suggest it' }));
+    var url = el('input', { type: 'url', placeholder: 'https://...', 'aria-label': 'Source web address' });
+    var note = el('textarea', { placeholder: 'Optional: why is this source more accurate?' });
+    var msg = el('p', { cls: 'saved', role: 'status' });
+    var send = el('button', { type: 'button', cls: 'go', text: 'Send suggestion' });
+    send.addEventListener('click', function () {
+      msg.textContent = 'Sending…';
+      fetch('/check-video/suggest-source', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: url.value.trim(), note: note.value, runId: r.runId }) })
+        .then(function (x) { return x.json(); }).then(function (j) { msg.textContent = j.ok ? 'Thank you. We review every suggested source.' : (j.error || 'Not sent.'); if (j.ok) { url.value = ''; note.value = ''; } })
+        .catch(function () { msg.textContent = 'Not sent. Please try again.'; });
+    });
+    [el('label', { text: 'Source web address' }), url, note, send, msg].forEach(function (n) { d.appendChild(n); });
+    return d;
+  }
   function reviewBlock(r) {
     var wrap = el('div');
     wrap.appendChild(el('p', { cls: 'q', text: 'Are AIVerify’s answers for this video right?' }));

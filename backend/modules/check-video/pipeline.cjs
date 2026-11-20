@@ -341,6 +341,8 @@ function createCheckVideo(options) {
         c.quote = null;
       }
       const count = v => result.claims.filter(c => c.verdict === v).length;
+      // Cary, November 20, 2026: one contradicted claim casts doubt on a video's other figures. State it as a caution, not a verdict on the video.
+      if (count('contradicted') + count('misleading') > 0) result.caution = 'Caution: at least one claim in this video is contradicted by the sources found. Treat its other numbers and studies carefully.';
       result.summary = `${result.claims.length} claim${result.claims.length === 1 ? '' : 's'} checked: ${count('supported')} supported, ${count('contradicted') + count('misleading')} contradicted or misleading, ${count('insufficient')} can't determine.`;
       result.privateEvidence = priv;
     } catch (e) {
@@ -358,7 +360,7 @@ function createCheckVideo(options) {
       return pub;
     }
   }
-  return { run, config: cfg, runsDir, listRuns: () => listRuns(runsDir), saveReview: (id, review) => saveReview(runsDir, id, review) };
+  return { run, config: cfg, runsDir, listRuns: () => listRuns(runsDir), saveReview: (id, review) => saveReview(runsDir, id, review), saveSourceSuggestion: s => saveSourceSuggestion(runsDir, s) };
 }
 
 // ---------- private run records (local folder, never committed) ----------
@@ -376,6 +378,15 @@ function saveReview(dir, id, review) {
   if (!answer) return false;
   fs.writeFileSync(path.join(dir, 'review-' + id + '.json'), JSON.stringify({ runId: id, answer, note: String(review.note || '').slice(0, 2000), at: new Date().toISOString() }, null, 2));
   return true;
+}
+
+// Visitors may suggest sources they consider more accurate; each suggestion is kept for the regular source review.
+function saveSourceSuggestion(dir, s) {
+  const url = String(s && s.url || '').trim(), note = String(s && s.note || '').replace(/\s+/g, ' ').trim().slice(0, 1000);
+  let u; try { u = new URL(url); } catch (_e) { return false; }
+  if (!/^https?:$/.test(u.protocol) || url.length > 500) return false;
+  const runId = /^[0-9TZ-]+-[0-9a-f]{6}$/.test(String(s && s.runId || '')) ? s.runId : null;
+  try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'source-suggestions.jsonl'), JSON.stringify({ at: new Date().toISOString(), url: u.toString(), publisher: publishers.describe(u.toString()).publisher, note, runId }) + '\n'); return true; } catch (_e) { return false; }
 }
 
 module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE } };

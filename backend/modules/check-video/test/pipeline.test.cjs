@@ -192,6 +192,22 @@ test('source 0 means no source; an insufficient answer with source 0 is read cor
   assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].reason, 'Not settled.');
 });
 
+test('caution line appears only when a claim is contradicted', async () => {
+  const contra = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'Date differs.' } : null });
+  const r = await createCheckVideo({ io: contra, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.match(r.caution, /^Caution: at least one claim/);
+  const r2 = await createCheckVideo({ io: fakeIo({ judge: SUPPORT }), runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r2.caution, undefined);
+});
+
+test('source suggestions are saved with the publisher; bad addresses are refused', () => {
+  const cv = createCheckVideo({ io: fakeIo(), runsDir: tmp() });
+  assert.equal(cv.saveSourceSuggestion({ url: 'https://www.cdc.gov/vaccines/', note: 'official data' }), true);
+  for (const bad of ['', 'cdc.gov', 'javascript:alert(1)', 'ftp://x.org/a', 'https://' + 'a'.repeat(600) + '.com']) assert.equal(cv.saveSourceSuggestion({ url: bad }), false, bad);
+  const line = JSON.parse(fs.readFileSync(path.join(cv.runsDir, 'source-suggestions.jsonl'), 'utf8').trim());
+  assert.equal(line.publisher, 'cdc.gov'); assert.equal(line.note, 'official data');
+});
+
 test('the refusal-fallback option is dropped once if the API rejects it', async () => {
   _internal.FALLBACK_STATE.enabled = true;
   const io = fakeIo(); const orig = io.anthropic; let rejected = 0;

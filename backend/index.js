@@ -52939,6 +52939,10 @@ async function checkVideoHandlePh1(req,res,u){
   }
   // Local development only: the launcher (run-local.ps1) restarts the server on exit code 75, keeping its keys in memory.
   if(u.pathname==='/check-video/restart'&&req.method==='POST'){sendJson(res,200,{ok:true});setTimeout(function(){process.exit(75);},200);return;}
+  if(u.pathname==='/check-video/suggest-source'&&req.method==='POST'){
+    let body;try{body=await v2875ReadJsonBody(req,8000);}catch(e){return sendJson(res,400,{ok:false,error:'Invalid request.'});}
+    const saved=cv.saveSourceSuggestion(body||{});return sendJson(res,saved?200:400,{ok:saved,error:saved?undefined:'Please enter a full web address starting with https://'});
+  }
   if(u.pathname==='/check-video/runs'&&req.method==='GET')return sendJson(res,200,{ok:true,runs:cv.listRuns()});
   if(u.pathname==='/check-video/review'&&req.method==='POST'){
     let body;try{body=await v2875ReadJsonBody(req,20000);}catch(e){return sendJson(res,400,{ok:false,error:'Invalid request.'});}
