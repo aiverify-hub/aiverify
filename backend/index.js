@@ -8767,7 +8767,7 @@ function v3700PublicAddress(address){
   if(family===4){
     const [a,b,c]=address.split('.').map(Number);
     return !(a===0||a===10||a===127||a>=224||(a===100&&b>=64&&b<=127)||
-      (a===169&&b===254)||(a===172&&b>=16&&b<=31)||(a===192&&(b===168||b===0||b===2||(b===88&&c===99)))||
+      (a===169&&b===254)||(a===172&&b>=16&&b<=31)||(a===192&&(b===168||(b===0&&(c===0||c===2))||(b===88&&c===99)))||
       (a===198&&(b===18||b===19||(b===51&&c===100)))||(a===203&&b===0&&c===113));
   }
   if(family!==6||address.includes('%'))return false;
@@ -52884,6 +52884,56 @@ const REQUEST_EXCEPTION_CONTAINMENT_STARTUP_V3623=Object.freeze({
 });
 if(!Object.keys(REQUEST_EXCEPTION_CONTAINMENT_STARTUP_V3623).every(function(k){return REQUEST_EXCEPTION_CONTAINMENT_STARTUP_V3623[k]===true;}))throw new Error('REQUEST_EXCEPTION_CONTAINMENT_V3623 startup validation failed');
 
+// Check Video Phase 1 (YouTube claim check). Feature flag AIV_CHECK_VIDEO: unset/anything else = OFF (routes do not exist);
+// "local" = served only to requests from this computer (loopback socket). Public/tester access is not built yet.
+const CHECK_VIDEO_MODE_PH1=String(process.env.AIV_CHECK_VIDEO||'').trim().toLowerCase()==='local'?'local':'off';
+let CHECK_VIDEO_PH1=null;
+function checkVideoPh1(){
+  if(!CHECK_VIDEO_PH1)CHECK_VIDEO_PH1=require('./modules/check-video/pipeline.cjs').createCheckVideo({runsDir:process.env.AIV_CHECK_VIDEO_RUNS_DIR||undefined,io:{publicGet:v3700PublicGet,getTranscript:checkVideoTranscriptPh1}});
+  return CHECK_VIDEO_PH1;
+}
+// Captions only (no video or audio download): the configured Supadata caption service in native-captions mode first,
+// then the caption track listed on the public watch page (often empty now that YouTube requires a browser token).
+async function checkVideoTranscriptPh1(url){
+  const info=videoUrlInfo(url),out={ok:false,text:'',title:'',source:'',error:'',truncated:false};
+  try{const t=await resolveYouTubeTitleV2917(info);if(t&&t.title)out.title=clean(t.title);}catch(_e){}
+  let ext=null;try{ext=await retrieveExternalYouTubeTranscript(info,{});}catch(e){ext={failureReason:clean(e&&e.message||e)};}
+  if(ext&&ext.transcriptRetrieved&&ext.transcript){out.ok=true;out.text=ext.transcript;out.source='Supadata (YouTube captions)';out.truncated=ext.transcript.length>=60000;if(!out.title&&ext.title)out.title=clean(ext.title);return out;}
+  out.error=clean(ext&&ext.failureReason||'caption service unavailable');
+  try{
+    const page=await fetchUrl(info.sourceUrl,1500000,8000,3);
+    if(page&&page.ok){
+      const player=safeJsonObjectFromMarker(page.html,'ytInitialPlayerResponse');
+      if(!out.title&&player&&player.videoDetails&&player.videoDetails.title)out.title=clean(player.videoDetails.title);
+      const tx=await fetchYouTubeCaptionTranscript(youtubeCaptionTracksFromPlayerResponse(player));
+      if(tx&&tx.ok&&tx.text){out.ok=true;out.text=tx.text;out.source='YouTube captions (watch page)';out.error='';return out;}
+      if(tx&&tx.error)out.error+='; watch-page captions: '+clean(tx.error);
+    }
+  }catch(_e){}
+  return out;
+}
+function checkVideoLoopbackPh1(req){const a=String(req&&req.socket&&req.socket.remoteAddress||'');return a==='127.0.0.1'||a==='::1'||a==='::ffff:127.0.0.1';}
+async function checkVideoHandlePh1(req,res,u){
+  res.setHeader('Cache-Control','no-store');
+  if(!checkVideoLoopbackPh1(req))return sendJson(res,404,{ok:false,error:'Not found'});
+  const cv=checkVideoPh1();
+  if(u.pathname==='/check-video'&&req.method==='GET'){
+    const html=fs.readFileSync(path.join(__dirname,'modules','check-video','page.html'),'utf8');
+    return send(res,200,'text/html; charset=utf-8',html,{'content-security-policy':"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'",'x-content-type-options':'nosniff'});
+  }
+  if(u.pathname==='/check-video/run'&&req.method==='POST'){
+    let body;try{body=await v2875ReadJsonBody(req,400000);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
+    try{return sendJson(res,200,await cv.run({url:body&&body.url,transcript:body&&body.transcript,title:body&&body.title}));}
+    catch(e){console.log('CHECK_VIDEO_PH1 error '+clean(e&&e.message||e).slice(0,200));return sendJson(res,500,{ok:false,error:'The check failed unexpectedly.'});}
+  }
+  if(u.pathname==='/check-video/runs'&&req.method==='GET')return sendJson(res,200,{ok:true,runs:cv.listRuns()});
+  if(u.pathname==='/check-video/review'&&req.method==='POST'){
+    let body;try{body=await v2875ReadJsonBody(req,20000);}catch(e){return sendJson(res,400,{ok:false,error:'Invalid request.'});}
+    const saved=cv.saveReview(body&&body.runId,body);return sendJson(res,saved?200:400,{ok:saved});
+  }
+  return sendJson(res,404,{ok:false,error:'Not found'});
+}
+
 const server=http.createServer(async (req,res)=>{
   const v3208HttpRequestStart=Date.now();
   let analyticsScan=null;
@@ -52928,6 +52978,7 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,200,{ok:true,reference:ref,translation:'KJV',text:text});
     }
     if(u.pathname==='/ai-detection/analyze'||u.pathname==='/ai-detection/provenance')return await v2878HandleAiMediaScan(req,res);
+    if(CHECK_VIDEO_MODE_PH1==='local'&&(u.pathname==='/check-video'||u.pathname.startsWith('/check-video/')))return await checkVideoHandlePh1(req,res,u);
     if(u.pathname==='/analytics/visible-result')return await v2885HandleVisibleResult(req,res);
     if(u.pathname==='/analytics/flag')return await v2885HandleTesterFlag(req,res);
     if(u.pathname==='/analytics/feedback')return await v2921HandleTesterFeedback(req,res);
