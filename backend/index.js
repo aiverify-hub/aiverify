@@ -52895,10 +52895,17 @@ function checkVideoPh1(){
 // Captions only (no video or audio download): the configured Supadata caption service in native-captions mode first,
 // then the caption track listed on the public watch page (often empty now that YouTube requires a browser token).
 async function checkVideoTranscriptPh1(url){
-  const info=videoUrlInfo(url),out={ok:false,text:'',title:'',source:'',error:'',truncated:false,published:''};
+  const info=videoUrlInfo(url),out={ok:false,text:'',title:'',source:'',error:'',truncated:false,published:'',captionKind:'unknown',durationSec:0};
   // Public watch page, fetched once in parallel: publish date (and the caption-track fallback below).
   const pagePromise=v3700PublicGet(info.sourceUrl,{limit:2500000,allowTruncate:true,timeoutMs:8000,redirects:3}).catch(function(){return null;});
-  const withDate=async function(){const page=await pagePromise;const html=String(page&&page.ok&&page.html||'');const m=html.match(/"publishDate":"(\d{4}-\d{2}-\d{2})/)||html.match(/itemprop="(?:datePublished|uploadDate)"\s+content="(\d{4}-\d{2}-\d{2})/);if(m)out.published=m[1];return out;};
+  const withDate=async function(){const page=await pagePromise;const html=String(page&&page.ok&&page.html||'');const m=html.match(/"publishDate":"(\d{4}-\d{2}-\d{2})/)||html.match(/itemprop="(?:datePublished|uploadDate)"\s+content="(\d{4}-\d{2}-\d{2})/);if(m)out.published=m[1];
+    // Caption track list (public page data): kind "asr" = YouTube automatic speech-to-text; no kind = captions supplied by people.
+    try{const player=html?safeJsonObjectFromMarker(html,'ytInitialPlayerResponse'):null;
+      if(player){const tl=player.captions&&player.captions.playerCaptionsTracklistRenderer&&player.captions.playerCaptionsTracklistRenderer.captionTracks;
+        const tracks=Array.isArray(tl)?tl:[],en=tracks.filter(function(t){return /^en\b/i.test(String(t&&t.languageCode||''));});
+        out.captionKind=!tracks.length?'none':en.some(function(t){return t.kind!=='asr';})?'written':en.length?'automatic':'other-language';
+        const secs=Number(player.videoDetails&&player.videoDetails.lengthSeconds);if(Number.isFinite(secs)&&secs>0)out.durationSec=secs;}}catch(_e){}
+    return out;};
   try{const t=await resolveYouTubeTitleV2917(info);if(t&&t.title)out.title=clean(t.title);}catch(_e){}
   let ext=null;try{ext=await retrieveExternalYouTubeTranscript(info,{});}catch(e){ext={failureReason:clean(e&&e.message||e)};}
   if(ext&&ext.transcriptRetrieved&&ext.transcript){out.ok=true;out.text=ext.transcript;out.source='Supadata (YouTube captions)';out.truncated=ext.transcript.length>=60000;if(!out.title&&ext.title)out.title=clean(ext.title);return await withDate();}

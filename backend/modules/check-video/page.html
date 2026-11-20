@@ -79,7 +79,15 @@
     if (!r.ok) { box.appendChild(el('p', { text: r.error || 'The check could not be completed.' })); }
     var v = r.video || {};
     if (v.url) box.appendChild(el('p', {}, [el('strong', { text: v.title || 'Video' }), ' ', el('br'), safeLink(v.url)]));
-    if (v.captionSource) box.appendChild(el('p', { cls: 'small', text: 'Captions: ' + v.captionSource + (v.captionsTruncated ? ' (long video: only the first part was read)' : '') }));
+    var KIND = { written: 'written by people', automatic: 'automatic speech-to-text (may contain errors)', pasted: 'pasted by tester', 'other-language': 'not in English', none: 'none listed' };
+    if (v.captionSource) {
+      var bits = ['Captions: ' + (KIND[v.captionKind] || 'type unknown')];
+      if (v.captionQuality && v.captionQuality !== 'unknown') bits.push('quality ' + v.captionQuality);
+      if (v.wordsPerMinute) bits.push(v.wordsPerMinute + ' words a minute');
+      if (v.captionsTruncated) bits.push('long video: only the first part was read');
+      box.appendChild(el('p', { cls: 'small', text: bits.join(' · ') }));
+    }
+    if (r.reliability && r.reliability.flagged) box.appendChild(el('p', { cls: 'limits', text: 'Not enough reliable caption data for firm answers: ' + r.reliability.reasons.join('; ') + '.' }));
     if (r.summary) box.appendChild(el('p', { text: r.summary }));
     (r.claims || []).forEach(function (c) {
       var d = el('div', { cls: 'claim' });
@@ -87,6 +95,7 @@
       d.appendChild(el('h3', { text: c.claim }));
       if (c.videoQuote) d.appendChild(el('p', { cls: 'small', text: 'In the video: “' + c.videoQuote + '”' }));
       d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.label }));
+      if (withReview && c.wouldHaveBeen) d.appendChild(el('span', { cls: 'small', text: '  (reviewer note: without the caption rule this would have been “' + c.wouldHaveBeen + '”)' }));
       if (c.reason) d.appendChild(el('p', { text: c.reason }));
       if (c.quote) {
         d.appendChild(el('blockquote', { text: '“' + c.quote.text + '”' }));

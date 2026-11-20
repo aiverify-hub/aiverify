@@ -128,6 +128,45 @@ test('review answers are saved per run and validated', async () => {
   assert.equal(cv.listRuns()[0].review.answer, 'partly');
 });
 
+// Fake claim step with caption-quality fields; claim 1 optionally depends on a guessed caption word.
+function withQuality(io, quality, guess) {
+  const orig = io.anthropic;
+  io.anthropic = async (p, body, h) => {
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 1000, output_tokens: 90 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: quality, garbled_passages: 2, note: '', claims: [
+      { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'went up on Christmas Day 2021', search_query: 'Webb launch', depends_on_guess: guess }] }) }] }) };
+    return orig(p, body, h);
+  };
+  return io;
+}
+const SUPPORT = c => /Webb Space Telescope launched/.test(c) ? { verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA.' } : null;
+
+test('caption type, length and words per minute are recorded; good captions keep firm answers', async () => {
+  const io = withQuality(fakeIo({ judge: SUPPORT, transcript: { ok: true, title: 'T', source: 'fake', captionKind: 'automatic', durationSec: 10, text: 'The James Webb telescope went up on Christmas Day 2021 which is amazing everyone.' } }), 'good', false);
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.video.captionKind, 'automatic'); assert.equal(r.video.captionQuality, 'good');
+  assert.equal(r.video.wordsPerMinute, null, 'too short to measure');
+  assert.equal(r.reliability.flagged, false); assert.equal(r.claims[0].verdict, 'supported');
+});
+
+test('poor captions or missing speech flag the video; firm answers are withheld but recorded', async () => {
+  const io = withQuality(fakeIo({ judge: SUPPORT }), 'poor', false);
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.reliability.flagged, true); assert.match(r.reliability.reasons[0], /garbled/);
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].wouldHaveBeen, 'supported'); assert.equal(r.claims[0].quote, null);
+  assert.match(r.claims[0].label, /not enough reliable caption data/);
+  // 20 words over 10 minutes = 2 words a minute
+  const io2 = withQuality(fakeIo({ judge: SUPPORT, transcript: { ok: true, title: 'T', source: 'fake', captionKind: 'automatic', durationSec: 600, text: 'The James Webb telescope went up on Christmas Day 2021 which is amazing everyone and more words here ok.' } }), 'good', false);
+  const r2 = await createCheckVideo({ io: io2, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r2.video.wordsPerMinute, 2); assert.equal(r2.reliability.flagged, true); assert.match(r2.reliability.reasons[0], /words a minute/);
+});
+
+test('a claim that depends on a guessed name or number is withheld as caption unclear', async () => {
+  const io = withQuality(fakeIo({ judge: SUPPORT }), 'fair', true);
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.reliability.flagged, false);
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (caption unclear)"); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
+});
+
 test('the refusal-fallback option is dropped once if the API rejects it', async () => {
   _internal.FALLBACK_STATE.enabled = true;
   const io = fakeIo(); const orig = io.anthropic; let rejected = 0;
