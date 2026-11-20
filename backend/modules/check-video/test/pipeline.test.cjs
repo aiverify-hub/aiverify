@@ -167,6 +167,31 @@ test('a claim that depends on a guessed name or number is withheld as caption un
   assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (caption unclear)"); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
 });
 
+test('judge format is enforced; prose around the JSON and inner quotes are handled; raw text stays private', async () => {
+  const io = fakeIo(); const orig = io.anthropic; let judgeBody = null;
+  io.anthropic = async (p, body, h) => {
+    if (p === '/v1/messages' && /assess one claim/.test(body.messages[0].content) && /Webb Space Telescope launched/.test(body.messages[0].content)) {
+      judgeBody = body;
+      const text = 'Here is my answer: ' + JSON.stringify({ verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA says "launched" {plainly}.' }) + ' Thanks {end}';
+      return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 80 }, content: [{ type: 'text', text }] }) };
+    }
+    return orig(p, body, h);
+  };
+  const cv = createCheckVideo({ io, runsDir: tmp() });
+  const r = await cv.run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(judgeBody.output_config.format.type, 'json_schema');
+  assert.equal(r.claims[0].verdict, 'supported');
+  assert.ok(!JSON.stringify(r).includes('Here is my answer'), 'raw judge text not in the visitor result');
+  const saved = JSON.parse(fs.readFileSync(path.join(cv.runsDir, 'run-' + r.runId + '.json'), 'utf8'));
+  assert.match(saved.privateEvidence.find(x => x.n === 1).rawJudgeText, /Here is my answer/);
+});
+
+test('source 0 means no source; an insufficient answer with source 0 is read correctly', async () => {
+  const io = fakeIo({ judge: () => ({ verdict: 'insufficient', quote: '', source: 0, reason: 'Not settled.' }) });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].reason, 'Not settled.');
+});
+
 test('the refusal-fallback option is dropped once if the API rejects it', async () => {
   _internal.FALLBACK_STATE.enabled = true;
   const io = fakeIo(); const orig = io.anthropic; let rejected = 0;
