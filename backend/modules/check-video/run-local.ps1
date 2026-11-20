@@ -1,30 +1,49 @@
 # Check Video (Phase 1) local test server.
-# Asks for three keys at HIDDEN prompts, keeps them only in this window's process, never writes or prints them.
+# Keys: read from a saved file locked to this Windows account (if Cary chose to save them), otherwise asked for at
+# HIDDEN prompts. Keys are kept only in this window's process; this script never prints them.
+# Saved-key file: %LOCALAPPDATA%\AIVerify\check-video-keys.xml (Windows DPAPI: only this Windows user on this computer
+# can unlock it). Delete that file to forget the keys.
 # Starts the backend on http://localhost:3077 with AIV_CHECK_VIDEO=local (page served to this computer only).
-# Stop with Ctrl+C or by closing the window; the keys are removed when it stops.
+# Stop with Ctrl+C or by closing the window; the keys are removed from the window when it stops.
 $ErrorActionPreference = 'Stop'
 $backend = Join-Path $PSScriptRoot '..\..\index.js' | Resolve-Path
-function Plain([Security.SecureString]$s) { $p = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($s); try { [Runtime.InteropServices.Marshal]::PtrToStringBSTR($p) } finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($p) } }
-$runs = Join-Path $env:LOCALAPPDATA 'AIVerify\check-video-runs'
-New-Item -ItemType Directory -Force $runs | Out-Null
-$data = Join-Path $env:LOCALAPPDATA 'AIVerify\check-video-analytics'
-New-Item -ItemType Directory -Force $data | Out-Null
+function Plain([Security.SecureString]$s) { if (-not $s) { return '' }; $p = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($s); try { [Runtime.InteropServices.Marshal]::PtrToStringBSTR($p) } finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($p) } }
+$home2 = Join-Path $env:LOCALAPPDATA 'AIVerify'
+$runs = Join-Path $home2 'check-video-runs'
+$data = Join-Path $home2 'check-video-analytics'
+$keyFile = Join-Path $home2 'check-video-keys.xml'
+New-Item -ItemType Directory -Force $runs, $data | Out-Null
 
-Write-Host ''
-Write-Host 'Check Video test server. Paste each key and press Enter. Nothing shows while you paste; that is normal.' -ForegroundColor Cyan
-$ant = Read-Host -AsSecureString '1 of 3: Paste the ANTHROPIC API key'
-$exa = Read-Host -AsSecureString '2 of 3: Paste the EXA API key'
-$sup = Read-Host -AsSecureString '3 of 3: Paste the SUPADATA API key (or just press Enter to skip)'
+$keys = $null
+if (Test-Path -LiteralPath $keyFile) {
+  try { $keys = Import-Clixml -LiteralPath $keyFile; Write-Host 'Using the keys saved on this computer.' -ForegroundColor Cyan }
+  catch { Write-Host 'The saved keys could not be unlocked; please paste them again.' -ForegroundColor Yellow; $keys = $null }
+}
+if (-not $keys) {
+  Write-Host ''
+  Write-Host 'Check Video test server. Paste each key and press Enter. Nothing shows while you paste; that is normal.' -ForegroundColor Cyan
+  $keys = @{
+    Anthropic = Read-Host -AsSecureString '1 of 3: Paste the ANTHROPIC API key'
+    Exa       = Read-Host -AsSecureString '2 of 3: Paste the EXA API key'
+    Supadata  = Read-Host -AsSecureString '3 of 3: Paste the SUPADATA API key (or just press Enter to skip)'
+  }
+  Write-Host ''
+  $save = Read-Host 'Save these keys on this computer, locked to your Windows account, so you need not paste them again? Type Y and press Enter for yes, or just press Enter for no'
+  if ($save -match '^\s*[Yy]') {
+    $keys | Export-Clixml -LiteralPath $keyFile
+    Write-Host "Saved. To forget them later, delete this file: $keyFile" -ForegroundColor Green
+  }
+}
 try {
-  $env:ANTHROPIC_API_KEY = Plain $ant
-  $env:EXA_API_KEY = Plain $exa
-  $s = Plain $sup; if ($s) { $env:SUPADATA_API_KEY = $s }; $s = $null
+  $env:ANTHROPIC_API_KEY = Plain $keys.Anthropic
+  $env:EXA_API_KEY = Plain $keys.Exa
+  $s = Plain $keys.Supadata; if ($s) { $env:SUPADATA_API_KEY = $s }; $s = $null
   $env:AIV_CHECK_VIDEO = 'local'
   $env:AIV_CHECK_VIDEO_RUNS_DIR = $runs
   $env:AIV_ANALYTICS_STORAGE_DIR = $data
   $env:PORT = '3077'
   Write-Host ''
-  Write-Host 'Keys received. Starting... When you see "BE_AIV_v5066C running", the server is ready.' -ForegroundColor Green
+  Write-Host 'Keys ready. Starting... When you see "BE_AIV_v5066C running", the server is ready.' -ForegroundColor Green
   Write-Host 'Leave this window open. To stop later: click here and press Ctrl+C.' -ForegroundColor Green
   # Exit code 75 = restart requested from this computer after a code change (keys stay in this window's memory).
   do {
@@ -34,6 +53,6 @@ try {
   } while ($code -eq 75)
 } finally {
   foreach ($n in 'ANTHROPIC_API_KEY', 'EXA_API_KEY', 'SUPADATA_API_KEY') { Remove-Item "Env:$n" -ErrorAction SilentlyContinue }
-  $ant.Dispose(); $exa.Dispose(); $sup.Dispose()
+  foreach ($k in @($keys.Values)) { if ($k) { $k.Dispose() } }
   Write-Host 'Server stopped; keys removed from this window.'
 }
