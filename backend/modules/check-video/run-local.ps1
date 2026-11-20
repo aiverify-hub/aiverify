@@ -26,7 +26,12 @@ try {
   Write-Host ''
   Write-Host 'Keys received. Starting... When you see "BE_AIV_v5066C running", the server is ready.' -ForegroundColor Green
   Write-Host 'Leave this window open. To stop later: click here and press Ctrl+C.' -ForegroundColor Green
-  node $backend
+  # Exit code 75 = restart requested from this computer after a code change (keys stay in this window's memory).
+  do {
+    node $backend
+    $code = $LASTEXITCODE
+    if ($code -eq 75) { Write-Host 'Restarting with updated code...' -ForegroundColor Green }
+  } while ($code -eq 75)
 } finally {
   foreach ($n in 'ANTHROPIC_API_KEY', 'EXA_API_KEY', 'SUPADATA_API_KEY') { Remove-Item "Env:$n" -ErrorAction SilentlyContinue }
   $ant.Dispose(); $exa.Dispose(); $sup.Dispose()
