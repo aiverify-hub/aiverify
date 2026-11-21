@@ -331,7 +331,7 @@ function claimNumbersMissing(claim, transcript, videoQuote) {
   // checks dates against the caption passage and sources. Every other number, including a bare year-like "2000", is
   // required (Fred re-check 2: no blanket year exemption).
   const MONTHS = '(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\.?';
-  const body = String(claim || '').replace(/^\s*as of [^,]{3,40},\s*/i, '')
+  const body = String(claim || '').replace(/^\s*as of [^,]{3,40}(?:,\s*\d{4})?,\s*/i, '')
     .replace(new RegExp('\\b' + MONTHS + '\\s+\\d{1,2}(?:st|nd|rd|th)?(?:,?\\s+\\d{4})?\\b', 'gi'), ' ')
     .replace(new RegExp('\\b\\d{1,2}(?:st|nd|rd|th)?\\s+(?:of\\s+)?' + MONTHS + '(?:,?\\s+\\d{4})?\\b', 'gi'), ' ')
     .replace(new RegExp('\\b' + MONTHS + '\\s+\\d{4}\\b', 'gi'), ' ');

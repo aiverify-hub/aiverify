@@ -466,3 +466,7 @@ test('"Misleading" resting on an "other" source is held back', async () => {
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r.claims[0].verdict, 'insufficient'); assert.match(r.claims[0].notes.join(' '), /misleading/);
 });
+
+test('"As of February 12, 2026," prefix (from the publish date) is not required in the captions', () => {
+  assert.deepEqual(_internal.claimNumbersMissing('As of February 12, 2026, the House passed the act 220 to 207.', 'the house passed it 220 to 207 on thursday', 'house passed'), []);
+});
