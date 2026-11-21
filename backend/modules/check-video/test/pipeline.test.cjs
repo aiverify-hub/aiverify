@@ -160,11 +160,11 @@ test('poor captions or missing speech flag the video; firm answers are withheld 
   assert.equal(r2.video.wordsPerMinute, 2); assert.equal(r2.reliability.flagged, true); assert.match(r2.reliability.reasons[0], /words a minute/);
 });
 
-test('guessed caption word: a contradiction is held back as caption unclear; support is kept', async () => {
+test('guessed caption word: every firm answer is held back as caption unclear', async () => {
   const io = withQuality(fakeIo({ judge: SUPPORT }), 'fair', true);
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r.reliability.flagged, false);
-  assert.equal(r.claims[0].verdict, 'supported', 'sources confirming the guessed word keep the answer');
+  assert.equal(r.claims[0].verdict, 'insufficient', 'a guessed caption word withholds support too (Fred re-check 3)'); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
   const CONTRA = c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null;
   const r2 = await createCheckVideo({ io: withQuality(fakeIo({ judge: CONTRA }), 'fair', true), runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r2.claims[0].verdict, 'insufficient'); assert.equal(r2.claims[0].label, "Can't determine (caption unclear)"); assert.equal(r2.claims[0].wouldHaveBeen, 'contradicted');
@@ -385,4 +385,14 @@ test('Fred re-check 2 #6: the judge must find the claim in the caption passage, 
   const judgeBody = io.calls.anthropic.find(x => x.p === '/v1/messages' && /assess one claim/.test(x.body.messages[0].content)).body;
   assert.match(judgeBody.messages[0].content, /CAPTION PASSAGE: .*went up on Christmas Day 2021/);
   assert.ok(!JSON.stringify(r).includes('captionWindow'), 'caption passage kept out of the visitor result');
+});
+
+test('Fred re-check 3 #2: an unsaved cost blocks later checks in this process even if the marker file cannot be written', async () => {
+  const dir = tmp(); const make = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir);
+  const b = make(); const e = b.reserve(0.2, 'x');
+  fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), '{corrupt');
+  fs.mkdirSync(path.join(dir, 'spend-UNRESOLVED.json')); // a directory: the marker append fails
+  b.settle(e, 0.05);
+  fs.rmSync(path.join(dir, 'spend-UNRESOLVED.json'), { recursive: true }); fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), JSON.stringify({ usd: 0.2 }));
+  assert.throws(() => make().reserve(0.1, 'next check'), /reconcile/);
 });

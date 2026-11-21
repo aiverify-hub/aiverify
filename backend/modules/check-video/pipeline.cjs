@@ -20,7 +20,9 @@ const DEFAULTS = {
   maxClaims: 4, maxSources: 4, maxPerPublisher: 2, exaResults: 8, excerptChars: 6000, minSourceChars: 300,
   transcriptMaxChars: 120000, fetchLimitBytes: 1500000, fetchTimeoutMs: 8000,
   perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65,
-  captionUsdReserve: 0.01 // caption service (Supadata) reports no dollar cost; a fixed reservation counts it against the caps
+  // Caption service (Supadata, native mode): 1 credit per transcript, polls free (Fred research, docs.supadata.ai/get-transcript).
+  // Highest listed per-credit value is $0.0167 (Basic plan), so $0.02 covers one native request at any listed plan rate.
+  captionUsdReserve: 0.02
 };
 const VERDICT_LABEL = { supported: 'Supported', contradicted: 'Contradicted', misleading: 'Misleading (satire or false context)', insufficient: "Can't determine" };
 
@@ -119,7 +121,9 @@ function createBudget(cfg, dir) {
   // Fred re-check 2: an unsaved settlement is recorded durably and blocks every later check until reconciled by hand
   // (delete spend-UNRESOLVED.json after correcting the day ledger).
   const unresolvedFile = path.join(dir, 'spend-UNRESOLVED.json');
-  function assertResolved() { if (fs.existsSync(unresolvedFile)) throw ledgerError('an earlier cost was not recorded; reconcile spend-UNRESOLVED.json'); }
+  // Also held in memory, so a check is blocked even if the marker file itself could not be written (Fred re-check 3).
+  let unresolvedInProcess = false;
+  function assertResolved() { if (unresolvedInProcess || fs.existsSync(unresolvedFile)) throw ledgerError('an earlier cost was not recorded; reconcile spend-UNRESOLVED.json and restart'); }
   return function runBudget(opts) {
     const o = opts || {}, started = Date.now(); let run = 0, stopped = null; const ledger = [];
     function checkOpen() {
@@ -157,7 +161,7 @@ function createBudget(cfg, dir) {
         // paid work in this check (the estimate is not assumed to be an upper bound).
         try { withLock(() => writeDay(e.day, readDay(e.day) + delta)); }
         catch (err) {
-          e.uncertain = true; e.actualUnsaved = +actual.toFixed(6);
+          e.uncertain = true; e.actualUnsaved = +actual.toFixed(6); unresolvedInProcess = true;
           try { fs.appendFileSync(unresolvedFile, JSON.stringify({ at: new Date().toISOString(), what: e.what, day: e.day, reserved: e.reserved, actual: e.actualUnsaved }) + '\n'); } catch (_e) {}
           if (!stopped) stopped = ledgerError('cost could not be recorded'); return;
         }
@@ -515,9 +519,8 @@ function createCheckVideo(options) {
       // against human review before they are tightened or loosened.
       for (const c of result.claims) {
         if (c.verdict === 'insufficient') continue;
-        // Guessed caption word: hold back only contradictions (the video might not have said what we misheard).
-        // Calibration, Fred's review of the 20-video run: 5 of 6 withheld answers were "supported" and right.
-        const guessRisk = c.dependsOnGuess && (c.verdict === 'contradicted' || c.verdict === 'misleading');
+        // Fred re-checks: a claim built on a guessed caption word gets no firm answer at all (accuracy over coverage).
+        const guessRisk = c.dependsOnGuess;
         // Fred review #6: a claim whose passage was not found in the captions may not be what the video said.
         const numberRisk = (c.missingNumbers || []).length > 0;
         const why = result.reliability.flagged ? 'video' : (!c.captionBound ? 'notfound' : (numberRisk ? 'numbers' : (guessRisk ? 'claim' : '')));
