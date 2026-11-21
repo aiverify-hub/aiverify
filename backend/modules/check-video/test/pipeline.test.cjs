@@ -114,7 +114,7 @@ test('spending caps stop the run before overspending', async () => {
   const io = fakeIo();
   const r = await createCheckVideo({ io, runsDir: tmp(), config: { perRunUsdCap: 0.01 } }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r.ok, false); assert.equal(r.stage, 'budget');
-  const dir = tmp(); fs.writeFileSync(path.join(dir, 'spend-' + new Date().toISOString().slice(0, 10) + '.json'), JSON.stringify({ usd: 4.999 }));
+  const dir = tmp(); fs.writeFileSync(path.join(dir, 'spend-' + _internal.budgetDay() + '.json'), JSON.stringify({ usd: 4.999 }));
   const r2 = await createCheckVideo({ io: fakeIo(), runsDir: dir }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r2.stage, 'budget'); assert.match(r2.error, /Daily/);
 });
@@ -229,7 +229,7 @@ test('source suggestions are saved with the publisher; bad addresses are refused
 });
 
 // ---------- Fred pre-release review fixes ----------
-const today = () => new Date().toISOString().slice(0, 10);
+const today = () => _internal.budgetDay();
 test('Fred #2: a corrupt or unwritable spending ledger stops the check (fails closed)', async () => {
   const dir = tmp(); fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), '{not json');
   const io = fakeIo(); const r = await createCheckVideo({ io, runsDir: dir }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });

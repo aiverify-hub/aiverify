@@ -74,6 +74,7 @@ function defaultClients() {
 }
 
 // ---------- spending guard ----------
+function budgetDay(d) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d || new Date()); }
 // Reserve the worst case before each paid call; settle to the reported actual. Refuses past the per-run or per-day cap.
 // Fails closed (Fred review #2): an unreadable or corrupt day ledger, or a reservation that cannot be saved, stops the call.
 // A missing ledger file means the day has not started (zero). Each reservation is settled against its own day's ledger.
@@ -81,7 +82,8 @@ function defaultClients() {
 // The run-level stop state (Fred review #4): once a check is cancelled (cap, key refused, deadline, visitor left), every
 // later reserve() refuses, so no worker can start another paid call.
 function createBudget(cfg, dir) {
-  const today = () => new Date().toISOString().slice(0, 10);
+  // Budget day = Cary's working day in Eastern time (America/New_York), not UTC (which starts at 7-8 PM Eastern).
+  const today = () => budgetDay();
   const fileFor = d => path.join(dir, 'spend-' + d + '.json');
   const ledgerError = m => Object.assign(new Error('Spending ledger problem (' + m + '); nothing more will be spent until it is fixed'), { code: 'BUDGET_LEDGER' });
   function readDay(d) {
@@ -614,4 +616,4 @@ function saveSourceSuggestion(dir, s) {
   try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'source-suggestions.jsonl'), JSON.stringify({ at: new Date().toISOString(), url: u.toString(), publisher: publishers.describe(u.toString()).publisher, note, runId }) + '\n'); return true; } catch (_e) { return false; }
 }
 
-module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing } };
+module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { budgetDay, createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing } };
