@@ -97,6 +97,7 @@
       box.appendChild(el('p', { cls: 'small', text: bits.join(' · ') }));
     }
     if (r.reliability && r.reliability.flagged) box.appendChild(el('p', { cls: 'limits', text: 'Not enough reliable caption data for firm answers: ' + r.reliability.reasons.join('; ') + '.' }));
+    if (r.stoppedEarly) box.appendChild(el('p', { cls: 'limits', text: 'This check stopped early: ' + r.stoppedEarly + ' Claims not finished are marked "Can’t determine".' }));
     if (r.caution) box.appendChild(el('p', { cls: 'caution', text: '⚠ ' + r.caution }));
     if (r.summary) box.appendChild(el('p', { text: r.summary }));
     (r.claims || []).forEach(function (c) {

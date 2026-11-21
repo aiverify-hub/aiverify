@@ -228,6 +228,76 @@ test('source suggestions are saved with the publisher; bad addresses are refused
   assert.equal(line.publisher, 'cdc.gov'); assert.equal(line.note, 'official data');
 });
 
+// ---------- Fred pre-release review fixes ----------
+const today = () => new Date().toISOString().slice(0, 10);
+test('Fred #2: a corrupt or unwritable spending ledger stops the check (fails closed)', async () => {
+  const dir = tmp(); fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), '{not json');
+  const io = fakeIo(); const r = await createCheckVideo({ io, runsDir: dir }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.stage, 'budget'); assert.match(r.error, /ledger/); assert.equal(io.calls.anthropic.length, 0);
+  const notADir = path.join(tmp(), 'file'); fs.writeFileSync(notADir, 'x');
+  const io2 = fakeIo(); const r2 = await createCheckVideo({ io: io2, runsDir: notADir }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r2.stage, 'budget'); assert.equal(io2.calls.anthropic.length, 0);
+});
+
+test('Fred #2: each reservation is settled against its own day', () => {
+  const dir = tmp(); const b = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir)();
+  const e = b.reserve(0.5, 'x'); e.day = '2000-01-01'; fs.writeFileSync(path.join(dir, 'spend-2000-01-01.json'), JSON.stringify({ usd: 0.5 }));
+  b.settle(e, 0.1);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, 'spend-2000-01-01.json'), 'utf8')).usd, 0.1);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, 'spend-' + today() + '.json'), 'utf8')).usd, 0.5, 'today is not adjusted by an old reservation');
+});
+
+test('Fred #3: with the caps exhausted the caption service is never called', async () => {
+  let captionCalls = 0; const io = fakeIo(); const orig = io.getTranscript; io.getTranscript = async (...a) => { captionCalls++; return orig(...a); };
+  const r = await createCheckVideo({ io, runsDir: tmp(), config: { dailyUsdCap: 0, perRunUsdCap: 0 } }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.stage, 'budget'); assert.equal(captionCalls, 0);
+  const r2 = await createCheckVideo({ io: fakeIo(), runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.ok(r2.cost.ledger.some(x => /captions/.test(x.what)), 'caption call counted in the ledger');
+});
+
+test('Fred #4: a stop in one claim prevents new paid calls in the other; cost is final', async () => {
+  const io = fakeIo({ judge: SUPPORT });
+  io.exa = async (p, body) => {
+    if (/moon/i.test(body.query)) return { status: 401, body: '{}' };                 // claim 2: key refused at once
+    await new Promise(r => setTimeout(r, 60));                                         // claim 1: still searching
+    return { status: 200, body: JSON.stringify({ results: [{ url: 'https://science.nasa.gov/mission/webb/', title: 'NASA', text: '' }] }) };
+  };
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.stage, 'provider'); assert.match(r.stoppedEarly, /Exa key was refused/);
+  assert.equal(io.calls.anthropic.filter(x => x.p === '/v1/messages' && /assess one claim/.test(x.body.messages[0].content)).length, 0, 'no judgment started after the stop');
+  assert.ok(r.claims.every(c => c.verdict === 'insufficient'));
+});
+
+test('Fred #4: closing the page stops the check before further paid calls', async () => {
+  const io = fakeIo({ judge: SUPPORT }); let closed = false;
+  const orig = io.getTranscript; io.getTranscript = async (...a) => { const t = await orig(...a); closed = true; return t; };
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' }, { shouldStop: () => closed });
+  assert.equal(r.stage, 'stopped'); assert.equal(io.calls.anthropic.filter(x => x.p === '/v1/messages').length, 0);
+});
+
+test('Fred #5: a redirect is classified by where it lands, so it cannot borrow an official label', async () => {
+  const io = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null });
+  io.exa = async () => ({ status: 200, body: JSON.stringify({ results: [{ url: 'https://www.agency.gov/webb', title: 'Agency', text: '' }] }) });
+  io.publicGet = async () => ({ ok: true, status: 200, html: NASA, text: NASA, content_type: 'text/html', url: 'https://untrusted.example/page' });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  const s = r.claims[0].sources[0];
+  assert.equal(s.url, 'https://untrusted.example/page'); assert.equal(s.publisher, 'untrusted.example'); assert.equal(s.role, 'other');
+  assert.equal(r.claims[0].verdict, 'insufficient', 'contradiction from the redirect target is held back');
+});
+
+test('Fred #6: a claim whose passage is not in the captions gets no firm answer', async () => {
+  const io = withQuality(fakeIo({ judge: SUPPORT }), 'good', false);
+  const orig = io.anthropic;
+  io.anthropic = async (p, body, h) => {
+    const res = await orig(p, body, h);
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) { const j = JSON.parse(res.body); const t = JSON.parse(j.content[0].text); t.claims[0].video_quote = 'words the video never said'; j.content[0].text = JSON.stringify(t); res.body = JSON.stringify(j); }
+    return res;
+  };
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].captionBound, false);
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (not found in the captions)"); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
+});
+
 test('the refusal-fallback option is dropped once if the API rejects it', async () => {
   _internal.FALLBACK_STATE.enabled = true;
   const io = fakeIo(); const orig = io.anthropic; let rejected = 0;

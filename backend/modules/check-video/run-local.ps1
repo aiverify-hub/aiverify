@@ -37,6 +37,8 @@ if (-not $keys) {
 try {
   $env:ANTHROPIC_API_KEY = Plain $keys.Anthropic
   $env:EXA_API_KEY = Plain $keys.Exa
+  # A skipped Supadata key must not fall back to one inherited from the parent shell (Fred review #3).
+  foreach ($n in 'SUPADATA_API_KEY', 'EXTERNAL_YOUTUBE_TRANSCRIPT_API_KEY') { Remove-Item "Env:$n" -ErrorAction SilentlyContinue }
   $s = Plain $keys.Supadata; if ($s) { $env:SUPADATA_API_KEY = $s }; $s = $null
   $env:AIV_CHECK_VIDEO = 'local'
   $env:AIV_CHECK_VIDEO_RUNS_DIR = $runs

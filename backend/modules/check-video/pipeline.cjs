@@ -19,7 +19,8 @@ const DEFAULTS = {
   exaUsdPerSearch: 0.007, exaUsdPerPage: 0.001,  // reservation only; Exa's reported costDollars settles it
   maxClaims: 4, maxSources: 4, maxPerPublisher: 2, exaResults: 8, excerptChars: 6000, minSourceChars: 300,
   transcriptMaxChars: 120000, fetchLimitBytes: 1500000, fetchTimeoutMs: 8000,
-  perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65
+  perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65,
+  captionUsdReserve: 0.01 // caption service (Supadata) reports no dollar cost; a fixed reservation counts it against the caps
 };
 const VERDICT_LABEL = { supported: 'Supported', contradicted: 'Contradicted', misleading: 'Misleading (satire or false context)', insufficient: "Can't determine" };
 
@@ -64,23 +65,55 @@ function defaultClients() {
 
 // ---------- spending guard ----------
 // Reserve the worst case before each paid call; settle to the reported actual. Refuses past the per-run or per-day cap.
+// Fails closed (Fred review #2): an unreadable or corrupt day ledger, or a reservation that cannot be saved, stops the call.
+// A missing ledger file means the day has not started (zero). Each reservation is settled against its own day's ledger.
+// Writes are atomic (temp file + rename). One server process is assumed; there is no cross-process lock.
+// The run-level stop state (Fred review #4): once a check is cancelled (cap, key refused, deadline, visitor left), every
+// later reserve() refuses, so no worker can start another paid call.
 function createBudget(cfg, dir) {
-  const day = () => new Date().toISOString().slice(0, 10);
-  const file = () => path.join(dir, 'spend-' + day() + '.json');
-  function readDay() { try { return JSON.parse(fs.readFileSync(file(), 'utf8')).usd || 0; } catch (_e) { return 0; } }
-  function writeDay(v) { try { fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(file(), JSON.stringify({ day: day(), usd: +v.toFixed(6) })); } catch (_e) {} }
-  return function runBudget() {
-    let run = 0; const ledger = [];
+  const today = () => new Date().toISOString().slice(0, 10);
+  const fileFor = d => path.join(dir, 'spend-' + d + '.json');
+  const ledgerError = m => Object.assign(new Error('Spending ledger problem (' + m + '); nothing more will be spent until it is fixed'), { code: 'BUDGET_LEDGER' });
+  function readDay(d) {
+    let raw;
+    try { raw = fs.readFileSync(fileFor(d), 'utf8'); } catch (e) { if (e && e.code === 'ENOENT') return 0; throw ledgerError('unreadable'); }
+    let v; try { v = JSON.parse(raw).usd; } catch (_e) { throw ledgerError('corrupt'); }
+    if (!Number.isFinite(v) || v < 0) throw ledgerError('corrupt');
+    return v;
+  }
+  function writeDay(d, v) {
+    try {
+      fs.mkdirSync(dir, { recursive: true });
+      const f = fileFor(d), tmp = f + '.' + process.pid + '.tmp';
+      fs.writeFileSync(tmp, JSON.stringify({ day: d, usd: +Math.max(0, v).toFixed(6) })); fs.renameSync(tmp, f);
+    } catch (_e) { throw ledgerError('cannot save'); }
+  }
+  return function runBudget(opts) {
+    const o = opts || {}, started = Date.now(); let run = 0, stopped = null; const ledger = [];
+    function checkOpen() {
+      if (stopped) throw stopped;
+      if (o.shouldStop && o.shouldStop()) throw (stopped = Object.assign(new Error('The check was stopped because the page was closed'), { code: 'STOPPED' }));
+      if (Date.now() - started > cfg.runDeadlineMs) throw (stopped = Object.assign(new Error('Time ran out for this check'), { code: 'DEADLINE' }));
+    }
     return {
+      checkOpen,
+      stop(err) { if (!stopped) stopped = err; },
+      stoppedBy: () => stopped,
+      // Admission before any paid or credit-using call: refuse if the day is already at its cap.
+      admit(minUsd) { checkOpen(); if (readDay(today()) + (minUsd || 0) > cfg.dailyUsdCap) throw (stopped = Object.assign(new Error('Daily spending cap reached'), { code: 'BUDGET_DAY' })); },
       reserve(usd, what) {
-        const today = readDay();
-        if (run + usd > cfg.perRunUsdCap) throw Object.assign(new Error('Per-check spending cap reached'), { code: 'BUDGET_RUN' });
-        if (today + usd > cfg.dailyUsdCap) throw Object.assign(new Error('Daily spending cap reached'), { code: 'BUDGET_DAY' });
-        run += usd; writeDay(today + usd); const e = { what, reserved: +usd.toFixed(6), actual: null }; ledger.push(e); return e;
+        checkOpen();
+        const d = today(), spent = readDay(d);
+        if (run + usd > cfg.perRunUsdCap) throw (stopped = Object.assign(new Error('Per-check spending cap reached'), { code: 'BUDGET_RUN' }));
+        if (spent + usd > cfg.dailyUsdCap) throw (stopped = Object.assign(new Error('Daily spending cap reached'), { code: 'BUDGET_DAY' }));
+        writeDay(d, spent + usd); // saved before the call is made
+        run += usd; const e = { what, day: d, reserved: +usd.toFixed(6), actual: null }; ledger.push(e); return e;
       },
       settle(e, actual) {
         if (!Number.isFinite(actual) || actual < 0) return; // unknown actual: keep the reservation counted
-        const d = actual - e.reserved; run += d; writeDay(readDay() + d); e.actual = +actual.toFixed(6);
+        const delta = actual - e.reserved;
+        try { writeDay(e.day, readDay(e.day) + delta); } catch (_e) { return; } // keep the (larger) reservation if settling fails
+        run += delta; e.actual = +actual.toFixed(6);
       },
       total: () => +run.toFixed(4), ledger
     };
@@ -173,7 +206,8 @@ async function extractClaims(ctx, title, transcript, published) {
     const vq = squash(c.video_quote), b = vq ? bindQuote(vq, transcript) : { bound: false };
     // video_quote is shown only if it really appears in the captions (any occurrence is fine for display)
     const shown = b.bound ? b.originalSubstring : (b.reason === 'AMBIGUOUS_MULTIPLE_MATCHES' ? vq : '');
-    return { n: i + 1, central: i === 0, claim: squash(c.claim).slice(0, 400), videoQuote: shown.slice(0, 300), searchQuery: squash(c.search_query || c.claim).slice(0, 200), dependsOnGuess: c.depends_on_guess === true };
+    // captionBound (Fred review #6): the claim's passage was found in the captions. Without it, a firm answer is withheld.
+    return { n: i + 1, central: i === 0, claim: squash(c.claim).slice(0, 400), videoQuote: shown.slice(0, 300), captionBound: !!shown, searchQuery: squash(c.search_query || c.claim).slice(0, 200), dependsOnGuess: c.depends_on_guess === true };
   });
   const quality = ['good', 'fair', 'poor'].includes(j.caption_quality) ? j.caption_quality : 'unknown';
   return { ok: true, kind: j.video_kind || 'other', note: squash(j.note).slice(0, 300), claims, captionQuality: quality, garbledPassages: Number.isInteger(j.garbled_passages) ? j.garbled_passages : null };
@@ -203,10 +237,20 @@ async function gatherEvidence(ctx, claim, videoId) {
     row.directStatus = direct.status || 0; row.truncated = !!direct.truncated;
     const ct = String(direct.content_type || '');
     if (direct.ok && direct.status < 300 && /html|xml|text\/plain/i.test(ct)) {
+      // Fred review #5: classify the page we actually read (after redirects), not the search result's address.
+      const finalUrl = direct.url || c.url;
+      if (finalUrl !== c.url) {
+        const fd = publishers.describe(finalUrl);
+        if (publishers.isLookalike(finalUrl)) return Object.assign(row, { use: false, why: 'redirected to a lookalike domain' });
+        if (/(?:^|\.)(?:youtube\.com|youtu\.be)$/.test(fd.host) && finalUrl.includes(videoId)) return Object.assign(row, { use: false, why: 'redirected to the video itself' });
+        Object.assign(row, { originalUrl: c.url, publisher: fd.publisher, role: fd.role, tier: fd.tier });
+      }
       const text = /html|xml/i.test(ct) ? mainContentText(direct.html) : squash(direct.text);
-      if (text.length >= cfg.minSourceChars) return Object.assign(row, { use: true, origin: 'direct', text, finalUrl: direct.url || c.url });
+      if (text.length >= cfg.minSourceChars) return Object.assign(row, { use: true, origin: 'direct', text, finalUrl });
     }
     if (direct.status === 401 || direct.status === 403) return Object.assign(row, { use: false, why: 'publisher refused our request (HTTP ' + direct.status + '); search copy not used' });
+    // Search-provider copy: labelled by the search result's own address (restore it if a redirect relabelled the row).
+    const od = publishers.describe(c.url); Object.assign(row, { publisher: od.publisher, role: od.role, tier: od.tier });
     const exaText = String(c.exaText || '').split('\n').map(l => l.trim()).filter(Boolean).join('\n');
     if (exaText.length >= cfg.minSourceChars) return Object.assign(row, { use: true, origin: 'search-provider', text: exaText });
     return Object.assign(row, { use: false, why: direct.error ? 'could not read page (' + String(direct.error).slice(0, 60) + ')' : 'no readable text' });
@@ -218,7 +262,7 @@ async function gatherEvidence(ctx, claim, videoId) {
     perPub[x.publisher] = (perPub[x.publisher] || 0) + 1;
     if (perPub[x.publisher] > cfg.maxPerPublisher) { x.why = 'same publisher already used twice'; continue; }
     const ex = buildExcerpt(x.text, claim.claim, cfg.excerptChars);
-    out.sources.push({ n: out.sources.length + 1, url: x.finalUrl || x.url, title: x.title, publisher: x.publisher, role: x.role, tier: x.tier, origin: x.origin, excerpt: ex.excerpt, excerptSha256: sha(ex.excerpt), fullChars: x.text.length, truncated: x.truncated });
+    out.sources.push({ n: out.sources.length + 1, url: x.finalUrl || x.url, originalUrl: x.originalUrl || null, title: x.title, publisher: x.publisher, role: x.role, tier: x.tier, origin: x.origin, excerpt: ex.excerpt, excerptSha256: sha(ex.excerpt), fullChars: x.text.length, truncated: x.truncated });
   }
   out.considered = rows.map(x => ({ url: x.url, publisher: x.publisher, role: x.role, used: out.sources.some(s => s.url === (x.finalUrl || x.url)), why: x.why || '', directStatus: x.directStatus || 0, origin: x.origin || '' }));
   return out;
@@ -286,20 +330,34 @@ function createCheckVideo(options) {
   const io = Object.assign(defaultClients(), o.io || {});
   const runsDir = o.runsDir || path.join(require('os').tmpdir(), 'aiv-check-video-runs');
   const budgetFor = createBudget(cfg, runsDir);
-  async function run(input) {
+  // A stop error (cap, ledger, key refused, deadline, visitor left) ends the paid part of a check; map it to the result.
+  const STOP_CODES = /^(BUDGET|VENDOR_ACCESS|STOPPED|DEADLINE)/;
+  function stopResult(e) {
+    if (e.code === 'VENDOR_ACCESS') return { ok: false, stage: 'provider', error: e.message };
+    if (/^BUDGET/.test(e.code)) return { ok: false, stage: 'budget', error: e.message + '. Nothing more will be spent on this check.' };
+    if (e.code === 'DEADLINE') return { ok: false, stage: 'deadline', error: e.message + '.' };
+    return { ok: false, stage: 'stopped', error: e.message + '.' };
+  }
+  async function run(input, runOpts) {
     const started = Date.now(), runId = new Date().toISOString().replace(/[:.]/g, '-') + '-' + crypto.randomBytes(3).toString('hex');
     const yt = parseYouTubeUrl(input && input.url);
     if (!yt) return { ok: false, error: 'Please paste a link to a single YouTube video.' };
     const keys = io.hasKeys();
     if (!keys.anthropic) return { ok: false, error: 'Check Video is not configured on this server (missing Anthropic key).' };
-    const ctx = { cfg, io, budget: budgetFor() };
+    const ctx = { cfg, io, budget: budgetFor({ shouldStop: runOpts && runOpts.shouldStop }) };
     const result = { ok: true, runId, video: { url: yt.url, videoId: yt.videoId, title: '', captionSource: '', captionChars: 0, captionsTruncated: false }, claims: [], timings: {} };
     let t = Date.now();
     // 1. captions
     let tr;
     const pasted = squash(input && input.transcript);
     if (pasted) tr = { ok: true, text: pasted, source: 'pasted by tester', title: squash(input.title) };
-    else { try { tr = await io.getTranscript(yt.url, yt.videoId); } catch (e) { tr = { ok: false, error: String(e && e.message || e) }; } }
+    else {
+      // Fred review #3: admit the check before the caption service is used, and count that call against the caps.
+      // The caption service does not report a dollar cost, so the reservation is kept as-is.
+      try { ctx.budget.admit(cfg.captionUsdReserve); ctx.budget.reserve(cfg.captionUsdReserve, 'captions (caption service; actual cost not reported)'); }
+      catch (e) { if (e && STOP_CODES.test(e.code || '')) return finish(Object.assign(result, stopResult(e))); throw e; }
+      try { tr = await io.getTranscript(yt.url, yt.videoId); } catch (e) { tr = { ok: false, error: String(e && e.message || e) }; }
+    }
     result.timings.captionsMs = Date.now() - t; t = Date.now();
     result.video.title = squash(tr && tr.title).slice(0, 300);
     result.video.published = /^\d{4}-\d{2}-\d{2}$/.test(String(tr && tr.published || '')) ? tr.published : '';
@@ -324,15 +382,29 @@ function createCheckVideo(options) {
       if (!ex.claims.length) return finish(Object.assign(result, { summary: 'No checkable factual claims were found in this video.' + (ex.note ? ' ' + ex.note : '') }));
       // 3 + 4. evidence and one judgment per claim (two claims at a time)
       const priv = [];
+      // Fred review #4: a stop in one worker is shared with the other (budget.stop + checkOpen before every paid call);
+      // mapLimit waits for both workers, so the cost is final before the result is saved.
+      let fatal = null;
       result.claims = await mapLimit(ex.claims, 2, async c => {
-        if (Date.now() - started > cfg.runDeadlineMs) return Object.assign({}, c, { verdict: 'insufficient', label: VERDICT_LABEL.insufficient, reason: 'Time ran out before this claim was checked.', sources: [], notes: ['deadline'] });
-        let ev; try { ev = await gatherEvidence(ctx, c, yt.videoId); } catch (e) { if (e.code && /^BUDGET|VENDOR/.test(e.code)) throw e; ev = { sources: [], considered: [], error: 'Evidence search failed.' }; }
-        const j = await judgeClaim(ctx, c, ev, published);
-        priv.push({ n: c.n, rawJudgeText: j.rawJudgeText || '', sources: ev.sources.map(s => ({ n: s.n, url: s.url, origin: s.origin, excerptSha256: s.excerptSha256, excerpt: s.excerpt })) });
-        return Object.assign({}, c, { verdict: j.verdict, label: j.label, reason: j.reason, quote: j.quote, notes: j.notes, modelVerdict: j.modelVerdict || null, binding: j.binding || null,
-          sources: ev.sources.map(s => ({ n: s.n, url: s.url, title: s.title, publisher: s.publisher, role: s.role, origin: s.origin })), considered: ev.considered, evidenceError: ev.error || null });
+        const skip = why => Object.assign({}, c, { verdict: 'insufficient', label: VERDICT_LABEL.insufficient, reason: why, sources: [], notes: ['not checked: ' + why] });
+        try {
+          ctx.budget.checkOpen();
+          let ev; try { ev = await gatherEvidence(ctx, c, yt.videoId); } catch (e) { if (e && STOP_CODES.test(e.code || '')) throw e; ev = { sources: [], considered: [], error: 'Evidence search failed.' }; }
+          const j = await judgeClaim(ctx, c, ev, published);
+          priv.push({ n: c.n, rawJudgeText: j.rawJudgeText || '', sources: ev.sources.map(s => ({ n: s.n, url: s.url, originalUrl: s.originalUrl, origin: s.origin, excerptSha256: s.excerptSha256, excerpt: s.excerpt })) });
+          return Object.assign({}, c, { verdict: j.verdict, label: j.label, reason: j.reason, quote: j.quote, notes: j.notes, modelVerdict: j.modelVerdict || null, binding: j.binding || null,
+            sources: ev.sources.map(s => ({ n: s.n, url: s.url, title: s.title, publisher: s.publisher, role: s.role, origin: s.origin })), considered: ev.considered, evidenceError: ev.error || null });
+        } catch (e) {
+          if (!(e && STOP_CODES.test(e.code || ''))) throw e;
+          if (!fatal) fatal = e; ctx.budget.stop(e);
+          return skip('The check stopped before this claim was finished: ' + e.message + '.');
+        }
       });
       result.timings.evidenceAndJudgeMs = Date.now() - t;
+      if (fatal) {
+        result.stoppedEarly = stopResult(fatal).error;
+        if (fatal.code === 'VENDOR_ACCESS') Object.assign(result, stopResult(fatal));
+      }
       // Caption-reliability overrides. The judged verdict is kept as wouldHaveBeen so the starting limits can be calibrated
       // against human review before they are tightened or loosened.
       for (const c of result.claims) {
@@ -340,11 +412,12 @@ function createCheckVideo(options) {
         // Guessed caption word: hold back only contradictions (the video might not have said what we misheard).
         // Calibration, Fred's review of the 20-video run: 5 of 6 withheld answers were "supported" and right.
         const guessRisk = c.dependsOnGuess && (c.verdict === 'contradicted' || c.verdict === 'misleading');
-        const why = result.reliability.flagged ? 'video' : (guessRisk ? 'claim' : '');
+        // Fred review #6: a claim whose passage was not found in the captions may not be what the video said.
+        const why = result.reliability.flagged ? 'video' : (!c.captionBound ? 'notfound' : (guessRisk ? 'claim' : ''));
         if (!why) continue;
         c.wouldHaveBeen = c.verdict; c.verdict = 'insufficient';
-        c.label = why === 'video' ? "Can't determine (not enough reliable caption data)" : "Can't determine (caption unclear)";
-        c.notes = (c.notes || []).concat(why === 'video' ? 'firm answer withheld: video captions flagged as unreliable' : 'firm answer withheld: claim depends on a name, number or date guessed from unclear captions');
+        c.label = { video: "Can't determine (not enough reliable caption data)", notfound: "Can't determine (not found in the captions)", claim: "Can't determine (caption unclear)" }[why];
+        c.notes = (c.notes || []).concat({ video: 'firm answer withheld: video captions flagged as unreliable', notfound: 'firm answer withheld: the claim\'s passage was not found in the captions, so the video may not have said it', claim: 'firm answer withheld: claim depends on a name, number or date guessed from unclear captions' }[why]);
         c.quote = null;
       }
       const count = v => result.claims.filter(c => c.verdict === v).length;
@@ -353,8 +426,7 @@ function createCheckVideo(options) {
       result.summary = `${result.claims.length} claim${result.claims.length === 1 ? '' : 's'} checked: ${count('supported')} supported, ${count('contradicted') + count('misleading')} contradicted or misleading, ${count('insufficient')} can't determine.`;
       result.privateEvidence = priv;
     } catch (e) {
-      if (e && e.code === 'VENDOR_ACCESS') return finish(Object.assign(result, { ok: false, stage: 'provider', error: e.message }));
-      if (e && /^BUDGET/.test(e.code || '')) return finish(Object.assign(result, { ok: false, stage: 'budget', error: e.message + '. Nothing more will be spent on this check.' }));
+      if (e && STOP_CODES.test(e.code || '')) return finish(Object.assign(result, stopResult(e)));
       throw e;
     }
     return finish(result);

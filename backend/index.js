@@ -52924,31 +52924,53 @@ async function checkVideoTranscriptPh1(url){
   return out;
 }
 function checkVideoLoopbackPh1(req){const a=String(req&&req.socket&&req.socket.remoteAddress||'');return a==='127.0.0.1'||a==='::1'||a==='::ffff:127.0.0.1';}
+// Local-only guard (Fred review #1): loopback socket AND a localhost Host header (blocks DNS rebinding) AND, when a browser
+// sends them, a same-origin Origin / Sec-Fetch-Site (blocks other websites). Changes must be JSON. Responses are not
+// shared with other origins (overrides the site-wide allow-all CORS header for these routes only).
+function checkVideoRequestAllowedPh1(req,mutating){
+  if(!checkVideoLoopbackPh1(req))return false;
+  const okHosts=['localhost:'+PORT,'127.0.0.1:'+PORT,'[::1]:'+PORT];
+  if(!okHosts.includes(String(req.headers.host||'').toLowerCase()))return false;
+  const origin=String(req.headers.origin||'').toLowerCase();
+  if(origin&&!okHosts.some(function(h){return origin==='http://'+h;}))return false;
+  const site=String(req.headers['sec-fetch-site']||'').toLowerCase();
+  if(site&&site!=='same-origin'&&site!=='none')return false;
+  if(mutating&&!/^application\/json\b/i.test(String(req.headers['content-type']||'')))return false;
+  return true;
+}
 async function checkVideoHandlePh1(req,res,u){
   res.setHeader('Cache-Control','no-store');
-  if(!checkVideoLoopbackPh1(req))return sendJson(res,404,{ok:false,error:'Not found'});
+  const H={'access-control-allow-origin':'http://localhost:'+PORT,'vary':'Origin'};
+  const reply=function(status,obj){return sendJson(res,status,obj,H);};
+  if(!checkVideoRequestAllowedPh1(req,req.method!=='GET'&&req.method!=='HEAD'))return reply(404,{ok:false,error:'Not found'});
   const cv=checkVideoPh1();
   if(u.pathname==='/check-video'&&req.method==='GET'){
     const html=fs.readFileSync(path.join(__dirname,'modules','check-video','page.html'),'utf8');
-    return send(res,200,'text/html; charset=utf-8',html,{'content-security-policy':"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'",'x-content-type-options':'nosniff'});
+    return send(res,200,'text/html; charset=utf-8',html,Object.assign({'content-security-policy':"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'",'x-content-type-options':'nosniff'},H));
   }
   if(u.pathname==='/check-video/run'&&req.method==='POST'){
-    let body;try{body=await v2875ReadJsonBody(req,400000);}catch(e){return sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
-    try{return sendJson(res,200,await cv.run({url:body&&body.url,transcript:body&&body.transcript,title:body&&body.title}));}
-    catch(e){console.log('CHECK_VIDEO_PH1 error '+clean(e&&e.message||e).slice(0,200));return sendJson(res,500,{ok:false,error:'The check failed unexpectedly.'});}
+    let body;try{body=await v2875ReadJsonBody(req,400000);}catch(e){return reply(400,{ok:false,error:clean(e&&e.message||'Invalid request.')});}
+    // Stop paid work if the visitor closes the page (Fred review #4).
+    const state={closed:false};res.once('close',function(){if(!res.writableEnded)state.closed=true;});
+    try{return reply(200,await cv.run({url:body&&body.url,transcript:body&&body.transcript,title:body&&body.title},{shouldStop:function(){return state.closed;}}));}
+    catch(e){console.log('CHECK_VIDEO_PH1 error '+clean(e&&e.message||e).slice(0,200));return reply(500,{ok:false,error:'The check failed unexpectedly.'});}
   }
   // Local development only: the launcher (run-local.ps1) restarts the server on exit code 75, keeping its keys in memory.
-  if(u.pathname==='/check-video/restart'&&req.method==='POST'){sendJson(res,200,{ok:true});setTimeout(function(){process.exit(75);},200);return;}
+  if(u.pathname==='/check-video/restart'&&req.method==='POST'){
+    let body;try{body=await v2875ReadJsonBody(req,200);}catch(e){return reply(400,{ok:false});}
+    if(!body||body.confirm!=='restart')return reply(400,{ok:false});
+    reply(200,{ok:true});setTimeout(function(){process.exit(75);},200);return;
+  }
   if(u.pathname==='/check-video/suggest-source'&&req.method==='POST'){
-    let body;try{body=await v2875ReadJsonBody(req,8000);}catch(e){return sendJson(res,400,{ok:false,error:'Invalid request.'});}
-    const saved=cv.saveSourceSuggestion(body||{});return sendJson(res,saved?200:400,{ok:saved,error:saved?undefined:'Please enter a full web address starting with https://'});
+    let body;try{body=await v2875ReadJsonBody(req,8000);}catch(e){return reply(400,{ok:false,error:'Invalid request.'});}
+    const saved=cv.saveSourceSuggestion(body||{});return reply(saved?200:400,{ok:saved,error:saved?undefined:'Please enter a full web address starting with https://'});
   }
-  if(u.pathname==='/check-video/runs'&&req.method==='GET')return sendJson(res,200,{ok:true,runs:cv.listRuns()});
+  if(u.pathname==='/check-video/runs'&&req.method==='GET')return reply(200,{ok:true,runs:cv.listRuns()});
   if(u.pathname==='/check-video/review'&&req.method==='POST'){
-    let body;try{body=await v2875ReadJsonBody(req,20000);}catch(e){return sendJson(res,400,{ok:false,error:'Invalid request.'});}
-    const saved=cv.saveReview(body&&body.runId,body);return sendJson(res,saved?200:400,{ok:saved});
+    let body;try{body=await v2875ReadJsonBody(req,20000);}catch(e){return reply(400,{ok:false,error:'Invalid request.'});}
+    const saved=cv.saveReview(body&&body.runId,body);return reply(saved?200:400,{ok:saved});
   }
-  return sendJson(res,404,{ok:false,error:'Not found'});
+  return reply(404,{ok:false,error:'Not found'});
 }
 
 const server=http.createServer(async (req,res)=>{
