@@ -38,7 +38,7 @@ function fakeIo(opts) {
       if (/list the factual claims/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', note: '', claims: [
         { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'The James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date' },
         { claim: 'The Moon is made of cheese.', video_quote: 'the moon is made of cheese', search_query: 'moon composition' }] }) }] }) };
-      const judged = o.judge ? o.judge(content) : null;
+      const judged = o.judge ? o.judge(content) : null; if (judged && !judged.video_says) judged.video_says = 'yes';
       if (judged) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(judged) }] }) };
       return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify({ verdict: 'insufficient', quote: '', source: null, reason: 'Not settled.' }) }] }) };
     }
@@ -192,7 +192,7 @@ test('judge format is enforced; prose around the JSON and inner quotes are handl
   io.anthropic = async (p, body, h) => {
     if (p === '/v1/messages' && /assess one claim/.test(body.messages[0].content) && /Webb Space Telescope launched/.test(body.messages[0].content)) {
       judgeBody = body;
-      const text = 'Here is my answer: ' + JSON.stringify({ verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA says "launched" {plainly}.' }) + ' Thanks {end}';
+      const text = 'Here is my answer: ' + JSON.stringify({ video_says: 'yes', verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA says "launched" {plainly}.' }) + ' Thanks {end}';
       return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 80 }, content: [{ type: 'text', text }] }) };
     }
     return orig(p, body, h);
@@ -335,13 +335,13 @@ test('Fred re-check #6: a number the captions do not say withholds the firm answ
   assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (numbers differ from the captions)");
 });
 
-test('Fred re-check #2: a held ledger lock refuses (fails closed); a stale lock is cleared', () => {
+test('Fred re-check #2: a held ledger lock refuses (fails closed), however old it is', () => {
   const dir = tmp(); fs.writeFileSync(path.join(dir, 'spend.lock'), 'held');
   const b = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir)();
   assert.throws(() => b.reserve(0.1, 'x'), /busy/);
   const dir2 = tmp(), lock = path.join(dir2, 'spend.lock'); fs.writeFileSync(lock, 'old'); const old = new Date(Date.now() - 60000); fs.utimesSync(lock, old, old);
   const b2 = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir2)();
-  assert.equal(b2.reserve(0.1, 'x').reserved, 0.1); assert.equal(fs.existsSync(lock), false);
+  assert.throws(() => b2.reserve(0.1, 'x'), /busy/); assert.equal(fs.readFileSync(lock, 'utf8'), 'old', 'a lock owned by another process is never removed');
 });
 
 test('Fred re-check #2: if a final cost cannot be saved, the reservation is kept and further paid work stops', () => {
@@ -360,4 +360,29 @@ test('the refusal-fallback option is dropped once if the API rejects it', async 
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r.ok, true); assert.equal(rejected, 1); assert.equal(_internal.FALLBACK_STATE.enabled, false);
   _internal.FALLBACK_STATE.enabled = true;
+});
+
+test('Fred re-check 2 #2: an unrecorded cost blocks every later check until reconciled', async () => {
+  const dir = tmp(); const b = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir)();
+  const e = b.reserve(0.2, 'x'); fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), '{corrupt'); b.settle(e, 0.05);
+  assert.ok(fs.existsSync(path.join(dir, 'spend-UNRESOLVED.json')));
+  fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), JSON.stringify({ usd: 0.2 })); // ledger repaired, but not reconciled
+  const io = fakeIo(); const r = await createCheckVideo({ io, runsDir: dir }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.stage, 'budget'); assert.match(r.error, /reconcile/); assert.equal(io.calls.anthropic.length, 0);
+});
+
+test('Fred re-check 2 #6: no blanket year exemption ("2000 people" vs "twenty")', () => {
+  const T = 'in our study we tested twenty people over a month';
+  assert.deepEqual(_internal.claimNumbersMissing('The study tested 2000 people.', T, 'we tested'), [2000]);
+  assert.deepEqual(_internal.claimNumbersMissing('As of May 2024, the study tested 20 people.', T, 'we tested'), [], 'publish-date prefix and month-year dates are exempt');
+  assert.deepEqual(_internal.claimNumbersMissing('On December 25, 2021 the study tested 20 people.', T, 'we tested'), []);
+});
+
+test('Fred re-check 2 #6: the judge must find the claim in the caption passage, or no firm answer', async () => {
+  const io = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { video_says: 'no', verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].videoSays, 'no'); assert.match(r.claims[0].label, /don't clearly say/);
+  const judgeBody = io.calls.anthropic.find(x => x.p === '/v1/messages' && /assess one claim/.test(x.body.messages[0].content)).body;
+  assert.match(judgeBody.messages[0].content, /CAPTION PASSAGE: .*went up on Christmas Day 2021/);
+  assert.ok(!JSON.stringify(r).includes('captionWindow'), 'caption passage kept out of the visitor result');
 });

@@ -13,6 +13,10 @@ $runs = Join-Path $home2 'check-video-runs'
 $data = Join-Path $home2 'check-video-analytics'
 $keyFile = Join-Path $home2 'check-video-keys.xml'
 New-Item -ItemType Directory -Force $runs, $data | Out-Null
+# This launcher's server is the only writer of the spending ledger; clear a lock left by a crashed earlier server.
+# (The port is checked first so a second running server is never disturbed.)
+if (-not (Get-NetTCPConnection -LocalPort 3077 -State Listen -ErrorAction SilentlyContinue)) { Remove-Item -LiteralPath (Join-Path $runs 'spend.lock') -ErrorAction SilentlyContinue }
+if (Test-Path -LiteralPath (Join-Path $runs 'spend-UNRESOLVED.json')) { Write-Host 'Note: an earlier cost was not recorded (spend-UNRESOLVED.json). Paid checks stay blocked until it is reconciled.' -ForegroundColor Yellow }
 
 $keys = $null
 if (Test-Path -LiteralPath $keyFile) {

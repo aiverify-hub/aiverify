@@ -121,7 +121,7 @@
     });
     if (r.limits) box.appendChild(el('p', { cls: 'limits', text: r.limits }));
     if (r.ok && (r.claims || []).length) box.appendChild(el('p', { cls: 'small' }, ['Looking for a faith or moral perspective on this topic? This is optional: ', safeLink('https://aiverify.tech/', 'ask on AIVerify’s main page'), ' (KJV-based answers).']));
-    if (r.cost) box.appendChild(el('p', { cls: 'small', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
+    if (r.cost) box.appendChild(el('p', { cls: 'small', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
     if (withReview) box.appendChild(reviewBlock(r));
     if (!withReview && r.ok && (r.claims || []).length) box.appendChild(suggestBlock(r));
     return box;
