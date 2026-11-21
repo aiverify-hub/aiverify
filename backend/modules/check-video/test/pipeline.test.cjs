@@ -396,3 +396,20 @@ test('Fred re-check 3 #2: an unsaved cost blocks later checks in this process ev
   fs.rmSync(path.join(dir, 'spend-UNRESOLVED.json'), { recursive: true }); fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), JSON.stringify({ usd: 0.2 }));
   assert.throws(() => make().reserve(0.1, 'next check'), /reconcile/);
 });
+
+test('Cary: only corrected names, places, numbers and dates count as guesses; word and grammar fixes do not', async () => {
+  const run = async corrections => {
+    const io = fakeIo({ judge: SUPPORT }); const orig = io.anthropic;
+    io.anthropic = async (p, body, h) => {
+      if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 60 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: 'good', garbled_passages: 0, note: '', claims: [
+        { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'went up on Christmas Day 2021', search_query: 'Webb launch', corrections }] }) }] }) };
+      return orig(p, body, h);
+    };
+    return createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  };
+  const words = await run([{ heard: 'telescope went', written: 'Telescope launched', kind: 'word' }, { heard: 'their', written: 'there', kind: 'word' }]);
+  assert.equal(words.claims[0].dependsOnGuess, false); assert.equal(words.claims[0].verdict, 'supported');
+  const place = await run([{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place' }]);
+  assert.equal(place.claims[0].dependsOnGuess, true); assert.equal(place.claims[0].label, "Can't determine (caption unclear)");
+  assert.deepEqual(place.claims[0].corrections, [{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place' }]);
+});

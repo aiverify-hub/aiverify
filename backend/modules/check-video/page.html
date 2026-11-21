@@ -105,6 +105,9 @@
       d.appendChild(el('div', { cls: 'small', text: c.central ? 'Main claim' : 'Claim ' + c.n }));
       d.appendChild(el('h3', { text: c.claim }));
       if (c.videoQuote) d.appendChild(el('p', { cls: 'small', text: 'In the video: “' + c.videoQuote + '”' }));
+      (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) {
+        d.appendChild(el('p', { cls: 'small', text: 'The captions said “' + x.heard + '”; AIVerify read it as “' + x.written + '” (' + x.kind + ').' }));
+      });
       d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.label }));
       if (withReview && c.wouldHaveBeen) d.appendChild(el('span', { cls: 'small', text: '  (reviewer note: without the caption rule this would have been “' + c.wouldHaveBeen + '”)' }));
       if (c.reason) d.appendChild(el('p', { text: c.reason }));
