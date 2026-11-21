@@ -407,11 +407,11 @@ test('Cary: only corrected names, places, numbers and dates count as guesses; wo
     };
     return createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   };
-  const words = await run([{ heard: 'telescope went', written: 'Telescope launched', kind: 'word' }, { heard: 'their', written: 'there', kind: 'word' }]);
+  const words = await run([{ heard: 'went up', written: 'launched', kind: 'word' }]);
   assert.equal(words.claims[0].dependsOnGuess, false); assert.equal(words.claims[0].verdict, 'supported');
   const place = await run([{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place' }]);
   assert.equal(place.claims[0].dependsOnGuess, true); assert.equal(place.claims[0].label, "Can't determine (caption unclear)");
-  assert.deepEqual(place.claims[0].corrections, [{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place' }]);
+  assert.deepEqual(place.claims[0].corrections, [{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place', matched: false }], 'kept, and marked as not matched to these captions');
 });
 
 test('Fred D2-D3: material corrections are found among all corrections; meaning changes and malformed lists hold back answers', async () => {
@@ -425,9 +425,26 @@ test('Fred D2-D3: material corrections are found among all corrections; meaning 
     return (await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' })).claims[0];
   };
   const many = Array.from({ length: 13 }, (_, i) => ({ heard: 'w' + i, written: 'W' + i, kind: 'word' })).concat([{ heard: 'two', written: '20', kind: 'number' }]);
-  const a = await run(many); assert.equal(a.dependsOnGuess, true, 'a number fix after many word fixes still counts'); assert.equal(a.correctionsOmitted, 2);
+  const a = await run(many); assert.equal(a.dependsOnGuess, true, 'a number fix after many word fixes still counts'); assert.deepEqual(a.correctionsOmitted, { material: 0, minor: 2 }); assert.equal(a.corrections[0].kind, 'number', 'material fixes shown first');
   const b = await run([{ heard: 'does cause', written: 'does not cause', kind: 'meaning' }]); assert.equal(b.dependsOnGuess, true); assert.equal(b.verdict, 'insufficient');
   const c = await run(undefined); assert.equal(c.correctionsMalformed, true); assert.equal(c.verdict, 'insufficient', 'missing corrections list = uncertain');
   const d = await run([{ heard: 'x', written: 'y', kind: 'mystery' }]); assert.equal(d.dependsOnGuess, true);
-  const e = await run([{ heard: 'teh', written: 'the', kind: 'word' }]); assert.equal(e.verdict, 'supported', 'harmless spelling fix keeps the answer');
+  const e = await run([{ heard: 'went up', written: 'launched', kind: 'word' }]); assert.equal(e.verdict, 'supported', 'harmless spelling fix keeps the answer');
+});
+
+test('Fred G: corrections must be real strings and must match the captions and the claim', async () => {
+  const run = async corrections => {
+    const io = fakeIo({ judge: SUPPORT }); const orig = io.anthropic;
+    io.anthropic = async (p, body, h) => {
+      if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 60 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: 'good', garbled_passages: 0, note: '', claims: [
+        { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'went up on Christmas Day 2021', search_query: 'Webb', corrections }] }) }] }) };
+      return orig(p, body, h);
+    };
+    return (await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' })).claims[0];
+  };
+  const ok = await run([{ heard: 'went up', written: 'launched', kind: 'word' }]); assert.equal(ok.verdict, 'supported', 'bound harmless fix keeps the answer');
+  const objField = await run([{ heard: { x: 1 }, written: 'launched', kind: 'word' }]); assert.equal(objField.correctionsMalformed, true); assert.equal(objField.verdict, 'insufficient');
+  const missingHeard = await run([{ written: 'launched', kind: 'word' }]); assert.equal(missingHeard.correctionsMalformed, true);
+  const fabricated = await run([{ heard: 'blue banana', written: 'red apple', kind: 'word' }]); assert.equal(fabricated.correctionsUnmatched, true); assert.equal(fabricated.verdict, 'insufficient');
+  const insertion = await run([{ heard: '', written: 'launched', kind: 'word' }]); assert.equal(insertion.correctionsMalformed, false); assert.equal(insertion.verdict, 'supported', 'explicit insertion bound to the claim is allowed');
 });

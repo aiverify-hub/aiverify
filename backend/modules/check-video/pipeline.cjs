@@ -270,13 +270,29 @@ async function extractClaims(ctx, title, transcript, published) {
     // Fred tasks D2-D3: classify over ALL corrections before any display limit; a missing or malformed corrections list,
     // a blank entry, or an unknown kind counts as material uncertainty; meaning changes (negation, certainty, attribution,
     // relationship) are material. Only meaning-preserving spelling, grammar and punctuation fixes are harmless.
+    // Fred task G: validate every correction locally (also on the no-schema path): a plain object whose heard and written
+    // are real strings (one may be empty for an insertion/deletion, not both) and whose kind is known. Each non-empty
+    // "heard" must be found in this claim's caption passage and each non-empty "written" in the claim text (loose match:
+    // case, punctuation and spacing ignored); an unmatched correction is uncertain. Full text is used for checks; it is
+    // shortened only for display, with material corrections shown first.
     const MATERIAL = ['name', 'place', 'number', 'date', 'meaning'];
+    const loose = v => String(v).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+    const win = shown ? captionWindow(transcript, shown) : '', looseWin = loose(win), looseClaim = loose(claimText);
     const rawCorr = Array.isArray(c.corrections) ? c.corrections : null;
-    const allCorr = (rawCorr || []).map(x => ({ heard: squash(x && x.heard).slice(0, 80), written: squash(x && x.written).slice(0, 80), kind: x && (MATERIAL.includes(x.kind) || x.kind === 'word') ? x.kind : 'unknown' }));
-    const malformed = rawCorr === null || allCorr.some(x => x.kind === 'unknown' || (!x.heard && !x.written));
+    const allCorr = (rawCorr || []).map(x => {
+      const okShape = x && typeof x === 'object' && !Array.isArray(x) && typeof x.heard === 'string' && typeof x.written === 'string';
+      const heard = okShape ? squash(x.heard) : '', written = okShape ? squash(x.written) : '';
+      const kind = okShape && (MATERIAL.includes(x.kind) || x.kind === 'word') ? x.kind : 'unknown';
+      const bound = okShape && (heard || written) && (!heard || (looseWin && looseWin.includes(loose(heard)))) && (!written || looseClaim.includes(loose(written)));
+      return { heard, written, kind, valid: !!(okShape && kind !== 'unknown' && (heard || written)), bound: !!bound };
+    });
+    const malformed = rawCorr === null || allCorr.some(x => !x.valid);
+    const unbound = allCorr.some(x => x.valid && !x.bound);
     const materialCount = allCorr.filter(x => x.kind !== 'word').length;
-    const corrections = allCorr.filter(x => x.heard || x.written).slice(0, 12), correctionsOmitted = Math.max(0, allCorr.length - corrections.length);
-    return { n: i + 1, central: i === 0, claim: claimText, videoQuote: shown.slice(0, 300), captionBound: !!shown, missingNumbers, captionWindow: shown ? captionWindow(transcript, shown) : '', searchQuery: squash(c.search_query || c.claim).slice(0, 200), corrections, correctionsOmitted, correctionsMalformed: malformed, dependsOnGuess: materialCount > 0 || malformed || c.depends_on_guess === true };
+    const ordered = allCorr.filter(x => x.valid).sort((a, b) => (a.kind === 'word') - (b.kind === 'word'));
+    const corrections = ordered.slice(0, 12).map(x => ({ heard: x.heard.slice(0, 80), written: x.written.slice(0, 80), kind: x.kind, matched: x.bound }));
+    const correctionsOmitted = { material: ordered.filter(x => x.kind !== 'word').length - corrections.filter(x => x.kind !== 'word').length, minor: ordered.filter(x => x.kind === 'word').length - corrections.filter(x => x.kind === 'word').length };
+    return { n: i + 1, central: i === 0, claim: claimText, videoQuote: shown.slice(0, 300), captionBound: !!shown, missingNumbers, captionWindow: win, searchQuery: squash(c.search_query || c.claim).slice(0, 200), corrections, correctionsOmitted, correctionsMalformed: malformed, correctionsUnmatched: unbound, dependsOnGuess: materialCount > 0 || malformed || unbound || c.depends_on_guess === true };
   });
   const quality = ['good', 'fair', 'poor'].includes(j.caption_quality) ? j.caption_quality : 'unknown';
   return { ok: true, kind: j.video_kind || 'other', note: squash(j.note).slice(0, 300), claims, captionQuality: quality, garbledPassages: Number.isInteger(j.garbled_passages) ? j.garbled_passages : null };
