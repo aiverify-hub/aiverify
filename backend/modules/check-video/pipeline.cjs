@@ -236,7 +236,7 @@ Judge time-dependent claims as of the publication date. A claim that was accurat
 Each source is labelled with its publisher and its role: primary/official, fact-check, news/reference, originator of the claim (where the claim may come from, such as a satire site or a social video), or other.
 Pages from the same publisher count as ONE source. Do not describe sources as independent unless they have different publishers and neither is the originator; partner organizations on the same project are not independent of each other.
 Answer with JSON only: {"verdict":"supported|contradicted|misleading|insufficient","quote":"exact sentence copied from one excerpt that decides it, or empty","source":<excerpt number, or 0 if none>,"reason":"one or two sentences"}.
-Rules: "supported"/"contradicted" need an explicit deciding statement in an excerpt that is not just the claim's originator repeating it. Use "misleading" ONLY for satire, parody, or a real item presented with false context; never for a claim that is partly settled or out of date. If any part of the claim is contradicted, answer "contradicted". Use "insufficient" when the excerpts do not settle every part of the exact claim (including exact numbers/dates the excerpts only estimate). Copy the quote character for character from the excerpt.
+Rules: "supported"/"contradicted" need an explicit deciding statement in an excerpt that is not just the claim's originator repeating it. Use "misleading" ONLY for satire, parody, or a real item presented with false context; never for a claim that is partly settled or out of date. If any part of the claim is contradicted, answer "contradicted" — but only when the excerpt is about the same study, event, time period, group and measure as the claim; a figure for a different year, subgroup or measure does not contradict it (answer "insufficient"). When the claim is that someone said or reported something, "supported" needs an excerpt that reports that statement itself. Use "insufficient" when the excerpts do not settle every part of the exact claim (including exact numbers/dates the excerpts only estimate). Copy the quote character for character from the excerpt.
 
 ` + sources.map(s => `[${s.n}] ${s.url}\nPublisher: ${s.publisher} | Role: ${s.role}\n${s.excerpt}`).join('\n\n');
 }
@@ -260,6 +260,9 @@ async function judgeClaim(ctx, claim, ev, published) {
   const b = src ? bindQuote(j.quote, src.excerpt) : { bound: false, reason: 'NO_VALID_CITED_SOURCE' };
   res.binding = Object.assign({ citedSource: j.source || null }, b, { originalSubstring: undefined });
   if (!b.bound) { res.notes.push('firm answer withheld: its quote was not found exactly once in the cited source (' + b.reason + ')'); res.reason = 'A firm answer was withheld because its supporting quote could not be verified in the cited source. ' + res.reason; return res; }
+  // A contradiction accuses the video of being wrong, so it needs an official, fact-check or established news/reference
+  // source. Calibration, Fred's review: two of the disputed contradictions rested on "other" sources (a personal blog, a newspaper outside the list).
+  if (j.verdict === 'contradicted' && src.tier >= 4) { res.notes.push('firm answer withheld: a contradiction needs an official, fact-check or news/reference source (cited source role: ' + src.role + ')'); res.reason = 'A contradiction was not confirmed by an official, fact-check or established news source. ' + res.reason; return res; }
   if (j.verdict === 'supported' && src.tier === 4) { res.notes.push('firm answer withheld: support came only from the claim\'s originator'); res.reason = 'The only support came from the claim\'s own originator, which cannot confirm itself. ' + res.reason; return res; }
   res.verdict = j.verdict; res.label = VERDICT_LABEL[j.verdict];
   res.quote = { text: b.originalSubstring.slice(0, 400), sourceN: src.n, url: src.url, publisher: src.publisher, role: src.role, matchType: b.matchType };
@@ -301,7 +304,8 @@ function createCheckVideo(options) {
     result.video.title = squash(tr && tr.title).slice(0, 300);
     result.video.published = /^\d{4}-\d{2}-\d{2}$/.test(String(tr && tr.published || '')) ? tr.published : '';
     const published = result.video.published ? new Date(result.video.published + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }) : '';
-    if (!tr || !tr.ok || !squash(tr.text)) return Object.assign(result, { ok: false, stage: 'captions', error: "AIVerify couldn't read this video's captions, so its claims can't be checked." + (tr && tr.error ? ' (' + String(tr.error).slice(0, 120) + ')' : '') });
+    // Caption failures are recorded too, so coverage counts include videos that could not be checked.
+    if (!tr || !tr.ok || !squash(tr.text)) return finish(Object.assign(result, { ok: false, stage: 'captions', error: "AIVerify couldn't read this video's captions, so its claims can't be checked." + (tr && tr.error ? ' (' + String(tr.error).slice(0, 120) + ')' : '') }));
     let text = squash(tr.text);
     result.video.captionSource = tr.source || ''; result.video.captionChars = text.length;
     if (text.length > cfg.transcriptMaxChars || tr.truncated) { result.video.captionsTruncated = true; text = text.slice(0, cfg.transcriptMaxChars); }
@@ -333,7 +337,10 @@ function createCheckVideo(options) {
       // against human review before they are tightened or loosened.
       for (const c of result.claims) {
         if (c.verdict === 'insufficient') continue;
-        const why = result.reliability.flagged ? 'video' : (c.dependsOnGuess ? 'claim' : '');
+        // Guessed caption word: hold back only contradictions (the video might not have said what we misheard).
+        // Calibration, Fred's review of the 20-video run: 5 of 6 withheld answers were "supported" and right.
+        const guessRisk = c.dependsOnGuess && (c.verdict === 'contradicted' || c.verdict === 'misleading');
+        const why = result.reliability.flagged ? 'video' : (guessRisk ? 'claim' : '');
         if (!why) continue;
         c.wouldHaveBeen = c.verdict; c.verdict = 'insufficient';
         c.label = why === 'video' ? "Can't determine (not enough reliable caption data)" : "Can't determine (caption unclear)";

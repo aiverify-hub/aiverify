@@ -160,11 +160,31 @@ test('poor captions or missing speech flag the video; firm answers are withheld 
   assert.equal(r2.video.wordsPerMinute, 2); assert.equal(r2.reliability.flagged, true); assert.match(r2.reliability.reasons[0], /words a minute/);
 });
 
-test('a claim that depends on a guessed name or number is withheld as caption unclear', async () => {
+test('guessed caption word: a contradiction is held back as caption unclear; support is kept', async () => {
   const io = withQuality(fakeIo({ judge: SUPPORT }), 'fair', true);
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r.reliability.flagged, false);
-  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (caption unclear)"); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
+  assert.equal(r.claims[0].verdict, 'supported', 'sources confirming the guessed word keep the answer');
+  const CONTRA = c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null;
+  const r2 = await createCheckVideo({ io: withQuality(fakeIo({ judge: CONTRA }), 'fair', true), runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r2.claims[0].verdict, 'insufficient'); assert.equal(r2.claims[0].label, "Can't determine (caption unclear)"); assert.equal(r2.claims[0].wouldHaveBeen, 'contradicted');
+});
+
+test('a contradiction resting on an "other" source is held back; an official source is enough', async () => {
+  const io = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'The claim that Webb launched on Christmas Day 2021 is accurate; it lifted off on December 25, 2021 from Kourou.', source: 2, reason: 'x' } : null });
+  io.exa = async () => ({ status: 200, body: JSON.stringify({ results: [
+    { url: 'https://science.nasa.gov/mission/webb/', title: 'NASA', text: 'x' },
+    { url: 'https://someblog.example/webb', title: 'Blog', text: EXA_ONLY_TEXT }] }) });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].sources[1].role, 'other');
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.match(r.claims[0].notes.join(' '), /contradiction needs an official/);
+});
+
+test('videos whose captions cannot be read are recorded for coverage counts', async () => {
+  const cv = createCheckVideo({ io: fakeIo({ transcript: { ok: false, error: 'no captions' } }), runsDir: tmp() });
+  const r = await cv.run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.stage, 'captions');
+  assert.ok(fs.existsSync(path.join(cv.runsDir, 'run-' + r.runId + '.json')));
 });
 
 test('judge format is enforced; prose around the JSON and inner quotes are handled; raw text stays private', async () => {
