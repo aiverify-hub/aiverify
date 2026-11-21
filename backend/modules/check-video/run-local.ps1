@@ -52,6 +52,8 @@ try {
   $env:AIV_CHECK_VIDEO_RUNS_DIR = $runs
   $env:AIV_ANALYTICS_STORAGE_DIR = $data
   $env:PORT = '3077'
+  # Cary waived the $5/day limit for the 100-video evaluation (Nov 21, 2026); $20/day stays as a runaway backstop.
+  $env:AIV_CHECK_VIDEO_DAILY_USD = '20'
   Write-Host ''
   Write-Host 'Keys ready. Starting... When you see "BE_AIV_v5066C running", the server is ready.' -ForegroundColor Green
   Write-Host 'Leave this window open. To stop later: click here and press Ctrl+C.' -ForegroundColor Green
