@@ -1,4 +1,4 @@
-# Check Video evaluation rubric, version 1 (frozen November 21, 2026)
+# Check Video evaluation rubric, version 1.1 (v1 frozen November 21, 2026; v1.1 same day, before any batch 2–4 grade)
 
 This file freezes how the 100-video evaluation is graded. It is fixed before batches 2–4 are run or graded. It does not change how videos are checked; the application rules stay frozen at commit 4e14973.
 
@@ -67,3 +67,28 @@ The 4 prophecy videos are reported separately, with a small-sample warning. Thei
 - A video with no checkable central fact is marked non-factual, with a reason.
 - These definitions are frozen in `EVAL_CENTRAL_QUESTIONS.json` before batches 2–4 are graded.
 - During grading, the reviewer marks whether AIVerify's displayed answers usefully answer that question (`centralAnswered`). Cary adjudicates any disagreement.
+
+## Changes in v1.1 (after Fred's task M review; Nov 21, 2026, before any batch 2–4 answer was seen or graded)
+Cary approved making these fixes ahead of Bob's review; Bob ratifies them in the decision report.
+1. **Statistical gates are separate from pilot status.** The scorer reports `statisticalGates` (PASSED / FAIL / INCONCLUSIVE) separately from `pilotStatus`. Pilot eligibility requires two things: a recorded disposition for every false contradiction, and an explicit "no safety HOLD". Otherwise it reads "GATES PASSED — REVIEW/HOLD STATUS PENDING".
+2. **Input integrity.** Final scoring refuses the following:
+   - duplicate videos or claims
+   - unknown groups or labels
+   - a video set that differs from `EVAL_VIDEO_IDS.tsv`
+   - any seed other than 20261121, or any draw count other than 10,000
+
+   The synthetic test mode is labeled as such in its output.
+3. **Ungraded is not failed.** `centralAnswered: null` means ungraded. Usefulness is reported as a lower and upper bound, and the gate is INCONCLUSIVE while the bounds straddle 50%.
+   - Failure videos count as not answered.
+   - A non-factual or failed video marked as answered is refused.
+4. **Stricter C (rubric decision, flagged for Bob).** Both "contradicted" and "misleading" need an explicit reviewed `explanationValid: true` to count correct against reference C, and final scoring refuses a missing value. Explanation failures are counted separately for safety review. They are not relabeled as false contradictions.
+5. **Both tallies, always.** Every report contains both the primary and the all-literal tallies, drawn from the same bootstrap draws.
+   - A missing literal label is unresolved (D) in the literal tally, unless the graders recorded `literalSame: true`.
+   - Missing literal labels are counted, and the literal tally is marked incomplete.
+6. **Diagnostics.** The report covers acquisition outcome, completeness-review counts (missed main claims and unreviewed videos), caption failure categories with unique affected videos, and publisher concentration. Unknown values stay visible as unknown.
+
+## Disclosure: the 3-year window
+The picker accepted a video when YouTube's rounded label read "3 years ago" or less. Such a label can mean up to about 3 years 11 months, so some selected videos, for example Oct and Jul 2023, are older than a strict 3-year window. The videos stay in the sample; none is removed or replaced.
+
+## Provisional central questions
+Fred could not read the content of 31 videos, so their central questions are provisional (`CHECK_VIDEO_FRED_TASKS_L_M.json`). They will be resolved answer-blind, using caption text only and no AIVerify output, before batches 2–4 are graded. Any change is appended with its reason.
