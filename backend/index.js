@@ -52999,6 +52999,13 @@ async function checkVideoHandlePh1(req,res,u){
     const html=fs.readFileSync(path.join(__dirname,'modules','check-video','disputes.html'),'utf8');
     return send(res,200,'text/html; charset=utf-8',html,Object.assign({'content-security-policy':"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'",'x-content-type-options':'nosniff'},H));
   }
+  // Evaluation tooling: save one video's captions privately (runs folder) so the reviewer can set central questions answer-blind. Returns only a length.
+  if(u.pathname==='/check-video/captions-save'&&req.method==='POST'){
+    let body;try{body=await v2875ReadJsonBody(req,2000);}catch(e){return reply(400,{ok:false});}
+    const id=String(body&&body.videoId||'');if(!/^[A-Za-z0-9_-]{11}$/.test(id))return reply(400,{ok:false});
+    const t=await checkVideoTranscriptPh1('https://www.youtube.com/watch?v='+id).catch(function(){return null;});if(!t||!t.ok||!t.text)return reply(200,{ok:false,chars:0});
+    const dir=require('path').join(cv.runsDir,'captions');require('fs').mkdirSync(dir,{recursive:true});require('fs').writeFileSync(require('path').join(dir,id+'.txt'),t.text);return reply(200,{ok:true,chars:t.text.length});
+  }
   if(u.pathname==='/check-video/disputes/data'&&req.method==='GET')return reply(200,Object.assign({ok:true},require('./modules/check-video/grading.cjs').listDisputes(cv.runsDir)));
   if(u.pathname==='/check-video/disputes/answer'&&req.method==='POST'){
     let body;try{body=await v2875ReadJsonBody(req,4000);}catch(e){return reply(400,{ok:false});}
