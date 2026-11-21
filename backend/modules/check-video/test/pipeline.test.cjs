@@ -36,8 +36,8 @@ function fakeIo(opts) {
       if (p === '/v1/messages/count_tokens') return { status: 200, body: JSON.stringify({ input_tokens: 1200 }) };
       const content = body.messages[0].content, usage = { input_tokens: 1200, output_tokens: 90 };
       if (/list the factual claims/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', note: '', claims: [
-        { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'The James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date' },
-        { claim: 'The Moon is made of cheese.', video_quote: 'the moon is made of cheese', search_query: 'moon composition' }] }) }] }) };
+        { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'The James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date', corrections: [] },
+        { claim: 'The Moon is made of cheese.', video_quote: 'the moon is made of cheese', search_query: 'moon composition', corrections: [] }] }) }] }) };
       const judged = o.judge ? o.judge(content) : null; if (judged && !judged.video_says) judged.video_says = 'yes';
       if (judged) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(judged) }] }) };
       return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify({ verdict: 'insufficient', quote: '', source: null, reason: 'Not settled.' }) }] }) };
@@ -133,7 +133,7 @@ function withQuality(io, quality, guess) {
   const orig = io.anthropic;
   io.anthropic = async (p, body, h) => {
     if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 1000, output_tokens: 90 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: quality, garbled_passages: 2, note: '', claims: [
-      { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'went up on Christmas Day 2021', search_query: 'Webb launch', depends_on_guess: guess }] }) }] }) };
+      { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'went up on Christmas Day 2021', search_query: 'Webb launch', depends_on_guess: guess, corrections: [] }] }) }] }) };
     return orig(p, body, h);
   };
   return io;
@@ -327,7 +327,7 @@ test('Fred re-check #6: a number the captions do not say withholds the firm answ
     transcript: { ok: true, title: 'T', source: 'fake', text: 'In our study we tested twenty people over a month and the results were clear to everyone involved.' } });
   const orig = io.anthropic;
   io.anthropic = async (p, body, h) => {
-    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 60 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: 'good', garbled_passages: 0, note: '', claims: [{ claim: 'The study tested 200 people.', video_quote: 'we tested', search_query: 'study', depends_on_guess: false }] }) }] }) };
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 60 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: 'good', garbled_passages: 0, note: '', claims: [{ claim: 'The study tested 200 people.', video_quote: 'we tested', search_query: 'study', depends_on_guess: false, corrections: [] }] }) }] }) };
     return orig(p, body, h);
   };
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
@@ -412,4 +412,22 @@ test('Cary: only corrected names, places, numbers and dates count as guesses; wo
   const place = await run([{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place' }]);
   assert.equal(place.claims[0].dependsOnGuess, true); assert.equal(place.claims[0].label, "Can't determine (caption unclear)");
   assert.deepEqual(place.claims[0].corrections, [{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place' }]);
+});
+
+test('Fred D2-D3: material corrections are found among all corrections; meaning changes and malformed lists hold back answers', async () => {
+  const run = async corrections => {
+    const io = fakeIo({ judge: SUPPORT }); const orig = io.anthropic;
+    io.anthropic = async (p, body, h) => {
+      if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) { const claim = { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'went up on Christmas Day 2021', search_query: 'Webb' }; if (corrections !== undefined) claim.corrections = corrections;
+        return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 60 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: 'good', garbled_passages: 0, note: '', claims: [claim] }) }] }) }; }
+      return orig(p, body, h);
+    };
+    return (await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' })).claims[0];
+  };
+  const many = Array.from({ length: 13 }, (_, i) => ({ heard: 'w' + i, written: 'W' + i, kind: 'word' })).concat([{ heard: 'two', written: '20', kind: 'number' }]);
+  const a = await run(many); assert.equal(a.dependsOnGuess, true, 'a number fix after many word fixes still counts'); assert.equal(a.correctionsOmitted, 2);
+  const b = await run([{ heard: 'does cause', written: 'does not cause', kind: 'meaning' }]); assert.equal(b.dependsOnGuess, true); assert.equal(b.verdict, 'insufficient');
+  const c = await run(undefined); assert.equal(c.correctionsMalformed, true); assert.equal(c.verdict, 'insufficient', 'missing corrections list = uncertain');
+  const d = await run([{ heard: 'x', written: 'y', kind: 'mystery' }]); assert.equal(d.dependsOnGuess, true);
+  const e = await run([{ heard: 'teh', written: 'the', kind: 'word' }]); assert.equal(e.verdict, 'supported', 'harmless spelling fix keeps the answer');
 });

@@ -105,9 +105,11 @@
       d.appendChild(el('div', { cls: 'small', text: c.central ? 'Main claim' : 'Claim ' + c.n }));
       d.appendChild(el('h3', { text: c.claim }));
       if (c.videoQuote) d.appendChild(el('p', { cls: 'small', text: 'In the video: “' + c.videoQuote + '”' }));
-      (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) {
-        d.appendChild(el('p', { cls: 'small', text: 'The captions said “' + x.heard + '”; AIVerify read it as “' + x.written + '” (' + x.kind + ').' }));
-      });
+      // Material corrections shown plainly; harmless spelling/grammar fixes in a collapsed list (Fred task D4).
+      var cr = c.corrections || [], mat = cr.filter(function (x) { return x.kind !== 'word'; }), minor = cr.filter(function (x) { return x.kind === 'word'; });
+      mat.forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'Captions read “' + x.heard + '”; interpreted as “' + x.written + '” (' + x.kind + ').' })); });
+      if (minor.length) { var ul2 = el('ul', { cls: 'src' }); minor.forEach(function (x) { ul2.appendChild(el('li', { text: '“' + x.heard + '” → “' + x.written + '”' })); }); d.appendChild(el('details', {}, [el('summary', { text: 'Spelling and grammar fixes (' + minor.length + ')' }), ul2])); }
+      if (c.correctionsOmitted) d.appendChild(el('p', { cls: 'small', text: c.correctionsOmitted + ' more caption fixes not shown.' }));
       d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.label }));
       if (withReview && c.wouldHaveBeen) d.appendChild(el('span', { cls: 'small', text: '  (reviewer note: without the caption rule this would have been “' + c.wouldHaveBeen + '”)' }));
       if (c.reason) d.appendChild(el('p', { text: c.reason }));
