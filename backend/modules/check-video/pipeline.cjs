@@ -251,7 +251,7 @@ Title: ${title || '(unknown)'}
 Captions:
 ${transcript}`;
 }
-async function extractClaims(ctx, title, transcript, published) {
+async function extractClaims(ctx, title, transcript, published, segments) {
   const body = { model: ctx.cfg.model, max_tokens: ctx.cfg.extractMaxTokens, thinking: { type: 'between_tools' }, messages: [{ role: 'user', content: claimPrompt(title, transcript, ctx.cfg.maxClaims, published) }], output_config: { format: { type: 'json_schema', schema: CLAIM_SCHEMA } } };
   let r = await callClaude(ctx, body, 'claims');
   if (!r.ok && r.status === 400) { const b = Object.assign({}, body); delete b.output_config; r = await callClaude(ctx, b, 'claims (no schema)'); }
@@ -292,7 +292,11 @@ async function extractClaims(ctx, title, transcript, published) {
     const ordered = allCorr.filter(x => x.valid).sort((a, b) => (a.kind === 'word') - (b.kind === 'word'));
     const corrections = ordered.slice(0, 12).map(x => ({ heard: x.heard.slice(0, 80), written: x.written.slice(0, 80), kind: x.kind, matched: x.bound }));
     const correctionsOmitted = { material: ordered.filter(x => x.kind !== 'word').length - corrections.filter(x => x.kind !== 'word').length, minor: ordered.filter(x => x.kind === 'word').length - corrections.filter(x => x.kind === 'word').length };
-    return { n: i + 1, central: i === 0, claim: claimText, videoQuote: shown.slice(0, 300), captionBound: !!shown, missingNumbers, captionWindow: win, searchQuery: squash(c.search_query || c.claim).slice(0, 200), corrections, correctionsOmitted, correctionsMalformed: malformed, correctionsUnmatched: unbound, dependsOnGuess: materialCount > 0 || malformed || unbound || c.depends_on_guess === true };
+    // Timestamp (Cary, Fred task E): the caption segment where this claim's passage starts. Only for a passage found exactly
+    // once; segment time, not word time. Ambiguous or untimed captions get no timestamp.
+    let saidAtSec = null;
+    if (b.bound && Array.isArray(segments) && segments.length) { let seg = null; for (const sg of segments) { if (sg.c <= b.start) seg = sg; else break; } if (seg) saidAtSec = Math.floor(seg.ms / 1000); }
+    return { n: i + 1, central: i === 0, claim: claimText, videoQuote: shown.slice(0, 300), saidAtSec, captionBound: !!shown, missingNumbers, captionWindow: win, searchQuery: squash(c.search_query || c.claim).slice(0, 200), corrections, correctionsOmitted, correctionsMalformed: malformed, correctionsUnmatched: unbound, dependsOnGuess: materialCount > 0 || malformed || unbound || c.depends_on_guess === true };
   });
   const quality = ['good', 'fair', 'poor'].includes(j.caption_quality) ? j.caption_quality : 'unknown';
   return { ok: true, kind: j.video_kind || 'other', note: squash(j.note).slice(0, 300), claims, captionQuality: quality, garbledPassages: Number.isInteger(j.garbled_passages) ? j.garbled_passages : null };
@@ -415,7 +419,7 @@ Judge time-dependent claims as of the publication date. A claim that was accurat
 Each source is labelled with its publisher and its role: primary/official, fact-check, news/reference, originator of the claim (where the claim may come from, such as a satire site or a social video), or other.
 Pages from the same publisher count as ONE source. Do not describe sources as independent unless they have different publishers and neither is the originator; partner organizations on the same project are not independent of each other.
 Answer with JSON only: {"video_says":"yes|no|unclear","verdict":"supported|contradicted|misleading|insufficient","quote":"exact sentence copied from one excerpt that decides it, or empty","source":<excerpt number, or 0 if none>,"reason":"one or two sentences"}.
-Rules: "supported"/"contradicted" need an explicit deciding statement in an excerpt that is not just the claim's originator repeating it. Use "misleading" ONLY for satire, parody, or a real item presented with false context; never for a claim that is partly settled or out of date. If any part of the claim is contradicted, answer "contradicted" — but only when the excerpt is about the same study, event, time period, group and measure as the claim; a figure for a different year, subgroup or measure does not contradict it (answer "insufficient"). When the claim is that someone said or reported something, "supported" needs an excerpt that reports that statement itself. Use "insufficient" when the excerpts do not settle every part of the exact claim (including exact numbers/dates the excerpts only estimate). Copy the quote character for character from the excerpt.
+Rules: "supported"/"contradicted" need an explicit deciding statement in an excerpt that is not just the claim's originator repeating it. Use "misleading" ONLY for satire, parody, or a real item (photo, video, quote, document) presented with false context; never for a claim that is partly true, partly settled, imprecise or out of date (use "contradicted" if a part is wrong, otherwise "insufficient"). If any part of the claim is contradicted, answer "contradicted" — but only when the excerpt is about the same study, event, time period, group and measure as the claim; a figure for a different year, subgroup or measure does not contradict it (answer "insufficient"). When the claim is that someone said or reported something, "supported" needs an excerpt that reports that statement itself. Use "insufficient" when the excerpts do not settle every part of the exact claim (including exact numbers/dates the excerpts only estimate). Copy the quote character for character from the excerpt.
 
 ` + sources.map(s => `[${s.n}] ${s.url}\nPublisher: ${s.publisher} | Role: ${s.role}\n${s.excerpt}`).join('\n\n');
 }
@@ -443,6 +447,9 @@ async function judgeClaim(ctx, claim, ev, published) {
   if (!b.bound) { res.notes.push('firm answer withheld: its quote was not found exactly once in the cited source (' + b.reason + ')'); res.reason = 'A firm answer was withheld because its supporting quote could not be verified in the cited source. ' + res.reason; return res; }
   // A contradiction accuses the video of being wrong, so it needs an official, fact-check or established news/reference
   // source. Calibration, Fred's review: two of the disputed contradictions rested on "other" sources (a personal blog, a newspaper outside the list).
+  // "Misleading" also accuses the video; it needs an official, fact-check or news/reference source, or the originator's
+  // own page (a satire site saying it is satire). Live check, November 21: the judge still used it for partly-true claims.
+  if (j.verdict === 'misleading' && src.tier === 5) { res.notes.push('firm answer withheld: "misleading" needs an official, fact-check, news/reference or originator source (cited source role: ' + src.role + ')'); res.reason = 'A "misleading" finding was not confirmed by a suitable source. ' + res.reason; return res; }
   if (j.verdict === 'contradicted' && src.tier >= 4) { res.notes.push('firm answer withheld: a contradiction needs an official, fact-check or news/reference source (cited source role: ' + src.role + ')'); res.reason = 'A contradiction was not confirmed by an official, fact-check or established news source. ' + res.reason; return res; }
   if (j.verdict === 'supported' && src.tier === 4) { res.notes.push('firm answer withheld: support came only from the claim\'s originator'); res.reason = 'The only support came from the claim\'s own originator, which cannot confirm itself. ' + res.reason; return res; }
   res.verdict = j.verdict; res.label = VERDICT_LABEL[j.verdict];
@@ -510,7 +517,7 @@ function createCheckVideo(options) {
     result.video.wordsPerMinute = result.video.durationSec >= 30 && !result.video.captionsTruncated ? Math.round(result.video.captionWords / (result.video.durationSec / 60)) : null;
     try {
       // 2. claims
-      const ex = await extractClaims(ctx, result.video.title, text, published);
+      const ex = await extractClaims(ctx, result.video.title, text, published, Array.isArray(tr.segments) ? tr.segments : null);
       result.timings.claimsMs = Date.now() - t; t = Date.now();
       if (!ex.ok) return finish(Object.assign(result, { ok: false, stage: 'claims', error: 'Claims could not be extracted: ' + ex.error }));
       result.videoKind = ex.kind; result.claimNote = ex.note;

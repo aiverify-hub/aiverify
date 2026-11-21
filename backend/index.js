@@ -52894,6 +52894,27 @@ function checkVideoPh1(){
 }
 // Captions only (no video or audio download): the configured Supadata caption service in native-captions mode first,
 // then the caption track listed on the public watch page (often empty now that YouTube requires a browser token).
+async function checkVideoSupadataSegmentsPh1(info){
+  const cfg=externalYouTubeTranscriptConfig();
+  if(!cfg.apiKey||cfg.provider!=='supadata')return {error:'caption service not configured',status:0};
+  let u;try{u=new URL(cfg.endpoint||'https://api.supadata.ai/v1/transcript');u.searchParams.set('url',info.sourceUrl);u.searchParams.set('lang',cfg.lang||'en');u.searchParams.set('text','false');u.searchParams.set('mode','native');}catch(_e){return {error:'caption service address invalid',status:0};}
+  let res=await fetchExternalJsonOrText(u.toString(),cfg.apiKey,4194304,20000);
+  if(res&&res.status===202){
+    const job=parseJsonSafe(res.text||'')||{},id=clean(job.jobId||job.job_id||'');if(!id)return {error:'caption job id missing',status:202};
+    for(let i=0;i<8;i++){
+      await sleepMs(1000);res=await fetchExternalJsonOrText(supadataJobUrl(cfg.endpoint,id),cfg.apiKey,4194304,15000);
+      const o=parseJsonSafe(res&&res.text||'')||{};if(o.status==='completed'||Array.isArray(o.content))break;if(o.status==='failed')return {error:clean(o.error||'caption job failed'),status:200};
+    }
+  }
+  if(!res||res.status!==200)return {error:'caption service HTTP '+((res&&res.status)||0),status:(res&&res.status)||0};
+  const obj=parseJsonSafe(res.text||'')||{},content=Array.isArray(obj.content)?obj.content:null;
+  if(!content||!content.length)return {error:'caption service returned no caption segments',status:200};
+  // Join segments with single spaces and record each segment's character start, so a quote's position maps to a time.
+  const parts=[],segments=[];let pos=0;
+  for(const s of content){const t=clean(s&&s.text);if(!t)continue;if(parts.length)pos+=1;segments.push({c:pos,ms:Math.max(0,Math.floor(Number(s.offset)||0))});parts.push(t);pos+=t.length;}
+  if(!parts.length)return {error:'caption service returned no caption text',status:200};
+  return {text:parts.join(' '),segments:segments};
+}
 async function checkVideoTranscriptPh1(url){
   const info=videoUrlInfo(url),out={ok:false,text:'',title:'',source:'',error:'',truncated:false,published:'',captionKind:'unknown',durationSec:0};
   // Public watch page, fetched once in parallel: publish date (and the caption-track fallback below).
@@ -52907,9 +52928,12 @@ async function checkVideoTranscriptPh1(url){
         const secs=Number(player.videoDetails&&player.videoDetails.lengthSeconds);if(Number.isFinite(secs)&&secs>0)out.durationSec=secs;}}catch(_e){}
     return out;};
   try{const t=await resolveYouTubeTitleV2917(info);if(t&&t.title)out.title=clean(t.title);}catch(_e){}
-  let ext=null;try{ext=await retrieveExternalYouTubeTranscript(info,{});}catch(e){ext={failureReason:clean(e&&e.message||e)};}
-  if(ext&&ext.transcriptRetrieved&&ext.transcript){out.ok=true;out.text=ext.transcript;out.source='Supadata (YouTube captions)';out.truncated=ext.transcript.length>=60000;if(!out.title&&ext.title)out.title=clean(ext.title);return await withDate();}
-  out.error=clean(ext&&ext.failureReason||'caption service unavailable');
+  // Timed caption segments (text=false, native mode: same 1 credit as plain text; polls free). Its own call, so the live
+  // site's shared caption helper (text=true) is unchanged. A Supadata answer of any status is not retried with Supadata
+  // (one credit per check); only the free watch-page captions are tried after it.
+  const seg=await checkVideoSupadataSegmentsPh1(info).catch(function(e){return {error:clean(e&&e.message||e),status:0};});
+  if(seg&&seg.text){out.ok=true;out.text=seg.text;out.segments=seg.segments;out.source='Supadata (YouTube captions, timed)';return await withDate();}
+  out.error=clean(seg&&seg.error||'caption service unavailable');
   try{
     await withDate();
     const page=await pagePromise;

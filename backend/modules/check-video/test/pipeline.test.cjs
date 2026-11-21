@@ -448,3 +448,21 @@ test('Fred G: corrections must be real strings and must match the captions and t
   const fabricated = await run([{ heard: 'blue banana', written: 'red apple', kind: 'word' }]); assert.equal(fabricated.correctionsUnmatched, true); assert.equal(fabricated.verdict, 'insufficient');
   const insertion = await run([{ heard: '', written: 'launched', kind: 'word' }]); assert.equal(insertion.correctionsMalformed, false); assert.equal(insertion.verdict, 'supported', 'explicit insertion bound to the claim is allowed');
 });
+
+test('Timestamps: a claim passage found once gets the start time of its caption segment', async () => {
+  const words = 'Hi everyone. The James Webb telescope went up on Christmas Day 2021, which is amazing. Also the moon is made of cheese, folks.';
+  const segments = [{ c: 0, ms: 1200 }, { c: 13, ms: 65400 }, { c: 87, ms: 125000 }];
+  const io = fakeIo({ judge: SUPPORT, transcript: { ok: true, title: 'T', source: 'fake timed', text: words, segments } });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].saidAtSec, 65, 'Webb passage starts in the segment at 65.4 s');
+  assert.equal(r.claims[1].saidAtSec, 125);
+  const plain = await createCheckVideo({ io: fakeIo({ judge: SUPPORT }), runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(plain.claims[0].saidAtSec, null, 'no segments, no timestamp');
+});
+
+test('"Misleading" resting on an "other" source is held back', async () => {
+  const io = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'misleading', quote: 'The claim that Webb launched on Christmas Day 2021 is accurate; it lifted off on December 25, 2021 from Kourou.', source: 2, reason: 'x' } : null });
+  io.exa = async () => ({ status: 200, body: JSON.stringify({ results: [{ url: 'https://science.nasa.gov/mission/webb/', title: 'NASA', text: 'x' }, { url: 'https://someblog.example/webb', title: 'Blog', text: EXA_ONLY_TEXT }] }) });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.match(r.claims[0].notes.join(' '), /misleading/);
+});
