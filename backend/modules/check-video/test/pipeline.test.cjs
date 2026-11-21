@@ -298,6 +298,61 @@ test('Fred #6: a claim whose passage is not in the captions gets no firm answer'
   assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (not found in the captions)"); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
 });
 
+// ---------- Fred re-check fixes ----------
+test('Fred re-check #4: a stop during the first response prevents the no-fallback retry from being sent', async () => {
+  _internal.FALLBACK_STATE.enabled = true;
+  let closed = false, messages = 0; const io = fakeIo(); const orig = io.anthropic;
+  io.anthropic = async (p, body, h) => {
+    if (p === '/v1/messages') { messages++; if (body.fallbacks) { closed = true; return { status: 400, body: JSON.stringify({ error: { message: 'no fallbacks' } }) }; } }
+    return orig(p, body, h);
+  };
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' }, { shouldStop: () => closed });
+  assert.equal(messages, 1, 'retry not dispatched after the stop'); assert.equal(r.stage, 'stopped');
+  _internal.FALLBACK_STATE.enabled = true;
+});
+
+test('Fred re-check #4: an unexpected error stops scheduling and waits for every worker before rethrowing', async () => {
+  const started = [], done = [];
+  await assert.rejects(_internal.mapLimit([1, 2, 3, 4], 2, async x => {
+    started.push(x);
+    if (x === 1) throw new Error('boom');
+    await new Promise(r => setTimeout(r, 30)); done.push(x); return x;
+  }), /boom/);
+  assert.deepEqual(started.sort(), [1, 2], 'no new item scheduled after the failure');
+  assert.deepEqual(done, [2], 'the running worker finished before the error was rethrown');
+});
+
+test('Fred re-check #6: a number the captions do not say withholds the firm answer', async () => {
+  const io = fakeIo({ judge: () => ({ verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' }),
+    transcript: { ok: true, title: 'T', source: 'fake', text: 'In our study we tested twenty people over a month and the results were clear to everyone involved.' } });
+  const orig = io.anthropic;
+  io.anthropic = async (p, body, h) => {
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 60 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', caption_quality: 'good', garbled_passages: 0, note: '', claims: [{ claim: 'The study tested 200 people.', video_quote: 'we tested', search_query: 'study', depends_on_guess: false }] }) }] }) };
+    return orig(p, body, h);
+  };
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  assert.deepEqual(r.claims[0].missingNumbers, [200]);
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (numbers differ from the captions)");
+});
+
+test('Fred re-check #2: a held ledger lock refuses (fails closed); a stale lock is cleared', () => {
+  const dir = tmp(); fs.writeFileSync(path.join(dir, 'spend.lock'), 'held');
+  const b = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir)();
+  assert.throws(() => b.reserve(0.1, 'x'), /busy/);
+  const dir2 = tmp(), lock = path.join(dir2, 'spend.lock'); fs.writeFileSync(lock, 'old'); const old = new Date(Date.now() - 60000); fs.utimesSync(lock, old, old);
+  const b2 = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir2)();
+  assert.equal(b2.reserve(0.1, 'x').reserved, 0.1); assert.equal(fs.existsSync(lock), false);
+});
+
+test('Fred re-check #2: if a final cost cannot be saved, the reservation is kept and further paid work stops', () => {
+  const dir = tmp(); const b = _internal.createBudget({ perRunUsdCap: 1, dailyUsdCap: 5, runDeadlineMs: 1e9 }, dir)();
+  const e = b.reserve(0.2, 'x');
+  fs.writeFileSync(path.join(dir, 'spend-' + today() + '.json'), '{corrupt');
+  b.settle(e, 0.05);
+  assert.equal(e.uncertain, true); assert.equal(b.total(), 0.2, 'reservation kept');
+  assert.throws(() => b.checkOpen(), /cost could not be recorded/);
+});
+
 test('the refusal-fallback option is dropped once if the API rejects it', async () => {
   _internal.FALLBACK_STATE.enabled = true;
   const io = fakeIo(); const orig = io.anthropic; let rejected = 0;

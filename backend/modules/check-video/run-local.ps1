@@ -41,6 +41,10 @@ try {
   foreach ($n in 'SUPADATA_API_KEY', 'EXTERNAL_YOUTUBE_TRANSCRIPT_API_KEY') { Remove-Item "Env:$n" -ErrorAction SilentlyContinue }
   $s = Plain $keys.Supadata; if ($s) { $env:SUPADATA_API_KEY = $s }; $s = $null
   $env:AIV_CHECK_VIDEO = 'local'
+  # Per-launch restart secret, readable only by this Windows user (Fred re-check #1).
+  $bytes = New-Object byte[] 24; [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
+  $env:AIV_CHECK_VIDEO_RESTART_TOKEN = -join ($bytes | ForEach-Object { $_.ToString('x2') })
+  Set-Content -LiteralPath (Join-Path $home2 'check-video-restart.token') -Value $env:AIV_CHECK_VIDEO_RESTART_TOKEN -Encoding ascii -NoNewline
   $env:AIV_CHECK_VIDEO_RUNS_DIR = $runs
   $env:AIV_ANALYTICS_STORAGE_DIR = $data
   $env:PORT = '3077'

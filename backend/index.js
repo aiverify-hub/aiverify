@@ -52958,7 +52958,9 @@ async function checkVideoHandlePh1(req,res,u){
   // Local development only: the launcher (run-local.ps1) restarts the server on exit code 75, keeping its keys in memory.
   if(u.pathname==='/check-video/restart'&&req.method==='POST'){
     let body;try{body=await v2875ReadJsonBody(req,200);}catch(e){return reply(400,{ok:false});}
-    if(!body||body.confirm!=='restart')return reply(400,{ok:false});
+    // Per-launch secret from the launcher (Fred re-check #1); restart is disabled when no secret was provided.
+    const want=String(process.env.AIV_CHECK_VIDEO_RESTART_TOKEN||''),got=String(body&&body.token||'');
+    if(!body||body.confirm!=='restart'||want.length<32||got.length!==want.length||!require('crypto').timingSafeEqual(Buffer.from(got),Buffer.from(want)))return reply(403,{ok:false});
     reply(200,{ok:true});setTimeout(function(){process.exit(75);},200);return;
   }
   if(u.pathname==='/check-video/suggest-source'&&req.method==='POST'){
@@ -53593,7 +53595,8 @@ const server=http.createServer(async (req,res)=>{
     }
   }
 });
-server.listen(PORT,'0.0.0.0',()=>{
+// Check Video local test mode listens on this computer only (Fred re-check #1); otherwise unchanged.
+server.listen(PORT,CHECK_VIDEO_MODE_PH1==='local'?'127.0.0.1':'0.0.0.0',()=>{
   console.log(VERSION+' running');
   console.log(compactProviderReadinessLineV2951());
   if(process.env.RENDER&&!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR){

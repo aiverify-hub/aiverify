@@ -40,9 +40,17 @@ function parseYouTubeUrl(raw) {
   if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return null;
   return { videoId: id, url: 'https://www.youtube.com/watch?v=' + id };
 }
-async function mapLimit(items, limit, fn) {
-  const out = new Array(items.length); let i = 0;
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, async () => { while (i < items.length) { const k = i++; out[k] = await fn(items[k], k); } }));
+// Runs fn over items with `limit` workers. On an unexpected error, scheduling stops (onError lets the caller stop paid
+// work too), every worker is awaited, and only then is the first error rethrown (Fred re-check #4).
+async function mapLimit(items, limit, fn, onError) {
+  const out = new Array(items.length); let i = 0, failed = null;
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (i < items.length && !failed) {
+      const k = i++;
+      try { out[k] = await fn(items[k], k); } catch (e) { if (!failed) { failed = e; if (onError) onError(e); } }
+    }
+  }));
+  if (failed) throw failed;
   return out;
 }
 function postJson(host, p, headers, body, timeoutMs) {
@@ -88,6 +96,23 @@ function createBudget(cfg, dir) {
       fs.writeFileSync(tmp, JSON.stringify({ day: d, usd: +Math.max(0, v).toFixed(6) })); fs.renameSync(tmp, f);
     } catch (_e) { throw ledgerError('cannot save'); }
   }
+  // Cross-process lock around each read-modify-write (Fred re-check #2): exclusive lock file; a lock older than 15 s is
+  // treated as left behind by a crashed process. Waits up to about 3 s, then refuses (fails closed).
+  function withLock(fn) {
+    try { fs.mkdirSync(dir, { recursive: true }); } catch (_e) { throw ledgerError('cannot save'); }
+    const lock = path.join(dir, 'spend.lock'), until = Date.now() + 3000, pause = new Int32Array(new SharedArrayBuffer(4));
+    let fd = null;
+    while (fd === null) {
+      try { fd = fs.openSync(lock, 'wx'); }
+      catch (e) {
+        if (!e || e.code !== 'EEXIST') throw ledgerError('cannot lock');
+        try { if (Date.now() - fs.statSync(lock).mtimeMs > 15000) { fs.unlinkSync(lock); continue; } } catch (_e) { continue; }
+        if (Date.now() > until) throw ledgerError('busy');
+        Atomics.wait(pause, 0, 0, 25);
+      }
+    }
+    try { return fn(); } finally { try { fs.closeSync(fd); } catch (_e) {} try { fs.unlinkSync(lock); } catch (_e) {} }
+  }
   return function runBudget(opts) {
     const o = opts || {}, started = Date.now(); let run = 0, stopped = null; const ledger = [];
     function checkOpen() {
@@ -100,19 +125,30 @@ function createBudget(cfg, dir) {
       stop(err) { if (!stopped) stopped = err; },
       stoppedBy: () => stopped,
       // Admission before any paid or credit-using call: refuse if the day is already at its cap.
-      admit(minUsd) { checkOpen(); if (readDay(today()) + (minUsd || 0) > cfg.dailyUsdCap) throw (stopped = Object.assign(new Error('Daily spending cap reached'), { code: 'BUDGET_DAY' })); },
+      admit(minUsd) {
+        checkOpen();
+        let spent; try { spent = readDay(today()); } catch (e) { throw (stopped = e); }
+        if (spent + (minUsd || 0) > cfg.dailyUsdCap) throw (stopped = Object.assign(new Error('Daily spending cap reached'), { code: 'BUDGET_DAY' }));
+      },
       reserve(usd, what) {
         checkOpen();
-        const d = today(), spent = readDay(d);
-        if (run + usd > cfg.perRunUsdCap) throw (stopped = Object.assign(new Error('Per-check spending cap reached'), { code: 'BUDGET_RUN' }));
-        if (spent + usd > cfg.dailyUsdCap) throw (stopped = Object.assign(new Error('Daily spending cap reached'), { code: 'BUDGET_DAY' }));
-        writeDay(d, spent + usd); // saved before the call is made
-        run += usd; const e = { what, day: d, reserved: +usd.toFixed(6), actual: null }; ledger.push(e); return e;
+        try {
+          return withLock(() => {
+            const d = today(), spent = readDay(d);
+            if (run + usd > cfg.perRunUsdCap) throw Object.assign(new Error('Per-check spending cap reached'), { code: 'BUDGET_RUN' });
+            if (spent + usd > cfg.dailyUsdCap) throw Object.assign(new Error('Daily spending cap reached'), { code: 'BUDGET_DAY' });
+            writeDay(d, spent + usd); // saved before the call is made
+            run += usd; const e = { what, day: d, reserved: +usd.toFixed(6), actual: null }; ledger.push(e); return e;
+          });
+        } catch (e) { throw (stopped = e); }
       },
       settle(e, actual) {
-        if (!Number.isFinite(actual) || actual < 0) return; // unknown actual: keep the reservation counted
+        if (!Number.isFinite(actual) || actual < 0) { e.uncertain = true; return; } // unknown actual: keep the reservation counted
         const delta = actual - e.reserved;
-        try { writeDay(e.day, readDay(e.day) + delta); } catch (_e) { return; } // keep the (larger) reservation if settling fails
+        // Fred re-check #2: if the settlement cannot be saved, keep the reservation, mark it uncertain, and stop further
+        // paid work in this check (the estimate is not assumed to be an upper bound).
+        try { withLock(() => writeDay(e.day, readDay(e.day) + delta)); }
+        catch (err) { e.uncertain = true; e.actualUnsaved = +actual.toFixed(6); if (!stopped) stopped = ledgerError('cost could not be recorded'); return; }
         run += delta; e.actual = +actual.toFixed(6);
       },
       total: () => +run.toFixed(4), ledger
@@ -148,7 +184,10 @@ async function callClaude(ctx, body, what) {
   const inBound = counted != null ? Math.ceil(Math.max(counted * 1.25, counted + 500)) : Buffer.byteLength(JSON.stringify(body));
   const led = budget.reserve((inBound * cfg.usdPerMTokIn + body.max_tokens * cfg.usdPerMTokOut) / 1e6, what);
   // Server-side refusal fallback (skill default). If the API rejects the combination, retry once without it and stop using it.
+  // Fred re-check #4: check the stop state immediately before EVERY dispatch, including the no-fallback retry.
+  // (An HTTP 400 is not billed; the retry is covered by the same reservation.)
   const send = async withFallback => {
+    budget.checkOpen();
     const b = withFallback ? Object.assign({}, body, { fallbacks: 'default' }) : body;
     return io.anthropic('/v1/messages', b, withFallback ? { 'anthropic-beta': 'server-side-fallback-2026-07-01' } : {});
   };
@@ -183,6 +222,7 @@ Rules:
 - "depends_on_guess" is true when a name, number, date or place in the claim had to be guessed or corrected because the captions are unclear at that point; otherwise false.
 - claims[0] is the video's single central factual claim: the main thing it asserts happened or is true. Then add up to ${maxClaims - 1} other important factual claims, most important first. Fewer is fine.
 - Each "claim" is one standalone statement of fact that the video presents as TRUE, with the names, places, numbers and dates needed to check it without the video. Write what the video asserts about the world, not "the video says...". If the video only reports that someone else said something, the claim is that the person said it.
+- Use only the numbers, names and dates the video itself says. Do not add unit conversions, totals or figures from your own knowledge.
 - Each claim is ONE fact. Do not combine several facts (for example a date, a place and a cost) into one claim: put the most important fact in the central claim and list other important facts as separate claims.
 - When a claim depends on time ("currently", "the largest so far", ages, records, "will"), state it as of the publication date, e.g. "As of December 2021, ...".
 - Skip opinions, predictions and expectations about the future, jokes, advice, and statements of religious faith. Correct obvious caption transcription errors in "claim".
@@ -207,10 +247,49 @@ async function extractClaims(ctx, title, transcript, published) {
     // video_quote is shown only if it really appears in the captions (any occurrence is fine for display)
     const shown = b.bound ? b.originalSubstring : (b.reason === 'AMBIGUOUS_MULTIPLE_MATCHES' ? vq : '');
     // captionBound (Fred review #6): the claim's passage was found in the captions. Without it, a firm answer is withheld.
-    return { n: i + 1, central: i === 0, claim: squash(c.claim).slice(0, 400), videoQuote: shown.slice(0, 300), captionBound: !!shown, searchQuery: squash(c.search_query || c.claim).slice(0, 200), dependsOnGuess: c.depends_on_guess === true };
+    const claimText = squash(c.claim).slice(0, 400), missingNumbers = shown ? claimNumbersMissing(claimText, transcript, shown) : [];
+    return { n: i + 1, central: i === 0, claim: claimText, videoQuote: shown.slice(0, 300), captionBound: !!shown, missingNumbers, searchQuery: squash(c.search_query || c.claim).slice(0, 200), dependsOnGuess: c.depends_on_guess === true };
   });
   const quality = ['good', 'fair', 'poor'].includes(j.caption_quality) ? j.caption_quality : 'unknown';
   return { ok: true, kind: j.video_kind || 'other', note: squash(j.note).slice(0, 300), claims, captionQuality: quality, garbledPassages: Number.isInteger(j.garbled_passages) ? j.garbled_passages : null };
+}
+
+// ---------- claim vs captions: material numbers (Fred re-check #6) ----------
+// Every quantity in a claim must appear in the captions near the claim's passage (within ~400 characters), as digits
+// or as number words ("twenty" = 20, "two hundred" = 200). Years (1900-2100) are not required, because claims are
+// dated from the publish date ("As of December 2021, ..."). Names are not checked here (documented limit).
+const NUM_WORDS = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90 };
+const SCALES = { hundred: 100, thousand: 1e3, million: 1e6, billion: 1e9, trillion: 1e12 };
+function numbersInText(text) {
+  const vals = new Set();
+  const s = String(text || '').toLowerCase().replace(/(\d)[,\s](?=\d{3}\b)/g, '$1');
+  for (const m of s.match(/\d+(?:\.\d+)?/g) || []) vals.add(Number(m));
+  // number words, including "two hundred", "fifty six thousand", and digits + scale ("10 billion" also yields 10e9)
+  const words = s.replace(/-/g, ' ').split(/[^a-z0-9.]+/).filter(Boolean);
+  let cur = null, total = 0;
+  const flush = () => { if (cur !== null || total) vals.add(total + (cur || 0)); cur = null; total = 0; };
+  for (const w of words) {
+    if (Object.prototype.hasOwnProperty.call(NUM_WORDS, w)) { cur = (cur || 0) + NUM_WORDS[w]; }
+    else if (/^\d+(?:\.\d+)?$/.test(w)) { flush(); cur = Number(w); }
+    else if (SCALES[w]) { if (cur === null) cur = 1; if (SCALES[w] === 100) cur *= 100; else { total += cur * SCALES[w]; cur = null; } vals.add(total + (cur || 0)); }
+    else if (w !== 'and') flush();
+  }
+  flush();
+  return vals;
+}
+function claimNumbersMissing(claim, transcript, videoQuote) {
+  // Calendar dates ("December 25, 2021", "25 December") are restated legitimately ("Christmas Day"), so their day numbers
+  // are not required; the judge still checks dates against sources.
+  const MONTHS = '(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\.?';
+  const body = String(claim || '').replace(/^\s*as of [^,]{3,40},\s*/i, '')
+    .replace(new RegExp('\\b' + MONTHS + '\\s+\\d{1,2}(?:st|nd|rd|th)?\\b', 'gi'), ' ').replace(new RegExp('\\b\\d{1,2}(?:st|nd|rd|th)?\\s+(?:of\\s+)?' + MONTHS + '\\b', 'gi'), ' ');
+  const s = body.toLowerCase().replace(/(\d)[,\s](?=\d{3}\b)/g, '$1');
+  const wanted = (s.match(/\d+(?:\.\d+)?/g) || []).map(Number).filter(n => !(Number.isInteger(n) && n >= 1900 && n <= 2100));
+  if (!wanted.length) return [];
+  const t = String(transcript || ''), at = videoQuote ? t.toLowerCase().indexOf(String(videoQuote).toLowerCase().slice(0, 40)) : -1;
+  const win = at >= 0 ? t.slice(Math.max(0, at - 400), at + String(videoQuote).length + 400) : String(videoQuote || '');
+  const have = numbersInText(win);
+  return wanted.filter(n => !have.has(n));
 }
 
 // ---------- step 3: evidence ----------
@@ -399,7 +478,7 @@ function createCheckVideo(options) {
           if (!fatal) fatal = e; ctx.budget.stop(e);
           return skip('The check stopped before this claim was finished: ' + e.message + '.');
         }
-      });
+      }, () => ctx.budget.stop(Object.assign(new Error('An unexpected error stopped this check'), { code: 'STOPPED' })));
       result.timings.evidenceAndJudgeMs = Date.now() - t;
       if (fatal) {
         result.stoppedEarly = stopResult(fatal).error;
@@ -413,11 +492,12 @@ function createCheckVideo(options) {
         // Calibration, Fred's review of the 20-video run: 5 of 6 withheld answers were "supported" and right.
         const guessRisk = c.dependsOnGuess && (c.verdict === 'contradicted' || c.verdict === 'misleading');
         // Fred review #6: a claim whose passage was not found in the captions may not be what the video said.
-        const why = result.reliability.flagged ? 'video' : (!c.captionBound ? 'notfound' : (guessRisk ? 'claim' : ''));
+        const numberRisk = (c.missingNumbers || []).length > 0;
+        const why = result.reliability.flagged ? 'video' : (!c.captionBound ? 'notfound' : (numberRisk ? 'numbers' : (guessRisk ? 'claim' : '')));
         if (!why) continue;
         c.wouldHaveBeen = c.verdict; c.verdict = 'insufficient';
-        c.label = { video: "Can't determine (not enough reliable caption data)", notfound: "Can't determine (not found in the captions)", claim: "Can't determine (caption unclear)" }[why];
-        c.notes = (c.notes || []).concat({ video: 'firm answer withheld: video captions flagged as unreliable', notfound: 'firm answer withheld: the claim\'s passage was not found in the captions, so the video may not have said it', claim: 'firm answer withheld: claim depends on a name, number or date guessed from unclear captions' }[why]);
+        c.label = { video: "Can't determine (not enough reliable caption data)", notfound: "Can't determine (not found in the captions)", numbers: "Can't determine (numbers differ from the captions)", claim: "Can't determine (caption unclear)" }[why];
+        c.notes = (c.notes || []).concat({ video: 'firm answer withheld: video captions flagged as unreliable', notfound: 'firm answer withheld: the claim\'s passage was not found in the captions, so the video may not have said it', numbers: 'firm answer withheld: number(s) ' + (c.missingNumbers || []).join(', ') + ' not found near the passage in the captions', claim: 'firm answer withheld: claim depends on a name, number or date guessed from unclear captions' }[why]);
         c.quote = null;
       }
       const count = v => result.claims.filter(c => c.verdict === v).length;
@@ -468,4 +548,4 @@ function saveSourceSuggestion(dir, s) {
   try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'source-suggestions.jsonl'), JSON.stringify({ at: new Date().toISOString(), url: u.toString(), publisher: publishers.describe(u.toString()).publisher, note, runId }) + '\n'); return true; } catch (_e) { return false; }
 }
 
-module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE } };
+module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing } };
