@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settle Disputes</title>
+<style>
+  :root { --bg:#f7f7f4; --card:#ffffff; --ink:#1d1d1b; --muted:#5b5b57; --line:#d9d8d2; --accent:#1f5fa8; --ok:#1d6b35; --ok-bg:#e5f3e8; --bad:#a3271f; --bad-bg:#fbe7e5; --mid:#7a5a00; --mid-bg:#fbf1d6; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#161615; --card:#21211f; --ink:#ecebe6; --muted:#a8a7a0; --line:#3a3a36; --accent:#7fb0ea; --ok:#8fd6a2; --ok-bg:#1d3324; --bad:#f2a199; --bad-bg:#3d1f1c; --mid:#e9cc7a; --mid-bg:#3a3120; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font:19px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 900px; margin: 0 auto; padding: 18px 16px 60px; }
+  h1 { font-size: 26px; margin: 4px 0; }
+  .count { font-size: 20px; font-weight: 700; margin: 10px 0; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:12px 0; }
+  .label { font-size: 15px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .claim { font-size: 22px; font-weight: 700; margin: 4px 0 8px; }
+  .side { border-left: 6px solid var(--line); padding-left: 12px; margin: 10px 0; }
+  .side.a { border-color: var(--accent); } .side.f { border-color: var(--mid); }
+  .verdict { display:inline-block; font-weight:700; padding:2px 10px; border-radius:6px; background:var(--mid-bg); color:var(--mid); }
+  .verdict.supported { background:var(--ok-bg); color:var(--ok); } .verdict.contradicted { background:var(--bad-bg); color:var(--bad); }
+  blockquote { margin: 6px 0; padding: 4px 10px; border-left: 3px solid var(--line); }
+  a { color: var(--accent); overflow-wrap: anywhere; }
+  .big-link { display:inline-block; font-size:20px; font-weight:700; padding:10px 16px; border:2px solid var(--accent); border-radius:10px; text-decoration:none; margin: 4px 0; }
+  .answers { display:grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin:10px 0; }
+  .answers button, .nav button { font-size:21px; font-weight:700; min-height:68px; padding:10px; border:2px solid var(--line); border-radius:12px; background:var(--card); color:var(--ink); cursor:pointer; }
+  .answers button[aria-pressed="true"] { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .nav { display:flex; gap:12px; margin-top:12px; } .nav button { flex:1; } .nav button[disabled] { opacity:.4; }
+  textarea { width:100%; min-height:70px; font-size:18px; padding:8px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); }
+  .status { font-size:20px; font-weight:700; color:var(--ok); min-height:1.5em; }
+  .small { font-size:16px; color:var(--muted); }
+  button:focus-visible, a:focus-visible { outline:4px solid var(--accent); outline-offset:3px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Settle disputes</h1>
+  <p class="small">AIVerify and the independent reviewer (Fred) disagree on these claims. For each one, decide who is right. Keys: 1 AIVerify right · 2 Fred right · 3 Neither · 4 Not sure · ← → move.</p>
+  <div id="box">Loading…</div>
+</main>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, attrs, kids) { var n = document.createElement(tag); if (attrs) Object.keys(attrs).forEach(function (k) { if (k === 'text') n.textContent = attrs[k]; else if (k === 'cls') n.className = attrs[k]; else n.setAttribute(k, attrs[k]); }); (kids || []).forEach(function (c) { if (c) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); }); return n; }
+  function link(url, text) { return /^https?:\/\//i.test(String(url || '')) ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: text || url }) : el('span', { text: text || '' }); }
+  function withLinks(text) { var span = el('span'); String(text || '').split(/(https?:\/\/[^\s;)]+)/).forEach(function (part) { span.appendChild(/^https?:\/\//.test(part) ? link(part) : document.createTextNode(part)); }); return span; }
+  var CH = [['aiverify', 'AIVerify right'], ['reviewer', 'Fred right'], ['neither', 'Neither / both partly'], ['unsure', 'Not sure']];
+  var S = { list: [], i: 0 };
+  function vcls(v) { return /support/i.test(v) ? 'supported' : /contradict|mislead/i.test(v) ? 'contradicted' : ''; }
+  function show() {
+    var box = $('box'), d = S.list[S.i]; box.textContent = '';
+    var done = S.list.filter(function (x) { return x.answer; }).length;
+    box.appendChild(el('p', { cls: 'count', text: 'Dispute ' + (S.i + 1) + ' of ' + S.list.length + '   ·   ' + done + ' settled' }));
+    var card = el('div', { cls: 'card' });
+    card.appendChild(el('div', { cls: 'label', text: d.videoTitle || 'Video' }));
+    card.appendChild(el('p', {}, [link(d.videoLinkAt || d.videoUrl, d.saidAt ? '▶ Watch at ' + d.saidAt : '▶ Watch the video')]));
+    card.appendChild(el('div', { cls: 'label', text: 'Claim' }));
+    card.appendChild(el('div', { cls: 'claim', text: d.claim }));
+    if (d.inVideo) card.appendChild(el('p', { cls: 'small', text: 'In the video: “' + d.inVideo + '”' }));
+    var a = el('div', { cls: 'side a' }, [el('div', { cls: 'label', text: 'AIVerify said' }), el('span', { cls: 'verdict ' + vcls(d.aiverify), text: d.aiverify })]);
+    if (d.aiverifyReason) a.appendChild(el('p', { text: d.aiverifyReason }));
+    if (d.aiverifyQuote) a.appendChild(el('blockquote', { text: '“' + d.aiverifyQuote + '”' }));
+    if (d.aiverifySource) a.appendChild(el('p', { cls: 'small' }, ['Source: ', link(d.aiverifySource)]));
+    card.appendChild(a);
+    var f = el('div', { cls: 'side f' }, [el('div', { cls: 'label', text: 'Fred said' }), el('span', { cls: 'verdict ' + vcls(d.reviewer), text: d.reviewer })]);
+    if (d.reviewerNote) f.appendChild(el('p', {}, [withLinks(d.reviewerNote)]));
+    card.appendChild(f);
+    box.appendChild(card);
+    var c2 = el('div', { cls: 'card' }), row = el('div', { cls: 'answers' }), note = el('textarea', { id: 'note', placeholder: 'Optional note (type it before pressing an answer)' }), st = el('p', { cls: 'status', id: 'st', text: d.answer ? 'Your answer: ' + labelOf(d.answer.choice) : '' });
+    if (d.answer && d.answer.note) note.value = d.answer.note;
+    CH.forEach(function (c, k) { var b = el('button', { type: 'button', 'aria-pressed': String(!!(d.answer && d.answer.choice === c[0])), text: (k + 1) + '   ' + c[1] }); b.addEventListener('click', function () { answer(c[0]); }); row.appendChild(b); });
+    c2.appendChild(el('p', { cls: 'claim', text: 'Who is right?' })); c2.appendChild(row); c2.appendChild(st); c2.appendChild(note);
+    var nav = el('div', { cls: 'nav' }), p = el('button', { type: 'button', text: '←  Previous' }), n = el('button', { type: 'button', text: 'Next  →' });
+    p.disabled = S.i === 0; n.disabled = S.i === S.list.length - 1;
+    p.addEventListener('click', function () { move(-1); }); n.addEventListener('click', function () { move(1); });
+    nav.appendChild(p); nav.appendChild(n); c2.appendChild(nav); box.appendChild(c2); window.scrollTo(0, 0);
+  }
+  function labelOf(c) { var f = CH.filter(function (x) { return x[0] === c; })[0]; return f ? f[1] : c; }
+  function move(k) { var j = S.i + k; if (j >= 0 && j < S.list.length) { S.i = j; show(); } }
+  function answer(choice) {
+    var d = S.list[S.i], note = $('note') ? $('note').value : '';
+    $('st').textContent = 'Saving…';
+    fetch('/check-video/disputes/answer', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: d.id, choice: choice, note: note }) })
+      .then(function (x) { return x.json(); }).then(function (j) {
+        if (!j.ok) { $('st').textContent = 'Not saved. Please press the answer again.'; return; }
+        d.answer = { choice: choice, note: note };
+        var next = S.list.findIndex(function (x, k) { return k > S.i && !x.answer; });
+        if (next < 0) { show(); $('st').textContent = 'Saved. All disputes settled — thank you!'; return; }
+        $('st').textContent = 'Saved: ' + labelOf(choice) + '. Next dispute…';
+        setTimeout(function () { S.i = next; show(); }, 1300);
+      }).catch(function () { $('st').textContent = 'Not saved. Please press the answer again.'; });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!S.list.length) return; var t = e.target && e.target.tagName; if (t === 'TEXTAREA' || t === 'INPUT') return;
+    if (e.key >= '1' && e.key <= '4') { e.preventDefault(); answer(CH[+e.key - 1][0]); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); move(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); move(-1); }
+  });
+  fetch('/check-video/disputes/data').then(function (x) { return x.json(); }).then(function (j) {
+    S.list = j.disputes || [];
+    if (!S.list.length) { $('box').textContent = 'No disputes to settle yet.'; return; }
+    var first = S.list.findIndex(function (x) { return !x.answer; }); S.i = first < 0 ? 0 : first; show();
+  }).catch(function () { $('box').textContent = 'Could not load the disputes.'; });
+})();
+</script>
+</body>
+</html>

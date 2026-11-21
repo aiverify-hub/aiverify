@@ -52992,6 +52992,16 @@ async function checkVideoHandlePh1(req,res,u){
     const saved=cv.saveSourceSuggestion(body||{});return reply(saved?200:400,{ok:saved,error:saved?undefined:'Please enter a full web address starting with https://'});
   }
   if(u.pathname==='/check-video/runs'&&req.method==='GET')return reply(200,{ok:true,runs:cv.listRuns()});
+  // Grading tool (evaluation only): Cary settles disputes between AIVerify and the independent reviewer.
+  if(u.pathname==='/check-video/disputes'&&req.method==='GET'){
+    const html=fs.readFileSync(path.join(__dirname,'modules','check-video','disputes.html'),'utf8');
+    return send(res,200,'text/html; charset=utf-8',html,Object.assign({'content-security-policy':"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'",'x-content-type-options':'nosniff'},H));
+  }
+  if(u.pathname==='/check-video/disputes/data'&&req.method==='GET')return reply(200,Object.assign({ok:true},require('./modules/check-video/grading.cjs').listDisputes(cv.runsDir)));
+  if(u.pathname==='/check-video/disputes/answer'&&req.method==='POST'){
+    let body;try{body=await v2875ReadJsonBody(req,4000);}catch(e){return reply(400,{ok:false});}
+    const saved=require('./modules/check-video/grading.cjs').saveAdjudication(cv.runsDir,body&&body.id,body&&body.choice,body&&body.note);return reply(saved?200:400,{ok:saved});
+  }
   if(u.pathname==='/check-video/review'&&req.method==='POST'){
     let body;try{body=await v2875ReadJsonBody(req,20000);}catch(e){return reply(400,{ok:false,error:'Invalid request.'});}
     const saved=cv.saveReview(body&&body.runId,body);return reply(saved?200:400,{ok:saved});
