@@ -1,6 +1,6 @@
 # Check Video v2: revision and next-test plan
 
-Status: APPROVED BY BOB WITH AMENDMENTS (November 22, 2026). This version includes his amendments.
+Status: FROZEN on November 22, 2026. Approved by Bob with amendments; Cary agreed.
 
 The plan is FROZEN once Cary agrees and before the first paid run. After that, nothing in it changes until the report is written. Any later change to code or thresholds needs a separately identified evaluation; it is never a continuation of this release test.
 
@@ -99,7 +99,8 @@ A pass permits only consideration of a scoped private pilot. It is not approval 
 
 ## 6. Freeze record (filled in at freeze, before the first paid run)
 
-- Software commit:
-- Cary's agreement (date):
-- Video list file and its hash:
-- Sample seed:
+- Plan text: frozen at this commit, with Cary's agreement on November 22, 2026. He approved all of Bob's amendments, and his own decisions on items 3, 6, 8 and 9 are recorded here and in EVAL_DISPOSITIONS_v1.md.
+- Software commit: the commit that carries this line. Any later code change starts a separately identified evaluation.
+- Development check: about 25 old videos (section 2). Not release evidence.
+- Fresh video list file and its hash: recorded in EVAL_V2_VIDEO_IDS.tsv before the first fresh run.
+- Component sample seed: 20261122. The bootstrap uses seed 20261121 and 10,000 draws, as in v1.

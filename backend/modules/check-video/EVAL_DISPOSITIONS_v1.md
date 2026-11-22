@@ -32,7 +32,7 @@ Labels used in this file:
 
 | Claim | Ref (by) | Cause | Short reason |
 |---|---|---|---|
-| b1-v7-c2: Humphrey firing and lawsuit | U (Cary) | B → C (Bob) | The saved claim says Humphrey "sued", and his estate continued the case after he died. Fred and Cary found that the executor brought the case. Under R3 this is a material actor mismatch. Cary confirmed on November 22 that the executor filed the suit for the estate after Humphrey died, and the Supreme Court opinion Fred cited agrees. Correct answer for development: "Shown false". |
+| b1-v7-c2: Humphrey firing and lawsuit | U (Cary) | B → C (Bob) | The saved claim says Humphrey "sued", and his estate continued the case after he died. Fred and Cary found that the executor brought the case. The executor filed for the estate after Humphrey died (Cary; the Supreme Court opinion Fred cited). Read strictly, that is an actor mismatch (R3). But the executor stood in Humphrey's place, and the case bears his name, so the simplification is arguably not deceptive. Decision (Claude, with Cary's agreement, November 22): a genuine judgment call, so it is EXCLUDED from development targets, and v2 is not trained either way. |
 | b1-v14-c3: Norte Fire figures | U (Cary) | B | The 16,000 evacuated and 0% containment were not both backed at the same time. |
 | b2-v6-c1: Berkeley phone warning "on packaging" | C (Cary) | C | The law required a notice at the point of sale, not on packaging. |
 | b2-v6-c3: German mouse study and Danish study | U (Cary) | B | The Danish study cited was about a different outcome; the contrast was not established. |
