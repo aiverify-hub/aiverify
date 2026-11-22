@@ -5,6 +5,8 @@
 # can unlock it). Delete that file to forget the keys.
 # Starts the backend on http://localhost:3077 with AIV_CHECK_VIDEO=local (page served to this computer only).
 # Stop with Ctrl+C or by closing the window; the keys are removed from the window when it stops.
+# -DailyUsd: today's spending backstop in US dollars (default 15, Cary's v2 limit). Cary may raise it for a day.
+param([ValidateRange(1,50)][int]$DailyUsd = 15)
 $ErrorActionPreference = 'Stop'
 $backend = Join-Path $PSScriptRoot '..\..\index.js' | Resolve-Path
 function Plain([Security.SecureString]$s) { if (-not $s) { return '' }; $p = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($s); try { [Runtime.InteropServices.Marshal]::PtrToStringBSTR($p) } finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($p) } }
@@ -53,7 +55,7 @@ try {
   $env:AIV_ANALYTICS_STORAGE_DIR = $data
   $env:PORT = '3077'
   # v2 plan: Cary set $15/day and $39 total (Nov 22, 2026; triple Bob's proposal, within his $500 monthly budget).
-  $env:AIV_CHECK_VIDEO_DAILY_USD = '15'
+  $env:AIV_CHECK_VIDEO_DAILY_USD = [string]$DailyUsd
   Write-Host ''
   Write-Host 'Keys ready. Starting... When you see "BE_AIV_v5066C running", the server is ready.' -ForegroundColor Green
   Write-Host 'Leave this window open. To stop later: click here and press Ctrl+C.' -ForegroundColor Green
