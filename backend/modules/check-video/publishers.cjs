@@ -77,4 +77,8 @@ function describe(url) {
   const tier = roleTier(url), host = hostOf(url);
   return { tier: tier, role: ROLE[tier], host: host, publisher: registrable(host) };
 }
-module.exports = { ROLE, roleTier, describe, isLookalike, registrable, hostOf };
+// Cary, November 22, 2026: on POLITICAL claims only, network outlets are used after other reliable sources that carry the
+// same evidence (a preference order, not a judgment of the outlet; Bob: each source is still judged on its evidence).
+const NETWORKS = ['abcnews.go.com', 'abcnews.com', 'abc.com', 'nbcnews.com', 'nbc.com', 'cbsnews.com', 'cbs.com', 'foxnews.com', 'foxbusiness.com', 'newsmax.com'];
+function isNetwork(url) { const host = hostOf(url); return NETWORKS.some(function (n) { return host === n || host.endsWith('.' + n); }); }
+module.exports = { ROLE, roleTier, describe, isLookalike, registrable, hostOf, isNetwork, NETWORKS };

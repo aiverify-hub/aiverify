@@ -39,6 +39,9 @@ function fakeIo(opts) {
         { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'The James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date', corrections: [] },
         { claim: 'The Moon is made of cheese.', video_quote: 'the moon is made of cheese', search_query: 'moon composition', corrections: [] }] }) }] }) };
       const judged = o.judge ? o.judge(content) : null; if (judged && !judged.video_says) judged.video_says = 'yes';
+      // v2: a judge that omits parts gets the consistent default (one part with the verdict's status); tests of the parts rule set their own.
+      if (judged && !('parts' in judged)) judged.parts = [{ part: 'the claim', status: { supported: 'backed', contradicted: 'shown_false', misleading: 'shown_false' }[judged.verdict] || 'not_established' }];
+      if (judged && judged.parts === undefined) delete judged.parts;
       if (judged) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(judged) }] }) };
       return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify({ verdict: 'insufficient', quote: '', source: null, reason: 'Not settled.' }) }] }) };
     }
@@ -63,7 +66,7 @@ test('full run: packet rules, judge prompt roles, quote binding, private excerpt
   assert.equal(c1.central, true); assert.equal(c1.verdict, 'supported');
   assert.equal(c1.quote.publisher, 'nasa.gov'); assert.equal(c1.quote.role, 'primary/official');
   assert.equal(c1.videoQuote, 'The James Webb telescope went up on Christmas Day 2021');
-  assert.equal(c2.verdict, 'insufficient'); assert.equal(c2.label, "Can't determine");
+  assert.equal(c2.verdict, 'insufficient'); assert.equal(c2.label, 'Not established from the sources checked');
   // packet rules
   const used = c1.sources.map(s => s.url);
   assert.equal(used[0], 'https://science.nasa.gov/mission/webb/', 'primary source first, direct text');
@@ -76,7 +79,7 @@ test('full run: packet rules, judge prompt roles, quote binding, private excerpt
   const judgeBody = io.calls.anthropic.find(x => x.p === '/v1/messages' && /assess one claim/.test(x.body.messages[0].content)).body;
   assert.match(judgeBody.messages[0].content, /Publisher: nasa\.gov \| Role: primary\/official/);
   assert.match(judgeBody.messages[0].content, /same publisher count as ONE source/);
-  assert.deepEqual(judgeBody.thinking, { type: 'between_tools' }); assert.equal(judgeBody.max_tokens, 600); assert.equal(judgeBody.model, 'claude-sonnet-5-5');
+  assert.deepEqual(judgeBody.thinking, { type: 'between_tools' }); assert.equal(judgeBody.max_tokens, 1000); assert.equal(judgeBody.model, 'claude-sonnet-5-5');
   // evidence fetches use bounded truncation
   assert.ok(io.calls.get.every(g => g.opt.allowTruncate === true && g.opt.limit === 1500000));
   // the visitor's result carries no excerpt text; the private record does
@@ -167,7 +170,7 @@ test('guessed caption word: every firm answer is held back as caption unclear', 
   assert.equal(r.claims[0].verdict, 'insufficient', 'a guessed caption word withholds support too (Fred re-check 3)'); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
   const CONTRA = c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null;
   const r2 = await createCheckVideo({ io: withQuality(fakeIo({ judge: CONTRA }), 'fair', true), runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
-  assert.equal(r2.claims[0].verdict, 'insufficient'); assert.equal(r2.claims[0].label, "Can't determine (caption unclear)"); assert.equal(r2.claims[0].wouldHaveBeen, 'contradicted');
+  assert.equal(r2.claims[0].verdict, 'insufficient'); assert.equal(r2.claims[0].label, "Not established (caption unclear)"); assert.equal(r2.claims[0].wouldHaveBeen, 'contradicted');
 });
 
 test('a contradiction resting on an "other" source is held back; an official source is enough', async () => {
@@ -192,7 +195,7 @@ test('judge format is enforced; prose around the JSON and inner quotes are handl
   io.anthropic = async (p, body, h) => {
     if (p === '/v1/messages' && /assess one claim/.test(body.messages[0].content) && /Webb Space Telescope launched/.test(body.messages[0].content)) {
       judgeBody = body;
-      const text = 'Here is my answer: ' + JSON.stringify({ video_says: 'yes', verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA says "launched" {plainly}.' }) + ' Thanks {end}';
+      const text = 'Here is my answer: ' + JSON.stringify({ video_says: 'yes', parts: [{ part: 'launch date', status: 'backed' }], verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA says "launched" {plainly}.' }) + ' Thanks {end}';
       return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 900, output_tokens: 80 }, content: [{ type: 'text', text }] }) };
     }
     return orig(p, body, h);
@@ -215,7 +218,7 @@ test('source 0 means no source; an insufficient answer with source 0 is read cor
 test('caution line appears only when a claim is contradicted', async () => {
   const contra = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'Date differs.' } : null });
   const r = await createCheckVideo({ io: contra, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
-  assert.match(r.caution, /^Caution: at least one claim/);
+  assert.match(r.caution, /^Caution: the evidence shows at least one claim/);
   const r2 = await createCheckVideo({ io: fakeIo({ judge: SUPPORT }), runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r2.caution, undefined);
 });
@@ -295,7 +298,7 @@ test('Fred #6: a claim whose passage is not in the captions gets no firm answer'
   };
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r.claims[0].captionBound, false);
-  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (not found in the captions)"); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Not established (not found in the captions)"); assert.equal(r.claims[0].wouldHaveBeen, 'supported');
 });
 
 // ---------- Fred re-check fixes ----------
@@ -332,7 +335,7 @@ test('Fred re-check #6: a number the captions do not say withholds the firm answ
   };
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.deepEqual(r.claims[0].missingNumbers, [200]);
-  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Can't determine (numbers differ from the captions)");
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, "Not established (numbers differ from the captions)");
 });
 
 test('Fred re-check #2: a held ledger lock refuses (fails closed), however old it is', () => {
@@ -410,7 +413,7 @@ test('Cary: only corrected names, places, numbers and dates count as guesses; wo
   const words = await run([{ heard: 'went up', written: 'launched', kind: 'word' }]);
   assert.equal(words.claims[0].dependsOnGuess, false); assert.equal(words.claims[0].verdict, 'supported');
   const place = await run([{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place' }]);
-  assert.equal(place.claims[0].dependsOnGuess, true); assert.equal(place.claims[0].label, "Can't determine (caption unclear)");
+  assert.equal(place.claims[0].dependsOnGuess, true); assert.equal(place.claims[0].label, "Not established (caption unclear)");
   assert.deepEqual(place.claims[0].corrections, [{ heard: 'carew french guyana', written: 'Kourou, French Guiana', kind: 'place', matched: false }], 'kept, and marked as not matched to these captions');
 });
 
@@ -469,4 +472,63 @@ test('"Misleading" resting on an "other" source is held back', async () => {
 
 test('"As of February 12, 2026," prefix (from the publish date) is not required in the captions', () => {
   assert.deepEqual(_internal.claimNumbersMissing('As of February 12, 2026, the House passed the act 220 to 207.', 'the house passed it 220 to 207 on thursday', 'house passed'), []);
+});
+
+// ---------- v2 (Bob decisions, November 22, 2026) ----------
+test('v2 parts rule: label follows the weakest material part, enforced in code', () => {
+  const pc = _internal.partsConflict;
+  assert.equal(pc('supported', [{ part: 'a', status: 'backed' }, { part: 'b', status: 'backed' }]), null);
+  assert.match(pc('supported', [{ part: 'a', status: 'backed' }, { part: 'b', status: 'not_established' }]), /not every material part/);
+  assert.match(pc('supported', []), /did not list/);
+  assert.match(pc('supported', undefined), /did not list/);
+  assert.match(pc('supported', [{ part: 'a', status: 'maybe' }]), /no readable status/);
+  assert.equal(pc('contradicted', [{ part: 'a', status: 'backed' }, { part: 'b', status: 'shown_false' }]), null);
+  assert.match(pc('contradicted', [{ part: 'a', status: 'backed' }, { part: 'b', status: 'not_established' }]), /no part was shown false/);
+  assert.equal(pc('insufficient', undefined), null);
+});
+
+test('v2: "supported" with an unproven part is withheld; "contradicted" with no false part is withheld', async () => {
+  const partial = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'supported', parts: [{ part: 'launched', status: 'backed' }, { part: 'on December 25, 2021', status: 'not_established' }], quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'Partly backed.' } : null });
+  const r = await createCheckVideo({ io: partial, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, 'Not established from the sources checked');
+  assert.ok(r.claims[0].notes.some(n => /does not follow from the parts/.test(n)));
+  assert.equal(r.claims[0].parts.length, 2);
+  const noFalse = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', parts: [{ part: 'launched', status: 'backed' }, { part: 'Ship 42', status: 'not_established' }], quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null });
+  const r2 = await createCheckVideo({ io: noFalse, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r2.claims[0].verdict, 'insufficient');
+  const noParts = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'supported', parts: undefined, quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null });
+  const r3 = await createCheckVideo({ io: noParts, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r3.claims[0].verdict, 'insufficient', 'a firm answer without a parts list is withheld');
+});
+
+test('v2: plain labels, factual summary, caution names claims not the creator, prompts carry the new rules', async () => {
+  const io = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'Date differs.' } : null });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].label, 'Shown false by the evidence');
+  assert.match(r.summary, /1 shown false by the evidence, 1 not established from the sources checked/);
+  assert.match(r.caution, /not a judgment of the whole video or of the person who made it/);
+  assert.match(r.limits, /does not mean the claim is false/);
+  const P = require('../pipeline.cjs');
+  const p = P.judgePrompt('x', [], 'May 1, 2025', '');
+  for (const rule of [/weakest part/, /MATERIAL difference/, /same wire story/, /governing text or primary record/, /missing confirming quotation never makes a part false/, /events after that date may not decide/]) assert.match(p, rule);
+  const cp = P.claimPrompt('t', 'c', 4, 'May 1, 2025');
+  assert.match(cp, /incidental details/); assert.match(cp, /"political"/);
+});
+
+test('v2: on political claims only, network outlets are ordered after other reliable sources of the same role', async () => {
+  const pubs = require('../publishers.cjs'), P = require('../pipeline.cjs');
+  assert.equal(pubs.isNetwork('https://abcnews.go.com/Politics/x'), true); assert.equal(pubs.isNetwork('https://www.foxnews.com/politics/x'), true);
+  assert.equal(pubs.isNetwork('https://www.newsmax.com/x'), true); assert.equal(pubs.isNetwork('https://apnews.com/x'), false);
+  const page = t => '<html><body><main><p>' + t + ' The bill passed the Senate on May 1. '.repeat(20) + '</p></main></body></html>';
+  const mk = () => ({ hasKeys: () => ({ anthropic: true, exa: true }),
+    publicGet: async url => ({ ok: true, status: 200, html: page(url), text: page(url), content_type: 'text/html', url }),
+    exa: async () => ({ status: 200, body: JSON.stringify({ costDollars: { total: 0.01 }, results: [
+      { url: 'https://www.cbsnews.com/news/bill', title: 'CBS' }, { url: 'https://www.nbcnews.com/politics/bill', title: 'NBC' },
+      { url: 'https://apnews.com/article/bill', title: 'AP' }, { url: 'https://www.reuters.com/world/bill', title: 'Reuters' }] }) }) });
+  const cfg = Object.assign({}, P.DEFAULTS), dir = tmp();
+  const ctxFor = () => ({ cfg, io: mk(), budget: _internal.createBudget(cfg, dir)({}) });
+  const pol = await _internal.gatherEvidence(ctxFor(), { claim: 'The bill passed the Senate.', searchQuery: 'bill', political: true }, 'dQw4w9WgXcQ');
+  assert.deepEqual(pol.sources.map(s => s.publisher), ['apnews.com', 'reuters.com', 'cbsnews.com', 'nbcnews.com']);
+  const non = await _internal.gatherEvidence(ctxFor(), { claim: 'The bill passed the Senate.', searchQuery: 'bill', political: false }, 'dQw4w9WgXcQ');
+  assert.deepEqual(non.sources.map(s => s.publisher), ['cbsnews.com', 'nbcnews.com', 'apnews.com', 'reuters.com']);
 });
