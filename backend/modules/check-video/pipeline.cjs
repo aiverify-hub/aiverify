@@ -19,7 +19,7 @@ const DEFAULTS = {
   exaUsdPerSearch: 0.007, exaUsdPerPage: 0.001,  // reservation only; Exa's reported costDollars settles it
   maxClaims: 4, maxSources: 4, maxPerPublisher: 2, exaResults: 8, excerptChars: 10000, minSourceChars: 300,
   transcriptMaxChars: 120000, fetchLimitBytes: 1500000, fetchTimeoutMs: 8000,
-  nameFixesVerified: false, perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65,
+  nameFixesVerified: true, perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65,
   // Caption service (Supadata, native mode): 1 credit per transcript, polls free (Fred research, docs.supadata.ai/get-transcript).
   // Highest listed per-credit value is $0.0167 (Basic plan), so $0.02 covers one native request at any listed plan rate.
   captionUsdReserve: 0.02
@@ -571,7 +571,7 @@ async function judgeClaim(ctx, claim, ev, published) {
   // v3 (v2 gate B failure, November 22, 2026: 4 of 5 "shown false" findings were wrong): every finding that the video is
   // wrong gets a separate second check before it is shown. Anything but a clear confirmation withholds it (fail safe).
   // A claim the caption rules will withhold anyway (passage not found, numbers missing, guessed words) skips the paid checks.
-  // Proposal for Cary (off by default): a corrected NAME or PLACE spelling is not a guess when the correction was found in the
+  // Cary left it to Claude, November 22, 2026 (on): a corrected NAME or PLACE spelling is not a guess when the correction was found in the
   // captions and the claim, and the corrected name appears in a source excerpt. Numbers, dates and meaning stay strict.
   res.nameFixesResolved = j.verdict === 'supported' && nameFixesResolved(ctx.cfg, claim, ev.sources);
   const captionWithheld = !claim.captionBound || (claim.missingNumbers || []).length > 0 || (claim.dependsOnGuess === true && !res.nameFixesResolved);

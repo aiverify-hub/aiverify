@@ -620,11 +620,11 @@ test('v4: a claim the caption rules will withhold skips the paid second checks',
   assert.equal(io.calls.anthropic.filter(x => x.p === '/v1/messages' && /double-check/.test(x.body.messages[0].content)).length, 0);
 });
 
-test('v4 option (off by default): a corrected name spelling found in the captions, the claim and a source is not a guess', () => {
+test('v4 option: a corrected name spelling found in the captions, the claim and a source is not a guess', () => {
   const P = require('../pipeline.cjs'), f = P._internal.nameFixesResolved;
   const claim = { dependsOnGuess: true, correctionsMalformed: false, correctionsUnmatched: false, correctionsOmitted: { material: 0, minor: 0 }, corrections: [{ heard: 'Odoaxer', written: 'Odoacer', kind: 'name', matched: true }] };
   const src = [{ excerpt: 'In 476 the Germanic leader Odoacer deposed Romulus Augustulus.' }];
-  assert.equal(f(P.DEFAULTS, claim, src), false, 'off by default');
+  assert.equal(f(Object.assign({}, P.DEFAULTS, { nameFixesVerified: false }), claim, src), false, 'can be turned off');
   const on = Object.assign({}, P.DEFAULTS, { nameFixesVerified: true });
   assert.equal(f(on, claim, src), true);
   assert.equal(f(on, claim, [{ excerpt: 'No such name here.' }]), false, 'name must appear in a source');
