@@ -122,11 +122,28 @@ function keywords(claim) {
 
 // Builds an excerpt of at most maxChars from the text's paragraphs: the opening paragraphs, then the paragraphs that share the
 // most words with the claim, in page order. Every part is a verbatim slice of the text; gaps are marked with "[...]".
+// v3: a very long paragraph (common in PDFs and search-provider copies) is split at sentence ends into pieces of about
+// 800 characters, so the passage that matches the claim can still be chosen instead of the whole paragraph being skipped.
+// Pieces of one paragraph are rejoined with a space, so the excerpt stays a verbatim reading of the page.
+function splitLong(p, size) {
+  if (p.length <= size * 2) return [p];
+  const out = []; let rest = p;
+  while (rest.length > size * 2) {
+    let cut = -1; const re = /[.!?]["”’)]?\s+/g; re.lastIndex = Math.floor(size * 0.5); let m;
+    while ((m = re.exec(rest)) && m.index <= size * 1.5) cut = m.index + m[0].length;
+    if (cut < 0) { cut = rest.lastIndexOf(' ', size); if (cut <= 0) cut = size; else cut += 1; }
+    out.push(rest.slice(0, cut).trim()); rest = rest.slice(cut);
+  }
+  if (rest.trim()) out.push(rest.trim());
+  return out;
+}
 function buildExcerpt(text, claim, maxChars) {
   const limit = maxChars || 6000, gap = '\n[...]\n';
-  const paras = String(text || '').split('\n').map(function (p) { return p.trim(); }).filter(Boolean);
-  const whole = paras.join('\n');
-  if (whole.length <= limit) return { excerpt: whole, selected: 'all', parts: paras.length };
+  const raw = String(text || '').split('\n').map(function (p) { return p.trim(); }).filter(Boolean);
+  const whole = raw.join('\n');
+  if (whole.length <= limit) return { excerpt: whole, selected: 'all', parts: raw.length };
+  const paras = [], cont = [];
+  raw.forEach(function (p) { splitLong(p, 800).forEach(function (s, k) { paras.push(s); cont.push(k > 0); }); });
   const kw = keywords(claim);
   const scored = paras.map(function (p, i) {
     const low = p.toLowerCase(); let hits = 0;
@@ -141,10 +158,10 @@ function buildExcerpt(text, claim, maxChars) {
     .forEach(function (s) { if (paras[s.i].length > limit) { /* oversize paragraph: skip */ } else add(s.i); });
   const idx = [...chosen].sort(function (a, b) { return a - b; });
   const parts = []; let prev = -2;
-  for (const i of idx) { if (parts.length) parts.push(i === prev + 1 ? '\n' : gap); parts.push(paras[i]); prev = i; }
+  for (const i of idx) { if (parts.length) parts.push(i === prev + 1 ? (cont[i] ? ' ' : '\n') : gap); parts.push(paras[i]); prev = i; }
   let excerpt = parts.join('');
   if (!excerpt) excerpt = whole.slice(0, limit);
   return { excerpt: excerpt, selected: 'lead+claim-matched', parts: idx.length };
 }
 
-module.exports = { decodeEntities, htmlToText, mainRegion, mainContentText, contentLines, buildExcerpt, keywords };
+module.exports = { decodeEntities, htmlToText, mainRegion, mainContentText, contentLines, buildExcerpt, keywords, splitLong };
