@@ -41,3 +41,4 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 ## 6. Freeze record
 
 - Software commit: 627800e.
+- Launcher only, before any v4 run: the day backstop guard was raised from $50 to $100 (run-local.ps1 and the server setting), because the 100-video test and the same-day development checks pass $50 in one day. Pipeline code is unchanged at 627800e.

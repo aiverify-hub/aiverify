@@ -6,7 +6,7 @@
 # Starts the backend on http://localhost:3077 with AIV_CHECK_VIDEO=local (page served to this computer only).
 # Stop with Ctrl+C or by closing the window; the keys are removed from the window when it stops.
 # -DailyUsd: today's spending backstop in US dollars (default 15, Cary's v2 limit). Cary may raise it for a day.
-param([ValidateRange(1,50)][int]$DailyUsd = 15)
+param([ValidateRange(1,100)][int]$DailyUsd = 15)
 $ErrorActionPreference = 'Stop'
 $backend = Join-Path $PSScriptRoot '..\..\index.js' | Resolve-Path
 function Plain([Security.SecureString]$s) { if (-not $s) { return '' }; $p = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($s); try { [Runtime.InteropServices.Marshal]::PtrToStringBSTR($p) } finally { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($p) } }
