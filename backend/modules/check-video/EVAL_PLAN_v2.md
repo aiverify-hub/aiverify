@@ -102,5 +102,7 @@ A pass permits only consideration of a scoped private pilot. It is not approval 
 - Plan text: frozen at this commit, with Cary's agreement on November 22, 2026. He approved all of Bob's amendments, and his own decisions on items 3, 6, 8 and 9 are recorded here and in EVAL_DISPOSITIONS_v1.md.
 - Software commit: the commit that carries this line. Any later code change starts a separately identified evaluation.
 - Development check: about 25 old videos (section 2). Not release evidence.
-- Fresh video list file and its hash: recorded in EVAL_V2_VIDEO_IDS.tsv before the first fresh run.
+- Software commit, exact: 39f49e9. The local server ran this code for the development check and runs it for the fresh test.
+- Development check done on November 22: 24 old videos, $3.50. Results are in the runs folder under dev-v2. No code was changed after it.
+- Fresh video list: EVAL_V2_VIDEO_IDS.tsv, 60 videos, SHA-256 8f1b0e1b11bb1c1b3d2537ef6b35a13fef3ba2eb608f82a9659018e9023a49d0. Picked by the fixed v1 rule: the first search result with at least 10,000 views, posted within 3 years and not used before, one query per quota slot. One query ("census apportionment explained") returned no qualifying video, even on a retry. Its slot went to a backup politics query ("debt ceiling explained"), chosen before any fresh run. No system output was seen during selection.
 - Component sample seed: 20261122. The bootstrap uses seed 20261121 and 10,000 draws, as in v1.
