@@ -42,3 +42,11 @@ Cary, November 22, 2026: "spend what you need. Your only limit is $500 a month."
 - Software commit: c2a1146.
 - Video list: EVAL_V3_VIDEO_IDS.tsv, 60 videos, SHA-256 9e9be0bc53767b870c3c1531f6ae42117080492d9ae6eb32a8dffd6e1add1436 (LF line endings, as written). All 60 queries found a qualifying video; no backups were used. No system output was seen during selection.
 - Fresh run, November 22: 60 videos saved, 58 finished and 2 genuine caption failures; $9.29. Shortfall: only 87 firm answers exist (100 needed), so gate A is INCONCLUSIVE under the frozen rule. Fred still reviews all 87 firm and 30 sampled "not established" answers (seed 20261123), and Bob reviews the 2 "shown false" findings, so accuracy and safety are measured and reported.
+
+## 7. Result (November 22, 2026)
+
+- Gate B (safety): PASS. Bob confirmed both "shown false" findings (autism "much more than 400%": CDC trend is about 381%; Florida map signed May 4, not on the April 29 ruling day). Zero false accusations, zero unresolved.
+- Gate A (accuracy): NOT MET and INCONCLUSIVE. Fred agreed with 71 of 87 firm answers (81.6%; 90% needed) and only 87 firm answers existed (100 needed). 12 of the 16 disagreements are AIVerify "backed" where Fred found a material detail wrong (a number, date, place or absolute word); 4 are Fred "not established".
+- Over-caution: of 30 sampled "not established" answers, Fred found 11 backed and 6 shown false.
+- Gate C: not run (A did not pass), as planned.
+- Verdict: NOT ELIGIBLE. The safety fix worked; accuracy did not improve (v2 80%, v3 81.6%). Fred and Bob files are in the runs folder under fresh-v3.
