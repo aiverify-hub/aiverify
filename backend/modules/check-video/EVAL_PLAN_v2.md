@@ -1,82 +1,105 @@
 # Check Video v2: revision and next-test plan
 
-DRAFT. This plan is not frozen until Bob approves it and Cary agrees. Once it is frozen, nothing in it changes until the test report is written.
+Status: APPROVED BY BOB WITH AMENDMENTS (November 22, 2026). This version includes his amendments.
+
+The plan is FROZEN once Cary agrees and before the first paid run. After that, nothing in it changes until the report is written. Any later change to code or thresholds needs a separately identified evaluation; it is never a continuation of this release test.
+
+Goal: find out whether viewers get accurate, useful summaries that do not miss the video's main claims.
 
 ## 1. What changes in v2
 
-These changes follow Bob's decisions of November 22, 2026 and Cary's direction. They are aimed at the error causes listed in EVAL_DISPOSITIONS_v1.md.
+These changes are approved, with Bob's safeguards. Each one targets causes listed in EVAL_DISPOSITIONS_v1.md.
 
-| # | Change | Fixes |
-|---|---|---|
-| R1 | **Cleaner claims.** Leave out only incidental wording, such as a filing date or the name of a comparison item. Keep every number, date, qualification or context that changes the meaning. The video's own words stay beside the claim. | Incidental details blocking an answer |
-| R2 | **Part by part.** The judge lists the claim's material parts and marks each one backed, shown false or not established. The label follows the weakest part: any part shown false gives "Shown false"; otherwise any part not established gives "Not established". This is checked in code, not left to the model. | Causes A and B |
-| R3 | **Material differences.** A different role, action, legal requirement, subject or outcome is a material difference, never loose wording. | Cause C |
-| R4 | **Bob's rule.** A source describing the same study or event can show the claim false when it shows a materially different trial, population or outcome. The absence of a confirming quotation never shows a claim false. | Cause E |
-| R5 | **Time window.** Forecasts and "as of" claims are judged as of the publish date. Later events go in a note and never decide the label. | Cause D |
-| R6 | **Sources.** Directly relevant governing records and primary evidence come first, then reliable reporting. On political claims, network outlets (ABC, NBC, CBS, FOX, Newsmax) go after other reliable sources that carry the same evidence. A copy of the same wire story on another site is the same source, not corroboration. One decisive primary record can be enough. | Source quality |
-| R7 | **Plain labels.** "Backed by the sources checked", "Shown false by the evidence" and "Not established from the sources checked". | Bob decision 3 |
-| R8 | **Video summary in facts.** For example: "4 claims checked: 2 backed, 1 shown false, 1 not established." Caption problems and incomplete coverage are shown. No opinion verdict, and nothing that implies the whole video is false or that its creator meant to deceive. | Bob decision 3, Cary |
+| # | Change |
+|---|---|
+| R1 | **Cleaner claims.** Leave out only incidental wording. A comparison name may be dropped only when dropping it cannot change the comparison. Every number, date, qualification and context that changes the meaning stays, and the video's own words stay beside the claim. |
+| R2 | **Part by part.** The judge marks each material part backed, shown false or not established. The label follows the weakest part, and code enforces this. Absolute words such as "only", "never", "all", "most" and "global" are material parts and are judged as stated. This is a general rule, not a topic exception. |
+| R3 | **Material differences.** A different person, role, action, legal requirement, subject or outcome is a material difference, never loose wording. |
+| R4 | **Bob's rule.** A source about the same study or event shows a part false when it shows a materially different trial, population or outcome. The absence of a confirming quotation never shows a part false. |
+| R5 | **Time.** Later outcomes are never used to judge an earlier forecast. A later publication may still document facts that were already true at the relevant date; its publication date alone does not rule it out. An attributed forecast ("X said Y will happen") can be checked as a statement, without treating its outcome as established. |
+| R6 | **Sources.** Directly relevant governing records and primary evidence come first, then reliable reporting. Each source is judged on its evidence, never on a label. On political claims only, network outlets (ABC, NBC, CBS, FOX, Newsmax) come after other reliable sources that carry the same evidence. A syndicated copy of a wire story is the same source, not corroboration. One decisive primary record can be enough. |
+| R7 | **Plain labels.** "Backed by the sources checked", "Shown false by the evidence" and "Not established from the sources checked". |
+| R8 | **Summary in facts.** A count of claims per label, with caption problems and incomplete coverage shown. No opinion verdict, and nothing that implies the whole video is false or that its creator meant to deceive. |
 
-Not in this revision (later, if the test shows they are needed):
-- a fallback to syndicated copies of Reuters stories
-- wider retrieval to reduce over-caution
+Software version: frozen at the commit named in the freeze record (section 6).
 
-## 2. Development (old 100 videos; not release evidence)
+## 2. Development check (old videos; not release evidence)
 
-- Re-run the 21 known-error claims and a seeded random 20 of the 108 agreed firm claims.
-- Goal: the known errors are fixed and the agreed claims do not get worse.
-- This is a development check only. It is not graded for release.
-- Cost: about $5, within one day's limit.
+- Re-run the videos that contain the 21 known-error claims, plus 8 videos with agreed firm claims chosen by seed 20261122. That is about 25 videos.
+- New outputs are saved in a separate folder, so no old record is overwritten.
+- Provisional reference labels are working repair targets, not unquestionable truths. Regressions are investigated, and nothing is tuned against the fresh test set.
+- Budget: $3.50 at most.
 
-## 3. Fresh held-out test (the release evidence)
+## 3. Fresh held-out test (release evidence)
 
 **Videos**
-- 60 new ordinary videos, plus up to 4 prophecy videos, reported separately.
-- Chosen the same way as before: same categories, published within 3 years, and none used in development.
-- The list is frozen (IDs and order) before any run.
-- Cost: about $8.
+- 60 fresh ordinary videos, using v1's 10 ordinary categories in about the same proportions, published within 3 years, and none seen before.
+- Quotas: Health 14, Politics 9, War/world 7, History 5, Money 5, News/disasters 5, Science/space 5, Conspiracy 4, Satire 3, Viral footage 3.
+- Category quotas, the selection method, video IDs and order, reference dates, software version and random seeds are all frozen before any run.
+- Videos are chosen without looking at system outputs. Failed or difficult videos are never replaced.
+- Prophecy videos are optional and reported separately. They run only if the budget allows after the 60.
 
 **Cary (main task)**
 
-Cary gives one grade per video. He answers three questions:
+For every video, Cary answers three quick questions. Each answer is yes, partly or no.
 1. Is the summary accurate?
-2. Does it cover the video's central question and important qualifications?
-3. Is it useful to a viewer deciding whether to believe the video?
+2. Does it cover the central question and important qualifications?
+3. Is it useful?
 
-Each answer is yes, partly or no, with an optional note.
+For claims where reviewers disagree, Cary gets one short consolidated evidence list. Unresolved items are kept as unresolved if he declines further per-claim grading. No long adjudication session is required.
 
 **Blind component sample**
-- 100 firm answers (backed or shown false), so the accuracy interval is tight enough to judge, plus 30 "not established" answers to measure over-caution.
-- They are chosen by a seeded random order that is fixed before the run.
-- Fred judges them without seeing AIVerify's answers.
-- Disagreements are settled by Cary against the sources. Bob gives a third opinion on heavy documents.
-- Unresolved items are left visible and reported both ways, never forced.
+- 100 randomly sampled firm answers and 30 randomly sampled "not established" answers, in a seeded order fixed before the run.
+- The firm answers should come from at least 30 distinct ordinary videos.
+- If fewer than 100 firm answers, 30 "not established" answers or 30 contributing videos exist, the shortfall is reported and the affected gate is marked INCONCLUSIVE. Favorable replacements are never chosen.
+- Fred sets the reference answers from sources he opens himself, before seeing any system label or reasoning.
+- The whole-video interval keeps each claim grouped with its video and accounts for the sampling design.
+- The calculation is recorded before the run: v1's bootstrap with seed 20261121 and 10,000 draws, resampling videos and weighting each sampled claim by its inverse sampling probability.
 
-**Every "Shown false" finding is reviewed**
-- Each one is reviewed, whether or not it is in the sample.
-- This is a precision check, because a wrong "shown false" is the most harmful mistake.
+**"Shown false" safety review**
+- Every "shown false" finding is reviewed independently: the finding, its explanation and its evidence.
+- This is a separate safety check. Its findings are not added to the random accuracy sample.
 
-**Reported separately**
-- accuracy on the sample (whole-video interval, same method as v1)
-- coverage
+## 4. Pass thresholds (Bob's, replacing the draft)
+
+All four gates must pass. An insufficient sample or an unresolved result is INCONCLUSIVE, never a pass.
+
+**A. Component accuracy**
+- At least 90% correct in the blind firm-answer sample, AND a whole-video 95% lower bound of at least 80%.
+- Unresolved reference answers are calculated both ways. The conservative calculation must pass.
+
+**B. "Shown false" safety**
+- ZERO confirmed false accusations and ZERO unresolved findings among all "shown false" findings.
+- The count, precision and an uncertainty interval are reported.
+- If there are no "shown false" findings at all, the capability is marked untested and cannot be enabled in the pilot.
+
+**C. Usefulness and completeness**
+- At least 48 of the 60 ordinary videos (80%) must get YES on ALL THREE of Cary's questions.
+- "Partly" is not YES. Missing captions, failed runs and missing grades stay in the denominator and do not count as successes.
+- A genuinely non-factual video can pass when the summary correctly explains that it has no checkable factual claims.
+- Each question is also reported separately.
+
+**D. Reported, not a gate**
+- firm-answer coverage
 - missed central claims
+- over-caution
 - caption failures
-- precision of "shown false" findings
-- Cary's overall grades
+- timing
+- actual cost
 
-## 4. Pass thresholds (proposed; Bob to approve before freezing)
+A pass permits only consideration of a scoped private pilot. It is not approval for a public release, and it is not proof of general accuracy.
 
-| Gate | Threshold |
-|---|---|
-| Component accuracy (blind sample) | Lower 95% bound at 80% or above. Unchanged; not lowered. |
-| "Shown false" precision | At least 90% confirmed, and no serious false allegation left unresolved. |
-| Cary's overall grade | "Accurate = yes" on at least 80% of videos, with no video graded "no" for a shown-false error. |
-| Coverage (reported, not a gate) | Firm answers on more than 46% of claims, which was v1's rate. |
+## 5. Budget (hard ceilings)
 
-A pass makes v2 eligible for a scoped private pilot only. It is not a public release, and deployment still needs Cary's explicit go-ahead.
+- At most $13 in total for this plan, including development, captions, judging, retries and any paid reference checks.
+- The $5/day backstop stays in place.
+- Before each batch, Claude checks the spend so far against both caps. Claude stops and reports incomplete work if the next request could exceed either one.
+- Estimated cost: development $3.50 and the fresh test about $8.50, which is inside the $13.
+- No new subscriptions, no deployment and no unrelated analytics work.
 
-## 5. Spending and limits
+## 6. Freeze record (filled in at freeze, before the first paid run)
 
-- Total about $13: $5 for development and $8 for the fresh test.
-- At the $5/day limit this takes about 3 days. Cary can raise the daily backstop for test days if he wants it faster.
-- No deployment and no new subscriptions.
+- Software commit:
+- Cary's agreement (date):
+- Video list file and its hash:
+- Sample seed:

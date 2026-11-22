@@ -510,7 +510,7 @@ test('v2: plain labels, factual summary, caution names claims not the creator, p
   assert.match(r.limits, /does not mean the claim is false/);
   const P = require('../pipeline.cjs');
   const p = P.judgePrompt('x', [], 'May 1, 2025', '');
-  for (const rule of [/weakest part/, /MATERIAL difference/, /same wire story/, /governing text or primary record/, /missing confirming quotation never makes a part false/, /events after that date may not decide/]) assert.match(p, rule);
+  for (const rule of [/weakest part/, /MATERIAL difference/, /same wire story/, /governing text or primary record/, /missing confirming quotation never makes a part false/, /events that happened after that date may not decide/, /already true on that date/, /never by whether it came true/]) assert.match(p, rule);
   const cp = P.claimPrompt('t', 'c', 4, 'May 1, 2025');
   assert.match(cp, /incidental details/); assert.match(cp, /"political"/);
 });

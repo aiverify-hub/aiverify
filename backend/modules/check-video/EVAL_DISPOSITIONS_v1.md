@@ -32,12 +32,12 @@ Labels used in this file:
 
 | Claim | Ref (by) | Cause | Short reason |
 |---|---|---|---|
-| b1-v7-c2: Humphrey firing and lawsuit | U (Cary) | B | The sources show his executor sued, not Humphrey himself while alive. |
+| b1-v7-c2: Humphrey firing and lawsuit | U (Cary) | B → C (Bob) | The saved claim says Humphrey "sued", and his estate continued the case after he died. Fred and Cary found that the executor brought the case. Under R3 this is a material actor mismatch, so if it is confirmed, v2's correct answer would be "Shown false", not merely "not established". Check the primary record before using this as a development target. |
 | b1-v14-c3: Norte Fire figures | U (Cary) | B | The 16,000 evacuated and 0% containment were not both backed at the same time. |
 | b2-v6-c1: Berkeley phone warning "on packaging" | C (Cary) | C | The law required a notice at the point of sale, not on packaging. |
 | b2-v6-c3: German mouse study and Danish study | U (Cary) | B | The Danish study cited was about a different outcome; the contrast was not established. |
-| b2-v6-c4: RF can "only heat water" | U (Cary) | B | The "only" part was not backed. |
-| b2-v10-c2: minimum wage "nearly $26" | U (Cary) | B | It is a counterfactual estimate, and the published figure was later corrected. |
+| b2-v6-c4: RF can "only heat water" | U (Cary) | B | The "only" part was not backed. Cary's decision stands. Bob read "only" in the direct-energy sense. v2 settles this with a general rubric rule (R2: absolute words are judged as stated), not a topic exception. |
+| b2-v10-c2: minimum wage "nearly $26" | U (Cary), DISPUTED | B? | Cary's choice is kept, but the reason is disputed. Bob found that Cornell's updated "nearly $26" estimate already includes Baker's earlier correction, so the older $26-to-$23 correction does not by itself disprove it. v2 must not be trained to reject this figure. |
 | b2-v19-c4: asteroid "global firestorms" | U (Bob) | B | The fire evidence is strongest in North America, so "global" is unsettled. |
 | b2-v20-c2: Dead Sea Scrolls 972 and 15,000 | U (Bob) | B | The two numbers use different counting scopes. (Cary had picked S without opening the sources.) |
 | b2-v23-c3: cloud seeding "most commonly from aircraft" | U (Cary) | A | AIVerify's reasoning admitted no source ranked the methods. |
@@ -55,6 +55,8 @@ Labels used in this file:
 
 - 12 of the 21 errors rest on Bob's answer (marked "Bob" above). On b2-v19-c4, Cary's pick, made without opening the sources, agreed with Bob, so 11 rest on Bob alone. They are provisional, as Bob said.
 - The decision report first said 13. The correct number is 12.
+- Bob reviewed this file on November 22, 2026. Apart from the corrections above, the dispositions are acceptable working repair hypotheses, not independently re-verified truths. Provisional reference labels must not become unquestionable regression targets.
+- The original grading record stays as it was graded, and no new score is presented as the frozen v1 result.
 - Under Bob's settled rule, b4-v3-c1 becomes a correct answer. Ordinary accuracy would then be 133 of 153 (86.9%). We are not re-scoring the old version (Bob's decision 2).
 - The 11 "contradicted" explanations that were counted correct have not been checked. Treat them as unverified.
 - Usefulness is UNASSESSED.
