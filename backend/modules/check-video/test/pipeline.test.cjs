@@ -40,6 +40,8 @@ function fakeIo(opts) {
         { claim: 'The Moon is made of cheese.', video_quote: 'the moon is made of cheese', search_query: 'moon composition', corrections: [] }] }) }] }) };
       // v3 second check of "shown false" findings: confirms by default; tests of the check set o.verify.
       if (/double-check a "shown false" finding/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.verify ? o.verify(content) : { problem: 'none', confirmed: true, reason: 'The excerpt proves it.' }) }] }) };
+      // v4 detail check of "backed" findings: confirms by default; tests of the check set o.detail.
+      if (/double-check a "backed" finding/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.detail ? o.detail(content) : { details: [{ detail: 'the claim', status: 'stated', source: 1 }], reason: 'Every detail is stated.' }) }] }) };
       const judged = o.judge ? o.judge(content) : null; if (judged && !judged.video_says) judged.video_says = 'yes';
       // v2: a judge that omits parts gets the consistent default (one part with the verdict's status); tests of the parts rule set their own.
       if (judged && !('parts' in judged)) judged.parts = [{ part: 'the claim', status: { supported: 'backed', contradicted: 'shown_false', misleading: 'shown_false' }[judged.verdict] || 'not_established' }];
@@ -555,7 +557,7 @@ test('v3: every "shown false" finding gets a second check; anything but a clear 
   assert.equal(r3.claims[0].verdict, 'insufficient'); assert.equal(r3.claims[0].secondCheck.problem, 'second check failed');
   const sup = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null });
   await createCheckVideo({ io: sup, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
-  assert.equal(sup.calls.anthropic.filter(x => x.p === '/v1/messages' && /double-check/.test(x.body.messages[0].content)).length, 0, 'no second check for a backed claim');
+  assert.equal(sup.calls.anthropic.filter(x => x.p === '/v1/messages' && /double-check a "shown false"/.test(x.body.messages[0].content)).length, 0, 'no shown-false check for a backed claim');
 });
 
 test('v3: prompts keep relative time words, measure them from an unknown recording date, and judge "said" claims as statements', () => {
@@ -583,4 +585,49 @@ test('v3: page terms steer the excerpt, and a match deep inside one very long pa
   const cfg = Object.assign({}, P.DEFAULTS, { excerptChars: 3000 });
   const ev = await _internal.gatherEvidence({ cfg, io, budget: _internal.createBudget(cfg, tmp())({}) }, { claim: 'The unit is run by its director.', searchQuery: 'x', political: false, pageTerms: ['Gan Eden', 'Ben David'] }, 'dQw4w9WgXcQ');
   assert.match(ev.sources[0].excerpt, /Gan Eden is headed by Ben David/);
+});
+
+const SUPPORT_NASA = c => /Webb Space Telescope launched/.test(c) ? { verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA states the date.' } : null;
+test('v4: every "backed" finding gets a detail check against all excerpts; any detail not stated withholds it', async () => {
+  const ok = fakeIo({ judge: SUPPORT_NASA });
+  const r1 = await createCheckVideo({ io: ok, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r1.claims[0].verdict, 'supported'); assert.equal(r1.claims[0].detailCheck.confirmed, true);
+  const db = ok.calls.anthropic.find(x => x.p === '/v1/messages' && /double-check a "backed" finding/.test(x.body.messages[0].content)).body.messages[0].content;
+  assert.match(db, /absolute or superlative word/); assert.match(db, /39-second flight is not a 30-second hover/); assert.match(db, /\[1\] https:\/\/science\.nasa\.gov/);
+  for (const d of [{ details: [{ detail: 'launched', status: 'stated', source: 1 }, { detail: 'December 25, 2021', status: 'differs', source: 1 }], reason: 'Date differs.' },
+    { details: [{ detail: 'launched', status: 'stated', source: 1 }, { detail: 'NASA', status: 'missing', source: 0 }], reason: 'x' }, { details: [], reason: 'none' }, { reason: 'no list' }]) {
+    const io = fakeIo({ judge: SUPPORT_NASA, detail: () => d });
+    const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+    assert.equal(r.claims[0].verdict, 'insufficient', JSON.stringify(d)); assert.match(r.claims[0].reason, /detail check did not confirm/);
+    assert.doesNotMatch(r.summary, /1 backed/); assert.ok(!r.caution, 'a differing detail is never turned into an accusation');
+  }
+  const down = fakeIo({ judge: SUPPORT_NASA }); const orig = down.anthropic;
+  down.anthropic = async (p, body, h) => p === '/v1/messages' && /double-check a "backed" finding/.test(body.messages[0].content) ? { status: 500, body: JSON.stringify({ error: { message: 'overloaded' } }) } : orig(p, body, h);
+  const r3 = await createCheckVideo({ io: down, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r3.claims[0].verdict, 'insufficient'); assert.equal(r3.claims[0].detailCheck.problem, 'detail check failed');
+});
+
+test('v4: a claim the caption rules will withhold skips the paid second checks', async () => {
+  const io = fakeIo({ judge: SUPPORT_NASA, transcript: { ok: true, title: 'Webb facts', source: 'fake captions', text: 'Hi everyone. The James Webb telescope went up on Christmas Day 2020, which is amazing. Also the moon is made of cheese, folks.' } });
+  const orig = io.anthropic;
+  io.anthropic = async (p, body, h) => {
+    const r = await orig(p, body, h);
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) { const j = JSON.parse(r.body); const t = JSON.parse(j.content[0].text); t.claims[0].corrections = [{ heard: 'Christmas Day 2020', written: 'December 25, 2021', kind: 'date' }]; j.content[0].text = JSON.stringify(t); return { status: 200, body: JSON.stringify(j) }; }
+    return r;
+  };
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'insufficient');
+  assert.equal(io.calls.anthropic.filter(x => x.p === '/v1/messages' && /double-check/.test(x.body.messages[0].content)).length, 0);
+});
+
+test('v4 option (off by default): a corrected name spelling found in the captions, the claim and a source is not a guess', () => {
+  const P = require('../pipeline.cjs'), f = P._internal.nameFixesResolved;
+  const claim = { dependsOnGuess: true, correctionsMalformed: false, correctionsUnmatched: false, correctionsOmitted: { material: 0, minor: 0 }, corrections: [{ heard: 'Odoaxer', written: 'Odoacer', kind: 'name', matched: true }] };
+  const src = [{ excerpt: 'In 476 the Germanic leader Odoacer deposed Romulus Augustulus.' }];
+  assert.equal(f(P.DEFAULTS, claim, src), false, 'off by default');
+  const on = Object.assign({}, P.DEFAULTS, { nameFixesVerified: true });
+  assert.equal(f(on, claim, src), true);
+  assert.equal(f(on, claim, [{ excerpt: 'No such name here.' }]), false, 'name must appear in a source');
+  assert.equal(f(on, Object.assign({}, claim, { corrections: [{ heard: '1928', written: '1929', kind: 'number', matched: true }] }), [{ excerpt: '1929' }]), false, 'numbers stay strict');
+  assert.equal(f(on, Object.assign({}, claim, { correctionsUnmatched: true }), src), false, 'an unmatched correction stays a guess');
 });
