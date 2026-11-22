@@ -32,12 +32,12 @@ Labels used in this file:
 
 | Claim | Ref (by) | Cause | Short reason |
 |---|---|---|---|
-| b1-v7-c2: Humphrey firing and lawsuit | U (Cary) | B → C (Bob) | The saved claim says Humphrey "sued", and his estate continued the case after he died. Fred and Cary found that the executor brought the case. Under R3 this is a material actor mismatch, so if it is confirmed, v2's correct answer would be "Shown false", not merely "not established". Check the primary record before using this as a development target. |
+| b1-v7-c2: Humphrey firing and lawsuit | U (Cary) | B → C (Bob) | The saved claim says Humphrey "sued", and his estate continued the case after he died. Fred and Cary found that the executor brought the case. Under R3 this is a material actor mismatch. Cary confirmed on November 22 that the executor filed the suit for the estate after Humphrey died, and the Supreme Court opinion Fred cited agrees. Correct answer for development: "Shown false". |
 | b1-v14-c3: Norte Fire figures | U (Cary) | B | The 16,000 evacuated and 0% containment were not both backed at the same time. |
 | b2-v6-c1: Berkeley phone warning "on packaging" | C (Cary) | C | The law required a notice at the point of sale, not on packaging. |
 | b2-v6-c3: German mouse study and Danish study | U (Cary) | B | The Danish study cited was about a different outcome; the contrast was not established. |
 | b2-v6-c4: RF can "only heat water" | U (Cary) | B | The "only" part was not backed. Cary's decision stands. Bob read "only" in the direct-energy sense. v2 settles this with a general rubric rule (R2: absolute words are judged as stated), not a topic exception. |
-| b2-v10-c2: minimum wage "nearly $26" | U (Cary), DISPUTED | B? | Cary's choice is kept, but the reason is disputed. Bob found that Cornell's updated "nearly $26" estimate already includes Baker's earlier correction, so the older $26-to-$23 correction does not by itself disprove it. v2 must not be trained to reject this figure. |
+| b2-v10-c2: minimum wage "nearly $26" | U (Cary at grading); now S (Cary and Bob, Nov 22) | Not an error | Cary revised his view: the correction of the spreadsheet error lends credibility to the updated estimate. Cornell's "nearly $26" (about $25.52) already includes Baker's corrected calculation. Correct answer for development: "Backed", so AIVerify was right. The frozen v1 record still counts this item as an error and is not re-scored. |
 | b2-v19-c4: asteroid "global firestorms" | U (Bob) | B | The fire evidence is strongest in North America, so "global" is unsettled. |
 | b2-v20-c2: Dead Sea Scrolls 972 and 15,000 | U (Bob) | B | The two numbers use different counting scopes. (Cary had picked S without opening the sources.) |
 | b2-v23-c3: cloud seeding "most commonly from aircraft" | U (Cary) | A | AIVerify's reasoning admitted no source ranked the methods. |

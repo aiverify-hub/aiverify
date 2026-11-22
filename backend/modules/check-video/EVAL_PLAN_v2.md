@@ -91,10 +91,10 @@ A pass permits only consideration of a scoped private pilot. It is not approval 
 
 ## 5. Budget (hard ceilings)
 
-- At most $13 in total for this plan, including development, captions, judging, retries and any paid reference checks.
-- The $5/day backstop stays in place.
+- Cary set the limits on November 22, 2026: $39 in total for this plan and a $15/day backstop. That is triple Bob's proposed $13 and $5/day, and it is within Cary's $500 monthly budget.
+- The total covers development, captions, judging, retries and any paid reference checks.
 - Before each batch, Claude checks the spend so far against both caps. Claude stops and reports incomplete work if the next request could exceed either one.
-- Estimated cost: development $3.50 and the fresh test about $8.50, which is inside the $13.
+- Estimated cost: development $3.50 and the fresh test about $8.50. The margin covers retries.
 - No new subscriptions, no deployment and no unrelated analytics work.
 
 ## 6. Freeze record (filled in at freeze, before the first paid run)

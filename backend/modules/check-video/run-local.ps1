@@ -52,8 +52,8 @@ try {
   $env:AIV_CHECK_VIDEO_RUNS_DIR = $runs
   $env:AIV_ANALYTICS_STORAGE_DIR = $data
   $env:PORT = '3077'
-  # The 100-video waiver ended with that evaluation. v2 plan (Bob, Nov 22, 2026): $5/day backstop, $13 total for the plan.
-  $env:AIV_CHECK_VIDEO_DAILY_USD = '5'
+  # v2 plan: Cary set $15/day and $39 total (Nov 22, 2026; triple Bob's proposal, within his $500 monthly budget).
+  $env:AIV_CHECK_VIDEO_DAILY_USD = '15'
   Write-Host ''
   Write-Host 'Keys ready. Starting... When you see "BE_AIV_v5066C running", the server is ready.' -ForegroundColor Green
   Write-Host 'Leave this window open. To stop later: click here and press Ctrl+C.' -ForegroundColor Green
