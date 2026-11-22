@@ -41,3 +41,4 @@ Cary, November 22, 2026: "spend what you need. Your only limit is $500 a month."
 
 - Software commit: c2a1146.
 - Video list: EVAL_V3_VIDEO_IDS.tsv, 60 videos, SHA-256 9e9be0bc53767b870c3c1531f6ae42117080492d9ae6eb32a8dffd6e1add1436 (LF line endings, as written). All 60 queries found a qualifying video; no backups were used. No system output was seen during selection.
+- Fresh run, November 22: 60 videos saved, 58 finished and 2 genuine caption failures; $9.29. Shortfall: only 87 firm answers exist (100 needed), so gate A is INCONCLUSIVE under the frozen rule. Fred still reviews all 87 firm and 30 sampled "not established" answers (seed 20261123), and Bob reviews the 2 "shown false" findings, so accuracy and safety are measured and reported.
