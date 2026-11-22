@@ -42,3 +42,4 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 
 - Software commit: 627800e.
 - Launcher only, before any v4 run: the day backstop guard was raised from $50 to $100 (run-local.ps1 and the server setting), because the 100-video test and the same-day development checks pass $50 in one day. Pipeline code is unchanged at 627800e.
+- Video list: EVAL_V4_VIDEO_IDS.tsv, 100 videos, SHA-256 847105ff8d47e2906b149dbf723d7b8418e2381e46df3155d15556df0a7785c0 (LF line endings, as written). Three politics queries (line item veto explained, census undercount, immigration court backlog) found no qualifying video, even on a retry. Backups chosen before any v4 run: how a bill becomes law (also none), senate confirmation hearing explained, lobbying explained, speaker of the house vote. No system output was seen during selection.
