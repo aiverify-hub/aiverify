@@ -41,7 +41,7 @@ function fakeIo(opts) {
       // v5 claim rewrite: unreadable by default (the original claim is kept); tests of the rewrite set o.repair.
       if (/You fix ONE claim/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.repair ? o.repair(content) : { none: true }) }] }) };
       // v3 second check of "shown false" findings: confirms by default; tests of the check set o.verify.
-      if (/double-check a "shown false" finding/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.verify ? o.verify(content) : { problem: 'none', confirmed: true, reason: 'The excerpt proves it.' }) }] }) };
+      if (/double-check a "shown false" finding/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.verify ? o.verify(content) : { problem: 'none', confirmed: true, video_words: 'The James Webb telescope went up on Christmas Day 2021', part_adds_detail: false, reason: 'The excerpt proves it.' }) }] }) };
       // v4 detail check of "backed" findings: confirms by default; tests of the check set o.detail.
       if (/double-check a "backed" finding/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.detail ? o.detail(content) : { details: [{ detail: 'the claim', status: 'stated', source: 1 }], reason: 'Every detail is stated.' }) }] }) };
       const judged = o.judge ? o.judge(content) : null; if (judged && !judged.video_says) judged.video_says = 'yes';
@@ -511,7 +511,8 @@ test('v2: plain labels, factual summary, caution names claims not the creator, p
   const io = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'Date differs.' } : null });
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.equal(r.claims[0].label, 'Shown false by the evidence');
-  assert.match(r.summary, /1 shown false by the evidence, 1 not established from the sources checked/);
+  assert.equal(r.summary, 'Main claim: Shown false by the evidence. Other claim checked (1): 0 backed by the sources checked, 0 shown false by the evidence, 1 not established from the sources checked.');
+  assert.deepEqual(r.headline, { claim: r.claims[0].claim, verdict: 'contradicted', label: 'Shown false by the evidence' });
   assert.match(r.caution, /not a judgment of the whole video or of the person who made it/);
   assert.match(r.limits, /does not mean the claim is false/);
   const P = require('../pipeline.cjs');
@@ -712,4 +713,40 @@ test('v5: when the sources do not settle a claim, one more search with the judge
   assert.equal(io2.calls.anthropic.filter(judged).length, 1); assert.equal(io2.calls.exa.length, 3, 'two first searches plus one second search');
   const io3 = fakeIo({ judge }); await createCheckVideo({ io: io3, runsDir: tmp(), config: { secondSearch: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.equal(io3.calls.exa.length, 2);
+});
+
+test('v6: a "shown false" finding needs the video\'s own words for the false part, adding nothing to them', async () => {
+  const cases = [
+    [{ problem: 'none', confirmed: true, video_words: 'The James Webb telescope went up on Christmas Day 2021', part_adds_detail: false, reason: 'x' }, 'contradicted'],
+    [{ problem: 'none', confirmed: true, video_words: 'Webb went up from a farm in Kansas', part_adds_detail: false, reason: 'words not in the captions' }, 'insufficient'],
+    [{ problem: 'none', confirmed: true, video_words: 'The James Webb telescope went up on Christmas Day 2021', part_adds_detail: true, reason: 'part adds a setting' }, 'insufficient'],
+    [{ problem: 'none', confirmed: true, video_words: '', part_adds_detail: false, reason: 'no words' }, 'insufficient'],
+    [{ problem: 'none', confirmed: true, reason: 'old answer shape' }, 'insufficient']];
+  for (const [v, want] of cases) {
+    const r = await createCheckVideo({ io: fakeIo({ judge: CONTRA_NASA, verify: () => v }), runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+    assert.equal(r.claims[0].verdict, want, JSON.stringify(v));
+    if (want === 'insufficient') assert.equal(r.claims[0].secondCheck.problem, 'claim_not_in_video');
+  }
+});
+
+test('v6: the source the video names is kept only when the captions say it, and is searched with the claim', async () => {
+  const b = _internal.buildClaim({ claim: 'Heavy metals were found in 70% of protein powders tested.', video_quote: 'heavy metals in 70% of protein powders', source_named: 'Consumer Reports', search_query: 'protein powder heavy metals 70%', corrections: [] }, 0, 'Consumer Reports found heavy metals in 70% of protein powders they tested.', null);
+  assert.equal(b.sourceNamed, 'Consumer Reports');
+  const made = _internal.buildClaim({ claim: 'x', video_quote: 'heavy metals in 70% of protein powders', source_named: 'Clean Label Project', search_query: 'q', corrections: [] }, 0, 'Consumer Reports found heavy metals in 70% of protein powders they tested.', null);
+  assert.equal(made.sourceNamed, '', 'a source the video never names is dropped');
+  const io = fakeIo({ transcript: { ok: true, title: 'Webb', source: 'fake', text: 'NASA says the James Webb telescope went up on Christmas Day 2021.' } }), orig = io.anthropic;
+  io.anthropic = async (p, body) => /list the factual claims/.test(body.messages[0].content) ? { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 10, output_tokens: 10 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', note: '', claims: [
+    { claim: 'The James Webb telescope launched on Christmas Day 2021.', video_quote: 'the James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date', source_named: 'NASA', corrections: [] }] }) }] }) } : orig(p, body);
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(io.calls.exa[0].query, 'NASA Webb launch date');
+  assert.match(io.calls.anthropic.find(x => /assess one claim/.test(x.body.messages[0] && x.body.messages[0].content)).body.messages[0].content, /The video names its source for this claim: NASA/);
+  assert.equal(r.claims[0].sourceNamed, 'NASA');
+});
+
+test('v6: prompts carry the separate-claims rule and the strict backed-detail rules', () => {
+  const P = require('../pipeline.cjs');
+  const cp = P.claimPrompt('t', 'c', 4, 'May 1, 2025');
+  assert.match(cp, /SEPARATE facts, not examples, figures or details that only support the central claim/); assert.match(cp, /"source_named"/);
+  const dp = _internal.detailPrompt({ claim: 'x' }, [], 'May 1, 2025');
+  for (const rule of [/states it as its own finding/, /same whole group/, /primary\/official excerpt decides/, /current within about a year/]) assert.match(dp, rule);
 });
