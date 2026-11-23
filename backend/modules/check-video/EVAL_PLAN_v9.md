@@ -29,3 +29,7 @@ Within Cary's $500 a month (November so far: about $180). Runaway backstop $50. 
 - Software commit: 7d383ad (scripture checking) with reviewer rules at 670558f.
 - Video list: EVAL_V9_VIDEO_IDS.tsv, 98 videos (84 in the scope groups, 14 harmless), SHA-256 25254c133c7b20e95685c90851de7063ac188ecc678caa6e7ee4ea8a84f62792 (LF line endings, as written). Seven queries found no qualifying regular video; backups refilled Faith, Health (one of two), Morality, Origins and Money; the Harmless backup also found none and the Prophecy backup was not needed. Two slots stay empty (Health 1, Harmless 1). No system output was seen during selection.
 - Run note: at Cary's request the whole run goes on November 23 instead of splitting at midnight; the local daily backstop was raised from $100 to $150 for that (commit 25c1f47, which allows up to $200). This changes no check. Three videos ran before the restart and are kept.
+
+## Beta pass marks (Cary, November 23, 2026, set before any v9 review or score)
+
+Cary: "No answers in an acceptable amount is much better than any wrong answers." A labeled beta (a "Beta" tag on the page and a way for users to flag answers) may be considered when: gate B has zero false accusations (no exceptions); gate A is at least 85%; gates C and D are at least 80% each. Full release keeps the 90% marks. Going live still needs Cary's go-ahead.
