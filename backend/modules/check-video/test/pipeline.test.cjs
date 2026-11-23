@@ -845,3 +845,10 @@ test('scriptures: a claim about what the Scriptures say is checked against the l
   assert.equal(r.teachings.length, 1); assert.equal(r.teachings[0].verses[0].ref, 'Proverbs 30:8'); assert.match(r.teachings[0].verses[0].text, /^Remove far from me vanity and lies/);
   assert.doesNotMatch(JSON.stringify(r.teachings) + r.summary, /KJV|King James/);
 });
+
+test('scriptures: words the translators added stay marked for checks, and never decide a "shown false" finding', () => {
+  const S = require('../../scriptures/scriptures.cjs');
+  const v = S.lookup('2 Samuel 21:19')[0];
+  assert.match(v.marked, /slew \[the brother of\] Goliath/); assert.match(v.text, /slew the brother of Goliath/);
+  assert.match(require('../pipeline.cjs').judgePrompt('x', [], '', ''), /Words in \[square brackets\] in a passage were added by the translators/);
+});

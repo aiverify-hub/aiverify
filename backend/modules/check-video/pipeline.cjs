@@ -494,7 +494,7 @@ function scriptureEvidence(claim) {
   for (const r of claim.scriptureRefs || []) { const vs = S.lookup(r); if (vs.length) add(vs.length === 1 ? vs[0].ref : vs[0].ref + '-' + vs[vs.length - 1].ref.split(':').pop(), vs.slice(0, 12)); }
   for (const v of S.search(claim.claim + ' ' + (claim.videoQuote || ''), 6)) add(v.ref, [v]);
   groups.sort((a, b) => a.tier - b.tier);
-  const sources = groups.slice(0, 6).map((g, i) => { const excerpt = g.verses.map(v => v.ref + ' ' + v.text).join(' ');
+  const sources = groups.slice(0, 6).map((g, i) => { const excerpt = g.verses.map(v => v.ref + ' ' + v.marked).join(' ');
     return { n: i + 1, url: 'scripture:' + g.label, originalUrl: null, title: g.label, publisher: g.label, role: 'scripture', tier: 1, scriptureTier: g.tier, origin: 'local', excerpt, excerptSha256: sha(excerpt), fullChars: excerpt.length, truncated: false }; });
   return { sources, considered: sources.map(s => ({ url: s.url, publisher: s.publisher, role: 'scripture', used: true, why: '', directStatus: 0, origin: 'local' })), exaUsd: 0, error: sources.length ? null : 'No passage of the Scriptures matched this claim.' };
 }
@@ -533,7 +533,7 @@ CAPTION PASSAGE: ${captionPassage || '(not available)'}
 Then judge the claim against the sources.
 Judge time-dependent claims as of the publication date. A claim that was accurate then but has since been superseded is judged by what the sources say about that date; mention the later change in the reason.
 Each source is labelled with its publisher and its role: primary/official, fact-check, news/reference, originator of the claim (where the claim may come from, such as a satire site or a social video), scripture, or other.
-Role "scripture" is the text of the Scriptures itself. For a claim about what the Scriptures say, it is the deciding record: "backed" when a passage states it (a paraphrase with the same meaning counts); "shown_false" when the passage on that same subject says something materially different (for example "the love of money is the root of all evil" does not say "money is the root of all evil"); otherwise "not_established". Never judge whether a passage is true; judge only what it says.
+Role "scripture" is the text of the Scriptures itself. For a claim about what the Scriptures say, it is the deciding record: "backed" when a passage states it (a paraphrase with the same meaning counts); "shown_false" when the passage on that same subject says something materially different (for example "the love of money is the root of all evil" does not say "money is the root of all evil"); otherwise "not_established". Never judge whether a passage is true; judge only what it says. Words in [square brackets] in a passage were added by the translators and are not in the original text: a claim that differs from the passage only in bracketed words is "not_established", never "shown_false".
 Pages from the same publisher count as ONE source. Do not describe sources as independent unless they have different publishers and neither is the originator; partner organizations on the same project are not independent of each other.
 Pages that carry the same wire story (AP, Reuters, AFP and similar) count as ONE source, whichever site shows them. When excerpts disagree, prefer the governing text or primary record (the law or ordinance itself, the agency, the study itself) over reporting about it; one decisive primary record is enough.
 Answer with JSON only: {"video_says":"yes|no|unclear","parts":[{"part":"...","status":"backed|shown_false|not_established"}],"verdict":"supported|contradicted|misleading|insufficient","quote":"exact sentence copied from one excerpt that decides it, or empty","source":<excerpt number, or 0 if none>,"reason":"one or two sentences","next_search":"..."}.
@@ -572,7 +572,7 @@ Check each problem in turn and report the first that applies:
 - "said_claim": the claim is that someone said something, and the evidence is about whether what they said was accurate rather than whether they said it.
 - "different_measure": the evidence measures something else (another category, year, group, unit or definition), so it cannot prove this part false.
 - "different_event": the evidence is about a different study, event, item or time.
-- "wording_only": the difference is loose or incidental wording, not material.
+- "wording_only": the difference is loose or incidental wording, not material; or, in a scripture passage, it rests only on words in [square brackets], which the translators added.
 - "claim_not_in_video": the claim adds a detail (such as a date or anchor) that the video's own words do not say.
 - "hedged_or_unclear": the video's words hedge the part ("appears to be", "may", "could", "reportedly"), or the part rests on a term the video does not define or a phrase with two plausible meanings, and the evidence does not show the hedged or unclear statement itself is wrong.
 - "other": any other reason the evidence does not clearly prove a material part false.

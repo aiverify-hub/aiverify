@@ -37,8 +37,9 @@ function load(file) {
   for (const line of text.split(/\r?\n/)) {
     const m = line.match(/^([0-9A-Z]{3}) (\d+):(\d+) (.*)$/); if (!m || !byCode.has(m[1])) continue;
     const key = m[1] + ' ' + m[2] + ':' + m[3];
-    const clean = m[4].replace(/¶\s*/g, '').replace(/[[\]]/g, '').replace(/\s+/g, ' ').trim();
-    verses.set(key, clean); order.push(key);
+    // Words in [brackets] were supplied by the translators (printed in italics in the KJV); kept marked for checks.
+    const marked = m[4].replace(/¶\s*/g, '').replace(/\s+/g, ' ').trim(), clean = marked.replace(/[[\]]/g, '');
+    verses.set(key, marked); order.push(key);
     for (const w of new Set(words(clean))) { let a = index.get(w); if (!a) index.set(w, a = []); a.push(order.length - 1); }
   }
   const d = { verses, order, index };
@@ -66,7 +67,7 @@ function lookup(ref, d) {
   }
   return out;
 }
-function verse(key, text) { const [code, cv] = key.split(' '), b = byCode.get(code); return { ref: b.name + ' ' + cv, code, tier: b.tier, text }; }
+function verse(key, marked) { const [code, cv] = key.split(' '), b = byCode.get(code); return { ref: b.name + ' ' + cv, code, tier: b.tier, text: marked.replace(/[[\]]/g, ''), marked }; }
 
 // Phrase search: verses sharing the most uncommon words with the phrase (inverse frequency), best first.
 function search(phrase, n, opts) {
