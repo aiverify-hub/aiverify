@@ -927,3 +927,9 @@ test('v10 beta: a user suggestion is saved only with a valid run, claim number a
 test('v10: a quotation whose words are at a different verse of the same book is never shown false for the number alone', () => {
   assert.match(P0.judgePrompt('x', [], '', ''), /only the number differs\), the part is "not_established", never "shown_false", because captions often garble spoken numbers/);
 });
+
+test('v10: modern-translation wording and Gospel speakers are not treated as material differences in scripture checks', () => {
+  assert.match(P0.judgePrompt('x', [], '', ''), /"slave" for "servant"/);
+  assert.match(_internal.detailPrompt({ claim: 'x' }, [], ''), /A translation-wording difference is kind "wording"/);
+  assert.match(P0.judgePrompt('x', [], '', ''), /in the Gospels, words from a passage of Jesus' teaching are his unless the excerpt shows another speaker/);
+});
