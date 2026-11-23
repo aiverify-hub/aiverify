@@ -21,3 +21,4 @@ Within Cary's $500 a month. Runaway backstop $50. Expected about $25.
 ## 4. Freeze record
 
 - Software commit: 7ea5849.
+- Video list: EVAL_V8_VIDEO_IDS.tsv, 86 videos (71 in the scope groups, 15 harmless; 3 to 19.6 minutes, median 10.9 minutes), SHA-256 349c2ba6437f302d452d3494b8ce9d5336a6323a80e3280b091f3310c37a029f (LF line endings, as written). Twenty queries found no qualifying regular video (for many, the first results were Shorts or longer than 20 minutes); one backup per group refilled 6 of them (the Prophecy backup was not needed). Fourteen slots stay empty: Health 7, Morality 3, Faith 2, Origins 1, Harmless 1. If fewer than 100 firm claims result, gate A is INCONCLUSIVE, as the v2 plan requires. No system output was seen during selection.
