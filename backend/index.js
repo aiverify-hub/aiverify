@@ -52889,7 +52889,7 @@ if(!Object.keys(REQUEST_EXCEPTION_CONTAINMENT_STARTUP_V3623).every(function(k){r
 const CHECK_VIDEO_MODE_PH1=String(process.env.AIV_CHECK_VIDEO||'').trim().toLowerCase()==='local'?'local':'off';
 let CHECK_VIDEO_PH1=null;
 // Daily cap override for the local evaluation only (Cary waived $5 for the 100-video test, Nov 21 2026); clamped to $1-$50.
-function checkVideoCapConfigPh1(){const n=Number(process.env.AIV_CHECK_VIDEO_DAILY_USD);const c=Number.isFinite(n)&&n>=1?{dailyUsdCap:Math.min(n,100)}:{};if(process.env.AIV_CHECK_VIDEO_NAME_FIXES==='1')c.nameFixesVerified=true;return c;}
+function checkVideoCapConfigPh1(){const n=Number(process.env.AIV_CHECK_VIDEO_DAILY_USD);const c=Number.isFinite(n)&&n>=1?{dailyUsdCap:Math.min(n,200)}:{};if(process.env.AIV_CHECK_VIDEO_NAME_FIXES==='1')c.nameFixesVerified=true;return c;}
 function checkVideoPh1(){
   if(!CHECK_VIDEO_PH1)CHECK_VIDEO_PH1=require('./modules/check-video/pipeline.cjs').createCheckVideo({runsDir:process.env.AIV_CHECK_VIDEO_RUNS_DIR||undefined,config:checkVideoCapConfigPh1(),io:{publicGet:v3700PublicGet,getTranscript:checkVideoTranscriptPh1}});
   return CHECK_VIDEO_PH1;
