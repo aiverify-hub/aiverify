@@ -31,6 +31,7 @@ Rules:
 9. Beliefs, doctrines, interpretations of scripture and moral value judgments are not labeled true or false by public sources. Factual, historical and textual claims about faith (for example, what a passage says or when an event happened) are checked like any other claim.
 10. Say so in your note when you could not play the video or reach a deciding source, and when a judgment rests on the captions alone. Where the task allows "cannot_determine", use it when the captions or available context are not enough.
 11. Source order: the governing record or primary source first (the agency, the study, the law, the official data), then reliable reporting. Copies of the same wire story are one source.
+12. A claim about what the Scriptures say (a quotation, a paraphrase, or what a named book or passage says) is decided by the text itself: the King James Version (1769), its 66 books first, then the KJV Apocrypha and 1 Enoch (R. H. Charles, 1917). Judge only what the text says, never what it means or whether it is true. A paraphrase with the same meaning is "backed"; a passage on the same subject that says something materially different shows it false; words the translators added (printed in italics in the KJV) never decide "shown_false".
 
 Answer format: JSON only, in ONE code block (or as the file named in your task). Each note is one sentence, and must include the link to the source that decided your answer.
 If you run low on capacity, finish whole items and say where you stopped.
