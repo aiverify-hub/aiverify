@@ -19,7 +19,7 @@ const DEFAULTS = {
   exaUsdPerSearch: 0.007, exaUsdPerPage: 0.001,  // reservation only; Exa's reported costDollars settles it
   maxClaims: 4, maxSources: 4, maxPerPublisher: 2, exaResults: 8, excerptChars: 10000, minSourceChars: 300,
   transcriptMaxChars: 120000, fetchLimitBytes: 1500000, fetchTimeoutMs: 8000,
-  nameFixesVerified: true, repairClaims: true, wordingTolerant: true, sourceNamed: true, falseWordsBound: true, scopeGate: true, backedSecondModel: 'claude-opus-5-5', backedSecondEffort: 'medium', backedSecondMaxTokens: 6000, perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65,
+  nameFixesVerified: true, repairClaims: true, wordingTolerant: true, sourceNamed: true, falseWordsBound: true, scopeGate: true, minVideoSec: 180, backedSecondModel: 'claude-opus-5-5', backedSecondEffort: 'medium', backedSecondMaxTokens: 6000, perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65,
   // Caption service (Supadata, native mode): 1 credit per transcript, polls free (Fred research, docs.supadata.ai/get-transcript).
   // Highest listed per-credit value is $0.0167 (Basic plan), so $0.02 covers one native request at any listed plan rate.
   captionUsdReserve: 0.02
@@ -773,6 +773,9 @@ function createCheckVideo(options) {
     if (text.length > cfg.transcriptMaxChars || tr.truncated) { result.video.captionsTruncated = true; text = text.slice(0, cfg.transcriptMaxChars); }
     result.video.captionKind = pasted ? 'pasted' : (tr.captionKind || 'unknown');
     result.video.durationSec = Number(tr.durationSec) || 0;
+    // Cary, November 23, 2026: videos under 3 minutes are not checked (a viewer can judge a short video quickly). Declined
+    // before any paid model call; a video of unknown length is checked.
+    if (cfg.minVideoSec && result.video.durationSec > 0 && result.video.durationSec < cfg.minVideoSec) return finish(Object.assign(result, { outOfScope: true, tooShort: true, claims: [], summary: SCOPE_LINE + ' AIVerify checks videos that are ' + Math.round(cfg.minVideoSec / 60) + ' minutes or longer; this one is shorter.' }));
     result.video.captionWords = text.split(/\s+/).filter(Boolean).length;
     result.video.wordsPerMinute = result.video.durationSec >= 30 && !result.video.captionsTruncated ? Math.round(result.video.captionWords / (result.video.durationSec / 60)) : null;
     try {

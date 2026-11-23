@@ -151,7 +151,7 @@ const SUPPORT = c => /Webb Space Telescope launched/.test(c) ? { verdict: 'suppo
 
 test('caption type, length and words per minute are recorded; good captions keep firm answers', async () => {
   const io = withQuality(fakeIo({ judge: SUPPORT, transcript: { ok: true, title: 'T', source: 'fake', captionKind: 'automatic', durationSec: 10, text: 'The James Webb telescope went up on Christmas Day 2021 which is amazing everyone.' } }), 'good', false);
-  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
+  const r = await createCheckVideo({ io, runsDir: tmp(), config: { minVideoSec: 0 } }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
   assert.equal(r.video.captionKind, 'automatic'); assert.equal(r.video.captionQuality, 'good');
   assert.equal(r.video.wordsPerMinute, null, 'too short to measure');
   assert.equal(r.reliability.flagged, false); assert.equal(r.claims[0].verdict, 'supported');
@@ -812,4 +812,14 @@ test('an empty search account (Exa HTTP 402) stops the check instead of judging 
   const io = fakeIo({ judge: SUP_NASA }); io.exa = async () => ({ status: 402, body: JSON.stringify({ error: 'credits' }) });
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.equal(r.ok, false); assert.equal(r.stage, 'provider'); assert.match(r.error, /credits are used up/);
+});
+
+test('videos under 3 minutes are declined before any model call; unknown length is checked', async () => {
+  const io = fakeIo({ judge: SUP_NASA, transcript: { ok: true, title: 'Webb', source: 'fake', durationSec: 95, text: 'Hi everyone. The James Webb telescope went up on Christmas Day 2021, which is amazing.' } });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.ok, true); assert.equal(r.tooShort, true); assert.match(r.summary, /3 minutes or longer; this one is shorter\./);
+  assert.equal(io.calls.anthropic.length, 0); assert.equal(io.calls.exa.length, 0);
+  const long = fakeIo({ judge: SUP_NASA, transcript: { ok: true, title: 'Webb', source: 'fake', durationSec: 400, text: 'Hi everyone. The James Webb telescope went up on Christmas Day 2021, which is amazing. Also the moon is made of cheese, folks.' } });
+  const r2 = await createCheckVideo({ io: long, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.ok(!r2.tooShort); assert.equal(r2.claims.length, 2);
 });
