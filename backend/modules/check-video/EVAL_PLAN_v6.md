@@ -44,3 +44,4 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 - Software commit: 4087c30.
 - Queries: EVAL_V6_QUERIES.tsv (100 queries plus 10 backups).
 - Video list: EVAL_V6_VIDEO_IDS.tsv, recorded below after picking and before any run.
+- Video list: EVAL_V6_VIDEO_IDS.tsv, 100 videos (74 Shorts, 26 regular), SHA-256 64b882a5c6cdae822ec5bfdeec1994f8066970bdcb19be33ca3f63186100910f (LF line endings, as written). Three queries found no qualifying video (hepatitis outbreak, federal hiring freeze, russia ukraine frontline); the backups for those categories were used: zinc cold study, tax cut claims, ukraine energy strikes. No system output was seen during selection.
