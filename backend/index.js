@@ -52993,6 +52993,10 @@ async function checkVideoHandlePh1(req,res,u){
     let body;try{body=await v2875ReadJsonBody(req,8000);}catch(e){return reply(400,{ok:false,error:'Invalid request.'});}
     const saved=cv.saveSourceSuggestion(body||{});return reply(saved?200:400,{ok:saved,error:saved?undefined:'Please enter a full web address starting with https://'});
   }
+  if(u.pathname==='/check-video/report'&&req.method==='POST'){
+    let body;try{body=await v2875ReadJsonBody(req,4000);}catch(e){return reply(400,{ok:false});}
+    const saved=cv.saveReport(body||{});return reply(saved?200:400,{ok:saved});
+  }
   if(u.pathname==='/check-video/runs'&&req.method==='GET')return reply(200,{ok:true,runs:cv.listRuns()});
   // Grading tool (evaluation only): Cary settles disputes between AIVerify and the independent reviewer.
   if(u.pathname==='/check-video/disputes'&&req.method==='GET'){

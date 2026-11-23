@@ -70,6 +70,13 @@ function lookup(ref, d) {
   }
   return out;
 }
+// A named passage plus up to `around` verses before and after it in the same chapter, marked context: true.
+function lookupWithContext(ref, around, d) {
+  d = d || load(); const p = parseRef(ref); if (!p || p.toChapter !== p.chapter || p.to === 999) return lookup(ref, d).map(v => Object.assign(v, { context: false }));
+  const out = [];
+  for (let v = Math.max(1, p.from - around); v <= p.to + around; v++) { const k = p.code + ' ' + p.chapter + ':' + v, t = d.verses.get(k); if (t === undefined) continue; out.push(Object.assign(verse(k, t), { context: v < p.from || v > p.to })); }
+  return out;
+}
 function verse(key, marked) { const [code, cv] = key.split(' '), b = byCode.get(code); return { ref: b.name + ' ' + cv, code, tier: b.tier, text: marked.replace(/[[\]]/g, ''), marked }; }
 
 // Phrase search: verses sharing the most uncommon words with the phrase (inverse frequency), best first.
@@ -82,4 +89,4 @@ function search(phrase, n, opts) {
     .map(x => { const k = d.order[x.i]; return Object.assign(verse(k, d.verses.get(k)), { score: +x.s.toFixed(2) }); })
     .filter(v => v.tier <= tierMax).slice(0, n || 5);
 }
-module.exports = { load, lookup, search, parseRef, BOOKS, bookName: code => (byCode.get(code) || {}).name || null, SOURCE: 'King James Version (1769) with Apocrypha, public domain, eBible.org eng-kjv_vpl 2026-11-15; 1 Enoch, R. H. Charles 1917, public domain, Wikisource' };
+module.exports = { load, lookup, lookupWithContext, search, parseRef, BOOKS, bookName: code => (byCode.get(code) || {}).name || null, SOURCE: 'King James Version (1769) with Apocrypha, public domain, eBible.org eng-kjv_vpl 2026-11-15; 1 Enoch, R. H. Charles 1917, public domain, Wikisource' };

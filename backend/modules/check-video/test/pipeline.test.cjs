@@ -2,7 +2,9 @@
 // End-to-end pipeline with fake services: no network, no spending.
 const test = require('node:test'), assert = require('node:assert/strict');
 const fs = require('fs'), os = require('os'), path = require('path');
-const { createCheckVideo, parseYouTubeUrl, _internal } = require('../pipeline.cjs');
+const P0 = require('../pipeline.cjs'), { parseYouTubeUrl, _internal } = P0;
+// Older tests exercise web-checked verdicts and unrated verses; v10 turns those off by default, so they switch them on here.
+const createCheckVideo = o => P0.createCheckVideo(Object.assign({}, o, { config: Object.assign({ factsFirm: true, rateVerses: false }, o && o.config) }));
 
 const NASA = '<html><body><nav><p>Menu menu menu menu menu menu menu menu</p></nav><main>' + '<p>The Webb telescope is an infrared observatory built by NASA with ESA and CSA partners.</p>'.repeat(3)
   + '<p>Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.</p></main></body></html>';
@@ -857,4 +859,67 @@ test('scriptures: 1 Enoch (tier 2) is available locally', () => {
   const S = require('../../scriptures/scriptures.cjs');
   const v = S.lookup('Enoch 1:9')[0]; assert.equal(v.ref, '1 Enoch 1:9'); assert.equal(v.tier, 2); assert.match(v.text, /ten thousands of His holy ones/);
   assert.equal(S.lookup('1 Enoch 108:15').length, 1);
+});
+
+function claimsIo(extra, opts) {
+  const io = fakeIo(opts || {}), orig = io.anthropic;
+  io.anthropic = async (p, body) => {
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) {
+      const base = { video_kind: 'faith', in_scope: true, scope_reason: 'x', list_video: false, main_point: '', main_point_kind: 'fact', note: '', teachings: [], claims: [] };
+      return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 10, output_tokens: 10 }, content: [{ type: 'text', text: JSON.stringify(Object.assign(base, extra)) }] }) };
+    }
+    if (p === '/v1/messages' && body.model === 'claude-haiku-5-5' && opts && opts.rate) { io.lastRate = body; } if (p === '/v1/messages' && body.model === 'claude-haiku-5-5' && opts && opts.rate) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 100, output_tokens: 20 }, content: [{ type: 'text', text: JSON.stringify(opts.rate(body.messages[0].content)) }] }) };
+    return orig(p, body);
+  };
+  return io;
+}
+const WEBB = { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'The James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date', kind: 'fact', scripture_refs: [], corrections: [] };
+
+test('v10 beta: a web-checked factual claim lists its sources with no verdict and no judging cost', async () => {
+  const io = claimsIo({ main_point: 'Webb launched on Christmas Day 2021.', claims: [WEBB] }, { judge: SUP_NASA });
+  const r = await P0.createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const c = r.claims[0];
+  assert.equal(c.sourcesOnly, true); assert.equal(c.verdict, 'insufficient'); assert.equal(c.label, 'Sources found (no verdict in this beta)');
+  assert.ok(c.sources.length > 0, 'sources are listed'); assert.equal(io.calls.exa.length, 1);
+  assert.equal(io.calls.anthropic.filter(x => x.p === '/v1/messages').length, 0, 'no judge, detail check or second judge (the claim writer is answered before the call log)');
+});
+
+test('v10: a teaching main point is the headline with no verdict; its claims are not the main claim', async () => {
+  const io = claimsIo({ main_point: 'Burial is better than cremation as a witness to the resurrection.', main_point_kind: 'teaching', teachings: [{ teaching: 'Burial is better than cremation.', refs: ['Genesis 23:19', '1 Corinthians 15:42'] }], claims: [WEBB] }, { judge: SUP_NASA });
+  const r = await P0.createCheckVideo({ io, runsDir: tmp(), config: { rateVerses: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.deepEqual(r.headline, { claim: 'Burial is better than cremation as a witness to the resurrection.', verdict: 'teaching', label: 'A teaching: see the Related Scriptures below.' });
+  assert.equal(r.claims[0].central, false); assert.match(r.summary, /^Main point: a teaching/);
+  assert.equal(r.teachings[0].verses[0].ref, 'Genesis 23:19');
+});
+
+test('v10: related passages are rated for relevance (not agreement), best first; top 3 shown, the rest folded, weak ones dropped', async () => {
+  const refs = ['Genesis 1:1', 'Genesis 1:2', 'Genesis 1:3', 'Genesis 1:4', 'Genesis 1:5', 'Genesis 1:6'];
+  const scores = { 'Genesis 1:1': 2, 'Genesis 1:2': 0, 'Genesis 1:3': 3, 'Genesis 1:4': 1, 'Genesis 1:5': 3, 'Genesis 1:6': 2 };
+  let prompt = '';
+  const io = claimsIo({ main_point: 'God created the world in six days.', main_point_kind: 'teaching', teachings: [{ teaching: 'God created the world in six days.', refs }], claims: [] },
+    { rate: c => { prompt = c; return { ratings: refs.map(r => ({ teaching: 1, ref: r, score: scores[r] })) }; } });
+  const r = await P0.createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const t = r.teachings[0];
+  assert.deepEqual(t.verses.map(v => v.ref), ['Genesis 1:3', 'Genesis 1:5', 'Genesis 1:1']);
+  assert.deepEqual(t.moreVerses.map(v => v.ref), ['Genesis 1:6']);
+  assert.match(prompt, /Never rate whether a passage agrees or disagrees/);
+  assert.equal(io.lastRate.output_config.effort, 'low'); assert.ok(!('thinking' in io.lastRate));
+  assert.match(r.summary, /^Main point: a teaching/);
+});
+
+test('v10: a named passage is read with its context verses; hedges include "can"; "no good evidence" never shows a claim false', () => {
+  const S = require('../../scriptures/scriptures.cjs');
+  const v = S.lookupWithContext('Revelation 11:3', 2);
+  assert.deepEqual(v.map(x => x.context), [true, true, false, true, true]);
+  const p = P0.judgePrompt('x', [], '', '');
+  assert.match(p, /"can", "could"/); assert.match(p, /no good evidence for a claim[^"]*leave it "not_established", never "shown_false"/);
+  assert.match(p, /Read the claim in the sense the CAPTION PASSAGE gives it/);
+});
+
+test('v10 beta: a user report is saved only with a valid run, claim number and note', () => {
+  const dir = tmp(), cv = P0.createCheckVideo({ io: fakeIo(), runsDir: dir });
+  assert.equal(cv.saveReport({ runId: '2026-11-23T20-00-00Z-abc123', n: 2, note: '  The verse is quoted wrong.  ' }), true);
+  for (const bad of [{ runId: 'x', n: 2, note: 'a' }, { runId: '2026-11-23T20-00-00Z-abc123', n: 0, note: 'a' }, { runId: '2026-11-23T20-00-00Z-abc123', n: 2, note: '   ' }]) assert.equal(cv.saveReport(bad), false);
+  const rows = require('fs').readFileSync(require('path').join(dir, 'user-reports.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
+  assert.equal(rows.length, 1); assert.equal(rows[0].note, 'The verse is quoted wrong.'); assert.equal(rows[0].claim, 2);
 });
