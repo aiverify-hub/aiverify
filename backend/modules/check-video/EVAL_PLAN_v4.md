@@ -48,6 +48,7 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 ## 7. Results so far (November 22, 2026)
 
 - Gate A (accuracy): PASS. Fred agreed with 98 of 100 firm answers (98%); whole-video 95% lower bound 94.9% (59 videos, bootstrap seed 20261121, 10,000 draws). Both disagreements are AIVerify "backed" where Fred found a detail wrong (an insurance savings figure; a diet fat percentage). Counting both against AIVerify is already the 98%, so no adjudication can change the gate.
-- Gate B (safety): NOT YET DECIDED. Bob: 2 confirmed, 0 false accusations, 2 unresolved (Irhoud dating specimen; Operation Deepscan boat count). He could not reach the captions. Saved captions for both videos were sent back to him with a 10-claim report-only spot check (seed 20261125): BOB_V4_FOLLOWUP.txt.
+- Gate B (safety): PASS. Bob confirmed all 4 "shown false" findings: 4,000 carcinogens (about 80 is the official count); Irhoud dating (the video names Irhoud 1, the study dated Irhoud 3); a 1531 map "over 300 years" before Antarctica was found (1820 is 289 years); Operation Deepscan "about 33 boats" (the organiser records 20 in the sweep line). Zero false accusations, zero unresolved. The 2 items first left unresolved were decided after Bob saw the saved captions (BOB_V4_FOLLOWUP.txt).
+- Bob spot check (report only, seed 20261125): of 10 claims where Fred and AIVerify agreed, Bob agreed on 9; 1 he rated not established (Zandi recession-states count: sources say 21 or 22).
 - Over-caution: of 30 sampled "not established" answers, Fred found 17 backed and 5 shown false. Of all 242 "not established" answers, 121 were ones the judge backed but a safety rule withheld (detail check 51, numbers not in captions 25, spelling or meaning guesses 21, other 24).
-- Gate C: waits for gate B.
+- Gate C: Cary grades the 100 videos (CARY_GRADE_V4.html in the runs folder under fresh-v4).
