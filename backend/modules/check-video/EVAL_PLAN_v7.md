@@ -19,7 +19,7 @@ v6 result: NOT ELIGIBLE. Gate A: Fred 82 of 100. Gate C: the main claim was the 
 
 Alignment round (Cary: Fred and Bob must agree on what to do, not why): both proposed changes to the draft rules; Cary agreed to all of them on November 23, 2026; they are in G1, G5, G6 and REVIEWER_RULES.md (commit cb663b4).
 
-Development check: 45 v6 videos behind the gate A, B and C problems, November 23, $7.24, in the runs folder under dev-v7 (run on 15262cf, before the alignment changes; practice material only). Main claims moved from opening hooks to the videos' main points in most of the flagged videos, and 7 list videos were labeled as lists. Bob's false accusation became "not established"; his confirmed findings stayed "shown false" except 3 on harmless history or science videos that were declined. Of Fred's 18 gate A disagreements, 6 became "not established", 3 were declined, 2 changed wording, and 7 stayed "backed" (the second judge agreed with the first).
+Development check (INVALID, see the correction below): 45 v6 videos behind the gate A, B and C problems, November 23, $7.24, in the runs folder under dev-v7 (run on 15262cf, before the alignment changes; practice material only). Main claims moved from opening hooks to the videos' main points in most of the flagged videos, and 7 list videos were labeled as lists. Bob's false accusation became "not established"; his confirmed findings stayed "shown false" except 3 on harmless history or science videos that were declined. Of Fred's 18 gate A disagreements, 6 became "not established", 3 were declined, 2 changed wording, and 7 stayed "backed" (the second judge agreed with the first).
 
 ## 2. Videos
 
@@ -42,5 +42,6 @@ Within Cary's $500 a month. Runaway backstop $50. Expected about $20 (developmen
 
 ## 5. Freeze record
 
-- Software commit: cb663b4.
+- Software commit: a108032 (cb663b4 plus one safety change, before any v7 run: an empty Exa account now stops the check).
+- Correction (November 23, 2026, before any v7 run): the Exa account ran out of credits during the development check; 83 of its 143 claims got no search (HTTP 402) and were judged on no sources. Its numbers above are therefore not evidence of improvement, except the main-claim and list-video changes, which happen before any search.
 - Queries: EVAL_V7_QUERIES.tsv (100 queries plus 7 backups).
