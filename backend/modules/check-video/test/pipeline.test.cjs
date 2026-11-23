@@ -692,3 +692,24 @@ test('v5: a claim with numbers the captions do not say is rewritten from the pas
   assert.equal(c.verdict, 'supported');
   assert.match(io.calls.anthropic.find(isRepair).body.messages[0].content, /number\(s\) 6\.5/);
 });
+
+test('v5: when the sources do not settle a claim, one more search with the judge\'s query, then judge again', async () => {
+  const PRIMARY = 'NASA mission record. The James Webb Space Telescope launched on December 25, 2021 at 7:20 a.m. EST from Kourou. ' + 'Mission background text. '.repeat(20);
+  const judge = c => !/Webb Space Telescope launched/.test(c) ? null : /mission record/.test(c) ? { verdict: 'supported', quote: 'The James Webb Space Telescope launched on December 25, 2021 at 7:20 a.m. EST from Kourou.', source: 1, reason: 'The record states it.', next_search: '' }
+    : { verdict: 'insufficient', quote: '', source: 0, reason: 'Not settled.', next_search: 'NASA Webb launch mission record', parts: [{ part: 'launch date', status: 'not_established' }] };
+  const io = fakeIo({ judge }); const orig = io.exa;
+  io.exa = async (p, body) => body.query === 'NASA Webb launch mission record' ? { status: 200, body: JSON.stringify({ costDollars: { total: 0.015 }, results: [{ url: 'https://www.nasa.gov/webb-launch-record', title: 'record', text: PRIMARY }] }) } : orig(p, body);
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const c = r.claims[0];
+  assert.equal(c.verdict, 'supported'); assert.equal(c.secondSearch.query, 'NASA Webb launch mission record'); assert.equal(c.secondSearch.newSources, 1);
+  assert.equal(c.sources[0].url, 'https://www.nasa.gov/webb-launch-record', 'new pages first');
+  assert.ok(c.sources.length <= 6);
+  const jp = io.calls.anthropic.find(x => x.p === '/v1/messages' && /You assess one claim/.test(x.body.messages[0].content)).body.messages[0].content;
+  assert.match(jp, /"next_search": when the verdict is "insufficient"/);
+  // No new pages: no second judgment. Turned off: no second search.
+  const io2 = fakeIo({ judge }); await createCheckVideo({ io: io2, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const judged = x => x.p === '/v1/messages' && /You assess one claim/.test(x.body.messages[0].content) && /Webb Space Telescope launched/.test(x.body.messages[0].content);
+  assert.equal(io2.calls.anthropic.filter(judged).length, 1); assert.equal(io2.calls.exa.length, 3, 'two first searches plus one second search');
+  const io3 = fakeIo({ judge }); await createCheckVideo({ io: io3, runsDir: tmp(), config: { secondSearch: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(io3.calls.exa.length, 2);
+});

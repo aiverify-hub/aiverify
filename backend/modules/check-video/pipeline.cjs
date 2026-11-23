@@ -14,7 +14,7 @@ const { bindQuote } = require('./quote-match.cjs');
 const publishers = require('./publishers.cjs');
 
 const DEFAULTS = {
-  model: 'claude-sonnet-5-5', judgeMaxTokens: 1000, extractMaxTokens: 2000, verifyMaxTokens: 500, detailMaxTokens: 1500, repairMaxTokens: 1000,
+  model: 'claude-sonnet-5-5', judgeMaxTokens: 1000, extractMaxTokens: 3000, verifyMaxTokens: 500, detailMaxTokens: 1500, repairMaxTokens: 1000, secondSearch: true, secondSearchMaxSources: 6,
   usdPerMTokIn: 2, usdPerMTokOut: 10,           // Claude Sonnet 5.5 list prices (skill table, November 2026)
   exaUsdPerSearch: 0.007, exaUsdPerPage: 0.001,  // reservation only; Exa's reported costDollars settles it
   maxClaims: 4, maxSources: 4, maxPerPublisher: 2, exaResults: 8, excerptChars: 10000, minSourceChars: 300,
@@ -453,10 +453,10 @@ async function gatherEvidence(ctx, claim, videoId) {
 
 // ---------- step 4: judgment ----------
 const JUDGE_SCHEMA = {
-  type: 'object', additionalProperties: false, required: ['video_says', 'parts', 'verdict', 'quote', 'source', 'reason'],
+  type: 'object', additionalProperties: false, required: ['video_says', 'parts', 'verdict', 'quote', 'source', 'reason', 'next_search'],
   properties: { video_says: { type: 'string', enum: ['yes', 'no', 'unclear'] },
     parts: { type: 'array', items: { type: 'object', additionalProperties: false, required: ['part', 'status'], properties: { part: { type: 'string' }, status: { type: 'string', enum: ['backed', 'shown_false', 'not_established'] } } } },
-    verdict: { type: 'string', enum: ['supported', 'contradicted', 'misleading', 'insufficient'] }, quote: { type: 'string' }, source: { type: 'integer' }, reason: { type: 'string' } }
+    verdict: { type: 'string', enum: ['supported', 'contradicted', 'misleading', 'insufficient'] }, quote: { type: 'string' }, source: { type: 'integer' }, reason: { type: 'string' }, next_search: { type: 'string' } }
 };
 // v2 R2 (EVAL_DISPOSITIONS_v1 causes A and B): the label follows the weakest material part, enforced here rather than
 // left to the model. A firm answer needs a readable parts list; "supported" needs every part backed; "contradicted"
@@ -482,7 +482,8 @@ Judge time-dependent claims as of the publication date. A claim that was accurat
 Each source is labelled with its publisher and its role: primary/official, fact-check, news/reference, originator of the claim (where the claim may come from, such as a satire site or a social video), or other.
 Pages from the same publisher count as ONE source. Do not describe sources as independent unless they have different publishers and neither is the originator; partner organizations on the same project are not independent of each other.
 Pages that carry the same wire story (AP, Reuters, AFP and similar) count as ONE source, whichever site shows them. When excerpts disagree, prefer the governing text or primary record (the law or ordinance itself, the agency, the study itself) over reporting about it; one decisive primary record is enough.
-Answer with JSON only: {"video_says":"yes|no|unclear","parts":[{"part":"...","status":"backed|shown_false|not_established"}],"verdict":"supported|contradicted|misleading|insufficient","quote":"exact sentence copied from one excerpt that decides it, or empty","source":<excerpt number, or 0 if none>,"reason":"one or two sentences"}.
+Answer with JSON only: {"video_says":"yes|no|unclear","parts":[{"part":"...","status":"backed|shown_false|not_established"}],"verdict":"supported|contradicted|misleading|insufficient","quote":"exact sentence copied from one excerpt that decides it, or empty","source":<excerpt number, or 0 if none>,"reason":"one or two sentences","next_search":"..."}.
+"next_search": when the verdict is "insufficient" because the excerpts do not contain the deciding fact, one short web search query most likely to find the primary source that would settle it (the agency, study, court record, official page or original statement, by its own name); otherwise an empty string.
 "parts": split the claim into its material parts (each person, action, role, number, date, place, cause, comparison or qualifier such as "only", "most", "global", "all") and mark each one: "backed" = an excerpt states it; "shown_false" = an excerpt about the same thing states something materially different; "not_established" = the excerpts do not settle it. Incidental wording that does not change what is claimed is not a part.
 The verdict follows the weakest part: any part "shown_false" -> "contradicted"; otherwise any part "not_established" -> "insufficient"; "supported" only when EVERY part is "backed". Never answer "supported" while your reason says a part is unsupported, partial or only implied.
 Rules: "supported"/"contradicted" need an explicit deciding statement in an excerpt that is not just the claim's originator repeating it. Use "misleading" ONLY for satire, parody, or a real item (photo, video, quote, document) presented with false context; never for a claim that is partly true, partly settled, imprecise or out of date (use "contradicted" if a part is wrong, otherwise "insufficient").
@@ -605,6 +606,7 @@ async function judgeClaim(ctx, claim, ev, published) {
   if (!j || !VERDICT_LABEL[j.verdict]) { res.reason = 'The judgment could not be read.'; res.notes.push('judge output unreadable (raw text kept in the private record)'); return res; }
   res.modelVerdict = j.verdict; res.reason = squash(j.reason).slice(0, 500);
   res.videoSays = ['yes', 'no', 'unclear'].includes(j.video_says) ? j.video_says : 'unclear';
+  res.nextSearch = j.verdict === 'insufficient' && typeof j.next_search === 'string' ? squash(j.next_search).slice(0, 200) : '';
   res.parts = Array.isArray(j.parts) ? j.parts.filter(p => p && typeof p === 'object').slice(0, 12).map(p => ({ part: squash(p.part).slice(0, 200), status: p.status })) : null;
   if (j.verdict === 'insufficient') return res;
   const conflict = partsConflict(j.verdict, j.parts);
@@ -731,6 +733,17 @@ function createCheckVideo(options) {
           }
           let ev; try { ev = await gatherEvidence(ctx, c, yt.videoId); } catch (e) { if (e && STOP_CODES.test(e.code || '')) throw e; ev = { sources: [], considered: [], error: 'Evidence search failed.' }; }
           let j = await judgeClaim(ctx, c, ev, published);
+          // v5 second search (Cary, November 22, 2026: "finding the right search data was the key"; the proof was usually on
+          // the primary source page). When the sources did not settle the claim, search once more with the judge's own query
+          // for the deciding primary source, and judge again on the new pages first, then the earlier ones.
+          if (cfg.secondSearch && c.captionBound && j.modelVerdict === 'insufficient' && j.nextSearch && j.nextSearch !== c.searchQuery) {
+            let ev2; try { ev2 = await gatherEvidence(ctx, Object.assign({}, c, { searchQuery: j.nextSearch }), yt.videoId); } catch (e) { if (e && STOP_CODES.test(e.code || '')) throw e; ev2 = null; }
+            const seenUrl = new Set(), merged = [];
+            for (const s of ((ev2 && ev2.sources) || []).concat(ev.sources)) { if (seenUrl.has(s.url) || merged.length >= cfg.secondSearchMaxSources) continue; seenUrl.add(s.url); merged.push(Object.assign({}, s, { n: merged.length + 1 })); }
+            const added = merged.filter(s => !ev.sources.some(o => o.url === s.url)).length;
+            c = Object.assign({}, c, { secondSearch: { query: j.nextSearch, newSources: added } });
+            if (added) { ev = { sources: merged, considered: ev.considered.concat((ev2 && ev2.considered) || []), error: ev.error }; j = await judgeClaim(ctx, c, ev, published); }
+          }
           // v5 retry, after the detail check: when every failing detail is one the claim writer added, rewrite once and judge
           // again on the same evidence. A detail the video itself said is never dropped this way.
           if (cfg.repairClaims && !c.repairedFrom && j.detailCheck && !j.detailCheck.confirmed && j.detailCheck.addedOnly) {
