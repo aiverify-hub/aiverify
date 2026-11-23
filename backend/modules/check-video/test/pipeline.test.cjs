@@ -923,3 +923,7 @@ test('v10 beta: a user suggestion is saved only with a valid run, claim number a
   const rows = require('fs').readFileSync(require('path').join(dir, 'user-suggestions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
   assert.equal(rows.length, 1); assert.equal(rows[0].note, 'Also see James 1:5.'); assert.equal(rows[0].kind, 'verse'); assert.equal(rows[0].claim, 2);
 });
+
+test('v10: a quotation whose words are at a different verse of the same book is never shown false for the number alone', () => {
+  assert.match(P0.judgePrompt('x', [], '', ''), /only the number differs\), the part is "not_established", never "shown_false", because captions often garble spoken numbers/);
+});
