@@ -45,3 +45,7 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 - Queries: EVAL_V6_QUERIES.tsv (100 queries plus 10 backups).
 - Video list: EVAL_V6_VIDEO_IDS.tsv, recorded below after picking and before any run.
 - Video list: EVAL_V6_VIDEO_IDS.tsv, 100 videos (74 Shorts, 26 regular), SHA-256 64b882a5c6cdae822ec5bfdeec1994f8066970bdcb19be33ca3f63186100910f (LF line endings, as written). Three queries found no qualifying video (hepatitis outbreak, federal hiring freeze, russia ukraine frontline); the backups for those categories were used: zinc cold study, tax cut claims, ukraine energy strikes. No system output was seen during selection.
+
+## 7. Amendment before any v6 review (November 23, 2026)
+
+Grok is dropped as a reviewer (Cary left it to Claude). Evidence, from the v5 blind file: in Fast mode it agreed with AIVerify on 68 of 100 firm claims and could not find late-2026 events. In Expert mode, with today's date given, it answered only 15 of 130 claims, invented the item IDs for 4 of them ("placeholder-..."), and agreed with Fred on 5 of the 11 it could be matched on. Section 3 is otherwise unchanged: Fred alone answers the blind sample, Bob alone reviews the "shown false" findings and the main claims, and Cary decides only where they disagree with AIVerify. No gate used Grok's answers, so no gate changes.

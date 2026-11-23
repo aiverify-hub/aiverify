@@ -10,7 +10,7 @@ Who we are: AIVerify is a tool that checks YouTube videos. It writes down the vi
 
 Today's date: {TODAY}. Events up to today are real, even if they are after your training data. Search the web for them; do not answer "not confirmed" only because an event is recent.
 
-Settings: use your most careful research mode (for Grok: Expert, not Fast). Open the sources yourself. Do not guess from memory.
+Settings: use your most careful research mode (for example, a deep or expert research mode). Open the sources yourself. Do not guess from memory.
 
 For each claim, judge it AS OF THE VIDEO'S PUBLISH DATE:
 - "backed": every material part is established by reliable sources.
