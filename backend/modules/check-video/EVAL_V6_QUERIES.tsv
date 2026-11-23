@@ -1,0 +1,111 @@
+batch	category	query
+main	Health	blood pressure medication study
+main	Health	ashwagandha safety
+main	Health	cholesterol statin myth
+main	Health	apple cider vinegar weight loss
+main	Health	olive oil health claims
+main	Health	multivitamin study results
+main	Health	hepatitis outbreak
+main	Health	whooping cough cases
+main	Health	dengue fever cases
+main	Health	colon cancer young adults
+main	Health	lead in cinnamon recall
+main	Health	sleep deprivation study
+main	Health	fiber intake study
+main	Health	caffeine pregnancy study
+main	Health	autism rates cdc report
+main	Health	breast cancer screening guidelines
+main	Health	ivermectin cancer claim
+main	Health	keto diet heart study
+main	Health	testosterone decline men
+main	Health	heart attack young people
+main	Health	sauna longevity study
+main	Health	nicotine pouch health
+main	Health	mpox cases
+main	Politics	supreme court ruling explained short
+main	Politics	national debt interest payments
+main	Politics	federal hiring freeze
+main	Politics	tariff revenue claim
+main	Politics	election fraud claim debunked
+main	Politics	doge spending cuts
+main	Politics	congress approval rating
+main	Politics	primary election results
+main	Politics	redistricting texas
+main	Politics	medicaid work requirements
+main	Politics	snap benefits changes
+main	Politics	federal reserve rate cut
+main	Politics	immigration deportation numbers
+main	Politics	voter registration purge
+main	Politics	border crossings statistics
+main	War/world	russia ukraine frontline
+main	War/world	israel west bank
+main	War/world	china taiwan election
+main	War/world	lebanon ceasefire
+main	War/world	congo m23 rebels
+main	War/world	pakistan afghanistan border clash
+main	War/world	south korea martial law
+main	War/world	nato article 5 explained
+main	War/world	ukraine grain exports
+main	War/world	iran protests
+main	War/world	north korea russia treaty
+main	History	apollo 13 facts
+main	History	lincoln assassination facts
+main	History	hiroshima bomb facts
+main	History	columbus voyage myth
+main	History	medieval castle facts
+main	History	ancient rome facts
+main	History	world war 2 facts short
+main	History	cleopatra facts
+main	History	declaration of independence facts
+main	Money	housing market crash prediction
+main	Money	grocery prices news
+main	Money	car insurance rates rising
+main	Money	unemployment rate news
+main	Money	medical debt news
+main	Money	retirement savings average
+main	Money	silver price news
+main	Money	student loan payments resume
+main	News/disasters	avalanche rescue
+main	News/disasters	heat dome
+main	News/disasters	hurricane landfall
+main	News/disasters	chemical plant explosion
+main	News/disasters	mine collapse
+main	News/disasters	dam failure flooding
+main	News/disasters	wildfire smoke air quality
+main	News/disasters	hail storm damage
+main	Science/space	voyager spacecraft news
+main	Science/space	moon mission delay
+main	Science/space	exoplanet discovery
+main	Science/space	coral reef bleaching
+main	Science/space	ai model discovery science
+main	Science/space	meteor shower
+main	Science/space	international space station
+main	Science/space	ice age animals discovery
+main	Science/space	sea level rise study
+main	Conspiracy	jfk files released
+main	Conspiracy	vaccine microchip claim
+main	Conspiracy	lost civilization atlantis
+main	Conspiracy	secret underground cities
+main	Conspiracy	hidden pyramid antarctica
+main	Conspiracy	cloud seeding conspiracy
+main	Conspiracy	epstein files claims
+main	Satire	comedy news segment
+main	Satire	satirical commercial
+main	Satire	late night monologue joke news
+main	Satire	mockumentary short
+main	Satire	parody press conference
+main	Viral footage	viral bear video
+main	Viral footage	viral rescue video
+main	Viral footage	viral storm chaser video
+main	Viral footage	viral police chase
+main	Viral footage	viral wildlife encounter
+backup	Health	zinc cold study
+backup	Politics	tax cut claims
+backup	War/world	ukraine energy strikes
+backup	History	great fire of london facts
+backup	Money	bank failure news
+backup	News/disasters	sinkhole news
+backup	Science/space	asteroid sample return
+backup	Conspiracy	time traveler claim
+backup	Satire	fake infomercial
+backup	Viral footage	viral hail video
