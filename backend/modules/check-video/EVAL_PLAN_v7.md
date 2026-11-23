@@ -46,3 +46,7 @@ Within Cary's $500 a month. Runaway backstop $50. Expected about $20 (developmen
 - Correction (November 23, 2026, before any v7 run): the Exa account ran out of credits during the development check; 83 of its 143 claims got no search (HTTP 402) and were judged on no sources. Its numbers above are therefore not evidence of improvement, except the main-claim and list-video changes, which happen before any search.
 - Queries: EVAL_V7_QUERIES.tsv (100 queries plus 7 backups).
 - Video list: EVAL_V7_VIDEO_IDS.tsv, 92 videos (76 in the new scope groups, 16 harmless), SHA-256 5e50491b84ea4a425a6d86cdbfdef26c23345bde4adfb1899039f3cd6a60aa96 (LF line endings, as written). Eleven queries found no qualifying video; three were refilled from that group's one backup (oil pulling benefits, ark of the covenant location, ivf embryo facts; the Money backup also found none). Eight slots stay empty, because no new query may be added after the freeze: Health 1, Faith 1, Morality 2, Money 4. Short scam and advocacy videos often lacked 10,000 views or were older than three years. No system output was seen during selection.
+
+## 6. Stopped (November 23, 2026)
+
+Stopped by Cary's decision after 7 of 92 videos ($1.63): AIVerify will not check videos under 3 minutes (a viewer can judge a short video quickly, and short videos used most of the cost). No v7 result is reported. The software and rules continue in the v8 test on videos of 3 to 20 minutes (EVAL_PLAN_v8.md).
