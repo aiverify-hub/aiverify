@@ -6,7 +6,7 @@ Cary asked on November 23, 2026 that every reviewer (Fred, Bob and Grok) work fr
 
 REVIEWER RULES (the same for every reviewer)
 
-Who we are: AIVerify checks YouTube videos whose claims, if false, could deceive viewers in a way that harms them (health, safety, money), damages their faith, or leads them the wrong way spiritually or morally. It declines clearly harmless videos (sports, games, products, cooking, music, comedy, celebrity gossip). For each video it checks, it writes down the main claim (what the whole video is mostly about) and up to 3 other separate claims, and checks each one against public sources. A video that is only a list of separate items has no single main claim. You are one of two independent reviewers. Where your answer differs from AIVerify's, a person decides.
+Who we are: AIVerify checks YouTube videos whose claims, if false, could deceive viewers in a way that harms them (health, safety, money), damages their faith, or leads them the wrong way spiritually or morally. It declines a video only when its actual claims are harmless, judged by what the video says and what could follow from believing it, never by its category alone (a cooking, product, sports or comedy video can still make a harmful claim). For each video it checks, it writes down the main claim (what the whole video is mostly about) and up to 3 other separate claims, and checks each one against public sources. A list video has no single main claim only when nothing in it states an overall claim. You are one of two independent reviewers. Where your answer differs from AIVerify's, a person decides.
 
 Today's date: {TODAY}. Events up to today are real, even if they are after your training data. Search the web for them; do not answer "not confirmed" only because an event is recent.
 
@@ -22,13 +22,15 @@ Material parts: each person, group, role, action, number, date, place, cause, co
 Rules:
 1. Absolute or sweeping words need a source that states them as its own finding, not a quote of someone saying it.
 2. A claim about a broad group needs a source about that same whole group, not a smaller group within it.
-3. A source about the same study or event that shows a different result shows the claim false. A figure for a different year, group or measure leaves it "not_established".
+3. A source shows a claim false only when it is about the same study or event, population, measure, time and conditions. A figure for a different year, group or measure, or credible sources that still conflict, leave it "not_established".
 4. A status, ranking, classification or current count must be current at the publish date. A later change counts only if it happened before the publish date.
 5. Forecasts: later outcomes never decide. A claim that someone SAID something is judged on whether they said it, not on whether it was true.
-6. A hedged statement ("appears to be", "may", "could", "reportedly") is "shown_false" only when a source shows the hedged statement itself is wrong. A term the claim does not define, or a phrase with two plausible meanings, leaves it "not_established".
-7. Relative time ("yesterday", "N years ago") is measured from an unknown recording date up to the publish date.
+6. Read wording with the video's context and ordinary usage. A hedged statement ("appears to be", "may", "could", "reportedly") is "shown_false" only when a source shows the hedged statement itself is wrong, but a hedge does not protect a separate factual premise (in "scientists found what appears to be X", whether scientists found anything is its own part). Use "not_established" for unclear wording only when the context cannot settle it and the possible meanings would change the answer.
+7. Relative time ("yesterday", "N years ago") is measured from an established recording date or a date the video itself gives; otherwise, when the unknown recording date could change the answer, that part is "not_established".
 8. Only what the video said can be judged. If the claim as written adds a detail the video's words do not say, answer on the video's words and say so in your note.
-9. Source order: the governing record or primary source first (the agency, the study, the law, the official data), then reliable reporting. Copies of the same wire story are one source.
+9. Beliefs, doctrines, interpretations of scripture and moral value judgments are not labeled true or false by public sources. Factual, historical and textual claims about faith (for example, what a passage says or when an event happened) are checked like any other claim.
+10. Say so in your note when you could not play the video or reach a deciding source, and when a judgment rests on the captions alone. Where the task allows "cannot_determine", use it when the captions or available context are not enough.
+11. Source order: the governing record or primary source first (the agency, the study, the law, the official data), then reliable reporting. Copies of the same wire story are one source.
 
 Answer format: JSON only, in ONE code block (or as the file named in your task). Each note is one sentence, and must include the link to the source that decided your answer.
 If you run low on capacity, finish whole items and say where you stopped.
