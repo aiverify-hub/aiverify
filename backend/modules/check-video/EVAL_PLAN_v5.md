@@ -44,3 +44,10 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 
 - Software commit: e039beb.
 - Video list: EVAL_V5_VIDEO_IDS.tsv, 100 videos, SHA-256 7d948c5e4f7c27ed5291ae77b6280716cdc2be83d44ceb24839846f516a4f051 (LF line endings, as written). Three queries found no qualifying video (aspartame cancer warning, china spy balloon, 5g conspiracy); backups were chosen before any v5 run: salt substitute heart study, drone attack news, titanic conspiracy theory. Two other conspiracy backups (mandela effect explained, hollow earth theory) were dropped unused because they repeated earlier queries. No system output was seen during selection.
+
+## 7. Run record
+
+- Fresh run: November 23, 2026, just after midnight Eastern, software e039beb, all 100 listed videos, none replaced. Results in the runs folder under fresh-v5. Cost $17.88 (about $0.18 a video).
+- 85 videos produced a result; 15 had no captions (the caption service and the watch page both found none). These stay in the test as "couldn't read captions" results; Cary grades them like any other video. 10 of the 85 had no checkable claim.
+- 263 claims: backed 124, shown false 7, not established 132 (50%; v4 69%). 13 claims were rewritten once from the captions; 63 got a second search, and 14 of those ended with a firm answer.
+- Review files (November 23): Fred's blind file has 100 firm claims from 57 videos and 30 "not established" claims (131 firm and 132 "not established" available; sample seed 20261126; no AIVerify labels in the file). Bob's file has all 7 "shown false" findings. Cary's page covers all 100 videos.
