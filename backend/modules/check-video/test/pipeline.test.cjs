@@ -38,6 +38,8 @@ function fakeIo(opts) {
       if (/list the factual claims/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'factual', note: '', claims: [
         { claim: 'NASA\'s James Webb Space Telescope launched on December 25, 2021.', video_quote: 'The James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date', corrections: [] },
         { claim: 'The Moon is made of cheese.', video_quote: 'the moon is made of cheese', search_query: 'moon composition', corrections: [] }] }) }] }) };
+      // v5 claim rewrite: unreadable by default (the original claim is kept); tests of the rewrite set o.repair.
+      if (/You fix ONE claim/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.repair ? o.repair(content) : { none: true }) }] }) };
       // v3 second check of "shown false" findings: confirms by default; tests of the check set o.verify.
       if (/double-check a "shown false" finding/.test(content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage, content: [{ type: 'text', text: JSON.stringify(o.verify ? o.verify(content) : { problem: 'none', confirmed: true, reason: 'The excerpt proves it.' }) }] }) };
       // v4 detail check of "backed" findings: confirms by default; tests of the check set o.detail.
@@ -630,4 +632,63 @@ test('v4 option: a corrected name spelling found in the captions, the claim and 
   assert.equal(f(on, claim, [{ excerpt: 'No such name here.' }]), false, 'name must appear in a source');
   assert.equal(f(on, Object.assign({}, claim, { corrections: [{ heard: '1928', written: '1929', kind: 'number', matched: true }] }), [{ excerpt: '1929' }]), false, 'numbers stay strict');
   assert.equal(f(on, Object.assign({}, claim, { correctionsUnmatched: true }), src), false, 'an unmatched correction stays a guess');
+});
+
+// ---------- v5 ----------
+const isRepair = x => x.p === '/v1/messages' && /You fix ONE claim/.test(x.body.messages[0].content);
+const REWRITE = () => ({ claim: 'The James Webb Space Telescope launched on December 25, 2021.', video_quote: 'The James Webb telescope went up on Christmas Day 2021', search_query: 'Webb launch date', page_terms: [], political: false, corrections: [] });
+const D = (detail, status, kind, inVideo) => ({ detail, status, source: status === 'missing' ? 0 : 1, kind, in_video: inVideo });
+
+test('v5: a detail that differs only in wording does not withhold a backed finding; a material one does', async () => {
+  const wording = () => ({ details: [D('launched', 'stated', 'action', true), D('NASA\'s', 'differs', 'wording', true)], reason: 'x' });
+  const r1 = await createCheckVideo({ io: fakeIo({ judge: SUPPORT_NASA, detail: wording }), runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r1.claims[0].verdict, 'supported'); assert.equal(r1.claims[0].detailCheck.wordingOnly, 1);
+  const number = () => ({ details: [D('launched', 'stated', 'action', true), D('2021', 'differs', 'number', true)], reason: 'x' });
+  const r2 = await createCheckVideo({ io: fakeIo({ judge: SUPPORT_NASA, detail: number }), runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r2.claims[0].verdict, 'insufficient');
+  const off = await createCheckVideo({ io: fakeIo({ judge: SUPPORT_NASA, detail: wording }), runsDir: tmp(), config: { wordingTolerant: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(off.claims[0].verdict, 'insufficient', 'can be turned off');
+  const io = fakeIo({ judge: SUPPORT_NASA }); await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const db = io.calls.anthropic.find(x => x.p === '/v1/messages' && /double-check a "backed" finding/.test(x.body.messages[0].content)).body.messages[0].content;
+  assert.match(db, /Video caption passage/); assert.match(db, /Christmas Day 2021/); assert.match(db, /When unsure, do not use "wording"/);
+});
+
+test('v5: when every failing detail was added by the claim writer, the claim is rewritten once and judged again', async () => {
+  const detail = c => /Claim: NASA's/.test(c) ? { details: [D('launched', 'stated', 'action', true), D('NASA\'s', 'missing', 'person_or_org', false)], reason: 'x' } : { details: [D('launched', 'stated', 'action', true)], reason: 'ok' };
+  const io = fakeIo({ judge: SUPPORT_NASA, detail, repair: REWRITE });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const c = r.claims[0];
+  assert.equal(c.verdict, 'supported'); assert.match(c.repairedFrom, /NASA's/); assert.doesNotMatch(c.claim, /NASA/);
+  assert.equal(c.firstTry.detailCheck.addedOnly, true); assert.equal(c.central, true);
+  assert.equal(io.calls.anthropic.filter(isRepair).length, 1);
+  const rp = io.calls.anthropic.find(isRepair).body.messages[0].content;
+  assert.match(rp, /even if you think the video is wrong/); assert.match(rp, /does not say: NASA's/);
+  // A failing detail the video itself said is never rewritten away.
+  const said = c2 => ({ details: [D('launched', 'stated', 'action', true), D('NASA\'s', 'missing', 'person_or_org', true)], reason: 'x' });
+  const io2 = fakeIo({ judge: SUPPORT_NASA, detail: said, repair: REWRITE });
+  const r2 = await createCheckVideo({ io: io2, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r2.claims[0].verdict, 'insufficient'); assert.equal(io2.calls.anthropic.filter(isRepair).length, 0);
+  // A rewrite whose quote is not in the captions is discarded.
+  const io3 = fakeIo({ judge: SUPPORT_NASA, detail, repair: () => Object.assign(REWRITE(), { video_quote: 'words the video never said' }) });
+  const r3 = await createCheckVideo({ io: io3, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r3.claims[0].verdict, 'insufficient'); assert.equal(r3.claims[0].repairedFrom, undefined);
+  // Turned off: no rewrite.
+  const io4 = fakeIo({ judge: SUPPORT_NASA, detail, repair: REWRITE });
+  await createCheckVideo({ io: io4, runsDir: tmp(), config: { repairClaims: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(io4.calls.anthropic.filter(isRepair).length, 0);
+});
+
+test('v5: a claim with numbers the captions do not say is rewritten from the passage before the search', async () => {
+  const io = fakeIo({ judge: SUPPORT_NASA, repair: REWRITE });
+  const orig = io.anthropic;
+  io.anthropic = async (p, body, h) => {
+    const r = await orig(p, body, h);
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) { const j = JSON.parse(r.body); const t = JSON.parse(j.content[0].text); t.claims[0].claim = 'NASA\'s James Webb Space Telescope, with a 6.5-meter mirror, launched on December 25, 2021.'; j.content[0].text = JSON.stringify(t); return { status: 200, body: JSON.stringify(j) }; }
+    return r;
+  };
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const c = r.claims[0];
+  assert.match(c.repairedFrom, /6\.5/); assert.doesNotMatch(c.claim, /6\.5/); assert.deepEqual(c.missingNumbers, []);
+  assert.equal(c.verdict, 'supported');
+  assert.match(io.calls.anthropic.find(isRepair).body.messages[0].content, /number\(s\) 6\.5/);
 });
