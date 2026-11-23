@@ -49,3 +49,10 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 ## 7. Amendment before any v6 review (November 23, 2026)
 
 Grok is dropped as a reviewer (Cary left it to Claude). Evidence, from the v5 blind file: in Fast mode it agreed with AIVerify on 68 of 100 firm claims and could not find late-2026 events. In Expert mode, with today's date given, it answered only 15 of 130 claims, invented the item IDs for 4 of them ("placeholder-..."), and agreed with Fred on 5 of the 11 it could be matched on. Section 3 is otherwise unchanged: Fred alone answers the blind sample, Bob alone reviews the "shown false" findings and the main claims, and Cary decides only where they disagree with AIVerify. No gate used Grok's answers, so no gate changes.
+
+## 8. Run record
+
+- Fresh run: November 23, 2026, morning Eastern, software 4087c30, all 100 listed videos, none replaced. Results in the runs folder under fresh-v6. Cost $17.62 (about $0.18 a video).
+- 86 videos produced a result; 14 had no captions. 11 of the 86 had no checkable claim, so 75 videos have a main claim.
+- 251 claims: backed 99, shown false 9, not established 143 (57%). Main claims: backed 31, shown false 3, not established 41.
+- Review files (November 23): Fred's blind file has 100 firm claims from 59 videos and 30 "not established" claims (108 firm and 143 "not established" available; seed 20261127; no AIVerify labels). Bob's files: all 9 "shown false" findings; the 75 main claims with each video's full captions.
