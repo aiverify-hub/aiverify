@@ -155,16 +155,17 @@
     return box;
   }
 
-  // v10 beta: Report a problem on any claim (Cary: beta users become our reviewers).
+  // v10 beta: suggestions on any claim (Cary: we are open to suggestions for improvement, not inviting complaints).
   function reportBlock(r, n) {
-    var d = el('details', { cls: 'suggest' }); d.appendChild(el('summary', { text: 'Report a problem with this answer' }));
-    var note = el('textarea', { placeholder: 'What is wrong? (optional: a source link)', 'aria-label': 'What is wrong with this answer' });
-    var msg = el('p', { cls: 'saved', role: 'status' }), send = el('button', { type: 'button', cls: 'go', text: 'Send report' });
-    send.addEventListener('click', function () { if (!note.value.trim()) { msg.textContent = 'Please say what is wrong.'; return; } msg.textContent = 'Sending…';
-      fetch('/check-video/report', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ runId: r.runId, n: n, note: note.value }) })
-        .then(function (x) { return x.json(); }).then(function (j) { msg.textContent = j.ok ? 'Thank you. Every report is reviewed.' : 'Not sent.'; if (j.ok) note.value = ''; })
+    var d = el('details', { cls: 'suggest' }); d.appendChild(el('summary', { text: 'Have a suggestion?' }));
+    var kind = el('select', { 'aria-label': 'Kind of suggestion' }); [['verse', 'Suggest a verse that applies'], ['source', 'Suggest a better source'], ['improvement', 'Suggest an improvement']].forEach(function (o) { kind.appendChild(el('option', { value: o[0], text: o[1] })); });
+    var note = el('textarea', { placeholder: 'Your suggestion (a verse reference, a link, or a few words)', 'aria-label': 'Your suggestion' });
+    var msg = el('p', { cls: 'saved', role: 'status' }), send = el('button', { type: 'button', cls: 'go', text: 'Send suggestion' });
+    send.addEventListener('click', function () { if (!note.value.trim()) { msg.textContent = 'Please type your suggestion.'; return; } msg.textContent = 'Sending…';
+      fetch('/check-video/report', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ runId: r.runId, n: n, kind: kind.value, note: note.value }) })
+        .then(function (x) { return x.json(); }).then(function (j) { msg.textContent = j.ok ? 'Thank you. We read every suggestion.' : 'Not sent.'; if (j.ok) note.value = ''; })
         .catch(function () { msg.textContent = 'Not sent. Please try again.'; }); });
-    [note, send, msg].forEach(function (x) { d.appendChild(x); }); return d;
+    [kind, note, send, msg].forEach(function (x) { d.appendChild(x); }); return d;
   }
   function suggestBlock(r) {
     var d = el('details', { cls: 'suggest' });

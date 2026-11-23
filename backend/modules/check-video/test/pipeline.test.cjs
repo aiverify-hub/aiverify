@@ -916,10 +916,10 @@ test('v10: a named passage is read with its context verses; hedges include "can"
   assert.match(p, /Read the claim in the sense the CAPTION PASSAGE gives it/);
 });
 
-test('v10 beta: a user report is saved only with a valid run, claim number and note', () => {
+test('v10 beta: a user suggestion is saved only with a valid run, claim number and note', () => {
   const dir = tmp(), cv = P0.createCheckVideo({ io: fakeIo(), runsDir: dir });
-  assert.equal(cv.saveReport({ runId: '2026-11-23T20-00-00Z-abc123', n: 2, note: '  The verse is quoted wrong.  ' }), true);
+  assert.equal(cv.saveReport({ runId: '2026-11-23T20-00-00Z-abc123', n: 2, kind: 'verse', note: '  Also see James 1:5.  ' }), true);
   for (const bad of [{ runId: 'x', n: 2, note: 'a' }, { runId: '2026-11-23T20-00-00Z-abc123', n: 0, note: 'a' }, { runId: '2026-11-23T20-00-00Z-abc123', n: 2, note: '   ' }]) assert.equal(cv.saveReport(bad), false);
-  const rows = require('fs').readFileSync(require('path').join(dir, 'user-reports.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
-  assert.equal(rows.length, 1); assert.equal(rows[0].note, 'The verse is quoted wrong.'); assert.equal(rows[0].claim, 2);
+  const rows = require('fs').readFileSync(require('path').join(dir, 'user-suggestions.jsonl'), 'utf8').trim().split('\n').map(JSON.parse);
+  assert.equal(rows.length, 1); assert.equal(rows[0].note, 'Also see James 1:5.'); assert.equal(rows[0].kind, 'verse'); assert.equal(rows[0].claim, 2);
 });

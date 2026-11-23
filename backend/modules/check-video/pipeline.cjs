@@ -976,12 +976,14 @@ function saveReview(dir, id, review) {
 }
 
 // Visitors may suggest sources they consider more accurate; each suggestion is kept for the regular source review.
-// v10 beta (Cary, November 23, 2026): a user's report of a wrong or unclear answer, kept for review and analytics.
+// v10 beta (Cary, November 23, 2026): a user's suggestion on an answer (a verse that applies, a better source, or an
+// improvement), kept for review and analytics.
 function saveReport(dir, x) {
   const runId = /^[0-9TZ-]+-[0-9a-f]{6}$/.test(String(x && x.runId || '')) ? x.runId : null, n = Number.isInteger(x && x.n) && x.n >= 1 && x.n <= 20 ? x.n : null;
   const note = String(x && x.note || '').replace(/\s+/g, ' ').trim().slice(0, 1000);
+  const kind = ['verse', 'source', 'improvement'].includes(x && x.kind) ? x.kind : 'improvement';
   if (!runId || !n || !note) return false;
-  try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'user-reports.jsonl'), JSON.stringify({ at: new Date().toISOString(), runId, claim: n, note }) + '\n'); return true; } catch (_e) { return false; }
+  try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'user-suggestions.jsonl'), JSON.stringify({ at: new Date().toISOString(), runId, claim: n, kind, note }) + '\n'); return true; } catch (_e) { return false; }
 }
 function saveSourceSuggestion(dir, s) {
   const url = String(s && s.url || '').trim(), note = String(s && s.note || '').replace(/\s+/g, ' ').trim().slice(0, 1000);
