@@ -430,6 +430,8 @@ async function gatherEvidence(ctx, claim, videoId) {
   const reported = j && j.costDollars && Number(j.costDollars.total);
   budget.settle(led, Number.isFinite(reported) ? reported : NaN); out.exaUsd = Number.isFinite(reported) ? reported : null;
   if (r.status === 401 || r.status === 403) throw Object.assign(new Error('Exa key was refused'), { code: 'VENDOR_ACCESS' });
+  // November 23, 2026: an empty Exa account (HTTP 402) stops the whole check, so claims are never judged without a search.
+  if (r.status === 402) throw Object.assign(new Error('Exa search credits are used up (HTTP 402); add credits'), { code: 'VENDOR_ACCESS' });
   if (r.status !== 200 || !j || !Array.isArray(j.results)) { out.error = 'Search failed (HTTP ' + r.status + ').'; return out; }
   const seen = new Set();
   const cands = j.results.filter(x => x && x.url).map((x, rank) => ({ url: String(x.url), title: squash(x.title).slice(0, 200), exaText: typeof x.text === 'string' ? x.text : '', rank }))

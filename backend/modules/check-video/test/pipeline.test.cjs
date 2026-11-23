@@ -807,3 +807,9 @@ test('v7: prompts carry the scope rule, the opening and closing, and the hedge r
   assert.match(P.judgePrompt('x', [], '', ''), /HEDGES AND UNCLEAR TERMS/);
   assert.match(require('fs').readFileSync(require('path').join(__dirname, '..', 'pipeline.cjs'), 'utf8'), /'claude-opus-5-5': \[4, 20\]/);
 });
+
+test('an empty search account (Exa HTTP 402) stops the check instead of judging claims without a search', async () => {
+  const io = fakeIo({ judge: SUP_NASA }); io.exa = async () => ({ status: 402, body: JSON.stringify({ error: 'credits' }) });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.ok, false); assert.equal(r.stage, 'provider'); assert.match(r.error, /credits are used up/);
+});
