@@ -852,3 +852,9 @@ test('scriptures: words the translators added stay marked for checks, and never 
   assert.match(v.marked, /slew \[the brother of\] Goliath/); assert.match(v.text, /slew the brother of Goliath/);
   assert.match(require('../pipeline.cjs').judgePrompt('x', [], '', ''), /Words in \[square brackets\] in a passage were added by the translators/);
 });
+
+test('scriptures: 1 Enoch (tier 2) is available locally', () => {
+  const S = require('../../scriptures/scriptures.cjs');
+  const v = S.lookup('Enoch 1:9')[0]; assert.equal(v.ref, '1 Enoch 1:9'); assert.equal(v.tier, 2); assert.match(v.text, /ten thousands of His holy ones/);
+  assert.equal(S.lookup('1 Enoch 108:15').length, 1);
+});

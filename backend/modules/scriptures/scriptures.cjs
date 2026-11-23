@@ -22,7 +22,8 @@ const BOOKS = [
   ['2JO', '2 John', 1, ['2 jn', '2jn', 'ii john', 'second john']], ['3JO', '3 John', 1, ['3 jn', '3jn', 'iii john', 'third john']], ['JUD', 'Jude', 1, []], ['REV', 'Revelation', 1, ['rev', 'revelations', 'apocalypse', 'revelation of john']],
   ['TOB', 'Tobit', 2, ['tob']], ['JDT', 'Judith', 2, ['jdt']], ['ESG', 'Esther (Greek)', 2, ['additions to esther']], ['WIS', 'Wisdom of Solomon', 2, ['wisdom', 'wis']], ['SIR', 'Sirach', 2, ['ecclesiasticus', 'ben sira', 'sir']],
   ['BAR', 'Baruch', 2, ['bar']], ['PRA', 'Prayer of Azariah', 2, ['song of the three']], ['SUS', 'Susanna', 2, ['sus']], ['BEL', 'Bel and the Dragon', 2, ['bel']], ['1MA', '1 Maccabees', 2, ['1 macc', '1mac', 'i maccabees', 'first maccabees']],
-  ['2MA', '2 Maccabees', 2, ['2 macc', '2mac', 'ii maccabees', 'second maccabees']], ['1ES', '1 Esdras', 2, ['1 esd', 'i esdras', 'first esdras', '3 esdras']], ['PRM', 'Prayer of Manasseh', 2, ['prayer of manasses', 'manasseh']], ['4ES', '2 Esdras', 2, ['2 esd', 'ii esdras', 'second esdras', '4 esdras', '4 ezra']]
+  ['2MA', '2 Maccabees', 2, ['2 macc', '2mac', 'ii maccabees', 'second maccabees']], ['1ES', '1 Esdras', 2, ['1 esd', 'i esdras', 'first esdras', '3 esdras']], ['PRM', 'Prayer of Manasseh', 2, ['prayer of manasses', 'manasseh']], ['4ES', '2 Esdras', 2, ['2 esd', 'ii esdras', 'second esdras', '4 esdras', '4 ezra']],
+  ['ENO', '1 Enoch', 2, ['enoch', 'book of enoch', 'i enoch', 'first enoch', 'ethiopic enoch']]
 ];
 const byCode = new Map(BOOKS.map(b => [b[0], { code: b[0], name: b[1], tier: b[2] }]));
 const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
@@ -33,7 +34,9 @@ let DATA = null;
 function load(file) {
   if (DATA && !file) return DATA;
   const verses = new Map(), order = [], index = new Map();
-  const text = fs.readFileSync(file || path.join(__dirname, 'kjv-vpl.txt'), 'utf8');
+  // 1 Enoch: R. H. Charles, The Book of Enoch (SPCK, 1917), public domain, from Wikisource (one page per chapter, fetched
+  // November 23, 2026). A few verses whose numbers were missing on the page are merged into the verse before them.
+  const text = file ? fs.readFileSync(file, 'utf8') : ['kjv-vpl.txt', 'enoch-vpl.txt'].map(f => fs.readFileSync(path.join(__dirname, f), 'utf8')).join('\n');
   for (const line of text.split(/\r?\n/)) {
     const m = line.match(/^([0-9A-Z]{3}) (\d+):(\d+) (.*)$/); if (!m || !byCode.has(m[1])) continue;
     const key = m[1] + ' ' + m[2] + ':' + m[3];
@@ -79,4 +82,4 @@ function search(phrase, n, opts) {
     .map(x => { const k = d.order[x.i]; return Object.assign(verse(k, d.verses.get(k)), { score: +x.s.toFixed(2) }); })
     .filter(v => v.tier <= tierMax).slice(0, n || 5);
 }
-module.exports = { load, lookup, search, parseRef, BOOKS, bookName: code => (byCode.get(code) || {}).name || null, SOURCE: 'King James Version (1769) with Apocrypha, public domain, eBible.org eng-kjv_vpl 2026-11-15' };
+module.exports = { load, lookup, search, parseRef, BOOKS, bookName: code => (byCode.get(code) || {}).name || null, SOURCE: 'King James Version (1769) with Apocrypha, public domain, eBible.org eng-kjv_vpl 2026-11-15; 1 Enoch, R. H. Charles 1917, public domain, Wikisource' };
