@@ -750,3 +750,60 @@ test('v6: prompts carry the separate-claims rule and the strict backed-detail ru
   const dp = _internal.detailPrompt({ claim: 'x' }, [], 'May 1, 2025');
   for (const rule of [/states it as its own finding/, /same whole group/, /primary\/official excerpt decides/, /current within about a year/]) assert.match(dp, rule);
 });
+
+const SUP_NASA = c => /Webb Space Telescope launched/.test(c) ? { verdict: 'supported', quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'NASA states the date.' } : null;
+function withClaims(io, extra) {
+  const orig = io.anthropic;
+  io.anthropic = async (p, body) => {
+    if (p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content)) {
+      const r = await orig(p, body); const outer = JSON.parse(r.body), inner = JSON.parse(outer.content[0].text);
+      outer.content[0].text = JSON.stringify(Object.assign(inner, extra)); return { status: 200, body: JSON.stringify(outer) };
+    }
+    return orig(p, body);
+  };
+  return io;
+}
+
+test('v7: a video outside the scope is declined before any search, with the approved purpose line', async () => {
+  const io = withClaims(fakeIo({ judge: SUP_NASA }), { in_scope: false, scope_reason: 'A gadget review with no claims that could harm or mislead.' });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.ok, true); assert.equal(r.outOfScope, true); assert.deepEqual(r.claims, []);
+  assert.match(r.summary, /^AIVerify checks videos to show whether they line up with the truth according to the Scriptures\. This video is outside what AIVerify checks\./);
+  assert.equal(io.calls.exa.length, 0, 'no paid search for a declined video');
+  assert.doesNotMatch(r.summary, /Bible|KJV/);
+  const inScope = await createCheckVideo({ io: fakeIo({ judge: SUP_NASA }), runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.ok(!inScope.outOfScope, 'a missing in_scope answer is treated as in scope');
+});
+
+test('v7: a list video has no single main claim in the headline', async () => {
+  const r = await createCheckVideo({ io: withClaims(fakeIo({ judge: SUP_NASA }), { list_video: true }), runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.headline.verdict, 'list'); assert.match(r.headline.claim, /no single main claim/);
+  assert.match(r.summary, /^Claims checked \(2\): 1 backed/);
+});
+
+test('v7: "backed" needs a second, independent judge (Opus 5.5) to agree', async () => {
+  const io = fakeIo({ judge: SUP_NASA });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'supported'); assert.equal(r.claims[0].secondJudge.agrees, true);
+  const opus = io.calls.anthropic.filter(x => x.p === '/v1/messages' && x.body.model === 'claude-opus-5-5');
+  assert.equal(opus.length, 1, 'one second-judge call for the one backed claim');
+  assert.ok(!('thinking' in opus[0].body), 'Opus 5.5: thinking is not sent (it cannot be disabled)');
+  assert.equal(opus[0].body.output_config.effort, 'medium');
+  for (const other of [{ verdict: 'insufficient', quote: '', source: 0, reason: 'Not settled.' }, { verdict: 'supported', quote: 'x', source: 1, reason: 'x', parts: [{ part: 'date', status: 'not_established' }] }, { verdict: 'supported', quote: 'x', source: 1, reason: 'x', video_says: 'unclear' }]) {
+    const io2 = fakeIo({ judge: SUP_NASA }), orig = io2.anthropic;
+    io2.anthropic = async (p, body) => p === '/v1/messages' && body.model === 'claude-opus-5-5' ? { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 100, output_tokens: 50 }, content: [{ type: 'text', text: JSON.stringify(Object.assign({ video_says: 'yes', parts: [{ part: 'the claim', status: other.verdict === 'supported' ? 'backed' : 'not_established' }], next_search: '' }, other)) }] }) } : orig(p, body);
+    const r2 = await createCheckVideo({ io: io2, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+    assert.equal(r2.claims[0].verdict, 'insufficient', JSON.stringify(other)); assert.match(r2.claims[0].reason, /second, independent judge did not agree/);
+  }
+});
+
+test('v7: prompts carry the scope rule, the opening and closing, and the hedge rule; Opus is priced at its own rate', () => {
+  const P = require('../pipeline.cjs');
+  const long = Array.from({ length: 400 }, (_, i) => 'w' + i).join(' ');
+  const cp = P.claimPrompt('t', long, 4, 'May 1, 2025');
+  assert.match(cp, /"in_scope"/); assert.match(cp, /"list_video"/); assert.match(cp, /never the opening hook/);
+  assert.match(cp, /Opening \(first part of the captions\): w0 w1/); assert.match(cp, /Closing \(last part of the captions\): .*w399/);
+  assert.doesNotMatch(P.claimPrompt('t', 'short captions', 4, ''), /Opening \(first part/);
+  assert.match(P.judgePrompt('x', [], '', ''), /HEDGES AND UNCLEAR TERMS/);
+  assert.match(require('fs').readFileSync(require('path').join(__dirname, '..', 'pipeline.cjs'), 'utf8'), /'claude-opus-5-5': \[4, 20\]/);
+});
