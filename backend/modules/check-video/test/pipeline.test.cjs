@@ -823,3 +823,25 @@ test('videos under 3 minutes are declined before any model call; unknown length 
   const r2 = await createCheckVideo({ io: long, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.ok(!r2.tooShort); assert.equal(r2.claims.length, 2);
 });
+
+test('scriptures: a claim about what the Scriptures say is checked against the local text, with no web search; teachings get local verses', async () => {
+  const S = require('../../scriptures/scriptures.cjs');
+  assert.equal(S.lookup('1 Tim. 6:10')[0].ref, '1 Timothy 6:10'); assert.match(S.lookup('1 Timothy 6:10')[0].text, /^For the love of money is the root of all evil/);
+  assert.equal(S.lookup('Hezekiah 1:1').length, 0, 'no such book');
+  assert.equal(S.search('money is the root of all evil', 1)[0].ref, '1 Timothy 6:10');
+  assert.equal(S.lookup('Sirach 1:1')[0].tier, 2);
+  const io = fakeIo({ transcript: { ok: true, title: 'Money', source: 'fake', text: 'The Bible says money is the root of all evil, so stay poor and you will be holy.' },
+    judge: c => /money is the root of all evil/.test(c) && /Role "scripture"/.test(c) ? { verdict: 'contradicted', quote: 'For the love of money is the root of all evil', source: 1, reason: 'The passage says the love of money.', parts: [{ part: 'money is the root of all evil', status: 'shown_false' }] } : null,
+    verify: () => ({ problem: 'none', confirmed: true, video_words: 'The Bible says money is the root of all evil', part_adds_detail: false, reason: 'x' }) });
+  const orig = io.anthropic;
+  io.anthropic = async (p, body) => p === '/v1/messages' && /list the factual claims/.test(body.messages[0].content) ? { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 10, output_tokens: 10 }, content: [{ type: 'text', text: JSON.stringify({ video_kind: 'faith', in_scope: true, scope_reason: 'x', list_video: false, note: '',
+    teachings: [{ teaching: 'Poverty makes a person holy.', refs: ['Proverbs 30:8', 'Hezekiah 4:4'] }],
+    claims: [{ claim: 'The Bible says money is the root of all evil.', video_quote: 'The Bible says money is the root of all evil', search_query: 'q', kind: 'scripture', scripture_refs: ['1 Timothy 6:10', 'Nowhere 1:1'], corrections: [] }] }) }] }) } : orig(p, body);
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.ok, true, r.error); assert.equal(io.calls.exa.length, 0, 'no web search for a scripture claim');
+  const c = r.claims[0]; assert.equal(c.kind, 'scripture'); assert.deepEqual(c.scriptureRefs, ['1 Timothy 6:10']);
+  assert.equal(c.sources[0].publisher, '1 Timothy 6:10'); assert.equal(c.sources[0].role, 'scripture');
+  assert.equal(c.verdict, "contradicted", JSON.stringify({ notes: c.notes, reason: c.reason, wh: c.wouldHaveBeen, rel: r.reliability })); assert.match(c.quote.text, /love of money/);
+  assert.equal(r.teachings.length, 1); assert.equal(r.teachings[0].verses[0].ref, 'Proverbs 30:8'); assert.match(r.teachings[0].verses[0].text, /^Remove far from me vanity and lies/);
+  assert.doesNotMatch(JSON.stringify(r.teachings) + r.summary, /KJV|King James/);
+});
