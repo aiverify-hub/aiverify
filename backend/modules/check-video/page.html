@@ -138,8 +138,8 @@
       }
       box.appendChild(d);
     });
-    // Supporting Scriptures (Cary, November 23, 2026): the passages that relate to a teaching the video presents, shown as text only; AIVerify never interprets or states what they mean.
-    (r.teachings || []).forEach(function (t) { var d = el('div', { cls: 'claim' }); d.appendChild(el('div', { cls: 'small', text: 'Supporting Scriptures to Consider and Share' })); d.appendChild(el('h3', { text: t.teaching })); t.verses.forEach(function (v) { d.appendChild(el('blockquote', { text: v.text })); d.appendChild(el('p', { cls: 'small', text: v.ref })); }); box.appendChild(d); });
+    // Related Scriptures (Cary, November 23, 2026; named "Related" on video results so they never seem to endorse the video's teaching): passages that relate to a teaching the video presents, text only; AIVerify never interprets or states what they mean.
+    (r.teachings || []).forEach(function (t) { var d = el('div', { cls: 'claim' }); d.appendChild(el('div', { cls: 'small', text: 'Related Scriptures to Consider and Share' })); d.appendChild(el('h3', { text: t.teaching })); t.verses.forEach(function (v) { d.appendChild(el('blockquote', { text: v.text })); d.appendChild(el('p', { cls: 'small', text: v.ref })); }); box.appendChild(d); });
     if (r.limits) box.appendChild(el('p', { cls: 'limits', text: r.limits }));
     if (r.ok && (r.claims || []).length) box.appendChild(el('p', { cls: 'small' }, ['Looking for a faith or moral perspective on this topic? This is optional: ', safeLink('https://aiverify.tech/', 'ask on AIVerify’s main page'), ' (answers from the Scriptures).']));
     if (r.cost) box.appendChild(el('p', { cls: 'small', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
