@@ -19,7 +19,7 @@ const DEFAULTS = {
   exaUsdPerSearch: 0.007, exaUsdPerPage: 0.001,  // reservation only; Exa's reported costDollars settles it
   maxClaims: 4, maxSources: 4, maxPerPublisher: 2, exaResults: 8, excerptChars: 10000, minSourceChars: 300,
   transcriptMaxChars: 120000, fetchLimitBytes: 1500000, fetchTimeoutMs: 8000,
-  nameFixesVerified: true, repairClaims: true, wordingTolerant: true, sourceNamed: true, falseWordsBound: true, scopeGate: true, minVideoSec: 180, backedSecondModel: 'claude-opus-5-5', backedSecondEffort: 'medium', backedSecondMaxTokens: 6000, perRunUsdCap: 0.6, dailyUsdCap: 5, runDeadlineMs: 170000, minWordsPerMinute: 65,
+  nameFixesVerified: true, repairClaims: true, wordingTolerant: true, sourceNamed: true, falseWordsBound: true, scopeGate: true, minVideoSec: 180, backedSecondModel: 'claude-opus-5-5', backedSecondEffort: 'medium', backedSecondMaxTokens: 6000, perRunUsdCap: 1.5, dailyUsdCap: 5, runDeadlineMs: 230000, minWordsPerMinute: 65,
   // Caption service (Supadata, native mode): 1 credit per transcript, polls free (Fred research, docs.supadata.ai/get-transcript).
   // Highest listed per-credit value is $0.0167 (Basic plan), so $0.02 covers one native request at any listed plan rate.
   captionUsdReserve: 0.02
