@@ -56,3 +56,10 @@ Grok is dropped as a reviewer (Cary left it to Claude). Evidence, from the v5 bl
 - 86 videos produced a result; 14 had no captions. 11 of the 86 had no checkable claim, so 75 videos have a main claim.
 - 251 claims: backed 99, shown false 9, not established 143 (57%). Main claims: backed 31, shown false 3, not established 41.
 - Review files (November 23): Fred's blind file has 100 firm claims from 59 videos and 30 "not established" claims (108 firm and 143 "not established" available; seed 20261127; no AIVerify labels). Bob's files: all 9 "shown false" findings; the 75 main claims with each video's full captions.
+
+## 9. Results so far (November 23, 2026)
+
+- Gate C (main claim): FAIL. Bob: the main claim matched what the video says in 69 of 75 videos (92%), but was the video's main point in only 44 of 75 (59%; 90% needed); both yes in 41. In most misses the claim writer chose the opening hook or the first item of a list (for example, one class of blood-pressure drug in a video about four; one fact from a "10 facts" video) instead of what the video is mostly about.
+- Gate B (shown false): Bob confirmed 6 of 9; 2 unresolved (an undefined "criminal record" figure; the ambiguous phrase "very close to the origins of dogs") and 1 false accusation (a hedged "what appears to be a pyramid" claim was treated as a firm assertion). Not sent to Cary, because gate C already fails.
+- Gate A: Fred's blind review pending.
+- Lessons for v7: choose the main claim from what the whole video is mostly about (title and the whole captions), and say so plainly when a video is a list with no single main claim; never call a hedged statement ("appears to be", "may") false; an undefined or ambiguous term leaves a claim "not established".
