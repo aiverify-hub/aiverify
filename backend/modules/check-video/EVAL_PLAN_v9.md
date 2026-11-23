@@ -33,3 +33,10 @@ Within Cary's $500 a month (November so far: about $180). Runaway backstop $50. 
 ## Beta pass marks (Cary, November 23, 2026, set before any v9 review or score)
 
 Cary: "No answers in an acceptable amount is much better than any wrong answers." A labeled beta (a "Beta" tag on the page and a way for users to flag answers) may be considered when: gate B has zero false accusations (no exceptions); gate A is at least 85%; gates C and D are at least 80% each. Full release keeps the 90% marks. Going live still needs Cary's go-ahead.
+
+## Run record (November 23, 2026)
+
+- All 98 videos, software 7d383ad, $22.82 (about $0.23 a video). 95 readable; 14 declined by the scope rule; 81 checked; no search errors; none stopped early.
+- 319 claims: backed 76, shown false 7, not established 236 (74%). 130 were claims about what the Scriptures say (backed 31, shown false 3, not established 96). Main claims: backed 5, shown false 2, not established 72, list videos 2. Supporting Scriptures on 55 of 81 checked videos.
+- 83 firm claims (100 required), so gate A is INCONCLUSIVE; Fred reviews all 83 plus 30 "not established" (seed 20261130).
+- Review files built: FRED_V9_BLIND (113 claims), BOB_V9_1_SCOPE (95 videos, blind), BOB_V9_2_SHOWN_FALSE (7), BOB_V9_3_MAIN_CLAIM (81 videos, with the Supporting Scriptures relevance question).
