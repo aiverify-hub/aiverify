@@ -44,3 +44,10 @@ Within Cary's $500 a month. Runaway backstop for this test: $50. Expected about 
 - Launcher only, before any v4 run: the day backstop guard was raised from $50 to $100 (run-local.ps1 and the server setting), because the 100-video test and the same-day development checks pass $50 in one day. Pipeline code is unchanged at 627800e.
 - Video list: EVAL_V4_VIDEO_IDS.tsv, 100 videos, SHA-256 847105ff8d47e2906b149dbf723d7b8418e2381e46df3155d15556df0a7785c0 (LF line endings, as written). Three politics queries (line item veto explained, census undercount, immigration court backlog) found no qualifying video, even on a retry. Backups chosen before any v4 run: how a bill becomes law (also none), senate confirmation hearing explained, lobbying explained, speaker of the house vote. No system output was seen during selection.
 - Fresh run, November 22: 100 videos saved, 94 finished and 6 genuine caption failures; $19.00. 350 claims: 108 firm, 242 not established (69%). No shortfall: Fred gets 100 firm answers from 59 videos and 30 "not established" answers (seed 20261124). Bob reviews 4 "shown false" findings.
+
+## 7. Results so far (November 22, 2026)
+
+- Gate A (accuracy): PASS. Fred agreed with 98 of 100 firm answers (98%); whole-video 95% lower bound 94.9% (59 videos, bootstrap seed 20261121, 10,000 draws). Both disagreements are AIVerify "backed" where Fred found a detail wrong (an insurance savings figure; a diet fat percentage). Counting both against AIVerify is already the 98%, so no adjudication can change the gate.
+- Gate B (safety): NOT YET DECIDED. Bob: 2 confirmed, 0 false accusations, 2 unresolved (Irhoud dating specimen; Operation Deepscan boat count). He could not reach the captions. Saved captions for both videos were sent back to him with a 10-claim report-only spot check (seed 20261125): BOB_V4_FOLLOWUP.txt.
+- Over-caution: of 30 sampled "not established" answers, Fred found 17 backed and 5 shown false. Of all 242 "not established" answers, 121 were ones the judge backed but a safety rule withheld (detail check 51, numbers not in captions 25, spelling or meaning guesses 21, other 24).
+- Gate C: waits for gate B.
