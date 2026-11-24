@@ -1,0 +1,99 @@
+CHECK VIDEO: SESSION MEMORY (Claude, lead developer), November 22-23, 2026
+=========================================================================
+A plain summary of what was decided, built and measured, so work can continue in any future session.
+Code branch: claude/mystifying-shaw-5f8fbb (worktree .claude/worktrees/mystifying-shaw-5f8fbb). Nothing is deployed;
+the live site and main are untouched. Going live needs Cary's explicit go-ahead.
+
+
+1. WHAT CHECK VIDEO IS NOW
+--------------------------
+Page line (Cary's approved wording): "AIVerify checks videos to show whether they line up with the truth
+according to the Scriptures."
+
+A visitor pastes a YouTube link. AIVerify:
+- declines videos under 3 minutes (no paid AI cost; Cary: viewers can judge short videos themselves);
+- declines videos whose claims are harmless (sports, gadgets, recipes, comedy, music), judged by the video's
+  actual claims, never by category alone; when unsure, it checks;
+- states the video's MAIN POINT at the top, taken from the title plus the opening and closing of the captions
+  ("tell them what you're going to tell them..."). When the main point is a teaching, it is shown as a teaching
+  with no verdict;
+- shows "Related Scriptures to Consider and Share" for each teaching: the 3 most related verses first, then
+  "More related verses" folded away (any number, as long as they apply). Verses are rated for how directly they
+  speak to the subject (never for agreement); weakly related ones are dropped. Under every list:
+  "These passages speak to the same subject. AIVerify does not say whether they agree with the video."
+  Verses are never interpreted or labeled (style A, decided November 23);
+- checks claims about what the Scriptures say against the local scripture text (no web search) and gives a firm
+  answer: Backed / Shown false / Not established;
+- for other factual claims (health, history, news) lists the web sources it found with NO verdict in the beta
+  ("Sources found (no verdict in this beta)");
+- offers "Have a suggestion?" under each claim (a verse that applies, a better source, an improvement).
+
+Scripture sources (local, public domain):
+- Tier 1: King James Version 1769, 66 books (eBible.org eng-kjv_vpl, 2026-11-15).
+- Tier 2: the KJV Apocrypha books (also in the Ethiopian canon) and 1 Enoch (R. H. Charles 1917, from Wikisource).
+- Not yet: Jubilees (no usable public-domain copy found yet); Meqabyan (no public-domain English found).
+- Files: backend/modules/scriptures/ (kjv-vpl.txt, enoch-vpl.txt, scriptures.cjs).
+
+
+2. CARY'S RULES (keep these)
+---------------------------
+- Pages say "Scriptures", never "Bible" or "KJV" (AIVerify's own wording; quotes of the video stay as spoken).
+- Never interpret scripture or say what a verse means. Supply the verses; let the viewer judge.
+- No answer is better than a wrong answer ("not established" over any risky firm answer).
+- Never base a scripture decision on Catholic church acceptance.
+- Main page keeps "Supporting Scriptures to Consider and Share"; video results say "Related Scriptures".
+- Feedback invites suggestions ("Have a suggestion?"), never "Report a problem".
+- Payments (future): price shown is price paid; no hidden fees or auto-renewals. Cary prefers PayPal.
+- Cary reviews only disagreements, one at a time, plainly; he decides best from finished results he can see.
+- Claude decides design, wording and development details and reports after; asks Cary only about his rules,
+  money beyond the $500/month development budget, sending anything, and going live.
+- Fred (Codex) and Bob (ChatGPT) review; both must agree to rule changes before grading new sets.
+  Grok was tried and dropped (partial answers, invented item IDs).
+
+
+3. HOW WE GOT HERE (test history)
+---------------------------------
+v4 (longer videos): accuracy 98%, passed. v5-v6 (short videos): accuracy 82-83%, main point 59% -> not eligible.
+v7: scope rule + second judge; stopped (Cary set the 3-minute minimum).
+v8 (3-20 min, web sources only): only 7 of 67 main claims got a firm answer -> scripture checking added.
+v9 (98 videos): scripture claims 33 of 34 right (Fred); web facts 35 of 49; main point 59%; 3 false accusations.
+v10 (beta build): main point first (even a teaching), rated Related Scriptures, web facts sources-only,
+scripture read in context, modern-translation wording not counted as a difference, "not in the Bible"
+claims checkable, wording rule enforced.
+
+Beta pass marks (set before scoring): false accusations 0; accuracy 85%; main point 80%; scope 80%.
+(Full release keeps 90%.)
+
+Tuning sets (29 videos, hand-picked and getting harder; TUNING_LOG_v10.md):
+- Firm answers right 25 of 26 (96%)   - False accusations 0
+- Main point 27 of 29 (93%)          - Scope 29 of 29
+- Main point worded faithfully 23 of 29 (79%)
+- Weakness (the safe kind): AIVerify sometimes says "not established" on correct scripture quotes.
+
+Watch list for Cary (cases where verse labels would have helped): John 10:33 shown under "Jesus never claimed
+to be God" is the opponents' words; Malachi 3:8-10 under the tithing video is addressed to Israel.
+
+
+4. WHERE THINGS STAND (night of November 23)
+--------------------------------------------
+Final beta test running: 100 videos, first-result rule, no hand-picking (EVAL_PLAN_v10.md, frozen b9217f1).
+Next steps:
+1. When it finishes: record the video list SHA and the run in EVAL_PLAN_v10.md; commit.
+2. Build Fred's and Bob's review files (scratchpad build-reviews-v10f.cjs) and give Cary copy boxes.
+3. Score against the beta marks. If it passes, show Cary the finished result and ask for the go-live decision
+   (Fred reviews code before anything goes live).
+4. Later list: Jubilees source; the text checker (main page) uses real sources instead of AI knowledge, with the
+   same focus (claims that could harm people, damage their faith, or lead them the wrong way); payments plan.
+
+Costs: about $0.15-0.25 per video. November development spending so far about $230 of the $500 budget.
+
+
+5. KEY FILES (in the branch)
+----------------------------
+backend/modules/check-video/pipeline.cjs      the checker
+backend/modules/check-video/page.html         the result page (local test: run-local.ps1, http://127.0.0.1:3077/check-video)
+backend/modules/check-video/REVIEWER_RULES.md shared rules for Fred and Bob
+backend/modules/check-video/EVAL_PLAN_v4..v10.md, TUNING_LOG_v10.md   test plans and results
+backend/modules/scriptures/                   local scripture text and lookup
+Review files for Fred and Bob: CHECK_VIDEO_REVIEW_FOR_FRED (worktree folder)
+Run results: %LOCALAPPDATA%\AIVerify\check-video-runs
