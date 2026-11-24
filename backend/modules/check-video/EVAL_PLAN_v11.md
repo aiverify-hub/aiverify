@@ -14,3 +14,13 @@ Budget: within $500 a month; expected about $15.
 - Run: software eca9e8f; cost $10.26; 93 with readable captions (4 without); 11 declined by the scope rule; none stopped early; Related Scriptures on 54.
 - Claims: 125 about what the Scriptures say (57 backed, 0 shown false, 68 not established); 188 factual claims with sources only (beta). No factual claim received a firm answer.
 - Review files: FRED_V11_BLIND (all 57 firm + 30 not established, seed 20261205), BOB_V11_1_SCOPE (93), BOB_V11_3_MAIN_CLAIM (80, headline = whole-video main point). No "shown false" findings, so no gate B file.
+
+## Fred's blind review (November 24, 2026)
+Scored with score-v11.cjs (same method as v10f: bootstrap seed 20261121, 10,000 draws, resampling videos).
+- Firm answers (all "backed"; AIVerify gave no "shown false"): 57 checked, Fred agrees on 55 = 96.5%; 95% lower bound 91.1% over 29 videos. Mark A (85%) passed.
+- False accusations: 0 (AIVerify said "shown false" nowhere). Mark B passed.
+- The 2 disagreements are both Fred preferring "not established" over "backed" (no case where AIVerify's firm answer was called wrong):
+  - NcLAnGVrJk0-c3: Exodus 20:11 wording is right, but the captions say "20:1"; Fred wants audio to tell a wrong verse from a dropped digit.
+  - aNv_W4TOIhA-c3: Malachi 2:16 wording is right; Fred says who the "hatred" clause refers to depends on interpretation (rule 12).
+- Not-established sample (30): Fred would give 17 backed, 9 not established, 4 shown false. All 4 "shown false" are web facts, which show sources only in the beta (by design). The rest is the known over-caution (safe side).
+Waiting: Bob's scope and main point reviews (marks C and D).
