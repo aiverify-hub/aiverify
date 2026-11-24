@@ -20,15 +20,16 @@
   .brandSub { font-size:18px; font-weight:700; margin-top:6px; }
   .topLinks { margin:10px 0 0; font-size:15px; } .topLinks a { color:#fff; }
   .panel { margin:12px 0 0; background:rgba(244,247,250,.97); border:1px solid var(--line); border-radius:12px; box-shadow:0 5px 16px rgba(15,48,72,.12); overflow:hidden; color:var(--ink); }
-  .panelHead { padding:12px 16px; font-size:17px; font-weight:900; background:var(--head); color:var(--headInk); text-align:center; }
-  .panelHead .beta { font-size:13px; font-weight:700; color:var(--muted); margin-left:6px; }
+  .panelHead { padding:12px 16px; font-size:24px; font-weight:900; background:var(--head); color:var(--headInk); text-align:center; }
+  .panelHead .beta { font-size:14px; font-weight:700; color:var(--muted); margin-left:6px; }
   .panelBody { padding:14px 16px 16px; }
-  .intro { font-size:15px; margin:0 0 6px; color:#36566b; text-align:center; } .intro strong { color:var(--headInk); }
-  label { display:block; font-weight:700; margin:10px 0 6px; }
+  .intro { font-size:15px; margin:0 0 8px; color:#36566b; text-align:center; } .intro strong { color:var(--headInk); }
+  label { display:block; font-weight:700; margin:10px 0 6px; font-size:15px; }
+  .fine { font-size:13px; color:var(--muted); text-align:center; margin:8px 0 0; }
   input[type=url], textarea, select { width:100%; font:16px "Times New Roman", Times, serif; padding:10px; border:1px solid #bac6d0; border-radius:9px; background:#fff; color:#1d2a33; }
   textarea { min-height:80px; }
   .btnRow { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:12px; }
-  .btn { font:800 15px Arial, Helvetica, sans-serif; padding:12px 20px; border:0; border-radius:9px; cursor:pointer; box-shadow:0 3px 9px rgba(0,0,0,.16); }
+  .btn { font:800 14px Arial, Helvetica, sans-serif; padding:11px 18px; border:0; border-radius:9px; cursor:pointer; box-shadow:0 3px 9px rgba(0,0,0,.16); }
   .btn.go { background:#22b765; color:#fff; } .btn.samples { background:#aaa; color:#111; } .btn.blue { background:#3498db; color:#fff; }
   .btn[disabled] { opacity:.6; cursor:wait; }
   .status { color:var(--muted); margin-top:10px; min-height:1.2em; text-align:center; font-size:15px; } .status:empty { display:none; }
@@ -100,15 +101,16 @@
   <div class="panel">
     <div class="panelHead">Check Video <span class="beta" id="modeTag">Beta (local test, not public)</span></div>
     <div class="panelBody">
-      <p class="intro"><strong>AIVerify checks videos to show whether they line up with the truth according to the Scriptures.</strong></p>
-      <p class="intro">Paste a YouTube link to a video 3 minutes or longer. AIVerify reads the video's captions (not the pictures) and checks what it says about the Scriptures. For health, science and news claims, this beta lists the sources it read so you can judge for yourself.</p>
+      <p class="intro"><strong>AIVerify checks videos to show whether they line up with the truth according to Scriptures.</strong></p>
+      <p class="intro">AIVerify reads the video's transcript and compares its claims with Scriptures and other sources, to help expose deception and confirm what is true.</p>
       <nav id="tabs"><button id="tabCheck" aria-pressed="true">Check a video</button><button id="tabReview" aria-pressed="false">Review answers</button></nav>
       <section id="check">
         <label for="url">YouTube link</label>
-        <input id="url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
-        <details id="txBox"><summary>Captions not available? Paste the transcript instead (optional)</summary>
+        <input id="url" type="url" placeholder="https://www.youtube.com/watch?v=...   (videos must be at least 3 minutes long)" autocomplete="off">
+        <details id="txBox"><summary>No transcript available? Paste one instead (optional)</summary>
           <label for="tx">Transcript text</label><textarea id="tx"></textarea></details>
         <div class="btnRow"><button class="btn go" id="go">Check Video</button><button class="btn samples" id="samplesBtn" type="button">Samples</button></div>
+        <p class="fine">Health, science and news claims show sources only in this beta.</p>
         <div class="status" id="status" role="status"></div>
       </section>
     </div>
@@ -136,7 +138,7 @@
   // Public beta (the server marks the page): no review tab, no pasted transcripts; a link from the main page fills the box and starts the check.
   var PUBLIC = document.documentElement.getAttribute('data-mode') === 'public';
   if (PUBLIC) { document.title = 'Check Video (Beta) | AIVerify'; $('modeTag').textContent = 'Beta'; $('tabs').hidden = true; $('txBox').hidden = true; $('home').hidden = false; }
-  var ROLE_HELP = { 'primary/official': 'official or primary source', 'fact-check': 'fact-checker', 'news/reference': 'news or reference', 'originator of the claim': 'possible origin of the claim', 'scripture': 'the Scriptures', 'other': 'other' };
+  var ROLE_HELP = { 'primary/official': 'official or primary source', 'fact-check': 'fact-checker', 'news/reference': 'news or reference', 'originator of the claim': 'possible origin of the claim', 'scripture': 'Scriptures', 'other': 'other' };
 
   // ---------- Examples (Cary, November 24, 2026): link first, then title, so visitors see exactly what to paste ----------
   var SAMPLES = [
@@ -186,14 +188,16 @@
     var wrap = el('div');
     if (!withReview && $('review').hidden) { var back = el('p', { cls: 'topLinks' }); var a = el('a', { href: '#', text: '← Samples' }); a.addEventListener('click', function (e) { e.preventDefault(); showSamples(); }); back.appendChild(a); wrap.appendChild(back); }
     var head = el('div', { cls: 'card' }); wrap.appendChild(head);
-    if (!r.ok) head.appendChild(el('p', { text: r.error || 'The check could not be completed.' }));
+    if (!r.ok) head.appendChild(el('p', { text: tw(r.error) || 'The check could not be completed.' }));
     var v = r.video || {};
     if (v.url) head.appendChild(kv([['Link:', safeLink(v.url)], ['Title:', v.title || 'Video', 'title']]));
     var KIND = { written: 'written by people', automatic: 'automatic (may contain errors)', pasted: 'pasted by tester', 'other-language': 'not in English', none: 'none listed' };
-    if (v.captionSource) head.appendChild(el('p', { cls: 'small', text: 'Captions: ' + (KIND[v.captionKind] || 'type unknown') + (v.captionsTruncated ? ' · long video: only the first part was read' : '') }));
-    if (r.reliability && r.reliability.flagged) head.appendChild(el('p', { cls: 'caution', text: 'Not enough reliable caption data for firm answers: ' + r.reliability.reasons.join('; ') + '.' }));
-    if (r.stoppedEarly) head.appendChild(el('p', { cls: 'caution', text: 'This check stopped early: ' + r.stoppedEarly + ' Claims not finished are marked "Not established".' }));
-    if (r.caution) head.appendChild(el('p', { cls: 'caution', text: '⚠ ' + r.caution }));
+    // Server wording says "captions"; visitors see "transcript".
+    var tw = function (t) { return String(t || '').replace(/the captions are/gi, 'the transcript is').replace(/the captions have/gi, 'the transcript has').replace(/captions/gi, 'transcript').replace(/caption/gi, 'transcript'); };
+    if (v.captionSource) head.appendChild(el('p', { cls: 'small', text: 'Transcript: ' + (KIND[v.captionKind] || 'type unknown') + (v.captionsTruncated ? ' · long video: only the first part was read' : '') }));
+    if (r.reliability && r.reliability.flagged) head.appendChild(el('p', { cls: 'caution', text: 'Not enough reliable transcript data for firm answers: ' + tw(r.reliability.reasons.join('; ')) + '.' }));
+    if (r.stoppedEarly) head.appendChild(el('p', { cls: 'caution', text: 'This check stopped early: ' + tw(r.stoppedEarly) + ' Claims not finished are marked "Not established".' }));
+    if (r.caution) head.appendChild(el('p', { cls: 'caution', text: '⚠ ' + tw(r.caution) }));
     var claims = r.claims || [];
     // The main point once; the counts on one plain line (the earlier "A teaching: ..." label and repeated summary removed).
     if (r.headline) {
@@ -203,7 +207,7 @@
       if (['supported', 'contradicted', 'misleading', 'insufficient'].indexOf(r.headline.verdict) >= 0) hb.appendChild(el('span', { cls: 'verdict v-' + r.headline.verdict, text: 'AIVerify: ' + r.headline.label }));
       var cnt = countLine(r); if (cnt) hb.appendChild(el('p', { cls: 'count', text: cnt }));
       wrap.appendChild(hb);
-    } else if (r.summary) { head.appendChild(el('p', { text: r.summary })); }
+    } else if (r.summary) { head.appendChild(el('p', { text: tw(r.summary) })); }
     if (claims.some(function (c) { return c.sourcesOnly; })) wrap.appendChild(el('p', { cls: 'note', text: 'For health, science and news claims, this beta lists the sources AIVerify read, without a verdict. Read them and judge for yourself.' }));
     // Related Scriptures (named "Related" on video results so they never seem to endorse the video's teaching). Text only; AIVerify never interprets them.
     var ts = r.teachings || [];
@@ -227,11 +231,11 @@
       if (c.videoQuote) d.appendChild(el('p', { cls: 'small', text: 'In the video: “' + c.videoQuote + '”' }));
       if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); d.appendChild(el('p', { cls: 'small' }, [safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ Watch at ' + mm + ':' + ss)])); }
       // Corrections that change a name, place, number, date or meaning stay visible; spelling fixes are no longer listed.
-      (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'Captions read “' + x.heard + '”; understood as “' + x.written + '”.' })); });
+      (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'The transcript reads “' + x.heard + '”; understood as “' + x.written + '”.' })); });
       d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.sourcesOnly ? 'Sources to read' : c.label }));
       if (withReview && c.wouldHaveBeen) d.appendChild(el('span', { cls: 'small', text: '  (reviewer note: without the caption rule this would have been “' + c.wouldHaveBeen + '”)' }));
-      if (c.reason && !c.sourcesOnly) d.appendChild(el('p', { text: c.reason }));
-      if (c.sourcesOnly && !(c.sources || []).length && c.reason) d.appendChild(el('p', { text: c.reason }));
+      if (c.reason && !c.sourcesOnly) d.appendChild(el('p', { text: tw(c.reason) }));
+      if (c.sourcesOnly && !(c.sources || []).length && c.reason) d.appendChild(el('p', { text: tw(c.reason) }));
       // Parts only when the claim is not simply backed, so a disproven part is identified precisely (Bob decision 3).
       if (c.parts && c.parts.length > 1 && c.verdict !== 'supported') {
         var PS = { backed: '✓ backed', shown_false: '✗ shown false', not_established: '? not established' }, ulp = el('ul', { cls: 'src' });
@@ -252,8 +256,8 @@
       if (!withReview && r.runId) { var foot = el('div', { cls: 'claimFoot' }); foot.appendChild(reportBlock(r, c.n)); d.appendChild(foot); }
       wrap.appendChild(d);
     });
-    if (r.limits && !r.outOfScope && r.ok) wrap.appendChild(el('p', { cls: 'note', text: r.limits }));
-    if (r.ok && claims.length && !ts.length) wrap.appendChild(el('p', { cls: 'note' }, ['Looking for a faith or moral perspective on this topic? ', safeLink('https://aiverify.tech/', 'Ask on AIVerify’s main page'), ' (answers from the Scriptures).']));
+    if (r.limits && !r.outOfScope && r.ok) wrap.appendChild(el('p', { cls: 'note', text: tw(r.limits) }));
+    if (r.ok && claims.length && !ts.length) wrap.appendChild(el('p', { cls: 'note' }, ['Looking for a faith or moral perspective on this topic? ', safeLink('https://aiverify.tech/', 'Ask on AIVerify’s main page'), ' (answers from Scriptures).']));
     if (r.cost) wrap.appendChild(el('p', { cls: 'small', style: 'color:#fff', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
     if (withReview) { var rv = el('div', { cls: 'card' }); rv.appendChild(reviewBlock(r)); wrap.appendChild(rv); }
     return wrap;
@@ -302,7 +306,7 @@
 
   // ---------- Cartoons while checking ----------
   var SCENES = [
-    { src: '/check-video/img/scene-1.webp', cap: 'Reading the captions...' },
+    { src: '/check-video/img/scene-1.webp', cap: 'Reading the transcript...' },
     { src: '/check-video/img/scene-2.webp', cap: 'Still gathering sources...' },
     { src: '/check-video/img/scene-3.webp', cap: 'Checking the claims...' },
     { src: '/check-video/img/scene-4.webp', cap: 'We have encountered some conflicting data...' }
