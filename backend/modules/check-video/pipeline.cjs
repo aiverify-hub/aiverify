@@ -36,10 +36,23 @@ function withheldText(notes) {
   const n = (notes || []).filter(x => /^firm answer withheld: /.test(String(x))).pop();
   return 'No firm answer is given' + (n ? ': ' + String(n).replace(/^firm answer withheld: /, '').replace(/\s*\([^)]*\)\s*$/, '') : '') + '.';
 }
+// Fred, v10 code recheck (blocker 2): only validated firm answers publish the judge's explanation and part verdicts.
+// "Not established" shows why it was held back (withheld), a neutral line (the judge did not settle it), or a system
+// message (no sources, a failed step); the judge's reasoning stays in the private record.
+function publishedReason(c, j, withheld) {
+  if (j.verdict !== 'insufficient') return userText(j.reason);
+  if (withheld) return withheldText(j.notes);
+  if (j.modelVerdict) return c.kind === 'scripture' ? 'The passages of the Scriptures checked did not settle this claim.' : 'The sources checked did not settle this claim.';
+  return userText(j.reason);
+}
+// Fred, v10 code recheck (blocker 1): the absence exemption applies only when the WHOLE claim is one plain absence
+// statement about a quoted saying ("The saying 'X' is not in the Bible."; "The Bible never says 'X'."), with nothing else
+// asserted; any other claim goes through quote binding and the detail check.
+const PURE_ABSENCE_RE = /^(?:the\s+(?:saying|phrase|words?|quote|quotation|statement|expression|idea)\s+)?["'‘“][^"'’”]{2,200}["'’”]\s+(?:is|are)\s+not\s+(?:found\s+|written\s+)?(?:anywhere\s+)?in\s+the\s+(?:bible|scriptures?)\s*\.?$|^the\s+(?:bible|scriptures?)\s+(?:never|nowhere|does\s+not|doesn't|do\s+not|don't)\s+(?:say|says|contain|contains)\s+(?:that\s+)?["'‘“][^"'’”]{2,200}["'’”]\s*\.?$/i;
 function userText(s) {
   return String(s || '')
     // Fred, v10 code review: keep the scope ("only in the KJV" must not become "only in the Scriptures").
-    .replace(/\s*\((?:KJV|King James(?: Version)?)(?: 1769)?\)/gi, '')
+    .replace(/\s*\((?:KJV|King James(?: Version)?)(?: 1769)?\)/gi, ' (in the translation checked)')
     .replace(/\b(?:the )?(?:KJV|King James Version)(?: 1769)?\s+(?:text|wording|rendering)\b/gi, 'the wording of the translation checked')
     .replace(/\b(?:the )?(?:KJV|King James Version)(?: 1769)?(?:\s+(?:translation|version))?\b/gi, 'the translation checked')
     .replace(/\bthe Bible's\b/gi, "the Scriptures'")
@@ -757,7 +770,7 @@ async function judgeClaim(ctx, claim, ev, published) {
   // v10 (tuning set 3: 'God helps those who help themselves is not in the Bible' was withheld for want of a quote): a claim that
   // a saying is NOT in the Scriptures, judged only on scripture passages found by searching the whole local text, may be backed
   // without a quote (an absence cannot be quoted); it then skips the detail check but still needs the second judge to agree.
-  const absenceOk = j.verdict === 'supported' && claim.kind === 'scripture' && ABSENCE_RE.test(claim.claim) && ev.sources.length > 0 && ev.sources.every(s => s.role === 'scripture');
+  const absenceOk = j.verdict === 'supported' && claim.kind === 'scripture' && PURE_ABSENCE_RE.test(String(claim.claim).trim()) && ev.sources.length > 0 && ev.sources.every(s => s.role === 'scripture');
   res.absence = absenceOk;
   if (!b.bound && !absenceOk) { res.notes.push('firm answer withheld: its quote was not found exactly once in the cited source (' + b.reason + ')'); res.reason = 'A firm answer was withheld because its supporting quote could not be verified in the cited source. ' + res.reason; return res; }
   // A contradiction accuses the video of being wrong, so it needs an official, fact-check or established news/reference
@@ -929,7 +942,7 @@ function createCheckVideo(options) {
           const withheld = j.verdict === "insufficient" && !!j.modelVerdict && j.modelVerdict !== "insufficient";
           priv.push({ n: c.n, judgeReason: j.reason, judgeParts: j.parts || null, rawJudgeText: j.rawJudgeText || '', captionWindow: c.captionWindow, sources: ev.sources.map(s => ({ n: s.n, url: s.url, originalUrl: s.originalUrl, origin: s.origin, excerptSha256: s.excerptSha256, excerpt: s.excerpt })) });
           const pub = Object.assign({}, c); delete pub.captionWindow; // caption text stays in the private record
-          return Object.assign(pub, { verdict: j.verdict, label: j.label, reason: withheld ? withheldText(j.notes) : userText(j.reason), quote: withheld ? null : j.quote, notes: j.notes, parts: withheld ? null : (j.parts || null), modelVerdict: j.modelVerdict || null, videoSays: j.videoSays || null, binding: j.binding || null, secondCheck: j.secondCheck || null, detailCheck: j.detailCheck || null, secondJudge: j.secondJudge || null, nameFixesResolved: j.nameFixesResolved === true,
+          return Object.assign(pub, { verdict: j.verdict, label: j.label, reason: publishedReason(c, j, withheld), quote: j.verdict === 'insufficient' ? null : j.quote, notes: j.notes, parts: j.verdict === 'insufficient' ? null : (j.parts || null), modelVerdict: j.modelVerdict || null, videoSays: j.videoSays || null, binding: j.binding || null, secondCheck: j.secondCheck || null, detailCheck: j.detailCheck || null, secondJudge: j.secondJudge || null, nameFixesResolved: j.nameFixesResolved === true,
             sources: ev.sources.map(s => ({ n: s.n, url: s.url, title: s.title, publisher: s.publisher, role: s.role, origin: s.origin })), considered: ev.considered, evidenceError: ev.error || null });
         } catch (e) {
           if (!(e && STOP_CODES.test(e.code || ''))) throw e;
@@ -1034,4 +1047,4 @@ function saveSourceSuggestion(dir, s) {
   try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'source-suggestions.jsonl'), JSON.stringify({ at: new Date().toISOString(), url: u.toString(), publisher: publishers.describe(u.toString()).publisher, note, runId }) + '\n'); return true; } catch (_e) { return false; }
 }
 
-module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { partsConflict, budgetDay, createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing, nameFixesResolved, verifyBacked, verifyFalse, repairClaim, buildClaim, detailPrompt, clipWords, userText, withheldText, ABSENCE_RE } };
+module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { partsConflict, budgetDay, createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing, nameFixesResolved, verifyBacked, verifyFalse, repairClaim, buildClaim, detailPrompt, clipWords, userText, withheldText, ABSENCE_RE, PURE_ABSENCE_RE } };

@@ -220,7 +220,7 @@ test('judge format is enforced; prose around the JSON and inner quotes are handl
 test('source 0 means no source; an insufficient answer with source 0 is read correctly', async () => {
   const io = fakeIo({ judge: () => ({ verdict: 'insufficient', quote: '', source: 0, reason: 'Not settled.' }) });
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' });
-  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].reason, 'Not settled.');
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].reason, 'The sources checked did not settle this claim.'); // Fred recheck: the judge's own text stays private
 });
 
 test('caution line appears only when a claim is contradicted', async () => {
@@ -961,7 +961,7 @@ test('v10: "not in the Bible" can be backed without a quote (scripture passages 
 });
 
 test('AIVerify\'s own explanations say "the Scriptures", never "KJV" or "Bible"', () => {
-  assert.equal(_internal.userText('1 Timothy 6:10 (KJV) says the love of money'), '1 Timothy 6:10 says the love of money');
+  assert.equal(_internal.userText('1 Timothy 6:10 (KJV) says the love of money'), '1 Timothy 6:10 (in the translation checked) says the love of money');
   assert.equal(_internal.userText('It is not in the Bible. The Bible never says it.'), 'It is not in the Scriptures. The Scriptures never say it.');
   assert.doesNotMatch(_internal.userText('Matthew 1:16 in KJV 1769 and biblical texts'), /KJV|Bible|biblical/);
 });
@@ -997,4 +997,14 @@ test('Fred v10 review: absence rule only for explicit absence; held-back answers
   const io2 = claimsIo({ main_point: 'x', main_point_kind: 'teaching', teachings: [{ teaching: 'x', refs: ['John 3:16'] }], claims: [] }, { rate: () => ({ nope: true }) });
   const r2 = await P0.createCheckVideo({ io: io2, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.deepEqual(r2.teachings, []);
+});
+
+test('Fred v10 recheck: only a whole-claim absence statement is exempt; "not established" never publishes unverified reasoning or parts; "(KJV)" keeps its scope', async () => {
+  assert.equal(_internal.PURE_ABSENCE_RE.test("The Bible says the sentence 'peace is not found in the Bible'."), false);
+  assert.equal(_internal.PURE_ABSENCE_RE.test("The phrase 'spare the rod' is not in the Bible, and the Bible teaches discipline."), false);
+  assert.equal(_internal.PURE_ABSENCE_RE.test("The saying 'God helps those who help themselves' is not in the Bible."), true);
+  assert.equal(_internal.userText('This wording is absent from the Scriptures (KJV).'), 'This wording is absent from the Scriptures (in the translation checked).');
+  const io = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'insufficient', quote: '', source: 0, reason: 'Angels created God.', parts: [{ part: 'Angels created God', status: 'backed' }, { part: 'date', status: 'not_established' }] } : null });
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].parts, null); assert.equal(r.claims[0].reason, 'The sources checked did not settle this claim.');
 });
