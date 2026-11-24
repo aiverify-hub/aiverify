@@ -186,7 +186,7 @@
     var firm = cl.filter(function (c) { return !c.sourcesOnly; }), so = n - firm.length;
     var f = function (pred) { return firm.filter(pred).length; };
     if (!firm.length) return 'Claims found: ' + n + '. The sources AIVerify read are listed with each one.';
-    return 'Claims checked: ' + n + '. ' + f(function (c) { return c.verdict === 'supported'; }) + ' backed, ' + f(function (c) { return c.verdict === 'contradicted' || c.verdict === 'misleading'; }) + ' shown false, ' + f(function (c) { return c.verdict === 'insufficient'; }) + ' not established' + (so ? ', ' + so + ' with sources to read' : '') + '.';
+    return 'Claims checked: ' + n + '. ' + f(function (c) { return c.verdict === 'supported'; }) + ' supported, ' + f(function (c) { return c.verdict === 'contradicted' || c.verdict === 'misleading'; }) + ' shown false, ' + f(function (c) { return c.verdict === 'insufficient'; }) + ' not established' + (so ? ', ' + so + ' with sources to read' : '') + '.';
   }
   function renderResult(r, withReview) {
     var wrap = el('div');
@@ -236,13 +236,13 @@
       if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); d.appendChild(el('p', { cls: 'small' }, [safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ Watch at ' + mm + ':' + ss)])); }
       // Corrections that change a name, place, number, date or meaning stay visible; spelling fixes are no longer listed.
       (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'The transcript reads “' + x.heard + '”; understood as “' + x.written + '”.' })); });
-      d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.sourcesOnly ? 'Sources to read' : c.label }));
+      d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.sourcesOnly ? 'Sources to read' : c.verdict === 'supported' ? 'Supported' : c.label }));
       if (withReview && c.wouldHaveBeen) d.appendChild(el('span', { cls: 'small', text: '  (reviewer note: without the caption rule this would have been “' + c.wouldHaveBeen + '”)' }));
       if (c.reason && !c.sourcesOnly) d.appendChild(el('p', { text: tw(c.reason) }));
       if (c.sourcesOnly && !(c.sources || []).length && c.reason) d.appendChild(el('p', { text: tw(c.reason) }));
       // Parts only when the claim is not simply backed, so a disproven part is identified precisely (Bob decision 3).
       if (c.parts && c.parts.length > 1 && c.verdict !== 'supported') {
-        var PS = { backed: '✓ backed', shown_false: '✗ shown false', not_established: '? not established' }, ulp = el('ul', { cls: 'src' });
+        var PS = { backed: '✓ supported', shown_false: '✗ shown false', not_established: '? not established' }, ulp = el('ul', { cls: 'src' });
         c.parts.forEach(function (p) { ulp.appendChild(el('li', { text: (PS[p.status] || p.status) + ': ' + p.part })); });
         var det = el('details', {}, [el('summary', { text: 'Parts of this claim (' + c.parts.length + ')' }), ulp]); det.open = true; d.appendChild(det);
       }
@@ -255,8 +255,8 @@
         c.sources.forEach(function (s) { var t = s.title || s.url; ul.appendChild(el('li', {}, s.role === 'scripture' ? [safeLink(s.url, t)] : [safeLink(s.url, t), ' — ' + s.publisher + ', ' + (ROLE_HELP[s.role] || s.role)])); });
         // Scripture lists use the same purple OPEN/CLOSE style as Related Scriptures (Cary); web sources stay plain.
         var srcBox = allScripture
-          ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: (function (n) { var w = n + (n === 1 ? ' Scripture' : ' Scriptures'); return c.verdict === 'supported' ? 'Claim supported by one or more of the following ' + w : w + ' checked for this claim'; })(c.sources.length) }), el('div', { cls: 'rsBody' }, [ul])])
-          : el('details', {}, [el('summary', { text: c.sources.length + (c.sources.length === 1 ? ' source' : ' sources') + ' read for this claim' }), ul]);
+          ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: (function (n) { var w = '(' + n + ')' + (n === 1 ? ' Scripture' : ' Scriptures'); return c.verdict === 'supported' ? 'Claim supported by one or more of the following ' + w : w + ' checked for this claim'; })(c.sources.length) }), el('div', { cls: 'rsBody' }, [ul])])
+          : el('details', {}, [el('summary', { text: '(' + c.sources.length + ')' + (c.sources.length === 1 ? ' source' : ' sources') + ' read for this claim' }), ul]);
         if (c.sourcesOnly) srcBox.open = true;
         d.appendChild(srcBox);
       }
