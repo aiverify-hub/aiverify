@@ -24,3 +24,19 @@ Scored with score-v11.cjs (same method as v10f: bootstrap seed 20261121, 10,000 
   - aNv_W4TOIhA-c3: Malachi 2:16 wording is right; Fred says who the "hatred" clause refers to depends on interpretation (rule 12).
 - Not-established sample (30): Fred would give 17 backed, 9 not established, 4 shown false. All 4 "shown false" are web facts, which show sources only in the beta (by design). The rest is the known over-caution (safe side).
 Waiting: Bob's scope and main point reviews (marks C and D).
+
+## Bob's reviews (November 24, 2026)
+Same bootstrap (seed 20261121, 10,000 draws, one item per video). cannot_determine left out.
+- Scope (93 videos): Bob agrees on 88 = 94.6%, lower bound 89.2%. Mark passed.
+  - AIVerify checked 2 sports-highlight videos Bob would decline (dlD_Wr5aXc8, 02h7MB4Re4o): costs money only.
+  - AIVerify declined 3 Bob would check (9C2o9aInUu0 phone marketing, ds4wNrmu7Ds travel costs, mhr3REshTss companion planting): borderline money claims, none about faith.
+- Main point (80 videos): 79 of 80 = 98.8%, lower bound 96.3%. Mark D passed.
+  - OUT1NEw__i8: AIVerify called it a list; Bob says the closing message (no pastor above accountability) is the main point.
+- Wording matches the video: 75 of 79 = 94.9%, lower bound 89.9%. Mark C passed.
+  - The 4 misses each overstate or narrow a speaker's qualifier (Zf5Qg75tiXA, lbyYGWlJ6qI, 5zyvNYaUFq8, XJSrKBpQttQ): the known caveat-retention item on the later list.
+- Related Scriptures (54 videos with verses): 53 yes, 1 no = 98.1%, lower bound 94.4%.
+  - sH6ESIFwpzI: John 10:27 (following Jesus) shown under a teaching about hearing replies in prayer. A relevance miss, not a labels case, so the style watch list is unchanged.
+
+## Result
+All beta marks passed: A 96.5% (lower bound 91.1%), B 0 false accusations, C 94.9%, D 98.8%, scope 94.6%.
+Next: Cary's go-live decision.
