@@ -231,7 +231,7 @@
     }
     claims.slice().sort(function (a, b) { return (a.kind === 'scripture' ? 0 : 1) - (b.kind === 'scripture' ? 0 : 1); }).forEach(function (c) {
       var d = el('div', { cls: 'card' });
-      d.appendChild(el('p', { cls: 'claimLbl', text: 'Video Claim (' + c.n + ')' }));
+      d.appendChild(el('p', { cls: 'claimLbl', text: 'Video Claim ' + c.n }));
       d.appendChild(el('h3', { text: c.claim }));
       if (c.videoQuote) d.appendChild(el('p', { cls: 'small', text: 'In the video: “' + c.videoQuote + '”' }));
       if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); d.appendChild(el('p', { cls: 'small' }, [safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ Watch at ' + mm + ':' + ss)])); }
