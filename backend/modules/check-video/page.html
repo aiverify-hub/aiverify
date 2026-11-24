@@ -197,7 +197,7 @@
     if (v.url) head.appendChild(kv([['Link:', safeLink(v.url)], ['Title:', v.title || 'Video', 'title']]));
     var KIND = { written: 'written by people', automatic: 'automatic (may contain errors)', pasted: 'pasted by tester', 'other-language': 'not in English', none: 'none listed' };
     // Server wording says "captions"; visitors see "transcript".
-    var tw = function (t) { return String(t || '').replace(/the captions are/gi, 'the transcript is').replace(/the captions have/gi, 'the transcript has').replace(/captions/gi, 'transcript').replace(/caption/gi, 'transcript'); };
+    var tw = function (t) { return String(t || '').replace(/the captions are/gi, 'the transcript is').replace(/the captions have/gi, 'the transcript has').replace(/captions/gi, 'transcript').replace(/caption/gi, 'transcript').replace(/A backed claim/g, 'A supported claim'); };
     if (v.captionSource) head.appendChild(el('p', { cls: 'small', text: 'Transcript: ' + (KIND[v.captionKind] || 'type unknown') + (v.captionsTruncated ? ' · long video: only the first part was read' : '') }));
     if (r.reliability && r.reliability.flagged) head.appendChild(el('p', { cls: 'caution', text: 'Not enough reliable transcript data for firm answers: ' + tw(r.reliability.reasons.join('; ')) + '.' }));
     if (r.stoppedEarly) head.appendChild(el('p', { cls: 'caution', text: 'This check stopped early: ' + tw(r.stoppedEarly) + ' Claims not finished are marked "Not established".' }));
