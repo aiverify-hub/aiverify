@@ -241,6 +241,8 @@ const CLAIM_SCHEMA = {
 };
 // v7 (Cary, November 23, 2026: "tell them what you're going to tell them, tell them, tell them what you told them"): the
 // opening and closing of the captions are shown separately, so the main point is taken from them and the title.
+// Shorten at a word boundary with an ellipsis, never mid-word (Bob, v10 tuning set: a headline ended at "and gi").
+function clipWords(s, max) { s = String(s || ''); if (s.length <= max) return s; const cut = s.slice(0, max); const sp = cut.lastIndexOf(' '); return (sp > max * 0.6 ? cut.slice(0, sp) : cut).replace(/[s,;:]+$/, '') + '…'; }
 function openClose(transcript) {
   const w = String(transcript || '').split(/\s+/).filter(Boolean);
   if (w.length < 150) return '';
@@ -291,7 +293,7 @@ async function extractClaims(ctx, title, transcript, published, segments) {
   if (!j || !Array.isArray(j.claims)) return { ok: false, error: 'Claim list could not be read.' };
   const claims = j.claims.filter(c => c && squash(c.claim)).slice(0, ctx.cfg.maxClaims).map((c, i) => buildClaim(c, i, transcript, segments));
   const quality = ['good', 'fair', 'poor'].includes(j.caption_quality) ? j.caption_quality : 'unknown';
-  return { ok: true, kind: j.video_kind || 'other', inScope: j.in_scope !== false, scopeReason: squash(j.scope_reason).slice(0, 300), listVideo: j.list_video === true, mainPoint: squash(j.main_point).slice(0, 300), mainPointKind: j.main_point_kind === "teaching" ? "teaching" : "fact", teachings: (Array.isArray(j.teachings) ? j.teachings : []).filter(x => x && squash(x.teaching)).slice(0, 2).map(x => ({ teaching: squash(x.teaching).slice(0, 200), refs: (Array.isArray(x.refs) ? x.refs : []).map(r => squash(r).slice(0, 40)).slice(0, 15) })), note: squash(j.note).slice(0, 300), claims, captionQuality: quality, garbledPassages: Number.isInteger(j.garbled_passages) ? j.garbled_passages : null };
+  return { ok: true, kind: j.video_kind || 'other', inScope: j.in_scope !== false, scopeReason: squash(j.scope_reason).slice(0, 300), listVideo: j.list_video === true, mainPoint: clipWords(squash(j.main_point), 600), mainPointKind: j.main_point_kind === "teaching" ? "teaching" : "fact", teachings: (Array.isArray(j.teachings) ? j.teachings : []).filter(x => x && squash(x.teaching)).slice(0, 2).map(x => ({ teaching: squash(x.teaching).slice(0, 200), refs: (Array.isArray(x.refs) ? x.refs : []).map(r => squash(r).slice(0, 40)).slice(0, 15) })), note: squash(j.note).slice(0, 300), claims, captionQuality: quality, garbledPassages: Number.isInteger(j.garbled_passages) ? j.garbled_passages : null };
 }
 // One extracted claim (model output) -> the checked claim record: caption binding, numbers check, corrections, timestamp.
 function buildClaim(c, i, transcript, segments) {
@@ -994,4 +996,4 @@ function saveSourceSuggestion(dir, s) {
   try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'source-suggestions.jsonl'), JSON.stringify({ at: new Date().toISOString(), url: u.toString(), publisher: publishers.describe(u.toString()).publisher, note, runId }) + '\n'); return true; } catch (_e) { return false; }
 }
 
-module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { partsConflict, budgetDay, createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing, nameFixesResolved, verifyBacked, verifyFalse, repairClaim, buildClaim, detailPrompt } };
+module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { partsConflict, budgetDay, createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing, nameFixesResolved, verifyBacked, verifyFalse, repairClaim, buildClaim, detailPrompt, clipWords } };

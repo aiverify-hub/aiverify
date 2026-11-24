@@ -933,3 +933,9 @@ test('v10: modern-translation wording and Gospel speakers are not treated as mat
   assert.match(_internal.detailPrompt({ claim: 'x' }, [], ''), /A translation-wording difference is kind "wording"/);
   assert.match(P0.judgePrompt('x', [], '', ''), /in the Gospels, words from a passage of Jesus' teaching are his unless the excerpt shows another speaker/);
 });
+
+test('v10: long text is shortened at a word boundary, never mid-word', () => {
+  const s = 'word '.repeat(200).trim();
+  const c = _internal.clipWords(s, 33); assert.ok(c.endsWith('…')); assert.match(c, /^(word )*word…$/);
+  assert.equal(_internal.clipWords('short', 600), 'short');
+});
