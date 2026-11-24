@@ -37,3 +37,24 @@ Queries chosen for difficulty (misquotes, contradictions, date-setting prophecy,
 Over-caution: of 7 scripture claims left "not established", Fred would back 4. Web facts (sources only): Fred would back 12 and call 2 false of 21.
 Gap seen: "'God helps those who help themselves' is not in the Bible" was classed as a web fact rather than checked against the local text.
 Fix after set 2: the main point keeps the speaker's qualifiers and strength.
+
+## Set 3 (November 23, 2026): 12 harder hand-picked videos
+
+Queries chosen for misquotes and "not in the Bible" sayings, a scholar's case that Jesus never claimed to be God, hell's origins, tithing, the mark of the beast and COVID, the Book of Enoch, alcohol, spices and cancer, wealth, and "the kingdom is within you". Runs folder fresh-v10e (commit a3cbc7e: the absence rule and the kind-preserving repair; first run fresh-v10d exposed a reworded scripture claim that came back as a fact and got a firm answer, fixed before this run). Cost $1.49.
+
+| Check | Result | Beta mark |
+|---|---|---|
+| Firm answers right (Fred, blind) | 9 of 9 | 85% |
+| False accusations | 0 | 0 |
+| Main point (Bob) | 11 of 12 | 80% |
+| Main point worded faithfully (Bob) | 10 of 12 | 80% |
+| Scope (Bob) | 12 of 12 | 80% |
+| Related Scriptures relate (Bob, report only) | 4 of 11 | none |
+
+Bob's Related Scriptures "no" answers ask for verses to be labeled where they are in tension with a teaching or are an opponent's words; that would interpret the passages, which Cary's rule forbids. The page now says under every list that the passages speak to the same subject and AIVerify does not say whether they agree (7f8b310); the next reviewer file will show that line.
+Over-caution: of 11 scripture claims left "not established", Fred would back 6 and call 1 false.
+Also fixed during set 3: AIVerify's own wording never says "KJV" or "Bible" (11317a9, 4690d92, aa4a0f9).
+
+## Totals after three tuning sets (29 videos)
+
+Firm answers right 25 of 26 (96%); false accusations 0; main point 27 of 29 (93%); main point worded faithfully 23 of 29 (79%); scope 29 of 29.
