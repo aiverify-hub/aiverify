@@ -36,6 +36,8 @@ function userText(s) {
     .replace(/\bthe Bible's\b/gi, "the Scriptures'")
     .replace(/\b(?:the )?Bible\b/gi, 'the Scriptures')
     .replace(/\bbiblical\b/gi, 'scriptural')
+    .replace(/\bthe Scriptures((?: (?:never|also|only|clearly|explicitly|actually|really|specifically|nowhere))?) (says|teaches|states|tells|records|describes|mentions|contains|is|does|doesn't|has)\b/g, (m, adv, v) => 'the Scriptures' + adv + ' ' + ({ says: 'say', teaches: 'teach', states: 'state', tells: 'tell', records: 'record', describes: 'describe', mentions: 'mention', contains: 'contain', is: 'are', does: 'do', "doesn't": "don't", has: 'have' })[v])
+    .replace(/(^|[.!?]\s+)the Scriptures/g, '$1The Scriptures')
     .replace(/\s{2,}/g, ' ');
 }
 // v10: claims that a saying is NOT in the Scriptures ("not in the Bible", "the Bible never says").

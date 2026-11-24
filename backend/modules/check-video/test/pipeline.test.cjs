@@ -962,7 +962,7 @@ test('v10: "not in the Bible" can be backed without a quote (scripture passages 
 
 test('AIVerify\'s own explanations say "the Scriptures", never "KJV" or "Bible"', () => {
   assert.equal(_internal.userText('1 Timothy 6:10 (KJV) says the love of money'), '1 Timothy 6:10 says the love of money');
-  assert.equal(_internal.userText('the KJV wording differs; it is not in the Bible'), 'the Scriptures differs; it is not in the Scriptures');
+  assert.equal(_internal.userText('It is not in the Bible. The Bible never says it.'), 'It is not in the Scriptures. The Scriptures never say it.');
   assert.doesNotMatch(_internal.userText('Matthew 1:16 in KJV 1769 and biblical texts'), /KJV|Bible|biblical/);
 });
 
@@ -970,6 +970,6 @@ test('published claim statements follow the wording rule; the video quote stays 
   const io = claimsIo({ main_point: 'x', claims: [{ claim: 'The Bible says money is the root of all evil.', video_quote: 'The Bible says money is the root of all evil', search_query: 'q', kind: 'scripture', scripture_refs: ['1 Timothy 6:10'], corrections: [] }] },
     { transcript: { ok: true, title: 'Money', source: 'fake', text: 'The Bible says money is the root of all evil, so stay poor.' } });
   const r = await P0.createCheckVideo({ io, runsDir: tmp(), config: { rateVerses: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
-  assert.equal(r.claims[0].claim, 'the Scriptures says money is the root of all evil.'.replace(/^t/, 'T') === r.claims[0].claim ? r.claims[0].claim : r.claims[0].claim);
+  assert.equal(r.claims[0].claim, 'The Scriptures say money is the root of all evil.');
   assert.doesNotMatch(r.claims[0].claim, /Bible/); assert.match(r.claims[0].videoQuote, /The Bible says/); assert.equal(r.claims[0].claimAsWritten, 'The Bible says money is the root of all evil.');
 });
