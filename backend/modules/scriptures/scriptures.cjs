@@ -57,22 +57,27 @@ function parseRef(ref) {
   const m = String(ref || '').trim().match(/^(.+?)\s*(\d+)(?::(\d+)(?:\s*[-–]\s*(?:(\d+):)?(\d+))?)?\s*$/);
   if (!m) return null;
   const code = alias.get(norm(m[1])); if (!code) return null;
-  const ch = +m[2];
-  if (!m[3]) return { code, chapter: ch, from: 1, to: 999, toChapter: ch };
-  return { code, chapter: ch, from: +m[3], toChapter: m[4] ? +m[4] : ch, to: m[5] ? +m[5] : +m[3] };
+  // Fred, v10 code review (blocker 3): chapter and verse numbers are bounded (no book has more than 150 chapters or
+  // 176 verses in a chapter), so a model-supplied huge number can never make a lookup loop run away.
+  const ok = n => Number.isSafeInteger(n) && n >= 1 && n <= 200;
+  const ch = +m[2]; if (!ok(ch)) return null;
+  if (!m[3]) return { code, chapter: ch, from: 1, to: 200, toChapter: ch };
+  const p = { code, chapter: ch, from: +m[3], toChapter: m[4] ? +m[4] : ch, to: m[5] ? +m[5] : +m[3] };
+  if (![p.from, p.to, p.toChapter].every(ok) || p.toChapter < p.chapter || p.toChapter - p.chapter > 3 || (p.toChapter === p.chapter && p.to < p.from)) return null;
+  return p;
 }
 function lookup(ref, d) {
   d = d || load(); const p = parseRef(ref); if (!p) return [];
   const out = [];
   for (let c = p.chapter; c <= p.toChapter && out.length < 30; c++) {
-    const start = c === p.chapter ? p.from : 1, end = c === p.toChapter ? p.to : 999;
+    const start = c === p.chapter ? p.from : 1, end = c === p.toChapter ? p.to : 200;
     for (let v = start; v <= end && out.length < 30; v++) { const k = p.code + ' ' + c + ':' + v, t = d.verses.get(k); if (t === undefined) { if (v > start) break; continue; } out.push(verse(k, t)); }
   }
   return out;
 }
 // A named passage plus up to `around` verses before and after it in the same chapter, marked context: true.
 function lookupWithContext(ref, around, d) {
-  d = d || load(); const p = parseRef(ref); if (!p || p.toChapter !== p.chapter || p.to === 999) return lookup(ref, d).map(v => Object.assign(v, { context: false }));
+  d = d || load(); const p = parseRef(ref); if (!p || p.toChapter !== p.chapter || (p.from === 1 && p.to === 200)) return lookup(ref, d).map(v => Object.assign(v, { context: false }));
   const out = [];
   for (let v = Math.max(1, p.from - around); v <= p.to + around; v++) { const k = p.code + ' ' + p.chapter + ':' + v, t = d.verses.get(k); if (t === undefined) continue; out.push(Object.assign(verse(k, t), { context: v < p.from || v > p.to })); }
   return out;

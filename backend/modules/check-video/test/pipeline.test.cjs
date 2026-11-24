@@ -500,7 +500,7 @@ test('v2: "supported" with an unproven part is withheld; "contradicted" with no 
   const r = await createCheckVideo({ io: partial, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].label, 'Not established from the sources checked');
   assert.ok(r.claims[0].notes.some(n => /does not follow from the parts/.test(n)));
-  assert.equal(r.claims[0].parts.length, 2);
+  assert.equal(r.claims[0].parts, null, 'held-back part verdicts stay private (Fred, v10 review)');
   const noFalse = fakeIo({ judge: c => /Webb Space Telescope launched/.test(c) ? { verdict: 'contradicted', parts: [{ part: 'launched', status: 'backed' }, { part: 'Ship 42', status: 'not_established' }], quote: 'Webb launched on Dec. 25th 2021 aboard an Ariane 5 rocket from French Guiana.', source: 1, reason: 'x' } : null });
   const r2 = await createCheckVideo({ io: noFalse, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.equal(r2.claims[0].verdict, 'insufficient');
@@ -795,7 +795,7 @@ test('v7: "backed" needs a second, independent judge (Opus 5.5) to agree', async
     const io2 = fakeIo({ judge: SUP_NASA }), orig = io2.anthropic;
     io2.anthropic = async (p, body) => p === '/v1/messages' && body.model === 'claude-opus-5-5' ? { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 100, output_tokens: 50 }, content: [{ type: 'text', text: JSON.stringify(Object.assign({ video_says: 'yes', parts: [{ part: 'the claim', status: other.verdict === 'supported' ? 'backed' : 'not_established' }], next_search: '' }, other)) }] }) } : orig(p, body);
     const r2 = await createCheckVideo({ io: io2, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
-    assert.equal(r2.claims[0].verdict, 'insufficient', JSON.stringify(other)); assert.match(r2.claims[0].reason, /second, independent judge did not agree/);
+    assert.equal(r2.claims[0].verdict, 'insufficient', JSON.stringify(other)); assert.match(r2.claims[0].reason, /No firm answer is given: the second judge did not agree/);
   }
 });
 
@@ -978,4 +978,23 @@ test('v10: the top line is the whole-video main point for fact videos too, not t
   const io = claimsIo({ main_point: 'Seed cycling balances hormones through the menstrual cycle.', main_point_kind: 'fact', claims: [WEBB] }, { judge: SUP_NASA });
   const r = await P0.createCheckVideo({ io, runsDir: tmp(), config: { rateVerses: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.deepEqual(r.headline, { claim: 'Seed cycling balances hormones through the menstrual cycle.', verdict: 'point', label: 'See the claims checked below.' });
+});
+
+test('Fred v10 review: absence rule only for explicit absence; held-back answers show no confident reasoning or parts; huge verse numbers rejected; scope-preserving wording; failed rating shows no verses', async () => {
+  assert.equal(_internal.ABSENCE_RE.test('The Bible says do not eat vegetables.'), false);
+  assert.equal(_internal.ABSENCE_RE.test('That saying is not found in the Bible.'), true);
+  const S = require('../../scriptures/scriptures.cjs');
+  assert.equal(S.parseRef('Genesis 1:9007199254740992'), null); assert.equal(S.lookupWithContext('Genesis 1:9007199254740992', 2).length, 0);
+  assert.equal(_internal.userText('This wording occurs only in the KJV translation.'), 'This wording occurs only in the translation checked.');
+  assert.equal(_internal.withheldText(['firm answer withheld: the second judge did not agree it is backed (verdict insufficient)']), 'No firm answer is given: the second judge did not agree it is backed.');
+  // second judge disagrees -> published reason is the held-back reason only, parts hidden
+  const io = fakeIo({ judge: SUP_NASA }), orig = io.anthropic;
+  io.anthropic = async (p, body) => p === '/v1/messages' && body.model === 'claude-opus-5-5' ? { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 10, output_tokens: 10 }, content: [{ type: 'text', text: JSON.stringify({ video_says: 'yes', verdict: 'insufficient', parts: [{ part: 'x', status: 'not_established' }], quote: '', source: 0, reason: 'no', next_search: '' }) }] }) } : orig(p, body);
+  const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].parts, null); assert.equal(r.claims[0].quote, null);
+  assert.match(r.claims[0].reason, /^No firm answer is given: the second judge did not agree/); assert.doesNotMatch(r.claims[0].reason, /NASA states/);
+  // failed rating -> no Related Scriptures
+  const io2 = claimsIo({ main_point: 'x', main_point_kind: 'teaching', teachings: [{ teaching: 'x', refs: ['John 3:16'] }], claims: [] }, { rate: () => ({ nope: true }) });
+  const r2 = await P0.createCheckVideo({ io: io2, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.deepEqual(r2.teachings, []);
 });

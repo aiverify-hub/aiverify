@@ -29,10 +29,19 @@ const DEFAULTS = {
 const SCOPE_LINE = 'AIVerify checks videos to show whether they line up with the truth according to the Scriptures.';
 // Cary's rule (November 23, 2026): AIVerify's own wording on pages says "Scriptures", never "Bible" or "KJV". Applied to the
 // explanations AIVerify writes; the video's own words (claims and quotes from the captions) are shown as said.
+// Fred, v10 code review (blocker 2): when a firm answer is held back, only the reason it was held back is shown; the
+// first judge's reasoning and part verdicts stay in the private record, so the page never shows confident wording or
+// "backed" parts under "not established".
+function withheldText(notes) {
+  const n = (notes || []).filter(x => /^firm answer withheld: /.test(String(x))).pop();
+  return 'No firm answer is given' + (n ? ': ' + String(n).replace(/^firm answer withheld: /, '').replace(/\s*\([^)]*\)\s*$/, '') : '') + '.';
+}
 function userText(s) {
   return String(s || '')
+    // Fred, v10 code review: keep the scope ("only in the KJV" must not become "only in the Scriptures").
     .replace(/\s*\((?:KJV|King James(?: Version)?)(?: 1769)?\)/gi, '')
-    .replace(/\b(?:the )?(?:KJV|King James Version)(?: 1769)?(?:\s+(?:text|wording|rendering|translation|version))?\b/gi, 'the Scriptures')
+    .replace(/\b(?:the )?(?:KJV|King James Version)(?: 1769)?\s+(?:text|wording|rendering)\b/gi, 'the wording of the translation checked')
+    .replace(/\b(?:the )?(?:KJV|King James Version)(?: 1769)?(?:\s+(?:translation|version))?\b/gi, 'the translation checked')
     .replace(/\bthe Bible's\b/gi, "the Scriptures'")
     .replace(/\b(?:the )?Bible\b/gi, 'the Scriptures')
     .replace(/\bbiblical\b/gi, 'scriptural')
@@ -41,7 +50,9 @@ function userText(s) {
     .replace(/\s{2,}/g, ' ');
 }
 // v10: claims that a saying is NOT in the Scriptures ("not in the Bible", "the Bible never says").
-const ABSENCE_RE = /\b(not|never|nowhere|no such)\b[^.]{0,80}\b(bible|scriptures?|old testament|new testament)\b|\b(bible|scriptures?)\b[^.]{0,40}\b(never|nowhere|does not|doesn't|do not|don't)\b/i;
+// Fred, v10 code review (blocker 1): only an explicit statement that words are absent from the text, never a command or
+// other negative sentence ("The Bible says do not eat vegetables" does not match).
+const ABSENCE_RE = /\b(?:is|are|was|were)\s+not\s+(?:found\s+|written\s+)?(?:anywhere\s+)?in\s+the\s+(?:bible|scriptures?)\b|\bnot\s+(?:found|written|appear(?:s|ing)?)\s+(?:anywhere\s+)?in\s+the\s+(?:bible|scriptures?)\b|\b(?:isn't|aren't|wasn't)\s+(?:anywhere\s+)?in\s+the\s+(?:bible|scriptures?)\b|\b(?:bible|scriptures?)\s+(?:never|nowhere|does\s+not|doesn't|do\s+not|don't)\s+(?:say|says|mention|mentions|contain|contains|state|states)\b|\bnowhere\s+in\s+the\s+(?:bible|scriptures?)\b/i;
 const VERDICT_LABEL = { supported: 'Backed by the sources checked', contradicted: 'Shown false by the evidence', misleading: 'Shown false by the evidence (satire or false context)', insufficient: 'Not established from the sources checked' };
 
 // ---------- small helpers ----------
@@ -530,7 +541,8 @@ Answer with JSON only: {"ratings":[{"teaching":<number>,"ref":"<reference as giv
 ` + teachings.map((t, i) => `Teaching ${i + 1}: ${t.teaching}\n` + t.verses.map(v => `- ${v.ref}: ${v.text}`).join('\n')).join('\n\n') }] };
   let r; try { r = await callClaude(ctx, body, 'rate related scriptures'); } catch (e) { if (e && /^(BUDGET|VENDOR_ACCESS|STOPPED|DEADLINE)/.test(e.code || '')) throw e; r = { ok: false }; }
   const j = r && r.ok && r.stopReason === 'end_turn' ? firstJson(r.text) : null;
-  if (!j || !Array.isArray(j.ratings)) return trim(teachings).map(t => Object.assign(t, { rated: false }));
+  // Fred, v10 code review: when the relevance rating fails, no passages are shown as related (they are unconfirmed).
+  if (!j || !Array.isArray(j.ratings)) return [];
   return teachings.map((t, i) => {
     const score = new Map(j.ratings.filter(x => x && x.teaching === i + 1 && Number.isInteger(x.score)).map(x => [squash(x.ref), Math.max(0, Math.min(3, x.score))]));
     const rated = t.verses.map((v, k) => ({ v: Object.assign({}, v, { score: score.has(v.ref) ? score.get(v.ref) : null }), k }))
@@ -914,9 +926,10 @@ function createCheckVideo(options) {
             const fixed = await repairClaim(ctx, c, j.detailCheck.failing.map(d => 'the caption passage does not say: ' + d), text, segs, published);
             if (fixed) { const first = { claim: c.claim, detailCheck: j.detailCheck }; c = fixed; j = await judgeClaim(ctx, c, ev, published); c = Object.assign({}, c, { firstTry: first }); }
           }
-          priv.push({ n: c.n, rawJudgeText: j.rawJudgeText || '', captionWindow: c.captionWindow, sources: ev.sources.map(s => ({ n: s.n, url: s.url, originalUrl: s.originalUrl, origin: s.origin, excerptSha256: s.excerptSha256, excerpt: s.excerpt })) });
+          const withheld = j.verdict === "insufficient" && !!j.modelVerdict && j.modelVerdict !== "insufficient";
+          priv.push({ n: c.n, judgeReason: j.reason, judgeParts: j.parts || null, rawJudgeText: j.rawJudgeText || '', captionWindow: c.captionWindow, sources: ev.sources.map(s => ({ n: s.n, url: s.url, originalUrl: s.originalUrl, origin: s.origin, excerptSha256: s.excerptSha256, excerpt: s.excerpt })) });
           const pub = Object.assign({}, c); delete pub.captionWindow; // caption text stays in the private record
-          return Object.assign(pub, { verdict: j.verdict, label: j.label, reason: userText(j.reason), quote: j.quote, notes: j.notes, parts: j.parts || null, modelVerdict: j.modelVerdict || null, videoSays: j.videoSays || null, binding: j.binding || null, secondCheck: j.secondCheck || null, detailCheck: j.detailCheck || null, secondJudge: j.secondJudge || null, nameFixesResolved: j.nameFixesResolved === true,
+          return Object.assign(pub, { verdict: j.verdict, label: j.label, reason: withheld ? withheldText(j.notes) : userText(j.reason), quote: withheld ? null : j.quote, notes: j.notes, parts: withheld ? null : (j.parts || null), modelVerdict: j.modelVerdict || null, videoSays: j.videoSays || null, binding: j.binding || null, secondCheck: j.secondCheck || null, detailCheck: j.detailCheck || null, secondJudge: j.secondJudge || null, nameFixesResolved: j.nameFixesResolved === true,
             sources: ev.sources.map(s => ({ n: s.n, url: s.url, title: s.title, publisher: s.publisher, role: s.role, origin: s.origin })), considered: ev.considered, evidenceError: ev.error || null });
         } catch (e) {
           if (!(e && STOP_CODES.test(e.code || ''))) throw e;
@@ -942,7 +955,7 @@ function createCheckVideo(options) {
         c.wouldHaveBeen = c.verdict; c.verdict = 'insufficient';
         c.label = { video: "Not established (not enough reliable caption data)", notfound: "Not established (not found in the captions)", numbers: "Not established (numbers differ from the captions)", claim: "Not established (caption unclear)" }[why];
         c.notes = (c.notes || []).concat({ video: 'firm answer withheld: video captions flagged as unreliable', notfound: 'firm answer withheld: the claim\'s passage was not found in the captions, so the video may not have said it', numbers: 'firm answer withheld: number(s) ' + (c.missingNumbers || []).join(', ') + ' not found near the passage in the captions', claim: 'firm answer withheld: claim depends on a name, number or date guessed from unclear captions' }[why]);
-        c.quote = null;
+        c.quote = null; c.reason = withheldText(c.notes); c.parts = null; // Fred, v10 code review (blocker 2)
       }
       const count = v => result.claims.filter(c => c.verdict === v).length;
       // Cary, November 20, 2026: one contradicted claim casts doubt on a video's other figures. State it as a caution, not a verdict on the video.
@@ -1021,4 +1034,4 @@ function saveSourceSuggestion(dir, s) {
   try { fs.mkdirSync(dir, { recursive: true }); fs.appendFileSync(path.join(dir, 'source-suggestions.jsonl'), JSON.stringify({ at: new Date().toISOString(), url: u.toString(), publisher: publishers.describe(u.toString()).publisher, note, runId }) + '\n'); return true; } catch (_e) { return false; }
 }
 
-module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { partsConflict, budgetDay, createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing, nameFixesResolved, verifyBacked, verifyFalse, repairClaim, buildClaim, detailPrompt, clipWords, userText } };
+module.exports = { createCheckVideo, parseYouTubeUrl, judgePrompt, claimPrompt, DEFAULTS, VERDICT_LABEL, _internal: { partsConflict, budgetDay, createBudget, gatherEvidence, judgeClaim, extractClaims, FALLBACK_STATE, mapLimit, claimNumbersMissing, nameFixesResolved, verifyBacked, verifyFalse, repairClaim, buildClaim, detailPrompt, clipWords, userText, withheldText, ABSENCE_RE } };
