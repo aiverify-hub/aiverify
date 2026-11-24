@@ -58,3 +58,9 @@ Also fixed during set 3: AIVerify's own wording never says "KJV" or "Bible" (113
 ## Totals after three tuning sets (29 videos)
 
 Firm answers right 25 of 26 (96%); false accusations 0; main point 27 of 29 (93%); main point worded faithfully 23 of 29 (79%); scope 29 of 29.
+
+## Related Scriptures style decision and watch list (November 23, 2026)
+
+Cary saw both styles on real examples (the tithing video and "Jesus Never Claimed To Be God") and could not choose; he left it to Claude with one condition: point out real test examples where the other style would have been better. Decision: style A (verses with the neutral note, no labels). Watch list: each tuning or test set, list the cases where a factual label (who is speaking, where a passage continues) would have prevented a misreading, and show them to Cary.
+
+Watch list so far (from set 3): "Jesus Never Claimed To Be God": John 10:33 is the words of Jesus' opponents, shown without saying so. Tithing video: Malachi 3:8-10 is addressed to Israel, shown without saying so.
