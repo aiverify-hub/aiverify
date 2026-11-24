@@ -215,7 +215,7 @@
     // Related Scriptures (named "Related" on video results so they never seem to endorse the video's teaching). Text only; AIVerify never interprets them.
     var ts = r.teachings || [];
     if (ts.length) {
-      var rs = el('details', { cls: 'rs card' }); rs.open = true;
+      var rs = el('details', { cls: 'rs card' }); // starts closed, like the main page's Supporting Scriptures (Cary)
       rs.appendChild(el('summary', { text: 'Related Scriptures to Consider and Share' }));
       var body = el('div', { cls: 'rsBody' });
       body.appendChild(el('p', { cls: 'small', text: 'These passages speak to the same subject. AIVerify does not say whether they agree with the video.' }));
