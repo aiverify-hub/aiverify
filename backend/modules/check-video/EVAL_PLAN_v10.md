@@ -28,3 +28,9 @@ Within Cary's $500 a month. Backstop $50; expected about $20.
 - Run: software 4690d92 plus the wording fixes through aa4a0f9 (server restarted on aa4a0f9 before the run); all 97 videos had readable captions; none stopped early; cost $11.37.
 - 12 declined by the scope rule; 85 checked; Related Scriptures on 57.
 - Claims: 153 about what the Scriptures say (73 backed, 0 shown false, 80 not established); 176 factual claims with sources listed and no verdict (beta). No factual claim received a firm answer.
+
+## Results (November 24, 2026, early morning)
+
+- Gate A (Fred, blind): 70 of 73 firm answers right (95.9%); all 73 firm answers in the run were reviewed (fewer than 100 exist; the beta plan judges the mark on what exists). The 3 misses are "backed" claims Fred left "not established" for interpretive reasons (2 Corinthians 5:8 stated as an unqualified equivalence; a "man of sin" claim; whom Cain's anger was toward at Genesis 4:6). None was a wrong "shown false". Fred's "not established" sample: scripture claims 3 he would back, 1 he would call false, 3 not established; sources-only factual claims 13 backed, 1 false, 9 not established by his reading.
+- Gate B: no "shown false" findings in the run, so no false accusations.
+- Gates C and D (Bob): in progress; Bob's first reply covered 10 of 97 scope items (10 of 10 agree) and 8 of 83 main-claim items (8 of 8 main point, 8 of 8 worded faithfully; Related Scriptures relate 7 of 8). He is continuing in the same chat.
