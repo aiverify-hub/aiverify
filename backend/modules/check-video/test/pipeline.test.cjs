@@ -973,3 +973,9 @@ test('published claim statements follow the wording rule; the video quote stays 
   assert.equal(r.claims[0].claim, 'The Scriptures say money is the root of all evil.');
   assert.doesNotMatch(r.claims[0].claim, /Bible/); assert.match(r.claims[0].videoQuote, /The Bible says/); assert.equal(r.claims[0].claimAsWritten, 'The Bible says money is the root of all evil.');
 });
+
+test('v10: the top line is the whole-video main point for fact videos too, not the first checkable detail', async () => {
+  const io = claimsIo({ main_point: 'Seed cycling balances hormones through the menstrual cycle.', main_point_kind: 'fact', claims: [WEBB] }, { judge: SUP_NASA });
+  const r = await P0.createCheckVideo({ io, runsDir: tmp(), config: { rateVerses: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.deepEqual(r.headline, { claim: 'Seed cycling balances hormones through the menstrual cycle.', verdict: 'point', label: 'See the claims checked below.' });
+});

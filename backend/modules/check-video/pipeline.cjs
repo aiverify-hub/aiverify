@@ -961,7 +961,9 @@ function createCheckVideo(options) {
         result.headline = { claim: 'This video lists several separate claims; it has no single main claim.', verdict: 'list', label: 'See each claim below.' };
         result.summary = `Claims checked (${result.claims.length}): ${lc('supported')} backed by the sources checked, ${lc('contradicted') + lc('misleading')} shown false by the evidence, ${lc('insufficient')} not established from the sources checked.`;
       } else {
-      result.headline = { claim: main.claim, verdict: main.verdict, label: main.label };
+      // v10 final test (Bob, gate C: teaching headlines 47 of 47 right, fact headlines 12 of 34): the top line is the
+      // whole-video main point AIVerify wrote, not the first checkable detail; the detail stays below as claim 1.
+      result.headline = result.mainPoint ? { claim: result.mainPoint, verdict: 'point', label: 'See the claims checked below.' } : { claim: main.claim, verdict: main.verdict, label: main.label };
       const others = result.claims.filter(c => c !== main), oc = v => others.filter(c => c.verdict === v).length;
       result.summary = `Main claim: ${main.label}.` + (others.length ? ` Other claim${others.length === 1 ? '' : 's'} checked (${others.length}): ${oc('supported')} backed by the sources checked, ${oc('contradicted') + oc('misleading')} shown false by the evidence, ${oc('insufficient')} not established from the sources checked.` : '');
       }
