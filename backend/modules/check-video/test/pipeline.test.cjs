@@ -948,3 +948,14 @@ test('v10: a claim that a saying is not in the Scriptures is checked against the
   assert.match(P0.judgePrompt('x', [], '', ''), /A claim that a saying or words are NOT in the Scriptures/);
   assert.match(P0.claimPrompt('t', 'c', 4, ''), /or that a saying is not in the Bible/);
 });
+
+test('v10: "not in the Bible" can be backed without a quote (scripture passages only, second judge must agree); a reworded claim keeps its kind', async () => {
+  const io = claimsIo({ main_point: 'Some popular sayings are not in the Bible.', claims: [{ claim: "The saying 'God helps those who help themselves' is not in the Bible.", video_quote: 'God helps those who help themselves', search_query: 'q', kind: 'scripture', scripture_refs: [], corrections: [] }] },
+    { transcript: { ok: true, title: 'Sayings', source: 'fake', text: 'People say God helps those who help themselves, but that is not in the Bible at all.' },
+      judge: c => /God helps those who help themselves/.test(c) ? { verdict: 'supported', quote: '', source: 0, reason: 'None of the closest passages has the saying.', parts: [{ part: 'not in the Bible', status: 'backed' }] } : null });
+  const r = await P0.createCheckVideo({ io, runsDir: tmp(), config: { rateVerses: false } }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const c = r.claims[0];
+  assert.equal(c.verdict, 'supported', JSON.stringify(c.notes)); assert.equal(c.quote, null); assert.ok(c.secondJudge && c.secondJudge.agrees, 'second judge ran and agreed');
+  assert.equal(io.calls.exa.length, 0);
+  assert.match(require('fs').readFileSync(require('path').join(__dirname, '..', 'pipeline.cjs'), 'utf8'), /kind: claim\.kind, scriptureRefs:/);
+});

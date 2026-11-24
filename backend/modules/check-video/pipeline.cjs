@@ -27,6 +27,8 @@ const DEFAULTS = {
 // v2 (Bob decision 3, November 22, 2026): three plain descriptions. Internal verdict names are unchanged.
 // v7 (Cary, November 23, 2026, approved wording): the purpose line shown on the page and in a declined result.
 const SCOPE_LINE = 'AIVerify checks videos to show whether they line up with the truth according to the Scriptures.';
+// v10: claims that a saying is NOT in the Scriptures ("not in the Bible", "the Bible never says").
+const ABSENCE_RE = /\b(not|never|nowhere|no such)\b[^.]{0,80}\b(bible|scriptures?|old testament|new testament)\b|\b(bible|scriptures?)\b[^.]{0,40}\b(never|nowhere|does not|doesn't|do not|don't)\b/i;
 const VERDICT_LABEL = { supported: 'Backed by the sources checked', contradicted: 'Shown false by the evidence', misleading: 'Shown false by the evidence (satire or false context)', insufficient: 'Not established from the sources checked' };
 
 // ---------- small helpers ----------
@@ -374,7 +376,7 @@ async function repairClaim(ctx, claim, problems, transcript, segments, published
   if (!j || typeof j.claim !== 'string' || !squash(j.claim) || typeof j.video_quote !== 'string') return null;
   const fixed = buildClaim(j, claim.n - 1, transcript, segments);
   if (!fixed.captionBound || fixed.claim === claim.claim) return null;
-  return Object.assign(fixed, { central: claim.central, repairedFrom: claim.claim, repairReason: problems.join('; ').slice(0, 400) });
+  return Object.assign(fixed, { central: claim.central, kind: claim.kind, scriptureRefs: fixed.scriptureRefs && fixed.scriptureRefs.length ? fixed.scriptureRefs : (claim.scriptureRefs || []), repairedFrom: claim.claim, repairReason: problems.join('; ').slice(0, 400) });
 }
 
 // ---------- claim vs captions: material numbers (Fred re-check #6) ----------
@@ -727,14 +729,19 @@ async function judgeClaim(ctx, claim, ev, published) {
   const src = Number.isInteger(j.source) ? ev.sources[j.source - 1] : null;
   const b = src ? bindQuote(j.quote, src.excerpt) : { bound: false, reason: 'NO_VALID_CITED_SOURCE' };
   res.binding = Object.assign({ citedSource: j.source || null }, b, { originalSubstring: undefined });
-  if (!b.bound) { res.notes.push('firm answer withheld: its quote was not found exactly once in the cited source (' + b.reason + ')'); res.reason = 'A firm answer was withheld because its supporting quote could not be verified in the cited source. ' + res.reason; return res; }
+  // v10 (tuning set 3: 'God helps those who help themselves is not in the Bible' was withheld for want of a quote): a claim that
+  // a saying is NOT in the Scriptures, judged only on scripture passages found by searching the whole local text, may be backed
+  // without a quote (an absence cannot be quoted); it then skips the detail check but still needs the second judge to agree.
+  const absenceOk = j.verdict === 'supported' && claim.kind === 'scripture' && ABSENCE_RE.test(claim.claim) && ev.sources.length > 0 && ev.sources.every(s => s.role === 'scripture');
+  res.absence = absenceOk;
+  if (!b.bound && !absenceOk) { res.notes.push('firm answer withheld: its quote was not found exactly once in the cited source (' + b.reason + ')'); res.reason = 'A firm answer was withheld because its supporting quote could not be verified in the cited source. ' + res.reason; return res; }
   // A contradiction accuses the video of being wrong, so it needs an official, fact-check or established news/reference
   // source. Calibration, Fred's review: two of the disputed contradictions rested on "other" sources (a personal blog, a newspaper outside the list).
   // "Misleading" also accuses the video; it needs an official, fact-check or news/reference source, or the originator's
   // own page (a satire site saying it is satire). Live check, November 21: the judge still used it for partly-true claims.
   if (j.verdict === 'misleading' && src.tier === 5) { res.notes.push('firm answer withheld: "misleading" needs an official, fact-check, news/reference or originator source (cited source role: ' + src.role + ')'); res.reason = 'A "misleading" finding was not confirmed by a suitable source. ' + res.reason; return res; }
   if (j.verdict === 'contradicted' && src.tier >= 4) { res.notes.push('firm answer withheld: a contradiction needs an official, fact-check or news/reference source (cited source role: ' + src.role + ')'); res.reason = 'A contradiction was not confirmed by an official, fact-check or established news source. ' + res.reason; return res; }
-  if (j.verdict === 'supported' && src.tier === 4) { res.notes.push('firm answer withheld: support came only from the claim\'s originator'); res.reason = 'The only support came from the claim\'s own originator, which cannot confirm itself. ' + res.reason; return res; }
+  if (j.verdict === 'supported' && src && src.tier === 4) { res.notes.push('firm answer withheld: support came only from the claim\'s originator'); res.reason = 'The only support came from the claim\'s own originator, which cannot confirm itself. ' + res.reason; return res; }
   // v3 (v2 gate B failure, November 22, 2026: 4 of 5 "shown false" findings were wrong): every finding that the video is
   // wrong gets a separate second check before it is shown. Anything but a clear confirmation withholds it (fail safe).
   // A claim the caption rules will withhold anyway (passage not found, numbers missing, guessed words) skips the paid checks.
@@ -747,7 +754,7 @@ async function judgeClaim(ctx, claim, ev, published) {
   // absolute word): every "backed" finding gets a separate detail check against all excerpts. Anything but every detail
   // stated withholds it (fail safe; a differing detail is not turned into an accusation here).
   else if (j.verdict === 'supported') {
-    const v = await verifyBacked(ctx, claim, ev.sources, published);
+    const v = absenceOk ? { confirmed: true, problem: 'skipped (absence claim: nothing to quote)', details: [], reason: '' } : await verifyBacked(ctx, claim, ev.sources, published);
     res.detailCheck = v;
     if (!v.confirmed) { res.notes.push('firm answer withheld: the detail check did not confirm every detail (' + v.problem + ')'); res.reason = 'A detail check did not confirm every number, date, name and qualifier in this claim, so no firm answer is given. ' + (v.reason ? v.reason + ' ' : '') + res.reason; return res; }
     // v7 (v5 and v6 gate A: 15 of 18 and 17 of 17 disagreements were "backed" claims): a second, stronger model judges the
@@ -764,6 +771,7 @@ async function judgeClaim(ctx, claim, ev, published) {
     if (!v.confirmed) { res.notes.push('firm answer withheld: the second check did not confirm the "shown false" finding (' + v.problem + ')'); res.reason = 'A second check did not confirm that this claim is false, so no firm answer is given. ' + (v.reason ? v.reason + ' ' : '') + res.reason; return res; }
   }
   res.verdict = j.verdict; res.label = VERDICT_LABEL[j.verdict];
+  if (absenceOk && !b.bound) { res.quote = null; return res; }
   res.quote ={ text: b.originalSubstring.slice(0, 400), sourceN: src.n, url: src.url, publisher: src.publisher, role: src.role, matchType: b.matchType };
   return res;
 }
