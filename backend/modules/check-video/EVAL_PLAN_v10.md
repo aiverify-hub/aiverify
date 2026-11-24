@@ -21,3 +21,10 @@ Passing permits a labeled beta only with Cary's go-ahead to go live.
 ## Budget
 
 Within Cary's $500 a month. Backstop $50; expected about $20.
+
+## Run record (November 23, 2026, night)
+
+- Video list: EVAL_V10_VIDEO_IDS.tsv, 97 videos, SHA-256 b18469aed622400e6b7a8b2363fcc9e37e5332719995f2bc55d667a174fc60ec (written by the list script immediately before the run, from the first-result picks and same-group backups; no system output was seen during selection). Three slots stay empty (Morality 2, Origins 1); the Prophecy and Harmless backups were not needed.
+- Run: software 4690d92 plus the wording fixes through aa4a0f9 (server restarted on aa4a0f9 before the run); all 97 videos had readable captions; none stopped early; cost $11.37.
+- 12 declined by the scope rule; 85 checked; Related Scriptures on 57.
+- Claims: 153 about what the Scriptures say (73 backed, 0 shown false, 80 not established); 176 factual claims with sources listed and no verdict (beta). No factual claim received a firm answer.
