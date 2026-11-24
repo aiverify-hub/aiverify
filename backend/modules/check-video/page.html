@@ -255,7 +255,7 @@
         c.sources.forEach(function (s) { var t = s.title || s.url; ul.appendChild(el('li', {}, s.role === 'scripture' ? [safeLink(s.url, t)] : [safeLink(s.url, t), ' — ' + s.publisher + ', ' + (ROLE_HELP[s.role] || s.role)])); });
         // Scripture lists use the same purple OPEN/CLOSE style as Related Scriptures (Cary); web sources stay plain.
         var srcBox = allScripture
-          ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: 'Scriptures read for this claim (' + c.sources.length + ')' }), el('div', { cls: 'rsBody' }, [ul])])
+          ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: (c.verdict === 'supported' ? 'Claim supported by one or more of the following Scriptures' : 'Scriptures checked for this claim') + ' (' + c.sources.length + ')' }), el('div', { cls: 'rsBody' }, [ul])])
           : el('details', {}, [el('summary', { text: 'Sources read for this claim (' + c.sources.length + ')' }), ul]);
         if (c.sourcesOnly) srcBox.open = true;
         d.appendChild(srcBox);
