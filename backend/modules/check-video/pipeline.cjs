@@ -947,6 +947,8 @@ function createCheckVideo(options) {
       if (count('contradicted') + count('misleading') > 0) result.caution = 'Caution: the evidence shows at least one claim in this video is false. Treat its other numbers and studies carefully. This is about the claims listed, not a judgment of the whole video or of the person who made it.';
       // v6 (Cary, November 23, 2026: the result had no plain answer at the top): the headline is the main claim and its
       // label. It states a finding about that claim only, never a verdict on the whole video.
+      // Cary's wording rule also covers the claim statements AIVerify writes (all checking is done; the captions quote stays as said).
+      for (const c of result.claims) { const w = userText(c.claim); if (w !== c.claim) { c.claimAsWritten = c.claim; c.claim = w; } }
       const main = result.claims.find(c => c.central) || result.claims[0];
       // v7: a list video has no single main claim; the headline says so instead of promoting one item.
       if (teachingMain) {
