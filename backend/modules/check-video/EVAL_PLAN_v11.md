@@ -40,3 +40,9 @@ Same bootstrap (seed 20261121, 10,000 draws, one item per video). cannot_determi
 ## Result
 All beta marks passed: A 96.5% (lower bound 91.1%), B 0 false accusations, C 94.9%, D 98.8%, scope 94.6%.
 Next: Cary's go-live decision.
+
+## Fix after the sample (November 24, 2026): scope reason before the decision
+The 2 sports videos Bob would decline (dlD_Wr5aXc8, 02h7MB4Re4o) had a scope reason saying "out of scope" but in_scope true,
+so they showed "no checkable claims" instead of the decline line (cost 4 cents each, the same as a decline). The claim
+schema now asks for scope_reason before in_scope, and in_scope must agree with it. Tests: 108 pass.
+Recheck ($0.37): both sports videos now declined; 2 in-scope controls (sH6ESIFwpzI prayer, 5zyvNYaUFq8 fluoride) still checked.
