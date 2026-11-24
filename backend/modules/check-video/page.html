@@ -148,7 +148,9 @@
     { group: 'Health', id: 'x1SIEftYSvY', title: 'Cancer HATES This!' }
   ];
   function ytUrl(id) { return 'https://www.youtube.com/watch?v=' + id; }
+  var VIEW = { gen: 0 }; // bumped by every new view (samples or a check), so late replies for an older view are ignored
   function showSamples() {
+    VIEW.gen++;
     var box = $('samples'); box.textContent = ''; $('result').textContent = ''; $('status').textContent = '';
     var card = el('div', { cls: 'card' });
     card.appendChild(el('p', { cls: 'samplesHead', text: 'Examples' }));
@@ -323,6 +325,7 @@
 
   function runCheck() {
     var url = $('url').value.trim(); if (!url) { $('status').textContent = 'Paste a YouTube link first.'; return; }
+    VIEW.gen++;
     $('go').disabled = true; $('samplesBtn').disabled = true; $('result').textContent = ''; $('samples').hidden = true; $('status').textContent = '';
     var stop = startCartoons(Date.now());
     fetch('/check-video/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(PUBLIC ? { url: url } : { url: url, transcript: $('tx').value }) })
@@ -408,11 +411,13 @@
   // Fred launch review: a link (from the main page or anywhere) only fills the box. A saved answer is shown at once
   // (it costs nothing); a new check starts only when the visitor presses Check Video.
   if (PUBLIC) { var given = params ? params.get('url') || '' : ''; if (/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(given) && given.length <= 500) { $('url').value = given; showSavedOrAsk(given); } }
+  // Fred recheck (minor): a late saved-answer reply is ignored once the visitor has started anything else or changed the link.
   function showSavedOrAsk(url) {
+    var g = VIEW.gen, current = function () { return g === VIEW.gen && $('url').value.trim() === url; };
     fetch('/check-video/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: url, savedOnly: true }) })
       .then(function (x) { return x.json(); })
-      .then(function (r) { if (r && r.ok) { $('result').appendChild(renderResult(r, false)); return; } askToCheck(); })
-      .catch(askToCheck);
+      .then(function (r) { if (!current()) return; if (r && r.ok) { $('result').appendChild(renderResult(r, false)); return; } askToCheck(); })
+      .catch(function () { if (current()) askToCheck(); });
   }
   function askToCheck() { $('status').textContent = 'Press Check Video to check this video.'; $('go').focus(); }
 })();
