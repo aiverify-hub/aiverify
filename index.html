@@ -6385,6 +6385,26 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     return html || '';
   }
 
+  // Check Video beta (Cary, November 24, 2026): a single YouTube video link opens Check Video, which reads the video's
+  // captions and checks its claims. Only when the backend says Check Video is on; otherwise the usual handling continues.
+  function aivSingleYouTubeVideoLink(value){
+    const v=String(value||"").trim();
+    if(!/^https?:\/\/\S+$/i.test(v)||v.length>500)return "";
+    return /^https?:\/\/(?:(?:www\.|m\.)?youtube\.com\/(?:watch\?(?:\S*&)?v=|shorts\/|live\/)|youtu\.be\/)[A-Za-z0-9_-]{11}(?:[?&#]\S*)?$/i.test(v)?v.replace(/^http:/i,"https:"):"";
+  }
+  async function aivOpenCheckVideo(raw){
+    const link=aivSingleYouTubeVideoLink(raw);if(!link)return false;
+    let on=false;
+    try{
+      const ctl=(typeof AbortController!=="undefined")?new AbortController():null;const t=setTimeout(function(){if(ctl)ctl.abort();},3000);
+      const res=await fetch(BACKEND_BASE_URL+"/check-video/status?_="+Date.now(),{cache:"no-store",mode:"cors",signal:ctl?ctl.signal:undefined});
+      clearTimeout(t);const j=await res.json();on=!!(res.ok&&j&&j.ok&&j.on===true);
+    }catch(_e){on=false;}
+    if(!on)return false;
+    window.location.assign(BACKEND_BASE_URL+"/check-video?url="+encodeURIComponent(link));
+    return true;
+  }
+
   async function newAnalyze(){
     const aivAnalyzeStart=aivFeNow();
     if(!activeTesterSession){aivShowSignIn('Access is not ready. Please wait or refresh.');return;}
@@ -6392,6 +6412,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     const raw=sanitizeInputForAnalyze(i?i.value.trim():"");
     if(!raw){if(i)i.focus(); return;}
     if(isRetryTimeoutTestInput(raw)){startRetryTimeoutTest(raw);return;}
+    if(await aivOpenCheckVideo(raw))return;
     cancelActiveRender();
     const runId=activeRenderRun;
     lastAnalyzedInput=raw;

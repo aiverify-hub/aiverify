@@ -49,16 +49,17 @@
 </head>
 <body>
 <main>
-  <h1>Check Video <span class="small">Beta (local test, not public)</span></h1>
+  <p class="small" id="home" hidden><a href="https://aiverify.tech/">← AIVerify home</a></p>
+  <h1>Check Video <span class="small" id="modeTag">Beta (local test, not public)</span></h1>
   <p class="sub"><strong>AIVerify checks videos to show whether they line up with the truth according to the Scriptures.</strong></p>
   <p class="sub">Paste a YouTube link to a video 3 minutes or longer. AIVerify reads the captions, finds the video's main claim, and checks it against sources.</p>
-  <nav><button id="tabCheck" aria-pressed="true">Check a video</button><button id="tabReview" aria-pressed="false">Review answers</button></nav>
+  <nav id="tabs"><button id="tabCheck" aria-pressed="true">Check a video</button><button id="tabReview" aria-pressed="false">Review answers</button></nav>
 
   <section id="check">
     <div class="card">
       <label for="url">YouTube link</label>
       <input id="url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
-      <details><summary>Captions not available? Paste the transcript instead (optional)</summary>
+      <details id="txBox"><summary>Captions not available? Paste the transcript instead (optional)</summary>
         <label for="tx" style="margin-top:8px">Transcript text</label><textarea id="tx"></textarea></details>
       <button class="go" id="go">Check Video</button>
       <div class="status" id="status" role="status"></div>
@@ -82,6 +83,9 @@
     return n;
   }
   function safeLink(url, text) { var ok = /^https?:\/\//i.test(String(url || '')); return ok ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: text || url }) : el('span', { text: text || '' }); }
+  // Public beta (the server marks the page): no review tab, no pasted transcripts; a link from the main page fills the box and starts the check.
+  var PUBLIC = document.documentElement.getAttribute('data-mode') === 'public';
+  if (PUBLIC) { document.title = 'Check Video (Beta) | AIVerify'; $('modeTag').textContent = 'Beta'; $('tabs').hidden = true; $('txBox').hidden = true; $('home').hidden = false; }
   var ROLE_HELP = { 'primary/official': 'official or primary source', 'fact-check': 'fact-checker', 'news/reference': 'news or reference', 'originator of the claim': 'possible origin of the claim', 'scripture': 'the Scriptures', 'other': 'other' };
 
   function renderResult(r, withReview) {
@@ -147,7 +151,7 @@
       if (!withReview && r.runId) d.appendChild(reportBlock(r, c.n));
       box.appendChild(d);
     });
-    if (r.limits) box.appendChild(el('p', { cls: 'limits', text: r.limits }));
+    if (r.limits && !r.outOfScope && r.ok) box.appendChild(el('p', { cls: 'limits', text: r.limits }));
     if (r.ok && (r.claims || []).length) box.appendChild(el('p', { cls: 'small' }, ['Looking for a faith or moral perspective on this topic? This is optional: ', safeLink('https://aiverify.tech/', 'ask on AIVerify’s main page'), ' (answers from the Scriptures).']));
     if (r.cost) box.appendChild(el('p', { cls: 'small', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
     if (withReview) box.appendChild(reviewBlock(r));
@@ -217,7 +221,7 @@
     $('go').disabled = true; $('result').textContent = '';
     var t0 = Date.now(); $('status').textContent = 'Checking… this usually takes 30 to 90 seconds.';
     var tick = setInterval(function () { $('status').textContent = 'Checking… ' + Math.round((Date.now() - t0) / 1000) + ' seconds so far.'; }, 1000);
-    fetch('/check-video/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: url, transcript: $('tx').value }) })
+    fetch('/check-video/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(PUBLIC ? { url: url } : { url: url, transcript: $('tx').value }) })
       .then(function (x) { return x.json(); })
       .then(function (r) { $('status').textContent = 'Done.'; $('result').appendChild(renderResult(r, false)); })
       .catch(function () { $('status').textContent = 'The check failed. Please try again.'; })
@@ -292,7 +296,8 @@
   });
   $('tabCheck').addEventListener('click', function () { showTab(false); });
   $('tabReview').addEventListener('click', function () { showTab(true); });
-  if (location.hash === '#review') showTab(true);
+  if (!PUBLIC && location.hash === '#review') showTab(true);
+  if (PUBLIC) { var given = ''; try { given = new URLSearchParams(location.search).get('url') || ''; } catch (_e) {} if (/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(given) && given.length <= 500) { $('url').value = given; $('go').click(); } }
 })();
 </script>
 </body>

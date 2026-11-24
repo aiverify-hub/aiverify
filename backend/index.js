@@ -52885,13 +52885,17 @@ const REQUEST_EXCEPTION_CONTAINMENT_STARTUP_V3623=Object.freeze({
 if(!Object.keys(REQUEST_EXCEPTION_CONTAINMENT_STARTUP_V3623).every(function(k){return REQUEST_EXCEPTION_CONTAINMENT_STARTUP_V3623[k]===true;}))throw new Error('REQUEST_EXCEPTION_CONTAINMENT_V3623 startup validation failed');
 
 // Check Video Phase 1 (YouTube claim check). Feature flag AIV_CHECK_VIDEO: unset/anything else = OFF (routes do not exist);
-// "local" = served only to requests from this computer (loopback socket). Public/tester access is not built yet.
-const CHECK_VIDEO_MODE_PH1=String(process.env.AIV_CHECK_VIDEO||'').trim().toLowerCase()==='local'?'local':'off';
+// "local" = served only to requests from this computer (loopback socket).
+// "public" (beta launch, Cary November 24, 2026) = the check page, checks, suggestions and an on/off status are public,
+// behind per-visitor and site-wide limits; every evaluation and grading route stays off. Needs a persistent runs folder
+// (AIV_CHECK_VIDEO_RUNS_DIR, or AIV_ANALYTICS_STORAGE_DIR/check-video) so the daily spending ledger survives restarts.
+const CHECK_VIDEO_MODE_PH1=(function(){const m=String(process.env.AIV_CHECK_VIDEO||'').trim().toLowerCase();return m==='local'||m==='public'?m:'off';})();
+const CHECK_VIDEO_RUNS_DIR_PH1=process.env.AIV_CHECK_VIDEO_RUNS_DIR||(CHECK_VIDEO_MODE_PH1==='public'&&process.env.AIV_ANALYTICS_STORAGE_DIR?path.join(process.env.AIV_ANALYTICS_STORAGE_DIR,'check-video'):'');
 let CHECK_VIDEO_PH1=null;
 // Daily cap override for the local evaluation only (Cary waived $5 for the 100-video test, Nov 21 2026); clamped to $1-$50.
 function checkVideoCapConfigPh1(){const n=Number(process.env.AIV_CHECK_VIDEO_DAILY_USD);const c=Number.isFinite(n)&&n>=1?{dailyUsdCap:Math.min(n,200)}:{};if(process.env.AIV_CHECK_VIDEO_NAME_FIXES==='1')c.nameFixesVerified=true;return c;}
 function checkVideoPh1(){
-  if(!CHECK_VIDEO_PH1)CHECK_VIDEO_PH1=require('./modules/check-video/pipeline.cjs').createCheckVideo({runsDir:process.env.AIV_CHECK_VIDEO_RUNS_DIR||undefined,config:checkVideoCapConfigPh1(),io:{publicGet:v3700PublicGet,getTranscript:checkVideoTranscriptPh1}});
+  if(!CHECK_VIDEO_PH1)CHECK_VIDEO_PH1=require('./modules/check-video/pipeline.cjs').createCheckVideo({runsDir:CHECK_VIDEO_RUNS_DIR_PH1||undefined,config:checkVideoCapConfigPh1(),io:{publicGet:v3700PublicGet,getTranscript:checkVideoTranscriptPh1}});
   return CHECK_VIDEO_PH1;
 }
 // Captions only (no video or audio download): the configured Supadata caption service in native-captions mode first,
@@ -53022,6 +53026,88 @@ async function checkVideoHandlePh1(req,res,u){
   return reply(404,{ok:false,error:'Not found'});
 }
 
+// ---------- Check Video public beta (AIV_CHECK_VIDEO=public) ----------
+// Only these routes exist publicly: the page, a check, the two suggestion forms and an on/off status for the main page.
+// Limits: per visitor (keyed by a keyed hash of the request IP, never stored) 1 check at a time and 5 new checks an
+// hour; 3 checks at a time site-wide; the pipeline's per-check ($1.50) and daily caps (AIV_CHECK_VIDEO_DAILY_USD,
+// default $5) still apply. A video checked successfully in the last 7 days is answered from memory at no cost.
+const CHECK_VIDEO_PUB_LIMITS_PH1=new Map(),CHECK_VIDEO_PUB_CACHE_PH1=new Map();
+let CHECK_VIDEO_PUB_ACTIVE_PH1=0;
+const CHECK_VIDEO_PUB_RULES_PH1={check:{perHour:5,active:1},suggest:{perHour:20,active:0},siteActive:3,cacheMs:7*86400000,cacheMax:500,suggestFileMax:5000000};
+// Local preview of the public beta (run-local.ps1 -Preview): this computer only, plain http.
+const CHECK_VIDEO_PREVIEW_PH1=process.env.AIV_CHECK_VIDEO_PREVIEW==='1'&&!process.env.RENDER;
+function checkVideoSchemePh1(req){return CHECK_VIDEO_PREVIEW_PH1&&checkVideoLoopbackPh1(req)?'http://':'https://';}
+function checkVideoPublicReadyPh1(){return CHECK_VIDEO_MODE_PH1==='public'&&!!CHECK_VIDEO_RUNS_DIR_PH1;}
+// Changes must come from the Check Video page itself (same origin) as JSON; the page may be opened from anywhere.
+function checkVideoPublicSameOriginPh1(req){
+  const host=String(req.headers.host||'').toLowerCase(),origin=String(req.headers.origin||'').toLowerCase();
+  if(!host||!origin||origin!==checkVideoSchemePh1(req)+host)return false;
+  const site=String(req.headers['sec-fetch-site']||'').toLowerCase();
+  if(site&&site!=='same-origin')return false;
+  return /^application\/json\b/i.test(String(req.headers['content-type']||''));
+}
+function checkVideoPublicLimitPh1(req,res,kind,reply){
+  const now=Date.now(),rule=CHECK_VIDEO_PUB_RULES_PH1[kind];
+  for(const [k,v] of CHECK_VIDEO_PUB_LIMITS_PH1)if(now-v.start>=3600000&&v.active===0)CHECK_VIDEO_PUB_LIMITS_PH1.delete(k);
+  const key=kind+':'+v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(v2872RequestIp(req)).digest('hex');
+  let row=CHECK_VIDEO_PUB_LIMITS_PH1.get(key);
+  if(row&&now-row.start>=3600000&&row.active===0){CHECK_VIDEO_PUB_LIMITS_PH1.delete(key);row=null;}
+  if(!row){if(CHECK_VIDEO_PUB_LIMITS_PH1.size>=10000){reply(429,{ok:false,error:'Check Video is busy right now. Please try again in a few minutes.'});return null;}row={start:now,count:0,active:0};CHECK_VIDEO_PUB_LIMITS_PH1.set(key,row);}
+  if(rule.active&&row.active>=rule.active){reply(429,{ok:false,error:'Please wait for your current check to finish.'});return null;}
+  if(row.count>=rule.perHour){reply(429,{ok:false,error:kind==='check'?'You have reached the limit of '+rule.perHour+' new checks an hour. Please try again later.':'Thank you. Please try again later.'});return null;}
+  return row;
+}
+function checkVideoPublicSuggestRoomPh1(name){try{return require('fs').statSync(path.join(CHECK_VIDEO_RUNS_DIR_PH1,name)).size<CHECK_VIDEO_PUB_RULES_PH1.suggestFileMax;}catch(_e){return true;}}
+function checkVideoPublicResultPh1(r){const pub=Object.assign({},r);delete pub.cost;delete pub.timings;return pub;}
+async function checkVideoHandlePublicPh1(req,res,u){
+  res.setHeader('Cache-Control','no-store');
+  const H={'access-control-allow-origin':checkVideoSchemePh1(req)+String(req.headers.host||'').toLowerCase(),'vary':'Origin'};
+  const reply=function(status,obj){return sendJson(res,status,obj,H);};
+  // The main page asks whether to send YouTube links here (any origin may ask; the answer is only on/off).
+  if(u.pathname==='/check-video/status'&&req.method==='GET')return sendJson(res,200,{ok:true,on:checkVideoPublicReadyPh1()});
+  if(!checkVideoPublicReadyPh1())return reply(503,{ok:false,error:'Check Video is not available right now.'});
+  const cv=checkVideoPh1();
+  if(u.pathname==='/check-video'&&req.method==='GET'){
+    const html=fs.readFileSync(path.join(__dirname,'modules','check-video','page.html'),'utf8').replace('<html lang="en">','<html lang="en" data-mode="public">');
+    return send(res,200,'text/html; charset=utf-8',html,Object.assign({'content-security-policy':"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",'x-content-type-options':'nosniff','referrer-policy':'no-referrer'},H));
+  }
+  const routes={'/check-video/run':'check','/check-video/report':'suggest','/check-video/suggest-source':'suggest'};
+  const kind=routes[u.pathname];
+  if(!kind||req.method!=='POST')return reply(404,{ok:false,error:'Not found'});
+  if(!checkVideoPublicSameOriginPh1(req))return reply(403,{ok:false,error:'Please use the Check Video page.'});
+  let body;try{body=await v2875ReadJsonBody(req,kind==='check'?2000:4000);}catch(e){return reply(400,{ok:false,error:'Invalid request.'});}
+  if(kind==='suggest'){
+    const file=u.pathname==='/check-video/report'?'user-suggestions.jsonl':'source-suggestions.jsonl';
+    if(!checkVideoPublicSuggestRoomPh1(file))return reply(503,{ok:false,error:'Suggestions are paused for now. Thank you.'});
+    const row=checkVideoPublicLimitPh1(req,res,'suggest',reply);if(!row)return;
+    const saved=u.pathname==='/check-video/report'?cv.saveReport(body||{}):cv.saveSourceSuggestion(body||{});
+    if(saved)row.count++;
+    return reply(saved?200:400,saved?{ok:true}:{ok:false,error:u.pathname==='/check-video/report'?'Not sent.':'Please enter a full web address starting with https://'});
+  }
+  // A check: the link only (no pasted transcripts in public). A recent successful check of the same video is reused.
+  const url=String(body&&body.url||'').trim().slice(0,500);
+  const idm=url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|live\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/i);
+  if(!idm)return reply(400,{ok:false,error:'Please paste a link to a single YouTube video.'});
+  const cached=CHECK_VIDEO_PUB_CACHE_PH1.get(idm[1]);
+  if(cached&&Date.now()-cached.at<CHECK_VIDEO_PUB_RULES_PH1.cacheMs)return reply(200,cached.pub);
+  const row=checkVideoPublicLimitPh1(req,res,'check',reply);if(!row)return;
+  if(CHECK_VIDEO_PUB_ACTIVE_PH1>=CHECK_VIDEO_PUB_RULES_PH1.siteActive)return reply(429,{ok:false,error:'Check Video is busy right now. Please try again in a minute.'});
+  row.count++;row.active++;CHECK_VIDEO_PUB_ACTIVE_PH1++;
+  let released=false;const release=function(){if(!released){released=true;row.active--;CHECK_VIDEO_PUB_ACTIVE_PH1--;}};
+  const state={closed:false};res.once('close',function(){if(!res.writableEnded)state.closed=true;release();});res.once('finish',release);
+  try{
+    const r=await cv.run({url:url},{shouldStop:function(){return state.closed;}});
+    if(r&&r.stage==='budget'&&/daily/i.test(String(r.error||'')))r.error='Check Video has reached its limit for today. Please try again tomorrow.';
+    const pub=checkVideoPublicResultPh1(r);
+    if(r&&r.ok===true&&!r.stoppedEarly&&r.video&&/^[A-Za-z0-9_-]{11}$/.test(String(r.video.videoId||''))){
+      if(CHECK_VIDEO_PUB_CACHE_PH1.size>=CHECK_VIDEO_PUB_RULES_PH1.cacheMax)CHECK_VIDEO_PUB_CACHE_PH1.delete(CHECK_VIDEO_PUB_CACHE_PH1.keys().next().value);
+      CHECK_VIDEO_PUB_CACHE_PH1.set(r.video.videoId,{at:Date.now(),pub:pub});
+    }
+    return reply(200,pub);
+  }catch(e){console.log('CHECK_VIDEO_PUBLIC error '+clean(e&&e.message||e).slice(0,200));return reply(500,{ok:false,error:'The check failed unexpectedly. Please try again later.'});}
+  finally{release();}
+}
+
 const server=http.createServer(async (req,res)=>{
   const v3208HttpRequestStart=Date.now();
   let analyticsScan=null;
@@ -53067,6 +53153,9 @@ const server=http.createServer(async (req,res)=>{
     }
     if(u.pathname==='/ai-detection/analyze'||u.pathname==='/ai-detection/provenance')return await v2878HandleAiMediaScan(req,res);
     if(CHECK_VIDEO_MODE_PH1==='local'&&(u.pathname==='/check-video'||u.pathname.startsWith('/check-video/')))return await checkVideoHandlePh1(req,res,u);
+    if(CHECK_VIDEO_MODE_PH1==='public'&&(u.pathname==='/check-video'||u.pathname.startsWith('/check-video/')))return await checkVideoHandlePublicPh1(req,res,u);
+    // Check Video off: the main page asks for status and keeps its usual handling of YouTube links.
+    if(u.pathname==='/check-video/status'&&req.method==='GET'){res.setHeader('Cache-Control','no-store');return sendJson(res,200,{ok:true,on:false});}
     if(u.pathname==='/analytics/visible-result')return await v2885HandleVisibleResult(req,res);
     if(u.pathname==='/analytics/flag')return await v2885HandleTesterFlag(req,res);
     if(u.pathname==='/analytics/feedback')return await v2921HandleTesterFeedback(req,res);
@@ -53643,9 +53732,10 @@ const server=http.createServer(async (req,res)=>{
   }
 });
 // Check Video local test mode listens on this computer only (Fred re-check #1); otherwise unchanged.
-server.listen(PORT,CHECK_VIDEO_MODE_PH1==='local'?'127.0.0.1':'0.0.0.0',()=>{
+server.listen(PORT,CHECK_VIDEO_MODE_PH1==='local'||CHECK_VIDEO_PREVIEW_PH1?'127.0.0.1':'0.0.0.0',()=>{
   console.log(VERSION+' running');
   console.log(compactProviderReadinessLineV2951());
+  if(CHECK_VIDEO_MODE_PH1!=='off')console.log('Check Video: '+CHECK_VIDEO_MODE_PH1+(CHECK_VIDEO_MODE_PH1==='public'&&!CHECK_VIDEO_RUNS_DIR_PH1?' (NOT AVAILABLE: set AIV_CHECK_VIDEO_RUNS_DIR or AIV_ANALYTICS_STORAGE_DIR to a persistent disk)':''));
   if(process.env.RENDER&&!V2872_ANALYTICS_CONFIGURED_STORAGE_DIR){
     console.warn('AIV analytics warning: configure AIV_ANALYTICS_STORAGE_DIR on a mounted Render persistent disk before production logging.');
   }
