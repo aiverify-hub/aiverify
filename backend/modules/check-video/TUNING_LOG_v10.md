@@ -20,3 +20,20 @@ Over-caution: of 5 scripture claims left "not established", Fred would back 4 (d
 Not adopted: Bob asked that Related Scriptures be labeled where a verse is in tension with a video's teaching; that would interpret the verses, which Cary's rule forbids.
 
 Fixes after set 1: modern-translation wording and Gospel speakers (180c74c); main point never cut mid-word (4888760); Bob's main-claim file now shows the headline (reviewer file builder).
+
+## Set 2 (November 23, 2026): 9 harder hand-picked videos
+
+Queries chosen for difficulty (misquotes, contradictions, date-setting prophecy, flat earth, keto and cancer, faith teachings); three empty slots refilled from alternate queries. Runs folder fresh-v10c, commit 4888760, cost $1.13.
+
+| Check | Result | Beta mark |
+|---|---|---|
+| Firm answers right (Fred, blind) | 6 of 7 (the miss: a genealogy claim Fred left "not established" because the video's own words were garbled) | 85% |
+| False accusations | 0 | 0 |
+| Main point (Bob) | 9 of 9 | 80% |
+| Main point worded faithfully (Bob) | 6 of 9 (strengthened "may" to "often", dropped a stated condition, added a specific year) | 80% |
+| Scope (Bob) | 9 of 9 | 80% |
+| Related Scriptures relate (Bob, report only) | 3 of 7; Bob read prophecy verses under a date-setting teaching as implying support | none |
+
+Over-caution: of 7 scripture claims left "not established", Fred would back 4. Web facts (sources only): Fred would back 12 and call 2 false of 21.
+Gap seen: "'God helps those who help themselves' is not in the Bible" was classed as a web fact rather than checked against the local text.
+Fix after set 2: the main point keeps the speaker's qualifiers and strength.

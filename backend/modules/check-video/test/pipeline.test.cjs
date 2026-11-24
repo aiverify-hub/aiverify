@@ -939,3 +939,7 @@ test('v10: long text is shortened at a word boundary, never mid-word', () => {
   const c = _internal.clipWords(s, 33); assert.ok(c.endsWith('…')); assert.match(c, /^(word )*word…$/);
   assert.equal(_internal.clipWords('short', 600), 'short');
 });
+
+test('v10: the main point keeps the speaker\'s own qualifiers and strength', () => {
+  assert.match(P0.claimPrompt('t', 'c', 4, ''), /"may" stays "may", never "often"/);
+});
