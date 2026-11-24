@@ -943,3 +943,8 @@ test('v10: long text is shortened at a word boundary, never mid-word', () => {
 test('v10: the main point keeps the speaker\'s own qualifiers and strength', () => {
   assert.match(P0.claimPrompt('t', 'c', 4, ''), /"may" stays "may", never "often"/);
 });
+
+test('v10: a claim that a saying is not in the Scriptures is checked against the closest passages in the whole text', () => {
+  assert.match(P0.judgePrompt('x', [], '', ''), /A claim that a saying or words are NOT in the Scriptures/);
+  assert.match(P0.claimPrompt('t', 'c', 4, ''), /or that a saying is not in the Bible/);
+});
