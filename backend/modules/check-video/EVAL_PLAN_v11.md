@@ -7,3 +7,10 @@ Software: commit eca9e8f (v10 beta build plus Fred's code review fixes; Fred: re
 Same method as EVAL_PLAN_v10.md: first-result rule, no hand-picking; 100 new queries (EVAL_V11_QUERIES.tsv; none repeats an earlier query) in the same groups (Faith 30, Health 20, Prophecy 10, Morality 10, Origins 8, Money 7, Harmless 15) with one backup per group; the same reviewers, rules and beta pass marks (false accusations 0; accuracy 85%; main point and its wording 80%; scope 80%). Blind-sample seed 20261205. Bob's main-claim file shows the headline (the whole-video main point).
 
 Budget: within $500 a month; expected about $15.
+
+## Run record (November 24, 2026, early morning)
+
+- Video list: EVAL_V11_VIDEO_IDS.tsv, 97 videos, SHA-256 185360b04e5eae6ce2bb2c9cd13553faf4a04f910f305604b2b4a2ecb88a7c84 (written by the list script immediately before the run; no system output seen during selection). Three slots stay empty (Morality 1, Origins 1, Money 1).
+- Run: software eca9e8f; cost $10.26; 93 with readable captions (4 without); 11 declined by the scope rule; none stopped early; Related Scriptures on 54.
+- Claims: 125 about what the Scriptures say (57 backed, 0 shown false, 68 not established); 188 factual claims with sources only (beta). No factual claim received a firm answer.
+- Review files: FRED_V11_BLIND (all 57 firm + 30 not established, seed 20261205), BOB_V11_1_SCOPE (93), BOB_V11_3_MAIN_CLAIM (80, headline = whole-video main point). No "shown false" findings, so no gate B file.
