@@ -959,3 +959,9 @@ test('v10: "not in the Bible" can be backed without a quote (scripture passages 
   assert.equal(io.calls.exa.length, 0);
   assert.match(require('fs').readFileSync(require('path').join(__dirname, '..', 'pipeline.cjs'), 'utf8'), /kind: claim\.kind, scriptureRefs:/);
 });
+
+test('AIVerify\'s own explanations say "the Scriptures", never "KJV" or "Bible"', () => {
+  assert.equal(_internal.userText('1 Timothy 6:10 (KJV) says the love of money'), '1 Timothy 6:10 says the love of money');
+  assert.equal(_internal.userText('the KJV wording differs; it is not in the Bible'), 'the Scriptures differs; it is not in the Scriptures');
+  assert.doesNotMatch(_internal.userText('Matthew 1:16 in KJV 1769 and biblical texts'), /KJV|Bible|biblical/);
+});
