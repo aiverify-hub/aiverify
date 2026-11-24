@@ -34327,7 +34327,9 @@ const V2989_RESOURCE_CACHE=new Map();
 const V2989_RESOURCE_CACHE_TTL_MS=6*60*60*1000;
 const V2989_RESOURCE_STATS={cacheHits:0,localAttempts:0,localAccepted:0,freeAttempts:0,freeAccepted:0,openaiCalls:0,openaiAccepted:0,geminiCalls:0,geminiAccepted:0,resolvedCandidates:0,rejectedCandidates:0};
 function v2989ResourceStrategySnapshot(){return Object.assign({},V2989_RESOURCE_STATS,{cacheSize:V2989_RESOURCE_CACHE.size,sourceOrder:'CACHE_LOCAL_FREE_PUBLIC_OPENAI_THEN_GEMINI',candidateOrder:'OFFICIAL_DOMAIN_SEARCH_THEN_NEIGHBOR_EXPANSION_THEN_NORMALIZE_DESTINATION_THEN_RANK_THEN_VALIDATE'});}
-function v2989ResourceCacheKey(value){if(v5001AdministrativeIntent(value))return 'administrative-v5002:'+clean(value);return clean(value).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();}
+// T537 audit F6 (November 24, 2026): '#' and '+' stay in the key, so 'C#', 'C++' and 'C' never share a cached answer;
+// other punctuation and spacing are still ignored.
+function v2989ResourceCacheKey(value){if(v5001AdministrativeIntent(value))return 'administrative-v5002:'+clean(value);return clean(value).toLowerCase().replace(/[^a-z0-9#+]+/g,' ').trim();}
 function v2989ResourceCacheGet(key){
   const e=V2989_RESOURCE_CACHE.get(key);if(!e)return null;
   if(Date.now()-e.savedAt>V2989_RESOURCE_CACHE_TTL_MS){V2989_RESOURCE_CACHE.delete(key);return null;}
@@ -51579,7 +51581,9 @@ function v2872LocalAdminRequest(req){
   try{const host=new URL('http://'+String(headers.host||'')).hostname;return /^(?:localhost|127\.0\.0\.1|\[::1\])$/i.test(host);}catch(_e){return false;}
 }
 function v2872AnalyticsAuthorized(req,u){
-  if(V2872_ANALYTICS_ADMIN_TOKEN)return v2872TokenEqual(clean(req&&req.headers&&req.headers['x-aiv-admin-token']||u.searchParams.get('token')||''),V2872_ANALYTICS_ADMIN_TOKEN);
+  // T537 audit F10a (November 24, 2026): the admin token is accepted only in the x-aiv-admin-token header, never in a web
+  // address (addresses end up in logs and browser history). The main page already sends the header.
+  if(V2872_ANALYTICS_ADMIN_TOKEN)return v2872TokenEqual(clean(req&&req.headers&&req.headers['x-aiv-admin-token']||''),V2872_ANALYTICS_ADMIN_TOKEN);
   return v2872LocalAdminRequest(req);
 }
 function v2872AnalyticsAccess(req,res,u){
@@ -51713,6 +51717,23 @@ function v2875IssueSession(account){
   const signature=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(encoded).digest('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
   return {token:encoded+'.'+signature,expiresAt:new Date(expires*1000).toISOString(),sessionMode:administrator?'persistent-administrator':'browser-session'};
 }
+// T537 audit F10c (November 24, 2026): signing out revokes that session token. Revoked tokens are remembered (by their
+// signature only) until the time they would have expired, in revoked-sessions.json beside the analytics history when a
+// storage folder is configured (so a restart does not undo a sign-out), otherwise in memory. At most 20,000 are kept.
+const V5067_REVOKED_SESSIONS=new Map();
+const V5067_REVOKED_FILE=V2872_ANALYTICS_CONFIGURED_STORAGE_DIR?path.join(V2872_ANALYTICS_CONFIGURED_STORAGE_DIR,'revoked-sessions.json'):'';
+(function v5067LoadRevoked(){if(!V5067_REVOKED_FILE)return;try{const rows=JSON.parse(fs.readFileSync(V5067_REVOKED_FILE,'utf8'));const now=Math.floor(Date.now()/1000);for(const r of Array.isArray(rows)?rows:[])if(r&&typeof r.s==='string'&&Number(r.e)>now)V5067_REVOKED_SESSIONS.set(r.s,Number(r.e));}catch(_e){}})();
+function v5067TokenRevoked(token){const sig=String(token||'').split('.')[1]||'';const e=sig&&V5067_REVOKED_SESSIONS.get(sig);return !!e&&e>Math.floor(Date.now()/1000);}
+function v5067RevokeToken(token){
+  const parts=String(token||'').split('.');if(parts.length!==2||!parts[1])return false;
+  let exp=0;try{exp=Number(JSON.parse(v2875Base64UrlDecode(parts[0])).exp)||0;}catch(_e){return false;}
+  const now=Math.floor(Date.now()/1000);if(exp<=now)return true;
+  for(const [k,e] of V5067_REVOKED_SESSIONS)if(e<=now)V5067_REVOKED_SESSIONS.delete(k);
+  if(V5067_REVOKED_SESSIONS.size>=20000)V5067_REVOKED_SESSIONS.delete(V5067_REVOKED_SESSIONS.keys().next().value);
+  V5067_REVOKED_SESSIONS.set(parts[1],exp);
+  if(V5067_REVOKED_FILE){try{const tmp=V5067_REVOKED_FILE+'.tmp';fs.writeFileSync(tmp,JSON.stringify(Array.from(V5067_REVOKED_SESSIONS,function(x){return {s:x[0],e:x[1]};})),{mode:0o600});fs.renameSync(tmp,V5067_REVOKED_FILE);}catch(e){console.warn('AIV sign-out record warning: '+clean(e&&e.message||e).slice(0,120));}}
+  return true;
+}
 function v2875SessionToken(req){
   const direct=clean(req&&req.headers&&req.headers['x-aiv-session']||'');
   if(direct)return direct;
@@ -51723,6 +51744,7 @@ function v2875SessionToken(req){
 function v2875AuthenticateRequest(req){
   const token=v2875SessionToken(req),parts=token.split('.');
   if(parts.length!==2)return null;
+  if(v5067TokenRevoked(token))return null;
   const expected=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(parts[0]).digest('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
   if(!v2872TokenEqual(parts[1],expected))return null;
   let payload;
@@ -51753,6 +51775,7 @@ function v3850IssueGuest(){
 function v3850AuthenticateGuest(req){
   if(!V3850_GUEST_ACCESS_ENABLED)return null;
   const parts=v2875SessionToken(req).split('.');if(parts.length!==2)return null;
+  if(v5067TokenRevoked(parts.join('.')))return null;
   const expected=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(parts[0]).digest('base64url');
   if(!v2872TokenEqual(parts[1],expected))return null;
   let p;try{p=JSON.parse(v2875Base64UrlDecode(parts[0]));}catch(_e){return null;}
@@ -51787,6 +51810,7 @@ async function v3061RequireTesterSimpleBody(req,res){
   let body;
   try{body=await v2875ReadJsonBody(req,4096);}catch(e){sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});return null;}
   const token=clean(body&&body.sessionToken||body&&body.token||'');
+  req.aivSessionTokenV5067=token;
   const tester=v3850PublicIdentity({headers:{'x-aiv-session':token}});
   if(!tester){sendJson(res,401,{ok:false,error:'Beta sign-in is required.'});return null;}
   return tester;
@@ -53122,6 +53146,7 @@ const server=http.createServer(async (req,res)=>{
     }
     if(u.pathname==='/auth/sign-out'){
       const tester=req.method==='POST'?await v3061RequireTesterSimpleBody(req,res):v2875RequireTester(req,res);if(!tester)return;
+      v5067RevokeToken(req.aivSessionTokenV5067||v2875SessionToken(req));
       return sendJson(res,200,{ok:true});
     }
     // T430: anonymous process-response/version only; operational details require existing administrator credentials.
@@ -53202,6 +53227,8 @@ const server=http.createServer(async (req,res)=>{
       return sendJson(res,200,clearRetryTimeoutTest(u.searchParams.get('session')||'',u.searchParams.get('token')||''));
     }
     if(u.pathname==='/developer-cache-status'){
+      // T537 audit F10b (November 24, 2026): same administrator check as /developer-cache-reset.
+      if(!v2872AnalyticsAccess(req,res,u))return;
       return sendJson(res,200,{ok:true,version:VERSION,backendInstanceId:BACKEND_INSTANCE_ID_V2764,completedContractCacheSize:COMPLETED_CONTRACT_CACHE_V2764.size,finalizedExactInputCacheSize:FINALIZED_EXACT_INPUT_CACHE_V3054.size,completedContractCacheStorage:'same_session_memory_only',persistentCacheSchema:AIV_ACTIVE_CONTRACT_SCHEMA_V2774,persistentCacheArchitecture:AIV_ACTIVE_ARCHITECTURE_VERSION_V2774,persistentCacheRenderer:AIV_ACTIVE_RENDERER_VERSION_V2774,persistentCacheValidator:AIV_ACTIVE_VALIDATOR_VERSION_V2774,inFlightContractCount:IN_FLIGHT_CONTRACTS_V2764.size,r1GoldenBenchmarkLock:R1_GOLDEN_BENCHMARK_LOCK_V2886,priorRecoveryBenchmark:R1_GOLDEN_BENCHMARK_LOCK_V2885,sourceStrategyStats:v2776SourceStrategySnapshot(),resourceSourceStrategyStats:v2989ResourceStrategySnapshot()});
     }
     if(u.pathname==='/developer-cache-reset'){

@@ -967,6 +967,11 @@ function createAnalyticsReviewFoundation(options) {
   const contextStorage = new AsyncLocalStorage();
   let hashSecret = '';
   let storageReady = false;
+  // T537 audit F4 (November 24, 2026): one storage error or a lock left by a crash no longer stops scan recording for good.
+  // After a successful start, recording is retried 30 seconds after a failure; a lock older than 60 seconds (operations
+  // take milliseconds) is a leftover and is removed. The last error stays visible in health().
+  let initializedOk = false, lastFailureAt = 0;
+  const STALE_LOCK_MS = 60000, RECOVER_AFTER_MS = 30000;
   let warningEmitted = false;
   const startedAt = new Date().toISOString();
 
@@ -1095,7 +1100,7 @@ function createAnalyticsReviewFoundation(options) {
   // T429: one synchronous owner. Disk is authoritative; resident cache is bounded.
   // The configured retention window filters reports only. Purging is separate maintenance.
   function storageFailure(operation,error,rollback) {
-    storageReady=false; persistenceFailures+=1;
+    storageReady=false; persistenceFailures+=1; lastFailureAt=Date.now();
     persistenceError={operation,code:clean(error&&error.code)||'STORAGE_ERROR',at:new Date().toISOString(),rollback:rollback||'not_applicable'};
     warn(error);
   }
@@ -1123,6 +1128,8 @@ function createAnalyticsReviewFoundation(options) {
   function historyOperation(fn,name,mutating) {
     return function(...args) {
       let lock; const failureCount=persistenceFailures;
+      if(!storageReady&&initializedOk&&Date.now()-lastFailureAt>=RECOVER_AFTER_MS)storageReady=true;
+      try{const lockFile=path.join(storageDir,'.scan-history.lock'),st=fs.statSync(lockFile);if(Date.now()-st.mtimeMs>STALE_LOCK_MS)fs.unlinkSync(lockFile);}catch(_e){}
       try {
         // Lock protects read/merge/write across accidentally overlapping processes too.
         lock=fs.openSync(path.join(storageDir,'.scan-history.lock'),'wx',0o600);
@@ -1208,7 +1215,7 @@ function createAnalyticsReviewFoundation(options) {
       ensureReviewRoundHistory();
       dedupeOverallFeedbacks();
       while (events.length > memoryLimit) events.shift();
-      storageReady = true;
+      storageReady = true; initializedOk = true;
       // Existing history and feedback files remain untouched at startup.
     } catch (error) {
       hashSecret = hashSecret || crypto.randomBytes(32).toString('hex');
