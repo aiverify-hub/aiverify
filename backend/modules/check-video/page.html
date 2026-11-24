@@ -64,6 +64,7 @@
   .verse { margin:7px 0; padding:8px 10px; border-radius:7px; background:#faf7ff; border:1px solid #e3d8f1; line-height:1.38; }
   .verse .ref { color:var(--purple); font-weight:900; font-size:14px; margin-bottom:2px; }
   .rs details > summary { color:var(--purple); }
+  .claimRs { margin-top:10px; } .claimRs > summary { font-size:15px; }
   .claimFoot { text-align:right; margin-top:6px; }
   .suggest > summary { display:inline-block; font-size:13.5px; color:var(--accent); margin:0; }
   .suggest[open] { text-align:left; } .suggest[open] > summary { display:block; text-align:right; margin-bottom:6px; }
@@ -252,7 +253,10 @@
       if (c.sources && c.sources.length) {
         var allScripture = c.sources.every(function (s) { return s.role === 'scripture'; }), ul = el('ul', { cls: 'src' });
         c.sources.forEach(function (s) { var t = s.title || s.url; ul.appendChild(el('li', {}, s.role === 'scripture' ? [safeLink(s.url, t)] : [safeLink(s.url, t), ' — ' + s.publisher + ', ' + (ROLE_HELP[s.role] || s.role)])); });
-        var srcBox = el('details', {}, [el('summary', { text: (allScripture ? 'Scriptures' : 'Sources') + ' read for this claim (' + c.sources.length + ')' }), ul]);
+        // Scripture lists use the same purple OPEN/CLOSE style as Related Scriptures (Cary); web sources stay plain.
+        var srcBox = allScripture
+          ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: 'Scriptures read for this claim (' + c.sources.length + ')' }), el('div', { cls: 'rsBody' }, [ul])])
+          : el('details', {}, [el('summary', { text: 'Sources read for this claim (' + c.sources.length + ')' }), ul]);
         if (c.sourcesOnly) srcBox.open = true;
         d.appendChild(srcBox);
       }
