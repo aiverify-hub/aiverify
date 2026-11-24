@@ -833,6 +833,15 @@ function createCheckVideo(options) {
   const io = Object.assign(defaultClients(), o.io || {});
   const runsDir = o.runsDir || path.join(require('os').tmpdir(), 'aiv-check-video-runs');
   const budgetFor = createBudget(cfg, runsDir);
+  let runFiles = null, runFilesWarned = false;
+  function saveRunBounded(r) {
+    const max = Number(cfg.maxRunFiles) || 0;
+    if (max > 0) {
+      if (runFiles === null) { try { runFiles = fs.readdirSync(runsDir).filter(n => /^run-.*\.json$/.test(n)).length; } catch (_e) { runFiles = 0; } }
+      if (runFiles >= max) { if (!runFilesWarned) { runFilesWarned = true; console.warn('Check Video: run archive is full (' + max + ' files); new runs are not saved.'); } return; }
+    }
+    if (saveRun(runsDir, r) && runFiles !== null) runFiles++;
+  }
   // A stop error (cap, ledger, key refused, deadline, visitor left) ends the paid part of a check; map it to the result.
   const STOP_CODES = /^(BUDGET|VENDOR_ACCESS|STOPPED|DEADLINE)/;
   function stopResult(e) {
@@ -849,6 +858,8 @@ function createCheckVideo(options) {
     if (!keys.anthropic) return { ok: false, error: 'Check Video is not configured on this server (missing Anthropic key).' };
     const ctx = { cfg, io, budget: budgetFor({ shouldStop: runOpts && runOpts.shouldStop }) };
     const result = { ok: true, runId, video: { url: yt.url, videoId: yt.videoId, title: '', captionSource: '', captionChars: 0, captionsTruncated: false }, claims: [], timings: {} };
+    // Fred launch review: a saved run says which public policy produced it, so only current public results are reused.
+    if (runOpts && typeof runOpts.policy === 'string' && runOpts.policy) result.policy = runOpts.policy.slice(0, 60);
     let t = Date.now();
     // 1. captions
     let tr;
@@ -1006,7 +1017,9 @@ function createCheckVideo(options) {
       // Fred re-check #3: the total includes estimates (caption service, any cost not reported by a provider).
       r.cost = { usd: ctx.budget.total(), estimated: ctx.budget.ledger.some(x => x.actual === null || x.uncertain), ledger: ctx.budget.ledger };
       r.timings.totalMs = Date.now() - started;
-      saveRun(runsDir, r);
+      // Fred launch review: a refusal that spent nothing (for example the daily cap) is not archived, and the archive has
+      // a file limit (cfg.maxRunFiles; 0 = none). The spending ledger is separate and always kept.
+      if (r.ok || r.cost.usd > 0 || r.cost.ledger.length) saveRunBounded(r);
       const pub = Object.assign({}, r); delete pub.privateEvidence; // excerpt text (including provider text) stays server-side
       return pub;
     }
@@ -1016,7 +1029,7 @@ function createCheckVideo(options) {
 
 // ---------- private run records (local folder, never committed) ----------
 function saveRun(dir, r) {
-  try { fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, 'run-' + r.runId + '.json'), JSON.stringify(r, null, 2)); } catch (_e) {}
+  try { fs.mkdirSync(dir, { recursive: true }); fs.writeFileSync(path.join(dir, 'run-' + r.runId + '.json'), JSON.stringify(r, null, 2)); return true; } catch (_e) { return false; }
 }
 function listRuns(dir) {
   let names = []; try { names = fs.readdirSync(dir).filter(n => /^run-.*\.json$/.test(n)).sort().reverse(); } catch (_e) {}

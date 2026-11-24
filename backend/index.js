@@ -51725,23 +51725,6 @@ function v2875IssueSession(account){
   const signature=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(encoded).digest('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
   return {token:encoded+'.'+signature,expiresAt:new Date(expires*1000).toISOString(),sessionMode:administrator?'persistent-administrator':'browser-session'};
 }
-// T537 audit F10c (November 24, 2026): signing out revokes that session token. Revoked tokens are remembered (by their
-// signature only) until the time they would have expired, in revoked-sessions.json beside the analytics history when a
-// storage folder is configured (so a restart does not undo a sign-out), otherwise in memory. At most 20,000 are kept.
-const V5067_REVOKED_SESSIONS=new Map();
-const V5067_REVOKED_FILE=V2872_ANALYTICS_CONFIGURED_STORAGE_DIR?path.join(V2872_ANALYTICS_CONFIGURED_STORAGE_DIR,'revoked-sessions.json'):'';
-(function v5067LoadRevoked(){if(!V5067_REVOKED_FILE)return;try{const rows=JSON.parse(fs.readFileSync(V5067_REVOKED_FILE,'utf8'));const now=Math.floor(Date.now()/1000);for(const r of Array.isArray(rows)?rows:[])if(r&&typeof r.s==='string'&&Number(r.e)>now)V5067_REVOKED_SESSIONS.set(r.s,Number(r.e));}catch(_e){}})();
-function v5067TokenRevoked(token){const sig=String(token||'').split('.')[1]||'';const e=sig&&V5067_REVOKED_SESSIONS.get(sig);return !!e&&e>Math.floor(Date.now()/1000);}
-function v5067RevokeToken(token){
-  const parts=String(token||'').split('.');if(parts.length!==2||!parts[1])return false;
-  let exp=0;try{exp=Number(JSON.parse(v2875Base64UrlDecode(parts[0])).exp)||0;}catch(_e){return false;}
-  const now=Math.floor(Date.now()/1000);if(exp<=now)return true;
-  for(const [k,e] of V5067_REVOKED_SESSIONS)if(e<=now)V5067_REVOKED_SESSIONS.delete(k);
-  if(V5067_REVOKED_SESSIONS.size>=20000)V5067_REVOKED_SESSIONS.delete(V5067_REVOKED_SESSIONS.keys().next().value);
-  V5067_REVOKED_SESSIONS.set(parts[1],exp);
-  if(V5067_REVOKED_FILE){try{const tmp=V5067_REVOKED_FILE+'.tmp';fs.writeFileSync(tmp,JSON.stringify(Array.from(V5067_REVOKED_SESSIONS,function(x){return {s:x[0],e:x[1]};})),{mode:0o600});fs.renameSync(tmp,V5067_REVOKED_FILE);}catch(e){console.warn('AIV sign-out record warning: '+clean(e&&e.message||e).slice(0,120));}}
-  return true;
-}
 function v2875SessionToken(req){
   const direct=clean(req&&req.headers&&req.headers['x-aiv-session']||'');
   if(direct)return direct;
@@ -51752,7 +51735,6 @@ function v2875SessionToken(req){
 function v2875AuthenticateRequest(req){
   const token=v2875SessionToken(req),parts=token.split('.');
   if(parts.length!==2)return null;
-  if(v5067TokenRevoked(token))return null;
   const expected=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(parts[0]).digest('base64').replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
   if(!v2872TokenEqual(parts[1],expected))return null;
   let payload;
@@ -51783,7 +51765,6 @@ function v3850IssueGuest(){
 function v3850AuthenticateGuest(req){
   if(!V3850_GUEST_ACCESS_ENABLED)return null;
   const parts=v2875SessionToken(req).split('.');if(parts.length!==2)return null;
-  if(v5067TokenRevoked(parts.join('.')))return null;
   const expected=v2872Crypto.createHmac('sha256',V2875_TESTER_SESSION_SECRET).update(parts[0]).digest('base64url');
   if(!v2872TokenEqual(parts[1],expected))return null;
   let p;try{p=JSON.parse(v2875Base64UrlDecode(parts[0]));}catch(_e){return null;}
@@ -51818,7 +51799,6 @@ async function v3061RequireTesterSimpleBody(req,res){
   let body;
   try{body=await v2875ReadJsonBody(req,4096);}catch(e){sendJson(res,400,{ok:false,error:clean(e&&e.message||'Invalid request.')});return null;}
   const token=clean(body&&body.sessionToken||body&&body.token||'');
-  req.aivSessionTokenV5067=token;
   const tester=v3850PublicIdentity({headers:{'x-aiv-session':token}});
   if(!tester){sendJson(res,401,{ok:false,error:'Beta sign-in is required.'});return null;}
   return tester;
@@ -52925,7 +52905,7 @@ const CHECK_VIDEO_MODE_PH1=(function(){const m=String(process.env.AIV_CHECK_VIDE
 const CHECK_VIDEO_RUNS_DIR_PH1=process.env.AIV_CHECK_VIDEO_RUNS_DIR||(CHECK_VIDEO_MODE_PH1==='public'&&process.env.AIV_ANALYTICS_STORAGE_DIR?path.join(process.env.AIV_ANALYTICS_STORAGE_DIR,'check-video'):'');
 let CHECK_VIDEO_PH1=null;
 // Daily cap override for the local evaluation only (Cary waived $5 for the 100-video test, Nov 21 2026); clamped to $1-$50.
-function checkVideoCapConfigPh1(){const n=Number(process.env.AIV_CHECK_VIDEO_DAILY_USD);const c=Number.isFinite(n)&&n>=1?{dailyUsdCap:Math.min(n,200)}:{};if(process.env.AIV_CHECK_VIDEO_NAME_FIXES==='1')c.nameFixesVerified=true;return c;}
+function checkVideoCapConfigPh1(){const n=Number(process.env.AIV_CHECK_VIDEO_DAILY_USD);const c=Number.isFinite(n)&&n>=1?{dailyUsdCap:Math.min(n,200)}:{};if(process.env.AIV_CHECK_VIDEO_NAME_FIXES==='1')c.nameFixesVerified=true;if(CHECK_VIDEO_MODE_PH1==='public')c.maxRunFiles=CHECK_VIDEO_PUB_RULES_PH1.maxRunFiles;return c;}
 function checkVideoPh1(){
   if(!CHECK_VIDEO_PH1)CHECK_VIDEO_PH1=require('./modules/check-video/pipeline.cjs').createCheckVideo({runsDir:CHECK_VIDEO_RUNS_DIR_PH1||undefined,config:checkVideoCapConfigPh1(),io:{publicGet:v3700PublicGet,getTranscript:checkVideoTranscriptPh1}});
   return CHECK_VIDEO_PH1;
@@ -53066,7 +53046,9 @@ async function checkVideoHandlePh1(req,res,u){
 // default $5) still apply. A video checked successfully in the last 7 days is answered from memory at no cost.
 const CHECK_VIDEO_PUB_LIMITS_PH1=new Map(),CHECK_VIDEO_PUB_CACHE_PH1=new Map();
 let CHECK_VIDEO_PUB_ACTIVE_PH1=0;
-const CHECK_VIDEO_PUB_RULES_PH1={check:{perHour:5,active:1},suggest:{perHour:20,active:0},siteActive:3,cacheMs:7*86400000,cacheMax:500,suggestFileMax:5000000};
+const CHECK_VIDEO_PUB_RULES_PH1={check:{perHour:5,active:1},suggest:{perHour:20,active:0},siteActive:3,cacheMs:7*86400000,cacheMax:500,suggestFileMax:5000000,maxRunFiles:20000};
+// Public runs are stamped with this policy; only matching runs are reused (change it when answers must not carry over).
+const CHECK_VIDEO_PUBLIC_POLICY_PH1='public-beta-1 2026-11-24';
 // Local preview of the public beta (run-local.ps1 -Preview): this computer only, plain http.
 const CHECK_VIDEO_PREVIEW_PH1=process.env.AIV_CHECK_VIDEO_PREVIEW==='1'&&!process.env.RENDER;
 function checkVideoSchemePh1(req){return CHECK_VIDEO_PREVIEW_PH1&&checkVideoLoopbackPh1(req)?'http://':'https://';}
@@ -53110,7 +53092,8 @@ function checkVideoImagePh1(res,u,H){
     try{
       const f=path.join(CHECK_VIDEO_RUNS_DIR_PH1,n),at=fs.statSync(f).mtimeMs;if(now-at>=CHECK_VIDEO_PUB_RULES_PH1.cacheMs)continue;
       const r=JSON.parse(fs.readFileSync(f,'utf8'));
-      if(!r||r.ok!==true||r.stoppedEarly||!r.video||!/^[A-Za-z0-9_-]{11}$/.test(String(r.video.videoId||''))||CHECK_VIDEO_PUB_CACHE_PH1.has(r.video.videoId)||found.some(function(x){return x.id===r.video.videoId;}))continue;
+      // Only answers made by the public page under the current policy (never local, pasted-transcript or test runs).
+      if(!r||r.ok!==true||r.stoppedEarly||r.policy!==CHECK_VIDEO_PUBLIC_POLICY_PH1||!r.video||r.video.captionKind==='pasted'||!/^[A-Za-z0-9_-]{11}$/.test(String(r.video.videoId||''))||CHECK_VIDEO_PUB_CACHE_PH1.has(r.video.videoId)||found.some(function(x){return x.id===r.video.videoId;}))continue;
       delete r.privateEvidence;found.push({id:r.video.videoId,at:at,pub:checkVideoPublicResultPh1(r)});
     }catch(_e){}
   }
@@ -53145,18 +53128,22 @@ async function checkVideoHandlePublicPh1(req,res,u){
     return reply(saved?200:400,saved?{ok:true}:{ok:false,error:u.pathname==='/check-video/report'?'Not sent.':'Please enter a full web address starting with https://'});
   }
   // A check: the link only (no pasted transcripts in public). A recent successful check of the same video is reused.
-  const url=String(body&&body.url||'').trim().slice(0,500);
-  const idm=url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|live\/|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/i);
-  if(!idm)return reply(400,{ok:false,error:'Please paste a link to a single YouTube video.'});
-  const cached=CHECK_VIDEO_PUB_CACHE_PH1.get(idm[1]);
+  // Fred launch review: the pipeline's strict parser decides what a video link is, before the reuse lookup too.
+  const yt=require('./modules/check-video/pipeline.cjs').parseYouTubeUrl(String(body&&body.url||'').trim().slice(0,500));
+  if(!yt)return reply(400,{ok:false,error:'Please paste a link to a single YouTube video.'});
+  const cached=CHECK_VIDEO_PUB_CACHE_PH1.get(yt.videoId);
   if(cached&&Date.now()-cached.at<CHECK_VIDEO_PUB_RULES_PH1.cacheMs)return reply(200,cached.pub);
+  // A page opened from a link only asks for a saved answer; new paid work needs the visitor to press Check Video.
+  if(body&&body.savedOnly===true)return reply(200,{ok:false,notSaved:true});
   const row=checkVideoPublicLimitPh1(req,res,'check',reply);if(!row)return;
   if(CHECK_VIDEO_PUB_ACTIVE_PH1>=CHECK_VIDEO_PUB_RULES_PH1.siteActive)return reply(429,{ok:false,error:'Check Video is busy right now. Please try again in a minute.'});
   row.count++;row.active++;CHECK_VIDEO_PUB_ACTIVE_PH1++;
   let released=false;const release=function(){if(!released){released=true;row.active--;CHECK_VIDEO_PUB_ACTIVE_PH1--;}};
-  const state={closed:false};res.once('close',function(){if(!res.writableEnded)state.closed=true;release();});res.once('finish',release);
+  // Fred launch review: a visitor who leaves stops further paid steps, but the slot is held until the check has
+  // actually settled (work already started keeps running), so leaving cannot be used to run more checks at once.
+  const state={closed:false};res.once('close',function(){if(!res.writableEnded)state.closed=true;});
   try{
-    const r=await cv.run({url:url},{shouldStop:function(){return state.closed;}});
+    const r=await cv.run({url:yt.url},{shouldStop:function(){return state.closed;},policy:CHECK_VIDEO_PUBLIC_POLICY_PH1});
     if(r&&r.stage==='budget'&&/daily/i.test(String(r.error||'')))r.error='Check Video has reached its limit for today. Please try again tomorrow.';
     const pub=checkVideoPublicResultPh1(r);
     if(r&&r.ok===true&&!r.stoppedEarly&&r.video&&/^[A-Za-z0-9_-]{11}$/.test(String(r.video.videoId||''))){
@@ -53182,7 +53169,6 @@ const server=http.createServer(async (req,res)=>{
     }
     if(u.pathname==='/auth/sign-out'){
       const tester=req.method==='POST'?await v3061RequireTesterSimpleBody(req,res):v2875RequireTester(req,res);if(!tester)return;
-      v5067RevokeToken(req.aivSessionTokenV5067||v2875SessionToken(req));
       return sendJson(res,200,{ok:true});
     }
     // T430: anonymous process-response/version only; operational details require existing administrator credentials.

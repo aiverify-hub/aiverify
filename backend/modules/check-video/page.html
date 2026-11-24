@@ -101,7 +101,7 @@
     <div class="panelHead">Check Video <span class="beta" id="modeTag">Beta (local test, not public)</span></div>
     <div class="panelBody">
       <p class="intro"><strong>AIVerify checks videos to show whether they line up with the truth according to the Scriptures.</strong></p>
-      <p class="intro">Paste a YouTube link to a video 3 minutes or longer. AIVerify reads the captions, finds the video's main claim, and checks it against sources.</p>
+      <p class="intro">Paste a YouTube link to a video 3 minutes or longer. AIVerify reads the video's captions (not the pictures) and checks what it says about the Scriptures. For health, science and news claims, this beta lists the sources it read so you can judge for yourself.</p>
       <nav id="tabs"><button id="tabCheck" aria-pressed="true">Check a video</button><button id="tabReview" aria-pressed="false">Review answers</button></nav>
       <section id="check">
         <label for="url">YouTube link</label>
@@ -405,7 +405,16 @@
   if (!PUBLIC && location.hash === '#review') showTab(true);
   var params; try { params = new URLSearchParams(location.search); } catch (_e) { params = null; }
   if (params && params.get('samples') === '1') showSamples();
-  if (PUBLIC) { var given = params ? params.get('url') || '' : ''; if (/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(given) && given.length <= 500) { $('url').value = given; runCheck(); } }
+  // Fred launch review: a link (from the main page or anywhere) only fills the box. A saved answer is shown at once
+  // (it costs nothing); a new check starts only when the visitor presses Check Video.
+  if (PUBLIC) { var given = params ? params.get('url') || '' : ''; if (/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(given) && given.length <= 500) { $('url').value = given; showSavedOrAsk(given); } }
+  function showSavedOrAsk(url) {
+    fetch('/check-video/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: url, savedOnly: true }) })
+      .then(function (x) { return x.json(); })
+      .then(function (r) { if (r && r.ok) { $('result').appendChild(renderResult(r, false)); return; } askToCheck(); })
+      .catch(askToCheck);
+  }
+  function askToCheck() { $('status').textContent = 'Press Check Video to check this video.'; $('go').focus(); }
 })();
 </script>
 </body>

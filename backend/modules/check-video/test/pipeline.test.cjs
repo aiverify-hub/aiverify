@@ -1008,3 +1008,23 @@ test('Fred v10 recheck: only a whole-claim absence statement is exempt; "not est
   const r = await createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
   assert.equal(r.claims[0].verdict, 'insufficient'); assert.equal(r.claims[0].parts, null); assert.equal(r.claims[0].reason, 'The sources checked did not settle this claim.');
 });
+
+// Fred launch review (November 24, 2026): refusals that spent nothing are not archived; the archive has a file limit;
+// public runs carry the policy that produced them.
+test('archive: a daily-cap refusal that spent nothing is not saved', async () => {
+  const dir = tmp(); fs.writeFileSync(path.join(dir, 'spend-' + _internal.budgetDay() + '.json'), JSON.stringify({ usd: 4.999 }));
+  const io = fakeIo();
+  for (let i = 0; i < 3; i++) { const r = await createCheckVideo({ io, runsDir: dir }).run({ url: 'https://youtu.be/dQw4w9WgXcQ' }); assert.equal(r.stage, 'budget'); }
+  assert.equal(fs.readdirSync(dir).filter(n => /^run-/.test(n)).length, 0);
+  assert.equal(io.calls.anthropic.length, 0);
+});
+test('archive: maxRunFiles stops saving new runs; policy is stamped on the saved run', async () => {
+  const dir = tmp(), io = fakeIo();
+  const cv = createCheckVideo({ io, runsDir: dir, config: { maxRunFiles: 1 } });
+  const r1 = await cv.run({ url: 'https://youtu.be/dQw4w9WgXcQ' }, { policy: 'public-test' });
+  await cv.run({ url: 'https://youtu.be/dQw4w9WgXcQ' }, { policy: 'public-test' });
+  const saved = fs.readdirSync(dir).filter(n => /^run-/.test(n));
+  assert.equal(saved.length, 1);
+  assert.equal(JSON.parse(fs.readFileSync(path.join(dir, saved[0]), 'utf8')).policy, 'public-test');
+  assert.equal(r1.policy, 'public-test');
+});
