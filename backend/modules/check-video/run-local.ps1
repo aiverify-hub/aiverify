@@ -49,7 +49,15 @@ try {
   # A skipped Supadata key must not fall back to one inherited from the parent shell (Fred review #3).
   foreach ($n in 'SUPADATA_API_KEY', 'EXTERNAL_YOUTUBE_TRANSCRIPT_API_KEY') { Remove-Item "Env:$n" -ErrorAction SilentlyContinue }
   $s = Plain $keys.Supadata; if ($s) { $env:SUPADATA_API_KEY = $s }; $s = $null
-  $env:AIV_CHECK_VIDEO = $(if ($Preview) { 'public' } else { 'local' })
+  # Text questions on the local main page need the OpenAI key. Cary approved loading it from Fred's saved vault
+  # (November 24, 2026); it stays in this window only and is never printed.
+  Remove-Item Env:OPENAI_API_KEY -ErrorAction SilentlyContinue
+  $vault = Join-Path $env:LOCALAPPDATA 'AIVerifyRecovery\api-access.clixml'
+  if (Test-Path -LiteralPath $vault) {
+    try { $va = Import-Clixml -LiteralPath $vault; if ($va.ContainsKey('OPENAI_API_KEY')) { $env:OPENAI_API_KEY = Plain $va['OPENAI_API_KEY'] }; $va = $null }
+    catch { Write-Host 'The OpenAI key in the saved vault could not be loaded; text questions will not work locally.' -ForegroundColor Yellow }
+  }
+  $env:AIV_CHECK_VIDEO =$(if ($Preview) { 'public' } else { 'local' })
   if ($Preview) { $env:AIV_CHECK_VIDEO_PREVIEW = '1' } else { Remove-Item Env:AIV_CHECK_VIDEO_PREVIEW -ErrorAction SilentlyContinue }
   # Per-launch restart secret, readable only by this Windows user (Fred re-check #1).
   $bytes = New-Object byte[] 24; [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
@@ -70,7 +78,7 @@ try {
     if ($code -eq 75) { Write-Host 'Restarting with updated code...' -ForegroundColor Green }
   } while ($code -eq 75)
 } finally {
-  foreach ($n in 'ANTHROPIC_API_KEY', 'EXA_API_KEY', 'SUPADATA_API_KEY') { Remove-Item "Env:$n" -ErrorAction SilentlyContinue }
+  foreach ($n in 'ANTHROPIC_API_KEY', 'EXA_API_KEY', 'SUPADATA_API_KEY', 'OPENAI_API_KEY') { Remove-Item "Env:$n" -ErrorAction SilentlyContinue }
   foreach ($k in @($keys.Values)) { if ($k) { $k.Dispose() } }
   Write-Host 'Server stopped; keys removed from this window.'
 }

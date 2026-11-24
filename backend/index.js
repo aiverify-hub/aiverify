@@ -53005,6 +53005,7 @@ async function checkVideoHandlePh1(req,res,u){
   const H={'access-control-allow-origin':'http://localhost:'+PORT,'vary':'Origin'};
   const reply=function(status,obj){return sendJson(res,status,obj,H);};
   if(!checkVideoRequestAllowedPh1(req,req.method!=='GET'&&req.method!=='HEAD'))return reply(404,{ok:false,error:'Not found'});
+  if(req.method==='GET'&&checkVideoImagePh1(res,u,H))return;
   const cv=checkVideoPh1();
   if(u.pathname==='/check-video'&&req.method==='GET'){
     const html=fs.readFileSync(path.join(__dirname,'modules','check-video','page.html'),'utf8');
@@ -53091,6 +53092,32 @@ function checkVideoPublicLimitPh1(req,res,kind,reply){
 }
 function checkVideoPublicSuggestRoomPh1(name){try{return require('fs').statSync(path.join(CHECK_VIDEO_RUNS_DIR_PH1,name)).size<CHECK_VIDEO_PUB_RULES_PH1.suggestFileMax;}catch(_e){return true;}}
 function checkVideoPublicResultPh1(r){const pub=Object.assign({},r);delete pub.cost;delete pub.timings;return pub;}
+// Cartoons shown while a check runs (Cary, November 24, 2026): four fixed files, served by name only.
+function checkVideoImagePh1(res,u,H){
+  const m=u.pathname.match(/^\/check-video\/img\/scene-([1-4])\.webp$/);if(!m)return false;
+  let buf;try{buf=fs.readFileSync(path.join(__dirname,'modules','check-video','img','scene-'+m[1]+'.webp'));}catch(_e){sendJson(res,404,{ok:false,error:'Not found'},H);return true;}
+  res.setHeader('Cache-Control','public, max-age=86400');
+  send(res,200,'image/webp',buf,Object.assign({'x-content-type-options':'nosniff'},H));return true;
+}
+// A restart (or a Render deploy) used to forget every saved answer. Recent successful checks are reloaded from the runs
+// folder at start, so the same video still opens instantly and costs nothing (same rules as the in-memory reuse).
+(function checkVideoWarmPublicCachePh1(){
+  if(CHECK_VIDEO_MODE_PH1!=='public'||!CHECK_VIDEO_RUNS_DIR_PH1)return;
+  let names=[];try{names=fs.readdirSync(CHECK_VIDEO_RUNS_DIR_PH1).filter(function(n){return /^run-[0-9TZ-]+-[0-9a-f]{6}\.json$/.test(n);}).sort().reverse();}catch(_e){return;}
+  const now=Date.now(),found=[];
+  for(const n of names){
+    if(found.length>=CHECK_VIDEO_PUB_RULES_PH1.cacheMax)break;
+    try{
+      const f=path.join(CHECK_VIDEO_RUNS_DIR_PH1,n),at=fs.statSync(f).mtimeMs;if(now-at>=CHECK_VIDEO_PUB_RULES_PH1.cacheMs)continue;
+      const r=JSON.parse(fs.readFileSync(f,'utf8'));
+      if(!r||r.ok!==true||r.stoppedEarly||!r.video||!/^[A-Za-z0-9_-]{11}$/.test(String(r.video.videoId||''))||CHECK_VIDEO_PUB_CACHE_PH1.has(r.video.videoId)||found.some(function(x){return x.id===r.video.videoId;}))continue;
+      delete r.privateEvidence;found.push({id:r.video.videoId,at:at,pub:checkVideoPublicResultPh1(r)});
+    }catch(_e){}
+  }
+  // Oldest first, so the newest stay longest when the cache is full.
+  found.reverse().forEach(function(x){CHECK_VIDEO_PUB_CACHE_PH1.set(x.id,{at:x.at,pub:x.pub});});
+  if(found.length)console.log('Check Video: '+found.length+' recent results reloaded');
+})();
 async function checkVideoHandlePublicPh1(req,res,u){
   res.setHeader('Cache-Control','no-store');
   const H={'access-control-allow-origin':checkVideoSchemePh1(req)+String(req.headers.host||'').toLowerCase(),'vary':'Origin'};
@@ -53098,6 +53125,7 @@ async function checkVideoHandlePublicPh1(req,res,u){
   // The main page asks whether to send YouTube links here (any origin may ask; the answer is only on/off).
   if(u.pathname==='/check-video/status'&&req.method==='GET')return sendJson(res,200,{ok:true,on:checkVideoPublicReadyPh1()});
   if(!checkVideoPublicReadyPh1())return reply(503,{ok:false,error:'Check Video is not available right now.'});
+  if(req.method==='GET'&&checkVideoImagePh1(res,u,H))return;
   const cv=checkVideoPh1();
   if(u.pathname==='/check-video'&&req.method==='GET'){
     const html=fs.readFileSync(path.join(__dirname,'modules','check-video','page.html'),'utf8').replace('<html lang="en">','<html lang="en" data-mode="public">');

@@ -384,7 +384,7 @@ AIVerify_frontend_v1710_REAL_RETRIEVAL_PROFILE_DEPTH_PHASE2: clean full rebuild 
 <title>BM_FE_AIV_v2252_URQ</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding:0 0 52px;overflow-x:hidden}
+body{margin:0;font-family:"Times New Roman",Times,serif;font-size:17px;background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%);color:#fff;text-align:center;min-height:100vh;padding:0 0 52px;overflow-x:hidden}
 .headerWrap{display:flex;align-items:center;gap:10px;width:min(1180px,calc(100% - 32px));max-width:1180px;margin:0 auto;padding:14px 0 0;text-align:left}
 .logoBox{width:46px;height:46px;flex:0 0 46px;border-radius:14px;background:linear-gradient(180deg,#a0ddf6,#4faadb);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 8px 18px rgba(0,0,0,.18)}
 .brandTitle{font-size:31px;font-weight:800;margin:0;line-height:1;letter-spacing:.2px}
@@ -392,7 +392,7 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;font-size:17px;background:l
 .container{width:min(1180px,calc(100% - 32px));max-width:1180px;margin:12px auto 0}
 h2{margin:0 0 14px;font-size:clamp(24px,2.2vw,31px);line-height:1.15;text-shadow:0 2px 8px rgba(0,0,0,.15);overflow-wrap:anywhere}
 .box,.resultBox{background:#f2f4f6;color:#000;width:100%;max-width:100%;margin:14px auto;padding:18px 20px;border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.45)}
-textarea{width:100%;height:112px;border-radius:10px;padding:14px;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.28;border:1px solid #bac6d0;outline:none;background:#fff;color:#111}
+textarea{width:100%;height:112px;border-radius:10px;padding:14px;box-sizing:border-box;font-family:"Times New Roman",Times,serif;font-size:18px;line-height:1.28;border:1px solid #bac6d0;outline:none;background:#fff;color:#111}
 textarea:focus{border-color:#2ecc71;box-shadow:0 0 0 3px rgba(46,204,113,.18)}
 button{margin:6px 5px;padding:12px 18px;border:none;border-radius:9px;cursor:pointer;font-weight:800;font-size:14px;box-shadow:0 3px 9px rgba(0,0,0,.16)}
 button:active{transform:translateY(1px)}
@@ -705,7 +705,7 @@ body.aivAuthLocked{overflow:hidden!important}
 
 /* BM_FE_AIV_v2252_URQ — unique review grouping, scan date display, accurate queue wording, and oldest/newest review ordering. */
 .workflowPrompt{margin-bottom:8px!important}
-.workflowSelector{display:flex;justify-content:center;margin:0 auto 12px;width:100%}
+.workflowSelector{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 12px;width:100%}#checkVideoBtn[hidden]{display:none!important}
 .workflowChoice{display:flex!important;align-items:center!important;justify-content:center;min-height:46px;margin:0!important;padding:10px 15px!important;border-radius:10px!important;border:2px solid #0f6f9b!important;background:#e8f4fb!important;color:#17354c!important;text-align:center!important;box-shadow:0 5px 14px rgba(15,83,120,.14)!important}
 .workflowChoice:hover{border-color:#4385aa!important}
 .workflowChoiceTitle{display:block;font-size:14px;font-weight:900;line-height:1.15}
@@ -1033,6 +1033,7 @@ const api={categories,match,scope,counted,reset,undo,project,eligible,localNow};
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
 <div class="workflowSelector" aria-label="Switch AIVerify check">
   <button type="button" id="workflowToggleBtn" class="workflowChoice" aria-controls="informationModePanel aiCreationModePanel"><span id="workflowToggleText" class="workflowChoiceTitle">Check for AI Creation</span></button>
+  <button type="button" id="checkVideoBtn" class="workflowChoice" hidden><span class="workflowChoiceTitle">Check Video</span></button>
 </div>
 
 <div id="informationModePanel" class="workflowPanel" role="tabpanel" aria-label="Check the Information">
@@ -6392,6 +6393,19 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     if(!/^https?:\/\/\S+$/i.test(v)||v.length>500)return "";
     return /^https?:\/\/(?:(?:www\.|m\.)?youtube\.com\/(?:watch\?(?:\S*&)?v=|shorts\/|live\/)|youtu\.be\/)[A-Za-z0-9_-]{11}(?:[?&#]\S*)?$/i.test(v)?v.replace(/^http:/i,"https:"):"";
   }
+  // Check Video button beside Check for AI Creation (Cary, November 24, 2026): shown only when the backend says Check Video is on.
+  async function aivCheckVideoOn(){
+    try{
+      const ctl=(typeof AbortController!=="undefined")?new AbortController():null;const t=setTimeout(function(){if(ctl)ctl.abort();},3000);
+      const res=await fetch(BACKEND_BASE_URL+"/check-video/status?_="+Date.now(),{cache:"no-store",mode:"cors",signal:ctl?ctl.signal:undefined});
+      clearTimeout(t);const j=await res.json();return !!(res.ok&&j&&j.ok&&j.on===true);
+    }catch(_e){return false;}
+  }
+  function aivSetupCheckVideoButton(){
+    const b=document.getElementById("checkVideoBtn");if(!b)return;
+    b.addEventListener("click",function(){window.location.assign(BACKEND_BASE_URL+"/check-video");});
+    aivCheckVideoOn().then(function(on){b.hidden=!on;});
+  }
   async function aivOpenCheckVideo(raw){
     const link=aivSingleYouTubeVideoLink(raw);if(!link)return false;
     let on=false;
@@ -6929,6 +6943,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       resetNestedFaithScriptureDropdowns();
     }catch(_e){}
     aivValidateStoredSession();
+    try{aivSetupCheckVideoButton();}catch(_e){}
   }
   document.documentElement.setAttribute('data-aiv-r1-golden-lock',R1_GOLDEN_BENCHMARK_LOCK);
   window.newAnalyze=newAnalyze;

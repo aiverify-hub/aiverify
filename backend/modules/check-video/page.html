@@ -5,73 +5,122 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Check Video (test)</title>
 <style>
-  :root { --bg:#f7f7f4; --card:#ffffff; --ink:#1d1d1b; --muted:#5b5b57; --line:#d9d8d2; --accent:#1f5fa8;
-          --ok:#1d6b35; --ok-bg:#e5f3e8; --bad:#a3271f; --bad-bg:#fbe7e5; --mid:#7a5a00; --mid-bg:#fbf1d6; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#161615; --card:#21211f; --ink:#ecebe6; --muted:#a8a7a0; --line:#3a3a36; --accent:#7fb0ea;
-          --ok:#8fd6a2; --ok-bg:#1d3324; --bad:#f2a199; --bad-bg:#3d1f1c; --mid:#e9cc7a; --mid-bg:#3a3120; } }
+  /* November 24, 2026 (Cary): same look as the AIVerify main page (blue background, AiV logo, white panels), Times New
+     Roman, smaller type; Related Scriptures in the purple style of the main page's Supporting Scriptures. */
+  :root { --ink:#17354c; --muted:#4b6475; --line:#c9d8e3; --head:#e8f3fb; --headInk:#123e5c; --accent:#1a6fa3;
+          --ok:#1d6b35; --ok-bg:#e5f3e8; --bad:#a3271f; --bad-bg:#fbe7e5; --mid:#7a5a00; --mid-bg:#fbf1d6;
+          --purple:#67458d; --purpleBar:#9a76c4; --purpleBg:#f7f2ff; --purpleLine:#d9c9ee; }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--ink); font:18px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
-  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; }
-  h1 { font-size: 26px; margin: 4px 0 2px; } .sub { color:var(--muted); margin:0 0 18px; }
-  nav button { font-size:17px; padding:8px 14px; margin-right:6px; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:8px; cursor:pointer; }
-  nav button[aria-pressed="true"] { border-color:var(--accent); color:var(--accent); font-weight:600; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px; margin:14px 0; }
-  label { display:block; font-weight:600; margin-bottom:6px; }
-  input[type=url], textarea { width:100%; font-size:18px; padding:10px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--ink); }
-  textarea { min-height:90px; }
-  .go { font-size:19px; font-weight:600; padding:11px 20px; margin-top:10px; border:0; border-radius:8px; background:var(--accent); color:#fff; cursor:pointer; }
-  .go[disabled] { opacity:.6; cursor:wait; }
-  details summary { cursor:pointer; color:var(--muted); margin-top:10px; }
-  .status { color:var(--muted); margin-top:10px; min-height:1.5em; }
-  .verdict { display:inline-block; font-weight:700; padding:2px 10px; border-radius:6px; }
+  body { margin:0; min-height:100vh; padding:0 0 48px; color:#fff; font:16px/1.45 "Times New Roman", Times, serif;
+         background:linear-gradient(180deg,#426f9b 0%,#6598c2 52%,#4f82b0 100%); }
+  .wrap { width:min(900px, calc(100% - 32px)); margin:0 auto; }
+  .brandRow { display:flex; align-items:center; gap:10px; padding:14px 0 0; }
+  .logoBox { width:46px; height:46px; flex:0 0 46px; border-radius:14px; background:linear-gradient(180deg,#a0ddf6,#4faadb); display:flex; align-items:center; justify-content:center; font:800 24px Arial, Helvetica, sans-serif; color:#fff; box-shadow:inset 0 1px 0 rgba(255,255,255,.38),0 8px 18px rgba(0,0,0,.18); }
+  .brandTitle { font-size:31px; font-weight:800; line-height:1; }
+  .brandSub { font-size:18px; font-weight:700; margin-top:6px; }
+  .topLinks { margin:10px 0 0; font-size:15px; } .topLinks a { color:#fff; }
+  .panel { margin:12px 0 0; background:rgba(244,247,250,.97); border:1px solid var(--line); border-radius:12px; box-shadow:0 5px 16px rgba(15,48,72,.12); overflow:hidden; color:var(--ink); }
+  .panelHead { padding:12px 16px; font-size:17px; font-weight:900; background:var(--head); color:var(--headInk); text-align:center; }
+  .panelHead .beta { font-size:13px; font-weight:700; color:var(--muted); margin-left:6px; }
+  .panelBody { padding:14px 16px 16px; }
+  .intro { font-size:15px; margin:0 0 6px; color:#36566b; text-align:center; } .intro strong { color:var(--headInk); }
+  label { display:block; font-weight:700; margin:10px 0 6px; }
+  input[type=url], textarea, select { width:100%; font:16px "Times New Roman", Times, serif; padding:10px; border:1px solid #bac6d0; border-radius:9px; background:#fff; color:#1d2a33; }
+  textarea { min-height:80px; }
+  .btnRow { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:12px; }
+  .btn { font:800 15px Arial, Helvetica, sans-serif; padding:12px 20px; border:0; border-radius:9px; cursor:pointer; box-shadow:0 3px 9px rgba(0,0,0,.16); }
+  .btn.go { background:#22b765; color:#fff; } .btn.samples { background:#aaa; color:#111; } .btn.blue { background:#3498db; color:#fff; }
+  .btn[disabled] { opacity:.6; cursor:wait; }
+  .status { color:var(--muted); margin-top:10px; min-height:1.2em; text-align:center; font-size:15px; } .status:empty { display:none; }
+  nav { margin-top:10px; } nav button { font:15px "Times New Roman", Times, serif; padding:7px 12px; margin-right:6px; border:1px solid var(--line); background:#fff; color:var(--ink); border-radius:8px; cursor:pointer; }
+  nav button[aria-pressed="true"] { border-color:var(--accent); color:var(--accent); font-weight:700; }
+  .card { background:#fff; color:#1f2730; border:1px solid var(--line); border-radius:12px; padding:14px 16px; margin:16px 0 0; box-shadow:0 5px 16px rgba(15,48,72,.10); }
+  .small { font-size:13.5px; color:var(--muted); }
+  .lbl { font-size:13.5px; color:var(--muted); margin:0 0 2px; }
+  h3 { font-size:17px; margin:2px 0 8px; color:#14324a; }
+  .kv { display:grid; grid-template-columns:auto 1fr; column-gap:10px; row-gap:2px; align-items:baseline; }
+  .kv .k { font-weight:700; color:var(--headInk); } .kv .v { overflow-wrap:anywhere; }
+  .verdict { display:inline-block; font-weight:700; padding:2px 10px; border-radius:6px; font-size:15px; }
   .v-supported { background:var(--ok-bg); color:var(--ok); } .v-contradicted, .v-misleading { background:var(--bad-bg); color:var(--bad); } .v-insufficient { background:var(--mid-bg); color:var(--mid); }
-  .claim { border-top:1px solid var(--line); padding-top:12px; margin-top:12px; }
-  .claim h3 { font-size:19px; margin:4px 0 6px; }
-  blockquote { margin:8px 0; padding:6px 12px; border-left:4px solid var(--line); color:var(--ink); }
-  .small { font-size:15px; color:var(--muted); }
-  ul.src { padding-left:20px; margin:6px 0; } ul.src li { margin:3px 0; overflow-wrap:anywhere; }
+  .count { margin:8px 0 0; font-weight:700; }
+  .note { background:var(--mid-bg); color:#3d3218; border-radius:8px; padding:9px 12px; margin:16px 0 0; font-size:14.5px; }
+  .caution { background:var(--bad-bg); color:var(--bad); font-weight:700; border-radius:8px; padding:9px 12px; margin:10px 0 0; }
+  blockquote { margin:8px 0; padding:6px 12px; border-left:4px solid var(--line); }
+  ul.src { padding-left:22px; margin:6px 0; } ul.src li { margin:3px 0; overflow-wrap:anywhere; }
   a { color:var(--accent); }
-  .limits { background:var(--mid-bg); color:var(--ink); border-radius:8px; padding:10px 12px; margin-top:12px; }
-  .q { font-weight:700; font-size:19px; margin:14px 0 8px; }
-  .answers button { font-size:18px; padding:9px 16px; margin:4px 6px 4px 0; border:1px solid var(--line); border-radius:8px; background:var(--card); color:var(--ink); cursor:pointer; }
+  details > summary { cursor:pointer; color:var(--muted); margin-top:8px; }
+  /* Related Scriptures: the main page's Supporting Scriptures style (purple bar, OPEN/CLOSE pill, verse boxes). */
+  .rs { background:var(--purpleBg); border:1px solid var(--purpleLine); border-left:5px solid var(--purpleBar); border-radius:9px; padding:8px 10px; color:#302440; }
+  .rs > summary { list-style:none; display:flex; align-items:center; gap:8px; margin:0; font-weight:900; color:var(--purple); }
+  .rs > summary::-webkit-details-marker { display:none; }
+  .rs > summary::before { content:'OPEN'; min-width:43px; padding:3px 6px; border-radius:999px; background:#7651a1; color:#fff; font:900 10px Arial, Helvetica, sans-serif; letter-spacing:.35px; text-align:center; }
+  .rs[open] > summary::before { content:'CLOSE'; }
+  .rsBody { margin-top:8px; background:#fff; border:1px solid #e3d8f1; border-radius:8px; padding:8px 10px; }
+  .rsTeach { font-weight:700; color:#2b2140; margin:6px 0; }
+  .verse { margin:7px 0; padding:8px 10px; border-radius:7px; background:#faf7ff; border:1px solid #e3d8f1; line-height:1.38; }
+  .verse .ref { color:var(--purple); font-weight:900; font-size:14px; margin-bottom:2px; }
+  .rs details > summary { color:var(--purple); }
+  .claimFoot { text-align:right; margin-top:6px; }
+  .suggest > summary { display:inline-block; font-size:13.5px; color:var(--accent); margin:0; }
+  .suggest[open] { text-align:left; } .suggest[open] > summary { display:block; text-align:right; margin-bottom:6px; }
+  .suggest select, .suggest textarea { margin-bottom:6px; }
+  .saved { color:var(--ok); font-weight:700; margin:6px 0 0; font-size:15px; }
+  /* Examples */
+  .samplesHead { margin:0 0 4px; font-size:16px; font-weight:900; color:var(--headInk); }
+  .group { margin:14px 0 4px; font-weight:900; color:var(--headInk); font-size:15px; }
+  .ex { display:grid; grid-template-columns:28px 1fr; column-gap:8px; align-items:start; width:100%; text-align:left; margin:8px 0 0; padding:10px 12px; background:#fff; border:2px solid var(--line); border-radius:10px; cursor:pointer; font:15px/1.4 "Times New Roman", Times, serif; color:#1f2730; }
+  .ex:hover { border-color:var(--accent); }
+  .ex .num { font-weight:900; font-size:18px; color:var(--accent); line-height:1.2; }
+  .ex .kv .v.title { font-weight:700; }
+  /* Cartoons while a check runs (3-second fades, 10 seconds each; the last stays until the answer is ready). */
+  .cartoon { text-align:center; }
+  .frame { position:relative; width:min(640px,100%); margin:0 auto; aspect-ratio:1672/941; background:#fff; border-radius:10px; overflow:hidden; }
+  .frame img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity 3s ease; }
+  .frame img.on { opacity:1; }
+  .cap { margin:10px 0 0; font-weight:700; color:var(--headInk); min-height:1.3em; }
+  /* Local review tab (not shown in the public beta) */
+  .q { font-weight:700; font-size:17px; margin:14px 0 8px; }
+  .answers button { font-size:16px; padding:8px 14px; margin:4px 6px 4px 0; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); cursor:pointer; }
   .answers button[aria-pressed="true"] { border-color:var(--accent); background:var(--accent); color:#fff; }
-  .saved { color:var(--ok); font-weight:600; margin-left:6px; font-size:20px; }
-  .rv-count { font-size:20px; font-weight:700; margin:6px 0; }
-  .caution { background:var(--bad-bg); color:var(--bad); font-weight:700; border-radius:8px; padding:10px 12px; }
-  .suggest { margin-top:14px; } .suggest input[type=url] { margin:4px 0 8px; } .suggest textarea { margin-bottom:4px; }
-  .big-link { display:inline-block; font-size:21px; font-weight:700; padding:12px 18px; border:2px solid var(--accent); border-radius:10px; text-decoration:none; }
-  .big-answers { display:grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap:12px; margin:8px 0; }
-  .big-answers button, .big-nav button { font-size:22px; font-weight:700; min-height:68px; padding:10px 14px; border:2px solid var(--line); border-radius:12px; background:var(--card); color:var(--ink); cursor:pointer; }
+  .rv-count { font-size:18px; font-weight:700; margin:6px 0; color:#fff; }
+  .big-link { display:inline-block; font-size:19px; font-weight:700; padding:10px 16px; border:2px solid #fff; border-radius:10px; text-decoration:none; color:#fff; }
+  .big-answers { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin:8px 0; }
+  .big-answers button, .big-nav button { font-size:20px; font-weight:700; min-height:62px; padding:10px 14px; border:2px solid var(--line); border-radius:12px; background:#fff; color:var(--ink); cursor:pointer; }
   .big-answers button[aria-pressed="true"] { border-color:var(--accent); background:var(--accent); color:#fff; }
   .big-nav { display:flex; gap:12px; margin-top:14px; } .big-nav button { flex:1; } .big-nav button[disabled] { opacity:.4; cursor:default; }
-  button:focus-visible, a:focus-visible { outline:4px solid var(--accent); outline-offset:3px; }
+  button:focus-visible, a:focus-visible, summary:focus-visible { outline:3px solid #ffd54a; outline-offset:2px; }
+  @media (max-width:640px) { .wrap { width:calc(100% - 20px); } .logoBox { width:34px; height:34px; flex-basis:34px; border-radius:10px; font-size:18px; } .brandTitle { font-size:22px; } .brandSub { font-size:12px; margin-top:2px; } }
 </style>
 </head>
 <body>
-<main>
-  <p class="small" id="home" hidden><a href="https://aiverify.tech/">← AIVerify home</a></p>
-  <h1>Check Video <span class="small" id="modeTag">Beta (local test, not public)</span></h1>
-  <p class="sub"><strong>AIVerify checks videos to show whether they line up with the truth according to the Scriptures.</strong></p>
-  <p class="sub">Paste a YouTube link to a video 3 minutes or longer. AIVerify reads the captions, finds the video's main claim, and checks it against sources.</p>
-  <nav id="tabs"><button id="tabCheck" aria-pressed="true">Check a video</button><button id="tabReview" aria-pressed="false">Review answers</button></nav>
+<div class="wrap">
+  <div class="brandRow"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
+  <p class="topLinks" id="home" hidden><a href="https://aiverify.tech/">← AIVerify home</a></p>
 
-  <section id="check">
-    <div class="card">
-      <label for="url">YouTube link</label>
-      <input id="url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
-      <details id="txBox"><summary>Captions not available? Paste the transcript instead (optional)</summary>
-        <label for="tx" style="margin-top:8px">Transcript text</label><textarea id="tx"></textarea></details>
-      <button class="go" id="go">Check Video</button>
-      <div class="status" id="status" role="status"></div>
+  <div class="panel">
+    <div class="panelHead">Check Video <span class="beta" id="modeTag">Beta (local test, not public)</span></div>
+    <div class="panelBody">
+      <p class="intro"><strong>AIVerify checks videos to show whether they line up with the truth according to the Scriptures.</strong></p>
+      <p class="intro">Paste a YouTube link to a video 3 minutes or longer. AIVerify reads the captions, finds the video's main claim, and checks it against sources.</p>
+      <nav id="tabs"><button id="tabCheck" aria-pressed="true">Check a video</button><button id="tabReview" aria-pressed="false">Review answers</button></nav>
+      <section id="check">
+        <label for="url">YouTube link</label>
+        <input id="url" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off">
+        <details id="txBox"><summary>Captions not available? Paste the transcript instead (optional)</summary>
+          <label for="tx">Transcript text</label><textarea id="tx"></textarea></details>
+        <div class="btnRow"><button class="btn go" id="go">Check Video</button><button class="btn samples" id="samplesBtn" type="button">Samples</button></div>
+        <div class="status" id="status" role="status"></div>
+      </section>
     </div>
-    <div id="result"></div>
-  </section>
+  </div>
 
+  <div id="samples" hidden></div>
+  <div id="result"></div>
   <section id="review" hidden>
-    <p class="sub">One question per video. Your answers are saved on this computer only.</p>
+    <p class="rv-count">One question per video. Your answers are saved on this computer only.</p>
     <div id="reviewList"></div>
   </section>
-</main>
+</div>
 <script>
 (function () {
   'use strict';
@@ -83,80 +132,129 @@
     return n;
   }
   function safeLink(url, text) { var ok = /^https?:\/\//i.test(String(url || '')); return ok ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: text || url }) : el('span', { text: text || '' }); }
+  function kv(rows) { var g = el('div', { cls: 'kv' }); rows.forEach(function (r) { g.appendChild(el('span', { cls: 'k', text: r[0] })); var v = el('span', { cls: 'v' + (r[2] ? ' ' + r[2] : '') }); v.appendChild(typeof r[1] === 'string' ? document.createTextNode(r[1]) : r[1]); g.appendChild(v); }); return g; }
   // Public beta (the server marks the page): no review tab, no pasted transcripts; a link from the main page fills the box and starts the check.
   var PUBLIC = document.documentElement.getAttribute('data-mode') === 'public';
   if (PUBLIC) { document.title = 'Check Video (Beta) | AIVerify'; $('modeTag').textContent = 'Beta'; $('tabs').hidden = true; $('txBox').hidden = true; $('home').hidden = false; }
   var ROLE_HELP = { 'primary/official': 'official or primary source', 'fact-check': 'fact-checker', 'news/reference': 'news or reference', 'originator of the claim': 'possible origin of the claim', 'scripture': 'the Scriptures', 'other': 'other' };
 
+  // ---------- Examples (Cary, November 24, 2026): link first, then title, so visitors see exactly what to paste ----------
+  var SAMPLES = [
+    { group: 'Videos about faith', id: 'KbB24Sdh3is', title: 'REVELATION 12 FINAL SIGNS HAPPENING THIS WEEK!!!' },
+    { id: 'RBkhdwqfG9A', title: "Mary's Prophecy About The End Of The World Is Happening" },
+    { id: 'hWNGfzpaRjg', title: 'The Prosperity Gospel: Masterpiece Of Deception' },
+    { id: '8Qd2MBaj0jU', title: 'What Is Grace, Really? The Truth Most Christians Miss' },
+    { group: 'Everyday life', id: 'aus5hqtIX9s', title: 'If YOU get Angry Easily, Do THIS to Get Rid of Your Anger FAST' },
+    { group: 'Health', id: 'x1SIEftYSvY', title: 'Cancer HATES This!' }
+  ];
+  function ytUrl(id) { return 'https://www.youtube.com/watch?v=' + id; }
+  function showSamples() {
+    var box = $('samples'); box.textContent = ''; $('result').textContent = ''; $('status').textContent = '';
+    var card = el('div', { cls: 'card' });
+    card.appendChild(el('p', { cls: 'samplesHead', text: 'Examples' }));
+    card.appendChild(el('p', { cls: 'small', text: 'Choose an example, or press its number key. Each opens AIVerify’s check of a real YouTube video.' }));
+    SAMPLES.forEach(function (s, i) {
+      if (s.group) card.appendChild(el('p', { cls: 'group', text: s.group }));
+      var b = el('button', { type: 'button', cls: 'ex' });
+      b.appendChild(el('span', { cls: 'num', text: String(i + 1) }));
+      b.appendChild(kv([['Link:', ytUrl(s.id)], ['Title:', s.title, 'title']]));
+      b.addEventListener('click', function () { openSample(i); });
+      card.appendChild(b);
+    });
+    box.appendChild(card); box.hidden = false;
+    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function openSample(i) { var s = SAMPLES[i]; if (!s) return; $('samples').hidden = true; $('url').value = ytUrl(s.id); runCheck(); }
+  $('samplesBtn').addEventListener('click', showSamples);
+  document.addEventListener('keydown', function (e) {
+    if ($('samples').hidden) return;
+    var t = e.target && e.target.tagName; if (t === 'TEXTAREA' || t === 'INPUT' || t === 'SELECT') return;
+    var k = parseInt(e.key, 10); if (k >= 1 && k <= SAMPLES.length) { e.preventDefault(); openSample(k - 1); }
+  });
+
+  // ---------- Results ----------
+  function countLine(r) {
+    var cl = r.claims || [], n = cl.length; if (!n) return '';
+    var firm = cl.filter(function (c) { return !c.sourcesOnly; }), so = n - firm.length;
+    var f = function (pred) { return firm.filter(pred).length; };
+    if (!firm.length) return 'Claims found: ' + n + '. The sources AIVerify read are listed with each one.';
+    return 'Claims checked: ' + n + '. ' + f(function (c) { return c.verdict === 'supported'; }) + ' backed, ' + f(function (c) { return c.verdict === 'contradicted' || c.verdict === 'misleading'; }) + ' shown false, ' + f(function (c) { return c.verdict === 'insufficient'; }) + ' not established' + (so ? ', ' + so + ' with sources to read' : '') + '.';
+  }
   function renderResult(r, withReview) {
-    var box = el('div', { cls: 'card' });
-    if (!r.ok) { box.appendChild(el('p', { text: r.error || 'The check could not be completed.' })); }
+    var wrap = el('div');
+    if (!withReview && $('review').hidden) { var back = el('p', { cls: 'topLinks' }); var a = el('a', { href: '#', text: '← Samples' }); a.addEventListener('click', function (e) { e.preventDefault(); showSamples(); }); back.appendChild(a); wrap.appendChild(back); }
+    var head = el('div', { cls: 'card' }); wrap.appendChild(head);
+    if (!r.ok) head.appendChild(el('p', { text: r.error || 'The check could not be completed.' }));
     var v = r.video || {};
-    if (v.url) box.appendChild(el('p', {}, [el('strong', { text: v.title || 'Video' }), ' ', el('br'), safeLink(v.url)]));
-    var KIND = { written: 'written by people', automatic: 'automatic speech-to-text (may contain errors)', pasted: 'pasted by tester', 'other-language': 'not in English', none: 'none listed' };
-    if (v.captionSource) {
-      var bits = ['Captions: ' + (KIND[v.captionKind] || 'type unknown')];
-      if (v.captionQuality && v.captionQuality !== 'unknown') bits.push('quality ' + v.captionQuality);
-      if (v.wordsPerMinute) bits.push(v.wordsPerMinute + ' words a minute');
-      if (v.captionsTruncated) bits.push('long video: only the first part was read');
-      box.appendChild(el('p', { cls: 'small', text: bits.join(' · ') }));
+    if (v.url) head.appendChild(kv([['Link:', safeLink(v.url)], ['Title:', v.title || 'Video', 'title']]));
+    var KIND = { written: 'written by people', automatic: 'automatic (may contain errors)', pasted: 'pasted by tester', 'other-language': 'not in English', none: 'none listed' };
+    if (v.captionSource) head.appendChild(el('p', { cls: 'small', text: 'Captions: ' + (KIND[v.captionKind] || 'type unknown') + (v.captionsTruncated ? ' · long video: only the first part was read' : '') }));
+    if (r.reliability && r.reliability.flagged) head.appendChild(el('p', { cls: 'caution', text: 'Not enough reliable caption data for firm answers: ' + r.reliability.reasons.join('; ') + '.' }));
+    if (r.stoppedEarly) head.appendChild(el('p', { cls: 'caution', text: 'This check stopped early: ' + r.stoppedEarly + ' Claims not finished are marked "Not established".' }));
+    if (r.caution) head.appendChild(el('p', { cls: 'caution', text: '⚠ ' + r.caution }));
+    var claims = r.claims || [];
+    // The main point once; the counts on one plain line (the earlier "A teaching: ..." label and repeated summary removed).
+    if (r.headline) {
+      var hb = el('div', { cls: 'card' });
+      hb.appendChild(el('p', { cls: 'lbl', text: r.headline.verdict === 'list' ? 'This video' : 'Main point' }));
+      hb.appendChild(el('h3', { text: r.headline.claim }));
+      if (['supported', 'contradicted', 'misleading', 'insufficient'].indexOf(r.headline.verdict) >= 0) hb.appendChild(el('span', { cls: 'verdict v-' + r.headline.verdict, text: 'AIVerify: ' + r.headline.label }));
+      var cnt = countLine(r); if (cnt) hb.appendChild(el('p', { cls: 'count', text: cnt }));
+      wrap.appendChild(hb);
+    } else if (r.summary) { head.appendChild(el('p', { text: r.summary })); }
+    if (claims.some(function (c) { return c.sourcesOnly; })) wrap.appendChild(el('p', { cls: 'note', text: 'For health, science and news claims, this beta lists the sources AIVerify read, without a verdict. Read them and judge for yourself.' }));
+    // Related Scriptures (named "Related" on video results so they never seem to endorse the video's teaching). Text only; AIVerify never interprets them.
+    var ts = r.teachings || [];
+    if (ts.length) {
+      var rs = el('details', { cls: 'rs card' }); rs.open = true;
+      rs.appendChild(el('summary', { text: 'Related Scriptures to Consider and Share' }));
+      var body = el('div', { cls: 'rsBody' });
+      body.appendChild(el('p', { cls: 'small', text: 'These passages speak to the same subject. AIVerify does not say whether they agree with the video.' }));
+      var verse = function (box2, x) { var d = el('div', { cls: 'verse' }); d.appendChild(el('div', { cls: 'ref', text: x.ref })); d.appendChild(el('div', { text: x.text })); box2.appendChild(d); };
+      ts.forEach(function (t) {
+        body.appendChild(el('p', { cls: 'rsTeach', text: t.teaching }));
+        t.verses.forEach(function (x) { verse(body, x); });
+        if (t.moreVerses && t.moreVerses.length) { var more = el('details', {}, [el('summary', { text: 'More related verses (' + t.moreVerses.length + ')' })]); t.moreVerses.forEach(function (x) { verse(more, x); }); body.appendChild(more); }
+      });
+      rs.appendChild(body); wrap.appendChild(rs);
     }
-    if (r.reliability && r.reliability.flagged) box.appendChild(el('p', { cls: 'limits', text: 'Not enough reliable caption data for firm answers: ' + r.reliability.reasons.join('; ') + '.' }));
-    if (r.stoppedEarly) box.appendChild(el('p', { cls: 'limits', text: 'This check stopped early: ' + r.stoppedEarly + ' Claims not finished are marked "Not established".' }));
-    if (r.caution) box.appendChild(el('p', { cls: 'caution', text: '⚠ ' + r.caution }));
-    // v6 (Cary, November 23, 2026): a plain answer first: the main claim and its label (about that claim, not the whole video).
-    // v10 (Cary, November 23, 2026): main point first, then Related Scriptures, then the claims; details folded away.
-    if (r.headline) { var plain = r.headline.verdict === 'list' || r.headline.verdict === 'teaching' || r.headline.verdict === 'point'; var hb = el('div', { cls: 'claim' }); hb.appendChild(el('div', { cls: 'small', text: r.headline.verdict === 'list' ? 'This video' : 'Main point' })); hb.appendChild(el('h3', { text: r.headline.claim })); hb.appendChild(el('span', { cls: 'verdict v-' + r.headline.verdict, text: (plain ? '' : 'AIVerify: ') + r.headline.label })); box.appendChild(hb); }
-    if (r.summary) box.appendChild(el('p', { text: r.summary }));
-    // Related Scriptures (named "Related" on video results so they never seem to endorse the video's teaching): the 3 most
-    // directly related passages, then every other related one folded away. Text only; AIVerify never interprets them.
-    (r.teachings || []).forEach(function (t) { var d = el('div', { cls: 'claim' }); d.appendChild(el('div', { cls: 'small', text: 'Related Scriptures to Consider and Share' })); d.appendChild(el('h3', { text: t.teaching })); d.appendChild(el('p', { cls: 'small', text: 'These passages speak to the same subject. AIVerify does not say whether they agree with the video.' }));
-      var verse = function (box2, v) { box2.appendChild(el('blockquote', { text: v.text })); box2.appendChild(el('p', { cls: 'small', text: v.ref })); };
-      t.verses.forEach(function (v) { verse(d, v); });
-      if (t.moreVerses && t.moreVerses.length) { var more = el('details', {}, [el('summary', { text: 'More related verses (' + t.moreVerses.length + ')' })]); t.moreVerses.forEach(function (v) { verse(more, v); }); d.appendChild(more); }
-      box.appendChild(d); });
-    (r.claims || []).slice().sort(function (a, b) { return (a.kind === 'scripture' ? 0 : 1) - (b.kind === 'scripture' ? 0 : 1); }).forEach(function (c) {
-      var d = el('div', { cls: 'claim' });
-      d.appendChild(el('div', { cls: 'small', text: c.central ? 'Main claim: the details' : 'Claim ' + c.n }));
+    claims.slice().sort(function (a, b) { return (a.kind === 'scripture' ? 0 : 1) - (b.kind === 'scripture' ? 0 : 1); }).forEach(function (c) {
+      var d = el('div', { cls: 'card' });
+      d.appendChild(el('p', { cls: 'lbl', text: c.central ? 'Main claim: the details' : 'Claim ' + c.n }));
       d.appendChild(el('h3', { text: c.claim }));
       if (c.videoQuote) d.appendChild(el('p', { cls: 'small', text: 'In the video: “' + c.videoQuote + '”' }));
-      if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); d.appendChild(el('p', { cls: 'small' }, [safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ Said at ' + mm + ':' + ss), ' (opens the video at that moment)'])); }
-      // Material corrections shown plainly; harmless spelling/grammar fixes in a collapsed list (Fred task D4).
-      var cr = c.corrections || [], mat = cr.filter(function (x) { return x.kind !== 'word'; }), minor = cr.filter(function (x) { return x.kind === 'word'; });
-      mat.forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'Captions read “' + x.heard + '”; interpreted as “' + x.written + '” (' + x.kind + ').' })); });
-      if (minor.length) { var ul2 = el('ul', { cls: 'src' }); minor.forEach(function (x) { ul2.appendChild(el('li', { text: '“' + x.heard + '” → “' + x.written + '”' })); }); d.appendChild(el('details', {}, [el('summary', { text: 'Spelling and grammar fixes (' + minor.length + ')' }), ul2])); }
-      var om = c.correctionsOmitted || {}; if (typeof om === 'number') om = { minor: om };
-      if (om.material) d.appendChild(el('p', { cls: 'small', text: om.material + ' more name, place, number, date or meaning fixes not shown.' }));
-      if (om.minor) d.appendChild(el('p', { cls: 'small', text: om.minor + ' more spelling and grammar fixes not shown.' }));
-      d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.label }));
+      if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); d.appendChild(el('p', { cls: 'small' }, [safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ Watch at ' + mm + ':' + ss)])); }
+      // Corrections that change a name, place, number, date or meaning stay visible; spelling fixes are no longer listed.
+      (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'Captions read “' + x.heard + '”; understood as “' + x.written + '”.' })); });
+      d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.sourcesOnly ? 'Sources to read' : c.label }));
       if (withReview && c.wouldHaveBeen) d.appendChild(el('span', { cls: 'small', text: '  (reviewer note: without the caption rule this would have been “' + c.wouldHaveBeen + '”)' }));
-      if (c.reason) d.appendChild(el('p', { text: c.reason }));
-      // v2: each material part with its own finding, so a disproven part is identified precisely (Bob decision 3).
-      if (c.parts && c.parts.length > 1) {
+      if (c.reason && !c.sourcesOnly) d.appendChild(el('p', { text: c.reason }));
+      if (c.sourcesOnly && !(c.sources || []).length && c.reason) d.appendChild(el('p', { text: c.reason }));
+      // Parts only when the claim is not simply backed, so a disproven part is identified precisely (Bob decision 3).
+      if (c.parts && c.parts.length > 1 && c.verdict !== 'supported') {
         var PS = { backed: '✓ backed', shown_false: '✗ shown false', not_established: '? not established' }, ulp = el('ul', { cls: 'src' });
         c.parts.forEach(function (p) { ulp.appendChild(el('li', { text: (PS[p.status] || p.status) + ': ' + p.part })); });
-        var det = el('details', {}, [el('summary', { text: 'Parts of this claim (' + c.parts.length + ')' }), ulp]);
-        if (c.verdict !== 'supported') det.open = true;
-        d.appendChild(det);
+        var det = el('details', {}, [el('summary', { text: 'Parts of this claim (' + c.parts.length + ')' }), ulp]); det.open = true; d.appendChild(det);
       }
       if (c.quote) {
         d.appendChild(el('blockquote', { text: '“' + c.quote.text + '”' }));
-        d.appendChild(el('p', { cls: 'small' }, ['Deciding source (number ' + c.quote.sourceN + ' in the list below): ', safeLink(c.quote.url, c.quote.publisher), ' (' + (ROLE_HELP[c.quote.role] || c.quote.role) + ')']));
+        d.appendChild(el('p', { cls: 'small' }, ['From: ', safeLink(c.quote.url, c.quote.publisher), c.quote.role === 'scripture' ? '' : ' (' + (ROLE_HELP[c.quote.role] || c.quote.role) + ')']));
       }
       if (c.sources && c.sources.length) {
-        var ul = el('ul', { cls: 'src' });
-        c.sources.forEach(function (s) { ul.appendChild(el('li', {}, [s.n + '. ', safeLink(s.url, s.title || s.url), ' — ' + s.publisher + ', ' + (ROLE_HELP[s.role] || s.role)])); });
-        d.appendChild(el('details', {}, [el('summary', { text: 'All pages read for this claim (' + c.sources.length + (c.quote ? ', including the deciding source' : '') + ')' }), ul]));
+        var allScripture = c.sources.every(function (s) { return s.role === 'scripture'; }), ul = el('ul', { cls: 'src' });
+        c.sources.forEach(function (s) { var t = s.title || s.url; ul.appendChild(el('li', {}, s.role === 'scripture' ? [safeLink(s.url, t)] : [safeLink(s.url, t), ' — ' + s.publisher + ', ' + (ROLE_HELP[s.role] || s.role)])); });
+        var srcBox = el('details', {}, [el('summary', { text: (allScripture ? 'Scriptures' : 'Sources') + ' read for this claim (' + c.sources.length + ')' }), ul]);
+        if (c.sourcesOnly) srcBox.open = true;
+        d.appendChild(srcBox);
       }
-      if (!withReview && r.runId) d.appendChild(reportBlock(r, c.n));
-      box.appendChild(d);
+      if (!withReview && r.runId) { var foot = el('div', { cls: 'claimFoot' }); foot.appendChild(reportBlock(r, c.n)); d.appendChild(foot); }
+      wrap.appendChild(d);
     });
-    if (r.limits && !r.outOfScope && r.ok) box.appendChild(el('p', { cls: 'limits', text: r.limits }));
-    if (r.ok && (r.claims || []).length) box.appendChild(el('p', { cls: 'small' }, ['Looking for a faith or moral perspective on this topic? This is optional: ', safeLink('https://aiverify.tech/', 'ask on AIVerify’s main page'), ' (answers from the Scriptures).']));
-    if (r.cost) box.appendChild(el('p', { cls: 'small', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
-    if (withReview) box.appendChild(reviewBlock(r));
-    if (!withReview && r.ok && (r.claims || []).length) box.appendChild(suggestBlock(r));
-    return box;
+    if (r.limits && !r.outOfScope && r.ok) wrap.appendChild(el('p', { cls: 'note', text: r.limits }));
+    if (r.ok && claims.length && !ts.length) wrap.appendChild(el('p', { cls: 'note' }, ['Looking for a faith or moral perspective on this topic? ', safeLink('https://aiverify.tech/', 'Ask on AIVerify’s main page'), ' (answers from the Scriptures).']));
+    if (r.cost) wrap.appendChild(el('p', { cls: 'small', style: 'color:#fff', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
+    if (withReview) { var rv = el('div', { cls: 'card' }); rv.appendChild(reviewBlock(r)); wrap.appendChild(rv); }
+    return wrap;
   }
 
   // v10 beta: suggestions on any claim (Cary: we are open to suggestions for improvement, not inviting complaints).
@@ -164,28 +262,12 @@
     var d = el('details', { cls: 'suggest' }); d.appendChild(el('summary', { text: 'Have a suggestion?' }));
     var kind = el('select', { 'aria-label': 'Kind of suggestion' }); [['verse', 'Suggest a verse that applies'], ['source', 'Suggest a better source'], ['improvement', 'Suggest an improvement']].forEach(function (o) { kind.appendChild(el('option', { value: o[0], text: o[1] })); });
     var note = el('textarea', { placeholder: 'Your suggestion (a verse reference, a link, or a few words)', 'aria-label': 'Your suggestion' });
-    var msg = el('p', { cls: 'saved', role: 'status' }), send = el('button', { type: 'button', cls: 'go', text: 'Send suggestion' });
+    var msg = el('p', { cls: 'saved', role: 'status' }), send = el('button', { type: 'button', cls: 'btn blue', text: 'Send suggestion' });
     send.addEventListener('click', function () { if (!note.value.trim()) { msg.textContent = 'Please type your suggestion.'; return; } msg.textContent = 'Sending…';
       fetch('/check-video/report', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ runId: r.runId, n: n, kind: kind.value, note: note.value }) })
         .then(function (x) { return x.json(); }).then(function (j) { msg.textContent = j.ok ? 'Thank you. We read every suggestion.' : 'Not sent.'; if (j.ok) note.value = ''; })
         .catch(function () { msg.textContent = 'Not sent. Please try again.'; }); });
     [kind, note, send, msg].forEach(function (x) { d.appendChild(x); }); return d;
-  }
-  function suggestBlock(r) {
-    var d = el('details', { cls: 'suggest' });
-    d.appendChild(el('summary', { text: 'Know a more accurate source? Suggest it' }));
-    var url = el('input', { type: 'url', placeholder: 'https://...', 'aria-label': 'Source web address' });
-    var note = el('textarea', { placeholder: 'Optional: why is this source more accurate?' });
-    var msg = el('p', { cls: 'saved', role: 'status' });
-    var send = el('button', { type: 'button', cls: 'go', text: 'Send suggestion' });
-    send.addEventListener('click', function () {
-      msg.textContent = 'Sending…';
-      fetch('/check-video/suggest-source', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: url.value.trim(), note: note.value, runId: r.runId }) })
-        .then(function (x) { return x.json(); }).then(function (j) { msg.textContent = j.ok ? 'Thank you. We review every suggested source.' : (j.error || 'Not sent.'); if (j.ok) { url.value = ''; note.value = ''; } })
-        .catch(function () { msg.textContent = 'Not sent. Please try again.'; });
-    });
-    [el('label', { text: 'Source web address' }), url, note, send, msg].forEach(function (n) { d.appendChild(n); });
-    return d;
   }
   function reviewBlock(r) {
     var wrap = el('div');
@@ -216,20 +298,44 @@
     return wrap;
   }
 
-  $('go').addEventListener('click', function () {
+  // ---------- Cartoons while checking ----------
+  var SCENES = [
+    { src: '/check-video/img/scene-1.webp', cap: 'Reading the captions...' },
+    { src: '/check-video/img/scene-2.webp', cap: 'Still gathering sources...' },
+    { src: '/check-video/img/scene-3.webp', cap: 'Checking the claims...' },
+    { src: '/check-video/img/scene-4.webp', cap: 'We have encountered some conflicting data...' }
+  ];
+  var FADE_MS = 3000, HOLD_MS = 10000, START_MS = 700;
+  function startCartoons(t0) {
+    var timers = [], box = el('div', { cls: 'card cartoon' }), frame = el('div', { cls: 'frame' }), cap = el('p', { cls: 'cap' }), tick = el('p', { cls: 'small' });
+    var imgs = SCENES.map(function (s) { var im = el('img', { src: s.src, alt: '' }); frame.appendChild(im); return im; });
+    box.appendChild(frame); box.appendChild(cap); box.appendChild(tick);
+    var show = function (i) { imgs.forEach(function (im, k) { im.className = k === i ? 'on' : ''; }); cap.textContent = SCENES[i].cap; };
+    // A saved answer comes back at once, so nothing shows unless the check is still running after a moment.
+    timers.push(setTimeout(function () {
+      $('result').appendChild(box);
+      requestAnimationFrame(function () { show(0); });
+      SCENES.forEach(function (s, i) { if (i) timers.push(setTimeout(function () { show(i); }, i * (FADE_MS + HOLD_MS))); });
+    }, START_MS));
+    var iv = setInterval(function () { tick.textContent = 'Checking… ' + Math.round((Date.now() - t0) / 1000) + ' seconds so far (usually 30 to 90 seconds).'; }, 1000);
+    return function stop() { timers.forEach(clearTimeout); clearInterval(iv); if (box.parentNode) box.parentNode.removeChild(box); };
+  }
+
+  function runCheck() {
     var url = $('url').value.trim(); if (!url) { $('status').textContent = 'Paste a YouTube link first.'; return; }
-    $('go').disabled = true; $('result').textContent = '';
-    var t0 = Date.now(); $('status').textContent = 'Checking… this usually takes 30 to 90 seconds.';
-    var tick = setInterval(function () { $('status').textContent = 'Checking… ' + Math.round((Date.now() - t0) / 1000) + ' seconds so far.'; }, 1000);
+    $('go').disabled = true; $('samplesBtn').disabled = true; $('result').textContent = ''; $('samples').hidden = true; $('status').textContent = '';
+    var stop = startCartoons(Date.now());
     fetch('/check-video/run', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(PUBLIC ? { url: url } : { url: url, transcript: $('tx').value }) })
       .then(function (x) { return x.json(); })
-      .then(function (r) { $('status').textContent = 'Done.'; $('result').appendChild(renderResult(r, false)); })
-      .catch(function () { $('status').textContent = 'The check failed. Please try again.'; })
-      .then(function () { clearInterval(tick); $('go').disabled = false; });
-  });
+      .then(function (r) { stop(); $('result').appendChild(renderResult(r, false)); })
+      .catch(function () { stop(); $('status').textContent = 'The check failed. Please try again.'; })
+      .then(function () { $('go').disabled = false; $('samplesBtn').disabled = false; });
+  }
+  $('go').addEventListener('click', runCheck);
+  $('url').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); runCheck(); } });
 
   function showTab(review) {
-    $('check').hidden = review; $('review').hidden = !review;
+    $('check').hidden = review; $('review').hidden = !review; $('result').hidden = review; $('samples').hidden = true;
     $('tabCheck').setAttribute('aria-pressed', String(!review)); $('tabReview').setAttribute('aria-pressed', String(review));
     if (review) loadReview();
   }
@@ -297,7 +403,9 @@
   $('tabCheck').addEventListener('click', function () { showTab(false); });
   $('tabReview').addEventListener('click', function () { showTab(true); });
   if (!PUBLIC && location.hash === '#review') showTab(true);
-  if (PUBLIC) { var given = ''; try { given = new URLSearchParams(location.search).get('url') || ''; } catch (_e) {} if (/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(given) && given.length <= 500) { $('url').value = given; $('go').click(); } }
+  var params; try { params = new URLSearchParams(location.search); } catch (_e) { params = null; }
+  if (params && params.get('samples') === '1') showSamples();
+  if (PUBLIC) { var given = params ? params.get('url') || '' : ''; if (/^https:\/\/(www\.|m\.)?(youtube\.com|youtu\.be)\//i.test(given) && given.length <= 500) { $('url').value = given; runCheck(); } }
 })();
 </script>
 </body>
