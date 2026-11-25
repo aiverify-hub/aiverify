@@ -19,6 +19,13 @@
   .brandTitle { font-size:31px; font-weight:800; line-height:1; }
   .brandSub { font-size:18px; font-weight:700; margin-top:6px; }
   .topLinks { margin:10px 0 0; font-size:15px; } .topLinks a { color:#fff; }
+  /* The main page's "What would you like to check?" heading and buttons. */
+  .prompt { margin:14px 0 8px; text-align:center; font:800 32px/1.2 "Times New Roman", Times, serif; color:#fff; }
+  .modeRow { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:0 0 4px; }
+  .modeBtn { display:flex; align-items:center; min-height:46px; padding:10px 15px; border-radius:10px; border:2px solid #0f6f9b; background:#e8f4fb; color:#17354c; font:900 14px Arial, Helvetica, sans-serif; text-decoration:none; box-shadow:0 5px 14px rgba(15,83,120,.14); }
+  .modeBtn:hover { border-color:#4385aa; }
+  .modeBtn.isActive { background:#187ea8; border-color:#0f6f9b; color:#fff; }
+  @media (max-width:640px) { .prompt { font-size:22px; } .modeBtn { width:100%; justify-content:center; } }
   .panel { margin:12px 0 0; background:rgba(244,247,250,.97); border:1px solid var(--line); border-radius:12px; box-shadow:0 5px 16px rgba(15,48,72,.12); overflow:hidden; color:var(--ink); }
   .panelHead { padding:12px 16px; font-size:20px; font-weight:900; background:var(--head); color:var(--headInk); text-align:center; }
   .panelHead .beta { display:block; margin-top:2px; font-size:14px; font-weight:700; color:var(--muted); }
@@ -114,7 +121,12 @@
 <body>
 <div class="wrap">
   <div class="brandRow"><div class="logoBox">AiV</div><div><div class="brandTitle">AIVerify</div><div class="brandSub">Searching for Truth</div></div></div>
-  <p class="topLinks" id="home" hidden><a href="https://aiverify.tech/">← AIVerify home</a></p>
+  <h2 class="prompt">What would you like to check?</h2>
+  <div class="modeRow">
+    <a class="modeBtn" id="goInfo" href="#">Check the Information</a>
+    <a class="modeBtn" id="goAi" href="#">Check for AI Creation</a>
+    <a class="modeBtn isActive" id="goVideo" href="/check-video" aria-current="page">Check Video</a>
+  </div>
 
   <div class="panel">
     <div class="panelHead">Check Video<div class="beta" id="modeTag">Beta (local test, not public)</div></div>
@@ -155,7 +167,10 @@
   function kv(rows) { var g = el('div', { cls: 'kv' }); rows.forEach(function (r) { g.appendChild(el('span', { cls: 'k', text: r[0] })); var v = el('span', { cls: 'v' + (r[2] ? ' ' + r[2] : '') }); v.appendChild(typeof r[1] === 'string' ? document.createTextNode(r[1]) : r[1]); g.appendChild(v); }); return g; }
   // Public beta (the server marks the page): no review tab, no pasted transcripts; a link from the main page fills the box and starts the check.
   var PUBLIC = document.documentElement.getAttribute('data-mode') === 'public';
-  if (PUBLIC) { document.title = 'Check Video (Beta) | AIVerify'; $('modeTag').textContent = 'Beta'; $('tabs').hidden = true; $('txBox').hidden = true; $('home').hidden = false; }
+  if (PUBLIC) { document.title = 'Check Video (Beta) | AIVerify'; $('modeTag').textContent = 'Beta'; $('tabs').hidden = true; $('txBox').hidden = true; }
+  // The main page: on this computer the local preview (port 8080), otherwise the public tool.
+  var MAIN_PAGE = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:8080/' : 'https://aiverify-tool.onrender.com/';
+  $('goInfo').href = MAIN_PAGE; $('goAi').href = MAIN_PAGE + '?check=ai';
   var ROLE_HELP = { 'primary/official': 'official or primary source', 'fact-check': 'fact-checker', 'news/reference': 'news or reference', 'originator of the claim': 'possible origin of the claim', 'scripture': 'Scriptures', 'other': 'other' };
 
   // ---------- Samples (Cary, November 25, 2026): two steps like the main page's Sample Set (categories, then

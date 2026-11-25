@@ -705,7 +705,7 @@ body.aivAuthLocked{overflow:hidden!important}
 
 /* BM_FE_AIV_v2252_URQ — unique review grouping, scan date display, accurate queue wording, and oldest/newest review ordering. */
 .workflowPrompt{margin-bottom:8px!important}
-.workflowSelector{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 12px;width:100%}#checkVideoBtn[hidden]{display:none!important}.aivRateDetails{margin-top:16px;background:#fff;border:1px solid #c9d8e3;border-radius:12px;padding:10px 14px;text-align:left}.aivRateDetails>summary,.aivFeedbackDetails>summary{cursor:pointer;font-weight:900;color:#17354c;font-size:16px}.aivFeedbackDetails>summary{list-style-position:inside}
+.workflowSelector{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 12px;width:100%}#checkVideoBtn[hidden],#workflowToggleBtn{display:none!important}.workflowChoice.isActive{background:#187ea8!important;border-color:#0f6f9b!important;color:#fff!important}.workflowChoice.isActive .workflowChoiceTitle{color:#fff}.aivRateDetails{margin-top:16px;background:#fff;border:1px solid #c9d8e3;border-radius:12px;padding:10px 14px;text-align:left}.aivRateDetails>summary,.aivFeedbackDetails>summary{cursor:pointer;font-weight:900;color:#17354c;font-size:16px}.aivFeedbackDetails>summary{list-style-position:inside}
 .workflowChoice{display:flex!important;align-items:center!important;justify-content:center;min-height:46px;margin:0!important;padding:10px 15px!important;border-radius:10px!important;border:2px solid #0f6f9b!important;background:#e8f4fb!important;color:#17354c!important;text-align:center!important;box-shadow:0 5px 14px rgba(15,83,120,.14)!important}
 .workflowChoice:hover{border-color:#4385aa!important}
 .workflowChoiceTitle{display:block;font-size:14px;font-weight:900;line-height:1.15}
@@ -1033,6 +1033,8 @@ const api={categories,match,scope,counted,reset,undo,project,eligible,localNow};
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
 <div class="workflowSelector" aria-label="Switch AIVerify check">
   <button type="button" id="workflowToggleBtn" class="workflowChoice" aria-controls="informationModePanel aiCreationModePanel"><span id="workflowToggleText" class="workflowChoiceTitle">Check for AI Creation</span></button>
+  <button type="button" id="infoModeBtn" class="workflowChoice" aria-pressed="true"><span class="workflowChoiceTitle">Check the Information</span></button>
+  <button type="button" id="aiModeBtn" class="workflowChoice" aria-pressed="false"><span class="workflowChoiceTitle">Check for AI Creation</span></button>
   <button type="button" id="checkVideoBtn" class="workflowChoice" hidden><span class="workflowChoiceTitle">Check Video</span></button>
 </div>
 
@@ -6405,6 +6407,15 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       clearTimeout(t);const j=await res.json();return !!(res.ok&&j&&j.ok&&j.on===true);
     }catch(_e){return false;}
   }
+  // Pressing the button of the check already shown gives a clean page (Cary); the other button switches checks.
+  function aivSetupModeButtons(){
+    const clean=function(mode){window.location.assign(window.location.pathname+(mode==="ai"?"?check=ai":""));};
+    const info=document.getElementById("infoModeBtn"),ai=document.getElementById("aiModeBtn");
+    if(info)info.addEventListener("click",function(){if(aivWorkflowMode==="information")clean("information");else aivSetWorkflowMode("information");});
+    if(ai)ai.addEventListener("click",function(){if(aivWorkflowMode==="ai")clean("ai");else aivSetWorkflowMode("ai");});
+    let want="information";try{want=new URLSearchParams(window.location.search).get("check")==="ai"?"ai":"information";}catch(_e){}
+    aivSetWorkflowMode(want);
+  }
   function aivSetupCheckVideoButton(){
     const b=document.getElementById("checkVideoBtn");if(!b)return;
     b.addEventListener("click",function(){window.location.assign(BACKEND_BASE_URL+"/check-video");});
@@ -6709,6 +6720,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     if(infoPanel)infoPanel.hidden=!informationActive;
     if(infoResult)infoResult.hidden=!informationActive;
     if(aiPanel)aiPanel.hidden=informationActive;
+    [["infoModeBtn",informationActive],["aiModeBtn",!informationActive]].forEach(function(p){const b=aivAiNode(p[0]);if(b){b.classList.toggle("isActive",p[1]);b.setAttribute("aria-pressed",String(p[1]));}});
     if(!informationActive){try{closeSampleChooser();}catch(_e){};const file=aivAiNode('aiMediaFile');if(file)setTimeout(function(){file.focus();},0);}
     else{const i=input();if(i&&(!window.matchMedia||window.matchMedia('(min-width:721px)').matches))setTimeout(function(){i.focus();},0);}
   }
@@ -6947,6 +6959,7 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
       resetNestedFaithScriptureDropdowns();
     }catch(_e){}
     aivValidateStoredSession();
+    try{aivSetupModeButtons();}catch(_e){}
     try{aivSetupCheckVideoButton();}catch(_e){}
   }
   document.documentElement.setAttribute('data-aiv-r1-golden-lock',R1_GOLDEN_BENCHMARK_LOCK);
