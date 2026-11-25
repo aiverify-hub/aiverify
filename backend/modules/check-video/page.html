@@ -347,7 +347,7 @@
         // Scripture lists use the same purple OPEN/CLOSE style as Related Scriptures (Cary); web sources stay plain.
         var srcBox = allScripture
           ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: 'Scriptures (' + c.sources.length + ')' }), el('div', { cls: 'rsBody' }, [ul])])
-          : el('details', {}, [el('summary', { text: 'Sources (' + c.sources.length + ')' }), anyStance ? el('p', { cls: 'small', text: 'AIVerify’s reading of these sources:' }) : null, ul]);
+          : el('details', {}, [el('summary', { text: 'Sources (' + c.sources.length + ')' + (function () { var k = { agrees: 0, mixed: 0, disagrees: 0 }; c.sources.forEach(function (x) { if (k[x.stance] !== undefined) k[x.stance]++; }); var p = []; if (k.agrees) p.push(k.agrees + (k.agrees === 1 ? ' supports' : ' support')); if (k.mixed) p.push(k.mixed + ' mixed'); if (k.disagrees) p.push(k.disagrees + (k.disagrees === 1 ? ' disagrees' : ' disagree')); return p.length ? ': ' + p.join(' · ') : ''; })() }), anyStance ? el('p', { cls: 'small', text: 'AIVerify’s reading of these sources:' }) : null, ul]);
         d.appendChild(srcBox);
       }
       if (!withReview && r.runId) { var foot = el('div', { cls: 'claimFoot' }); foot.appendChild(reportBlock(r, c.n)); d.appendChild(foot); }
