@@ -312,7 +312,7 @@
       if (c.parts && c.parts.length > 1 && c.verdict !== 'supported') {
         var PS = { backed: '✓ supported', shown_false: '✗ shown false', not_established: '? not established' }, ulp = el('ul', { cls: 'src' });
         c.parts.forEach(function (p) { ulp.appendChild(el('li', { text: (PS[p.status] || p.status) + ': ' + p.part })); });
-        var det = el('details', {}, [el('summary', { text: 'Parts of this claim (' + c.parts.length + ')' }), ulp]); det.open = true; d.appendChild(det);
+        var det = el('details', {}, [el('summary', { text: 'Parts of this claim (' + c.parts.length + ')' }), ulp]); d.appendChild(det);
       }
       if (c.quote) {
         d.appendChild(el('blockquote', { text: '“' + c.quote.text + '”' }));
@@ -325,7 +325,6 @@
         var srcBox = allScripture
           ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: (function (n) { var w = '(' + n + ')' + (n === 1 ? ' Scripture' : ' Scriptures'); return c.verdict === 'supported' ? 'Claim supported by one or more of the following ' + w : w + ' checked for this claim'; })(c.sources.length) }), el('div', { cls: 'rsBody' }, [ul])])
           : el('details', {}, [el('summary', { text: '(' + c.sources.length + ')' + (c.sources.length === 1 ? ' source' : ' sources') + ' read for this claim' }), ul]);
-        if (c.sourcesOnly) srcBox.open = true;
         d.appendChild(srcBox);
       }
       if (!withReview && r.runId) { var foot = el('div', { cls: 'claimFoot' }); foot.appendChild(reportBlock(r, c.n)); d.appendChild(foot); }
