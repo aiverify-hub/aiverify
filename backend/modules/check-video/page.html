@@ -257,7 +257,6 @@
   }
   function renderResult(r, withReview) {
     var wrap = el('div');
-    if (!withReview && $('review').hidden) { var back = el('p', { cls: 'topLinks' }); var a = el('a', { href: '#', text: '← Samples' }); a.addEventListener('click', function (e) { e.preventDefault(); showSamples(); }); back.appendChild(a); wrap.appendChild(back); }
     var head = el('div', { cls: 'card' }); wrap.appendChild(head);
     if (!r.ok) head.appendChild(el('p', { text: tw(r.error) || 'The check could not be completed.' }));
     var v = r.video || {};
