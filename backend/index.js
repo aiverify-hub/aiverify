@@ -51106,6 +51106,8 @@ function v3603CompletenessPrompt(raw,contract){
   if(!blob||v3603ExistingDetailPrompt(c))return '';
   const meta=clean([c.route,c.classification,c.status,c.outputBasket].join(' '));
   if(/\b(?:FAITH|MORAL|SCRIPTURE|BIBLICAL|UNSUPPORTED|INVALID|BOUNDARY|MEDIA|VIDEO|URL)\b/i.test(meta))return '';
+  // Cary (November 25, 2026): the phone storage answer already lists the menu paths; no "tell us your device" request.
+  if(/^everyday-help\/phone-storage\//.test(clean(c.route)))return '';
   if(/\b(?:could not verify|could not be completed|currently being updated|try again|retry|needs more evidence)\b/i.test(blob))return '';
   const q=clean(raw);
 
