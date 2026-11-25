@@ -5614,16 +5614,18 @@ function v3537PhoneStorageHelpResponse(value){
   if(!v3537PhoneStorageHelpIntent(raw))return '';
   const guide=v3538PhoneStorageBrandGuide(raw);
   const why=guide
-    ? 'Start at '+guide.path+'. Review the largest categories, confirm important photos/files/messages are backed up, and remove only items you recognize. If you tell AIVerify the exact model, it can narrow the steps further.'
-    : 'Open the phone’s storage screen and review which categories use the most space. Before deleting anything, confirm important photos, files, and messages are backed up. Tell AIVerify your phone brand (and model if you know it)—for example iPhone, Samsung Galaxy, or Google Pixel—and AIVerify will give you the exact taps and an official support link for managing storage.';
+    ? 'Start at '+guide.path+'. Review the largest categories, confirm important photos/files/messages are backed up, and remove only items you recognize.'
+    // Cary (November 25, 2026): no "reply with your brand" instruction; the common menu paths are given directly.
+    : 'Open the phone’s storage screen and review which categories use the most space. Before deleting anything, confirm important photos, files, and messages are backed up. iPhone: Settings > General > iPhone Storage. Samsung Galaxy: Settings > Battery and device care > Storage. Google Pixel and most Android phones: Settings > Storage.';
   return v2665ContractText(raw,{
     route:'everyday-help/phone-storage/v3538',classification:'PHONE / DEVICE STORAGE HELP',inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',
     answer:'Check the biggest storage users first—photos, videos, downloads, messages, and apps—then back up anything important before deleting it.',
     why:why,
-    evidence:guide?'The exact storage menu and cleanup options depend on the phone brand and model.':'The exact storage menu depends on the phone brand and model. Tell AIVerify your phone brand (and model if you know it), and AIVerify will give you the exact taps and an official support link.',
-    source:guide?guide.brand+' support':'OpenAI',sourceBasis:guide?guide.brand+' support':'OpenAI',sourceUrl:guide?guide.url:'',
+    evidence:'The exact storage menu and cleanup options depend on the phone brand and model.',
+    // A fixed AIVerify answer, not an OpenAI answer: labeled with the phone makers' guidance it follows.
+    source:guide?guide.brand+' support':'Apple, Samsung and Google support pages',sourceBasis:guide?guide.brand+' support':'Apple, Samsung and Google support pages',sourceUrl:guide?guide.url:'',
     actionLinkUrl:guide?guide.url:'',actionLinkLabel:guide?guide.label:'',
-    supportingInformation:guide?'If you provide the exact model, AIVerify can make the instructions more specific.':'Reply with the phone brand and model if known so AIVerify can give the exact menu path and official support link.',
+    supportingInformation:'Menu names can vary by brand and model.',
     confidence:'High confidence',outputBasket:OUTPUT_FORMAT_BASKETS.PRACTICAL_GUIDANCE,
     technicalDiagnostics:{activeFunction:'completeHelpRoutingV3538',completeHelpIntent:'PHONE_STORAGE',brandKnown:guide?'YES':'NO',exactInputHardcoding:false}
   });
@@ -5710,7 +5712,8 @@ const R1_COMPLETE_HELP_ROUTING_STARTUP_V3537=Object.freeze({
   tomatoIntentAvailable:typeof v3537TomatoSymptomGuidanceIntent==='function',
   tomatoResponseAvailable:typeof v3537TomatoSymptomGuidanceResponse==='function',
   phoneStorageRecognized:v3537PhoneStorageHelpIntent('My phone says its storage is almost full. What should I check before deleting anything important?')===true,
-  phoneUnknownPromptVisible:/Tell AIVerify your phone brand/i.test(v3537PhoneStorageHelpResponse('My phone says its storage is almost full. What should I check before deleting anything important?')),
+  // November 25, 2026 (Cary): an unknown brand gets the common menu paths, not a request to reply with the brand.
+  phoneUnknownPromptVisible:(function(t){return /iPhone Storage/.test(t)&&/Settings > Storage/.test(t)&&!/Reply with|Tell AIVerify your phone brand/i.test(t);})(v3537PhoneStorageHelpResponse('My phone says its storage is almost full. What should I check before deleting anything important?')),
   iphoneBrandHelpBound:/support\.apple\.com\/iphone/i.test(v3537PhoneStorageHelpResponse('My iPhone storage is almost full. What should I check before deleting anything important?')),
   applianceRecallRecognized:v3537ConsumerRecallLookupIntent('How can I find out whether my washing machine has been recalled for a safety problem?')===true,
   militaryRecordsRecognized:v3537MilitaryServiceRecordsHelpIntent('How can I find the military service records of a deceased relative who served in the U.S. Army?')===true,
@@ -52766,6 +52769,8 @@ function v3630FirstPersonProductVoice(value){
     .replace(/\bAIVerify doesn't\b/g,'We do not')
     .replace(/\bThe user is asking\b/gi,'You are asking')
     .replace(/\bThe user wants\b/gi,'You want');
+  // Cary (November 25, 2026): "so AIVerify can" became "so We can"; a "We" in the middle of a sentence is lower-case.
+  x=x.replace(/([a-z,;:)]\s+)We\b/g,'$1we');
   if(/\bTell us\b|\bAsk us\b|\bWe (?:can|cannot|could not|need|do not)\b/.test(x)){
     x=x
       .replace(/\bso it can\b/gi,'so we can')
