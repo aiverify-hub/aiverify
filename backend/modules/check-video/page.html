@@ -35,6 +35,8 @@
   .intro { font-size:16px; margin:0 0 12px; color:var(--headInk); font-weight:700; }
   .intro2 { width:0; min-width:100%; font-size:13.5px; line-height:1.4; margin:0 0 8px; color:#36566b; }
   label { display:block; font-weight:700; margin:10px 0 6px; font-size:15px; }
+  .ver { font:700 12px Arial, Helvetica, sans-serif; color:#4b6475; text-align:center; margin:6px 0 0; }
+  .card .ver { text-align:left; margin-top:8px; }
   .fine { font-size:13px; color:var(--muted); text-align:center; margin:8px 0 0; }
   input[type=url], textarea, select { width:100%; font:16px "Times New Roman", Times, serif; padding:10px; border:1px solid #bac6d0; border-radius:9px; background:#fff; color:#1d2a33; }
   textarea { min-height:80px; }
@@ -141,6 +143,7 @@
           <label for="tx">Transcript text</label><textarea id="tx"></textarea></details>
         <div class="btnRow"><button class="btn go" id="go">Check Video</button><button class="btn samples" id="samplesBtn" type="button">Samples</button></div>
         <p class="fine">Health, science and news claims show sources only in this beta.</p>
+        <p class="ver" id="verLine"></p>
         <div class="status" id="status" role="status"></div>
       </section>
     </div>
@@ -171,6 +174,9 @@
   // The main page: on this computer the local preview (port 8080), otherwise the public tool.
   var MAIN_PAGE = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? 'http://localhost:8080/' : 'https://aiverify-tool.onrender.com/';
   $('goInfo').href = MAIN_PAGE; $('goAi').href = MAIN_PAGE + '?check=ai';
+  var CV_VERSION = 'CV_AIV_v5100', BACKEND_VERSION = document.documentElement.getAttribute('data-backend') || '';
+  var VERSION_LINE = CV_VERSION + (BACKEND_VERSION ? ' | backend ' + BACKEND_VERSION.replace(/^BE_AIV_/, '') : '');
+  $('verLine').textContent = VERSION_LINE;
   var ROLE_HELP = { 'primary/official': 'official or primary source', 'fact-check': 'fact-checker', 'news/reference': 'news or reference', 'originator of the claim': 'possible origin of the claim', 'scripture': 'Scriptures', 'other': 'other' };
 
   // ---------- Samples (Cary, November 25, 2026): two steps like the main page's Sample Set (categories, then
@@ -255,6 +261,7 @@
     if (r.reliability && r.reliability.flagged) head.appendChild(el('p', { cls: 'caution', text: 'Not enough reliable transcript data for firm answers: ' + tw(r.reliability.reasons.join('; ')) + '.' }));
     if (r.stoppedEarly) head.appendChild(el('p', { cls: 'caution', text: 'This check stopped early: ' + tw(r.stoppedEarly) + ' Claims not finished are marked "Not established".' }));
     if (r.caution) head.appendChild(el('p', { cls: 'caution', text: '⚠ ' + tw(r.caution) }));
+    head.appendChild(el('p', { cls: 'ver', text: VERSION_LINE }));
     var claims = r.claims || [];
     // The main point once; the counts on one plain line (the earlier "A teaching: ..." label and repeated summary removed).
     if (r.headline) {
