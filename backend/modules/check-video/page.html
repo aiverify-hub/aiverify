@@ -31,7 +31,8 @@
   .panelHead .beta { display:block; margin-top:2px; font-size:14px; font-weight:700; color:var(--muted); }
   .panelBody { padding:14px 16px 16px; }
   /* The second line wraps within the width of the bold line above it (Cary). */
-  .introBox { width:fit-content; max-width:100%; margin:0 auto 4px; text-align:center; }
+  .introMain { font:14px/1.38 "Times New Roman", Times, serif; color:#36566b; text-align:center; margin:0 0 11px; }
+  .ver.verUnder { text-align:left; margin:6px 0 0; }
   .intro { font-size:16px; margin:0 0 12px; color:var(--headInk); font-weight:700; }
   .intro2 { width:0; min-width:100%; font-size:13.5px; line-height:1.4; margin:0 0 8px; color:#36566b; }
   label { display:block; font-weight:700; margin:10px 0 6px; font-size:15px; }
@@ -134,16 +135,15 @@
   <div class="panel">
     <div class="panelHead">Check the Video<div class="beta" id="modeTag">Local test, not public</div></div>
     <div class="panelBody">
-      <div class="introBox"><p class="intro">AIVerify checks videos to show whether they line up with the truth according to Scriptures.</p>
-      <p class="intro2">AIVerify reads the video's transcript and compares its claims with Scriptures and other sources, to help expose deception and confirm what is true.</p></div>
+      <p class="introMain">Enter a YouTube video address to compare the video's claims with Scriptures and other sources.</p>
       <nav id="tabs"><button id="tabCheck" aria-pressed="true">Check a video</button><button id="tabReview" aria-pressed="false">Review answers</button></nav>
       <section id="check">
         <textarea id="url" aria-label="YouTube video link" autocomplete="off" spellcheck="false" placeholder="Paste a YouTube video link, for example https://www.youtube.com/watch?v=...&#10;(videos must be at least 3 minutes long)&#10;&#10;Need an idea? Tap Samples."></textarea>
+        <p class="ver verUnder" id="verLine"></p>
         <details id="txBox"><summary>No transcript available? Paste one instead (optional)</summary>
           <label for="tx">Transcript text</label><textarea id="tx"></textarea></details>
         <div class="btnRow"><button class="btn go" id="go">Check Video</button><button class="btn samples" id="samplesBtn" type="button">Samples</button></div>
         <p class="fine">Health, science and news claims show sources only in this beta.</p>
-        <p class="ver" id="verLine"></p>
         <div class="status" id="status" role="status"></div>
       </section>
     </div>
