@@ -32853,9 +32853,30 @@ function v5001AdministrativeContext(raw){
   if(jurisdiction&&jurisdiction.status==='BOUND')return null;
   return {intent:a,question:a.record?'Which country and state or province issued the record?':a.benefit?'Which country and state or province do you live in?':'Which country or issuing jurisdiction is this application or replacement for?'};
 }
+// BE_AIV_v5100 (Cary, November 25, 2026): AIVerify serves U.S. visitors. When no other country is named, these common
+// requests go straight to the official U.S. page (each lets the visitor choose a state where that matters) instead of
+// asking "which country?". Other countries are a later release. Links checked November 25, 2026.
+const V5100_US_DEFAULT_SERVICES=[
+  {test:/\bpassport\b/i,answer:'Apply for or renew a U.S. passport through the U.S. Department of State.',why:'The State Department’s passport site has the application forms, renewal steps, fees, and where to apply in person. Not a U.S. citizen? Use your own country’s passport office.',source:'U.S. Department of State — Passports',url:'https://travel.state.gov/content/travel/en/passports.html',label:'Open U.S. Passports'},
+  {test:/\b(?:social\s+security|ss)\s+card\b/i,answer:'Replace your Social Security card through the Social Security Administration.',why:'The Social Security Administration’s page explains how to request a replacement card online or in person, and what documents are needed.',source:'Social Security Administration — Replace a Social Security card',url:'https://www.ssa.gov/number-card/replace-card',label:'Open Social Security Card Replacement'},
+  {test:/\bfood\s+assistance\b/i,answer:'Apply for food assistance (SNAP) through your state’s office; the U.S. Department of Agriculture lists every state’s application page.',why:'SNAP (Supplemental Nutrition Assistance Program) is run by each state. Choose your state on the directory to reach its official application, including online applications where offered.',source:'U.S. Department of Agriculture — SNAP State Directory',url:'https://www.fna.usda.gov/snap/state-directory',label:'Open SNAP State Directory'},
+  {test:/\b(?:birth|death|marriage|divorce)\s+certificate\b/i,answer:'Order a replacement from the vital records office of the state where the event happened; the CDC lists every state’s office.',why:'Birth, death, marriage, and divorce records are kept by each state. Choose the state on the CDC’s Where to Write for Vital Records page to see how to order, fees, and contact details.',source:'CDC — Where to Write for Vital Records',url:'https://www.cdc.gov/nchs/w2w/index.htm',label:'Open Where to Write for Vital Records'}
+];
+function v5100UsDefaultService(raw,x){
+  const s=clean(raw);
+  // Another country named (or a non-U.S. issuer) keeps the existing clarification path.
+  if(/\b(?:canada|canadian|mexico|mexican|uk|united\s+kingdom|britain|british|england|ireland|australia|india|philippines|germany|france|nigeria|kenya|jamaica|province)\b/i.test(s))return '';
+  const row=V5100_US_DEFAULT_SERVICES.find(function(r){return r.test.test(x&&x.intent&&x.intent.target||s);});
+  if(!row)return '';
+  return v2665ContractText(raw,{route:'resource/us-default-service/v5100',classification:'OFFICIAL SERVICE',inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',
+    answer:row.answer,why:row.why,source:row.source,sourceBasis:row.source,sourceUrl:row.url,actionLinkUrl:row.url,actionLinkLabel:row.label,
+    confidence:'High confidence',outputBasket:OUTPUT_FORMAT_BASKETS.PRACTICAL_GUIDANCE,
+    technicalDiagnostics:{activeFunction:'v5100UsDefaultService',usDefault:true,exactInputHardcoding:false}});
+}
 function v5001AdministrativeClarification(raw,requestState){
   if(requestState&&requestState.aborted)return '';
   const x=v5001AdministrativeContext(raw);if(!x)return '';
+  const usDefault=v5100UsDefaultService(raw,x);if(usDefault)return usDefault;
   let body=v2665ContractText(raw,{route:'resource/administrative-context/v5001',classification:'OFFICIAL SERVICE / MISSING CONTEXT',inputType:'QUESTION',analysisResult:'Clarification',status:'CLARIFICATION',answer:x.question,why:'The official service depends on the issuing authority or applicable location. Your request has been understood; only this missing detail is needed.',evidence:'',source:'',sourceBasis:'',sourceUrl:'',supportingInformation:'',confidence:'',outputBasket:OUTPUT_FORMAT_BASKETS.PRACTICAL_GUIDANCE});
   return v3002RewriteSerializedContracts(body,function(c){c.showSource=false;c.showSourceUrl=false;c.hideSourceBasis=true;c.suppressSourceBasis=true;c.sourceDisplayPolicy='HIDE';c.source='';c.sourceBasis='';c.sourceUrl='';c.primarySourceUrl='';c.technicalDiagnostics=Object.assign({},c.technicalDiagnostics||{},{administrativeContext:'REQUIRED',serviceDelivered:false});return c;});
 }
