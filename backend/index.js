@@ -52802,6 +52802,26 @@ function v3630FirstPersonProductVoice(value){
   }
   return x;
 }
+// BE_AIV_v5100 (Cary, November 25, 2026): final wording rules applied to every text answer, not to single samples.
+// A text of four or more words that ends in a letter, digit, quote or bracket gets a final period. Short labels
+// ("Yes", "No", "Not established"), text ending in a link, and text already ending in . ! ? : ; are left as they are.
+function v5100EndSentence(text){
+  const s=String(text||''),t=s.replace(/\s+$/,'');
+  if(!t)return s;
+  if(/[.!?:;…]["'”’)\]]*$/.test(t))return s;
+  if(/(?:https?:\/\/|www\.)\S+$/i.test(t))return s;
+  if(t.split(/\s+/).length<4)return s;
+  if(!/[A-Za-z0-9"'”’)\]]$/.test(t))return s;
+  return t+'.';
+}
+// True when a short explanation only restates the question's own words.
+function v5100EchoesQuestion(text,raw){
+  const stem=function(w){return w.toLowerCase().replace(/(?:ies)$/,'y').replace(/(?:es|s)$/,'');};
+  const words=function(x){return (String(x||'').toLowerCase().match(/[a-z0-9']+/g)||[]).filter(function(w){return w.length>=3;}).map(stem);};
+  const e=words(text),q=new Set(words(raw));
+  if(!e.length||e.length>8||String(text).split(/\s+/).length>10)return false;
+  return e.every(function(w){return q.has(w);});
+}
 function v3630UserFacingIntegrity(body,raw){
   const text=String(body||'');
   if(!text)return text;
@@ -52826,9 +52846,17 @@ function v3630UserFacingIntegrity(body,raw){
       changed=true;
     }
 
+    // BE_AIV_v5100 (Cary): an explanation that only repeats the question ("Do magnets work in space?" -> "Magnets work in
+    // space.") adds nothing, so it is left out (not for faith/moral answers, which have their own required parts).
+    if(!/\b(?:FAITH|MORAL|SCRIPTURE|BIBLICAL)\b/i.test(clean([c.route,c.classification].join(' ')))){
+      ['why','explanation'].forEach(function(k){
+        if(typeof c[k]==='string'&&v5100EchoesQuestion(c[k],raw)){c[k]='';changed=true;}
+      });
+    }
     ['answer','why','explanation','summary','evidence','supportingInformation','additionalInformation'].forEach(function(k){
       if(typeof c[k]!=='string')return;
-      const before=c[k],after=v3630FirstPersonProductVoice(before);
+      // BE_AIV_v5100 (Cary): every sentence ends with punctuation (a missing final period is added).
+      const before=c[k],after=v5100EndSentence(v3630FirstPersonProductVoice(before));
       if(after!==before){c[k]=after;changed=true;}
     });
     ['bullets','answerList'].forEach(function(k){
