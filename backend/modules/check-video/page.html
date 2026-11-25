@@ -257,7 +257,8 @@
   $('helpBtn').addEventListener('click', showHelp);
   function closeSamples() { $('samples').hidden = true; $('samples').textContent = ''; document.body.classList.remove('sOpen'); }
   // Cary: a sample only fills in the link, so the visitor presses Check Video and sees the whole process.
-  function openSample(it) { closeSamples(); VIEW.gen++; $('result').textContent = ''; $('url').value = ytUrl(it.id); $('status').textContent = 'Press Check Video to check this video.'; $('go').focus(); }
+  // Cary (November 25, 2026): a sample opens its results right away and leaves the link box empty (the link shows in the results).
+  function openSample(it) { closeSamples(); $('url').value = ''; runCheck(ytUrl(it.id)); }
   $('samplesBtn').addEventListener('click', showSamples);
   $('samples').addEventListener('click', function (e) { if (e.target === $('samples')) closeSamples(); });
   document.addEventListener('keydown', function (e) {
@@ -418,8 +419,8 @@
     return function stop() { timers.forEach(clearTimeout); clearInterval(iv); if (box.parentNode) box.parentNode.removeChild(box); };
   }
 
-  function runCheck() {
-    var url = $('url').value.trim(); if (!url) { $('status').textContent = 'Paste a YouTube link first.'; return; }
+  function runCheck(given) {
+    var url = (typeof given === 'string' ? given : $('url').value).trim(); if (!url) { $('status').textContent = 'Paste a YouTube link first.'; return; }
     VIEW.gen++;
     $('go').disabled = true; $('samplesBtn').disabled = true; $('result').textContent = ''; $('samples').hidden = true; $('status').textContent = '';
     var stop = startCartoons(Date.now());
