@@ -354,6 +354,8 @@
       wrap.appendChild(d);
     });
     if (r.cost) wrap.appendChild(el('p', { cls: 'small', style: 'color:#fff', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
+    // Claude's call (Cary left it to me): one small line so a green Supported is not read as approval of the whole video.
+    if (r.ok && claims.length) wrap.appendChild(el('p', { cls: 'small', style: 'color:#fff;margin-top:10px', text: 'Only the claims listed were checked, not the whole video.' }));
     if (withReview) { var rv = el('div', { cls: 'card' }); rv.appendChild(reviewBlock(r)); wrap.appendChild(rv); }
     return wrap;
   }
