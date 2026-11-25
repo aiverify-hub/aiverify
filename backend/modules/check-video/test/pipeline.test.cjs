@@ -881,7 +881,13 @@ test('v10 beta: a web-checked factual claim lists its sources with no verdict an
   const c = r.claims[0];
   assert.equal(c.sourcesOnly, true); assert.equal(c.verdict, 'insufficient'); assert.equal(c.label, 'Sources found (no verdict in this beta)');
   assert.ok(c.sources.length > 0, 'sources are listed'); assert.equal(io.calls.exa.length, 1);
-  assert.equal(io.calls.anthropic.filter(x => x.p === '/v1/messages').length, 0, 'no judge, detail check or second judge (the claim writer is answered before the call log)');
+  // v5100 (Cary): one reading call per claim marks each source; still no judge, detail check or second judge.
+  const calls = io.calls.anthropic.filter(x => x.p === '/v1/messages');
+  assert.equal(calls.length, 1, 'only the source-reading call');
+  assert.match(calls[0].body.messages[0].content, /For each numbered source below/);
+  const off = P0.createCheckVideo({ io: claimsIo({ main_point: 'x', claims: [WEBB] }, { judge: SUP_NASA }), runsDir: tmp(), config: { sourceStances: false } });
+  const r2 = await off.run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  assert.ok(r2.claims[0].sources.every(x => !('stance' in x)), 'with readings off, sources carry no reading');
 });
 
 test('v10: a teaching main point is the headline with no verdict; its claims are not the main claim', async () => {
