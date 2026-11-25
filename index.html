@@ -705,7 +705,7 @@ body.aivAuthLocked{overflow:hidden!important}
 
 /* BM_FE_AIV_v2252_URQ — unique review grouping, scan date display, accurate queue wording, and oldest/newest review ordering. */
 .workflowPrompt{margin-bottom:8px!important}
-.workflowSelector{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 12px;width:100%}#checkVideoBtn[hidden]{display:none!important}
+.workflowSelector{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 auto 12px;width:100%}#checkVideoBtn[hidden]{display:none!important}.aivRateDetails{margin-top:16px;background:#fff;border:1px solid #c9d8e3;border-radius:12px;padding:10px 14px;text-align:left}.aivRateDetails>summary,.aivFeedbackDetails>summary{cursor:pointer;font-weight:900;color:#17354c;font-size:16px}.aivFeedbackDetails>summary{list-style-position:inside}
 .workflowChoice{display:flex!important;align-items:center!important;justify-content:center;min-height:46px;margin:0!important;padding:10px 15px!important;border-radius:10px!important;border:2px solid #0f6f9b!important;background:#e8f4fb!important;color:#17354c!important;text-align:center!important;box-shadow:0 5px 14px rgba(15,83,120,.14)!important}
 .workflowChoice:hover{border-color:#4385aa!important}
 .workflowChoiceTitle{display:block;font-size:14px;font-weight:900;line-height:1.15}
@@ -1075,10 +1075,11 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
 </div>
 <div id="informationResultPanel" class="resultBox"><div id="contentType"></div><div id="transcriptStatus" class="transcriptStatus" style="display:none"></div><div id="result"><div class="emptyResultTitle">Results</div></div><div id="responseReviewPanel" class="responseReviewPanel" hidden></div></div>
 <section id="overallTesterFeedback" class="overallTesterFeedback" aria-labelledby="overallTesterFeedbackTitle">
-  <div id="overallTesterFeedbackTitle" class="overallTesterFeedbackTitle">Overall Feedback or Suggestions <span style="font-size:12px;font-weight:700;color:#5d7382">(Optional)</span></div>
+  <details class="aivFeedbackDetails"><summary id="overallTesterFeedbackTitle" class="overallTesterFeedbackTitle">Overall Feedback or Suggestions <span style="font-size:12px;font-weight:700;color:#5d7382">(Optional)</span></summary>
   <div class="overallTesterFeedbackHelp">After completing your tests, share anything that was useful, confusing, missing, or worth improving. Saving again updates your feedback for this test round.</div>
   <textarea id="overallTesterFeedbackText" class="overallTesterFeedbackText" maxlength="10000" placeholder="Optional overall feedback or suggestions"></textarea>
   <div class="overallTesterFeedbackActions"><button type="button" id="overallTesterFeedbackSave" class="overallTesterFeedbackSave">Save / Update Overall Feedback</button><span id="overallTesterFeedbackStatus" class="overallTesterFeedbackStatus"></span></div>
+  </details>
 </section>
 </div>
 <section id="betaReviewDashboard" class="betaReviewDashboard" hidden aria-labelledby="betaReviewTitle">
@@ -1618,6 +1619,9 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     node.dataset.aivSavedRating='';
     node.dataset.aivSaving='false';
 
+    const rateDetails=document.createElement('details');rateDetails.className='aivRateDetails';
+    const rateSummary=document.createElement('summary');rateSummary.textContent='Rate This Result (Optional)';rateDetails.appendChild(rateSummary);
+    node.appendChild(rateDetails);
     const ratingBubble=document.createElement('div');ratingBubble.className='responseRatingBubble';
     const prompt=document.createElement('div');prompt.className='responseReviewPrompt';prompt.textContent='Rate This Result';ratingBubble.appendChild(prompt);
     const required=document.createElement('div');required.className='responseReviewRequired';required.textContent='Ratings are optional feedback — selecting one saves it automatically.';ratingBubble.appendChild(required);
@@ -1635,14 +1639,14 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
     });
     ratingBubble.appendChild(ratings);
     const ratingStatus=document.createElement('div');ratingStatus.className='responseReviewStatus';ratingStatus.textContent='Select a rating to share feedback.';ratingBubble.appendChild(ratingStatus);
-    node.appendChild(ratingBubble);
+    rateDetails.appendChild(ratingBubble);
 
     const commentBubble=document.createElement('div');commentBubble.className='responseCommentBubble';
     const commentLabel=document.createElement('div');commentLabel.className='responseReviewCommentLabel';commentLabel.textContent='Optional Feedback';commentBubble.appendChild(commentLabel);
     const commentHelp=document.createElement('div');commentHelp.className='responseReviewCommentHelp';commentHelp.textContent='Comments save automatically after a rating has been logged.';commentBubble.appendChild(commentHelp);
     const comment=document.createElement('textarea');comment.className='responseReviewComment';comment.maxLength=4000;comment.placeholder='Optional comment';commentBubble.appendChild(comment);
     const commentStatus=document.createElement('div');commentStatus.className='responseReviewCommentStatus';commentBubble.appendChild(commentStatus);
-    node.appendChild(commentBubble);
+    rateDetails.appendChild(commentBubble);
 
     function disclosurePayload(){
       const finalSnapshot=aivDisclosureSnapshot(visibleNode);

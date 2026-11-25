@@ -21,7 +21,7 @@
   .topLinks { margin:10px 0 0; font-size:15px; } .topLinks a { color:#fff; }
   .panel { margin:12px 0 0; background:rgba(244,247,250,.97); border:1px solid var(--line); border-radius:12px; box-shadow:0 5px 16px rgba(15,48,72,.12); overflow:hidden; color:var(--ink); }
   .panelHead { padding:12px 16px; font-size:20px; font-weight:900; background:var(--head); color:var(--headInk); text-align:center; }
-  .panelHead .beta { font-size:14px; font-weight:700; color:var(--muted); margin-left:6px; }
+  .panelHead .beta { display:block; margin-top:2px; font-size:14px; font-weight:700; color:var(--muted); }
   .panelBody { padding:14px 16px 16px; }
   /* The second line wraps within the width of the bold line above it (Cary). */
   .introBox { width:fit-content; max-width:100%; margin:0 auto 4px; text-align:center; }
@@ -71,13 +71,26 @@
   .suggest[open] { text-align:left; } .suggest[open] > summary { display:block; text-align:right; margin-bottom:6px; }
   .suggest select, .suggest textarea { margin-bottom:6px; }
   .saved { color:var(--ok); font-weight:700; margin:6px 0 0; font-size:15px; }
-  /* Examples */
-  .samplesHead { margin:0 0 4px; font-size:16px; font-weight:900; color:var(--headInk); }
-  .group { margin:14px 0 4px; font-weight:900; color:var(--headInk); font-size:15px; }
-  .ex { display:grid; grid-template-columns:28px 1fr; column-gap:8px; align-items:start; width:100%; text-align:left; margin:8px 0 0; padding:10px 12px; background:#fff; border:2px solid var(--line); border-radius:10px; cursor:pointer; font:15px/1.4 "Times New Roman", Times, serif; color:#1f2730; }
-  .ex:hover { border-color:var(--accent); }
-  .ex .num { font-weight:900; font-size:18px; color:var(--accent); line-height:1.2; }
-  .ex .kv .v.title { font-weight:700; }
+  /* Samples: the main page's two-step Sample Set look (overlay, blue "own" button, white categories, purple Faith & Life). */
+  body.sOpen { overflow:hidden; }
+  #samples { position:fixed; inset:0; z-index:1000; background:rgba(10,28,44,.66); display:flex; align-items:center; justify-content:center; padding:20px; }
+  #samples[hidden] { display:none; }
+  .sPanel { width:min(760px,94vw); max-height:min(82vh,760px); overflow:auto; background:#f5f7f9; color:#111; border:1px solid rgba(255,255,255,.75); border-radius:15px; padding:17px 18px 18px; box-shadow:0 18px 48px rgba(0,0,0,.35); text-align:left; }
+  .sHead { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:8px; }
+  .sTitle { font-size:23px; font-weight:900; color:#0b3556; line-height:1.15; }
+  .sFaithTitle { color:#67458d; background:#f7f2ff; border:1px solid #d9c9ee; border-left:5px solid #9a76c4; border-radius:9px; padding:8px 10px; }
+  .sClose { width:38px; height:38px; border:0; border-radius:50%; background:#e2e8ed; color:#31414e; font-size:25px; line-height:1; cursor:pointer; }
+  .sIntro { font-size:15px; line-height:1.35; color:#34424d; background:#fff; border:1px solid #d6e1e9; border-radius:9px; padding:10px 11px; margin:8px 0 13px; }
+  .sList { display:grid; gap:9px; }
+  .sOwn { width:100%; border:0; border-radius:9px; padding:12px; background:#187ea8; color:#fff; font:800 15px Arial, Helvetica, sans-serif; cursor:pointer; }
+  .sCat, .sEx { width:100%; text-align:left; background:#fff; color:#15364f; border:1px solid #c8d8e4; border-radius:9px; padding:12px 13px; font:900 16px/1.3 "Times New Roman", Times, serif; cursor:pointer; min-height:48px; }
+  .sCat:hover, .sEx:hover { background:#eaf4fb; border-color:#82b5d7; }
+  .sCatFaith { margin-top:13px; background:#f7f2ff; color:#67458d; border-color:#d9c9ee; border-left:5px solid #9a76c4; }
+  .sCatFaith:hover { background:#eee4fa; border-color:#7651a1; }
+  .sEx { display:flex; align-items:flex-start; gap:10px; font-weight:400; font-size:15px; }
+  .sNum { min-width:20px; color:#2a6f9d; font-weight:900; }
+  .sEx .kv .v.title { font-weight:700; }
+  .sBack { margin-top:13px; padding:10px 16px; background:#dfeaf2; color:#174666; border:1px solid #b8cfde; border-radius:9px; font:800 14px Arial, Helvetica, sans-serif; cursor:pointer; }
   /* Cartoons while a check runs (3-second fades, 10 seconds each; the last stays until the answer is ready). */
   .cartoon { text-align:center; }
   .frame { position:relative; width:min(640px,100%); margin:0 auto; aspect-ratio:1672/941; background:#fff; border-radius:10px; overflow:hidden; }
@@ -104,7 +117,7 @@
   <p class="topLinks" id="home" hidden><a href="https://aiverify.tech/">← AIVerify home</a></p>
 
   <div class="panel">
-    <div class="panelHead">Check Video <span class="beta" id="modeTag">Beta (local test, not public)</span></div>
+    <div class="panelHead">Check Video<div class="beta" id="modeTag">Beta (local test, not public)</div></div>
     <div class="panelBody">
       <div class="introBox"><p class="intro">AIVerify checks videos to show whether they line up with the truth according to Scriptures.</p>
       <p class="intro2">AIVerify reads the video's transcript and compares its claims with Scriptures and other sources, to help expose deception and confirm what is true.</p></div>
@@ -145,39 +158,64 @@
   if (PUBLIC) { document.title = 'Check Video (Beta) | AIVerify'; $('modeTag').textContent = 'Beta'; $('tabs').hidden = true; $('txBox').hidden = true; $('home').hidden = false; }
   var ROLE_HELP = { 'primary/official': 'official or primary source', 'fact-check': 'fact-checker', 'news/reference': 'news or reference', 'originator of the claim': 'possible origin of the claim', 'scripture': 'Scriptures', 'other': 'other' };
 
-  // ---------- Examples (Cary, November 24, 2026): link first, then title, so visitors see exactly what to paste ----------
-  var SAMPLES = [
-    { group: 'Videos about faith', id: 'KbB24Sdh3is', title: 'REVELATION 12 FINAL SIGNS HAPPENING THIS WEEK!!!' },
-    { id: 'hWNGfzpaRjg', title: 'The Prosperity Gospel: Masterpiece Of Deception' },
-    { id: '8Qd2MBaj0jU', title: 'What Is Grace, Really? The Truth Most Christians Miss' },
-    { group: 'Everyday life', id: 'aus5hqtIX9s', title: 'If YOU get Angry Easily, Do THIS to Get Rid of Your Anger FAST' },
-    { group: 'Health', id: 'x1SIEftYSvY', title: 'Cancer HATES This!' }
+  // ---------- Samples (Cary, November 25, 2026): two steps like the main page's Sample Set (categories, then
+  // numbered videos); each video shows its link first, then its title, so visitors see exactly what to paste ----------
+  var SAMPLE_GROUPS = [
+    { name: 'Everyday Life', items: [{ id: 'aus5hqtIX9s', title: 'If YOU get Angry Easily, Do THIS to Get Rid of Your Anger FAST' }] },
+    { name: 'Health', items: [{ id: 'x1SIEftYSvY', title: 'Cancer HATES This!' }] },
+    { name: 'Faith & Life', faith: true, items: [
+      { id: 'KbB24Sdh3is', title: 'REVELATION 12 FINAL SIGNS HAPPENING THIS WEEK!!!' },
+      { id: 'hWNGfzpaRjg', title: 'The Prosperity Gospel: Masterpiece Of Deception' },
+      { id: '8Qd2MBaj0jU', title: 'What Is Grace, Really? The Truth Most Christians Miss' }] }
   ];
   function ytUrl(id) { return 'https://www.youtube.com/watch?v=' + id; }
-  var VIEW = { gen: 0 }; // bumped by every new view (samples or a check), so late replies for an older view are ignored
-  function showSamples() {
-    VIEW.gen++;
-    var box = $('samples'); box.textContent = ''; $('result').textContent = ''; $('status').textContent = '';
-    var card = el('div', { cls: 'card' });
-    card.appendChild(el('p', { cls: 'samplesHead', text: 'Examples' }));
-    card.appendChild(el('p', { cls: 'small', text: 'Choose an example, or press its number key. Each opens AIVerify’s check of a real YouTube video.' }));
-    SAMPLES.forEach(function (s, i) {
-      if (s.group) card.appendChild(el('p', { cls: 'group', text: s.group }));
-      var b = el('button', { type: 'button', cls: 'ex' });
-      b.appendChild(el('span', { cls: 'num', text: String(i + 1) }));
-      b.appendChild(kv([['Link:', ytUrl(s.id)], ['Title:', s.title, 'title']]));
-      b.addEventListener('click', function () { openSample(i); });
-      card.appendChild(b);
-    });
-    box.appendChild(card); box.hidden = false;
-    box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  var VIEW = { gen: 0 }; // bumped by every new check, so late replies for an older view are ignored
+  var SAMPLE_STATE = { group: -1 };
+  function sampleShell(title, intro, faith) {
+    var box = $('samples'); box.textContent = '';
+    var panel = el('div', { cls: 'sPanel', role: 'dialog', 'aria-modal': 'true', 'aria-label': title });
+    var head = el('div', { cls: 'sHead' }); head.appendChild(el('div', { cls: 'sTitle' + (faith ? ' sFaithTitle' : ''), text: title }));
+    var x = el('button', { type: 'button', cls: 'sClose', 'aria-label': 'Close samples', text: '×' }); x.addEventListener('click', closeSamples); head.appendChild(x);
+    panel.appendChild(head); panel.appendChild(el('div', { cls: 'sIntro', text: intro }));
+    var own = el('button', { type: 'button', cls: 'sOwn', text: 'Enter Your Own Link' });
+    own.addEventListener('click', function () { closeSamples(); $('url').focus(); });
+    var list = el('div', { cls: 'sList' }); list.appendChild(own); panel.appendChild(list);
+    box.appendChild(panel); box.hidden = false; document.body.classList.add('sOpen');
+    return { panel: panel, list: list };
   }
-  function openSample(i) { var s = SAMPLES[i]; if (!s) return; $('samples').hidden = true; $('url').value = ytUrl(s.id); runCheck(); }
+  function showSamples() {
+    SAMPLE_STATE.group = -1;
+    var s = sampleShell('Sample Videos', 'Choose a category. Each example opens AIVerify’s check of a real YouTube video.');
+    SAMPLE_GROUPS.forEach(function (g, gi) {
+      var b = el('button', { type: 'button', cls: 'sCat' + (g.faith ? ' sCatFaith' : ''), text: g.name });
+      b.addEventListener('click', function () { showSampleGroup(gi); }); s.list.appendChild(b);
+    });
+    s.panel.querySelector('.sOwn').focus();
+  }
+  function showSampleGroup(gi) {
+    var g = SAMPLE_GROUPS[gi]; if (!g) return; SAMPLE_STATE.group = gi;
+    var s = sampleShell(g.name, 'Select a video (or press its number), or enter your own link.', g.faith);
+    g.items.forEach(function (it, i) {
+      var b = el('button', { type: 'button', cls: 'sEx' });
+      b.appendChild(el('span', { cls: 'sNum', text: (i + 1) + '.' }));
+      b.appendChild(kv([['Link:', ytUrl(it.id)], ['Title:', it.title, 'title']]));
+      b.addEventListener('click', function () { openSample(it); }); s.list.appendChild(b);
+    });
+    var back = el('button', { type: 'button', cls: 'sBack', text: 'Back to Sample Videos' }); back.addEventListener('click', showSamples);
+    s.panel.appendChild(back);
+    (s.list.querySelector('.sEx') || back).focus();
+  }
+  function closeSamples() { $('samples').hidden = true; $('samples').textContent = ''; document.body.classList.remove('sOpen'); }
+  function openSample(it) { closeSamples(); $('url').value = ytUrl(it.id); runCheck(); }
   $('samplesBtn').addEventListener('click', showSamples);
+  $('samples').addEventListener('click', function (e) { if (e.target === $('samples')) closeSamples(); });
   document.addEventListener('keydown', function (e) {
     if ($('samples').hidden) return;
+    if (e.key === 'Escape') { e.preventDefault(); closeSamples(); return; }
     var t = e.target && e.target.tagName; if (t === 'TEXTAREA' || t === 'INPUT' || t === 'SELECT') return;
-    var k = parseInt(e.key, 10); if (k >= 1 && k <= SAMPLES.length) { e.preventDefault(); openSample(k - 1); }
+    var k = parseInt(e.key, 10), g = SAMPLE_GROUPS[SAMPLE_STATE.group];
+    if (g && k >= 1 && k <= g.items.length) { e.preventDefault(); openSample(g.items[k - 1]); }
+    else if (!g && k >= 1 && k <= SAMPLE_GROUPS.length) { e.preventDefault(); showSampleGroup(k - 1); }
   });
 
   // ---------- Results ----------
