@@ -320,8 +320,11 @@
       var d = el('div', { cls: 'card' });
       d.appendChild(el('p', { cls: 'claimLbl', text: 'Video Claim ' + c.n }));
       d.appendChild(el('h3', { text: c.claim }));
-      if (c.videoQuote) d.appendChild(el('p', { cls: 'small', text: 'In the video: “' + c.videoQuote + '”' }));
-      if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); d.appendChild(el('p', { cls: 'small' }, [safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ Watch at ' + mm + ':' + ss)])); }
+      // Cary: one line - the video's own words with the time they were said (the time opens the video there).
+      if (c.videoQuote || typeof c.saidAtSec === 'number') { var said = el('p', { cls: 'small' }, ['In the video']);
+        if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); said.appendChild(document.createTextNode(' at ')); said.appendChild(safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ ' + mm + ':' + ss)); }
+        if (c.videoQuote) said.appendChild(document.createTextNode(': “' + c.videoQuote + '”'));
+        d.appendChild(said); }
       // Corrections that change a name, place, number, date or meaning stay visible; spelling fixes are no longer listed.
       (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'The transcript reads “' + x.heard + '”; understood as “' + x.written + '”.' })); });
       if (!c.sourcesOnly) d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.verdict === 'supported' ? 'Supported' : c.label }));
