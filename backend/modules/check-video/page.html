@@ -294,13 +294,8 @@
     head.appendChild(el('p', { cls: 'ver', text: VERSION_LINE }));
     var claims = r.claims || [];
     // The main point once; the counts on one plain line (the earlier "A teaching: ..." label and repeated summary removed).
-    if (r.headline) {
-      var hb = el('div', { cls: 'card' });
-      hb.appendChild(el('p', { cls: 'lbl', text: r.headline.verdict === 'list' ? 'This video' : 'Main point' }));
-      hb.appendChild(el('h3', { text: r.headline.claim }));
-      if (['supported', 'contradicted', 'misleading', 'insufficient'].indexOf(r.headline.verdict) >= 0) hb.appendChild(el('span', { cls: 'verdict v-' + r.headline.verdict, text: 'AIVerify: ' + r.headline.label }));
-      wrap.appendChild(hb);
-    } else if (r.summary) { head.appendChild(el('p', { text: tw(r.summary) })); }
+    // Cary (November 25, 2026): no Main point card - it was AIVerify's own summary, not a checked claim. Declines and errors still show their message.
+    if (!r.headline && r.summary) head.appendChild(el('p', { text: tw(r.summary) }));
     // Related Scriptures (named "Related" on video results so they never seem to endorse the video's teaching). Text only; AIVerify never interprets them.
     var ts = r.teachings || [];
     if (ts.length) {
@@ -310,7 +305,7 @@
       body.appendChild(el('p', { cls: 'small', text: 'These passages speak to the same subject. AIVerify does not say whether they agree with the video.' }));
       var verse = function (box2, x) { var d = el('div', { cls: 'verse' }); d.appendChild(el('div', { cls: 'ref', text: x.ref })); d.appendChild(el('div', { text: x.text })); box2.appendChild(d); };
       ts.forEach(function (t) {
-        body.appendChild(el('p', { cls: 'rsTeach', text: t.teaching }));
+        // Cary: no AIVerify-written heading above the verses; the passages speak for themselves.
         t.verses.forEach(function (x) { verse(body, x); });
         if (t.moreVerses && t.moreVerses.length) { var more = el('details', {}, [el('summary', { text: 'More related verses (' + t.moreVerses.length + ')' })]); t.moreVerses.forEach(function (x) { verse(more, x); }); body.appendChild(more); }
       });
