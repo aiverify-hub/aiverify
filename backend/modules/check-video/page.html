@@ -142,7 +142,7 @@
         <p class="ver verUnder" id="verLine"></p>
         <details id="txBox"><summary>No transcript available? Paste one instead (optional)</summary>
           <label for="tx">Transcript text</label><textarea id="tx"></textarea></details>
-        <div class="btnRow"><button class="btn go" id="go">Check Video</button><button class="btn samples" id="samplesBtn" type="button">Samples</button></div>
+        <div class="btnRow"><button class="btn go" id="go">Check Video</button><button class="btn samples" id="samplesBtn" type="button">Samples</button><button class="btn samples" id="helpBtn" type="button">How this works</button></div>
         <p class="fine">Health, science and news video claims show sources only in this beta.</p>
         <div class="status" id="status" role="status"></div>
       </section>
@@ -233,6 +233,28 @@
     s.panel.appendChild(back);
     (s.list.querySelector('.sEx') || back).focus();
   }
+  // How this works (Cary): help for new visitors lives here, not on the results.
+  var HELP = [
+    ['What it does', 'Paste a link to a YouTube video at least 3 minutes long and press Check Video. AIVerify reads the video’s transcript (not the pictures), finds its main point and claims, and compares them with Scriptures and other sources.'],
+    ['Claims about Scriptures', 'Each one is marked Supported, Shown false, or Not established. Not established means the sources checked did not settle the claim either way; it does not mean the claim is false.'],
+    ['Health, science and news claims', 'In this beta these show the sources AIVerify read, without a verdict. Open Sources under a claim, read them, and judge for yourself.'],
+    ['Related Scriptures', 'Passages that speak to the same subject as the video. AIVerify does not say whether they agree with the video.'],
+    ['What is not checked', 'Only the claims listed are checked, not the whole video. A supported claim does not mean everything in the video is true.'],
+    ['Saved answers and limits', 'A video checked in the last 7 days opens at once. Each visitor can start 5 new checks an hour.'],
+    ['Questions about faith or life', 'For a question rather than a video, use Check the Information on AIVerify’s main page.'],
+    ['Suggestions', 'Use Have a suggestion? under any claim to suggest a verse, a better source, or an improvement.']
+  ];
+  function showHelp() {
+    SAMPLE_STATE.group = -1;
+    var box = $('samples'); box.textContent = '';
+    var panel = el('div', { cls: 'sPanel', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'How this works' });
+    var head = el('div', { cls: 'sHead' }); head.appendChild(el('div', { cls: 'sTitle', text: 'How this works' }));
+    var x = el('button', { type: 'button', cls: 'sClose', 'aria-label': 'Close', text: '×' }); x.addEventListener('click', closeSamples); head.appendChild(x);
+    panel.appendChild(head);
+    HELP.forEach(function (h) { var d = el('div', { cls: 'sIntro' }); d.appendChild(el('strong', { text: h[0] })); d.appendChild(el('div', { text: h[1] })); panel.appendChild(d); });
+    box.appendChild(panel); box.hidden = false; document.body.classList.add('sOpen'); x.focus();
+  }
+  $('helpBtn').addEventListener('click', showHelp);
   function closeSamples() { $('samples').hidden = true; $('samples').textContent = ''; document.body.classList.remove('sOpen'); }
   // Cary: a sample only fills in the link, so the visitor presses Check Video and sees the whole process.
   function openSample(it) { closeSamples(); VIEW.gen++; $('result').textContent = ''; $('url').value = ytUrl(it.id); $('status').textContent = 'Press Check Video to check this video.'; $('go').focus(); }
@@ -244,7 +266,7 @@
     var t = e.target && e.target.tagName; if (t === 'TEXTAREA' || t === 'INPUT' || t === 'SELECT') return;
     var k = parseInt(e.key, 10), g = SAMPLE_GROUPS[SAMPLE_STATE.group];
     if (g && k >= 1 && k <= g.items.length) { e.preventDefault(); openSample(g.items[k - 1]); }
-    else if (!g && k >= 1 && k <= SAMPLE_GROUPS.length) { e.preventDefault(); showSampleGroup(k - 1); }
+    else if (!g && $('samples').querySelector('.sCat') && k >= 1 && k <= SAMPLE_GROUPS.length) { e.preventDefault(); showSampleGroup(k - 1); }
   });
 
   // ---------- Results ----------
@@ -260,7 +282,7 @@
     var head = el('div', { cls: 'card' }); wrap.appendChild(head);
     if (!r.ok) head.appendChild(el('p', { text: tw(r.error) || 'The check could not be completed.' }));
     var v = r.video || {};
-    if (v.url) head.appendChild(kv([['Link:', safeLink(v.url)], ['Title:', v.title || 'Video', 'title']]));
+    if (v.url) head.appendChild(kv([['Title:', v.title || 'Video', 'title'], ['Link:', safeLink(v.url)]]));
     var KIND = { written: 'written by people', automatic: 'automatic (may contain errors)', pasted: 'pasted by tester', 'other-language': 'not in English', none: 'none listed' };
     // Server wording says "captions"; visitors see "transcript".
     var tw = function (t) { return String(t || '').replace(/the captions are/gi, 'the transcript is').replace(/the captions have/gi, 'the transcript has').replace(/captions/gi, 'transcript').replace(/caption/gi, 'transcript').replace(/A backed claim/g, 'A supported claim'); };
@@ -276,10 +298,8 @@
       hb.appendChild(el('p', { cls: 'lbl', text: r.headline.verdict === 'list' ? 'This video' : 'Main point' }));
       hb.appendChild(el('h3', { text: r.headline.claim }));
       if (['supported', 'contradicted', 'misleading', 'insufficient'].indexOf(r.headline.verdict) >= 0) hb.appendChild(el('span', { cls: 'verdict v-' + r.headline.verdict, text: 'AIVerify: ' + r.headline.label }));
-      var cnt = countLine(r); if (cnt) hb.appendChild(el('p', { cls: 'count', text: cnt }));
       wrap.appendChild(hb);
     } else if (r.summary) { head.appendChild(el('p', { text: tw(r.summary) })); }
-    if (claims.some(function (c) { return c.sourcesOnly; })) wrap.appendChild(el('p', { cls: 'note', text: 'For health, science and news claims, this beta lists the sources AIVerify read, without a verdict. Read them and judge for yourself.' }));
     // Related Scriptures (named "Related" on video results so they never seem to endorse the video's teaching). Text only; AIVerify never interprets them.
     var ts = r.teachings || [];
     if (ts.length) {
@@ -303,7 +323,7 @@
       if (typeof c.saidAtSec === 'number' && v.url) { var mm = Math.floor(c.saidAtSec / 60), ss = ('0' + (c.saidAtSec % 60)).slice(-2); d.appendChild(el('p', { cls: 'small' }, [safeLink(v.url + '&t=' + c.saidAtSec + 's', '▶ Watch at ' + mm + ':' + ss)])); }
       // Corrections that change a name, place, number, date or meaning stay visible; spelling fixes are no longer listed.
       (c.corrections || []).filter(function (x) { return x.kind !== 'word'; }).forEach(function (x) { d.appendChild(el('p', { cls: 'small', text: 'The transcript reads “' + x.heard + '”; understood as “' + x.written + '”.' })); });
-      d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.sourcesOnly ? 'Sources to read' : c.verdict === 'supported' ? 'Supported' : c.label }));
+      if (!c.sourcesOnly) d.appendChild(el('span', { cls: 'verdict v-' + c.verdict, text: c.verdict === 'supported' ? 'Supported' : c.label }));
       if (withReview && c.wouldHaveBeen) d.appendChild(el('span', { cls: 'small', text: '  (reviewer note: without the caption rule this would have been “' + c.wouldHaveBeen + '”)' }));
       if (c.reason && !c.sourcesOnly) d.appendChild(el('p', { text: tw(c.reason) }));
       if (c.sourcesOnly && !(c.sources || []).length && c.reason) d.appendChild(el('p', { text: tw(c.reason) }));
@@ -322,15 +342,13 @@
         c.sources.forEach(function (s) { var t = s.title || s.url; ul.appendChild(el('li', {}, s.role === 'scripture' ? [safeLink(s.url, t)] : [safeLink(s.url, t), ' — ' + s.publisher + ', ' + (ROLE_HELP[s.role] || s.role)])); });
         // Scripture lists use the same purple OPEN/CLOSE style as Related Scriptures (Cary); web sources stay plain.
         var srcBox = allScripture
-          ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: (function (n) { var w = '(' + n + ')' + (n === 1 ? ' Scripture' : ' Scriptures'); return c.verdict === 'supported' ? 'Claim supported by one or more of the following ' + w : w + ' checked for this claim'; })(c.sources.length) }), el('div', { cls: 'rsBody' }, [ul])])
-          : el('details', {}, [el('summary', { text: '(' + c.sources.length + ')' + (c.sources.length === 1 ? ' source' : ' sources') + ' read for this claim' }), ul]);
+          ? el('details', { cls: 'rs claimRs' }, [el('summary', { text: 'Scriptures (' + c.sources.length + ')' }), el('div', { cls: 'rsBody' }, [ul])])
+          : el('details', {}, [el('summary', { text: 'Sources (' + c.sources.length + ')' }), ul]);
         d.appendChild(srcBox);
       }
       if (!withReview && r.runId) { var foot = el('div', { cls: 'claimFoot' }); foot.appendChild(reportBlock(r, c.n)); d.appendChild(foot); }
       wrap.appendChild(d);
     });
-    if (r.limits && !r.outOfScope && r.ok) wrap.appendChild(el('p', { cls: 'note', text: tw(r.limits) }));
-    if (r.ok && claims.length && !ts.length) wrap.appendChild(el('p', { cls: 'note' }, ['Looking for a faith or moral perspective on this topic? ', safeLink('https://aiverify.tech/', 'Ask on AIVerify’s main page'), ' (answers from Scriptures).']));
     if (r.cost) wrap.appendChild(el('p', { cls: 'small', style: 'color:#fff', text: 'Cost of this check: about $' + Number(r.cost.usd || 0).toFixed(3) + (r.cost.estimated ? ' (includes estimated caption-service cost)' : '') + (r.timings && r.timings.totalMs ? ' · ' + Math.round(r.timings.totalMs / 1000) + ' seconds' : '') }));
     if (withReview) { var rv = el('div', { cls: 'card' }); rv.appendChild(reviewBlock(r)); wrap.appendChild(rv); }
     return wrap;
