@@ -234,7 +234,8 @@
     (s.list.querySelector('.sEx') || back).focus();
   }
   function closeSamples() { $('samples').hidden = true; $('samples').textContent = ''; document.body.classList.remove('sOpen'); }
-  function openSample(it) { closeSamples(); $('url').value = ytUrl(it.id); runCheck(); }
+  // Cary: a sample only fills in the link, so the visitor presses Check Video and sees the whole process.
+  function openSample(it) { closeSamples(); VIEW.gen++; $('result').textContent = ''; $('url').value = ytUrl(it.id); $('status').textContent = 'Press Check Video to check this video.'; $('go').focus(); }
   $('samplesBtn').addEventListener('click', showSamples);
   $('samples').addEventListener('click', function (e) { if (e.target === $('samples')) closeSamples(); });
   document.addEventListener('keydown', function (e) {
