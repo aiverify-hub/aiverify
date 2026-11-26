@@ -53111,7 +53111,7 @@ const CHECK_VIDEO_PUB_LIMITS_PH1=new Map(),CHECK_VIDEO_PUB_CACHE_PH1=new Map();
 let CHECK_VIDEO_PUB_ACTIVE_PH1=0;
 const CHECK_VIDEO_PUB_RULES_PH1={check:{perHour:5,active:1},suggest:{perHour:20,active:0},siteActive:3,cacheMs:7*86400000,cacheMax:500,suggestFileMax:5000000,maxRunFiles:20000};
 // Public runs are stamped with this policy; only matching runs are reused (change it when answers must not carry over).
-const CHECK_VIDEO_PUBLIC_POLICY_PH1='public-beta-2 2026-11-25'; // beta-2: sources carry AIVerify's reading (older saved answers have none)
+const CHECK_VIDEO_PUBLIC_POLICY_PH1='public-beta-3 2026-11-25'; // beta-2: sources carry AIVerify's reading (older saved answers have none)
 // Local preview of the public beta (run-local.ps1 -Preview): this computer only, plain http.
 const CHECK_VIDEO_PREVIEW_PH1=process.env.AIV_CHECK_VIDEO_PREVIEW==='1'&&!process.env.RENDER;
 function checkVideoSchemePh1(req){return CHECK_VIDEO_PREVIEW_PH1&&checkVideoLoopbackPh1(req)?'http://':'https://';}
