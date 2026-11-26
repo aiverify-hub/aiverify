@@ -69,7 +69,7 @@ try {
   # v2 plan: Cary set $15/day and $39 total (Nov 22, 2026; triple Bob's proposal, within his $500 monthly budget).
   $env:AIV_CHECK_VIDEO_DAILY_USD = [string]$DailyUsd
   Write-Host ''
-  Write-Host 'Keys ready. Starting... When you see "BE_AIV_v5100 running", the server is ready.' -ForegroundColor Green
+  Write-Host 'Keys ready. Starting... When you see "BE_AIV_v5101 running", the server is ready.' -ForegroundColor Green
   Write-Host 'Leave this window open. To stop later: click here and press Ctrl+C.' -ForegroundColor Green
   # Exit code 75 = restart requested from this computer after a code change (keys stay in this window's memory).
   do {

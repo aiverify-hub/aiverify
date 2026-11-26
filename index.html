@@ -1033,14 +1033,14 @@ const api={categories,match,scope,counted,reset,undo,project,eligible,localNow};
 <div class="container"><h2 class="workflowPrompt">What would you like to check?</h2>
 <div class="workflowSelector" aria-label="Switch AIVerify check">
   <button type="button" id="workflowToggleBtn" class="workflowChoice" aria-controls="informationModePanel aiCreationModePanel"><span id="workflowToggleText" class="workflowChoiceTitle">Check for AI Creation</span></button>
-  <button type="button" id="infoModeBtn" class="workflowChoice" aria-pressed="true"><span class="workflowChoiceTitle">Check the Information</span></button>
+  <button type="button" id="infoModeBtn" class="workflowChoice" aria-pressed="true"><span class="workflowChoiceTitle">Check Information</span></button>
   <button type="button" id="aiModeBtn" class="workflowChoice" aria-pressed="false"><span class="workflowChoiceTitle">Check for AI Creation</span></button>
-  <button type="button" id="checkVideoBtn" class="workflowChoice" hidden><span class="workflowChoiceTitle">Check the Video</span></button>
+  <button type="button" id="checkVideoBtn" class="workflowChoice" hidden><span class="workflowChoiceTitle">Check a Video</span></button>
 </div>
 
-<div id="informationModePanel" class="workflowPanel" role="tabpanel" aria-label="Check the Information">
+<div id="informationModePanel" class="workflowPanel" role="tabpanel" aria-label="Check Information">
   <div class="informationCheck">
-    <div class="informationHeading">Check the Information</div>
+    <div class="informationHeading">Check Information</div>
     <div class="informationBody">
       <p class="informationIntro">Enter a question, claim, webpage, video address, or document text to check for accuracy or deception.</p>
       <div class="box informationInputBox"><textarea id="input" autofocus placeholder="Enter a claim, question, URL, or YouTube video address
@@ -1114,7 +1114,7 @@ Need an idea? Tap Samples."></textarea><div class="meta"><div><span id="wordcoun
   const AIV_FRONTEND_IS_LOCAL=(window.location.protocol==='file:' || /^(?:localhost|127\.0\.0\.1|\[::1\]|::1)$/i.test(String(window.location.hostname||'')));
   const BACKEND_BASE_URL=AIV_FRONTEND_IS_LOCAL ? "http://127.0.0.1:3000" : "https://aiverify-backend.onrender.com";
   const API_URL=BACKEND_BASE_URL+"/scan?compact=1&input=";
-  const FRONTEND_VERSION="FE_AIV_v5100";
+  const FRONTEND_VERSION="FE_AIV_v5101";
   const R1_GOLDEN_BENCHMARK_LOCK="R1_GOLDEN_BENCHMARK_LOCK_V2901_V2258";
   const HEALTH_URL=BACKEND_BASE_URL+"/health";
   window.setTimeout(aivPreloadScanCartoons,0);
@@ -6715,8 +6715,8 @@ function v2130CleanAnswer(value,c){return v2700ContractAnswer(value);}
     const infoResult=aivAiNode('informationResultPanel');
     const aiPanel=aivAiNode('aiCreationModePanel');
     const informationActive=selected==='information';
-    if(toggleText)toggleText.textContent=informationActive?'Check for AI Creation':'Check the Information';
-    if(toggleButton)toggleButton.setAttribute('aria-label',informationActive?'Switch to Check for AI Creation':'Switch to Check the Information');
+    if(toggleText)toggleText.textContent=informationActive?'Check for AI Creation':'Check Information';
+    if(toggleButton)toggleButton.setAttribute('aria-label',informationActive?'Switch to Check for AI Creation':'Switch to Check Information');
     if(infoPanel)infoPanel.hidden=!informationActive;
     if(infoResult)infoResult.hidden=!informationActive;
     if(aiPanel)aiPanel.hidden=informationActive;
