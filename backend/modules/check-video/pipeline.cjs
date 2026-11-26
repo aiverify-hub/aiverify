@@ -959,7 +959,7 @@ function createCheckVideo(options) {
             let evf; try { evf = await gatherEvidence(ctx, c, yt.videoId); } catch (e) { if (e && STOP_CODES.test(e.code || '')) throw e; evf = { sources: [], considered: [], error: 'Evidence search failed.' }; }
             const pubf = Object.assign({}, c); delete pubf.captionWindow;
             let stances = {};
-            if (cfg.sourceStances && evf.sources.length) { try { stances = await stanceSources(ctx, c, evf.sources); } catch (e) { if (e && STOP_CODES.test(e.code || '')) throw e; } }
+            if (cfg.sourceStances && evf.sources.length) { try { stances = await stanceSources(ctx, c, evf.sources); } catch (e) { if (e && STOP_CODES.test(e.code || '')) throw e; stances = {}; for (const x of evf.sources) stances[x.n] = 'unavailable'; } }
             return Object.assign(pubf, { verdict: 'insufficient', sourcesOnly: true, label: 'Sources found (no verdict in this beta)', reason: evf.sources.length ? 'In this beta, AIVerify lists the sources it found for this kind of claim without a verdict. Read them and judge for yourself.' : (evf.error || 'No readable sources were found for this claim.'), quote: null, notes: ['beta: factual claims show sources only'], parts: null,
               sources: evf.sources.map(s => Object.assign({ n: s.n, url: s.url, title: s.title, publisher: s.publisher, role: s.role, origin: s.origin }, stances[s.n] ? { stance: stances[s.n] } : {})), considered: evf.considered, evidenceError: evf.error || null });
           }

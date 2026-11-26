@@ -32868,9 +32868,11 @@ function v5100UsDefaultService(raw,x){
   if(/\b(?:canada|canadian|mexico|mexican|uk|united\s+kingdom|britain|british|england|ireland|australia|india|philippines|germany|france|nigeria|kenya|jamaica|province)\b/i.test(s))return '';
   // Fred v5100: any other place named, even as a demonym (Japanese, Brazilian), keeps the existing question. A capitalized
   // word that is not a U.S. term or sentence-first is treated as a possible place, so the U.S. default is not assumed.
-  const US_TERMS=/^(?:I|US|U\.S\.?|USA|America|American|United|States|Social|Security|SNAP|CDC|SSA|DMV|ID|SS)$/;
-  const words=s.replace(/[^A-Za-z.' ]+/g,' ').split(/\s+/).filter(Boolean);
-  if(words.slice(1).some(function(w){w=w.replace(/[.']+$/,'');return /^[A-Z]/.test(w)&&!US_TERMS.test(w);}))return '';
+  // Fred v5100 recheck: the U.S. default is used only when every word of the request is a known, ordinary word (case does
+  // not matter). Any other word, such as a country, demonym or state name, keeps the existing question.
+  const KNOWN=new Set('i we me my our a an the to for of in on at by from with and or please help can could would will should do does how where what need want like get got apply application applications applying replace replacement renew renewal request order obtain new lost stolen damaged old expired copy copies certified online form forms card social security ss passport passports birth death marriage divorce certificate certificates record records food assistance benefits snap us u.s u.s. usa america american united states my child son daughter baby kid kids'.split(' '));
+  const tokens=s.toLowerCase().replace(/[^a-z.' ]+/g,' ').split(/\s+/).map(function(w){return w.replace(/^[.']+|[.']+$/g,'');}).filter(Boolean);
+  if(!tokens.length||tokens.some(function(w){return !KNOWN.has(w);}))return '';
   const row=V5100_US_DEFAULT_SERVICES.find(function(r){return r.test.test(x&&x.intent&&x.intent.target||s);});
   if(!row)return '';
   return v2665ContractText(raw,{route:'resource/us-default-service/v5100',classification:'OFFICIAL SERVICE',inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',
@@ -52857,7 +52859,7 @@ function v3630UserFacingIntegrity(body,raw){
     // space.") adds nothing, so it is left out (not for faith/moral answers, which have their own required parts).
     if(!/\b(?:FAITH|MORAL|SCRIPTURE|BIBLICAL)\b/i.test(clean([c.route,c.classification].join(' ')))){
       ['why','explanation'].forEach(function(k){
-        if(typeof c[k]==='string'&&/^(?:yes|no)[.!]?$/i.test(clean(c.answer||''))&&v5100EchoesQuestion(c[k],raw)){c[k]='';changed=true;}
+        // Fred v5100 recheck: explanation deletion withdrawn (it could remove meaningful scope).
       });
     }
     ['answer','why','explanation','summary','evidence','supportingInformation','additionalInformation'].forEach(function(k){
