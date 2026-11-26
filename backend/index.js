@@ -32866,6 +32866,11 @@ function v5100UsDefaultService(raw,x){
   const s=clean(raw);
   // Another country named (or a non-U.S. issuer) keeps the existing clarification path.
   if(/\b(?:canada|canadian|mexico|mexican|uk|united\s+kingdom|britain|british|england|ireland|australia|india|philippines|germany|france|nigeria|kenya|jamaica|province)\b/i.test(s))return '';
+  // Fred v5100: any other place named, even as a demonym (Japanese, Brazilian), keeps the existing question. A capitalized
+  // word that is not a U.S. term or sentence-first is treated as a possible place, so the U.S. default is not assumed.
+  const US_TERMS=/^(?:I|US|U\.S\.?|USA|America|American|United|States|Social|Security|SNAP|CDC|SSA|DMV|ID|SS)$/;
+  const words=s.replace(/[^A-Za-z.' ]+/g,' ').split(/\s+/).filter(Boolean);
+  if(words.slice(1).some(function(w){w=w.replace(/[.']+$/,'');return /^[A-Z]/.test(w)&&!US_TERMS.test(w);}))return '';
   const row=V5100_US_DEFAULT_SERVICES.find(function(r){return r.test.test(x&&x.intent&&x.intent.target||s);});
   if(!row)return '';
   return v2665ContractText(raw,{route:'resource/us-default-service/v5100',classification:'OFFICIAL SERVICE',inputType:'QUESTION',analysisResult:'Answer',status:'ANSWERED',
@@ -52815,7 +52820,9 @@ function v5100EndSentence(text){
   return t+'.';
 }
 // True when a short explanation only restates the question's own words.
+// Fred v5100: only a plain restatement - never one with a condition, limit, contrast or negation (only, when, unless, not, unsafe...).
 function v5100EchoesQuestion(text,raw){
+  if(/\b(?:only|when|unless|if|except|but|not|no|never|un\w+|in\w*safe|depends?|may|might|can't|cannot|isn't|aren't|doesn't|don't|won't)\b/i.test(String(text||'')))return false;
   const stem=function(w){return w.toLowerCase().replace(/(?:ies)$/,'y').replace(/(?:es|s)$/,'');};
   const words=function(x){return (String(x||'').toLowerCase().match(/[a-z0-9']+/g)||[]).filter(function(w){return w.length>=3;}).map(stem);};
   const e=words(text),q=new Set(words(raw));
@@ -52850,7 +52857,7 @@ function v3630UserFacingIntegrity(body,raw){
     // space.") adds nothing, so it is left out (not for faith/moral answers, which have their own required parts).
     if(!/\b(?:FAITH|MORAL|SCRIPTURE|BIBLICAL)\b/i.test(clean([c.route,c.classification].join(' ')))){
       ['why','explanation'].forEach(function(k){
-        if(typeof c[k]==='string'&&v5100EchoesQuestion(c[k],raw)){c[k]='';changed=true;}
+        if(typeof c[k]==='string'&&/^(?:yes|no)[.!]?$/i.test(clean(c.answer||''))&&v5100EchoesQuestion(c[k],raw)){c[k]='';changed=true;}
       });
     }
     ['answer','why','explanation','summary','evidence','supportingInformation','additionalInformation'].forEach(function(k){

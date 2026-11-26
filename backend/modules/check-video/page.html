@@ -239,7 +239,7 @@
   var HELP = [
     ['What it does', 'Paste a link to a YouTube video at least 3 minutes long and press Check Video. AIVerify reads the video’s transcript (not the pictures), finds its main point and claims, and compares them with Scriptures and other sources.'],
     ['Claims about Scriptures', 'Each one is marked Supported, Shown false, or Not established. Not established means the sources checked did not settle the claim either way; it does not mean the claim is false.'],
-    ['Health, science and news claims', 'In this beta these get no verdict. Instead, each source is marked with AIVerify’s reading of it: Supports, Disagrees, or Mixed (a source with no label does not address the claim). These readings have not yet been fully tested; open the sources and judge for yourself.'],
+    ['Health, science and news claims', 'In this beta these get no verdict. Instead, each source is marked with AIVerify’s reading of it: Supports, Disagrees, or Mixed (a source with no label either does not address the claim or could not be read). These readings have not yet been fully tested; open the sources and judge for yourself.'],
     ['Related Scriptures', 'Passages that speak to the same subject as the video. AIVerify does not say whether they agree with the video.'],
     ['What is not checked', 'Only the claims listed are checked, not the whole video. A supported claim does not mean everything in the video is true.'],
     ['Limits of this check', 'Transcript errors: automatic captions can get names and numbers wrong, and AIVerify does not see the pictures. Claim wording: AIVerify restates each claim and may lose a word like some or may. Search: only a few sources are found per claim, and they may not address the exact claim; some sites cannot be read. Partial reading: only part of each source page is read. Vague claims: opinions, predictions and very recent news often cannot be settled by any source.'],
@@ -289,7 +289,7 @@
     if (v.url) head.appendChild(kv([['Title:', v.title || 'Video', 'title'], ['Link:', safeLink(v.url)]]));
     var KIND = { written: 'written by people', automatic: 'automatic (may contain errors)', pasted: 'pasted by tester', 'other-language': 'not in English', none: 'none listed' };
     // Server wording says "captions"; visitors see "transcript".
-    var tw = function (t) { return String(t || '').replace(/the captions are/gi, 'the transcript is').replace(/the captions have/gi, 'the transcript has').replace(/captions/gi, 'transcript').replace(/caption/gi, 'transcript').replace(/A backed claim/g, 'A supported claim'); };
+    function tw(t) { return String(t || '').replace(/the captions are/gi, 'the transcript is').replace(/the captions have/gi, 'the transcript has').replace(/captions/gi, 'transcript').replace(/caption/gi, 'transcript').replace(/A backed claim/g, 'A supported claim'); } // Fred v5100: hoisted so error results can use it
     if (v.captionSource) head.appendChild(el('p', { cls: 'small', text: 'Transcript: ' + (KIND[v.captionKind] || 'type unknown') + (v.captionsTruncated ? ' · long video: only the first part was read' : '') }));
     if (r.reliability && r.reliability.flagged) head.appendChild(el('p', { cls: 'caution', text: 'Not enough reliable transcript data for firm answers: ' + tw(r.reliability.reasons.join('; ')) + '.' }));
     if (r.stoppedEarly) head.appendChild(el('p', { cls: 'caution', text: 'This check stopped early: ' + tw(r.stoppedEarly) + ' Claims not finished are marked "Not established".' }));

@@ -763,9 +763,18 @@ SOURCES:
 async function stanceSources(ctx, claim, sources) {
   const body = { model: ctx.cfg.model, max_tokens: 400, output_config: { effort: 'low', format: { type: 'json_schema', schema: STANCE_SCHEMA } }, messages: [{ role: 'user', content: stancePrompt(claim.claim, sources) }] };
   const r = await callClaude(ctx, body, 'source readings claim ' + claim.n);
-  if (!r.ok || r.stopReason !== 'end_turn') return {};
-  const j = firstJson(r.text), out = {};
-  for (const x of (j && Array.isArray(j.stances) ? j.stances : [])) if (x && Number.isInteger(x.n) && STANCE_SCHEMA.properties.stances.items.properties.stance.enum.includes(x.stance)) out[x.n] = x.stance;
+  // Fred v5100: every supplied source gets exactly one reading or 'unavailable' (call failed, missing, duplicated with a
+  // different answer, or invalid). Numbers not supplied are ignored. 'unavailable' is shown with no label and not counted.
+  const out = {}, allowed = STANCE_SCHEMA.properties.stances.items.properties.stance.enum;
+  for (const src of sources) out[src.n] = 'unavailable';
+  if (!r.ok || r.stopReason !== 'end_turn') return out;
+  const j = firstJson(r.text), seen = {};
+  for (const x of (j && Array.isArray(j.stances) ? j.stances : [])) {
+    if (!x || !Number.isInteger(x.n) || !(x.n in out) || !allowed.includes(x.stance)) continue;
+    if (seen[x.n] && seen[x.n] !== x.stance) { seen[x.n] = 'conflict'; continue; }
+    if (!seen[x.n]) seen[x.n] = x.stance;
+  }
+  for (const n in seen) if (seen[n] !== 'conflict') out[n] = seen[n];
   return out;
 }
 async function judgeClaim(ctx, claim, ev, published) {

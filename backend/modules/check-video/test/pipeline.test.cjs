@@ -1034,3 +1034,18 @@ test('archive: maxRunFiles stops saving new runs; policy is stamped on the saved
   assert.equal(JSON.parse(fs.readFileSync(path.join(dir, saved[0]), 'utf8')).policy, 'public-test');
   assert.equal(r1.policy, 'public-test');
 });
+
+// Fred v5100 #4/#5: one reading per supplied source; conflicting duplicates, unknown numbers and missing ones are 'unavailable'.
+test('source readings: duplicates that disagree, foreign numbers and missing sources are unavailable, not judgments', async () => {
+  const P = require('../pipeline.cjs');
+  const io = claimsIo({ main_point: 'x', claims: [WEBB] }, { judge: SUP_NASA });
+  const base = io.anthropic;
+  io.anthropic = async (p, body) => {
+    if (p === '/v1/messages' && /For each numbered source below/.test(body.messages[0].content)) return { status: 200, body: JSON.stringify({ stop_reason: 'end_turn', usage: { input_tokens: 100, output_tokens: 20 }, content: [{ type: 'text', text: JSON.stringify({ stances: [{ n: 1, stance: 'agrees' }, { n: 1, stance: 'disagrees' }, { n: 99, stance: 'agrees' }] }) }] }) };
+    return base(p, body);
+  };
+  const r = await P.createCheckVideo({ io, runsDir: tmp() }).run({ url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' });
+  const st = r.claims[0].sources.map(x => x.stance);
+  assert.ok(st.length > 0);
+  assert.ok(st.every(x => x === 'unavailable'), 'conflict, foreign and missing are all unavailable: ' + st.join(','));
+});
