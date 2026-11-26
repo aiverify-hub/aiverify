@@ -32871,6 +32871,7 @@ function v5100UsDefaultService(raw,x){
   // Fred v5100 recheck: the U.S. default is used only when every word of the request is a known, ordinary word (case does
   // not matter). Any other word, such as a country, demonym or state name, keeps the existing question.
   const KNOWN=new Set('i we me my our a an the to for of in on at by from with and or please help can could would will should do does how where what need want like get got apply application applications applying replace replacement renew renewal request order obtain new lost stolen damaged old expired copy copies certified online form forms card social security ss passport passports birth death marriage divorce certificate certificates record records food assistance benefits snap us u.s u.s. usa america american united states my child son daughter baby kid kids'.split(' '));
+  if(/[^A-Za-z0-9\s.,'’?!-]/.test(s))return ''; // Fred v5100 recheck 2: nothing is discarded before the known-word test
   const tokens=s.toLowerCase().replace(/[^a-z.' ]+/g,' ').split(/\s+/).map(function(w){return w.replace(/^[.']+|[.']+$/g,'');}).filter(Boolean);
   if(!tokens.length||tokens.some(function(w){return !KNOWN.has(w);}))return '';
   const row=V5100_US_DEFAULT_SERVICES.find(function(r){return r.test.test(x&&x.intent&&x.intent.target||s);});
